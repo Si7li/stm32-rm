@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rmcontent"
+version = "0.1.0"
+description = "Deterministic section/prose extractor for ST STM32 reference manuals"
+requires-python = ">=3.10"
+# `rmtables` is the sibling project (stm32-table-extractor), not a PyPI
+# package: install it first (`pip install -e ../stm32-table-extractor`),
+# then install this one. ~70% of the PDF plumbing lives there and is
+# imported, never copied.
+dependencies = ["pdfplumber>=0.11", "rmtables>=0.1"]
+
+[project.scripts]
+rmcontent = "rmcontent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

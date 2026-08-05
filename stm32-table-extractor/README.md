@@ -472,3 +472,10 @@ cross-page-split case), grid classification, RAG serialization, and
 chunking — plus a golden end-to-end test over pages 89–95 of `rm0490`
 (the FLASH register map and the `FLASH_SECR` register,
 `examples/rm0490_pages_89-95.json`).
+
+## Command example
+cd /home/khalils/Desktop/Projects/STM-UserManuel-Project/stm32-table-extractor
+PYTHONPATH=src python -m rmtables.cli \
+  /home/khalils/Desktop/Projects/STM-UserManuel-Project/usermanuel/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf \
+  -o /home/khalils/Desktop/Projects/STM-UserManuel-Project/RefMan \
+  --validate --split-tables
