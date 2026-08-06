@@ -130,7 +130,20 @@ MIN_PLAUSIBLE_BODY_FONT = 6.0  # below this the sample is not believable
 # digits too, which a single `\s?` in one position cannot absorb. Each is
 # `\s?` rather than `\s*`, so the pattern can never span an arbitrary run
 # of words -- "The ROM S 1234 area" stays unmatched.
-ASSET_ID = r"\bM\s?S\s?[vcVC]?\s?\d{4,}\s?[A-Za-z]?\s?\d*\b"
+# ST uses more than one convention. RM0008 Rev 21 ends its figures with
+# `ai14720c`, `ai14721c`, `ai15797c` -- and that family appears in every
+# manual (79 in RM0008, 18 in RM0486, 10 in RM0522, 2 in RM0490).
+#
+# This pattern is NO LONGER a band terminator: chasing conventions is
+# what made the old rule fragile, and the column rule in
+# `markers.ArtworkBand` drops both families as ordinary artwork without
+# knowing either. It survives only to (a) drop a standalone id whose
+# figure opened no band, and (b) report the health metric that says how
+# many bands contained an id at all.
+ASSET_ID = (
+    r"(?:\bM\s?S\s?[vcVC]?\s?\d{4,}\s?[A-Za-z]?\s?\d*"
+    r"|\bai\s?\d{4,}\s?-?\s?[A-Za-z]?\s?\d*)\b"
+)
 ASSET_ID_RE = re.compile(ASSET_ID)
 
 # The line is nothing BUT asset ids -- ST prints two side by side where
@@ -175,6 +188,145 @@ def is_rotated_line(line: dict) -> bool:
         return False
     rotated = sum(1 for c in chars if not c.get("upright", True))
     return rotated * 2 > len(chars)
+
+
+# -- the body text column ---------------------------------------------------
+#
+# Artwork is text OUTSIDE the body column. That replaces chasing ST's end
+# markers, which is what made the old rule fragile -- the band closed on
+# `MSv66119V2` but RM0008 ends its figures with `ai14720c`, so no band
+# ever closed there and RM0008 21.5.4 carried eight figures' worth of
+# waveform labels.
+#
+# Measured on RM0008 p518, Figure 187:
+#
+#   caption  `Figure 187. Mode1 read accesses`        9.96 pt  x0 246.8
+#   artwork  `Memory transaction`, `A[25:0]`, `NEx`   7.50 pt  x0 165-386
+#   id       `ai14720c`                               6.00 pt  x0 489.6
+#   footnote `1. NBL[1:0] are driven low during...`   7.98 pt  x0 124.0
+#   body     `The one HCLK cycle at the end of...`    9.96 pt  x0 124.0
+#
+# Body prose and the figure's own footnote share the body left margin;
+# artwork is scattered AND below body size. Two orthogonal conditions --
+# artwork fails both, body text passes at least one. The id needs no
+# special case: it is small and off-margin, so it drops as ordinary
+# artwork whatever ST chose to call it.
+BODY_SIZE_MARGIN = 0.4  # a line this far below body size is not body text
+
+# How close an x0 must be to a body margin to count as sitting on it.
+#
+# The spec proposed 2.0, which demonstrably fails its own acceptance
+# case: RM0008 Figure 201's artwork column sits at x0 159.3-159.8 and
+# the manual's body indent is 161, so at 2.0 the labels `A[25:0]`,
+# `NEx`, `NWE` read as body flow, close the band early and leak.
+#
+# Measured over both manuals, sub-body-size lines: EVERY numbered
+# footnote -- the content this tolerance exists to protect -- sits within
+# 0.3 pt of a margin (RM0008 13 at 0.0, 1 at 0.1, 1 at 0.2; RM0490 9 at
+# 0.0, 18 at 0.3). Nothing legitimate is anywhere near 1.0, so 1.0 keeps
+# every footnote with better than 3x headroom while putting that 1.2-1.7
+# pt artwork column on the correct side. Body-SIZE lines are unaffected
+# either way, since the two conditions are ANDed.
+MARGIN_TOLERANCE = 1.0
+MARGIN_MIN_SHARE = 0.02  # an x0 on >= 2% of non-table lines is a margin
+
+
+@dataclass
+class BodyMetrics:
+    """The document's own body text size and left margins."""
+
+    size: float
+    margins: tuple = ()
+
+    def is_body_size(self, size):
+        return size is None or size >= self.size - BODY_SIZE_MARGIN
+
+    def at_margin(self, x0):
+        if x0 is None:
+            return True
+        return any(abs(x0 - m) <= MARGIN_TOLERANCE for m in self.margins)
+
+    def is_artwork(self, size, x0) -> bool:
+        """Artwork is BOTH below body size AND off every body margin."""
+        return not self.is_body_size(size) and not self.at_margin(x0)
+
+    def describe(self) -> str:
+        margins = ", ".join(f"{m:g}" for m in self.margins)
+        return f"body size {self.size:g} pt; body margins {{{margins}}}"
+
+
+_METRICS_CACHE: dict = {}
+
+
+def derive_body_metrics(pdf, y_tolerance=DEFAULT_Y_TOLERANCE, on_progress=None):
+    """Body size and left margins, measured over the WHOLE document.
+
+    Not a sample: RM0486 comes out at 9.0 pt against the others' 9.96,
+    and a register-heavy sample is exactly how that kind of difference
+    gets mismeasured. Table lines are excluded so a register map's cell
+    text cannot dominate either statistic.
+
+    `find_tables` is called directly rather than through
+    `rmtables.extract.extract_page_tables`, because only the bboxes are
+    needed here -- materialising every cell's text would roughly double
+    the cost of this pass.
+    """
+    from rmtables.extract import TABLE_SETTINGS
+    from rmtables.headings import _line_inside_any_bbox
+
+    # This pass reads every page, so a caller that opens the same file
+    # twice (a --pages run, a test) does not pay for it twice. Keyed by
+    # the file itself, so the result is identical either way.
+    key = (getattr(getattr(pdf, "stream", None), "name", None), y_tolerance)
+    if key[0] is not None and key in _METRICS_CACHE:
+        return _METRICS_CACHE[key]
+
+    sizes = Counter()
+    x0s = Counter()
+    total = 0
+    for index, page in enumerate(pdf.pages):
+        try:
+            try:
+                bboxes = [t.bbox for t in page.find_tables(table_settings=TABLE_SETTINGS)]
+            except Exception:
+                bboxes = []
+            for line in page_lines(page, y_tolerance):
+                if bboxes and _line_inside_any_bbox(line, bboxes):
+                    continue
+                size = line_font_size(line)
+                if size is None:
+                    continue
+                total += 1
+                sizes[round(size, 2)] += 1
+                x0s[round(line["x0"])] += 1
+        except Exception:
+            logger.debug("body-metric scan failed on page %d", index + 1, exc_info=True)
+        finally:
+            page.flush_cache()
+        if on_progress and (index + 1) % 500 == 0:
+            on_progress(index + 1, len(pdf.pages))
+
+    if not total:
+        logger.warning("no text found; assuming a %.1f pt body", DEFAULT_BODY_FONT)
+        return BodyMetrics(DEFAULT_BODY_FONT, ())
+
+    size = float(sizes.most_common(1)[0][0])
+    if size < MIN_PLAUSIBLE_BODY_FONT:
+        logger.warning(
+            "derived body size %.2f pt is implausibly small (%s); falling back "
+            "to %.1f pt so artwork filtering cannot eat the prose",
+            size, dict(sizes.most_common(5)), DEFAULT_BODY_FONT,
+        )
+        size = DEFAULT_BODY_FONT
+
+    floor = total * MARGIN_MIN_SHARE
+    margins = tuple(sorted(x for x, n in x0s.items() if n >= floor))
+    if not margins:
+        logger.warning("no body margin reached %.0f%% of lines", MARGIN_MIN_SHARE * 100)
+    result = BodyMetrics(size, margins)
+    if key[0] is not None:
+        _METRICS_CACHE[key] = result
+    return result
 
 
 def line_font_size(line: dict) -> float | None:

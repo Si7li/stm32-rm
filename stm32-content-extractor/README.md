@@ -269,7 +269,7 @@ nothing cross-references them, and their content is restated field by field dire
 marker for each would be `[Table . ]` noise on 40% of all sections. Their lines are still
 excluded from the prose, and the suppressed count is reported by `--validate`.
 
-### Figure artwork is bounded by ST's asset ID, not by font size
+### Figure artwork is text outside the body column
 
 A figure's *internal label text* has nothing to stop it reaching the prose, and **no bbox can
 be built for it**: RM0486 page 159 reports zero grids from `find_tables`, 0 images, 3 curves
@@ -287,23 +287,50 @@ manual*:
 Any threshold catching RM0490's 8 pt artwork also destroys 9 pt register-field prose
 (`Bits 15:0 BSy: Port x set I/O y`) — the highest-value content in the corpus.
 
-So the bound comes from the document instead. Every ST figure ends with an artwork
-identifier printed as the last element of the drawing, which gives a figure an explicit
-**end** to pair with the caption's explicit **start**:
+Size alone is therefore not the discriminator — **geometry combined with size** is. Body
+prose is set at one size and starts at one of a handful of left margins; artwork labels are
+scattered across the page at whatever x the drawing puts them. A line inside an open band is
+artwork when **both** hold:
+
+1. its median char size is below the document's body size (by more than 0.4 pt), **and**
+2. its `x0` is not within 1 pt of any body left margin.
+
+Either condition alone is wrong. Condition 1 alone destroys RM0490's 8 pt register prose;
+condition 2 alone destroys every indented body line. Together they are precise: a figure
+*footnote* is small but sits exactly on a margin, so it survives — measured across RM0008 and
+RM0490, **every** numbered footnote sits within **0.3 pt** of a margin.
+
+Both quantities are derived from the document, never hardcoded. Body size and the margin set
+come from a whole-document pass over lines outside every table bbox (memoised per file);
+a margin qualifies at a 2% share of lines. RM0008 measures 9.96 pt with margins
+`{67, 124, 145, 161, 162, 163}`.
+
+**The 1 pt tolerance is measured, not assumed.** The obvious 2 pt fails on RM0008 Figure 201,
+whose artwork column sits at x0 159.3–159.8 against the manual's 161 pt indent: at 2 pt the
+labels `A[25:0]`, `NEx`, `NWE` read as body flow, close the band early and leak the rest of
+the figure. Sub-body-size lines cluster at 0.0–0.5 pt from a margin and then gap; nothing
+legitimate is near 1.0. So 1 pt keeps every footnote with better than 3× headroom while
+putting that column on the correct side. Body-*size* lines are unaffected either way, since
+the conditions are ANDed.
+
+This **supersedes the asset-ID terminator.** A band now closes on the first line that is body
+flow — a heading, a table or figure marker, or any line failing the artwork test:
 
 1. open a band at a validated caption;
-2. close it at the first line containing an identifier, **inclusive**;
-3. drop everything between;
-4. if no identifier arrives within the hard bound, **drop nothing** and log the caption.
+2. hold lines while they test as artwork;
+3. close at the first body-flow line, which is itself **kept**;
+4. drop the held buffer;
+5. if the two-page bound arrives first, **drop nothing** and log the caption.
 
 **Fail-safe by construction.** Lines are held in a buffer while the band is open and are only
-discarded once an identifier actually arrives; hitting the bound hands every one of them
-back. Uncertainty costs a leak, never a deletion. The hard bound is the current section *and*
-two pages, whichever comes first — without it one false caption swallows pages of real prose.
+discarded once a body-flow line actually arrives; hitting the bound hands every one of them
+back. Uncertainty costs a leak, never a deletion.
 
-The identifier pattern generalises rather than hardcoding `MSv`: optional `v`/`c` in either
-case, and an optional space between *every* element, since the id renders rotated and kerned
-so pdfplumber can split it into `MS v 66119 V2`.
+Chasing ST's id conventions is what made the old rule fragile — the corpus turned out to use
+at least two families (`MSv66119V2` and `ai15797c`, the latter with `-m` and `V3` variants).
+The column rule drops both as ordinary artwork without knowing either. The pattern survives
+only to remove a standalone id whose figure opened no band, and to report the health metric
+that says how many bands contained an id at all.
 
 #### Caption validation is two-tier, and the tiers are not equally trusted
 
@@ -327,21 +354,44 @@ defect `contents.py` documents, and requiring it left 12 RM0490 and 48 RM0486 nu
 
 #### The size floor is retained as a backstop
 
-`< 0.6 × body_size` still runs, derived per document as the mode of its lines' median char
-sizes over 120 evenly sampled pages, never hardcoded. It cannot reach 9 pt register prose, it
-is proven on RM0486's 0.83–3.0 pt labels, and it catches artwork whose caption was missed
-entirely — which the band rule structurally cannot reach. Asset-id lines are exempt from it:
-they have to survive to *close* a band, and letting the floor eat them first left 263 of
-RM0490's 318 bands with nothing to close on.
+`< 0.6 × body_size` still runs **outside** bands, derived per document as the mode of its
+lines' median char sizes over 120 evenly sampled pages, never hardcoded. It cannot reach 9 pt
+register prose, it is proven on RM0486's 0.83–3.0 pt labels, and it catches artwork whose
+caption was missed entirely — which the band rule structurally cannot reach.
+
+Measured over the four manuals: **2,451 bands opened, 2,451 closed by a body-flow line, zero
+abandoned** at the hard bound — the column rule always finds a terminator, where the id rule
+left up to 60% of bands hanging. 241,567 characters of artwork removed.
+
+| | bands | chars removed | bands containing an id |
+|---|---|---|---|
+| RM0008 Rev 21 | 364 | 36,142 | 151 (41%) |
+| RM0486 Rev 4 | 1,049 | 98,557 | 514 (49%) |
+| RM0490 Rev 6 | 319 | 36,479 | 185 (58%) |
+| RM0522 Rev 1 | 719 | 70,389 | 369 (51%) |
+
+Not one asset-id line survives into `section_content` in any of the four.
+
+**The id-coverage column is a health metric, not a target.** It cannot reach 100%: RM0008
+prints 306 id lines for ~367 real figures, so ~17% of its figures carry no id at all. The
+remainder of the gap is the known limit below — a band that closes early never sees its
+figure's id, though the id itself is still removed as a standalone line.
+
+**Known limits, accepted deliberately.** Artwork that coincidentally satisfies one condition
+closes its band early and leaks the rest of that figure: a bit-header row rendering at body
+size (RM0522's `31 24 15 7 0`, 9.94 pt), or a label that happens to land on a margin. Across
+RM0008's figure-bearing sections, ~860 of 8,598 lines are label-shaped residue of this kind.
+It is a **leak, not a loss** — the failure direction the whole design chooses — and closing it
+would need per-figure geometry that risks deleting prose.
 
 **Figure footnotes are kept** — `1. The high-performance domain is shown in pink…` is 8 pt
-and stays. It is readable prose explaining the figure, and excluding it would need machinery
-that risks real content. A deliberate choice, not an oversight.
+and stays. It is readable prose explaining the figure, and it is exactly what the margin half
+of the rule exists to protect.
 
-Measured over the three manuals: 2,064 bands opened, 1,688 closed by an identifier, 376
-abandoned — of which only **15** hit the two-page bound, the rest being the conservative
-guards (a section boundary, the next caption, an intervening table). 309k characters of
-artwork removed, with **every one of the 4,596 records' `semantic` blocks byte-identical**.
+Regression-checked against the previous build on all four manuals: register prose (`^Bits`,
+enumerations), numbered-footnote counts, `[Table]`/`[Figure]` marker counts, record counts and
+`semantic.fields` totals are **identical**, and all 5,811 figure-free sections are
+**byte-identical**. Only figure-bearing sections changed, by 0.24–0.27% of total characters.
 
 ## Register descriptions (`registers.py`)
 

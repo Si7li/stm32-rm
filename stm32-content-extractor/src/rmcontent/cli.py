@@ -23,7 +23,7 @@ from .contents import parse_contents
 from .figures import parse_list_of_figures
 from .exporter import OVERSIZED_CHARS, build_document, oversized_sections
 from .lines import DEFAULT_Y_TOLERANCE
-from .noise import artwork_threshold, derive_body_font_size
+from .noise import artwork_threshold, derive_body_metrics
 from .sections import scan_pdf
 from .split import write_split_sections
 from .validate import validate
@@ -130,11 +130,17 @@ def main(argv: list[str] | None = None) -> int:
         def progress(page_number: int, last: int) -> None:
             print(f"...processed page {page_number}/{last}", file=sys.stderr)
 
-        body_font_size = args.body_font_size or derive_body_font_size(
-            pdf, y_tolerance=args.y_tolerance)
+        def metric_progress(done: int, total_pages: int) -> None:
+            print(f"...measured page {done}/{total_pages}", file=sys.stderr)
+
+        metrics = derive_body_metrics(
+            pdf, y_tolerance=args.y_tolerance, on_progress=metric_progress)
+        if args.body_font_size:
+            metrics = type(metrics)(args.body_font_size, metrics.margins)
+        body_font_size = metrics.size
         print(
-            f"body font size {body_font_size:.1f} pt; figure artwork is "
-            f"anything below {artwork_threshold(body_font_size):.1f} pt",
+            f"{metrics.describe()}; artwork floor "
+            f"{artwork_threshold(body_font_size):.1f} pt",
             file=sys.stderr,
         )
 
@@ -148,7 +154,7 @@ def main(argv: list[str] | None = None) -> int:
             pdf, meta["name_datasheet"], chapter_titles, section_titles,
             start=start, end=end, on_progress=progress,
             body_font_size=body_font_size, listed_figures=listed_figures,
-            y_tolerance=args.y_tolerance,
+            y_tolerance=args.y_tolerance, body_metrics=metrics,
         )
         sections = scanner.finalize()
 
@@ -183,7 +189,7 @@ def main(argv: list[str] | None = None) -> int:
 
     band = scanner.band
     print(
-        f"artwork bands: {band.opened} opened, {band.closed} closed by an asset id, "
+        f"artwork bands: {band.opened} opened, {band.closed} closed by a body-flow line, "
         f"{len(band.abandoned)} abandoned at the hard bound "
         f"({band.lines_dropped} lines / {band.chars_dropped} chars removed)",
         file=sys.stderr,
@@ -195,6 +201,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"    {caption}  [{reason}]", file=sys.stderr)
     if len(band.abandoned) > 15:
         print(f"    ... and {len(band.abandoned) - 15} more", file=sys.stderr)
+    if band.closed:
+        print(
+            f"  bands in which an artwork id was seen: {band.with_asset_id}"
+            f"/{band.closed} ({100 * band.with_asset_id / band.closed:.0f}%)",
+            file=sys.stderr,
+        )
     print(
         f"figure captions rejected as cross-references: "
         f"{len(scanner.figures.rejected)}; kept but not trusted to bound a band: "

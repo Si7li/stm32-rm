@@ -53,6 +53,7 @@ from .markers import (
 )
 from .noise import (
     DEFAULT_BODY_FONT,
+    BodyMetrics,
     NoiseCounts,
     PageFurniture,
     artwork_threshold,
@@ -64,6 +65,7 @@ from .noise import (
     is_bit_layout_row,
     is_rotated_line,
     is_stray_glyph,
+    line_font_size,
     strip_trailing_asset_id,
 )
 
@@ -185,12 +187,16 @@ class SectionScanner:
         body_font_size: float = DEFAULT_BODY_FONT,
         listed_figures: dict | None = None,
         y_tolerance: float = DEFAULT_Y_TOLERANCE,
+        body_metrics: BodyMetrics | None = None,
     ):
         self.sections: list[Section] = []
         self._page_count = page_count
         self.y_tolerance = y_tolerance
         self.body_font_size = body_font_size
         self.artwork_max = artwork_threshold(body_font_size)
+        # The body text column: what separates a figure's labels from the
+        # prose around them. Falls back to size-only when not supplied.
+        self.metrics = body_metrics or BodyMetrics(body_font_size, ())
         self.noise = NoiseCounts()
         self.uncaptioned_regions = 0
         self.recovered_headings: list[str] = []
@@ -611,6 +617,8 @@ class SectionScanner:
                 skip.add(i + 1)
                 continue
 
+            metrics = (line_font_size(line), line["x0"])
+
             caption = parse_figure_caption(text)
             if caption and self.figures.is_caption(caption[0], caption[1]):
                 items.append((line["top"], 2, "figure_marker", caption))
@@ -618,7 +626,7 @@ class SectionScanner:
             # A rejected candidate is prose, not a deletion: RM0486
             # 12.4.3's "Figure 14. shows the functional view of..." is a
             # cross-reference and stays as the sentence it is.
-            items.append((line["top"], 2, "text", text))
+            items.append((line["top"], 2, "text", (text, *metrics)))
 
         items.sort(key=lambda it: (it[0], it[1]))
 
@@ -629,36 +637,49 @@ class SectionScanner:
                 self._abandon_band("past the 2-page bound")
 
             if kind == "heading":
-                # A band may not cross a section boundary either.
-                self._abandon_band("section boundary")
+                # A heading is body flow -- body size, at a margin -- so
+                # it is exactly the "first line failing either test" that
+                # closes a band, not a hard bound that abandons it.
+                self._close_band()
                 number, title = payload
                 self._open(number, title, page_number)
             elif kind == "table_marker":
-                # A table inside a figure's band means the band is wrong.
-                self._abandon_band("a table marker intervened")
+                # A table's caption is body flow, so its region closes an
+                # open band rather than invalidating it.
+                self._close_band()
                 number, marker = payload
                 if self._tables.should_emit(number, page_number):
                     self._append(marker, page_number)
                 else:
                     self.duplicate_markers += 1
             elif kind == "figure_marker":
-                # One caption, one marker, one band.
-                self._abandon_band("the next figure caption arrived")
+                # The next caption is body-sized text, so it closes the
+                # band before opening its own. One caption, one band.
+                self._close_band()
                 number, title, marker = payload
                 self._append(marker, page_number)
                 if self.figures.may_open_band(number, title):
                     self.band.open(marker, page_number)
-            elif self.band.is_open:
-                if contains_asset_id(payload):
-                    self.band.close(payload)  # inclusive: the id line goes too
-                else:
-                    self.band.hold(payload, page_number)
-            elif is_asset_id(payload):
-                # No band open -- the backstop for a figure whose caption
-                # was never recognized, so its id has nothing to close.
-                self.noise.figure_artwork += 1
-            elif not self._consume_paren_continuation(payload):
-                self._append(strip_trailing_asset_id(payload), page_number)
+            else:
+                text, size, x0 = payload
+                if self.band.is_open:
+                    if self.metrics.is_artwork(size, x0):
+                        self.band.hold(text, page_number, contains_asset_id(text))
+                        continue
+                    # First body-flow line: the band closes and this line
+                    # is KEPT.
+                    self.band.close()
+                if is_asset_id(text):
+                    # No band open -- the backstop for a figure whose
+                    # caption was never recognized.
+                    self.noise.figure_artwork += 1
+                elif not self._consume_paren_continuation(text):
+                    self._append(strip_trailing_asset_id(text), page_number)
+
+    def _close_band(self) -> None:
+        """A body-flow line arrived: discard what the band was holding."""
+        if self.band.is_open:
+            self.band.close()
 
     def _abandon_band(self, reason: str = "hard bound") -> None:
         """Give every line an open band was holding back to its section.
@@ -667,7 +688,11 @@ class SectionScanner:
         leak, never a deletion.
         """
         for text, page in self.band.abandon(reason):
-            if not self._consume_paren_continuation(text):
+            if is_asset_id(text):
+                # Handing the buffer back must not hand back an artwork
+                # id: the id is never prose, whichever convention ST used.
+                self.noise.figure_artwork += 1
+            elif not self._consume_paren_continuation(text):
                 self._append(strip_trailing_asset_id(text), page)
 
     @staticmethod
@@ -730,6 +755,7 @@ def scan_pdf(
     body_font_size: float | None = None,
     listed_figures: dict | None = None,
     y_tolerance: float = DEFAULT_Y_TOLERANCE,
+    body_metrics: BodyMetrics | None = None,
 ) -> SectionScanner:
     """Scan `pdf` page by page, releasing each page's caches as it goes."""
     if body_font_size is None:
@@ -738,10 +764,11 @@ def scan_pdf(
         document, chapter_titles, section_titles,
         page_count=len(pdf.pages), body_font_size=body_font_size,
         listed_figures=listed_figures, y_tolerance=y_tolerance,
+        body_metrics=body_metrics,
     )
     logger.info(
-        "body font size %.1f pt; figure artwork is anything below %.1f pt",
-        scanner.body_font_size, scanner.artwork_max,
+        "%s; artwork floor %.1f pt",
+        scanner.metrics.describe(), scanner.artwork_max,
     )
     last = end or len(pdf.pages)
     for page_number in range(start, last + 1):

@@ -186,8 +186,17 @@ class ArtworkBand:
     `Bits 15:0 BSy: Port x set I/O y` -- the highest-value content in the
     corpus. The band rule has no size dependency at all.
 
+    The band CLOSES at the first line that is not artwork -- the first
+    at body size, or at a body left margin -- and that line is KEPT. ST's
+    end marker is no longer the terminator: chasing it is what made the
+    old rule fragile, since RM0008 ends its figures with `ai14720c`
+    rather than `MSv66119V2`, so no band ever closed there and 21.5.4
+    carried eight figures' worth of waveform labels. Both id families are
+    small and off-margin, so they now drop as ordinary artwork without
+    the band knowing either one.
+
     **Fail-safe by construction.** Lines are buffered while the band is
-    open and only discarded once an asset id actually arrives. If the
+    open and only discarded once a real body-flow line arrives. If the
     band hits its hard bound first -- a new section, or more than
     `MAX_BAND_PAGES` pages -- every buffered line is handed back and
     nothing is dropped. Uncertainty costs a leak, never a deletion.
@@ -206,6 +215,11 @@ class ArtworkBand:
         self.abandoned: list[tuple[str, str]] = []  # (caption, reason)
         self.lines_dropped = 0
         self.chars_dropped = 0
+        # Health metric only: how many bands contained one of ST's
+        # artwork ids at all. Near 100% says the band boundaries agree
+        # with where ST itself ends its drawings.
+        self.with_asset_id = 0
+        self._saw_asset_id = False
 
     @property
     def is_open(self) -> bool:
@@ -215,6 +229,7 @@ class ArtworkBand:
         self._open_page = page
         self._caption = caption
         self._buffer = []
+        self._saw_asset_id = False
         self.opened += 1
 
     def within_bound(self, page: int) -> bool:
@@ -223,16 +238,19 @@ class ArtworkBand:
             and page - self._open_page <= self.MAX_BAND_PAGES
         )
 
-    def hold(self, text: str, page: int) -> None:
+    def hold(self, text: str, page: int, saw_asset_id: bool = False) -> None:
         self._buffer.append((text, page))
+        self._saw_asset_id = self._saw_asset_id or saw_asset_id
 
-    def close(self, id_line: str) -> None:
-        """An asset id arrived: discard the buffer and the id's own line."""
-        self.lines_dropped += len(self._buffer) + 1
-        self.chars_dropped += sum(len(t) for t, _ in self._buffer) + len(id_line)
+    def close(self) -> None:
+        """A body-flow line arrived: discard the buffer and keep the line."""
+        self.lines_dropped += len(self._buffer)
+        self.chars_dropped += sum(len(t) for t, _ in self._buffer)
         self._buffer = []
         self._open_page = None
         self.closed += 1
+        if self._saw_asset_id:
+            self.with_asset_id += 1
 
     def abandon(self, reason: str = "hard bound") -> list[tuple[str, int]]:
         """Hit the hard bound: hand every buffered line back, drop nothing."""

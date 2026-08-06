@@ -360,3 +360,104 @@ def test_a_body_line_that_is_only_the_document_number_survives():
              line("RM0490", 300.0)]
     drop = PageFurniture(PAGE_HEIGHT, header_re, 1023).furniture_tops(lines)
     assert drop == set()
+
+
+# -- the body text column (FIGURE_COLUMN_FIX) -------------------------------
+
+from rmcontent.noise import (  # noqa: E402
+    MARGIN_MIN_SHARE,
+    BodyMetrics,
+    derive_body_metrics,
+)
+
+
+RM0008_MARGINS = (67, 124, 145, 161, 162, 163, 164, 176)
+
+
+def test_rm0008_figure_187_lines_classify_as_measured():
+    """The measurement the whole rule rests on."""
+    m = BodyMetrics(9.96, RM0008_MARGINS)
+    assert not m.is_artwork(9.96, 246.8)   # caption
+    assert m.is_artwork(7.50, 296.7)       # 'Memory transaction'
+    assert m.is_artwork(7.50, 171.1)       # 'A[25:0]'
+    assert m.is_artwork(6.00, 489.6)       # 'ai14720c'
+    assert not m.is_artwork(7.98, 124.0)   # figure footnote, at the margin
+    assert not m.is_artwork(9.96, 124.0)   # body prose
+
+
+def test_either_condition_alone_makes_a_line_body_flow():
+    m = BodyMetrics(9.96, RM0008_MARGINS)
+    assert not m.is_artwork(9.96, 400.0)   # body size, off margin
+    assert not m.is_artwork(6.00, 124.0)   # small, at the margin
+    assert m.is_artwork(6.00, 400.0)       # neither
+
+
+def test_the_margin_test_has_a_one_point_tolerance():
+    m = BodyMetrics(9.96, (124.0,))
+    assert not m.is_artwork(7.0, 123.2)
+    assert not m.is_artwork(7.0, 124.9)
+    assert m.is_artwork(7.0, 125.5)
+
+
+def test_a_line_just_below_body_size_is_still_body():
+    """The 0.4 pt allowance absorbs rendering jitter."""
+    m = BodyMetrics(9.96, (124.0,))
+    assert not m.is_artwork(9.6, 400.0)
+    assert m.is_artwork(9.5, 400.0)
+
+
+def test_an_unmeasurable_line_is_never_artwork():
+    m = BodyMetrics(9.96, (124.0,))
+    assert not m.is_artwork(None, 400.0)
+    assert not m.is_artwork(6.0, None)
+
+
+def test_metrics_are_derived_from_the_document_not_hardcoded():
+    body = [sized("body prose", 9.96) for _ in range(60)]
+    for line in body:
+        line["x0"] = 124.0
+    art = [sized("label", 7.5) for _ in range(10)]
+    for i, line in enumerate(art):
+        line["x0"] = 300.0 + i  # scattered, none reaches the 2% floor
+
+    class P(FontPage):
+        def find_tables(self, table_settings=None):
+            return []
+
+    m = derive_body_metrics(FontPDF([P(body + art)]))
+    assert m.size == 9.96
+    assert 124 in m.margins
+    assert not any(300 <= x <= 310 for x in m.margins)
+
+
+def test_a_different_typography_yields_different_metrics():
+    lines = [sized("body prose", 12.0) for _ in range(50)]
+    for line in lines:
+        line["x0"] = 90.0
+
+    class P(FontPage):
+        def find_tables(self, table_settings=None):
+            return []
+
+    m = derive_body_metrics(FontPDF([P(lines)]))
+    assert m.size == 12.0
+    assert m.margins == (90,)
+    assert MARGIN_MIN_SHARE == 0.02
+
+
+def test_the_margin_tolerance_clears_every_measured_footnote():
+    """Measured over RM0008 and RM0490: every numbered figure footnote
+    sits within 0.3 pt of a body margin, so 1.0 leaves 3x headroom."""
+    from rmcontent.noise import MARGIN_TOLERANCE
+    m = BodyMetrics(9.96, (124.0,))
+    for offset in (0.0, 0.1, 0.2, 0.3):
+        assert not m.is_artwork(7.98, 124.0 + offset), offset
+    assert MARGIN_TOLERANCE == 1.0
+
+
+def test_an_artwork_column_just_off_a_margin_is_artwork():
+    """RM0008 Figure 201's labels sit at x0 159.3-159.8 against the
+    manual's 161 indent; at a 2 pt tolerance they closed the band."""
+    m = BodyMetrics(9.96, (67, 124, 145, 161, 162, 163))
+    for x0 in (159.3, 159.7, 159.8):
+        assert m.is_artwork(8.0, x0), x0
