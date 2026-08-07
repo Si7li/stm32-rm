@@ -22,11 +22,16 @@ class FakePage:
     `sizes` optionally gives a line's font size in points, keyed by its
     index; everything else is body-sized. Figure artwork is separated
     from prose by font size, so a line's `chars` carry a real `size`.
+
+    `tops` optionally pins a line's `top` outright, keyed by its index.
+    That is what makes a page's returned order differ from its reading
+    order -- which is the normal case in the corpus, since ST draws a
+    figure in more than one content pass (`lines.read_page_lines`).
     """
 
     def __init__(self, texts, height=PAGE_HEIGHT, start_top=100.0, gaps=None,
                  sizes=None, body_size=BODY_SIZE, rotated=(), x0s=None,
-                 margin=BODY_MARGIN):
+                 margin=BODY_MARGIN, tops=None):
         self._texts = texts
         self.height = height
         self._start_top = start_top
@@ -36,6 +41,7 @@ class FakePage:
         self._rotated = set(rotated)
         self._x0s = x0s or {}
         self._margin = margin
+        self._tops = tops or {}
 
     def extract_text_lines(self, **kwargs):
         lines = []
@@ -43,6 +49,7 @@ class FakePage:
         for i, text in enumerate(self._texts):
             top += self._gaps.get(i, 0)
             size = self._sizes.get(i, self._body_size)
+            top = self._tops.get(i, top)
             lines.append({
                 "text": text,
                 "top": top,
@@ -912,13 +919,12 @@ def test_a_continuation_in_the_next_section_is_still_marked():
     assert sections["4.3.2"].content == "[Table 9. BSEC signals]"
     assert sections["4.3.3"].content == "[Table 9. BSEC signals]"
 
-
-# -- artwork bands, bounded by ST's asset ID (FIGURE_ASSET_ID_FIX) -----------
+# -- figure zones, classified per line (LINE_ORDER_FIGURE_FIX) ---------------
 
 LISTED = {n: f"Filler figure {n}" for n in range(100, 130)}
 
 
-def banded(pages, figures=None, margins=(BODY_MARGIN,), **kw):
+def zoned(pages, figures=None, margins=(BODY_MARGIN,), **kw):
     listed = {**LISTED, **(figures or {})}
     scanner = SectionScanner(
         "RM0490", {}, {}, listed_figures=listed,
@@ -929,9 +935,7 @@ def banded(pages, figures=None, margins=(BODY_MARGIN,), **kw):
     return scanner
 
 
-def test_a_band_drops_artwork_and_the_id_and_closes_on_body_flow():
-    """Caption opens; every small off-margin line goes, id included; the
-    first body-flow line closes the band and is KEPT."""
+def test_artwork_below_a_caption_is_dropped_and_the_id_with_it():
     page = FakePage([
         "2.1 System architecture",
         "The main system consists of:",
@@ -940,19 +944,16 @@ def test_a_band_drops_artwork_and_the_id_and_closes_on_body_flow():
         "Cortex®-M0+ System bus Bus matrix",
         "DMA1/DMAMUX",
         "MSv66119V2",
-        "System bus (S-bus)",
     ], sizes={3: 8.0, 4: 8.0, 5: 6.5, 6: 6.0},
        x0s={3: 296.7, 4: 171.1, 5: 305.9, 6: 489.6})
-    scanner = banded([page], figures={1: "System architecture"})
+    scanner = zoned([page], figures={1: "System architecture"})
     section = by_number(scanner.finalize())["2.1"]
     assert section.content == (
-        "The main system consists of:\n"
-        "[Figure 1. System architecture]\n"
-        "System bus (S-bus)"
+        "The main system consists of:\n[Figure 1. System architecture]"
     )
-    assert (scanner.band.opened, scanner.band.closed) == (1, 1)
-    # The id was seen inside the band -- the health metric, not a rule.
-    assert scanner.band.with_asset_id == 1
+    assert scanner.zone.opened == 1
+    # The id was seen inside the zone -- the health metric, not a rule.
+    assert scanner.zone.with_asset_id == 1
 
 
 def test_artwork_off_the_body_margin_is_dropped_whatever_its_size():
@@ -967,17 +968,144 @@ def test_artwork_off_the_body_margin_is_dropped_whatever_its_size():
         "Bits 15:0 BSy: Port x set I/O y",
     ], sizes={2: 8.0, 3: 6.0, 4: 9.0},
        x0s={2: 296.7, 3: 489.6})
-    section = by_number(banded([page], figures={1: "System architecture"})
+    section = by_number(zoned([page], figures={1: "System architecture"})
                         .finalize())["2.1"]
     assert section.content == (
         "[Figure 1. System architecture]\nBits 15:0 BSy: Port x set I/O y"
     )
 
 
-def test_a_band_that_never_meets_body_flow_drops_nothing():
-    """Fail-safe by construction: uncertainty costs a leak, never a
-    deletion. Every line here is small AND off-margin, so the band runs
-    past its hard bound and hands everything back."""
+def test_a_second_content_run_after_the_footnote_is_still_dropped():
+    """RM0490 page 290, Figure 30. ST drew the artwork in TWO content
+    passes, so `extract_text_lines` returns caption, artwork run #1, the
+    figure's footnote, the page footer -- and only THEN run #2, whose
+    tops jump back to 235.6. The old band closed on the footnote and
+    every line of run #2 leaked. Sorting makes the region contiguous;
+    classifying per line means the footnote does not end anything."""
+    page = FakePage([
+        "16.4 ADC functional description",                       # top 100
+        "Figure 30 shows the ADC block diagram.",                # top 138.2
+        "Figure 30. ADC block diagram",                          # top 150
+        "CHSEL[22:0]",                                           # run #1
+        "SMP[2:0]",
+        "1. TRGi are mapped at product level, refer to the datasheet.",
+        "BHA",                                                   # run #2
+        "VREF+",
+        "TRG0",
+        "EXTSEL[2:0]",
+    ], body_size=9.96, margin=124.0,
+       tops={5: 575.9, 6: 235.6, 7: 171.6, 8: 300.4, 9: 503.5},
+       sizes={3: 6.0, 4: 6.0, 5: 7.98, 6: 4.0, 7: 6.0, 8: 6.0, 9: 6.0},
+       x0s={1: 124.0, 2: 226.5, 3: 300.1, 4: 412.7, 5: 124.0,
+            6: 501.8, 7: 380.2, 8: 265.0, 9: 199.4})
+    scanner = zoned([page], figures={30: "ADC block diagram"},
+                    margins=(124.0,), body_font_size=9.96)
+    section = by_number(scanner.finalize())["16.4"]
+    assert section.content == (
+        "Figure 30 shows the ADC block diagram.\n"
+        "[Figure 30. ADC block diagram]\n"
+        "1. TRGi are mapped at product level, refer to the datasheet."
+    )
+    for label in ("CHSEL[22:0]", "SMP[2:0]", "BHA", "VREF+", "TRG0", "EXTSEL[2:0]"):
+        assert label not in section.content, label
+
+
+def test_a_body_size_line_inside_a_figure_does_not_end_filtering():
+    """RM0522 prints a `31 24 15 7 0` bit header at 9.94 pt INSIDE a
+    figure. Under the band rule it was body flow, closed the band, and
+    everything after it leaked. Now it is kept and the artwork after it
+    is still dropped."""
+    page = FakePage([
+        "2.1 System architecture",
+        "Figure 1. System architecture",
+        "early label",
+        "A body-size line inside the drawing",
+        "late label",
+        "MSv66119V2",
+    ], sizes={2: 6.0, 4: 6.0, 5: 6.0},
+       x0s={2: 296.7, 3: 300.0, 4: 305.9, 5: 489.6})
+    scanner = zoned([page], figures={1: "System architecture"})
+    section = by_number(scanner.finalize())["2.1"]
+    assert section.content == (
+        "[Figure 1. System architecture]\nA body-size line inside the drawing"
+    )
+    assert "late label" not in section.content
+
+
+def test_register_grammar_below_a_caption_survives_size_and_margin():
+    """Structural grammar wins outright. Each of these is small AND off
+    every body margin, so the size+margin rule alone would delete it --
+    and `Bits 31:19 Reserved...` is the single most valuable line shape
+    in the corpus."""
+    page = FakePage([
+        "2.1 System architecture",
+        "Figure 1. System architecture",
+        "Bits 31:19 Reserved, must be kept at reset value.",
+        "0: Debugger disabled",
+        "0x00: no wait state",
+        "Note: The value is undefined after reset.",
+        "Caution: Do not write while busy.",
+        "Table 26. FLASH register map",
+        "genuine artwork",
+    ], sizes={2: 6.0, 3: 6.0, 4: 6.0, 5: 6.0, 6: 6.0, 7: 6.0, 8: 6.0},
+       x0s={2: 300.0, 3: 305.0, 4: 310.0, 5: 315.0, 6: 320.0,
+            7: 325.0, 8: 330.0})
+    section = by_number(zoned([page], figures={1: "System architecture"})
+                        .finalize())["2.1"]
+    assert section.content == "\n".join([
+        "[Figure 1. System architecture]",
+        "Bits 31:19 Reserved, must be kept at reset value.",
+        "0: Debugger disabled",
+        "0x00: no wait state",
+        "Note: The value is undefined after reset.",
+        "Caution: Do not write while busy.",
+        "Table 26. FLASH register map",
+    ])
+    assert "genuine artwork" not in section.content
+
+
+def test_a_figure_footnote_at_a_body_margin_survives():
+    """RM0008 Figure 187's footnote is 7.98 pt -- small -- but sits at the
+    body margin 124.0, which is where ST prints figure footnotes and
+    where a drawing's interior callouts never are."""
+    page = FakePage([
+        "21.5.4 Mode1 read accesses",
+        "Figure 187. Mode1 read accesses",
+        "Memory transaction",
+        "A[25:0]",
+        "ai14720c",
+        "1. NBL[1:0] are driven low during read access.",
+        "The one HCLK cycle at the end of the write transaction helps.",
+    ], body_size=9.96, margin=124.0,
+       sizes={2: 7.50, 3: 7.50, 4: 6.00, 5: 7.98},
+       x0s={1: 246.8, 2: 296.7, 3: 171.1, 4: 489.6})
+    section = by_number(zoned([page], figures={187: "Mode1 read accesses"},
+                              margins=(124.0,), body_font_size=9.96)
+                        .finalize())["21.5.4"]
+    assert section.content == (
+        "[Figure 187. Mode1 read accesses]\n"
+        "1. NBL[1:0] are driven low during read access.\n"
+        "The one HCLK cycle at the end of the write transaction helps."
+    )
+
+
+def test_a_numbered_callout_off_the_margin_is_still_artwork():
+    """The footnote rule is bounded by position: a drawing's own `1.`
+    callout is not at a body margin."""
+    page = FakePage([
+        "2.1 System architecture",
+        "Figure 1. System architecture",
+        "1. interior callout",
+    ], sizes={2: 6.0}, x0s={2: 401.3})
+    section = by_number(zoned([page], figures={1: "System architecture"})
+                        .finalize())["2.1"]
+    assert section.content == "[Figure 1. System architecture]"
+
+
+def test_a_figure_zone_does_not_outlive_its_page():
+    """The zone is per PAGE, so it needs no hard bound: a mis-validated
+    caption costs the artwork test on the rest of one page, never pages
+    of real prose."""
     pages = [
         FakePage([
             "2.1 System architecture",
@@ -985,54 +1113,32 @@ def test_a_band_that_never_meets_body_flow_drops_nothing():
             "GPIO Ports Flash memory",
         ], sizes={2: 8.0}, x0s={2: 296.7}),
         FakePage(["Scattered label"], sizes={0: 8.0}, x0s={0: 310.0}),
-        FakePage(["Another label"], sizes={0: 8.0}, x0s={0: 288.0}),
-        FakePage(["Past the hard bound."]),
     ]
-    scanner = banded(pages, figures={1: "System architecture"})
+    scanner = zoned(pages, figures={1: "System architecture"})
     section = by_number(scanner.finalize())["2.1"]
-    assert "GPIO Ports Flash memory" in section.content
+    assert "GPIO Ports Flash memory" not in section.content
+    # No zone on page 2, so nothing there is classified as artwork.
     assert "Scattered label" in section.content
-    assert "Past the hard bound." in section.content
-    assert scanner.band.opened == 1
-    assert scanner.band.closed == 0
-    assert [c for c, _ in scanner.band.abandoned] == ["[Figure 1. System architecture]"]
+    assert scanner.zone.opened == 1
+    # Page 1 ended while still emitting artwork: the known per-page limit.
+    assert scanner.zone.pages_ending_mid_artwork == 1
 
 
-def test_a_heading_closes_an_open_band_and_never_crosses_into_it():
-    """A heading is body flow -- body size, at a margin -- so it is the
-    first line failing either test, and closes the band rather than
-    letting it run into the next section."""
-    pages = [
-        FakePage(["2.1 System architecture", "Figure 1. System architecture", "artwork"],
-                 sizes={2: 8.0}, x0s={2: 296.7}),
-        FakePage(["2.2 Memory organization", "Register prose here."]),
-    ]
-    scanner = banded(pages, figures={1: "System architecture"})
-    sections = by_number(scanner.finalize())
+def test_a_heading_below_a_caption_still_opens_its_section():
+    page = FakePage([
+        "2.1 System architecture",
+        "Figure 1. System architecture",
+        "artwork",
+        "2.2 Memory organization",
+        "Register prose here.",
+    ], sizes={2: 8.0}, x0s={2: 296.7})
+    sections = by_number(
+        zoned([page], figures={1: "System architecture"}).finalize())
     assert sections["2.1"].content == "[Figure 1. System architecture]"
     assert sections["2.2"].content == "Register prose here."
-    assert scanner.band.closed == 1
-    assert scanner.band.abandoned == []
 
 
-def test_a_band_may_not_run_more_than_two_pages():
-    """Every line is artwork-shaped, so only the page bound stops it."""
-    art = dict(sizes={0: 8.0}, x0s={0: 296.7})
-    pages = [
-        FakePage(["2.1 System architecture", "Figure 1. System architecture", "artwork"],
-                 sizes={2: 8.0}, x0s={2: 296.7}),
-        FakePage(["page two label"], **art),
-        FakePage(["page three label"], **art),
-        FakePage(["page four label"], **art),
-    ]
-    scanner = banded(pages, figures={1: "System architecture"})
-    section = by_number(scanner.finalize())["2.1"]
-    assert "artwork" in section.content
-    assert "page four label" in section.content
-    assert scanner.band.closed == 0
-
-
-def test_a_cross_reference_produces_no_marker_and_no_band():
+def test_a_cross_reference_produces_no_marker_and_no_zone():
     """RM0486 12.4.3: the sentence stays prose, and nothing is deleted."""
     page = FakePage([
         "12.4.3 CACHEAXI memories",
@@ -1041,22 +1147,19 @@ def test_a_cross_reference_produces_no_marker_and_no_band():
         "Figure 14. CACHEAXI TAG and data memories functional view",
         "artwork label",
         "MSv45319V2",
-        "Body prose closes the band.",
     ], sizes={4: 8.0, 5: 6.0}, x0s={4: 296.7, 5: 489.6})
-    scanner = banded([page],
-                     figures={14: "CACHEAXI TAG and data memories functional view"})
+    scanner = zoned([page],
+                    figures={14: "CACHEAXI TAG and data memories functional view"})
     section = by_number(scanner.finalize())["12.4.3"]
     assert section.content == (
         "Figure 14. shows the functional view of TAG and data memories.\n"
         "Real prose that must survive.\n"
-        "[Figure 14. CACHEAXI TAG and data memories functional view]\n"
-        "Body prose closes the band."
+        "[Figure 14. CACHEAXI TAG and data memories functional view]"
     )
-    assert scanner.band.opened == 1
     assert len(scanner.figures.rejected) == 1
 
 
-def test_two_figures_on_one_page_pair_in_order():
+def test_two_figures_on_one_page_share_one_zone():
     page = FakePage([
         "2.1 System architecture",
         "Figure 1. System architecture",
@@ -1069,7 +1172,7 @@ def test_two_figures_on_one_page_pair_in_order():
         "After both.",
     ], sizes={2: 8.0, 3: 6.0, 6: 8.0, 7: 6.0},
        x0s={2: 296.7, 3: 489.6, 6: 305.9, 7: 489.6})
-    scanner = banded([page], figures={1: "System architecture", 2: "Memory map"})
+    scanner = zoned([page], figures={1: "System architecture", 2: "Memory map"})
     section = by_number(scanner.finalize())["2.1"]
     assert section.content == (
         "[Figure 1. System architecture]\n"
@@ -1077,7 +1180,8 @@ def test_two_figures_on_one_page_pair_in_order():
         "[Figure 2. Memory map]\n"
         "After both."
     )
-    assert (scanner.band.opened, scanner.band.closed) == (2, 2)
+    # One zone per page: it runs from the FIRST validated caption.
+    assert scanner.zone.opened == 1
 
 
 def test_an_id_of_either_family_drops_as_ordinary_artwork():
@@ -1091,42 +1195,65 @@ def test_an_id_of_either_family_drops_as_ordinary_artwork():
             asset_id,
             "After the figure.",
         ], sizes={2: 8.0, 3: 6.0}, x0s={2: 296.7, 3: 489.6})
-        scanner = banded([page], figures={1: "System architecture"})
-        section = by_number(scanner.finalize())["2.1"]
+        section = by_number(zoned([page], figures={1: "System architecture"})
+                            .finalize())["2.1"]
         assert section.content == (
             "[Figure 1. System architecture]\nAfter the figure."
         ), asset_id
-        assert scanner.band.closed == 1
 
 
-def test_a_section_with_no_figure_is_byte_identical():
-    texts = [
-        "4.7.1 FLASH access control register (FLASH_ACR)",
-        "Address offset: 0x000",
-        "Bits 31:1 Reserved, must be kept at reset value.",
-        "Bit 0 CEN: Counter enable",
-        "0: Debugger disabled",
-    ]
-    with_band = by_number(banded([FakePage(texts)]).finalize())["4.7.1"]
-    assert with_band.content == "\n".join(texts[1:])
-
-
-def test_an_unlisted_figure_number_keeps_its_marker_without_a_band():
+def test_an_unlisted_figure_number_keeps_its_marker_without_a_zone():
     page = FakePage([
         "2.1 System architecture",
         "Figure 999. Some unlisted figure",
         "would-be artwork",
         "MSv66119V2",
     ], sizes={2: 8.0})
-    scanner = banded([page])
+    scanner = zoned([page])
     section = by_number(scanner.finalize())["2.1"]
     assert "[Figure 999. Some unlisted figure]" in section.content
-    assert scanner.band.opened == 0
-    # The size backstop still reaches the 8 pt label only if it is small
-    # enough; the standalone id line is dropped by the id backstop.
+    assert scanner.zone.opened == 0
+    # The standalone id line is still dropped by the id backstop.
     assert "MSv66119V2" not in section.content
 
 
+def test_a_register_section_with_no_figure_is_byte_identical():
+    texts = [
+        "4.7.1 FLASH access control register (FLASH_ACR)",
+        "Address offset: 0x000",
+        "Reset value: 0x0000 0000",
+        "Bits 31:19 Reserved, must be kept at reset value.",
+        "Bit 18 DBG_SWEN: Debug access software enable",
+        "0: Debugger disabled",
+        "1: Debugger enabled",
+    ]
+    scanner = zoned([FakePage(texts)])
+    assert by_number(scanner.finalize())["4.7.1"].content == "\n".join(texts[1:])
+    assert scanner.zone.opened == 0
+    assert scanner.pages_reordered == 0
+
+
+def test_a_page_already_in_top_order_is_unaffected_by_sorting():
+    """The ordering gate: sorting may only ever change a page whose lines
+    were NOT already in reading order."""
+    texts = [
+        "4.7.1 FLASH access control register (FLASH_ACR)",
+        "Address offset: 0x000",
+        "Bits 31:19 Reserved, must be kept at reset value.",
+        "Bit 18 DBG_SWEN: Debug access software enable",
+    ]
+    ordered = zoned([FakePage(texts)])
+    # The same page, same positions, returned in a different content-
+    # stream order: lines 0, 2, 3, 1 with their original tops pinned.
+    shuffled = zoned([FakePage(
+        [texts[0], texts[2], texts[3], texts[1]],
+        tops={0: 100.0, 1: 140.0, 2: 160.0, 3: 120.0},
+    )])
+    assert ordered.pages_reordered == 0
+    assert shuffled.pages_reordered == 1
+    # Sorted back into position, the shuffled page reads identically.
+    assert (by_number(ordered.finalize())["4.7.1"].content
+            == by_number(shuffled.finalize())["4.7.1"].content)
 def test_a_rotated_running_head_does_not_reach_the_prose():
     """RM0490 2.1 carried standalone 'Memory', 'and', 'bus',
     'architecture', 'RM0490' off a landscape figure page."""
@@ -1179,107 +1306,3 @@ def test_a_section_with_no_rotated_text_is_untouched():
     assert by_number(scanner.finalize())["4.7.1"].content == "\n".join(texts[1:])
     assert scanner.noise.rotated_lines == 0
 
-
-def test_a_small_line_at_a_body_margin_closes_the_band():
-    """RM0008 Figure 187's own footnote is 7.98 pt but sits at the body
-    margin 124.0, so it is body flow and must survive."""
-    page = FakePage([
-        "21.5.4 Mode1 read accesses",
-        "Figure 187. Mode1 read accesses",
-        "Memory transaction",
-        "A[25:0]",
-        "ai14720c",
-        "1. NBL[1:0] are driven low during read access.",
-        "The one HCLK cycle at the end of the write transaction helps.",
-    ], body_size=9.96, margin=124.0,
-       sizes={2: 7.50, 3: 7.50, 4: 6.00, 5: 7.98},
-       x0s={1: 246.8, 2: 296.7, 3: 171.1, 4: 489.6})
-    scanner = banded([page], figures={187: "Mode1 read accesses"},
-                     margins=(124.0,), body_font_size=9.96)
-    section = by_number(scanner.finalize())["21.5.4"]
-    assert section.content == (
-        "[Figure 187. Mode1 read accesses]\n"
-        "1. NBL[1:0] are driven low during read access.\n"
-        "The one HCLK cycle at the end of the write transaction helps."
-    )
-    assert scanner.band.closed == 1
-
-
-def test_a_body_size_line_off_margin_closes_the_band():
-    """Either condition alone is enough to be body flow."""
-    page = FakePage([
-        "2.1 System architecture",
-        "Figure 1. System architecture",
-        "scattered label",
-        "A centred body-size heading-ish line",
-        "more prose",
-    ], sizes={2: 7.5}, x0s={2: 296.7, 3: 246.8})
-    scanner = banded([page], figures={1: "System architecture"})
-    section = by_number(scanner.finalize())["2.1"]
-    assert section.content == (
-        "[Figure 1. System architecture]\n"
-        "A centred body-size heading-ish line\n"
-        "more prose"
-    )
-    assert scanner.band.closed == 1
-
-
-def test_a_register_section_with_no_figure_is_byte_identical():
-    texts = [
-        "4.7.1 FLASH access control register (FLASH_ACR)",
-        "Address offset: 0x000",
-        "Reset value: 0x0000 0000",
-        "Bits 31:19 Reserved, must be kept at reset value.",
-        "Bit 18 DBG_SWEN: Debug access software enable",
-        "0: Debugger disabled",
-        "1: Debugger enabled",
-    ]
-    scanner = banded([FakePage(texts)])
-    assert by_number(scanner.finalize())["4.7.1"].content == "\n".join(texts[1:])
-    assert scanner.band.opened == 0
-
-
-def test_the_next_figure_caption_closes_the_previous_band():
-    """Back-to-back figures, as in RM0008 21.5.4's eight: the second
-    caption is body-sized, so it closes the first band instead of
-    invalidating it and handing the artwork back."""
-    page = FakePage([
-        "21.5.4 Mode1 read accesses",
-        "Figure 187. Mode1 read accesses",
-        "Memory transaction",
-        "ai14720c",
-        "Figure 188. Mode1 write accesses",
-        "A[25:0]",
-        "ai14721c",
-        "The one HCLK cycle at the end of the write transaction helps.",
-    ], body_size=9.96, margin=124.0,
-       sizes={2: 7.50, 3: 6.00, 5: 7.50, 6: 6.00},
-       x0s={1: 246.8, 2: 296.7, 3: 489.6, 4: 246.8, 5: 171.1, 6: 489.6})
-    scanner = banded(page and [page],
-                     figures={187: "Mode1 read accesses", 188: "Mode1 write accesses"},
-                     margins=(124.0,), body_font_size=9.96)
-    section = by_number(scanner.finalize())["21.5.4"]
-    assert section.content == (
-        "[Figure 187. Mode1 read accesses]\n"
-        "[Figure 188. Mode1 write accesses]\n"
-        "The one HCLK cycle at the end of the write transaction helps."
-    )
-    assert (scanner.band.opened, scanner.band.closed) == (2, 2)
-    assert scanner.band.abandoned == []
-
-
-def test_an_abandoned_band_still_never_hands_back_an_artwork_id():
-    """Dropping nothing means dropping no PROSE; an id is never prose."""
-    pages = [
-        FakePage(["2.1 System architecture", "Figure 1. System architecture",
-                  "scattered label", "MSv66119V2"],
-                 sizes={2: 8.0, 3: 6.0}, x0s={2: 296.7, 3: 489.6}),
-        FakePage(["another label"], sizes={0: 8.0}, x0s={0: 300.0}),
-        FakePage(["third label"], sizes={0: 8.0}, x0s={0: 305.0}),
-        FakePage(["fourth label"], sizes={0: 8.0}, x0s={0: 310.0}),
-    ]
-    scanner = banded(pages, figures={1: "System architecture"})
-    section = by_number(scanner.finalize())["2.1"]
-    assert scanner.band.closed == 0
-    assert "scattered label" in section.content
-    assert "MSv66119V2" not in section.content

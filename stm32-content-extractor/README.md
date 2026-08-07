@@ -289,8 +289,8 @@ Any threshold catching RM0490's 8 pt artwork also destroys 9 pt register-field p
 
 Size alone is therefore not the discriminator — **geometry combined with size** is. Body
 prose is set at one size and starts at one of a handful of left margins; artwork labels are
-scattered across the page at whatever x the drawing puts them. A line inside an open band is
-artwork when **both** hold:
+scattered across the page at whatever x the drawing puts them. A line inside a page's figure
+zone is artwork when **both** hold:
 
 1. its median char size is below the document's body size (by more than 0.4 pt), **and**
 2. its `x0` is not within 1 pt of any body left margin.
@@ -307,41 +307,87 @@ a margin qualifies at a 2% share of lines. RM0008 measures 9.96 pt with margins
 
 **The 1 pt tolerance is measured, not assumed.** The obvious 2 pt fails on RM0008 Figure 201,
 whose artwork column sits at x0 159.3–159.8 against the manual's 161 pt indent: at 2 pt the
-labels `A[25:0]`, `NEx`, `NWE` read as body flow, close the band early and leak the rest of
-the figure. Sub-body-size lines cluster at 0.0–0.5 pt from a margin and then gap; nothing
-legitimate is near 1.0. So 1 pt keeps every footnote with better than 3× headroom while
-putting that column on the correct side. Body-*size* lines are unaffected either way, since
-the conditions are ANDed.
+labels `A[25:0]`, `NEx`, `NWE` read as body flow and survive. Sub-body-size lines cluster at
+0.0–0.5 pt from a margin and then gap; nothing legitimate is near 1.0. So 1 pt keeps every
+footnote with better than 3× headroom while putting that column on the correct side.
+Body-*size* lines are unaffected either way, since the conditions are ANDed.
 
-This **supersedes the asset-ID terminator.** A band now closes on the first line that is body
-flow — a heading, a table or figure marker, or any line failing the artwork test:
+Chasing ST's id conventions is what made the earliest rule fragile — the corpus turned out to
+use at least two families (`MSv66119V2` and `ai15797c`, the latter with `-m` and `V3`
+variants). The column rule drops both as ordinary artwork without knowing either. The pattern
+survives only to remove a standalone id whose figure opened no zone, and to report the health
+metric that says how many zones contained an id at all.
 
-1. open a band at a validated caption;
-2. hold lines while they test as artwork;
-3. close at the first body-flow line, which is itself **kept**;
-4. drop the held buffer;
-5. if the two-page bound arrives first, **drop nothing** and log the caption.
+### Structural grammar always wins over size and margin
 
-**Fail-safe by construction.** Lines are held in a buffer while the band is open and are only
-discarded once a body-flow line actually arrives; hitting the bound hands every one of them
-back. Uncertainty costs a leak, never a deletion.
+The size+margin rule is statistical, and the corpus defeats it in both directions: RM0522
+prints a register's `31 24 15 7 0` bit header *inside* a figure at 9.94 pt, and a figure can
+push its own footnote off the margin. Rather than tune the rule until no such line exists,
+the highest-value content is identified by its own grammar and exempted outright. A line
+matching any of these is body, whatever its typography says:
 
-Chasing ST's id conventions is what made the old rule fragile — the corpus turned out to use
-at least two families (`MSv66119V2` and `ai15797c`, the latter with `-m` and `V3` variants).
-The column rule drops both as ordinary artwork without knowing either. The pattern survives
-only to remove a standalone id whose figure opened no band, and to report the health metric
-that says how many bands contained an id at all.
+- a section heading (`rmtables.headings.HEADING_RE`)
+- `^Bits?\s+\d` — a register field line
+- `^(0b[01]+|0x[0-9A-Fa-f]+|\d{1,3}):\s+\S` — a value enumeration
+- `^Note:` / `^Caution:`
+- `^\d+\.\s+\S` **at a body margin** — a numbered or figure footnote
+- a `Table N.` or `Figure N.` caption
+
+`Bits 15:0 BSy: Port x set I/O y` is the single most valuable line shape in the corpus and
+the one a size threshold has historically destroyed. It is now unreachable by any of this.
+
+The margin condition on the footnote rule is what keeps it honest: a drawing's interior `1.`
+callouts are scattered across the figure, while ST prints real footnotes at a body margin.
+
+### Reading order: `extract_text_lines()` does not provide it
+
+It returns lines in PDF **content-stream order**. RM0490 page 290 (§16.4, Figure 30):
+
+| idx | top | size | x0 | line |
+|---|---|---|---|---|
+| 3 | 138.2 | 9.96 | 226.5 | `Figure 30. ADC block diagram` |
+| 4–39 | 164 → 563.8 | 6.00 | scattered | artwork, first drawing pass |
+| 40 | 575.9 | 7.98 | 67.3 | `1. TRGi are mapped at product level…` |
+| 41 | 744.5 | 9.00 | 67.3 | page footer |
+| **42** | **235.6** | 4.00 | 501.8 | `BHA` — second pass starts again |
+| 43–74 | 171.6 → 503.5 | 6.00 | scattered | `VREF+`, `CHSEL[22:0]`, `TRG0`…`TRG7` |
+
+Tops ascend to index 41, then jump back and ascend again: ST drew the artwork in two content
+passes. **Measured on 60 random pages per manual, 12–22% of pages are affected** — RM0486 22%
+(median 13 content runs, max 38), RM0008 17%, RM0522 15%, RM0490 12% (median 14, max 33).
+
+Anything that walks the list as a *sequence* breaks on this. The band rule that preceded this
+one opened at the caption, ran through the first drawing pass correctly, closed on the
+figure's own footnote — and then met the entire second pass with nothing left to stop it.
+
+So `lines.read_page_lines` sorts every page by `top` (tie-break `x0`) immediately after
+extraction, before anything else looks at it, and reports whether it had to. Sorting is safe
+because the anomaly is confined to small-font runs: no page was found where *body*-sized
+lines are out of order.
+
+### There is no band any more — classification is per line
+
+Sorting alone is not enough, because a body-size line can sit inside a figure and any rule
+that *ends* filtering on a body-flow line ends it there. So the state machine is gone. On a
+page containing a validated figure caption, every line below the first such caption is
+classified on its own merits: structural grammar first, then size-and-margin. A body line in
+the middle of a drawing is simply kept, and the artwork after it is still dropped.
+
+**The zone is per page, and needs no hard bound.** It cannot outlive the page that opened it,
+so a mis-validated caption costs the artwork test on the remainder of one page rather than
+pages of real prose. The old two-page fail-safe protected against something that can no
+longer happen.
 
 #### Caption validation is two-tier, and the tiers are not equally trusted
 
-A wrong marker costs one line; a wrong *band* deletes prose. So the two decisions are
+A wrong marker costs one line; a wrong *zone* deletes prose. So the two decisions are
 separated, calibrated against the corpus:
 
 - **The verb test decides whether a marker is emitted.** Measured across 1,383 markers it
   fires 3 times, all 3 genuine cross-references — RM0486 §12.4.3's `Figure 14. shows the
   functional view of…` (which previously emitted a *second*, bogus marker for Figure 14) and
   §53.3.25's two. Zero false positives; precise enough to destroy a marker with.
-- **The List-of-figures tests decide only whether a band may open.** These are weaker: they
+- **The List-of-figures tests decide only whether a zone may open.** These are weaker: they
   reject 26 RM0486 captions and 2 RM0490 ones on a title mismatch, and every one is a *real*
   caption whose body text differs from the listing only because a subscript was lifted out
   (`Device startup (V supplied…` against the listing's `V_DD`). Rejecting those would have
@@ -359,39 +405,51 @@ lines' median char sizes over 120 evenly sampled pages, never hardcoded. It cann
 register prose, it is proven on RM0486's 0.83–3.0 pt labels, and it catches artwork whose
 caption was missed entirely — which the band rule structurally cannot reach.
 
-Measured over the four manuals: **2,451 bands opened, 2,451 closed by a body-flow line, zero
-abandoned** at the hard bound — the column rule always finds a terminator, where the id rule
-left up to 60% of bands hanging. 241,567 characters of artwork removed.
+Measured over the four manuals: **2,078 figure zones, 372,756 characters of artwork removed**
+— 54% more than the band rule that preceded it.
 
-| | bands | chars removed | bands containing an id |
-|---|---|---|---|
-| RM0008 Rev 21 | 364 | 36,142 | 151 (41%) |
-| RM0486 Rev 4 | 1,049 | 98,557 | 514 (49%) |
-| RM0490 Rev 6 | 319 | 36,479 | 185 (58%) |
-| RM0522 Rev 1 | 719 | 70,389 | 369 (51%) |
+| | pages reordered | zones | chars removed | zones containing an id | pages ending mid-artwork |
+|---|---|---|---|---|---|
+| RM0008 Rev 21 | 191 (17%) | 282 | 47,071 | 234 (**83%**) | 77 |
+| RM0486 Rev 4 | 807 (17%) | 919 | 161,671 | 887 (**97%**) | 196 |
+| RM0490 Rev 6 | 110 (11%) | 261 | 54,819 | 251 (**96%**) | 87 |
+| RM0522 Rev 1 | 399 (15%) | 616 | 109,195 | 606 (**98%**) | 168 |
 
 Not one asset-id line survives into `section_content` in any of the four.
 
-**The id-coverage column is a health metric, not a target.** It cannot reach 100%: RM0008
-prints 306 id lines for ~367 real figures, so ~17% of its figures carry no id at all. The
-remainder of the gap is the known limit below — a band that closes early never sees its
-figure's id, though the id itself is still removed as a standalone line.
-
-**Known limits, accepted deliberately.** Artwork that coincidentally satisfies one condition
-closes its band early and leaks the rest of that figure: a bit-header row rendering at body
-size (RM0522's `31 24 15 7 0`, 9.94 pt), or a label that happens to land on a margin. Across
-RM0008's figure-bearing sections, ~860 of 8,598 lines are label-shaped residue of this kind.
-It is a **leak, not a loss** — the failure direction the whole design chooses — and closing it
-would need per-figure geometry that risks deleting prose.
+**The id-coverage metric is what confirms the zone boundaries are right.** It rose from
+41–58% under the band rule to 96–98% on three manuals: a zone now nearly always reaches the
+id ST printed as the last element of its drawing. RM0008's 83% is not a defect but its
+ceiling — it prints 306 id lines for ~367 real figures, so ~17% of its figures carry no id at
+all, and 83% is exactly that bound.
 
 **Figure footnotes are kept** — `1. The high-performance domain is shown in pink…` is 8 pt
 and stays. It is readable prose explaining the figure, and it is exactly what the margin half
-of the rule exists to protect.
+of the rule and the footnote grammar exist to protect.
 
-Regression-checked against the previous build on all four manuals: register prose (`^Bits`,
-enumerations), numbered-footnote counts, `[Table]`/`[Figure]` marker counts, record counts and
-`semantic.fields` totals are **identical**, and all 5,811 figure-free sections are
-**byte-identical**. Only figure-bearing sections changed, by 0.24–0.27% of total characters.
+#### Known limits, accepted and measured
+
+- **The zone is per page.** A figure whose artwork spills onto the next page leaks there,
+  because no caption opens a zone on that page: 77 / 196 / 87 / 168 pages end mid-artwork.
+- **Artwork rendered at body size is unreachable.** The two conditions are ANDed, so a label
+  at 9.72–9.88 pt against a 9.96 pt body is never artwork whatever its position. That is the
+  whole of the residue: sections with ≥3 label-like lines after a `[Figure]` marker fall from
+  93 / 54 / 28 / 15 to **53 / 32 / 7 / 8**, and every RM0008 survivor measured
+  (`Analog voltage` 9.88 pt, `External` 9.72 pt) is this case.
+- **A label can coincidentally sit on a margin.** RM0490 §16.4's `CHSEL[22:0]` is at x0 144.0
+  against the manual's 145 pt margin — exactly 1.0 pt, at the tolerance. Tightening below
+  1.0 pt is not available: the 0.4–1.0 pt band is dense with real prose
+  (`This bit-field defines the direction…`, `Indicates the amount of free space`), so
+  hundreds of genuine lines would be at risk to remove one label.
+
+Each of these is a **leak, not a loss** — the failure direction the whole design chooses.
+
+Regression-checked against the previous build on all four manuals: numbered-footnote counts,
+`[Table]`/`[Figure]` marker counts, record counts, section counts, `register_description`
+counts, `semantic.fields` totals and value-enumeration counts are all **identical**. The one
+movement is `^Bits` lines, which *rose* by 4 / 1 / 1 — register prose the structural-grammar
+rule rescued from deletion (`Bit 17 SDINIT: SDRAM device initialization`, 9.0 pt at x0 97.9,
+below body size and off every margin). Content recovered, not lost.
 
 ## Register descriptions (`registers.py`)
 

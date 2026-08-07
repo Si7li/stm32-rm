@@ -170,95 +170,57 @@ def continued_note_tops(body_lines) -> set[float]:
     return note_line_tops(body_lines, first_top - 1, notes_below(body_lines, first_top - 1))
 
 
-class ArtworkBand:
-    """The span between a figure's caption and its artwork asset id.
+class FigureZone:
+    """Counters for the region of a page below its first figure caption.
 
-    Every ST figure ends with an asset id printed as the last element of
-    the drawing, so a caption gives the figure an explicit start and the
-    id an explicit end. Everything between the two is artwork.
+    This replaces the sequential band that used to run from a caption to
+    the figure's artwork id. Two independent facts killed that design:
 
-    This replaces the font-size threshold as the primary rule, because
-    artwork and body text overlap in size and do so DIFFERENTLY per
-    manual: RM0486 p160 sets body and caption at 9.96 pt with artwork at
-    0.83-3.0, while RM0490 p43 sets the same 9.96 pt body against
-    artwork at 8.0 and 6.5. Register-field prose is 9.0 pt in both, so
-    any threshold catching RM0490's 8.0 pt artwork also destroys
-    `Bits 15:0 BSy: Port x set I/O y` -- the highest-value content in the
-    corpus. The band rule has no size dependency at all.
+    - `extract_text_lines()` is in content-stream order, not reading
+      order, so ST's second drawing pass arrives AFTER the figure's own
+      footnote and the page footer. A band closes on the footnote and
+      everything in the second pass leaks (`lines.read_page_lines`).
+    - Even sorted, a body-size line can sit INSIDE a figure -- RM0522
+      prints a `31 24 15 7 0` bit header at 9.94 pt within one -- and any
+      rule that ENDS filtering on a body-flow line ends it there.
 
-    The band CLOSES at the first line that is not artwork -- the first
-    at body size, or at a body left margin -- and that line is KEPT. ST's
-    end marker is no longer the terminator: chasing it is what made the
-    old rule fragile, since RM0008 ends its figures with `ai14720c`
-    rather than `MSv66119V2`, so no band ever closed there and 21.5.4
-    carried eight figures' worth of waveform labels. Both id families are
-    small and off-margin, so they now drop as ordinary artwork without
-    the band knowing either one.
+    So there is no state machine left. Sorting makes the figure region
+    contiguous, and every line below the first validated caption on the
+    page is classified **on its own merits** by
+    `noise.BodyMetrics.is_figure_artwork`: structural grammar first, then
+    size-and-margin. A body line inside a figure is simply kept, and the
+    artwork after it is still dropped.
 
-    **Fail-safe by construction.** Lines are buffered while the band is
-    open and only discarded once a real body-flow line arrives. If the
-    band hits its hard bound first -- a new section, or more than
-    `MAX_BAND_PAGES` pages -- every buffered line is handed back and
-    nothing is dropped. Uncertainty costs a leak, never a deletion.
+    The zone is per PAGE and needs no hard bound: it cannot outlive the
+    page that opened it, so a mis-validated caption costs the artwork
+    test on the remainder of one page rather than pages of real prose.
+    The old `MAX_BAND_PAGES` fail-safe is gone because what it protected
+    against can no longer happen.
+
+    Artwork ids are no longer terminators -- they drop as ordinary
+    artwork, small and off-margin, whichever of ST's two conventions
+    (`MSv66119V2`, `ai15797c`) a manual uses. `with_asset_id` keeps
+    matching them purely as a health metric.
     """
 
-    #: A band may not span more than this many pages beyond its caption.
-    #: Without it, one false caption swallows pages of real content.
-    MAX_BAND_PAGES = 2
-
     def __init__(self):
-        self._open_page: int | None = None
-        self._caption: str = ""
-        self._buffer: list[tuple[str, int]] = []
         self.opened = 0
-        self.closed = 0
-        self.abandoned: list[tuple[str, str]] = []  # (caption, reason)
         self.lines_dropped = 0
         self.chars_dropped = 0
-        # Health metric only: how many bands contained one of ST's
-        # artwork ids at all. Near 100% says the band boundaries agree
-        # with where ST itself ends its drawings.
+        # Health metric: zones that contained one of ST's artwork ids at
+        # all, which says whether zone boundaries agree with where ST
+        # itself ends its drawings.
         self.with_asset_id = 0
-        self._saw_asset_id = False
+        # A page whose last line below the caption was still artwork:
+        # the figure spills onto the next page, where no zone covers it.
+        self.pages_ending_mid_artwork = 0
 
-    @property
-    def is_open(self) -> bool:
-        return self._open_page is not None
-
-    def open(self, caption: str, page: int) -> None:
-        self._open_page = page
-        self._caption = caption
-        self._buffer = []
-        self._saw_asset_id = False
+    def open(self) -> None:
         self.opened += 1
 
-    def within_bound(self, page: int) -> bool:
-        return (
-            self._open_page is not None
-            and page - self._open_page <= self.MAX_BAND_PAGES
-        )
-
-    def hold(self, text: str, page: int, saw_asset_id: bool = False) -> None:
-        self._buffer.append((text, page))
-        self._saw_asset_id = self._saw_asset_id or saw_asset_id
-
-    def close(self) -> None:
-        """A body-flow line arrived: discard the buffer and keep the line."""
-        self.lines_dropped += len(self._buffer)
-        self.chars_dropped += sum(len(t) for t, _ in self._buffer)
-        self._buffer = []
-        self._open_page = None
-        self.closed += 1
-        if self._saw_asset_id:
-            self.with_asset_id += 1
-
-    def abandon(self, reason: str = "hard bound") -> list[tuple[str, int]]:
-        """Hit the hard bound: hand every buffered line back, drop nothing."""
-        held, self._buffer = self._buffer, []
-        if self._open_page is not None:
-            self.abandoned.append((self._caption, reason))
-        self._open_page = None
-        return held
+    def drop(self, text: str) -> None:
+        self.lines_dropped += 1
+        self.chars_dropped += len(text)
 
 
 class LogicalTableTracker:

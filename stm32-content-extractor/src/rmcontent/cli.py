@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import argparse
 import json
-from collections import Counter
 import logging
 import sys
 from pathlib import Path
@@ -187,24 +186,25 @@ def main(argv: list[str] | None = None) -> int:
             file=sys.stderr,
         )
 
-    band = scanner.band
+    zone = scanner.zone
     print(
-        f"artwork bands: {band.opened} opened, {band.closed} closed by a body-flow line, "
-        f"{len(band.abandoned)} abandoned at the hard bound "
-        f"({band.lines_dropped} lines / {band.chars_dropped} chars removed)",
+        f"figure zones: {zone.opened} opened "
+        f"({zone.lines_dropped} lines / {zone.chars_dropped} chars removed)",
         file=sys.stderr,
     )
-    reasons = Counter(reason for _, reason in band.abandoned)
-    for reason, n in reasons.most_common():
-        print(f"  abandoned -- {reason}: {n}", file=sys.stderr)
-    for caption, reason in band.abandoned[:15]:
-        print(f"    {caption}  [{reason}]", file=sys.stderr)
-    if len(band.abandoned) > 15:
-        print(f"    ... and {len(band.abandoned) - 15} more", file=sys.stderr)
-    if band.closed:
+    print(
+        f"  pages reordered into reading order: {scanner.pages_reordered}",
+        file=sys.stderr,
+    )
+    if zone.opened:
         print(
-            f"  bands in which an artwork id was seen: {band.with_asset_id}"
-            f"/{band.closed} ({100 * band.with_asset_id / band.closed:.0f}%)",
+            f"  zones in which an artwork id was seen: {zone.with_asset_id}"
+            f"/{zone.opened} ({100 * zone.with_asset_id / zone.opened:.0f}%)",
+            file=sys.stderr,
+        )
+        print(
+            f"  pages ending mid-artwork (figure spills to the next page): "
+            f"{zone.pages_ending_mid_artwork}",
             file=sys.stderr,
         )
     print(

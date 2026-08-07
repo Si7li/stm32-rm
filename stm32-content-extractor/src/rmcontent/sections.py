@@ -43,9 +43,9 @@ from rmtables.headings import (
 )
 
 from .figures import FigureCaptions
-from .lines import DEFAULT_Y_TOLERANCE, page_lines
+from .lines import DEFAULT_Y_TOLERANCE, read_page_lines
 from .markers import (
-    ArtworkBand,
+    FigureZone,
     LogicalTableTracker,
     continued_note_tops,
     parse_figure_caption,
@@ -205,10 +205,11 @@ class SectionScanner:
         self.duplicate_markers = 0
         # Collapses a table split across pages to a single marker.
         self._tables = LogicalTableTracker()
-        # Figure caption -> artwork asset id: the span between them is
-        # the drawing's own label text.
+        # Everything below a page's first validated figure caption is
+        # classified line by line; see `markers.FigureZone`.
         self.figures = FigureCaptions(listed_figures)
-        self.band = ArtworkBand()
+        self.zone = FigureZone()
+        self.pages_reordered = 0
         self._seen_chapters: set[str] = set()
         self._last_chapter = 0
         self._header_re = document_header_re(document)
@@ -461,16 +462,15 @@ class SectionScanner:
     def scan_page(self, page, page_number: int) -> None:
         """Consume one page. `page_number` is 1-indexed (PDF order)."""
         try:
-            lines = [
-                dict(line, text=fix_symbols(line["text"]))
-                for line in page_lines(page, self.y_tolerance)
-            ]
+            raw_lines, reordered = read_page_lines(page, self.y_tolerance)
+            lines = [dict(line, text=fix_symbols(line["text"])) for line in raw_lines]
         except Exception:
             logger.warning("soft failure reading page %d", page_number, exc_info=True)
             return
 
         if not lines:
             return
+        self.pages_reordered += bool(reordered)
 
         # Contents / List of tables / List of figures: skipped wholesale.
         # These pages are full of lines that read exactly like headings.
@@ -517,6 +517,23 @@ class SectionScanner:
         self._notes_may_continue = self._page_ends_with_a_table(
             raw_tables, captions, body_lines, redundant_tops
         )
+
+        # The page's figure zone: everything below its FIRST validated
+        # figure caption. Found in a pre-pass rather than as the scan
+        # reaches the caption, because the zone has to cover lines that
+        # `find_captions`/`region_markers` may reorder around it, and
+        # because `lines` is now sorted so the first match is the topmost
+        # one.
+        zone_top = self._zone_top(lines)
+        if zone_top is not None:
+            self.zone.open()
+            if any(
+                contains_asset_id(line["text"])
+                for line in lines
+                if line["top"] > zone_top
+            ):
+                self.zone.with_asset_id += 1
+        last_in_zone_was_artwork = False
 
         # Everything that will land in a section, as (top, rank, kind,
         # payload) tuples so table markers interleave with prose in
@@ -617,83 +634,76 @@ class SectionScanner:
                 skip.add(i + 1)
                 continue
 
-            metrics = (line_font_size(line), line["x0"])
-
             caption = parse_figure_caption(text)
             if caption and self.figures.is_caption(caption[0], caption[1]):
                 items.append((line["top"], 2, "figure_marker", caption))
+                last_in_zone_was_artwork = False
                 continue
+
+            # Inside the figure zone, every line stands on its own
+            # merits. No closure: a body line in the middle of a drawing
+            # (RM0522's `31 24 15 7 0` bit header, a figure footnote)
+            # is kept without ending the filtering, so the artwork that
+            # follows it is still removed.
+            if zone_top is not None and line["top"] > zone_top:
+                if self.metrics.is_figure_artwork(
+                    text, line_font_size(line), line["x0"]
+                ):
+                    self.noise.figure_artwork += 1
+                    self.zone.drop(text)
+                    last_in_zone_was_artwork = True
+                    continue
+                last_in_zone_was_artwork = False
+
             # A rejected candidate is prose, not a deletion: RM0486
             # 12.4.3's "Figure 14. shows the functional view of..." is a
             # cross-reference and stays as the sentence it is.
-            items.append((line["top"], 2, "text", (text, *metrics)))
+            items.append((line["top"], 2, "text", text))
 
         items.sort(key=lambda it: (it[0], it[1]))
 
-        for _, _, kind, payload in items:
-            # Hard bound, checked before anything else on the page: a
-            # band may not run more than MAX_BAND_PAGES past its caption.
-            if self.band.is_open and not self.band.within_bound(page_number):
-                self._abandon_band("past the 2-page bound")
+        if last_in_zone_was_artwork:
+            # The page ran out while still emitting artwork, so this
+            # figure continues onto the next page, where no zone covers
+            # it. A known limit, reported rather than engineered around.
+            self.zone.pages_ending_mid_artwork += 1
 
+        for _, _, kind, payload in items:
             if kind == "heading":
-                # A heading is body flow -- body size, at a margin -- so
-                # it is exactly the "first line failing either test" that
-                # closes a band, not a hard bound that abandons it.
-                self._close_band()
                 number, title = payload
                 self._open(number, title, page_number)
             elif kind == "table_marker":
-                # A table's caption is body flow, so its region closes an
-                # open band rather than invalidating it.
-                self._close_band()
                 number, marker = payload
                 if self._tables.should_emit(number, page_number):
                     self._append(marker, page_number)
                 else:
                     self.duplicate_markers += 1
             elif kind == "figure_marker":
-                # The next caption is body-sized text, so it closes the
-                # band before opening its own. One caption, one band.
-                self._close_band()
-                number, title, marker = payload
+                _, _, marker = payload
                 self._append(marker, page_number)
-                if self.figures.may_open_band(number, title):
-                    self.band.open(marker, page_number)
             else:
-                text, size, x0 = payload
-                if self.band.is_open:
-                    if self.metrics.is_artwork(size, x0):
-                        self.band.hold(text, page_number, contains_asset_id(text))
-                        continue
-                    # First body-flow line: the band closes and this line
-                    # is KEPT.
-                    self.band.close()
+                text = payload
                 if is_asset_id(text):
-                    # No band open -- the backstop for a figure whose
-                    # caption was never recognized.
+                    # The backstop for a figure whose caption was never
+                    # recognized, so no zone covered its artwork.
                     self.noise.figure_artwork += 1
                 elif not self._consume_paren_continuation(text):
                     self._append(strip_trailing_asset_id(text), page_number)
 
-    def _close_band(self) -> None:
-        """A body-flow line arrived: discard what the band was holding."""
-        if self.band.is_open:
-            self.band.close()
+    def _zone_top(self, lines) -> float | None:
+        """The `top` of this page's first validated figure caption.
 
-    def _abandon_band(self, reason: str = "hard bound") -> None:
-        """Give every line an open band was holding back to its section.
-
-        This is the fail-safe: reaching the hard bound costs an artwork
-        leak, never a deletion.
+        `may_open_band` rather than `is_caption`: a caption only bounds a
+        deletion when the List of figures vouches for it, which is the
+        same two-tier split the band rule used. A caption good enough to
+        emit a marker is not automatically good enough to authorize
+        dropping the rest of the page.
         """
-        for text, page in self.band.abandon(reason):
-            if is_asset_id(text):
-                # Handing the buffer back must not hand back an artwork
-                # id: the id is never prose, whichever convention ST used.
-                self.noise.figure_artwork += 1
-            elif not self._consume_paren_continuation(text):
-                self._append(strip_trailing_asset_id(text), page)
+        for line in lines:
+            caption = parse_figure_caption(line["text"].strip())
+            if caption and self.figures.may_open_band(caption[0], caption[1]):
+                return line["top"]
+        return None
 
     @staticmethod
     def _title_continuation(text: str) -> str | None:
@@ -737,9 +747,7 @@ class SectionScanner:
         return True
 
     def finalize(self) -> list[Section]:
-        # A band still open at the end of the document never found its
-        # asset id, so it drops nothing.
-        self._abandon_band("end of document")
+        # Nothing to unwind: a figure zone cannot outlive its page.
         return self.sections
 
 

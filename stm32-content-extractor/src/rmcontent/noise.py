@@ -136,7 +136,7 @@ MIN_PLAUSIBLE_BODY_FONT = 6.0  # below this the sample is not believable
 #
 # This pattern is NO LONGER a band terminator: chasing conventions is
 # what made the old rule fragile, and the column rule in
-# `markers.ArtworkBand` drops both families as ordinary artwork without
+# `markers.FigureZone` drops both families as ordinary artwork without
 # knowing either. It survives only to (a) drop a standalone id whose
 # figure opened no band, and (b) report the health metric that says how
 # many bands contained an id at all.
@@ -250,9 +250,72 @@ class BodyMetrics:
         """Artwork is BOTH below body size AND off every body margin."""
         return not self.is_body_size(size) and not self.at_margin(x0)
 
+    def is_figure_artwork(self, text: str, size, x0) -> bool:
+        """Whether a line inside a page's figure zone is artwork.
+
+        Structural grammar is checked FIRST and always wins as body. The
+        size+margin test is a statistical rule and will occasionally
+        misjudge a line; the grammar below identifies content that is
+        never artwork whatever its typography, so it is never put at the
+        mercy of that rule. See `is_structural_body`.
+        """
+        if is_structural_body(text, x0, self):
+            return False
+        return self.is_artwork(size, x0)
+
     def describe(self) -> str:
         margins = ", ".join(f"{m:g}" for m in self.margins)
         return f"body size {self.size:g} pt; body margins {{{margins}}}"
+
+
+# -- structural grammar: what is never artwork ------------------------------
+#
+# The size+margin rule is statistical, and the corpus contains lines that
+# defeat it in both directions -- a register's `31 24 15 7 0` bit header
+# printed INSIDE a figure at 9.94 pt (RM0522), a footnote whose figure
+# put it off the margin. Rather than tune the rule until no such line
+# exists, the highest-value content is identified by its own grammar and
+# exempted outright: a line matching one of these is body, whatever its
+# typography says.
+#
+# Every pattern here is anchored and specific enough that a figure label
+# cannot satisfy it by accident. `Bits 15:0 BSy: Port x set I/O y` is the
+# single most valuable line shape in the corpus and the one a size
+# threshold has historically destroyed; it is now unreachable.
+_FIELD_LINE_RE = re.compile(r"^Bits?\s+\d")
+_VALUE_ENUM_RE = re.compile(r"^(?:0b[01]+|0x[0-9A-Fa-f]+|\d{1,3}):\s+\S")
+_ADMONITION_RE = re.compile(r"^(?:Note|Caution):")
+_NUMBERED_ITEM_RE = re.compile(r"^\d+\.\s+\S")
+# A caption of either kind. Deliberately looser than
+# `rmtables.captions.FIGURE_CAPTION_RE` -- this only ever KEEPS a line,
+# so tolerating ST's split renderings (`F igure`, `Table 2 6.`) costs
+# nothing and missing one would delete a caption.
+_CAPTION_LINE_RE = re.compile(r"^(?:T\s?a\s?b\s?l\s?e|F\s?i\s?g\s?u\s?r\s?e)\s*[\d\s]+\.")
+
+
+def is_structural_body(text: str, x0, metrics) -> bool:
+    """Whether this line's grammar makes it body text outright.
+
+    `x0` and `metrics` are needed only for the numbered-item rule: a
+    figure's own labels include bare `1.`-style callouts scattered across
+    the drawing, so a numbered item counts as a footnote only when it
+    starts at a body left margin -- which is where ST prints figure and
+    table footnotes, and where a drawing's interior callouts never are.
+    """
+    from rmtables.headings import HEADING_RE
+
+    stripped = text.strip()
+    if not stripped:
+        return False
+    if (
+        _FIELD_LINE_RE.match(stripped)
+        or _VALUE_ENUM_RE.match(stripped)
+        or _ADMONITION_RE.match(stripped)
+        or _CAPTION_LINE_RE.match(stripped)
+        or HEADING_RE.match(stripped)
+    ):
+        return True
+    return bool(_NUMBERED_ITEM_RE.match(stripped)) and metrics.at_margin(x0)
 
 
 _METRICS_CACHE: dict = {}
@@ -407,7 +470,7 @@ def strip_trailing_asset_id(text: str) -> str:
 def is_artwork_line(line: dict, artwork_max: float) -> bool:
     """Whether this line is too small to be prose -- the size BACKSTOP.
 
-    No longer the primary rule (`markers.ArtworkBand` is), because
+    No longer the primary rule (`markers.FigureZone` is), because
     artwork and body text overlap in size and do so differently per
     manual. It is retained because it cannot reach 9.0 pt register prose
     at `0.6 x body`, it is proven on RM0486's 0.83-3.0 pt labels, and it

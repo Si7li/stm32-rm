@@ -461,3 +461,53 @@ def test_an_artwork_column_just_off_a_margin_is_artwork():
     m = BodyMetrics(9.96, (67, 124, 145, 161, 162, 163))
     for x0 in (159.3, 159.7, 159.8):
         assert m.is_artwork(8.0, x0), x0
+
+
+# -- structural grammar (LINE_ORDER_FIGURE_FIX) ------------------------------
+
+from rmcontent.noise import is_structural_body  # noqa: E402
+
+
+def test_structural_grammar_wins_over_size_and_margin():
+    """Each of these is body whatever its typography, so a figure zone
+    can never delete one."""
+    m = BodyMetrics(9.96, (67.0, 124.0))
+    off_margin = 400.0
+    for text in (
+        "Bits 31:19 Reserved, must be kept at reset value.",
+        "Bit 0 CEN: Counter enable",
+        "0: Debugger disabled",
+        "0b101: divide by 5",
+        "0x00: no wait state",
+        "Note: The value is undefined after reset.",
+        "Caution: Do not write while busy.",
+        "Table 26. FLASH register map and reset values",
+        "Figure 30. ADC block diagram",
+        "4.7.1 FLASH access control register (FLASH_ACR)",
+    ):
+        assert is_structural_body(text, off_margin, m), text
+
+
+def test_a_numbered_item_counts_only_at_a_body_margin():
+    """A figure's interior `1.` callouts are scattered across the
+    drawing; ST prints real footnotes at the body margin."""
+    m = BodyMetrics(9.96, (67.0, 124.0))
+    assert is_structural_body("1. NBL[1:0] are driven low during read access.", 124.0, m)
+    assert not is_structural_body("1. interior callout", 401.3, m)
+
+
+def test_artwork_labels_do_not_satisfy_the_grammar():
+    m = BodyMetrics(9.96, (67.0, 124.0))
+    for text in ("CHSEL[22:0]", "VREF+", "TRG0", "BHA", "MSv68740V5",
+                 "GPIO Ports Flash memory", "31 24 15 7 0", "AUTOFF"):
+        assert not is_structural_body(text, 400.0, m), text
+
+
+def test_is_figure_artwork_checks_grammar_before_size_and_margin():
+    m = BodyMetrics(9.96, (67.0, 124.0))
+    # Small and off-margin, but register grammar.
+    assert not m.is_figure_artwork("Bits 15:0 BSy: Port x set I/O y", 6.0, 400.0)
+    # Small and off-margin, no grammar.
+    assert m.is_figure_artwork("CHSEL[22:0]", 6.0, 400.0)
+    # Body size, off-margin: not artwork under the two-condition rule.
+    assert not m.is_figure_artwork("A body-size label", 9.96, 400.0)

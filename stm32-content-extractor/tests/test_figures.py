@@ -18,7 +18,12 @@ class FakePage:
         return self._text
 
     def extract_text_lines(self, **kwargs):
-        return [{"text": t} for t in self._lines]
+        # `top` matters: `lines.read_page_lines` sorts by it, so a
+        # fixture without one cannot express the order it is testing.
+        return [
+            {"text": t, "top": 100.0 + 12.0 * i, "x0": 67.0}
+            for i, t in enumerate(self._lines)
+        ]
 
     def flush_cache(self):
         pass
