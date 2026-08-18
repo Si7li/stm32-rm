@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stproducts"
+version = "0.1.0"
+description = "Rebuild ST product-selector spreadsheets from the datasheets, with per-cell provenance"
+requires-python = ">=3.10"
+# rmtables is a hard dependency now: the datasheet is the default source of
+# truth, so PDF table extraction is on the main path, not an optional extra.
+dependencies = ["curl_cffi>=0.7", "openpyxl>=3.1", "pdfplumber>=0.11", "rmtables"]
+
+[project.scripts]
+stproducts = "stproducts.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
