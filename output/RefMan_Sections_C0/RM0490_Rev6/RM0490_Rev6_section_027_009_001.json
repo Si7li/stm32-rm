@@ -1,0 +1,281 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.9.1",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.9.1",
+      "section_title": "SPI control register 1 (SPIx_CR1)",
+      "level": 3,
+      "parent_section": "27.9",
+      "page": 876,
+      "page_end": 878,
+      "semantic_type": "register_description",
+      "features": [
+        "bidimode",
+        "bidioe",
+        "cpha",
+        "cpol",
+        "crcen",
+        "crcl",
+        "crcnext",
+        "lsbfirst",
+        "mstr",
+        "rxonly",
+        "spe",
+        "spi",
+        "ssi",
+        "ssm"
+      ],
+      "chars": 3850,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=876",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.9.1 \"SPI control register 1 (SPIx_CR1)\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 876.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000\nBit 15 BIDIMODE: Bidirectional data mode enable.\nThis bit enables half-duplex communication using common single bidirectional data line.\nKeep RXONLY bit clear when bidirectional mode is active.\n0: 2-line unidirectional data mode selected\n1: 1-line bidirectional data mode selected\nNote: This bit is not used in I2S mode.\nBit 14 BIDIOE: Output enable in bidirectional mode\nThis bit combined with the BIDIMODE bit selects the direction of transfer in bidirectional\nmode.\n0: Output disabled (receive-only mode)\n1: Output enabled (transmit-only mode)\nNote: In master mode, the MOSI pin is used and in slave mode, the MISO pin is used.\nThis bit is not used in I2S mode.\nBit 13 CRCEN: Hardware CRC calculation enable\n0: CRC calculation disabled\n1: CRC calculation enabled\nNote: This bit should be written only when SPI is disabled (SPE = ‘0’) for correct operation.\nThis bit is not used in I2S mode.\nBit 12 CRCNEXT: Transmit CRC next\n0: Next transmit value is from Tx buffer.\n1: Next transmit value is from Tx CRC register.\nNote: This bit has to be written as soon as the last data is written in the SPIx_DR register.\nThis bit is not used in I2S mode.\nBit 11 CRCL: CRC length\nThis bit is set and cleared by software to select the CRC length.\n0: 8-bit CRC length\n1: 16-bit CRC length\nNote: This bit should be written only when SPI is disabled (SPE = ‘0’) for correct operation.\nThis bit is not used in I2S mode.\nBit 10 RXONLY: Receive only mode enabled.\nThis bit enables simplex communication using a single unidirectional line to receive data\nexclusively. Keep BIDIMODE bit clear when receive only mode is active.This bit is also\nuseful in a multislave system in which this particular slave is not accessed, the output from\nthe accessed slave is not corrupted.\n0: Full-duplex (Transmit and receive)\n1: Output disabled (Receive-only mode)\nNote: This bit is not used in I2S mode.\nBit 9 SSM: Software slave management\nWhen the SSM bit is set, the NSS pin input is replaced with the value from the SSI bit.\n0: Software slave management disabled\n1: Software slave management enabled\nNote: This bit is not used in I2S mode and SPI TI mode.\nBit 8 SSI: Internal slave select\nThis bit has an effect only when the SSM bit is set. The value of this bit is forced onto the\nNSS pin and the I/O value of the NSS pin is ignored.\nNote: This bit is not used in I2S mode and SPI TI mode.\nBit 7 LSBFIRST: Frame format\n0: data is transmitted / received with the MSB first\n1: data is transmitted / received with the LSB first\nNote: 1. This bit should not be changed when communication is ongoing.\n2. This bit is not used in I2S mode and SPI TI mode.\nBit 6 SPE: SPI enable\n0: Peripheral disabled\n1: Peripheral enabled\nNote: When disabling the SPI, follow the procedure described in Procedure for disabling the\nSPI on page842.\nThis bit is not used in I2S mode.\nBits 5:3 BR[2:0]: Baud rate control\n000: fPCLK/2\n001: fPCLK/4\n010: fPCLK/8\n011: fPCLK/16\n100: fPCLK/32\n101: fPCLK/64\n110: fPCLK/128\n111: fPCLK/256\nNote: These bits should not be changed when communication is ongoing.\nThese bits are not used in I2S mode.\nBit 2 MSTR: Master selection\n0: Slave configuration\n1: Master configuration\nNote: This bit should not be changed when communication is ongoing.\nThis bit is not used in I2S mode.\nBit 1 CPOL: Clock polarity\n0: CK to 0 when idle\n1: CK to 1 when idle\nNote: This bit should not be changed when communication is ongoing.\nThis bit is not used in I2S mode and SPI TI mode except the case when CRC is applied\nat TI mode.\nBit 0 CPHA: Clock phase\n0: The first clock transition is the first data capture edge\n1: The second clock transition is the first data capture edge\nNote: This bit should not be changed when communication is ongoing.\nThis bit is not used in I2S mode and SPI TI mode except the case when CRC is applied\nat TI mode.",
+      "semantic": {
+        "register": "SPIx_CR1",
+        "address_offset": "0x00",
+        "reset_value": "0x0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "15",
+            "name": "BIDIMODE",
+            "description": "Bidirectional data mode enable. This bit enables half-duplex communication using common single bidirectional data line. Keep RXONLY bit clear when bidirectional mode is active. Note: This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "2-line unidirectional data mode selected"
+              },
+              {
+                "value": "1",
+                "meaning": "1-line bidirectional data mode selected"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "BIDIOE",
+            "description": "Output enable in bidirectional mode This bit combined with the BIDIMODE bit selects the direction of transfer in bidirectional mode. Note: In master mode, the MOSI pin is used and in slave mode, the MISO pin is used. This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Output disabled (receive-only mode)"
+              },
+              {
+                "value": "1",
+                "meaning": "Output enabled (transmit-only mode)"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "CRCEN",
+            "description": "Hardware CRC calculation enable Note: This bit should be written only when SPI is disabled (SPE = ‘0’) for correct operation. This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CRC calculation disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "CRC calculation enabled"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "CRCNEXT",
+            "description": "Transmit CRC next Note: This bit has to be written as soon as the last data is written in the SPIx_DR register. This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Next transmit value is from Tx buffer."
+              },
+              {
+                "value": "1",
+                "meaning": "Next transmit value is from Tx CRC register."
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "CRCL",
+            "description": "CRC length This bit is set and cleared by software to select the CRC length. Note: This bit should be written only when SPI is disabled (SPE = ‘0’) for correct operation. This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "8-bit CRC length"
+              },
+              {
+                "value": "1",
+                "meaning": "16-bit CRC length"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "RXONLY",
+            "description": "Receive only mode enabled. This bit enables simplex communication using a single unidirectional line to receive data exclusively. Keep BIDIMODE bit clear when receive only mode is active.This bit is also useful in a multislave system in which this particular slave is not accessed, the output from the accessed slave is not corrupted. Note: This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Full-duplex (Transmit and receive)"
+              },
+              {
+                "value": "1",
+                "meaning": "Output disabled (Receive-only mode)"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "SSM",
+            "description": "Software slave management When the SSM bit is set, the NSS pin input is replaced with the value from the SSI bit. Note: This bit is not used in I2S mode and SPI TI mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Software slave management disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Software slave management enabled"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "SSI",
+            "description": "Internal slave select This bit has an effect only when the SSM bit is set. The value of this bit is forced onto the NSS pin and the I/O value of the NSS pin is ignored. Note: This bit is not used in I2S mode and SPI TI mode.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "LSBFIRST",
+            "description": "Frame format Note: 1. This bit should not be changed when communication is ongoing. 2. This bit is not used in I2S mode and SPI TI mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "data is transmitted / received with the MSB first"
+              },
+              {
+                "value": "1",
+                "meaning": "data is transmitted / received with the LSB first"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "SPE",
+            "description": "SPI enable Note: When disabling the SPI, follow the procedure described in Procedure for disabling the SPI on page842. This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Peripheral disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Peripheral enabled"
+              }
+            ]
+          },
+          {
+            "bits": "5:3",
+            "name": "BR[2:0]",
+            "description": "Baud rate control Note: These bits should not be changed when communication is ongoing. These bits are not used in I2S mode.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "fPCLK/2"
+              },
+              {
+                "value": "001",
+                "meaning": "fPCLK/4"
+              },
+              {
+                "value": "010",
+                "meaning": "fPCLK/8"
+              },
+              {
+                "value": "011",
+                "meaning": "fPCLK/16"
+              },
+              {
+                "value": "100",
+                "meaning": "fPCLK/32"
+              },
+              {
+                "value": "101",
+                "meaning": "fPCLK/64"
+              },
+              {
+                "value": "110",
+                "meaning": "fPCLK/128"
+              },
+              {
+                "value": "111",
+                "meaning": "fPCLK/256"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "MSTR",
+            "description": "Master selection Note: This bit should not be changed when communication is ongoing. This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Slave configuration"
+              },
+              {
+                "value": "1",
+                "meaning": "Master configuration"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CPOL",
+            "description": "Clock polarity Note: This bit should not be changed when communication is ongoing. This bit is not used in I2S mode and SPI TI mode except the case when CRC is applied at TI mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CK to 0 when idle"
+              },
+              {
+                "value": "1",
+                "meaning": "CK to 1 when idle"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CPHA",
+            "description": "Clock phase Note: This bit should not be changed when communication is ongoing. This bit is not used in I2S mode and SPI TI mode except the case when CRC is applied at TI mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The first clock transition is the first data capture edge"
+              },
+              {
+                "value": "1",
+                "meaning": "The second clock transition is the first data capture edge"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

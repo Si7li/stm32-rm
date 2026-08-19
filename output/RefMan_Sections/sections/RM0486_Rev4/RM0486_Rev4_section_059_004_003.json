@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S59.4.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "59",
+      "chapter_title": "Independent watchdog (IWDG)",
+      "section": "59.4.3",
+      "section_title": "Software and hardware watchdog modes",
+      "level": 3,
+      "parent_section": "59.4",
+      "page": 2981,
+      "page_end": 2982,
+      "semantic_type": "generic",
+      "features": [
+        "hardware",
+        "modes",
+        "software",
+        "watchdog"
+      ],
+      "chars": 2004,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2981",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 59.4.3 \"Software and hardware watchdog modes\" in chapter 59 (Independent watchdog (IWDG)), RM0486 Rev 4, page 2981.",
+      "section_content": "The watchdog modes allow the application to select the way the IWDG is enabled, either by\nsoftware commands (Software watchdog mode), or automatically (Hardware watchdog\nmode). All other functions work similarly for both Software and Hardware modes.\nThe software watchdog mode is the default working mode. The independent watchdog is\nstarted by writing the value 0x0000 CCCC into the IWDG key register (IWDG_KR), and the\nIWDCNT starts counting down from the reset value (0xFFF).\nIn the hardware watchdog mode the independent watchdog is generally started\nautomatically at power-on, or every time it is reset (via iwdg_in_rst). The IWDCNT down-\ncounter starts counting down from the reset value 0xFFF. The hardware watchdog mode\nfeature is enabled through the device option bits, see Section59.3 for details.\nWhen the IWDG is enabled the ONF flag is set to 1.\nWhen the IWDCNT reaches 0x000, a reset signal is generated (iwdg_out_rst asserted).\nWhenever the key value 0x0000 AAAA is written in the IWDG key register (IWDG_KR), the\nIWDG_RLR value is reloaded into the IWDCNT, and the watchdog reset is prevented.\nDue to re-synchronization delays, the IWDG must be refreshed before the IWDCNT\ndown-counter reaches 1.\nOnce started, the IWDG can be stopped only when it is reset (iwdg_in_rst asserted).\nAs shown in Figure773, when the refresh command is executed, one period of presc_ck\nlater, the IWDCNT is reloaded with the content of RL[11:0].\n[Figure 773. Reset timing due to timeout]\nIWDCNT value\nRefresh not allowed(1) Refresh allowed\n0xFFF\nRL[11:0]\nWIN[11:0]\nTime\nWriting 0xAAAA\ninto IWDG_KR\niwdg_out_rst\niwdg_in_rst\n1. If window option activated.\nIf the IWDG is not refreshed before the IWDCNT reaches 1, the IWDG generates a reset\n(iwdg_out_rst is asserted). In return, the RCC resets the IWDG (assertion of iwdg_in_rst) to\nclear the reset source.\nNote: The iwdg_out_rst signal typically triggers a system reset, however, this behavior may vary\nacross products. For more details, refer to Chapter59.3.",
+      "semantic": {}
+    }
+  ]
+}

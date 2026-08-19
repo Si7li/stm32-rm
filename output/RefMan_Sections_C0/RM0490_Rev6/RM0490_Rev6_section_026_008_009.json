@@ -1,0 +1,450 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S26.8.9",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "26",
+      "chapter_title": "Universal synchronous receiver transmitter (USART)",
+      "section": "26.8.9",
+      "section_title": "USART interrupt and status register (USART_ISR)",
+      "level": 3,
+      "parent_section": "26.8",
+      "page": 813,
+      "page_end": 819,
+      "semantic_type": "register_description",
+      "features": [
+        "abre",
+        "abrf",
+        "busy",
+        "cmf",
+        "cts",
+        "ctsif",
+        "eobf",
+        "idle",
+        "interrupt",
+        "lbdf",
+        "ore",
+        "reack",
+        "rtof",
+        "rwu",
+        "rxff",
+        "rxfne",
+        "rxft",
+        "sbkf",
+        "tcbgt",
+        "teack",
+        "txfe",
+        "txfnf",
+        "txft",
+        "udr",
+        "usart",
+        "usart-isr",
+        "wuf"
+      ],
+      "chars": 14677,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=813",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.8.9 \"USART interrupt and status register (USART_ISR)\" in chapter 26 (Universal synchronous receiver transmitter (USART)), RM0490 Rev 6, page 813.",
+      "section_content": "Address offset: 0x1C\nReset value: 0x0X8000C0\nX = 2 if FIFO/smartcard mode is enabled\nX = 0 if FIFO is enabled and smartcard mode is disabled\nThe same register can be used in FIFO mode enabled (this section) and FIFO mode\ndisabled (next section).\nFIFO mode enabled\nBits 31:28 Reserved, must be kept at reset value.\nBit 27 TXFT: TXFIFO threshold flag\nThis bit is set by hardware when the TXFIFO reaches the threshold programmed in\nTXFTCFG of USART_CR3 register i.e. the TXFIFO contains TXFTCFG empty locations. An\ninterrupt is generated if the TXFTIE bit =1 (bit 31) in the USART_CR3 register.\n0: TXFIFO does not reach the programmed threshold.\n1: TXFIFO reached the programmed threshold.\nBit 26 RXFT: RXFIFO threshold flag\nThis bit is set by hardware when the threshold programmed in RXFTCFG in USART_CR3\nregister is reached. This means that there are (RXFTCFG - 1) data in the Receive FIFO and\none data in the USART_RDR register. An interrupt is generated if the RXFTIE bit =1 (bit\n27) in the USART_CR3 register.\n0: Receive FIFO does not reach the programmed threshold.\n1: Receive FIFO reached the programmed threshold.\nNote: When the RXFTCFG threshold is configured to ‘101’, RXFT flag is set if 16 data are\navailable i.e. 15 data in the RXFIFO and 1 data in the USART_RDR. Consequently, the\n17th received data does not cause an overrun error. The overrun error occurs after\nreceiving the 18th data.\nBit 25 TCBGT: Transmission complete before guard time flag\nThis bit is set when the last data written in the USART_TDR has been transmitted correctly\nout of the shift register.\nIt is set by hardware in smartcard mode, if the transmission of a frame containing data is\ncomplete and if the smartcard did not send back any NACK. An interrupt is generated if\nTCBGTIE=1 in the USART_CR3 register.\nThis bit is cleared by software, by writing 1 to the TCBGTCF in the USART_ICR register or\nby a write to the USART_TDR register.\n0: Transmission is not complete or transmission is complete unsuccessfully (i.e. a NACK is\nreceived from the card)\n1: Transmission is complete successfully (before Guard time completion and there is no\nNACK from the smart card).\nNote: If the USART does not support the smartcard mode, this bit is reserved and kept at\nreset value. If the USART supports the smartcard mode and the smartcard mode is\nenabled, the TCBGT reset value is ‘1’. Refer to Section26.4: USART implementation\non page745.\nBit 24 RXFF: RXFIFO full\nThis bit is set by hardware when the number of received data corresponds to\nRXFIFOsize+1 (RXFIFO full + 1 data in the USART_RDR register.\nAn interrupt is generated if the RXFFIE bit =1 in the USART_CR1 register.\n0: RXFIFO not full.\n1: RXFIFO Full.\nBit 23 TXFE: TXFIFO empty\nThis bit is set by hardware when TXFIFO is empty. When the TXFIFO contains at least one\ndata, this flag is cleared. The TXFE flag can also be set by writing 1 to the bit TXFRQ (bit 4)\nin the USART_RQR register.\nAn interrupt is generated if the TXFEIE bit =1 (bit 30) in the USART_CR1 register.\n0: TXFIFO not empty.\n1: TXFIFO empty.\nBit 22 REACK: Receive enable acknowledge flag\nThis bit is set/reset by hardware, when the Receive Enable value is taken into account by\nthe USART.\nIt can be used to verify that the USART is ready for reception before entering low-power\nmode.\nNote: If the USART does not support the wake-up from Stop feature, this bit is reserved and\nkept at reset value. Refer to Section26.4: USART implementation on page745.\nBit 21 TEACK: Transmit enable acknowledge flag\nThis bit is set/reset by hardware, when the Transmit Enable value is taken into account by\nthe USART.\nIt can be used when an idle frame request is generated by writing TE=0, followed by\nTE=1 in the USART_CR1 register, in order to respect the TE=0 minimum period.\nBit 20 WUF: Wake-up from low-power mode flag\nThis bit is set by hardware, when a wake-up event is detected. The event is defined by the\nWUS bitfield. It is cleared by software, writing a 1 to the WUCF in the USART_ICR register.\nAn interrupt is generated if WUFIE=1 in the USART_CR3 register.\nNote: When UESM is cleared, WUF flag is also cleared.\nIf the USART does not support the wake-up from Stop feature, this bit is reserved and\nkept at reset value. Refer to Section26.4: USART implementation on page745.\nBit 19 RWU: Receiver wake-up from mute mode\nThis bit indicates if the USART is in mute mode. It is cleared/set by hardware when a wake-\nup/mute sequence is recognized. The mute mode control sequence (address or IDLE) is\nselected by the WAKE bit in the USART_CR1 register.\nWhen wake-up on IDLE mode is selected, this bit can only be set by software, writing 1 to\nthe MMRQ bit in the USART_RQR register.\n0: Receiver in active mode\n1: Receiver in mute mode\nNote: If the USART does not support the wake-up from Stop feature, this bit is reserved and\nkept at reset value. Refer to Section26.4: USART implementation on page745.\nBit 18 SBKF: Send break flag\nThis bit indicates that a send break character was requested. It is set by software, by writing\n1 to the SBKRQ bit in the USART_CR3 register. It is automatically reset by hardware during\nthe stop bit of break transmission.\n0: Break character transmitted\n1: Break character requested by setting SBKRQ bit in USART_RQR register\nBit 17 CMF: Character match flag\nThis bit is set by hardware, when a the character defined by ADD[7:0] is received. It is\ncleared by software, writing 1 to the CMCF in the USART_ICR register.\nAn interrupt is generated if CMIE=1in the USART_CR1 register.\n0: No Character match detected\n1: Character Match detected\nBit 16 BUSY: Busy flag\nThis bit is set and reset by hardware. It is active when a communication is ongoing on the\nRX line (successful start bit detected). It is reset at the end of the reception (successful or\nnot).\n0: USART is idle (no reception)\n1: Reception on going\nBit 15 ABRF: Auto baud rate flag\nThis bit is set by hardware when the automatic baud rate has been set (RXFNE is also set,\ngenerating an interrupt if RXFNEIE = 1) or when the auto baud rate operation was\ncompleted without success (ABRE=1) (ABRE, RXFNE and FE are also set in this case)\nIt is cleared by software, in order to request a new auto baud rate detection, by writing 1 to\nthe ABRRQ in the USART_RQR register.\nNote: If the USART does not support the auto baud rate feature, this bit is reserved and kept\nat reset value.\nBit 14 ABRE: Auto baud rate error\nThis bit is set by hardware if the baud rate measurement failed (baud rate out of range or\ncharacter comparison failed)\nIt is cleared by software, by writing 1 to the ABRRQ bit in the USART_RQR register.\nNote: If the USART does not support the auto baud rate feature, this bit is reserved and kept\nat reset value.\nBit 13 UDR: SPI slave underrun error flag\nIn slave transmission mode, this flag is set when the first clock pulse for data transmission\nappears while the software has not yet loaded any value into USART_TDR. This flag is\nreset by setting UDRCF bit in the USART_ICR register.\n0: No underrun error\n1: underrun error\nNote: If the USART does not support the SPI slave mode, this bit is reserved and kept at\nreset value. Refer to Section26.4: USART implementation on page745.\nBit 12 EOBF: End of block flag\nThis bit is set by hardware when a complete block has been received (for example T=1\nsmartcard mode). The detection is done when the number of received bytes (from the start\nof the block, including the prologue) is equal or greater than BLEN + 4.\nAn interrupt is generated if the EOBIE=1 in the USART_CR1 register.\nIt is cleared by software, writing 1 to the EOBCF in the USART_ICR register.\n0: End of Block not reached\n1: End of Block (number of characters) reached\nNote: If smartcard mode is not supported, this bit is reserved and kept at reset value. Refer to\nSection26.4: USART implementation on page745.\nBit 11 RTOF: Receiver timeout\nThis bit is set by hardware when the timeout value, programmed in the RTOR register has\nlapsed, without any communication. It is cleared by software, writing 1 to the RTOCF bit in\nthe USART_ICR register.\nAn interrupt is generated if RTOIE=1 in the USART_CR2 register.\nIn smartcard mode, the timeout corresponds to the CWT or BWT timings.\n0: Timeout value not reached\n1: Timeout value reached without any data reception\nNote: If a time equal to the value programmed in RTOR register separates 2 characters,\nRTOF is not set. If this time exceeds this value + 2 sample times (2/16 or 2/8,\ndepending on the oversampling method), RTOF flag is set.\nThe counter counts even if RE = 0 but RTOF is set only when RE = 1. If the timeout has\nalready elapsed when RE is set, then RTOF is set.\nIf the USART does not support the Receiver timeout feature, this bit is reserved and\nkept at reset value.\nBit 10 CTS: CTS flag\nThis bit is set/reset by hardware. It is an inverted copy of the status of the CTS input pin.\n0: CTS line set\n1: CTS line reset\nNote: If the hardware flow control feature is not supported, this bit is reserved and kept at\nreset value.\nBit 9 CTSIF: CTS interrupt flag\nThis bit is set by hardware when the CTS input toggles, if the CTSE bit is set. It is cleared by\nsoftware, by writing 1 to the CTSCF bit in the USART_ICR register.\nAn interrupt is generated if CTSIE=1 in the USART_CR3 register.\n0: No change occurred on the CTS status line\n1: A change occurred on the CTS status line\nNote: If the hardware flow control feature is not supported, this bit is reserved and kept at\nreset value.\nBit 8 LBDF: LIN break detection flag\nThis bit is set by hardware when the LIN break is detected. It is cleared by software, by\nwriting 1 to the LBDCF in the USART_ICR.\nAn interrupt is generated if LBDIE = 1 in the USART_CR2 register.\n0: LIN Break not detected\n1: LIN break detected\nNote: If the USART does not support LIN mode, this bit is reserved and kept at reset value.\nRefer to Section26.4: USART implementation on page745.\nBit 7 TXFNF: TXFIFO not full\nTXFNF is set by hardware when TXFIFO is not full meaning that data can be written in the\nUSART_TDR. Every write operation to the USART_TDR places the data in the TXFIFO.\nThis flag remains set until the TXFIFO is full. When the TXFIFO is full, this flag is cleared\nindicating that data can not be written into the USART_TDR.\nAn interrupt is generated if the TXFNFIE bit =1 in the USART_CR1 register.\n0: Transmit FIFO is full\n1: Transmit FIFO is not full\nNote: The TXFNF is kept reset during the flush request until TXFIFO is empty. After sending\nthe flush request (by setting TXFRQ bit), the flag TXFNF should be checked prior to\nwriting in TXFIFO (TXFNF and TXFE are set at the same time).\nThis bit is used during single buffer transmission.\nBit 6 TC: Transmission complete\nThis bit indicates that the last data written in the USART_TDR has been transmitted out of\nthe shift register.\nIt is set by hardware when the transmission of a frame containing data is complete and\nwhen TXFE is set.\nAn interrupt is generated if TCIE=1 in the USART_CR1 register.\nTC bit is is cleared by software, by writing 1 to the TCCF in the USART_ICR register or by a\nwrite to the USART_TDR register.\n0: Transmission is not complete\n1: Transmission is complete\nNote: If TE bit is reset and no transmission is on going, the TC bit is immediately set.\nBit 5 RXFNE: RXFIFO not empty\nRXFNE bit is set by hardware when the RXFIFO is not empty, meaning that data can be\nread from the USART_RDR register. Every read operation from the USART_RDR frees a\nlocation in the RXFIFO.\nRXFNE is cleared when the RXFIFO is empty. The RXFNE flag can also be cleared by\nwriting 1 to the RXFRQ in the USART_RQR register.\nAn interrupt is generated if RXFNEIE=1 in the USART_CR1 register.\n0: Data is not received\n1: Received data is ready to be read.\nBit 4 IDLE: Idle line detected\nThis bit is set by hardware when an Idle Line is detected. An interrupt is generated if\nIDLEIE=1 in the USART_CR1 register. It is cleared by software, writing 1 to the IDLECF in\nthe USART_ICR register.\n0: No Idle line is detected\n1: Idle line is detected\nNote: The IDLE bit is not set again until the RXFNE bit has been set (i.e. a new idle line\noccurs).\nIf mute mode is enabled (MME=1), IDLE is set if the USART is not mute (RWU=0),\nwhatever the mute mode selected by the WAKE bit. If RWU=1, IDLE is not set.\nBit 3 ORE: Overrun error\nThis bit is set by hardware when the data currently being received in the shift register is\nready to be transferred into the USART_RDR register while RXFF = 1. It is cleared by a\nsoftware, writing 1 to the ORECF, in the USART_ICR register.\nAn interrupt is generated if RXFNEIE=1 in the USART_CR1 register, or EIE = 1 in the\nUSART_CR3 register.\n0: No overrun error\n1: Overrun error is detected\nNote: When this bit is set, the USART_RDR register content is not lost but the shift register is\noverwritten. An interrupt is generated if the ORE flag is set during multi buffer\ncommunication if the EIE bit is set.\nThis bit is permanently forced to 0 (no overrun detection) when the bit OVRDIS is set in\nthe USART_CR3 register.\nBit 2 NE: Noise detection flag\nThis bit is set by hardware when noise is detected on a received frame. It is cleared by\nsoftware, writing 1 to the NECF bit in the USART_ICR register.\n0: No noise is detected\n1: Noise is detected\nNote: This bit does not generate an interrupt as it appears at the same time as the RXFNE bit\nwhich itself generates an interrupt. An interrupt is generated when the NE flag is set\nduring multi buffer communication if the EIE bit is set.\nWhen the line is noise-free, the NE flag can be disabled by programming the ONEBIT\nbit to 1 to increase the USART tolerance to deviations (Refer to Section26.5.8:\nTolerance of the USART receiver to clock deviation on page763).\nThis error is associated with the character in the USART_RDR.\nBit 1 FE: Framing error\nThis bit is set by hardware when a de-synchronization, excessive noise or a break character\nis detected. It is cleared by software, writing 1 to the FECF bit in the USART_ICR register.\nWhen transmitting data in smartcard mode, this bit is set when the maximum number of\ntransmit attempts is reached without success (the card NACKs the data frame).\nAn interrupt is generated if EIE=1 in the USART_CR3 register.\n0: No Framing error is detected\n1: Framing error or break character is detected\nNote: This error is associated with the character in the USART_RDR.\nBit 0 PE: Parity error\nThis bit is set by hardware when a parity error occurs in receiver mode. It is cleared by\nsoftware, writing 1 to the PECF in the USART_ICR register.\nAn interrupt is generated if PEIE = 1 in the USART_CR1 register.\n0: No parity error\n1: Parity error\nNote: This error is associated with the character in the USART_RDR.",
+      "semantic": {
+        "register": "USART_ISR",
+        "address_offset": "0x1C",
+        "reset_value": "0x0X8000C0",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "TXFT",
+            "description": "TXFIFO threshold flag This bit is set by hardware when the TXFIFO reaches the threshold programmed in TXFTCFG of USART_CR3 register i.e. the TXFIFO contains TXFTCFG empty locations. An interrupt is generated if the TXFTIE bit =1 (bit 31) in the USART_CR3 register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "TXFIFO does not reach the programmed threshold."
+              },
+              {
+                "value": "1",
+                "meaning": "TXFIFO reached the programmed threshold."
+              }
+            ]
+          },
+          {
+            "bits": "26",
+            "name": "RXFT",
+            "description": "RXFIFO threshold flag This bit is set by hardware when the threshold programmed in RXFTCFG in USART_CR3 register is reached. This means that there are (RXFTCFG - 1) data in the Receive FIFO and one data in the USART_RDR register. An interrupt is generated if the RXFTIE bit =1 (bit 27) in the USART_CR3 register. Note: When the RXFTCFG threshold is configured to ‘101’, RXFT flag is set if 16 data are available i.e. 15 data in the RXFIFO and 1 data in the USART_RDR. Consequently, the 17th received data does not cause an overrun error. The overrun error occurs after receiving the 18th data.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Receive FIFO does not reach the programmed threshold."
+              },
+              {
+                "value": "1",
+                "meaning": "Receive FIFO reached the programmed threshold."
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "TCBGT",
+            "description": "Transmission complete before guard time flag This bit is set when the last data written in the USART_TDR has been transmitted correctly out of the shift register. It is set by hardware in smartcard mode, if the transmission of a frame containing data is complete and if the smartcard did not send back any NACK. An interrupt is generated if TCBGTIE=1 in the USART_CR3 register. This bit is cleared by software, by writing 1 to the TCBGTCF in the USART_ICR register or by a write to the USART_TDR register. received from the card) NACK from the smart card). Note: If the USART does not support the smartcard mode, this bit is reserved and kept at reset value. If the USART supports the smartcard mode and the smartcard mode is enabled, the TCBGT reset value is ‘1’. Refer to Section26.4: USART implementation on page745.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Transmission is not complete or transmission is complete unsuccessfully (i.e. a NACK is"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmission is complete successfully (before Guard time completion and there is no"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "RXFF",
+            "description": "RXFIFO full This bit is set by hardware when the number of received data corresponds to RXFIFOsize+1 (RXFIFO full + 1 data in the USART_RDR register. An interrupt is generated if the RXFFIE bit =1 in the USART_CR1 register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RXFIFO not full."
+              },
+              {
+                "value": "1",
+                "meaning": "RXFIFO Full."
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "TXFE",
+            "description": "TXFIFO empty This bit is set by hardware when TXFIFO is empty. When the TXFIFO contains at least one data, this flag is cleared. The TXFE flag can also be set by writing 1 to the bit TXFRQ (bit 4) in the USART_RQR register. An interrupt is generated if the TXFEIE bit =1 (bit 30) in the USART_CR1 register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "TXFIFO not empty."
+              },
+              {
+                "value": "1",
+                "meaning": "TXFIFO empty."
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "REACK",
+            "description": "Receive enable acknowledge flag This bit is set/reset by hardware, when the Receive Enable value is taken into account by the USART. It can be used to verify that the USART is ready for reception before entering low-power mode. Note: If the USART does not support the wake-up from Stop feature, this bit is reserved and kept at reset value. Refer to Section26.4: USART implementation on page745.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "TEACK",
+            "description": "Transmit enable acknowledge flag This bit is set/reset by hardware, when the Transmit Enable value is taken into account by the USART. It can be used when an idle frame request is generated by writing TE=0, followed by TE=1 in the USART_CR1 register, in order to respect the TE=0 minimum period.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "WUF",
+            "description": "Wake-up from low-power mode flag This bit is set by hardware, when a wake-up event is detected. The event is defined by the WUS bitfield. It is cleared by software, writing a 1 to the WUCF in the USART_ICR register. An interrupt is generated if WUFIE=1 in the USART_CR3 register. Note: When UESM is cleared, WUF flag is also cleared. If the USART does not support the wake-up from Stop feature, this bit is reserved and kept at reset value. Refer to Section26.4: USART implementation on page745.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "RWU",
+            "description": "Receiver wake-up from mute mode This bit indicates if the USART is in mute mode. It is cleared/set by hardware when a wake- up/mute sequence is recognized. The mute mode control sequence (address or IDLE) is selected by the WAKE bit in the USART_CR1 register. When wake-up on IDLE mode is selected, this bit can only be set by software, writing 1 to the MMRQ bit in the USART_RQR register. Note: If the USART does not support the wake-up from Stop feature, this bit is reserved and kept at reset value. Refer to Section26.4: USART implementation on page745.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Receiver in active mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Receiver in mute mode"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "SBKF",
+            "description": "Send break flag This bit indicates that a send break character was requested. It is set by software, by writing 1 to the SBKRQ bit in the USART_CR3 register. It is automatically reset by hardware during the stop bit of break transmission.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Break character transmitted"
+              },
+              {
+                "value": "1",
+                "meaning": "Break character requested by setting SBKRQ bit in USART_RQR register"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "CMF",
+            "description": "Character match flag This bit is set by hardware, when a the character defined by ADD[7:0] is received. It is cleared by software, writing 1 to the CMCF in the USART_ICR register. An interrupt is generated if CMIE=1in the USART_CR1 register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Character match detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Character Match detected"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "BUSY",
+            "description": "Busy flag This bit is set and reset by hardware. It is active when a communication is ongoing on the RX line (successful start bit detected). It is reset at the end of the reception (successful or not).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "USART is idle (no reception)"
+              },
+              {
+                "value": "1",
+                "meaning": "Reception on going"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "ABRF",
+            "description": "Auto baud rate flag This bit is set by hardware when the automatic baud rate has been set (RXFNE is also set, generating an interrupt if RXFNEIE = 1) or when the auto baud rate operation was completed without success (ABRE=1) (ABRE, RXFNE and FE are also set in this case) It is cleared by software, in order to request a new auto baud rate detection, by writing 1 to the ABRRQ in the USART_RQR register. Note: If the USART does not support the auto baud rate feature, this bit is reserved and kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "ABRE",
+            "description": "Auto baud rate error This bit is set by hardware if the baud rate measurement failed (baud rate out of range or character comparison failed) It is cleared by software, by writing 1 to the ABRRQ bit in the USART_RQR register. Note: If the USART does not support the auto baud rate feature, this bit is reserved and kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "UDR",
+            "description": "SPI slave underrun error flag In slave transmission mode, this flag is set when the first clock pulse for data transmission appears while the software has not yet loaded any value into USART_TDR. This flag is reset by setting UDRCF bit in the USART_ICR register. Note: If the USART does not support the SPI slave mode, this bit is reserved and kept at reset value. Refer to Section26.4: USART implementation on page745.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No underrun error"
+              },
+              {
+                "value": "1",
+                "meaning": "underrun error"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "EOBF",
+            "description": "End of block flag This bit is set by hardware when a complete block has been received (for example T=1 smartcard mode). The detection is done when the number of received bytes (from the start of the block, including the prologue) is equal or greater than BLEN + 4. An interrupt is generated if the EOBIE=1 in the USART_CR1 register. It is cleared by software, writing 1 to the EOBCF in the USART_ICR register. Note: If smartcard mode is not supported, this bit is reserved and kept at reset value. Refer to Section26.4: USART implementation on page745.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "End of Block not reached"
+              },
+              {
+                "value": "1",
+                "meaning": "End of Block (number of characters) reached"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "RTOF",
+            "description": "Receiver timeout This bit is set by hardware when the timeout value, programmed in the RTOR register has lapsed, without any communication. It is cleared by software, writing 1 to the RTOCF bit in the USART_ICR register. An interrupt is generated if RTOIE=1 in the USART_CR2 register. In smartcard mode, the timeout corresponds to the CWT or BWT timings. Note: If a time equal to the value programmed in RTOR register separates 2 characters, RTOF is not set. If this time exceeds this value + 2 sample times (2/16 or 2/8, depending on the oversampling method), RTOF flag is set. The counter counts even if RE = 0 but RTOF is set only when RE = 1. If the timeout has already elapsed when RE is set, then RTOF is set. If the USART does not support the Receiver timeout feature, this bit is reserved and kept at reset value.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Timeout value not reached"
+              },
+              {
+                "value": "1",
+                "meaning": "Timeout value reached without any data reception"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "CTS",
+            "description": "CTS flag This bit is set/reset by hardware. It is an inverted copy of the status of the CTS input pin. Note: If the hardware flow control feature is not supported, this bit is reserved and kept at reset value.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CTS line set"
+              },
+              {
+                "value": "1",
+                "meaning": "CTS line reset"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "CTSIF",
+            "description": "CTS interrupt flag This bit is set by hardware when the CTS input toggles, if the CTSE bit is set. It is cleared by software, by writing 1 to the CTSCF bit in the USART_ICR register. An interrupt is generated if CTSIE=1 in the USART_CR3 register. Note: If the hardware flow control feature is not supported, this bit is reserved and kept at reset value.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No change occurred on the CTS status line"
+              },
+              {
+                "value": "1",
+                "meaning": "A change occurred on the CTS status line"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "LBDF",
+            "description": "LIN break detection flag This bit is set by hardware when the LIN break is detected. It is cleared by software, by writing 1 to the LBDCF in the USART_ICR. An interrupt is generated if LBDIE = 1 in the USART_CR2 register. Note: If the USART does not support LIN mode, this bit is reserved and kept at reset value. Refer to Section26.4: USART implementation on page745.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "LIN Break not detected"
+              },
+              {
+                "value": "1",
+                "meaning": "LIN break detected"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "TXFNF",
+            "description": "TXFIFO not full TXFNF is set by hardware when TXFIFO is not full meaning that data can be written in the USART_TDR. Every write operation to the USART_TDR places the data in the TXFIFO. This flag remains set until the TXFIFO is full. When the TXFIFO is full, this flag is cleared indicating that data can not be written into the USART_TDR. An interrupt is generated if the TXFNFIE bit =1 in the USART_CR1 register. Note: The TXFNF is kept reset during the flush request until TXFIFO is empty. After sending the flush request (by setting TXFRQ bit), the flag TXFNF should be checked prior to writing in TXFIFO (TXFNF and TXFE are set at the same time). This bit is used during single buffer transmission.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Transmit FIFO is full"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmit FIFO is not full"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "TC",
+            "description": "Transmission complete This bit indicates that the last data written in the USART_TDR has been transmitted out of the shift register. It is set by hardware when the transmission of a frame containing data is complete and when TXFE is set. An interrupt is generated if TCIE=1 in the USART_CR1 register. TC bit is is cleared by software, by writing 1 to the TCCF in the USART_ICR register or by a write to the USART_TDR register. Note: If TE bit is reset and no transmission is on going, the TC bit is immediately set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Transmission is not complete"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmission is complete"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "RXFNE",
+            "description": "RXFIFO not empty RXFNE bit is set by hardware when the RXFIFO is not empty, meaning that data can be read from the USART_RDR register. Every read operation from the USART_RDR frees a location in the RXFIFO. RXFNE is cleared when the RXFIFO is empty. The RXFNE flag can also be cleared by writing 1 to the RXFRQ in the USART_RQR register. An interrupt is generated if RXFNEIE=1 in the USART_CR1 register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data is not received"
+              },
+              {
+                "value": "1",
+                "meaning": "Received data is ready to be read."
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "IDLE",
+            "description": "Idle line detected This bit is set by hardware when an Idle Line is detected. An interrupt is generated if IDLEIE=1 in the USART_CR1 register. It is cleared by software, writing 1 to the IDLECF in the USART_ICR register. Note: The IDLE bit is not set again until the RXFNE bit has been set (i.e. a new idle line occurs). If mute mode is enabled (MME=1), IDLE is set if the USART is not mute (RWU=0), whatever the mute mode selected by the WAKE bit. If RWU=1, IDLE is not set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Idle line is detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Idle line is detected"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "ORE",
+            "description": "Overrun error This bit is set by hardware when the data currently being received in the shift register is ready to be transferred into the USART_RDR register while RXFF = 1. It is cleared by a software, writing 1 to the ORECF, in the USART_ICR register. An interrupt is generated if RXFNEIE=1 in the USART_CR1 register, or EIE = 1 in the USART_CR3 register. Note: When this bit is set, the USART_RDR register content is not lost but the shift register is overwritten. An interrupt is generated if the ORE flag is set during multi buffer communication if the EIE bit is set. This bit is permanently forced to 0 (no overrun detection) when the bit OVRDIS is set in the USART_CR3 register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No overrun error"
+              },
+              {
+                "value": "1",
+                "meaning": "Overrun error is detected"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "NE",
+            "description": "Noise detection flag This bit is set by hardware when noise is detected on a received frame. It is cleared by software, writing 1 to the NECF bit in the USART_ICR register. Note: This bit does not generate an interrupt as it appears at the same time as the RXFNE bit which itself generates an interrupt. An interrupt is generated when the NE flag is set during multi buffer communication if the EIE bit is set. When the line is noise-free, the NE flag can be disabled by programming the ONEBIT bit to 1 to increase the USART tolerance to deviations (Refer to Section26.5.8: Tolerance of the USART receiver to clock deviation on page763). This error is associated with the character in the USART_RDR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No noise is detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Noise is detected"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "FE",
+            "description": "Framing error This bit is set by hardware when a de-synchronization, excessive noise or a break character is detected. It is cleared by software, writing 1 to the FECF bit in the USART_ICR register. When transmitting data in smartcard mode, this bit is set when the maximum number of transmit attempts is reached without success (the card NACKs the data frame). An interrupt is generated if EIE=1 in the USART_CR3 register. Note: This error is associated with the character in the USART_RDR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Framing error is detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Framing error or break character is detected"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "PE",
+            "description": "Parity error This bit is set by hardware when a parity error occurs in receiver mode. It is cleared by software, writing 1 to the PECF in the USART_ICR register. An interrupt is generated if PEIE = 1 in the USART_CR1 register. Note: This error is associated with the character in the USART_RDR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No parity error"
+              },
+              {
+                "value": "1",
+                "meaning": "Parity error"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

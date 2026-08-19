@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S66.4.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "66",
+      "chapter_title": "Low-power universal asynchronous receiver transmitter (LPUART)",
+      "section": "66.4.10",
+      "section_title": "LPUART multiprocessor communication",
+      "level": 3,
+      "parent_section": "66.4",
+      "page": 3386,
+      "page_end": 3388,
+      "semantic_type": "generic",
+      "features": [
+        "lpuart",
+        "power",
+        "uart"
+      ],
+      "chars": 3978,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3386",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 66.4.10 \"LPUART multiprocessor communication\" in chapter 66 (Low-power universal asynchronous receiver transmitter (LPUART)), RM0486 Rev 4, page 3386.",
+      "section_content": "It is possible to perform LPUART multiprocessor communications (with several LPUARTs\nconnected in a network). For instance one of the LPUARTs can be the master, with its TX\noutput connected to the RX inputs of the other LPUARTs. The others are slaves, with their\nrespective TX outputs are logically ANDed together and connected to the RX input of the\nmaster.\nIn multiprocessor configurations it is often desirable that only the intended message\nrecipient actively receives the full message contents, thus reducing redundant LPUART\nservice overhead for all nonaddressed receivers.\nThe nonaddressed devices can be placed in mute mode by means of the muting function.\nTo use the mute mode feature, the MME bit must be set in the LPUART_CR1 register.\nNote: When FIFO management is enabled and MME is already set, MME bit must not be cleared\nand then set again quickly (within two lpuart_ker_ck cycles), otherwise mute mode might\nremain active.\nWhen the mute mode is enabled:\n• none of the reception status bits can be set;\n• all the receive interrupts are inhibited;\n• the RWU bit in the LPUART_ISR register is set to 1. RWU can be controlled\nautomatically by hardware or by software, through the MMRQ bit in the LPUART_RQR\nregister, under certain conditions.\nThe LPUART can enter or exit from mute mode using one of two methods, depending on\nthe WAKE bit in the LPUART_CR1 register:\n• Idle Line detection if the WAKE bit is reset,\n• Address mark detection if the WAKE bit is set.\nIdle line detection (WAKE = 0)\nThe LPUART enters mute mode when the MMRQ bit is written to 1 and the RWU is\nautomatically set.\nThe LPUART wakes up when an Idle frame is detected. The RWU bit is then cleared by\nhardware but the IDLE bit is not set in the LPUART_ISR register. An example of mute mode\nbehavior using Idle line detection is given in Figure872.\n[Figure 872. Mute mode using Idle line detection]\nNote: If the MMRQ is set while the IDLE character has already elapsed, mute mode is not entered\n(RWU is not set).\nIf the LPUART is activated while the line is IDLE, the idle state is detected after the duration\nof one IDLE frame (not only after the reception of one character frame).\n4-bit/7-bit address mark detection (WAKE = 1)\nIn this mode, bytes are recognized as addresses if their MSB is a 1 otherwise they are\nconsidered as data. In an address byte, the address of the targeted receiver is put in the 4\nor 7 LSBs. The choice of 7- or 4-bit address detection is done using the ADDM7 bit. This 4-\nbit/7-bit word is compared by the receiver with its own address, which is programmed in the\nADD bits in the LPUART_CR2 register.\nNote: In 7-bit and 9-bit data modes, address detection is done on 6-bit and 8-bit addresses\n(ADD[5:0] and ADD[7:0]) respectively.\nThe LPUART enters mute mode when an address character is received which does not\nmatch its programmed address. In this case, the RWU bit is set by hardware. The RXNE\nflag is not set for this address byte and no interrupt or DMA request is issued when the\nLPUART enters mute mode.\nThe LPUART also enters mute mode when the MMRQ bit is written to 1. The RWU bit is\nalso automatically set in this case.\nThe LPUART exits from mute mode when an address character is received which matches\nthe programmed address. Then the RWU bit is cleared and subsequent bytes are received\nnormally. The RXNE/RXFNE bit is set for the address character since the RWU bit has been\ncleared.\nNote: When FIFO management is enabled, when MMRQ bit is set while the receiver is sampling\nthe last bit of a data, this data may be received before effectively entering in mute mode.\nAn example of mute mode behavior using address mark detection is given in Figure873.\n[Figure 873. Mute mode using address mark detection]\nIn this example, the current address of the receiver is 1\n(programmed in the LPUART_CR2 register)\nRXNE RXNE RXNE\nRWU Mute mode Normal mode Mute mode\nMMRQ written to 1 Matching address Non-matching address\n(RXNE was cleared)\nNon-matching address",
+      "semantic": {}
+    }
+  ]
+}

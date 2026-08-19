@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S49.4.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "49",
+      "chapter_title": "Cryptographic processor (CRYP)",
+      "section": "49.4.16",
+      "section_title": "CRYP key registers",
+      "level": 3,
+      "parent_section": "49.4",
+      "page": 2389,
+      "page_end": 2389,
+      "semantic_type": "generic",
+      "features": [
+        "cryp"
+      ],
+      "chars": 1350,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2389",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.4.16 \"CRYP key registers\" in chapter 49 (Cryptographic processor (CRYP)), RM0486 Rev 4, page 2389.",
+      "section_content": "The eight CRYP_KxR/LR write-only registers store the encryption or decryption key\ninformation, as shown in Table423. Reads are not allowed for security reason.\nNote: In memory and in CRYP key registers, keys are stored in big-endian format, with most\nsignificant byte on the lowest address.\n[Table 423. Key endianness in CRYP_KxR/LR registers (128/192/256-bit keys)]\nThe key registers are not affected by the data swapping feature controlled by the\nDATATYPE[1:0] bitfield.\nWrite operations to the CRYP_KxL/R registers are ignored when BUSY bit is set. The\napplication must check this before modifying key registers.\nThe entire key must be written before starting an AES computation. In normal key mode\n(KMOD[1:0]at0x0), the key registers must always be written in either ascending or\ndescending order. The write sequence becomes (in ascending order):\n• K2LR, K2RR, K3LR, then K3RR registers for KEYSIZE=0x0\n• K1LR, K1RR, K2LR, K2RR, K3LR, then K3RR register for KEYSIZE=0x1\n• K0LR, K0RR, K1LR, K1RR, K2LR, K2RR, K3LR, then K3RR register for\nKEYSIZE=0x2\nNote: KEYSIZE must be written before the key.\nAs soon as the first key register is written, the KEYVALID bit is cleared. Once the key\nregisters writing sequence is complete, KEYVALID is set and CRYPEN bit becomes\nwritable. If an error occurs, KEYVALID is cleared and KERF set (see Section49.4.18).",
+      "semantic": {}
+    }
+  ]
+}

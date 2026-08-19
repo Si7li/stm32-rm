@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.7.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.7.2",
+      "section_title": "Host channels",
+      "level": 3,
+      "parent_section": "73.7",
+      "page": 3771,
+      "page_end": 3772,
+      "semantic_type": "generic",
+      "features": [
+        "channels",
+        "host"
+      ],
+      "chars": 3198,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3771",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.7.2 \"Host channels\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3771.",
+      "section_content": "The OTG core instantiates 16 host channels. Each host channel supports an USB host\ntransfer (USB pipe). The host is not able to support more than 16 transfer requests at the\nsame time. If more than 16 transfer requests are pending from the application, the host\ncontroller driver (HCD) must re-allocate channels when they become available from\nprevious duty, that is, after receiving the transfer completed and channel halted interrupts.\nEach host channel can be configured to support in/out and any type of periodic/nonperiodic\ntransaction. Each host channel makes us of dedicated control (OTG_HCCHARx), transfer\nconfiguration (OTG_HCTSIZx) and status/interrupt (OTG_HCINTx) registers with\nassociated mask (OTG_HCINTMSKx) registers.\nHost channel control\n• The following host channel controls are available to the application through the host\nchannel-x characteristics register (OTG_HCCHARx):\n– Channel enable/disable\n– Program the HS/FS/LS speed of target USB peripheral\n– Program the address of target USB peripheral\n– Program the endpoint number of target USB peripheral\n– Program the transfer IN/OUT direction\n– Program the USB transfer type (control, bulk, interrupt, isochronous)\n– Program the maximum packet size (MPS)\n– Program the periodic transfer to be executed during odd/even frames\nHost channel transfer\nThe host channel transfer size registers (OTG_HCTSIZx) allow the application to program\nthe transfer size parameters, and read the transfer status. Programming must be done\nbefore setting the channel enable bit in the host channel characteristics register. Once the\nendpoint is enabled the packet count field is read-only as the OTG core updates it according\nto the current transfer status.\n• The following transfer parameters can be programmed:\n– transfer size in bytes\n– number of packets making up the overall transfer size\n– initial data PID\nHost channel status/interrupt\nThe host channel-x interrupt register (OTG_HCINTx) indicates the status of an endpoint\nwith respect to USB- and AHB-related events. The application must read these register\nwhen the host channels interrupt bit in the core interrupt register (HCINT bit in\nOTG_GINTSTS) is set. Before the application can read these registers, it must first read the\nhost all channels interrupt (OTG_HAINT) register to get the exact channel number for the\nhost channel-x interrupt register. The application must clear the appropriate bit in this\nregister to clear the corresponding bits in the OTG_HAINT and OTG_GINTSTS registers.\nThe mask bits for each interrupt source of each channel are also available in the\nOTG_HCINTMSKx register.\n• The host core provides the following status checks and interrupt generation:\n– Transfer completed interrupt, indicating that the data transfer is complete on both\nthe application (AHB) and USB sides\n– Channel has stopped due to transfer completed, USB transaction error or disable\ncommand from the application\n– Associated transmit FIFO is half or completely empty (IN endpoints)\n– ACK response received\n– NAK response received\n– STALL response received\n– USB transaction error due to CRC failure, timeout, bit stuff error, false EOP\n– Babble error\n– frame overrun\n– data toggle error",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S23.3.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "23",
+      "chapter_title": "Universal serial bus full-speed device interface (USB)",
+      "section": "23.3.1",
+      "section_title": "Description of USB blocks",
+      "level": 3,
+      "parent_section": "23.3",
+      "page": 624,
+      "page_end": 625,
+      "semantic_type": "generic",
+      "features": [
+        "usb"
+      ],
+      "chars": 4026,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=624",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 23.3.1 \"Description of USB blocks\" in chapter 23 (Universal serial bus full-speed device interface (USB)), RM0008 Rev 21, page 624.",
+      "section_content": "The USB peripheral implements all the features related to USB interfacing, which include\nthe following blocks:\n• Serial Interface Engine (SIE): The functions of this block include: synchronization\npattern recognition, bit-stuffing, CRC generation and checking, PID\nverification/generation, and handshake evaluation. It must interface with the USB\ntransceivers and uses the virtual buffers provided by the packet buffer interface for\nlocal data storage,. This unit also generates signals according to USB peripheral\nevents, such as Start of Frame (SOF), USB_Reset, Data errors etc. and to Endpoint\nrelated events like end of transmission or correct reception of a packet; these signals\nare then used to generate interrupts.\n• Timer: This block generates a start-of-frame locked clock pulse and detects a global\nsuspend (from the host) when no traffic has been received for 3 ms.\n• Packet Buffer Interface: This block manages the local memory implementing a set of\nbuffers in a flexible way, both for transmission and reception. It can choose the proper\nbuffer according to requests coming from the SIE and locate them in the memory\naddresses pointed by the Endpoint registers. It increments the address after each\nexchanged word until the end of packet, keeping track of the number of exchanged\nbytes and preventing the buffer to overrun the maximum capacity.\n• Endpoint-Related registers: Each endpoint has an associated register containing the\nendpoint type and its current status. For mono-directional/single-buffer endpoints, a\nsingle register can be used to implement two distinct endpoints. The number of\nregisters is 8, allowing up to 16 mono-directional/single-buffer or up to 7 double-buffer\nendpoints(a) in any combination. For example the USB peripheral can be programmed\nto have 4 double buffer endpoints and 8 single-buffer/mono-directional endpoints.\n• Control registers: These are the registers containing information about the status of the\nwhole USB peripheral and used to force some USB events, such as resume and\npower-down.\n• Interrupt registers: These contain the Interrupt masks and a record of the events. They\ncan be used to inquire an interrupt reason, the interrupt status or to clear the status of a\npending interrupt.\nThe USB peripheral is connected to the APB1 bus through an APB1 interface, containing\nthe following blocks:\n• Packet Memory: This is the local memory that physically contains the Packet Buffers. It\ncan be used by the Packet Buffer interface, which creates the data structure and can\nbe accessed directly by the application software. The size of the Packet Memory is 512\nbytes, structured as 256 words by 16 bits.\n• Arbiter: This block accepts memory requests coming from the APB1 bus and from the\nUSB interface. It resolves the conflicts by giving priority to APB1 accesses, while\nalways reserving half of the memory bandwidth to complete all USB transfers. This\ntime-duplex scheme implements a virtual dual-port SRAM that allows memory access,\nwhile an USB transaction is happening. Multiword APB1 transfers of any length are\nalso allowed by this scheme.\n• Register Mapper: This block collects the various byte-wide and bit-wide registers of the\nUSB peripheral in a structured 16-bit wide word set addressed by the APB1.\n• APB1 Wrapper: This provides an interface to the APB1 for the memory and register. It\nalso maps the whole USB peripheral in the APB1 address space.\n• Interrupt Mapper: This block is used to select how the possible USB events can\ngenerate interrupts and map them to three different lines of the NVIC:\n– USB low-priority interrupt (Channel 20): Triggered by all USB events (Correct\ntransfer, USB reset, etc.). The firmware has to check the interrupt source before\nserving the interrupt.\n– USB high-priority interrupt (Channel 19): Triggered only by a correct transfer event\nfor isochronous and double-buffer bulk transfer to reach the highest possible\ntransfer rate.\n– USB wakeup interrupt (Channel 42): Triggered by the wakeup event from the USB\nSuspend mode.",
+      "semantic": {}
+    }
+  ]
+}

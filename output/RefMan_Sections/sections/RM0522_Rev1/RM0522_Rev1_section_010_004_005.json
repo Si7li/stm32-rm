@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S10.4.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "10",
+      "chapter_title": "Clock recovery system (CRS)",
+      "section": "10.4.5",
+      "section_title": "Frequency error evaluation and automatic trimming",
+      "level": 3,
+      "parent_section": "10.4",
+      "page": 330,
+      "page_end": 331,
+      "semantic_type": "generic",
+      "features": [
+        "clock"
+      ],
+      "chars": 1971,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=330",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 10.4.5 \"Frequency error evaluation and automatic trimming\" in chapter 10 (Clock recovery system (CRS)), RM0522 Rev 1, page 330.",
+      "section_content": "The measured frequency error is evaluated by comparing its value with a set of limits:\n• TOLERANCE LIMIT, given directly in the FELIM field of the CRS_CFGR register\n• WARNING LIMIT, defined as 3 × FELIM value\n• OUTRANGE (error limit), defined as 128 × FELIM value\nThe result of this comparison is used to generate the status indication and also to control the\nautomatic trimming, which is enabled by setting the AUTOTRIMEN bit in the CRS_CR\nregister:\n• When the frequency error is below the tolerance limit, it means that the actual trimming\nvalue in the TRIM field is the optimal one, hence no trimming action is needed.\n– SYNCOK status indicated\n– TRIM value not changed in AUTOTRIM mode\n• When the frequency error is below the warning limit but above or equal to the tolerance\nlimit, it means that some trimming action is necessary but that adjustment by one\ntrimming step is enough to reach the optimal TRIM value.\n– SYNCOK status indicated\n– TRIM value adjusted by one trimming step in AUTOTRIM mode\n• When the frequency error is above or equal to the warning limit but below the error\nlimit, a stronger trimming action is necessary, and there is a risk that the optimal TRIM\nvalue is not reached for the next period.\n– SYNCWARN status indicated\n– TRIM value adjusted by two trimming steps in AUTOTRIM mode\n• When the frequency error is above or equal to the error limit, the frequency is out of the\ntrimming range. This can also happen when the SYNC input is not clean, or when\nsome SYNC pulse is missing (for example when one USB SOF is corrupted).\n– SYNCERR or SYNCMISS status indicated\n– TRIM value not changed in AUTOTRIM mode\nNote: If the actual value of the TRIM field is close to its limits and the automatic trimming can force\nit to overflow or underflow, the TRIM value is set to the limit, and the TRIMOVF status is\nindicated.\nIn AUTOTRIM mode (AUTOTRIMEN bit set in the CRS_CR register), the TRIM field of\nCRS_CR is adjusted by hardware and is read-only.",
+      "semantic": {}
+    }
+  ]
+}

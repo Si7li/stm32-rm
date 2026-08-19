@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S5.3.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "5",
+      "chapter_title": "Power control (PWR)",
+      "section": "5.3.4",
+      "section_title": "Stop mode",
+      "level": 3,
+      "parent_section": "5.3",
+      "page": 74,
+      "page_end": 75,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2661,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=74",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 5.3.4 \"Stop mode\" in chapter 5 (Power control (PWR)), RM0008 Rev 21, page 74.",
+      "section_content": "The Stop mode is based on the Cortex®-M3 deepsleep mode combined with peripheral\nclock gating. The voltage regulator can be configured either in normal or low-power mode.\nIn Stop mode, all clocks in the 1.8 V domain are stopped, the PLL, the HSI and the HSE RC\noscillators are disabled. SRAM and register contents are preserved.\nIn the Stop mode, all I/O pins keep the same state as in the Run mode.\nEntering Stop mode\nRefer to Table14 for details on how to enter the Stop mode.\nTo further reduce power consumption in Stop mode, the internal voltage regulator can be put\nin low-power mode. This is configured by the LPDS bit of the Power control register\n(PWR_CR).\nIf Flash memory programming is ongoing, the Stop mode entry is delayed until the memory\naccess is finished.\nIf an access to the APB domain is ongoing, The Stop mode entry is delayed until the APB\naccess is finished.\nIn Stop mode, the following features can be selected by programming individual control bits:\n• Independent watchdog (IWDG): the IWDG is started by writing to its Key register or by\nhardware option. Once started it cannot be stopped except by a Reset. See\nSection19.3: IWDG functional description.\n• Real-time clock (RTC): this is configured by the RTCEN bit in the Backup domain\ncontrol register (RCC_BDCR)\n• Internal RC oscillator (LSI RC): this is configured by the LSION bit in the Control/status\nregister (RCC_CSR).\n• External 32.768 kHz oscillator (LSE OSC): this is configured by the LSEON bit in the\nBackup domain control register (RCC_BDCR).\nThe ADC or DAC can also consume power during the Stop mode, unless they are disabled\nbefore entering it. To disable them, the ADON bit in the ADC_CR2 register and the ENx bit\nin the DAC_CR register must both be written to 0.\nNote: If the application needs to disable the external clock before entering Stop mode, the HSEON\nbit must first be disabled and the system clock switched to HSI. Otherwise, if the HSEON bit\nremains enabled and the external clock (external oscillator) is removed when entering Stop\nmode, the clock security system (CSS) feature must be enabled to detect any external\noscillator failure and avoid a malfunction behavior when entering stop mode.\nExiting Stop mode\nRefer to Table14 for more details on how to exit Stop mode.\nWhen exiting Stop mode by issuing an interrupt or a wakeup event, the HSI RC oscillator is\nselected as system clock.\nWhen the voltage regulator operates in low-power mode, an additional startup delay is\nincurred when waking up from Stop mode. By keeping the internal regulator ON during Stop\nmode, the consumption is higher although the startup time is reduced.\n[Table 14. Stop mode]",
+      "semantic": {}
+    }
+  ]
+}

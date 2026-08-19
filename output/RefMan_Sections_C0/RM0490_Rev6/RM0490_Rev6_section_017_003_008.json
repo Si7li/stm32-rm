@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S17.3.8",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "17",
+      "chapter_title": "Advanced-control timer (TIM1)",
+      "section": "17.3.8",
+      "section_title": "PWM input mode",
+      "level": 3,
+      "parent_section": "17.3",
+      "page": 372,
+      "page_end": 373,
+      "semantic_type": "generic",
+      "features": [
+        "pwm",
+        "timer"
+      ],
+      "chars": 1522,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=372",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 17.3.8 \"PWM input mode\" in chapter 17 (Advanced-control timer (TIM1)), RM0490 Rev 6, page 372.",
+      "section_content": "This mode is a particular case of input capture mode. The procedure is the same except:\n• Two ICx signals are mapped on the same TIx input.\n• These 2 ICx signals are active on edges with opposite polarity.\n• One of the two TIxFP signals is selected as trigger input and the slave mode controller\nis configured in reset mode.\nFor example, the user can measure the period (in TIMx_CCR1 register) and the duty cycle\n(in TIMx_CCR2 register) of the PWM applied on TI1 using the following procedure\n(depending on CK_INT frequency and prescaler value):\n1. Select the proper TI1x source (internal or external) with the TI1SEL[3:0] bits in the\nTIMx_TISEL register.\n2. Select the active input for TIMx_CCR1: write the CC1S bits to 01 in the TIMx_CCMR1\nregister (TI1 selected).\n3. Select the active polarity for TI1FP1 (used both for capture in TIMx_CCR1 and counter\nclear): write the CC1P and CC1NP bits to ‘0’ (active on rising edge).\n4. Select the active input for TIMx_CCR2: write the CC2S bits to 10 in the TIMx_CCMR1\nregister (TI1 selected).\n5. Select the active polarity for TI1FP2 (used for capture in TIMx_CCR2): write the CC2P\nand CC2NP bits to CC2P/CC2NP=’10’ (active on falling edge).\n6. Select the valid trigger input: write the TS bits to 00101 in the TIMx_SMCR register\n(TI1FP1 selected).\n7. Configure the slave mode controller in reset mode: write the SMS bits to 0100 in the\nTIMx_SMCR register.\n8. Enable the captures: write the CC1E and CC2E bits to ‘1’ in the TIMx_CCER register.\n[Figure 90. PWM input mode timing]",
+      "semantic": {}
+    }
+  ]
+}

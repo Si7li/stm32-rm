@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.10.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.10.4",
+      "section_title": "ROM tables",
+      "level": 3,
+      "parent_section": "78.10",
+      "page": 4409,
+      "page_end": 4411,
+      "semantic_type": "generic",
+      "features": [
+        "rom"
+      ],
+      "chars": 2910,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4409",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.10.4 \"ROM tables\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4409.",
+      "section_content": "The ROM table is a CoreSight component that contains the base addresses of all the\nCoreSight debug components accessible via the access port to which they are attached.\nThese tables allow a debugger to discover the topology of the CoreSight system\nautomatically.\nThe system ROM table is pointed to by the AP0 base register. It contains the base address\npointer for the DBGMCU.\nThe system ROM table occupies a 4-Kbyte, 32-bit wide chunk of address space, from\n0x80000000 to 0x80000FFC when accessed by the debugger.\nAlternatively, it can be accessed by the CPU at address range 0x44000000 to\n0x44000FFF.\n[Table 870. System ROM table]\nThe MCU ROM table is pointed to by the AP1 base register. It contains the base address\npointer for the Cortex-M55 ROM table and for the trace subsystem ROM table.\nIt occupies a 4-Kbyte, 32-bit wide chunk of address space, from 0xE00FE000 to\n0xE00FEFFF.\n[Table 871. MCU ROM table]\nThe top of ROM tables contains a number of read-only registers, including the standard\nCoreSight component and peripheral identity registers (see Section78.10.5).\nEach debug component occupies one or more 4-Kbyte blocks of address space. This block\nof address space is referred to as the debug register file for the component.\nThe component address offset field of a ROM table entry points to the start of the last\n4-Kbyte block of the address space of the component. This block always contains the\ncomponent and peripheral ID registers for the component, starting at offset 0xFD0 from the\nstart of the block. The 4-Kbyte count field PIDR4 [7:4], specifies the number of 4-Kbyte\nblocks for the component.\nThe process for finding the start of the address space for a component is:\n1. Read the ROM-table entry for the component and extract its Address_Offset[18:0] from\nbits [31:12] of the ROM-table entry.\n2. Use the address offset, together with the base address of the ROM table,\nROM_Base_Address, to calculate the base address of the component:\nComponent_Base_Address = ROM_Base_Address + Address_Offset\nThe Component_Base_Address is the start address of the 4-Kbyte address space\ncontaining the CoreSight identity registers for the component.\n3. Read the peripheral ID4 (PIDR4) register for the component. The address of this\nregister is:\nPeripheral_ID4_address = Component_Base_Address + 0xFD0\n4. Extract the SIZE[7:4] field from the value of the peripheral ID4 register. This gives\nthenumber of 4-Kbyte sections of address space occupied by the component.\n5. Use the SIZE field value to calculate the start address of the address space for the\ncomponent:\nComponent_Start_Address=Component_Base_Address-SIZE×0x1000. If the field\nvalue is 0b0000, which corresponds to one 4-Kbyte section, the address space for the\ncomponent starts at Component_Base_Address obtained at stage 2.\nFor more information on the use of the ROM tables, refer to the Arm Debug Interface\nArchitecture Specification [1].",
+      "semantic": {}
+    }
+  ]
+}

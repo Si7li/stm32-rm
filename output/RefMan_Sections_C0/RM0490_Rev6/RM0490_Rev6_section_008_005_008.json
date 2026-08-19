@@ -1,0 +1,81 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S8.5.8",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "8",
+      "chapter_title": "General-purpose I/Os (GPIO)",
+      "section": "8.5.8",
+      "section_title": "GPIO port configuration lock register (GPIOx_LCKR) (x = A, B, C, D, F)",
+      "level": 3,
+      "parent_section": "8.5",
+      "page": 191,
+      "page_end": 192,
+      "semantic_type": "register_description",
+      "features": [
+        "gpio",
+        "lck",
+        "lckk"
+      ],
+      "chars": 1721,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=191",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 8.5.8 \"GPIO port configuration lock register (GPIOx_LCKR) (x = A, B, C, D, F)\" in chapter 8 (General-purpose I/Os (GPIO)), RM0490 Rev 6, page 191.",
+      "section_content": "This register is used to lock the configuration of the port bits when a correct write sequence\nis applied to bit 16 (LCKK). The value of bits [15:0] is used to lock the configuration of the\nGPIO. During the write sequence, the value of LCKR[15:0] must not change. When the\nLOCK sequence has been applied on a port bit, the value of this port bit can no longer be\nmodified until the next MCU reset or peripheral reset.\nNote: A specific write sequence is used to write to the GPIOx_LCKR register. Only word access\n(32-bit long) is allowed during this locking sequence.\nEach lock bit freezes a specific configuration register (control and alternate function\nregisters).\nAddress offset: 0x1C\nReset value: 0x0000 0000\nBits 31:17 Reserved, must be kept at reset value.\nBit 16 LCKK: Lock key\nThis bit can be read any time. It can only be modified using the lock key write sequence.\n0: Port configuration lock key not active\n1: Port configuration lock key active. The GPIOx_LCKR register is locked until the next MCU\nreset or peripheral reset.\nLOCK key write sequence:\nWR LCKR[16] = ‘1’ + LCKR[15:0]\nWR LCKR[16] = ‘0’ + LCKR[15:0]\nWR LCKR[16] = ‘1’ + LCKR[15:0]\nRD LCKR\nRD LCKR[16] = ‘1’ (this read operation is optional but it confirms that the lock is active)\nNote: During the LOCK key write sequence, the value of LCK[15:0] must not change.\nAny error in the lock sequence aborts the lock.\nAfter the first lock sequence on any bit of the port, any read access on the LCKK bit\nreturns ‘1’ until the next MCU reset or peripheral reset.\nBits 15:0 LCK[15:0]: Port x lock I/O pin y (y = 15 to 0)\nThese bits are read/write but can only be written when the LCKK bit is ‘0.\n0: Port configuration not locked\n1: Port configuration locked",
+      "semantic": {
+        "register": "GPIOx_LCKR",
+        "address_offset": "0x1C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "LCKK",
+            "description": "Lock key This bit can be read any time. It can only be modified using the lock key write sequence. reset or peripheral reset. LOCK key write sequence: WR LCKR[16] = ‘1’ + LCKR[15:0] WR LCKR[16] = ‘0’ + LCKR[15:0] WR LCKR[16] = ‘1’ + LCKR[15:0] RD LCKR RD LCKR[16] = ‘1’ (this read operation is optional but it confirms that the lock is active) Note: During the LOCK key write sequence, the value of LCK[15:0] must not change. Any error in the lock sequence aborts the lock. After the first lock sequence on any bit of the port, any read access on the LCKK bit returns ‘1’ until the next MCU reset or peripheral reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Port configuration lock key not active"
+              },
+              {
+                "value": "1",
+                "meaning": "Port configuration lock key active. The GPIOx_LCKR register is locked until the next MCU"
+              }
+            ]
+          },
+          {
+            "bits": "15:0",
+            "name": "LCK[15:0]",
+            "description": "Port x lock I/O pin y (y = 15 to 0) These bits are read/write but can only be written when the LCKK bit is ‘0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Port configuration not locked"
+              },
+              {
+                "value": "1",
+                "meaning": "Port configuration locked"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

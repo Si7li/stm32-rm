@@ -1,0 +1,101 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S11.12.12",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "11",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "11.12.12",
+      "section_title": "ADC injected sequence register (ADC_JSQR)",
+      "level": 3,
+      "parent_section": "11.12",
+      "page": 250,
+      "page_end": 250,
+      "semantic_type": "register_description",
+      "features": [
+        "adc",
+        "adc-jsqr",
+        "jsq1",
+        "jsq2",
+        "jsq3",
+        "jsq4"
+      ],
+      "chars": 1567,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=250",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.12.12 \"ADC injected sequence register (ADC_JSQR)\" in chapter 11 (Analog-to-digital converter (ADC)), RM0008 Rev 21, page 250.",
+      "section_content": "Address offset: 0x38\nReset value: 0x0000 0000\nBits 31:22 Reserved, must be kept at reset value.\nBits 21:20 JL[1:0]: Injected sequence length\nThese bits are written by software to define the total number of conversions in the injected\nchannel conversion sequence.\n00: 1 conversion\n01: 2 conversions\n10: 3 conversions\n11: 4 conversions\nBits 19:15 JSQ4[4:0]: fourth conversion in injected sequence (when JL[1:0] = 3)(1)\nThese bits are written by software with the channel number (0..17) assigned as the fourth in\nthe sequence to be converted.\nNote: Unlike a regular conversion sequence, if JL[1:0] length is less than four, the channels\nare converted in a sequence starting from (4-JL). Example: ADC_JSQR[21:0] = 10\n00011 00011 00111 00010 means that a scan conversion will convert the following\nchannel sequence: 7, 3, 3. (not 2, 7, 3)\nBits 14:10 JSQ3[4:0]: third conversion in injected sequence (when JL[1:0] = 3)\nBits 9:5 JSQ2[4:0]: second conversion in injected sequence (when JL[1:0] = 3)\nBits 4:0 JSQ1[4:0]: first conversion in injected sequence (when JL[1:0] = 3)\n1. When JL=3 ( 4 injected conversions in the sequencer), the ADC converts the channels in this order:\nJSQ1[4:0] >> JSQ2[4:0] >> JSQ3[4:0] >> JSQ4[4:0]\nWhen JL=2 ( 3 injected conversions in the sequencer), the ADC converts the channels in this order:\nJSQ2[4:0] >> JSQ3[4:0] >> JSQ4[4:0]\nWhen JL=1 ( 2 injected conversions in the sequencer), the ADC converts the channels in this order:\nJSQ3[4:0] >> JSQ4[4:0]\nWhen JL=0 (1 injected conversion in the sequencer), the ADC converts only JSQ4[4:0] channel",
+      "semantic": {
+        "register": "ADC_JSQR",
+        "address_offset": "0x38",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21:20",
+            "name": "JL[1:0]",
+            "description": "Injected sequence length These bits are written by software to define the total number of conversions in the injected channel conversion sequence.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "1 conversion"
+              },
+              {
+                "value": "01",
+                "meaning": "2 conversions"
+              },
+              {
+                "value": "10",
+                "meaning": "3 conversions"
+              },
+              {
+                "value": "11",
+                "meaning": "4 conversions"
+              }
+            ]
+          },
+          {
+            "bits": "19:15",
+            "name": "JSQ4[4:0]",
+            "description": "fourth conversion in injected sequence (when JL[1:0] = 3)(1) These bits are written by software with the channel number (0..17) assigned as the fourth in the sequence to be converted. Note: Unlike a regular conversion sequence, if JL[1:0] length is less than four, the channels are converted in a sequence starting from (4-JL). Example: ADC_JSQR[21:0] = 10 00011 00011 00111 00010 means that a scan conversion will convert the following channel sequence: 7, 3, 3. (not 2, 7, 3)",
+            "values": []
+          },
+          {
+            "bits": "14:10",
+            "name": "JSQ3[4:0]",
+            "description": "third conversion in injected sequence (when JL[1:0] = 3)",
+            "values": []
+          },
+          {
+            "bits": "9:5",
+            "name": "JSQ2[4:0]",
+            "description": "second conversion in injected sequence (when JL[1:0] = 3)",
+            "values": []
+          },
+          {
+            "bits": "4:0",
+            "name": "JSQ1[4:0]",
+            "description": "first conversion in injected sequence (when JL[1:0] = 3) 1. When JL=3 ( 4 injected conversions in the sequencer), the ADC converts the channels in this order: JSQ1[4:0] >> JSQ2[4:0] >> JSQ3[4:0] >> JSQ4[4:0] When JL=2 ( 3 injected conversions in the sequencer), the ADC converts the channels in this order: JSQ2[4:0] >> JSQ3[4:0] >> JSQ4[4:0] When JL=1 ( 2 injected conversions in the sequencer), the ADC converts the channels in this order: JSQ3[4:0] >> JSQ4[4:0] When JL=0 (1 injected conversion in the sequencer), the ADC converts only JSQ4[4:0] channel",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

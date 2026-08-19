@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S36.4.14",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "36",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "36.4.14",
+      "section_title": "Timer counter reset",
+      "level": 3,
+      "parent_section": "36.4",
+      "page": 1495,
+      "page_end": 1495,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "timer"
+      ],
+      "chars": 1956,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1495",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.4.14 \"Timer counter reset\" in chapter 36 (Low-power timer (LPTIM)), RM0522 Rev 1, page 1495.",
+      "section_content": "In order to reset the content of LPTIM_CNT register, two reset mechanisms are\nimplemented:\n• The synchronous reset mechanism: the synchronous reset is controlled by the\nCOUNTRST bit in the LPTIM_CR register. After setting the COUNTRST bitfield to '1',\nthe reset signal is propagated in the LPTIM kernel clock domain. So it is important to\nnote that a few clock pulses of the LPTIM kernel logic elapse before the reset is taken\ninto account. This makes the LPTIM counter count few extra pluses between the time\nwhen the reset is triggered and it become effective. Since the COUNTRST bit is\nlocated in the APB clock domain and the LPTIM counter is located in the LPTIM kernel\nclock domain, a delay of 3 clock cycles of the kernel clock is needed to synchronize the\nreset signal issued by the APB clock domain when writing '1' to the COUNTRST bit.\nNote: The software ensures that COUNRST bit is '0' before generating every synchronous reset.\n• The asynchronous reset mechanism: the asynchronous reset is controlled by the\nRSTARE bit located in the LPTIM_CR register. When this bit is set to '1', any read\naccess to the LPTIM_CNT register resets its content to zero. Asynchronous reset must\nbe triggered within a timeframe in which no LPTIM core clock is provided. For example\nwhen LPTIM Input1 is used as external clock source, the asynchronous reset must be\napplied only when there is enough insurance that no toggle occurs on the LPTIM\nInput1.\nTo read reliably the content of the LPTIM_CNT register two successive read accesses\nmust be performed and compared. A read access can be considered reliable when the\nvalue of the two read accesses is equal. Unfortunately when asynchronous reset is\nenabled there is no possibility to read twice the LPTIM_CNT register.\nWarning: There is no mechanism inside the LPTIM that prevents the\ntwo reset mechanisms from being used simultaneously. The\ndeveloper must make sure that these two mechanisms are\nused exclusively.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.7.5",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.7.5",
+      "section_title": "I2S master mode",
+      "level": 3,
+      "parent_section": "27.7",
+      "page": 870,
+      "page_end": 871,
+      "semantic_type": "generic",
+      "features": [
+        "i2s",
+        "spi"
+      ],
+      "chars": 5281,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=870",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.7.5 \"I2S master mode\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 870.",
+      "section_content": "The I2S can be configured in master mode. This means that the serial clock is generated on\nthe CK pin as well as the Word Select signal WS. Master clock (MCK) may be output or not,\ncontrolled by the MCKOE bit in the SPIx_I2SPR register.\nProcedure\n1. Select the I2SDIV[7:0] bits in the SPIx_I2SPR register to define the serial clock baud\nrate to reach the proper audio sample frequency. The ODD bit in the SPIx_I2SPR\nregister also has to be defined.\n2. Select the CKPOL bit to define the steady level for the communication clock. Set the\nMCKOE bit in the SPIx_I2SPR register if the master clock MCK needs to be provided\nto the external DAC/ADC audio component (the I2SDIV and ODD values should be\ncomputed depending on the state of the MCK output, for more details refer to\nSection27.7.4: Clock generator).\n3. Set the I2SMOD bit in the SPIx_I2SCFGR register to activate the I2S functions and\nchoose the I2S standard through the I2SSTD[1:0] and PCMSYNC bits, the data length\nthrough the DATLEN[1:0] bits and the number of bits per channel by configuring the\nCHLEN bit. Select also the I2S master mode and direction (Transmitter or Receiver)\nthrough the I2SCFG[1:0] bits in the SPIx_I2SCFGR register.\n4. If needed, select all the potential interrupt sources and the DMA capabilities by writing\nthe SPIx_CR2 register.\n5. The I2SE bit in SPIx_I2SCFGR register must be set.\nWS and CK are configured in output mode. MCK is also an output, if the MCKOE bit in\nSPIx_I2SPR is set.\nTransmission sequence\nThe transmission sequence begins when a half-word is written into the Tx buffer.\nLets assume the first data written into the Tx buffer corresponds to the left channel data.\nWhen data are transferred from the Tx buffer to the shift register, TXE is set and data\ncorresponding to the right channel have to be written into the Tx buffer. The CHSIDE flag\nindicates which channel is to be transmitted. It has a meaning when the TXE flag is set\nbecause the CHSIDE flag is updated when TXE goes high.\nA full frame has to be considered as a left channel data transmission followed by a right\nchannel data transmission. It is not possible to have a partial frame where only the left\nchannel is sent.\nThe data half-word is parallel loaded into the 16-bit shift register during the first bit\ntransmission, and then shifted out, serially, to the MOSI/SD pin, MSB first. The TXE flag is\nset after each transfer from the Tx buffer to the shift register and an interrupt is generated if\nthe TXEIE bit in the SPIx_CR2 register is set.\nFor more details about the write operations depending on the I2S standard mode selected,\nrefer to Section27.7.2: Supported audio protocols).\nTo ensure a continuous audio data transmission, it is mandatory to write the SPIx_DR\nregister with the next data to transmit before the end of the current transmission.\nTo switch off the I2S, by clearing I2SE, it is mandatory to wait for TXE = 1 and BSY=0.\nReception sequence\nThe operating mode is the same as for transmission mode except for the point 3 (refer to the\nprocedure described in Section27.7.5: I2S master mode), where the configuration should\nset the master reception mode through the I2SCFG[1:0] bits.\nWhatever the data or channel length, the audio data are received by 16-bit packets. This\nmeans that each time the Rx buffer is full, the RXNE flag is set and an interrupt is generated\nif the RXNEIE bit is set in SPIx_CR2 register. Depending on the data and channel length\nconfiguration, the audio value received for a right or left channel may result from one or two\nreceptions into the Rx buffer.\nClearing the RXNE bit is performed by reading the SPIx_DR register.\nCHSIDE is updated after each reception. It is sensitive to the WS signal generated by the\nI2S cell.\nFor more details about the read operations depending on the I2S standard mode selected,\nrefer to Section27.7.2: Supported audio protocols.\nIf data are received while the previously received data have not been read yet, an overrun is\ngenerated and the OVR flag is set. If the ERRIE bit is set in the SPIx_CR2 register, an\ninterrupt is generated to indicate the error.\nTo switch off the I2S, specific actions are required to ensure that the I2S completes the\ntransfer cycle properly without initiating a new data transfer. The sequence depends on the\nconfiguration of the data and channel lengths, and on the audio protocol mode selected. In\nthe case of:\n• 16-bit data length extended on 32-bit channel length (DATLEN = 00 and CHLEN = 1)\nusing the LSB justified mode (I2SSTD = 10)\na) Wait for the second to last RXNE = 1 (n – 1)\nb) Then wait 17 I2S clock cycles (using a software loop)\nc) Disable the I2S (I2SE = 0)\n• 16-bit data length extended on 32-bit channel length (DATLEN = 00 and CHLEN = 1) in\nMSB justified, I2S or PCM modes (I2SSTD = 00, I2SSTD = 01 or I2SSTD = 11,\nrespectively)\na) Wait for the last RXNE\nb) Then wait 1 I2S clock cycle (using a software loop)\nc) Disable the I2S (I2SE = 0)\n• For all other combinations of DATLEN and CHLEN, whatever the audio mode selected\nthrough the I2SSTD bits, carry out the following sequence to switch off the I2S:\na) Wait for the second to last RXNE = 1 (n – 1)\nb) Then wait one I2S clock cycle (using a software loop)\nc) Disable the I2S (I2SE = 0)\nNote: The BSY flag is kept low during transfers.",
+      "semantic": {}
+    }
+  ]
+}

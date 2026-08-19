@@ -1,0 +1,147 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S18.4.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "18",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "18.4.2",
+      "section_title": "RTC control register low (RTC_CRL)",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 488,
+      "page_end": 489,
+      "semantic_type": "register_description",
+      "features": [
+        "alrf",
+        "clock",
+        "cnf",
+        "owf",
+        "rsf",
+        "rtc",
+        "rtc-crl",
+        "rtoff",
+        "secf"
+      ],
+      "chars": 3489,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=488",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.2 \"RTC control register low (RTC_CRL)\" in chapter 18 (Real-time clock (RTC)), RM0008 Rev 21, page 488.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0020\nBits 15:6 Reserved, forced by hardware to 0.\nBit 5 RTOFF: RTC operation OFF\nWith this bit the RTC reports the status of the last write operation performed on its registers,\nindicating if it has been completed or not. If its value is ‘0’ then it is not possible to write to any\nof the RTC registers. This bit is read only.\n0: Last write operation on RTC registers is still ongoing.\n1: Last write operation on RTC registers terminated.\nBit 4 CNF: Configuration flag\nThis bit must be set by software to enter in configuration mode so as to allow new values to\nbe written in the RTC_CNT, RTC_ALR or RTC_PRL registers. The write operation is only\nexecuted when the CNF bit is reset by software after has been set.\n0: Exit configuration mode (start update of RTC registers).\n1: Enter configuration mode.\nBit 3 RSF: Registers synchronized flag\nThis bit is set by hardware at each time the RTC_CNT and RTC_DIV registers are updated\nand cleared by software. Before any read operation after an APB1 reset or an APB1 clock\nstop, this bit must be cleared by software, and the user application must wait until it is set to\nbe sure that the RTC_CNT, RTC_ALR or RTC_PRL registers are synchronized.\n0: Registers not yet synchronized.\n1: Registers synchronized.\nBit 2 OWF: Overflow flag\nThis bit is set by hardware when the 32-bit programmable counter overflows. An interrupt is\ngenerated if OWIE=1 in the RTC_CRH register. It can be cleared only by software. Writing ‘1’\nhas no effect.\n0: Overflow not detected\n1: 32-bit programmable counter overflow occurred.\nBit 1 ALRF: Alarm flag\nThis bit is set by hardware when the 32-bit programmable counter reaches the threshold set\nin the RTC_ALR register. An interrupt is generated if ALRIE=1 in the RTC_CRH register. It\ncan be cleared only by software. Writing ‘1’ has no effect.\n0: Alarm not detected\n1: Alarm detected\nBit 0 SECF: Second flag\nThis bit is set by hardware when the 32-bit programmable prescaler overflows, thus\nincrementing the RTC counter. Hence this flag provides a periodic signal with a period\ncorresponding to the resolution programmed for the RTC counter (usually one second). An\ninterrupt is generated if SECIE=1 in the RTC_CRH register. It can be cleared only by\nsoftware. Writing ‘1’ has no effect.\n0: Second flag condition not met.\n1: Second flag condition met.\nThe functions of the RTC are controlled by this control register. It is not possible to write to\nthe RTC_CR register while the peripheral is completing a previous write operation (flagged\nby RTOFF=0, see Section18.3.4: Configuring RTC registers).\nNote: Any flag remains pending until the appropriate RTC_CR request bit is reset by software,\nindicating that the interrupt request has been granted.\nAt reset the interrupts are disabled, no interrupt requests are pending and it is possible to\nwrite to the RTC registers.\nThe OWF, ALRF, SECF and RSF bits are not updated when the APB1 clock is not running.\nThe OWF, ALRF, SECF and RSF bits can only be set by hardware and only cleared by\nsoftware.\nIf ALRF = 1 and ALRIE = 1, the RTC global interrupt is enabled. If EXTI Line 17 is also\nenabled through the EXTI Controller, both the RTC global interrupt and the RTC Alarm\ninterrupt are enabled.\nIf ALRF = 1, the RTC Alarm interrupt is enabled if EXTI Line 17 is enabled through the EXTI\nController in interrupt mode. When the EXTI Line 17 is enabled in event mode, a pulse is\ngenerated on this line (no RTC Alarm interrupt generation).",
+      "semantic": {
+        "register": "RTC_CRL",
+        "address_offset": "0x04",
+        "reset_value": "0x0020",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "15:6",
+            "name": "Res.",
+            "description": "Reserved, forced by hardware to 0.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "RTOFF",
+            "description": "RTC operation OFF With this bit the RTC reports the status of the last write operation performed on its registers, indicating if it has been completed or not. If its value is ‘0’ then it is not possible to write to any of the RTC registers. This bit is read only.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Last write operation on RTC registers is still ongoing."
+              },
+              {
+                "value": "1",
+                "meaning": "Last write operation on RTC registers terminated."
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "CNF",
+            "description": "Configuration flag This bit must be set by software to enter in configuration mode so as to allow new values to be written in the RTC_CNT, RTC_ALR or RTC_PRL registers. The write operation is only executed when the CNF bit is reset by software after has been set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Exit configuration mode (start update of RTC registers)."
+              },
+              {
+                "value": "1",
+                "meaning": "Enter configuration mode."
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "RSF",
+            "description": "Registers synchronized flag This bit is set by hardware at each time the RTC_CNT and RTC_DIV registers are updated and cleared by software. Before any read operation after an APB1 reset or an APB1 clock stop, this bit must be cleared by software, and the user application must wait until it is set to be sure that the RTC_CNT, RTC_ALR or RTC_PRL registers are synchronized.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Registers not yet synchronized."
+              },
+              {
+                "value": "1",
+                "meaning": "Registers synchronized."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "OWF",
+            "description": "Overflow flag This bit is set by hardware when the 32-bit programmable counter overflows. An interrupt is generated if OWIE=1 in the RTC_CRH register. It can be cleared only by software. Writing ‘1’ has no effect.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Overflow not detected"
+              },
+              {
+                "value": "1",
+                "meaning": "32-bit programmable counter overflow occurred."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "ALRF",
+            "description": "Alarm flag This bit is set by hardware when the 32-bit programmable counter reaches the threshold set in the RTC_ALR register. An interrupt is generated if ALRIE=1 in the RTC_CRH register. It can be cleared only by software. Writing ‘1’ has no effect.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Alarm not detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Alarm detected"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "SECF",
+            "description": "Second flag This bit is set by hardware when the 32-bit programmable prescaler overflows, thus incrementing the RTC counter. Hence this flag provides a periodic signal with a period corresponding to the resolution programmed for the RTC counter (usually one second). An interrupt is generated if SECIE=1 in the RTC_CRH register. It can be cleared only by software. Writing ‘1’ has no effect. The functions of the RTC are controlled by this control register. It is not possible to write to the RTC_CR register while the peripheral is completing a previous write operation (flagged by RTOFF=0, see Section18.3.4: Configuring RTC registers). Note: Any flag remains pending until the appropriate RTC_CR request bit is reset by software, indicating that the interrupt request has been granted. At reset the interrupts are disabled, no interrupt requests are pending and it is possible to write to the RTC registers. The OWF, ALRF, SECF and RSF bits are not updated when the APB1 clock is not running. The OWF, ALRF, SECF and RSF bits can only be set by hardware and only cleared by software. If ALRF = 1 and ALRIE = 1, the RTC global interrupt is enabled. If EXTI Line 17 is also enabled through the EXTI Controller, both the RTC global interrupt and the RTC Alarm interrupt are enabled. If ALRF = 1, the RTC Alarm interrupt is enabled if EXTI Line 17 is enabled through the EXTI Controller in interrupt mode. When the EXTI Line 17 is enabled in event mode, a pulse is generated on this line (no RTC Alarm interrupt generation).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Second flag condition not met."
+              },
+              {
+                "value": "1",
+                "meaning": "Second flag condition met."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

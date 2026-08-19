@@ -1,0 +1,94 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.26",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.26",
+      "section_title": "I3C controller-role capability register (I3C_CRCAPR)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3272,
+      "page_end": 3273,
+      "semantic_type": "register_description",
+      "features": [
+        "capdhoff",
+        "capgrp",
+        "i3c",
+        "i3c-crcapr"
+      ],
+      "chars": 2091,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3272",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.26 \"I3C controller-role capability register (I3C_CRCAPR)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3272.",
+      "section_content": "Address offset: 0x0CC\nReset value: 0x00000000\nWhen the I3C acts as target, this register is used to set features the I3C supports as a\nsecondary controller after controller-role hand-off, and is used by hardware to return the\nCRCAP1 byte and the CRCAP2 byte on reception of GETCAPS CCC, format 2 with the\ndefining byte CRCAPS (0x91).\nThe returned CRCAP1[7:0] on the I3C bus is then as follows:\n• CRCAP1[7:3] = 00000 (reserved)\n• CRCAP1[2] = 0 (no multi-lane)\n• CRCAP1[1] = CAPGRP in the I3C_CRCAPR register (group management)\n• CRCAP1[0] = 1 (hot-join)\nThe returned CRLCAP2[7:0] on the I3C bus is then as follows:\n• CRCAP2[7:4] = 0000 (reserved)\n• CRCAP2[3] = CAPDHOFF in the I3C_CRCAPR register (delayed controller-role\nhandoff)\n• CRCAP2[2] = 1 (deep sleep capable)\n• CRCAP2[1] = 0 (no automatic controller-role pass-back)\n• CRCAP2[0] = 1 (IBI ack capable)\nThis register can be written by software only when EN = 0 in the I3C_CFGR register.\nBits 31:10 Reserved, must be kept at reset value.\nBit 9 CAPGRP: group management support (when acting as controller)\nThis bit is written by software during bus initialization (EN = 0), and indicates if the I3C is able\nto support group management when it acts as a controller (after controller-role hand-off) via\nemitted DEFGRPA, RSTGRPA, and SETGRPA CCC.\nThis bit is used to return the CRCAP1 byte in response to the GETCAPS CCC format 2.\n0: this I3C does not support group address capabilities\n1: this I3C supports group address capabilities (when becoming controller)\nBits 8:4 Reserved, must be kept at reset value.\nBit 3 CAPDHOFF: delayed controller-role hand-off\nThis bit is written by software during bus initialization (EN = 0), and indicates if this target I3C\nneeds additional time to process a controller-role hand-off requested by the current controller.\nThis bit is used to return the CRCAP2 byte in response to the GETCAPS CCC format 2.\n0: this I3C does not needs additional time to process a controller-role hand-off\n1: this I3C needs additional time to process a controller-role hand-off\nBits 2:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "I3C_CRCAPR",
+        "address_offset": "0x0CC",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "CAPGRP",
+            "description": "group management support (when acting as controller) This bit is written by software during bus initialization (EN = 0), and indicates if the I3C is able to support group management when it acts as a controller (after controller-role hand-off) via emitted DEFGRPA, RSTGRPA, and SETGRPA CCC. This bit is used to return the CRCAP1 byte in response to the GETCAPS CCC format 2.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "this I3C does not support group address capabilities"
+              },
+              {
+                "value": "1",
+                "meaning": "this I3C supports group address capabilities (when becoming controller)"
+              }
+            ]
+          },
+          {
+            "bits": "8:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "CAPDHOFF",
+            "description": "delayed controller-role hand-off This bit is written by software during bus initialization (EN = 0), and indicates if this target I3C needs additional time to process a controller-role hand-off requested by the current controller. This bit is used to return the CRCAP2 byte in response to the GETCAPS CCC format 2.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "this I3C does not needs additional time to process a controller-role hand-off"
+              },
+              {
+                "value": "1",
+                "meaning": "this I3C needs additional time to process a controller-role hand-off"
+              }
+            ]
+          },
+          {
+            "bits": "2:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

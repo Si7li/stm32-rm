@@ -1,0 +1,198 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.8.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.8.8",
+      "section_title": "GPDMA channel x status register (GPDMA_CxSR)",
+      "level": 3,
+      "parent_section": "19.8",
+      "page": 985,
+      "page_end": 986,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "dtef",
+        "fifol",
+        "gpdma",
+        "htf",
+        "idlef",
+        "memory",
+        "suspf",
+        "tcf",
+        "tof",
+        "ulef",
+        "usef"
+      ],
+      "chars": 2957,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=985",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.8.8 \"GPDMA channel x status register (GPDMA_CxSR)\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 985.",
+      "section_content": "Address offset: 0x60 + 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0001\nThis is a read register, reporting the channel status.\nThis register is secure or nonsecure, depending on the secure state of channel x\n(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of the channel (GPDMA_PRIVCFGR.PRIVx).\nBits 31:24 Reserved, must be kept at reset value.\nBits 23:16 FIFOL[7:0]: monitored FIFO level\nNumber of available write beats in the FIFO, in units of the programmed destination data\nwidth (see GPDMA_CxTR1.DDW_LOG2[1:0], in units of bytes, half-words, or words).\nNote: After having suspended an active transfer, the user may need to read FIFOL[7:0],\nadditionally to GPDMA_CxBR1.BDNT[15:0] and GPDMA_CxBR1.BRC[10:0], to know\nhow many data have been transferred to the destination. Before reading, the user may\nwait for the transfer to be suspended (GPDMA_CxSR.SUSPF = 1).\nBit 15 Reserved, must be kept at reset value.\nBit 14 TOF: trigger overrun flag\n0: no trigger overrun event\n1: a trigger overrun event occurred\nBit 13 SUSPF: completed suspension flag\n0: no completed suspension event\n1: a completed suspension event occurred\nBit 12 USEF: user setting error flag\n0: no user setting error event\n1: a user setting error event occurred\nBit 11 ULEF: update link transfer error flag\n0: no update link transfer error event\n1: a master bus error event occurred while updating a linked-list register from memory\nBit 10 DTEF: data transfer error flag\n0: no data transfer error event\n1: a master bus error event occurred on a data transfer\nBit 9 HTF: half-transfer flag\n0: no half-transfer event\n1: a half-transfer event occurred\nA half-transfer event is either a half-block transfer or a half 2D/repeated block transfer,\ndepending on the transfer complete event mode (GPDMA_CxTR2.TCEM[1:0]).\nA half-block transfer occurs when half of the bytes of the source block size (rounded up\ninteger of GPDMA_CxBR1.BNDT[15:0]/2) has been transferred to the destination.\nA half 2D/repeated block transfer occurs when half of the repeated blocks (rounded up\ninteger of (GPDMA_CxBR1.BRC[10:0] + 1) / 2)) has been transferred to the destination.\nBit 8 TCF: transfer complete flag\n0: no transfer complete event\n1: a transfer complete event occurred\nA transfer complete event is either a block transfer complete, a 2D/repeated block transfer\ncomplete, or a LLI transfer complete including the upload of the next LLI if any, or the full\nlinked-list completion, depending on the transfer complete event mode\n(GPDMA_CxTR2.TCEM[1:0]).\nBits 7:1 Reserved, must be kept at reset value.\nBit 0 IDLEF: idle flag\n0: channel not in idle state\n1: channel in idle state\nThis idle flag is deasserted by hardware when the channel is enabled\n(GPDMA_CxCR.EN=1) with a valid channel configuration (no USEF to be immediately\nreported).\nThis idle flag is asserted after hard reset or by hardware when the channel is back in idle\nstate (in suspended or disabled state).",
+      "semantic": {
+        "register": "GPDMA_CxSR",
+        "address_offset": "0x60 + 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0001",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:16",
+            "name": "FIFOL[7:0]",
+            "description": "monitored FIFO level Number of available write beats in the FIFO, in units of the programmed destination data width (see GPDMA_CxTR1.DDW_LOG2[1:0], in units of bytes, half-words, or words). Note: After having suspended an active transfer, the user may need to read FIFOL[7:0], additionally to GPDMA_CxBR1.BDNT[15:0] and GPDMA_CxBR1.BRC[10:0], to know how many data have been transferred to the destination. Before reading, the user may wait for the transfer to be suspended (GPDMA_CxSR.SUSPF = 1).",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "TOF",
+            "description": "trigger overrun flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no trigger overrun event"
+              },
+              {
+                "value": "1",
+                "meaning": "a trigger overrun event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "SUSPF",
+            "description": "completed suspension flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no completed suspension event"
+              },
+              {
+                "value": "1",
+                "meaning": "a completed suspension event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "USEF",
+            "description": "user setting error flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no user setting error event"
+              },
+              {
+                "value": "1",
+                "meaning": "a user setting error event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "ULEF",
+            "description": "update link transfer error flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no update link transfer error event"
+              },
+              {
+                "value": "1",
+                "meaning": "a master bus error event occurred while updating a linked-list register from memory"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "DTEF",
+            "description": "data transfer error flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no data transfer error event"
+              },
+              {
+                "value": "1",
+                "meaning": "a master bus error event occurred on a data transfer"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "HTF",
+            "description": "half-transfer flag A half-transfer event is either a half-block transfer or a half 2D/repeated block transfer, depending on the transfer complete event mode (GPDMA_CxTR2.TCEM[1:0]). A half-block transfer occurs when half of the bytes of the source block size (rounded up integer of GPDMA_CxBR1.BNDT[15:0]/2) has been transferred to the destination. A half 2D/repeated block transfer occurs when half of the repeated blocks (rounded up integer of (GPDMA_CxBR1.BRC[10:0] + 1) / 2)) has been transferred to the destination.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no half-transfer event"
+              },
+              {
+                "value": "1",
+                "meaning": "a half-transfer event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "TCF",
+            "description": "transfer complete flag A transfer complete event is either a block transfer complete, a 2D/repeated block transfer complete, or a LLI transfer complete including the upload of the next LLI if any, or the full linked-list completion, depending on the transfer complete event mode (GPDMA_CxTR2.TCEM[1:0]).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no transfer complete event"
+              },
+              {
+                "value": "1",
+                "meaning": "a transfer complete event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "7:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "IDLEF",
+            "description": "idle flag This idle flag is deasserted by hardware when the channel is enabled (GPDMA_CxCR.EN=1) with a valid channel configuration (no USEF to be immediately reported). This idle flag is asserted after hard reset or by hardware when the channel is back in idle state (in suspended or disabled state).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "channel not in idle state"
+              },
+              {
+                "value": "1",
+                "meaning": "channel in idle state"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

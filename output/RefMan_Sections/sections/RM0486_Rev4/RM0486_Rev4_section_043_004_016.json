@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.16",
+      "section_title": "Display timing",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2110,
+      "page_end": 2112,
+      "semantic_type": "generic",
+      "features": [
+        "display",
+        "timing"
+      ],
+      "chars": 3604,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2110",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.16 \"Display timing\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2110.",
+      "section_content": "This section describes the configuration of the display timings, so that the LTDC matches\nwhat is expected by the external display panel.\nThe configuration defines the horizontal and vertical duration of each of the following items:\n• Synchronization period (HSYNC and VSYNC)\n• Back porch (HBP, VBP)\n• Active display (pixels that are visible on the screen)\n• Front porch (HFP, VFP)\nThese timings are described in the following figure.\n[Figure 448. LTDC synchronous timings]\nVSYNC width\nVBP\nActive height\nVFP\nNote: HBP and HFP are respectively the horizontal back porch and front porch period.\nVBP and VFP are respectively the vertical back porch and front porch period.\nAs a result of these timings, the LTDC samples in pixels during the active display duration,\nand generates the output synchronization signals (HSYNC, VSYNC), the pixel data, and\nthedata-enable signal.\nParameters\nAll the timings configured next are absolute timings, computed from the display start\nposition, and not the relative increment (or width or height) of each area.\nAll these bitfields indicate the last pixel of each area, and hence are subtracted 1.\n• HSYNC and VSYNC width (horizontal and vertical synchronization width)\ninLTDC_SSCR:\n– HSW=HSYNCwidth-1\n– VSW=VSYNCwidth-1\n• HBP and VBP (last pixel/line of the horizontal and vertical synchronization back porch)\nin LTDC_BPCR:\n– AHBP=HSYNCwidth+HBP-1\n– AVBP=VSYNCwidth+VBP-1\n• Active width and active height (last pixel/line of the active display area)\ninLTDC_AWCR:\n– AAW=HSYNCwidth+HBP+activewidth-1\n– AAW=VSYNCwidth+VBP+activeheight-1\n• Total display width (last pixel/line of the total display timings) in LTDC_TWCR:\n– TOTALW=HSYNCwidth+HBP+activewidth+HFP-1\n– TOTALH=VSYNCheight+VBP+activeheight+VFP-1\nNote: When the LTDC is enabled, timings generated start at the position (X,Y)=(0,0), and\ngenerate immediately the first horizontal synchronization pixel in the vertical\nsynchronization, followed by the back porch, then the active display area, and finally\nthefront porch.\nWhen the LTDC is disabled, the timing generator block is reset to X=total width - 1,\nY=totalheight - 1. It holds the last pixel before the vertical synchronization phase and the\nFIFO are flushed. Therefore, only blanking data is output continuously.\nExample of synchronous timing configuration\nAssume the following display panel timings (to be extracted from panel datasheet):\n• Horizontal and vertical synchronization width: 0xA pixels, 0x2 lines\n• Horizontal and vertical back porch: 0x14 pixels, 0x2 lines\n• Active width and active height (320x240): 0x140 pixels, 0x0F0 lines\n• Horizontal and vertical front porch: 0xA pixels 0x4 lines\nBitfield values to configure become:\n• HSW[11:0]=0x9 (horizontal synchro -1) in LTDC_SSCR.\n• VSH[11:0]=0x1 (vertical synchro -1) in LTDC_SSCR.\n• AHBP[11:0]=0x1D (horizontal synchro + back porch -1) in LTDC_BPCR.\n• AVBP[11:0]=0x3 (vertical synchro + back porch -1) in LTDC_BPCR.\n• AAW[11:0]=0x15D (horizontal synchro + back porch + width -1) in LTDC_AWCR.\n• AAH[11:0]=0xF3 (vertical synchro + back porch + height -1) in LTDC_AWCR.\n• TOTALW[11:0]=0x167 (horizontal synchro + back porch + width + front porch -1)\ninLTDC_TWCR.\n• TOTALH[11:0]=0xF7 (vertical synchro + back porch + width + front porch -1)\ninLTDC_TWCR.\nDefault configuration\nThere is no default configuration to propose. As display timings depend on the specific\ndisplay panel and its own required timings, all these parameters must be extracted\nfromthedisplay panel specification.\nNote: The configuration of all the above is mandatory to have the LTDC driving correctly\ntheexternal display panel.",
+      "semantic": {}
+    }
+  ]
+}

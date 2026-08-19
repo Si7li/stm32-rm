@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.5",
+      "section_title": "LTDC interrupts",
+      "level": 2,
+      "parent_section": null,
+      "page": 2116,
+      "page_end": 2117,
+      "semantic_type": "generic",
+      "features": [
+        "interrupt",
+        "ltdc"
+      ],
+      "chars": 2541,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2116",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.5 \"LTDC interrupts\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2116.",
+      "section_content": "The LTDC provides various maskable interrupts, that are grouped into two global interrupt\npins: one working interrupt pin, and one error interrupt pin.\nThese maskable interrupts and two global output pins are duplicated for the secure software\nusage, resulting in a duplicated set of registers (for masking) and a duplicated set of output\npin. Hence a total of four interrupt output pins: global working, global error, secure global,\nsecure global error.\nThe following working interrupts on which to synchronize software are ORed together as\naglobal working interrupt:\n• Line interrupt: generated when a configured line number is reached. Its position is\nConfigured in LTDC_LIPCR.\n• Register reload interrupt: generated when a shadow-register reload is performed\nduring the vertical blanking period.\nThe following error interrupts warn about some internal processing errors, and are ORed\ntogether as a global error interrupt:\n• FIFO underrun warning interrupt: generated when a pixel is requested from an empty\nlayer FIFO.\n• FIFO underrun error interrupt: generated when more pixels are requested from\nanempty layer FIFO.\n• Transfer-error interrupt: generated when an AXI bus error occurs during data transfer.\n• CRC-error interrupt: generated when the CRC computed and expected are different.\nThe LTDC also provides an observation mean, to retrieve X and Y positions of the currently\ndisplayed pixel.\nParameters\nThe following nonsecure registers are used to handle the interrupts:\n• LTDC_LIPCR: defines the line-number on which the line-number interrupt occurs.\n• LTDC_IER demasking bit: setting each bit enables the corresponding interrupt.\n• LTDC_ISR: event bit where to read if an event has occurred\n• LTDC_ICR: clear bit where to write to clean an interrupt.\n• LTDC_CPSR: location with X and Y of the current displayed pixel\n• LTDC_FUTR: trigger from which a FIFO underrun warning becomes a FIFO underrun\nerror, and is the amount of missed words of 64 bits\nThe duplicated secure registers are used to handle the interrupts (with same respective\ncontent as the nonsecure ones): LTDC_LIPCR2, LTDC_IER2, LTDC_ISR2, LTDC_ICR2.\nThe following table lists the bitfields of the available interrupts, and shows the four pins on\nwhich these bitfields are directed:\n• Nonsecure registers drive ltdc_lo_xx interrupts. Secure registers drive ltdc_up_xx\ninterrupts.\n• Interrupts triggered by an error are suffixed with a xx_err_it. Interrupts triggered during\na normal LTDC handling are suffixed with an _it only.\n[Table 386. LTDC interrupt requests]",
+      "semantic": {}
+    }
+  ]
+}

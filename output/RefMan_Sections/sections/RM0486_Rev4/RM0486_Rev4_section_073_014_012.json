@@ -1,0 +1,140 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.12",
+      "section_title": "OTG status read and pop registers (OTG_GRXSTSP)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3810,
+      "page_end": 3811,
+      "semantic_type": "register_description",
+      "features": [
+        "bcnt",
+        "dpid",
+        "epnum",
+        "frmnum",
+        "otg",
+        "otg-grxstsp",
+        "pktsts",
+        "stsphst"
+      ],
+      "chars": 1758,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3810",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.12 \"OTG status read and pop registers (OTG_GRXSTSP)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3810.",
+      "section_content": "This description is for register OTG_GRXSTSP in Device mode.\nSimilarly to OTG_GRXSTSR (receive status debug read register) where a read returns the\ncontents of the top of the receive FIFO, a read to OTG_GRXSTSP (receive status read and\npop register) additionally pops the top data entry out of the Rx FIFO.\nThe core ignores the receive status pop/read when the receive FIFO is empty and returns a\nvalue of 0x00000000. The application must only pop the receive status FIFO when the\nreceive FIFO non-empty bit of the core interrupt register (RXFLVL bit in OTG_GINTSTS) is\nasserted.\nAddress offset: 0x020\nReset value: 0x00000000\nBits 31:28 Reserved, must be kept at reset value.\nBit 27 STSPHST: Status phase start\nIndicates the start of the status phase for a control write transfer. This bit is set along with\nthe OUT transfer completed PKTSTS pattern.\nBits 26:25 Reserved, must be kept at reset value.\nBits 24:21 FRMNUM[3:0]: Frame number\nThis is the least significant 4 bits of the frame number in which the packet is received on the\nUSB. This field is supported only when isochronous OUT endpoints are supported.\nBits 20:17 PKTSTS[3:0]: Packet status\nIndicates the status of the received packet\n0001: Global OUT NAK (triggers an interrupt)\n0010: OUT data packet received\n0011: OUT transfer completed (triggers an interrupt)\n0100: SETUP transaction completed (triggers an interrupt)\n0110: SETUP data packet received\nOthers: Reserved\nBits 16:15 DPID[1:0]: Data PID\nIndicates the data PID of the received OUT data packet\n00: DATA0\n10: DATA1\n01: DATA2\n11: MDATA\nBits 14:4 BCNT[10:0]: Byte count\nIndicates the byte count of the received data packet.\nBits 3:0 EPNUM[3:0]: Endpoint number\nIndicates the endpoint number to which the current received packet belongs.",
+      "semantic": {
+        "register": "OTG_GRXSTSP",
+        "address_offset": "0x020",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "STSPHST",
+            "description": "Status phase start Indicates the start of the status phase for a control write transfer. This bit is set along with the OUT transfer completed PKTSTS pattern.",
+            "values": []
+          },
+          {
+            "bits": "26:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24:21",
+            "name": "FRMNUM[3:0]",
+            "description": "Frame number This is the least significant 4 bits of the frame number in which the packet is received on the USB. This field is supported only when isochronous OUT endpoints are supported.",
+            "values": []
+          },
+          {
+            "bits": "20:17",
+            "name": "PKTSTS[3:0]",
+            "description": "Packet status Indicates the status of the received packet",
+            "values": [
+              {
+                "value": "0001",
+                "meaning": "Global OUT NAK (triggers an interrupt)"
+              },
+              {
+                "value": "0010",
+                "meaning": "OUT data packet received"
+              },
+              {
+                "value": "0011",
+                "meaning": "OUT transfer completed (triggers an interrupt)"
+              },
+              {
+                "value": "0100",
+                "meaning": "SETUP transaction completed (triggers an interrupt)"
+              },
+              {
+                "value": "0110",
+                "meaning": "SETUP data packet received"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "16:15",
+            "name": "DPID[1:0]",
+            "description": "Data PID Indicates the data PID of the received OUT data packet",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "DATA0"
+              },
+              {
+                "value": "10",
+                "meaning": "DATA1"
+              },
+              {
+                "value": "01",
+                "meaning": "DATA2"
+              },
+              {
+                "value": "11",
+                "meaning": "MDATA"
+              }
+            ]
+          },
+          {
+            "bits": "14:4",
+            "name": "BCNT[10:0]",
+            "description": "Byte count Indicates the byte count of the received data packet.",
+            "values": []
+          },
+          {
+            "bits": "3:0",
+            "name": "EPNUM[3:0]",
+            "description": "Endpoint number Indicates the endpoint number to which the current received packet belongs.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

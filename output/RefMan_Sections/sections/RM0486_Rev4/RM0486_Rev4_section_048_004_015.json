@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S48.4.15",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "48",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "48.4.15",
+      "section_title": "SAES operation with shared keys",
+      "level": 3,
+      "parent_section": "48.4",
+      "page": 2332,
+      "page_end": 2333,
+      "semantic_type": "generic",
+      "features": [
+        "saes"
+      ],
+      "chars": 3644,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2332",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.4.15 \"SAES operation with shared keys\" in chapter 48 (Secure AES coprocessor (SAES)), RM0486 Rev 4, page 2332.",
+      "section_content": "SAES peripheral can share application keys wrapped with hardware-secret key DHUK,\nXOR-ed or not with application key BHK. With this feature, the application software can\nmake the AES keys available to the CRYP peripheral, without exposing them in clear-text\n(unencrypted).\nShared key sequences are too small to be suspended/resumed. SAES cannot unwrap a\nshared key using an unwrapped key.\nNote: When a key stored in SAES is shared with CRYP, the protection given by KEYPROT bit is\nlost. The protection is detailed in Section48.4.17: SAES key registers.\nFigure473 summarizes how to wrap or unwrap keys to share with CRYP peripheral. To\nprotect the shared key, DHUK must be selected, by writing KEYSEL[2:0] with 0x1 or 0x4.\nAlternatively, select BHK by writing KEYSEL[2:0] with 0x2 if the corresponding registers\nare read/write-locked in the TAMP peripheral.\n[Figure 473. Usage of Shared-key mode]\nclear-text shared key wrapped shared key DIN\nSAES SAES SAES\nenc dec enc/dec\nshared key AES\nenc/dec\nwrapp D ed O (e U nc T ry pted) unwra s p h p a e r d e d (d k e e c y rypted) DOUT\nshared key\nDOUT\nKEYSEL not 0x0 KEYSEL not 0x0 KEYSEL = 0x0 (to keep\nMODE = 00 (encryption) MODE =10 (decryption) the wrapped key)\nMODE = any value\nPink: hardware secret (not readable by application)\nNote: DHUK value depends on privilege, security, KMOD[1:0], KSHAREID, KEYSEL[2:0],\nCHMOD[2:0], and KEYSIZE.\nIn the step 3, AES represents the CRYP peripheral.\nKey wrapping for CRYP peripheral\nBefore SAES can share a key with the CRYP peripheral, the key must be encrypted\n(wrapped) once. The encryption sequence of a shared key is the same as for a wrapped\nkey, with KMOD[1:0] at 0x2 (shared key) and KSHAREID[1:0] kept at 0x0 in the step 3 in\n[Figure 473. See Key wrapping for SAES for details]\nNote: Encryption in Shared-key mode is only supported when ECB or CBC is selected.\nKey unwrapping for CRYP peripheral (shared key)\nEach time SAES needs to share a key with the CRYP peripheral, shared encrypted key\nmust be decrypted (unwrapped) in SAES, then loaded by CRYP. The overall sequence is\ndescribed next.\nSequence in the SAES peripheral\nThe decryption sequence of a shared key is the same as for a wrapped key, with KMOD[1:0]\nat 0x2 (shared key) and KSHAREID[1:0] kept at 0x0 in the step 3 in Figure473. See Key\nunwrapping for SAES for details.\nIn shared key mode when decryption mode is selected (MODE[1:0] at 0x2), a read access\nto the SAES_DOUTR register triggers a read error (RDERRF).\nNote: Instead of being shared, a decrypted shared key can be used directly in SAES as the\nKEYSEL[2:0] bitfield is automatically cleared. In this case, KMOD[1:0] must be written with\n0x0 (normal key mode).\nSequence in the CRYP peripheral\nOnce the shared key is decrypted in SAES key registers, it can be shared with the CRYP\nperipheral, while SAES peripheral remains in key sharing state, that is, with KMOD[1:0] at\n0x2 and KEYVALID set. The sequence in the CRYP key share target peripheral is described\nin AES key sharing with secure AES co-processor of the corresponding section in this\ndocument. It can be run multiple times (for example, to manage a suspend/resume\nsituation) as long as SAES is unused and duly remains in key sharing state.\nNote: When KMOD[1:0] is at 0x2 and BUSY set in the CRYP peripheral, and KEYSIZE value of\nCRYP and SAES differs, the key sharing fails and the KEIF flag is raised in both peripherals.\nWhen KEYSEL[2:0] is at 0x1 (DHUK) or 0x4 (DHUK XOR BHK), the application software\nmust use the same privilege, security, KMOD[1:0]/KSHAREID[1:0], CHMOD[2:0], and\nKEYSIZE context for encryption and decryption. Otherwise, the result is incorrect.",
+      "semantic": {}
+    }
+  ]
+}

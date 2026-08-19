@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S52.3.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "52",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "52.3.4",
+      "section_title": "PKA public key acceleration",
+      "level": 3,
+      "parent_section": "52.3",
+      "page": 2453,
+      "page_end": 2454,
+      "semantic_type": "generic",
+      "features": [
+        "pka"
+      ],
+      "chars": 2588,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2453",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 52.3.4 \"PKA public key acceleration\" in chapter 52 (Public key accelerator (PKA)), RM0486 Rev 4, page 2453.",
+      "section_content": "Overview\nPublic key accelerator (PKA) is used to accelerate Rivest, Shamir and Adleman (RSA),\nDiffie-Hellman (DH) as well as ECC over prime field operations. Supported operand sizes is\nup to 4160 bits for RSA and DH, and up to 640 bits for ECC.\nThe PKA supports all non-singular elliptic curves defined over prime fields, that can be\ndescribed with a short Weierstrass equation y2 = x3 + ax + b (mod p). More information can\nbe found in Section52.5.1.\nNote: Binary curves, Edwards curves and Curve25519 are not supported by the PKA.\nA memory of 5336 bytes (667 words of 64 bits) called PKA RAM is used to provide initial\ndata to the PKA, and to hold the results after computation is completed. Access is done\nthough the PKA AHB interface.\nPKA operating modes\nThe list of operations the PKA can perform is detailed in Table441 and Table442,\nrespectively, for integer arithmetic functions and prime field (Fp) elliptic curve functions.\n[Table 441. PKA integer arithmetic functions list]\n[Table 442. PKA prime field (Fp) elliptic curve functions list]\nEach of these operating modes has an associated code that has to be written to the\nMODE[5:0] bitfield in the PKA_CR register. If the application selects any value that is not\ndocumented below the write to MODE[5:0] bitfield is ignored, and an operation error\n(OPERRF) is triggered. When this happens, a new operation must be selected after the\nerror is cleared.\nSome operations in Table441 and Table442 are indicated as protected. Those operations\nare used when manipulating secret keys (modular exponentiation for RSA decryption,\nscalar multiplication and signature for ECC). Those secrets (protected against side channel\nattacks) and any intermediate values are automatically erased when PKA RAM is cleared at\nthe end of the protected operations (BUSY goes low). They are also protected against side\nchannel attacks.\nCaution: For security reason it is very important to select protected modular exponentiation\n(MODE[5:0]=0x3) when performing RSA decryption.\nMontgomery space and fast mode operations\nFor efficiency reasons, the PKA internally performs modular multiply operations in the\nMontgomery domain, automatically performing inward and outward transformations.\nAs Montgomery parameter computation is time consuming, the application can decide to\nuse a faster mode of operation during which the precomputed Montgomery parameter is\nsupplied before starting the operation. The performance improvement is detailed in\nSection52.5.2: Computation times.\nThe only operation using fast mode is the modular exponentiation (MODE[5:0] = 0x02).",
+      "semantic": {}
+    }
+  ]
+}

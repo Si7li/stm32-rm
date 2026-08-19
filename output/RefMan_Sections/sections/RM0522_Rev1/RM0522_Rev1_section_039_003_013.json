@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S39.3.13",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "39",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "39.3.13",
+      "section_title": "RTC synchronization",
+      "level": 3,
+      "parent_section": "39.3",
+      "page": 1565,
+      "page_end": 1565,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rtc"
+      ],
+      "chars": 1591,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1565",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.3.13 \"RTC synchronization\" in chapter 39 (Real-time clock (RTC)), RM0522 Rev 1, page 1565.",
+      "section_content": "The RTC can be synchronized to a remote clock with a high degree of precision. After\nreading the subsecond field (RTC_SSR or RTC_TSSSR), a calculation can be made of the\nprecise offset between the times being maintained by the remote clock and the RTC. The\nRTC can then be adjusted to eliminate this offset by “shifting” its clock by a fraction of a\nsecond using RTC_SHIFTR.\nThe RTC can be finely adjusted using the RTC shift control register (RTC_SHIFTR). Writing\nto RTC_SHIFTR can shift (either delay or advance) the clock with a resolution of 1 ck_apre\nperiod.\nThe shift operation consists in adding the SUBFS[14:0] value to the synchronous prescaler\ncounter SS[15:0]: this delays the clock.\nIf at the same time the ADD1S bit is set in BCD or mixed mode, this results in adding one\nsecond and at the same time subtracting a fraction of second, so this advances the clock.\nADD1S has no effect in binary mode.\nAs soon as a shift operation is initiated by a write to the RTC_SHIFTR register, the SHPF\nflag is set by hardware to indicate that a shift operation is pending. This bit is cleared by\nhardware as soon as the shift operation has completed.\nCaution: In mixed mode (BIN=10 or 11), the SUBFS[14:BCDU+8] must be written with 0.\nCaution: Before initiating a shift operation in BCD mode, the user must check that SS[15] = 0 in order\nto ensure that no overflow occurs. In mixed mode, the user must check that the bit\nSS[BCDU+8] = 0.\nCaution: This synchronization feature is not compatible with the reference clock detection feature:\nfirmware must not write to RTC_SHIFTR when REFCKON = 1.",
+      "semantic": {}
+    }
+  ]
+}

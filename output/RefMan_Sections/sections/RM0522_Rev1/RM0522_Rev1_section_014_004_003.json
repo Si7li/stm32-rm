@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.4.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.4.3",
+      "section_title": "LPDMA channel suspend and resume",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 391,
+      "page_end": 392,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 1341,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=391",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.3 \"LPDMA channel suspend and resume\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 391.",
+      "section_content": "The software can suspend on its own a channel still active, with the following sequence:\n1. The software writes 1 into the LPDMA_CxCR.SUSP bit.\n2. The software polls the suspended flag LPDMA_CxSR.SUSPF until SUSPF=1, or\nwaits for an interrupt previously enabled by writing 1 to LPDMA_CxCR.SUSPIE. Wait\nfor the channel to be effectively in suspended state means wait for the completion of\nany ongoing LPDMA transfer over its master port. Then the software can observe, in a\nsteady state, any read register or register field that is hardware modifiable.\nNote that an ongoing LPDMA transfer can be a data transfer (a read-followed-by-write\nsingle transfer) or a link transfer for the internal update of the linked-list register file\nfrom the next linked-list item.\n3. The software safely resumes the suspended channel by writing 0 to\nLPDMA_CxCR.SUSP.\nThe suspend and resume sequence is illustrated in the figure below.\n[Figure 42. LPDMA channel suspend and resume sequence]\nChannel state = Active\nSuspend the DMA channel\n(write 1 to CxCR.SUSP)\nSUSPF=1 ? N\nChannel state = Suspended and Idle Y\nReceiving\nsuspended\ninterrupt\nResume the DMA channel\n(write 0 to CxCR.SUSP)\nChannel state = Active\nNote: A suspend and resume sequence does not impact the LPDMA_CxCR.EN bit. Suspending a\nchannel (transfer) does not suspend a started trigger detection.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S52.3.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "52",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "52.3.5",
+      "section_title": "Typical applications for PKA",
+      "level": 3,
+      "parent_section": "52.3",
+      "page": 2455,
+      "page_end": 2457,
+      "semantic_type": "generic",
+      "features": [
+        "pka"
+      ],
+      "chars": 5214,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2455",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 52.3.5 \"Typical applications for PKA\" in chapter 52 (Public key accelerator (PKA)), RM0486 Rev 4, page 2455.",
+      "section_content": "Introduction\nThe PKA can be used to accelerate a number of public key cryptographic functions such as:\n• RSA encryption and decryption\n• RSA key finalization\n• CRT-RSA decryption\n• DSA and ECDSA signature generation and verification\n• DH and ECDH key agreement\nThe following publications specify the listed functions:\n• FIPS PUB 186-4, Digital Signature Standard (DSS), July 2013 by NIST\n• PKCS #1, RSA Cryptography Standard, v1.5, v2.1 and v2.2. by RSA Laboratories\n• IEEE1363-2000, IEEE Standard Specifications for Public-Key Cryptography, January\n2000\n• ANSI X9.62-2005, Public Key Cryptography for the Financial Services Industry, The\nElliptic Curve Digital Signature Algorithm (ECDSA), November 2005\nRefer to these documents for full details. This document limits itself to describing principles.\nRSA key pair\nFor the following RSA operations, a public key and a private key information are defined as\nfollows:\n• Alice transmits her public key (n, e) to Bob. Numbers n and e are very large positive\nintegers.\n• Alice keeps secret her private key d, also a very large positive integer. Alternatively, this\nprivate key can also be represented by a quintuple (p, q, dp, dq, qInv).\nFor more information, refer to the RSA specification.\nRSA encryption/decryption principle\nAs recommended by the PKCS#1 specification, Bob, to encrypt message M using Alice’s\npublic key (n, e), must go through the following steps:\n1. Compute the encoded message EM = ENCODE(M), where ENCODE is an encoding\nmethod.\n2. Turn EM into an integer m, with 0 ≤ m < n and (m, n) being coprimes.\n3. Compute ciphertext c = me mod n.\n4. Convert the integer c into a string ciphertext C.\nAlice, to decrypt ciphertext c using her private key d, follows the steps indicated below:\n1. Convert the ciphertext C to an integer ciphertext representative c.\n2. If necessary, retrieve the prime factors (p, q) using (n, e, d) information, then compute\nphi= (p-1)×(q-1). Refer to NIST SP800-56B Appendix C for details.\n3. Recover plaintext m = cd mod n = (me)d mod n. If the private key is the quintuple (p, q,\ndp, dq, qInv), then plaintext m is obtained by performing the operations:\na) m1 = cdp mod p\nb) m2 = cdq mod q\nc) h = qInv (m1 – m2) mod p\nd) m = m2 + h q\n4. Convert the integer message representative m to an encoded message EM.\n5. Recover message M = DECODE(EM), where DECODE is a decoding method.\nTo accelerate these operations with the PKA, use Modular exponentiation Ae mod n if the\nprivate key is d, or RSA CRT exponentiation if the private key is the quintuple (p, q, dp, dq,\nqInv).\nNote: The decoding operation and the conversion operations between message and integers are\nspecified in PKCS#1 standard.\nFor the decryption process, the protected version of modular exponentiation (MODE[5:0] =\n0x3) is strongly recommended for security reason. For the encryption process, the\nMODE[5:0] = 0x3 setting cannot be used as it requires the knowledge of the private key.\nElliptic curve selection\nFor the following ECC operations, the curve parameters are defined as follows:\n• Curve corresponds to the elliptic curve field agreed among actors (Alice and Bob).\nSupported curves parameters are summarized in Section52.5.1: Supported elliptic\ncurves.\n• G is the chosen elliptic curve base point (also known as generator), with a large prime\norder n (that is, n × G = identity element O).\nECDSA message signature generation\nThis section describes the ECDSA (elliptic curve digital signature algorithm) signature\ngeneration function principle.\nAlice, to sign a message m using her private key integer dA, goes through the following\nsteps:\n1. Calculate e = HASH(m), where HASH is a cryptographic hash function.\n2. Let z be the Ln leftmost bits of e, where Ln is the bit length of the group order n.\n3. Select a cryptographically secure random integer k where 0 < k < n.\n4. Calculate the curve point (x1, y1) = k × G.\n5. Calculate r = x1 mod n. If r = 0 go back to step 3.\n6. Calculate s = k-1 (z + rdA) mod n. If s = 0 go back to step 3.\n7. The signature is the pair (r, s).\nThe PKA accelerates the steps 4. to 7. by using:\n• ECDSA sign, or\n• All of the following operations:\n– ECC Fp scalar multiplication k × P\n– Modular reduction A mod n\n– Modular inversion A-1 mod n\n– Modular addition and Modular and Montgomery multiplication\nECDSA signature verification\nThis section describes the ECDSA (elliptic curve digital signature algorithm) signature\nverification function principle.\nBob, to authenticate Alice's signature, must have a copy of her public key curve point QA.\nBob can verify that QA is a valid curve point by going through the following steps:\n1. Check that QA is not equal to the identity element O\n2. Check that QA is on the agreed curve\n3. Check that n × QA = O.\nThen Bob executes the following procedure:\n1. Verify that r and s are integer in [1, n-1]\n2. Calculate e = HASH(m), where HASH is the agreed cryptographic hash function\n3. Let z be the Ln leftmost bits of e\n4. Calculate w = s-1 mod n\n5. Calculate u1 = zw mod n and u2 = rw mod n\n6. Calculate the curve point (x1, y1) = u1 × G + u2 × QA\n7. The signature is valid if r = x1 (mod n), it is invalid otherwise.\nThe PKA accelerates the steps 4. to 7. by using ECDSA verification.",
+      "semantic": {}
+    }
+  ]
+}

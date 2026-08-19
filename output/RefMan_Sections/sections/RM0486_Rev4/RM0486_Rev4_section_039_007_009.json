@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.7.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.7.9",
+      "section_title": "Pixel packing",
+      "level": 3,
+      "parent_section": "39.7",
+      "page": 1868,
+      "page_end": 1870,
+      "semantic_type": "generic",
+      "features": [
+        "packing",
+        "pixel"
+      ],
+      "chars": 3943,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1868",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.7.9 \"Pixel packing\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1868.",
+      "section_content": "This module works on the dump pipe (Pipe0) and pixel pipes (Pipe1 .. N), setting the arriving\npixels in memory words.\nFeatures\n• DBM addresses: double buffer mode with their associated address locations if the\napplication need to swap memory address for one frame to the next one.\n• Flexible pitch (line stride): width up to 4094 pixels, 32 bpp, potentially interleaved.\n• Pixel format: all usual formats, as indicated in Section39.3.6 (Pipe1 allows semi-planar\nand full planar buffer, Pipe2 coplanar buffer only).\n• Swap R-vs-B: swap the red vs. the blue components of the output pixel.\n• Padding: MSB vs. LSB padding of 10/12/14 bit onto 16 bit. (such formats are supported\nonly on the dump pipe).\n• Header enable: allows to dump (or not) the CSI packet headers, to allow software an\neasier extraction of data in case of Interleaved CSI packets in the captured buffer.\n• Multi-line event: event generated (for DMA and INT) at each multiple of sent lines.\n• Multi-line address wrapping: allows to write the full frame across a ping-pong buffer,\nthanks to wrapping back to the BaseAddress after a power-of-2 amount of lines.\nNote: Some features (for example padding) are available only on the dump pipe, while others (like\nswap R-vs-B) are available only on the pixel pipes.\n[Table 356. DCMIPP_PxPPCR bit function]\nDouble buffer mode\nThe dump pipe uses an AXI master interface to dump the data from the internal FIFO to the\nexternal memory. In the application, it is possible to handle frame data swapping memory\narea frame by frame. The double buffer mode fills up this function. There are two memory\naddress registers set to initialize the base addresses of these memories areas. Each start of\ncaptured frame event swaps the memory base address to handle double buffering mode.\nThe double buffer mode can be used to allow post-processing on a buffer (frame buffer),\nwhile the other buffer is read to be displayed (display buffer).\nSoftware configuration\nDouble buffering mode requires an activation and addresses configuration to define the two\nmemory areas in which data are consecutively stored frame by frame at the output of the\npipeline:\n• DCMIPP_PxPPM0AR1 and DCMIPP_PxPPM0AR2 must be filled with the memory\naddresses associated to the double buffer memory locations.\n• Bit DBM in the DCMIPP_PxPPCR registers is set to enable the double buffer mode.\nStreaming across a ping-pong buffer\nThe DCMIPP has the capability (pixel pipes only) to stream pixels to a slave IP (like VENC\nor any) without storing the full frame in the main memory, by writing to a short intermediate\nmulti-line buffer. It can do so by configuring the LINEMULT, LMAWE and LMAWM fields.\nAs an example, the slave IP is a JPG encoder that expects to be provided lines of\nmacroblocks (16x16 pixels). The DCMIPP writes into a double (ping-pong) buffer, with each\n16 lines high.\nThe streaming flow is as follows:\n1. At a start of frame, the DCMIPP writes its pixels at an incremented address starting at\nthe buffer BaseAddress (M1A/M2A).\n2. After having written 16 lines, it emits a hardware Line event (dcmipp1_pXline_evt). At\nthe reception of this hardware trigger, the slaved IP (JPG encoder here) starts to read\nthe first 16-line buffer at the BaseAddress, and to encode its pixels.\n3. The DCMIPP continues to write at the following addresses, thus after line 16.\n4. After having written another 16 lines, the DCMIPP emits another Line event, to that the\nslaved IP can read and process the following 16 lines (at BaseAddress + Line16).\n5. The DCMIPP wraps back to the BaseAddress, writes the following lines (32 to 47)\nstarting at this BaseAddress, and then sends a trigger to the slave IP to process these\nnew 16 lines.\nThe needed configuration is the following one:\n• LINEMULT = 0x4, to send an event after having written each 16 lines\n• LMAWM = 0x5, to wrap the address after having written each 32 lines\n• LMAWE = 1, to enable the address wrapping of the address.",
+      "semantic": {}
+    }
+  ]
+}

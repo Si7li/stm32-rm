@@ -1,0 +1,115 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S28.8.19",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "28",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "28.8.19",
+      "section_title": "SAES interrupt status register (SAES_ISR)",
+      "level": 3,
+      "parent_section": "28.8",
+      "page": 888,
+      "page_end": 889,
+      "semantic_type": "register_description",
+      "features": [
+        "ccf",
+        "interrupt",
+        "keif",
+        "rngeif",
+        "rweif",
+        "saes",
+        "saes-isr"
+      ],
+      "chars": 2650,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=888",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.8.19 \"SAES interrupt status register (SAES_ISR)\" in chapter 28 (Secure AES coprocessor (SAES)), RM0522 Rev 1, page 888.",
+      "section_content": "Address offset: 0x304\nReset value: 0x0000 0000\nBits 31:4 Reserved, must be kept at reset value.\nBit 3 RNGEIF: RNG error interrupt flag\nThis read-only bit is set by hardware when an error is detected on RNG bus interface (for example\nbad entropy).\n0: RNG bus is functional\n1: Error detected on RNG bus interface (random seed fetching error)\nThe flag setting generates an interrupt if the RNGEIE bit of the SAES_IER register is set.\nThe flag is cleared by setting the corresponding bit of the SAES_ICR register. The clear action\ntriggers the reload of a new random number from the RNG peripheral.\nBit 2 KEIF: Key error interrupt flag\nThis read-only bit is set by hardware when the key information fails to load into key registers or\nwhen the key register use is forbidden.\n0: No key error detected\n1: Key information failed to load into key registers or the key register use is forbidden\nThe flag setting generates an interrupt if the KEIE bit of the SAES_IER register is set. It also clears\nthe key registers and the KEYVALID flag in the SAES_SR register.\nThe flag is cleared by setting the corresponding bit of the SAES_ICR register.\nKEIF is raised upon any of the following events:\n–SAES fails to load the DHUK (KEYSEL[2:0]=0x1 or 0x4).\n–SAES fails to load the BHK (KEYSEL[2:0]=0x2 or 0x4).\n–AES fails to load the key shared by SAES peripheral (KMOD[1:0]=0x2).\n–SAES_KEYRx register write does not respect the correct order. (For KEYSIZEcleared,\nSAES_KEYR0 then SAES_KEYR1 then SAES_KEYR2 then SAES_KEYR3 register, or reverse.\nFor KEYSIZE set, SAES_KEYR0 then SAES_KEYR1 then SAES_KEYR2 then SAES_KEYR3\nthen SAES_KEYR4 then SAES_KEYR5 then SAES_KEYR6 then SAES_KEYR7, or reverse).\nKEIF must be cleared by the application software, otherwise KEYVALID cannot be set.\nBit 1 RWEIF: Read or write error interrupt flag\nThis read-only bit is set by hardware when a RDERRF or a WRERRF error flag is set in the\nSAES_SR register.\n0: No read or write error detected\n1: Read or write error detected\nThe flag setting generates an interrupt if the RWEIE bit of the SAES_IER register is set.\nThe flag is cleared by setting the corresponding bit of the SAES_ICR register.\nThe flags has no meaning when key derivation mode is selected.\nSee the SAES_SR register for details.\nBit 0 CCF: Computation complete flag\nThis flag indicates whether the computation is completed. It is significant only when the\nDMAOUTEN bit is cleared, and it may stay high when DMAOUTEN is set.\n0: Not completed\n1: Completed\nThe flag setting generates an interrupt if the CCFIE bit of the SAES_IER register is set.\nThe flag is cleared by setting the corresponding bit of the SAES_ICR register.",
+      "semantic": {
+        "register": "SAES_ISR",
+        "address_offset": "0x304",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "RNGEIF",
+            "description": "RNG error interrupt flag This read-only bit is set by hardware when an error is detected on RNG bus interface (for example bad entropy). The flag setting generates an interrupt if the RNGEIE bit of the SAES_IER register is set. The flag is cleared by setting the corresponding bit of the SAES_ICR register. The clear action triggers the reload of a new random number from the RNG peripheral.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RNG bus is functional"
+              },
+              {
+                "value": "1",
+                "meaning": "Error detected on RNG bus interface (random seed fetching error)"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "KEIF",
+            "description": "Key error interrupt flag This read-only bit is set by hardware when the key information fails to load into key registers or when the key register use is forbidden. The flag setting generates an interrupt if the KEIE bit of the SAES_IER register is set. It also clears the key registers and the KEYVALID flag in the SAES_SR register. The flag is cleared by setting the corresponding bit of the SAES_ICR register. KEIF is raised upon any of the following events: –SAES fails to load the DHUK (KEYSEL[2:0]=0x1 or 0x4). –SAES fails to load the BHK (KEYSEL[2:0]=0x2 or 0x4). –AES fails to load the key shared by SAES peripheral (KMOD[1:0]=0x2). –SAES_KEYRx register write does not respect the correct order. (For KEYSIZEcleared, SAES_KEYR0 then SAES_KEYR1 then SAES_KEYR2 then SAES_KEYR3 register, or reverse. For KEYSIZE set, SAES_KEYR0 then SAES_KEYR1 then SAES_KEYR2 then SAES_KEYR3 then SAES_KEYR4 then SAES_KEYR5 then SAES_KEYR6 then SAES_KEYR7, or reverse). KEIF must be cleared by the application software, otherwise KEYVALID cannot be set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No key error detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Key information failed to load into key registers or the key register use is forbidden"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "RWEIF",
+            "description": "Read or write error interrupt flag This read-only bit is set by hardware when a RDERRF or a WRERRF error flag is set in the SAES_SR register. The flag setting generates an interrupt if the RWEIE bit of the SAES_IER register is set. The flag is cleared by setting the corresponding bit of the SAES_ICR register. The flags has no meaning when key derivation mode is selected. See the SAES_SR register for details.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No read or write error detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Read or write error detected"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CCF",
+            "description": "Computation complete flag This flag indicates whether the computation is completed. It is significant only when the DMAOUTEN bit is cleared, and it may stay high when DMAOUTEN is set. The flag setting generates an interrupt if the CCFIE bit of the SAES_IER register is set. The flag is cleared by setting the corresponding bit of the SAES_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not completed"
+              },
+              {
+                "value": "1",
+                "meaning": "Completed"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S16.0.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "16",
+      "chapter_title": "System configuration controller (SYSCFG)",
+      "section": "16.0.1",
+      "section_title": "I/O compensation cell",
+      "level": 3,
+      "parent_section": "16.0",
+      "page": 808,
+      "page_end": 809,
+      "semantic_type": "generic",
+      "features": [
+        "cell",
+        "compensation"
+      ],
+      "chars": 1337,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=808",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.0.1 \"I/O compensation cell\" in chapter 16 (System configuration controller (SYSCFG)), RM0486 Rev 4, page 808.",
+      "section_content": "The I/O compensation cell generates an 8-bit value (4 bits for N-MOS and 4 bits for P-MOS)\nfor the I/O buffer that depends upon PVT operating conditions (process, voltage,\ntemperature).\nThese bits are used to control the current slew-rate and output impedance in the I/O buffer.\nFive compensation cells are embedded: one for I/Os supplied by VDD, and four for I/Os\nsupplied by VDDIO2, VDDIO3, VDDIO4, and VDDIO5.\nBy default, the compensation cells are disabled, and a fixed code is applied to all I/Os.\nWhen enabled, the compensation cell tracks the PVT, and the 4-bit APSRC and ANSRC\nvalues are available in SYSCFG_xCCSR (with x = VDD, VDDIO2, VDDIO3, VDDIO4, or VDDIO5)\nonce the corresponding READY is set in SYSCFG_xCCSR.\nIfCSis cleared in SYSCFG_xCCCR, and READY is set, I/Os receive the APSRC and\nANSRC values that result from the compensation cell.\nTo optimize the trimming, these values can be adjusted using RAPSRC and RANSRC\ninSYSCFG_xCCCR (seeFigure71).\nTo reduce the power consumption, it is recommended to copy the values from\nSYSCFG_xCCSR to SYSCFG_xCCCR. When the result is ready, set CS and disable\nthecompensation cell.\n[Figure 71. I/O compensation cell control overview]\nBSEC\nOTP\nCOMPCELL[3:0]\n4+4\n4 4+4\nREADY\nCompensation Level\nRAxSRC AxSRC\nI/O I/O I/O 10\nmeasurement shifter I/O\nPadring section X\nI/O compensation cell",
+      "semantic": {}
+    }
+  ]
+}

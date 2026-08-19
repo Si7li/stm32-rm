@@ -1,0 +1,376 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S58.7.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "58",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "58.7.10",
+      "section_title": "LPTIM configuration register (LPTIM_CFGR)",
+      "level": 3,
+      "parent_section": "58.7",
+      "page": 2966,
+      "page_end": 2969,
+      "semantic_type": "register_description",
+      "features": [
+        "ckflt",
+        "ckpol",
+        "cksel",
+        "countmode",
+        "enc",
+        "lptim",
+        "lptim-cfgr",
+        "power",
+        "preload",
+        "presc",
+        "timer",
+        "timout",
+        "trgflt",
+        "trigen",
+        "trigsel",
+        "wave",
+        "wavpol"
+      ],
+      "chars": 5732,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2966",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 58.7.10 \"LPTIM configuration register (LPTIM_CFGR)\" in chapter 58 (Low-power timer (LPTIM)), RM0486 Rev 4, page 2966.",
+      "section_content": "Address offset: 0x00C\nReset value: 0x0000 0000\nBits 31:30 Reserved, must be kept at reset value.\nBit 29 Reserved, must be kept at reset value.\nBits 28:25 Reserved, must be kept at reset value.\nBit 24 ENC: Encoder mode enable\nThe ENC bit controls the Encoder mode\n0: Encoder mode disabled\n1: Encoder mode enabled\nNote: If the LPTIM does not support Encoder mode feature, this bit is reserved. Refer to\nSection58.3.\nBit 23 COUNTMODE: counter mode enabled\nThe COUNTMODE bit selects which clock source is used by the LPTIM to clock the counter:\n0: The counter is incremented following each internal clock pulse\n1: The counter is incremented following each valid clock pulse on the LPTIM external Input1\nBit 22 PRELOAD: Registers update mode\nThe PRELOAD bit controls the LPTIM_ARR, LPTIM_RCR and the LPTIM_CCRx registers update\nmodality\n0: Registers are updated after each APB bus write access\n1: Registers are updated at the end of the current LPTIM period\nBit 21 WAVPOL: Waveform shape polarity\nThe WAVPOL bit controls the output polarity\n0:The LPTIM output reflects the compare results between LPTIM_CNT and LPTIM_CCRx registers\n1:The LPTIM output reflects the inverse of the compare results between LPTIM_CNT and\nLPTIM_CCRx registers\nNote: If the LPTIM implements at least one capture/compare channel, this bit is reserved. Refer to\nSection58.3.\nBit 20 WAVE: Waveform shape\nThe WAVE bit controls the output shape\n0: Deactivate Set-once mode\n1: Activate the Set-once mode\nBit 19 TIMOUT: Timeout enable\nThe TIMOUT bit controls the Timeout feature\n0: A trigger event arriving when the timer is already started is ignored\n1: A trigger event arriving when the timer is already started resets and restarts the LPTIM counter\nand the repetition counter\nBits 18:17 TRIGEN[1:0]: Trigger enable and polarity\nThe TRIGEN bits controls whether the LPTIM counter is started by an external trigger or not. If the\nexternal trigger option is selected, three configurations are possible for the trigger active edge:\n00: Software trigger (counting start is initiated by software)\n01: Rising edge is the active edge\n10: Falling edge is the active edge\n11: Both edges are active edges\nBit 16 Reserved, must be kept at reset value.\nBits 15:13 TRIGSEL[2:0]: Trigger selector\nThe TRIGSEL bits select the trigger source that serves as a trigger event for the LPTIM among the\nbelow 8 available sources:\n000: lptim_ext_trig0\n001: lptim_ext_trig1\n010: lptim_ext_trig2\n011: lptim_ext_trig3\n100: lptim_ext_trig4\n101: lptim_ext_trig5\n110: lptim_ext_trig6\n111: lptim_ext_trig7\nSee Section58.4.3: LPTIM input and trigger mapping for details.\nBit 12 Reserved, must be kept at reset value.\nBits 11:9 PRESC[2:0]: Clock prescaler\nThe PRESC bits configure the prescaler division factor. It can be one among the following division\nfactors:\n000: /1\n001: /2\n010: /4\n011: /8\n100: /16\n101: /32\n110: /64\n111: /128\nBit 8 Reserved, must be kept at reset value.\nBits 7:6 TRGFLT[1:0]: Configurable digital filter for trigger\nThe TRGFLT value sets the number of consecutive equal samples that are detected when a level\nchange occurs on an internal trigger before it is considered as a valid level transition. An internal\nclock source must be present to use this feature\n00: Any trigger active level change is considered as a valid trigger\n01: Trigger active level change must be stable for at least 2 clock periods before it is considered as\nvalid trigger.\n10: Trigger active level change must be stable for at least 4 clock periods before it is considered as\nvalid trigger.\n11: Trigger active level change must be stable for at least 8 clock periods before it is considered as\nvalid trigger.\nBit 5 Reserved, must be kept at reset value.\nBits 4:3 CKFLT[1:0]: Configurable digital filter for external clock\nThe CKFLT value sets the number of consecutive equal samples that are detected when a level\nchange occurs on an external clock signal before it is considered as a valid level transition. An\ninternal clock source must be present to use this feature\n00: Any external clock signal level change is considered as a valid transition\n01: External clock signal level change must be stable for at least 2 clock periods before it is\nconsidered as valid transition.\n10: External clock signal level change must be stable for at least 4 clock periods before it is\nconsidered as valid transition.\n11: External clock signal level change must be stable for at least 8 clock periods before it is\nconsidered as valid transition.\nBits 2:1 CKPOL[1:0]: Clock polarity\nWhen the LPTIM is clocked by an external clock source, CKPOL bits is used to configure the active\nedge or edges used by the counter:\n00: The rising edge is the active edge used for counting.\nIf the LPTIM is configured in Encoder mode (ENC bit is set), the Encoder sub-mode 1 is active.\n01: The falling edge is the active edge used for counting.\nIf the LPTIM is configured in Encoder mode (ENC bit is set), the Encoder sub-mode 2 is active.\n10: Both edges are active edges. When both external clock signal edges are considered active\nones, the LPTIM must also be clocked by an internal clock source with a frequency equal to at\nleast four times the external clock frequency.\nIf the LPTIM is configured in Encoder mode (ENC bit is set), the Encoder sub-mode 3 is active.\n11: Not allowed\nRefer to Section58.4.15: Encoder mode for more details about Encoder sub-modes.\nBit 0 CKSEL: Clock selector\nThe CKSEL bit selects which clock source the LPTIM uses:\n0: LPTIM is clocked by internal clock source (APB clock or any of the embedded oscillators)\n1: LPTIM is clocked by an external clock source through the LPTIM external Input1\nCaution: The LPTIM_CFGR register must only be modified when the LPTIM is disabled (ENABLE bit\nreset to 0).",
+      "semantic": {
+        "register": "LPTIM_CFGR",
+        "address_offset": "0x00C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "28:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "ENC",
+            "description": "Encoder mode enable The ENC bit controls the Encoder mode Note: If the LPTIM does not support Encoder mode feature, this bit is reserved. Refer to Section58.3.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Encoder mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Encoder mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "COUNTMODE",
+            "description": "counter mode enabled The COUNTMODE bit selects which clock source is used by the LPTIM to clock the counter:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The counter is incremented following each internal clock pulse"
+              },
+              {
+                "value": "1",
+                "meaning": "The counter is incremented following each valid clock pulse on the LPTIM external Input1"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "PRELOAD",
+            "description": "Registers update mode The PRELOAD bit controls the LPTIM_ARR, LPTIM_RCR and the LPTIM_CCRx registers update modality",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Registers are updated after each APB bus write access"
+              },
+              {
+                "value": "1",
+                "meaning": "Registers are updated at the end of the current LPTIM period"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "WAVPOL",
+            "description": "Waveform shape polarity The WAVPOL bit controls the output polarity LPTIM_CCRx registers Note: If the LPTIM implements at least one capture/compare channel, this bit is reserved. Refer to Section58.3.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The LPTIM output reflects the compare results between LPTIM_CNT and LPTIM_CCRx registers"
+              },
+              {
+                "value": "1",
+                "meaning": "The LPTIM output reflects the inverse of the compare results between LPTIM_CNT and"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "WAVE",
+            "description": "Waveform shape The WAVE bit controls the output shape",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Deactivate Set-once mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Activate the Set-once mode"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "TIMOUT",
+            "description": "Timeout enable The TIMOUT bit controls the Timeout feature and the repetition counter",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "A trigger event arriving when the timer is already started is ignored"
+              },
+              {
+                "value": "1",
+                "meaning": "A trigger event arriving when the timer is already started resets and restarts the LPTIM counter"
+              }
+            ]
+          },
+          {
+            "bits": "18:17",
+            "name": "TRIGEN[1:0]",
+            "description": "Trigger enable and polarity The TRIGEN bits controls whether the LPTIM counter is started by an external trigger or not. If the external trigger option is selected, three configurations are possible for the trigger active edge:",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Software trigger (counting start is initiated by software)"
+              },
+              {
+                "value": "01",
+                "meaning": "Rising edge is the active edge"
+              },
+              {
+                "value": "10",
+                "meaning": "Falling edge is the active edge"
+              },
+              {
+                "value": "11",
+                "meaning": "Both edges are active edges"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:13",
+            "name": "TRIGSEL[2:0]",
+            "description": "Trigger selector The TRIGSEL bits select the trigger source that serves as a trigger event for the LPTIM among the below 8 available sources: See Section58.4.3: LPTIM input and trigger mapping for details.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "lptim_ext_trig0"
+              },
+              {
+                "value": "001",
+                "meaning": "lptim_ext_trig1"
+              },
+              {
+                "value": "010",
+                "meaning": "lptim_ext_trig2"
+              },
+              {
+                "value": "011",
+                "meaning": "lptim_ext_trig3"
+              },
+              {
+                "value": "100",
+                "meaning": "lptim_ext_trig4"
+              },
+              {
+                "value": "101",
+                "meaning": "lptim_ext_trig5"
+              },
+              {
+                "value": "110",
+                "meaning": "lptim_ext_trig6"
+              },
+              {
+                "value": "111",
+                "meaning": "lptim_ext_trig7"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11:9",
+            "name": "PRESC[2:0]",
+            "description": "Clock prescaler The PRESC bits configure the prescaler division factor. It can be one among the following division factors:",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "/1"
+              },
+              {
+                "value": "001",
+                "meaning": "/2"
+              },
+              {
+                "value": "010",
+                "meaning": "/4"
+              },
+              {
+                "value": "011",
+                "meaning": "/8"
+              },
+              {
+                "value": "100",
+                "meaning": "/16"
+              },
+              {
+                "value": "101",
+                "meaning": "/32"
+              },
+              {
+                "value": "110",
+                "meaning": "/64"
+              },
+              {
+                "value": "111",
+                "meaning": "/128"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:6",
+            "name": "TRGFLT[1:0]",
+            "description": "Configurable digital filter for trigger The TRGFLT value sets the number of consecutive equal samples that are detected when a level change occurs on an internal trigger before it is considered as a valid level transition. An internal clock source must be present to use this feature valid trigger. valid trigger. valid trigger.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Any trigger active level change is considered as a valid trigger"
+              },
+              {
+                "value": "01",
+                "meaning": "Trigger active level change must be stable for at least 2 clock periods before it is considered as"
+              },
+              {
+                "value": "10",
+                "meaning": "Trigger active level change must be stable for at least 4 clock periods before it is considered as"
+              },
+              {
+                "value": "11",
+                "meaning": "Trigger active level change must be stable for at least 8 clock periods before it is considered as"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4:3",
+            "name": "CKFLT[1:0]",
+            "description": "Configurable digital filter for external clock The CKFLT value sets the number of consecutive equal samples that are detected when a level change occurs on an external clock signal before it is considered as a valid level transition. An internal clock source must be present to use this feature considered as valid transition. considered as valid transition. considered as valid transition.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Any external clock signal level change is considered as a valid transition"
+              },
+              {
+                "value": "01",
+                "meaning": "External clock signal level change must be stable for at least 2 clock periods before it is"
+              },
+              {
+                "value": "10",
+                "meaning": "External clock signal level change must be stable for at least 4 clock periods before it is"
+              },
+              {
+                "value": "11",
+                "meaning": "External clock signal level change must be stable for at least 8 clock periods before it is"
+              }
+            ]
+          },
+          {
+            "bits": "2:1",
+            "name": "CKPOL[1:0]",
+            "description": "Clock polarity When the LPTIM is clocked by an external clock source, CKPOL bits is used to configure the active edge or edges used by the counter: If the LPTIM is configured in Encoder mode (ENC bit is set), the Encoder sub-mode 1 is active. If the LPTIM is configured in Encoder mode (ENC bit is set), the Encoder sub-mode 2 is active. ones, the LPTIM must also be clocked by an internal clock source with a frequency equal to at least four times the external clock frequency. If the LPTIM is configured in Encoder mode (ENC bit is set), the Encoder sub-mode 3 is active. Refer to Section58.4.15: Encoder mode for more details about Encoder sub-modes.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "The rising edge is the active edge used for counting."
+              },
+              {
+                "value": "01",
+                "meaning": "The falling edge is the active edge used for counting."
+              },
+              {
+                "value": "10",
+                "meaning": "Both edges are active edges. When both external clock signal edges are considered active"
+              },
+              {
+                "value": "11",
+                "meaning": "Not allowed"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CKSEL",
+            "description": "Clock selector The CKSEL bit selects which clock source the LPTIM uses: Caution: The LPTIM_CFGR register must only be modified when the LPTIM is disabled (ENABLE bit reset to 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "LPTIM is clocked by internal clock source (APB clock or any of the embedded oscillators)"
+              },
+              {
+                "value": "1",
+                "meaning": "LPTIM is clocked by an external clock source through the LPTIM external Input1"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

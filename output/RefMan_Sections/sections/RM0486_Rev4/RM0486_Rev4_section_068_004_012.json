@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.4.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.4.12",
+      "section_title": "SPDIF output",
+      "level": 3,
+      "parent_section": "68.4",
+      "page": 3527,
+      "page_end": 3529,
+      "semantic_type": "generic",
+      "features": [
+        "spdif"
+      ],
+      "chars": 3819,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3527",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.4.12 \"SPDIF output\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3527.",
+      "section_content": "The SPDIF interface is available in transmitter mode only. It supports the audio IEC60958.\nTo select SPDIF mode, set the PRTCFG[1:0] bits to 01 in the SAI_xCR1 register.\nFor SPDIF protocol:\n• Only the SD data line is enabled.\n• The FS, SCK, and MCLK I/Os pins are left free.\n• The MODE[1] bit is forced to 0 to select the master mode to enable the clock generator\nof the SAI and manage the data rate on the SD line.\n• The data size is forced to 24 bits. The value set in the DS[2:0] bits in the SAI_xCR1\nregister is ignored.\n• The clock generator must be configured to define the symbol-rate, knowing that the bit\nclock must be twice the symbol-rate. The data is coded in Manchester protocol.\n• The SAI_xFRCR and SAI_xSLOTR registers are ignored. The SAI is configured\ninternally to match the SPDIF protocol requirements as shown in Figure929.\n[Figure 929. SPDIF format]\nAn SPDIF block contains 192 frames. Each frame is composed of two 32-bit subframes,\ngenerally one for the left channel and one for the right channel. Each subframe is composed\nof a SOPD pattern (4-bit) to specify if the subframe is the start of a block (and so is\nidentifying a channel A) or if it is identifying a channel A somewhere in the block, or if it is\nreferring to channel B (see Table676). The next 28 bits of channel information are\ncomposed of 24 data bits + 4 status bits.\n[Table 676. SOPD pattern]\nThe data stored in SAI_xDR has to be filled as follows:\n• SAI_xDR[26:24] contain the channel status, user, and validity bits.\n• SAI_xDR[23:0] contain the 24-bit data for the considered channel.\nIf the data size is 20 bits, the data must be mapped on SAI_xDR[23:4].\nIf the data size is 16 bits, the data must be mapped on SAI_xDR[23:8].\nSAI_xDR[23] always represents the MSB.\n[Figure 930. SAI_xDR register ordering]\n26 0\nStatus Data[23:0]\nbits\nNote: The transfer is always performed with LSB first.\nThe SAI first sends the adequate preamble for each subframe in a block. The SAI_xDR is\nthen sent on the SD line (Manchester coded). The SAI ends the subframe by transferring\nthe parity bit calculated as described in Table677.\n[Table 677. Parity bit calculation]\nThe underrun is the only error flag available in the SAI_xSR register for SPDIF mode since\nthe SAI can only operate in transmitter mode. As a result, the following sequence must be\nexecuted to recover from an underrun error detected via the underrun interrupt or the\nunderrun status bit:\n1. Disable the DMA stream (via the DMA peripheral) if the DMA is used.\n2. Disable the SAI and check that the peripheral is physically disabled by polling the\nSAIEN bit in the SAI_xCR1 register.\n3. Clear the COVRUNDR flag in the SAI_xCLRFR register.\n4. Flush the FIFO by setting the FFLUSH bit in SAI_xCR2.\nThe software needs to point to the address of the future data corresponding to the start\nof a new block (data for preamble B). If the DMA is used, the DMA source base\naddress pointer must be updated accordingly.\n5. Enable the DMA stream (DMA peripheral) again if the DMA is used to manage data\ntransfers according to the new source base address.\n6. Enable the SAI again by configuring the SAIEN bit in the SAI_xCR1 register.\nClock generator programming in SPDIF generator mode\nFor the SPDIF generator, the SAI provides a bit clock twice as fast as the symbol-rate. The\ntable below shows examples of symbol rates with respect to the audio sampling rate.\n[Table 678. Audio sampling frequency versus symbol rates]\nMore generally, the relationship between the audio sampling frequency (FS) and the bit\nclock rate (FSCK_X) is given by the formula:\nFSCK_x\nFS = -------\n----\n---\n---------\n1\n2\n8\nThe bit clock rate is obtained as follows:\nFSCK_x = F ----s--\n-a---i-\n_---x--\n-_---k\n---e--\n-r-\n_----c--k--\nNote: The above formulas are valid only if NODIV is set to 1 in the SAI_ACR1 register.",
+      "semantic": {}
+    }
+  ]
+}

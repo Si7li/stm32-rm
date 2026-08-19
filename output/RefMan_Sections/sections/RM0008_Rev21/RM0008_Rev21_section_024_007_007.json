@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S24.7.7",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "24",
+      "chapter_title": "Controller area network (bxCAN)",
+      "section": "24.7.7",
+      "section_title": "Bit timing",
+      "level": 3,
+      "parent_section": "24.7",
+      "page": 670,
+      "page_end": 672,
+      "semantic_type": "generic",
+      "features": [
+        "timing"
+      ],
+      "chars": 2317,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=670",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.7.7 \"Bit timing\" in chapter 24 (Controller area network (bxCAN)), RM0008 Rev 21, page 670.",
+      "section_content": "The bit timing logic monitors the serial bus-line and performs sampling and adjustment of\nthe sample point by synchronizing on the start-bit edge and resynchronizing on the following\nedges.\nIts operation may be explained simply by splitting nominal bit time into three segments as\nfollows:\n• Synchronization segment (SYNC_SEG): a bit change is expected to occur within this\ntime segment. It has a fixed length of one time quantum (1 x tq).\n• Bit segment 1 (BS1): defines the location of the sample point. It includes the\nPROP_SEG and PHASE_SEG1 of the CAN standard. Its duration is programmable\nbetween 1 and 16 time quanta but may be automatically lengthened to compensate for\npositive phase drifts due to differences in the frequency of the various nodes of the\nnetwork.\n• Bit segment 2 (BS2): defines the location of the transmit point. It represents the\nPHASE_SEG2 of the CAN standard. Its duration is programmable between 1 and 8\ntime quanta but may also be automatically shortened to compensate for negative\nphase drifts.\nThe resynchronization Jump Width (SJW) defines an upper bound to the amount of\nlengthening or shortening of the bit segments. It is programmable between 1 and 4 time\nquanta.\nA valid edge is defined as the first transition in a bit time from dominant to recessive bus\nlevel provided the controller itself does not send a recessive bit.\nIf a valid edge is detected in BS1 instead of SYNC_SEG, BS1 is extended by up to SJW so\nthat the sample point is delayed.\nConversely, if a valid edge is detected in BS2 instead of SYNC_SEG, BS2 is shortened by\nup to SJW so that the transmit point is moved earlier.\nAs a safeguard against programming errors, the configuration of the Bit Timing register\n(CAN_BTR) is only possible while the device is in Standby mode.\nNote: For a detailed description of the CAN bit timing and resynchronization mechanism, refer to\nthe ISO 11898 standard.\n[Figure 234. Bit timing]\nBaudRate = ----------------------1------------------------ SAMPLE POINT TRANSMIT POINT\nNominalBitTime\nNominalBitTime = 1×tq+tBS1+tBS2\nwith:\ntBS1 = tq x (TS1[3:0] + 1),\ntBS2 = tq x (TS2[2:0] + 1),\ntq = (BRP[9:0] + 1) x tPCLK\nwhere tq refers to the Time quantum\ntPCLK = time period of the APB clock,\nBRP[9:0], TS1[3:0] and TS2[2:0] are defined in the CAN_BTR register.\n[Figure 235. CAN frames]",
+      "semantic": {}
+    }
+  ]
+}

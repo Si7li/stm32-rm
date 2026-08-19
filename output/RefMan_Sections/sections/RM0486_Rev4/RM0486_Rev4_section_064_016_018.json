@@ -1,0 +1,89 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.18",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.18",
+      "section_title": "I3C maximum read length register (I3C_MAXRLR)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3263,
+      "page_end": 3264,
+      "semantic_type": "register_description",
+      "features": [
+        "i3c",
+        "i3c-maxrlr",
+        "ibip",
+        "mrl"
+      ],
+      "chars": 1766,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3263",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.18 \"I3C maximum read length register (I3C_MAXRLR)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3263.",
+      "section_content": "Address offset: 0x090\nReset value: 0x00000000\nWhen the I3C acts as target, this register is used to set or get the maximum read length\nvalue exchanged with the controller during respectively GETMRL or SETMRL CCC. This\nregister is also used to set the IBI data payload size.\nThis register can be written by the software when EN = 0 in the I3C_CFGR register.\nWhen receiving a private read message, the target ends the data transmission (by driving\nT-bit=0) when the count of transmitted data reaches MRL[15:0] in the I3C_MAXRLR\nregister.\nBits 31:19 Reserved, must be kept at reset value.\nBits 18:16 IBIP[2:0]: IBI payload data maximum size, in bytes (when I3C acts as target)\nThis field is initially written by software when EN = 0 to set the maximum number of data\nbytes to be sent to the controller after an IBI request has been acknowledged.This field can\nbe updated by hardware on the reception of SETMRL command (which potentially also\nupdated IBIP[2:0]).\nSoftware is notified of an MRL update by MRLUPF in the I3C_EVR register and the\ncorresponding interrupt, if enabled.\n000: null payload data size (only allowed when BCR2 = 0 in the I3C_BCR register)\n001: 1 byte (mandatory data byte MDB[7:0]\n010: 2 bytes (including first MDB[7:0])\n011: 3 bytes (including first MDB[7:0])\n100: 4 bytes (including first MDB[7:0])\nothers: same as 100\nBits 15:0 MRL[15:0]: Maximum data read length (when I3C acts as target)\nThis field is initially written by software when EN = 0 and updated by hardware on the\nreception of SETMRL command (with potentially also updated IBIP[2:0]).\nSoftware is notified of an MRL update by MRLUPF and the corresponding interrupt, if\nenabled.\nThis field is used by hardware to return the value on the I3C bus when the target receives a\nGETMRL CCC.",
+      "semantic": {
+        "register": "I3C_MAXRLR",
+        "address_offset": "0x090",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18:16",
+            "name": "IBIP[2:0]",
+            "description": "IBI payload data maximum size, in bytes (when I3C acts as target) This field is initially written by software when EN = 0 to set the maximum number of data bytes to be sent to the controller after an IBI request has been acknowledged.This field can be updated by hardware on the reception of SETMRL command (which potentially also updated IBIP[2:0]). Software is notified of an MRL update by MRLUPF in the I3C_EVR register and the corresponding interrupt, if enabled.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "null payload data size (only allowed when BCR2 = 0 in the I3C_BCR register)"
+              },
+              {
+                "value": "001",
+                "meaning": "1 byte (mandatory data byte MDB[7:0]"
+              },
+              {
+                "value": "010",
+                "meaning": "2 bytes (including first MDB[7:0])"
+              },
+              {
+                "value": "011",
+                "meaning": "3 bytes (including first MDB[7:0])"
+              },
+              {
+                "value": "100",
+                "meaning": "4 bytes (including first MDB[7:0])"
+              },
+              {
+                "value": "others",
+                "meaning": "same as 100"
+              }
+            ]
+          },
+          {
+            "bits": "15:0",
+            "name": "MRL[15:0]",
+            "description": "Maximum data read length (when I3C acts as target) This field is initially written by software when EN = 0 and updated by hardware on the reception of SETMRL command (with potentially also updated IBIP[2:0]). Software is notified of an MRL update by MRLUPF and the corresponding interrupt, if enabled. This field is used by hardware to return the value on the I3C bus when the target receives a GETMRL CCC.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

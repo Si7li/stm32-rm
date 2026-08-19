@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S19.4.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "19",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "19.4.6",
+      "section_title": "HyperBus protocol",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 508,
+      "page_end": 511,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 3837,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=508",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.6 \"HyperBus protocol\" in chapter 19 (Extended-SPI interface (XSPI)), RM0522 Rev 1, page 508.",
+      "section_content": "The XSPI can communicate with the external device using the HyperBus protocol.\nThe HyperBus uses 11 to 12 pins depending on the operating voltage:\n• IO[7:0] as bidirectional data bus\n• DQS for read and write data strobe and latency insertion\n• NCS\n• CLK\nThe HyperBus does not require any command specification nor any alternate bytes. As a\nconsequence, a separate register set is used to define the timing of the transaction.\nThe HyperBus frame is composed of the following phases:\n• Command/address phase\n• Data phase\nThe NCS falls before the start of a transaction and rises again after each transaction\nfinishes.\n[Figure 73. Example of HyperBus read operation (8-bit data mode)]\nThe specific HyperBus features are configured through the registers in the 0x0200-0x02FC\noffset range.\nCommand/address phase\nDuring this initial phase, the XSPI sends 48 bits over IO[7:0] to specify the operations to be\nperformed with the external device.\n[Table 128. Command/address phase description]\nThe address space is configured through the memory type MTYP[2:0] in XSPI_DCR1.\nThe total size of the device must be configured through DEVSIZE[4:0] of XSPI_DCR1. In\ncase of multi-chip product (MCP), the device size is the sum of all the sizes of all the MCP\ndies.\nRead/write operation with initial latency\nThe HyperBus read and write operations need to respect two timings:\n• tRWR: minimal read/write recovery time for the device (defined by TRWR[7:0]\ninXSPI_HLCR)\n• tACC: access time for the device (defined by TACC[7:0] in XSPI_HLCR) according to\nthe memory latency\nDuring the read operation, the DQS is used by the device, in two ways (see Figure73):\n• during the command/address phase, to request an additional latency\n• during the data phase, for data strobing\nDuring the write operation, the DQS is used:\n• by the device, during the command/address phase, to request an additional latency.\n• by the XSPI, during the data phase, for write data masking.\n[Figure 74. HyperBus write operation with initial latency]\nDQS Low = 1x Latency count\nCLK and data are\nLatency count center aligned.\nCommand-Address Host drives IO[7:0]\nand DQS\nHost drives IO[7:0] and memory drives DQS\nRead/write operation with additional latency\nIf the device needs an additional latency (during refresh period of an SDRAM for example),\nDQS must be tied to one during one of the DQS signals, during the command/address\nphase.\nAn additional tACC duration is added by the XSPI to meet the device request.\n[Figure 75. HyperBus read operation with additional latency]\n[Figure 76. HyperBus write operation with additional latency]\ntRWR= Read write recovery\ntACC = Initial access\nCLK\nLatency count 1 Latency count 2 C ce L n K te a r n a d li g d n a e ta d . are\nCommand-Address Host drives IO[7:0]\nand DQS\nHost drives IO[7:0] and memory drives DQS\nFixed-latency mode\nSome devices or some applications may not want to operate with a variable latency time as\ndescribed above.\nThe latency can be forced to 2xtACC by setting LM in XSPI_HLCR.\nIn this XSPI latency mode, the state of the DQS signal is not taken into account by the XSPI,\nand an additional latency is always added, leading to a fixed 2 x tACC latency time.\nWrite operation with no latency\nSome devices can also require a zero latency for the write operations. This write-zero\nlatency can be forced by setting WZL in XSPI_HLCR.\n[Figure 77. HyperBus write operation with no latency (register write)]\nLatency on page-crossing during the read operations\nAn additional latency can be needed by some devices for the read operation when crossing\npages.\nThe initial latency must be respected for any page access, as a consequence, when the first\naccess is close to the page boundary, a latency is automatically added at the page crossing\nto respect the tACC time.\n[Figure 78. HyperBus read operation page crossing with latency]",
+      "semantic": {}
+    }
+  ]
+}

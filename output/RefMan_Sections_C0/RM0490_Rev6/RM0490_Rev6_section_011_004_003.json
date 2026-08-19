@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S11.4.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "11",
+      "chapter_title": "Direct memory access controller (DMA)",
+      "section": "11.4.3",
+      "section_title": "DMA transfers",
+      "level": 3,
+      "parent_section": "11.4",
+      "page": 225,
+      "page_end": 226,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "memory"
+      ],
+      "chars": 2547,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=225",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.4.3 \"DMA transfers\" in chapter 11 (Direct memory access controller (DMA)), RM0490 Rev 6, page 225.",
+      "section_content": "The software configures the DMA controller at channel level, to perform a block transfer,\ncomposed of a sequence of AHB bus transfers.\nA DMA block transfer may be requested from a peripheral, or triggered by the software in\ncase of memory-to-memory transfer.\nAfter an event, the following steps of a single DMA transfer occur:\n1. The peripheral sends a single DMA request signal to the DMA controller.\n2. The DMA controller serves the request, depending on the priority of the channel\nassociated to this peripheral request.\n3. As soon as the DMA controller grants the peripheral, an acknowledge is sent to the\nperipheral by the DMA controller.\n4. The peripheral releases its request as soon as it gets the acknowledge from the DMA\ncontroller.\n5. Once the request is deasserted by the peripheral, the DMA controller releases the\nacknowledge.\nThe peripheral may order a further single request and initiate another single DMA transfer.\nThe request/acknowledge protocol is used when a peripheral is either the source or the\ndestination of the transfer. For example, in case of memory-to-peripheral transfer, the\nperipheral initiates the transfer by driving its single request signal to the DMA controller. The\nDMA controller reads then a single data in the memory and writes this data to the peripheral.\nFor a given channel x, a DMA block transfer consists of a repeated sequence of:\n• a single DMA transfer, encapsulating two AHB transfers of a single data, over the DMA\nAHB bus master:\n– a single data read (byte, half-word, or word) from the peripheral data register or a\nlocation in the memory, addressed through an internal current peripheral/memory\naddress register.\nThe start address used for the first single transfer is the base address of the\nperipheral or memory, and is programmed in the DMA_CPARx or DMA_CMARx\nregister.\n– a single data write (byte, half-word, or word) to the peripheral data register or a\nlocation in the memory, addressed through an internal current peripheral/memory\naddress register.\nThe start address used for the first transfer is the base address of the peripheral or\nmemory, and is programmed in the DMA_CPARx or DMA_CMARx register.\n• postdecrementing of the programmed DMA_CNDTRx register\nThis register contains the remaining number of data items to transfer (number of AHB\n‘read followed by write’ transfers).\nThis sequence is repeated until DMA_CNDTRx is null.\nNote: The AHB master bus source/destination address must be aligned with the programmed size\nof the transferred single data to the source/destination.",
+      "semantic": {}
+    }
+  ]
+}

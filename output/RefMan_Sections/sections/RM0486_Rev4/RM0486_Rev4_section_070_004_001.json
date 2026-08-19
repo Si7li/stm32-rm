@@ -1,0 +1,142 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S70.4.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "70",
+      "chapter_title": "Management data input/output (MDIOS)",
+      "section": "70.4.1",
+      "section_title": "MDIOS configuration register (MDIOS_CR)",
+      "level": 3,
+      "parent_section": "70.4",
+      "page": 3609,
+      "page_end": 3610,
+      "semantic_type": "register_description",
+      "features": [
+        "dpc",
+        "eie",
+        "mdios",
+        "mdios-cr",
+        "port-address",
+        "rdie",
+        "wrie"
+      ],
+      "chars": 1674,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3609",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 70.4.1 \"MDIOS configuration register (MDIOS_CR)\" in chapter 70 (Management data input/output (MDIOS)), RM0486 Rev 4, page 3609.",
+      "section_content": "Address offset: 0x000\nReset value: 0x00000000\n[Table 690. Interrupt control bits]\nBits 31:13 Reserved, must be kept at reset value.\nBits 12:8 PORT_ADDRESS[4:0]: slave address\nCan be written only when the peripheral is disabled (EN=0).\nIf the address given by the MDIO master matches PORT_ADRESS[4:0], the MDIOS\nservices the frame. Otherwise, the frame is ignored.\nBit 7 DPC: disable preamble check\n0: MDIO master must give preamble before each frame.\n1: MDIO master can send each frame without a preceding preamble, and the MDIOS does\nnot signal a preamble error.\nNote: When this bit is set, the application must be sure that no frame is currently in progress\nwhen the MDIOS is enabled. Otherwise, the MDIOS can become desynchronized with\nthe master.\nThis bit cannot be changed unless EN=0 (though it can be changed at the same time\nthat EN is being set).\nBits 6:4 Reserved, must be kept at reset value.\nBit 3 EIE: error interrupt enable\n0: Interrupt is disabled.\n1: Interrupt is enabled.\nNote: When this bit is set, an interrupt is generated if any of the error flags (PERF, SERF, or\nTERF in the MDIOS_SR register) is set.\nBit 2 RDIE: register read interrupt enable\n0: Interrupt is disabled.\n1: Interrupt is enabled.\nNote: When this bit is set, an interrupt is generated if any of the read flags (RDF[31:0] in the\nMDIOS_RDFR register) is set.\nBit 1 WRIE: register write interrupt enable\n0: Interrupt is disabled.\n1: Interrupt is enabled.\nNote: When this bit is set, an interrupt is generated if any of the read flags (WRF[31:0] in the\nMDIOS_WRFR register) is set.\nBit 0 EN: peripheral enable\n0: MDIOS is disabled.\n1: MDIOS is enabled and monitoring the MDIO bus (MDC/MDIO).",
+      "semantic": {
+        "register": "MDIOS_CR",
+        "address_offset": "0x000",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12:8",
+            "name": "PORT_ADDRESS[4:0]",
+            "description": "slave address Can be written only when the peripheral is disabled (EN=0). If the address given by the MDIO master matches PORT_ADRESS[4:0], the MDIOS services the frame. Otherwise, the frame is ignored.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "DPC",
+            "description": "disable preamble check not signal a preamble error. Note: When this bit is set, the application must be sure that no frame is currently in progress when the MDIOS is enabled. Otherwise, the MDIOS can become desynchronized with the master. This bit cannot be changed unless EN=0 (though it can be changed at the same time that EN is being set).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "MDIO master must give preamble before each frame."
+              },
+              {
+                "value": "1",
+                "meaning": "MDIO master can send each frame without a preceding preamble, and the MDIOS does"
+              }
+            ]
+          },
+          {
+            "bits": "6:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "EIE",
+            "description": "error interrupt enable Note: When this bit is set, an interrupt is generated if any of the error flags (PERF, SERF, or TERF in the MDIOS_SR register) is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt is disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt is enabled."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "RDIE",
+            "description": "register read interrupt enable Note: When this bit is set, an interrupt is generated if any of the read flags (RDF[31:0] in the MDIOS_RDFR register) is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt is disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt is enabled."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "WRIE",
+            "description": "register write interrupt enable Note: When this bit is set, an interrupt is generated if any of the read flags (WRF[31:0] in the MDIOS_WRFR register) is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt is disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt is enabled."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EN",
+            "description": "peripheral enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "MDIOS is disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "MDIOS is enabled and monitoring the MDIO bus (MDC/MDIO)."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

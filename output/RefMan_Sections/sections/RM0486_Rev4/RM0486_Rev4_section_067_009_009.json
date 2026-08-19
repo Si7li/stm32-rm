@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.9.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.9.9",
+      "section_title": "Clock generator",
+      "level": 3,
+      "parent_section": "67.9",
+      "page": 3472,
+      "page_end": 3473,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "spi"
+      ],
+      "chars": 2876,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3472",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.9.9 \"Clock generator\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3472.",
+      "section_content": "When the I2S or PCM is configured in master mode, the user needs to program the clock\ngenerator in order to produce the frame synchronization (WS), the bit clock (CK) and the\nmaster clock (MCK) at the desired frequency.\nIf the I2S or PCM is used in slave mode, there is no need to configure the clock generator.\n[Figure 908. I2S clock generator architecture]\nCLKGEN\nMCKOE MCK\nspi_ker_ck 8-bit line + a r divider ÷ 4 ÷ 2 0 0 1 CK\nreshaping stage 1\nI2SDIV[7:0] ODD I2SMOD CHLEN MCKOE\nThe frequency generated on MCK, CK and WS depends mainly on I2SDIV, ODD, CHLEN,\nand MCKOE. The bit MCKOE indicates if a master clock need to be generated or not. The\nmaster clock has a frequency 256 or 128 times higher than the frame synchronization. This\nmaster clock is often required to provide a reference clock to external audio codecs.\nNote: In master mode, there are no specific constraints on the ratio between the bus clock rate\n(Fpclk) and the bit clock (FCK). The bus clock frequency must be high enough in order to\nsupport the data throughput.\nWhen the master clock is generated (MCKOE = 1), the frequency of the frame\nsynchronization is given by the following formula in I2S mode:\nF = ----------------------------------i-2---s--_---c--l-k-------------------------------\nWS 256× {(2× I2SDIV) + ODD}\nAnd by this formula in PCM mode:\nF = ----------------------------------i-2---s--_---c--l-k-------------------------------\nWS 128× {(2× I2SDIV) + ODD}\nIn addition, the frequency of the MCK (FMCK) is given by the formula:\nF = -------------------------i-2---s---_--c--l-k----------------------\nMCK {(2 × I2SDIV) + ODD}\nWhen the master clock is disabled (MCKOE = 0), the frequency of the frame\nsynchronization is given by the following formula in I2S mode:\nF = ------------------------------------------------------i-2---s---_--c--l-k---------------------------------------------------\nWS 32× (CHLEN+1)× {(2× I2SDIV)+ ODD}\nAnd by this formula in PCM mode:\nF = ------------------------------------------------------i-2---s---_--c--l-k---------------------------------------------------\nWS 16× (CHLEN+1)× {(2× I2SDIV)+ ODD}\nWhere FWS is the frequency of the frame synchronization, and Fi2s_clk is the frequency of\nthe kernel clock provided to the SPI/I2S block.\nNote: CHLEN and ODD can be either 0 or 1.\nWhen I2SDIV = 0, then {(2 x I2SDIV) + ODD} is forced to 1.\nNote: MCK duty cycle is 50%, even for odd division ratios, when the kernel clock duty cycle is\n50%. When the division ratio is set (I2SDIV=0), the MCK duty cycle is the same as the\nduty cycle of the kernel clock.\nTable665 provides examples of clock generator programming for I2S modes.\nMCK generation\nThe master clock MCK is generated when the following conditions are met:\n• I2SMOD must be equal to 1,\n• I2SCFG must select a master mode,\n• MCKOE must be set,\n[Table 665. CLKGEN programming examples for usual I2S frequencies]",
+      "semantic": {}
+    }
+  ]
+}

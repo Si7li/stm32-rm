@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.4.5",
+      "section_title": "Flow selection",
+      "level": 3,
+      "parent_section": "39.4",
+      "page": 1831,
+      "page_end": 1833,
+      "semantic_type": "generic",
+      "features": [
+        "flow",
+        "selection"
+      ],
+      "chars": 4831,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1831",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.4.5 \"Flow selection\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1831.",
+      "section_content": "The module, present in each pipe, handles the flow control around the CSI2 camera sensor\ninterface. For each pipe, the software needs to configure which virtual channel (VC) and\nwhich Datatypes (DT) are processed by the pipe.\nFor Pipe0 and Pipe1, multiple Datatypes can be selected whereas only one virtual channel\ncan be defined for a frame. Configuration can be changed frame by frame if the application\nrequires it, offering some flexibility.\nFor Pipe2, when the pipe is independent with PIPEDIFF = 1, only one virtual channel and\nonly one data type by frame can be selected.\nThe software has to reconfigure the flow selection module to handle interleaved frames from\na sensor if it uses virtual channels as a mean to make the differentiation, accepting to lose\nframes since there can be only one virtual channel active for a given frame (it decreases the\nFPS).\nMultiple cameras data flow can be received simultaneously through the CSI2 ISB header\nbus. For instance, for a system having two different camera data flows, it is possible to\nredirect one virtual channel on a pipe and the other one on the other pipe. It can be\ninteresting to dump them on Pipe0, but only one frame over two since the flow selection\nblock has to be reconfigured to switch from one VC to another one.\nThe flow selection module is used also to share some image processing features\n(demosaicing, color conversion, statistics, contrast enhancement, auto exposure, statistics\nremoval and basic decimation) between Pipe1 and Pipe2, whatever the camera sensor\ninterface solution (parallel interface or CSI2 interface): when bit PIPEDIFF in the\nDCMIPP_P1FSCR register is 0, or the input is on the parallel interface that provides unique\nflow, the Pipe2 samples pixels from the output of the ISP of Pipe1 (see Figure397).\nPIPEDIFF must be reconfigured when Pipe1 and Pipe2 are disabled.\nSoftware configuration\nThe following configurations must be set first, because static in the DCMIPP_PxFSCR\nregisters:\nPipe0\n• DTMODE[1:0]: Mode for CSI flow selection into that pipe\n– 0: only flow VC/DTIDA is forwarded in the pipe\n– 1: flows VC/DTIDA and/or VC/DTIDB are forwarded in the pipe\n– 2: all Datatypes of the selected virtual channel, except the VC/DTIDA or\nVC/DTIDB, are forwarded in the pipe\n– 3: all Datatypes of the selected virtual channel are forwarded in the pipe\n• VC[1:0]: Virtual channel ID of the CSI flow to select for further processing on the pipe\n• DTIDA[5:0]: Data type ID A to select in the CSI flow for further processing in the pipe\n• DTIDB[5:0]: Data type ID B to select in the CSI flow for further processing in the pipe\n• PIPEN: activation of the Pipes, to be set after the above configurations.\nPipe1\n• DTMODE[1:0]: mode for CSI flow selection into that pipe\n– 0: only flow VC/DTIDA is forwarded in the pipe\n– 1: flows VC/DTIDA and VC/DTIDB are forwarded in the pipe\n• VC[1:0]: virtual channel ID of the CSI flow to select for further processing on the pipe\n• DTIDA[5:0]: data type ID A to select in the CSI flow for further processing in the pipe\n• DTIDB[5:0]: data type ID B to select in the CSI flow for further processing in the pipe\n• FDTFEN: when the DTIDx is detected depending on DTMODE, the software forces the\ndata type format to the value set into FDTF[5:0] for the pixel pipe processing. It can be\nused, for instance, to address sensor 3D camera through specific bridge using CSI2\n“user data type” to make distinction between left and right camera sensor (each\ncamera has its own user data type value, but sharing the same pixel format).\n• FDTF[5:0]: data type value to be forced\n• PIPEDIFF: Pipe2 to take same input as Pipe1 or differentiated:\n– 0: Pipe1 and Pipe2 take the flow selection configuration of Pipe1. Pipe1 shares\nthe image processing functions with Pipe2.\n– 1: Pipe1 and Pipe2 are considered as two independent pipes, without any shared\nconfiguration.\n• PIPEN: activation of the pipes, to be set after the above configurations.\nPipe2\n• VC[1:0]: Virtual channel ID of the CSI flow to select for further processing on the pipe.\n• DTIDA[5:0]: Data type ID A to select in the CSI flow for further processing in the pipe\n• FDTFEN: When the DTIDx is detected depending on DTMODE, the software forces the\ndata type format to the value set into FDTF[5:0] for the pixel pipe processing. It can be\nused to address sensor 3D camera through specific bridge using CSI2 “user data type”\nto make distinction between left and right camera sensor for instance (each camera\nhaving its own user data type value, but sharing the same pixel format).\n• FDTF[5:0]: Data type value to be forced\n• PIPEN: activation of the pipes, to be set after the above configurations.\nIf PIPEDIFF = 0 in DCMIPP_P1FSCR, the configuration bits are directly those set in the\nDCMIPP_P1FSCR register.\nThe above bit fields are meaningful when PIPEDIFF = 1.",
+      "semantic": {}
+    }
+  ]
+}

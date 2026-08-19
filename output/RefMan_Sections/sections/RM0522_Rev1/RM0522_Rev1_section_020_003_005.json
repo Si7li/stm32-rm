@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S20.3.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "20",
+      "chapter_title": "Delay block (DLYB)",
+      "section": "20.3.5",
+      "section_title": "Output clock phase configuration procedure",
+      "level": 3,
+      "parent_section": "20.3",
+      "page": 558,
+      "page_end": 558,
+      "semantic_type": "generic",
+      "features": [
+        "clock"
+      ],
+      "chars": 1715,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=558",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 20.3.5 \"Output clock phase configuration procedure\" in chapter 20 (Delay block (DLYB)), RM0522 Rev 1, page 558.",
+      "section_content": "When the delay line length is configured to one input clock period, the output clock phase\ncan be selected between the unit delays spanning one Input clock period.\nFollow the steps below to select the output clock phase:\n1. Disable the output clock and enable the access to the phase selection SEL[3:0] bits by\nsetting SEN bit to 1.\n2. Program SEL[3:0] with the desired output clock phase value.\n3. Enable the output clock on the selected phase by clearing SEN to 0.\nXSPI use case:\nThe delay block is used in conjunction with XSPI interface to allow shifting the input data\nsampling signal. This sampling signal can be the feedback clock or the data strobe (DQS)\nsignal, which is delivered by certain type of devices. Note that in case DQS is used, the\ncalibration procedure must be performed beforehand with a free running clock, as DQS is a\ndiscontinuous signal.\nIn case of SDR (single data rate) mode the user must typically shift the sampling signal by\nhalf period, so that the sampling edges are positioned in the middle of the valid data phase.\nIn case of DDR (dual data rate) mode, for which data are transitioning at start and middle of\nperiod, typical value must be close to N/4, once the calibration is completed.\nIn case of high frequencies and tight timing constraints, the delay setting granularity (10)\nmight be too coarse. Since in most cases it is not necessary to have a possible delay value\ncovering the whole sampling clock period, the \"Unit\" value can be overridden by application\nin order to improve the accuracy of the sampling edge position (example: providing a twice\nas small “Unit” gives twice better timing accuracy. The counterpart being that the maximum\npossible delay is divided by 2).",
+      "semantic": {}
+    }
+  ]
+}

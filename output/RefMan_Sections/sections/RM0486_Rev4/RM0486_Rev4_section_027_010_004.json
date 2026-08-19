@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S27.10.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "27",
+      "chapter_title": "Flexible memory controller (FMC)",
+      "section": "27.10.4",
+      "section_title": "Low-power modes",
+      "level": 3,
+      "parent_section": "27.10",
+      "page": 1273,
+      "page_end": 1275,
+      "semantic_type": "generic",
+      "features": [
+        "memory",
+        "power"
+      ],
+      "chars": 2631,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1273",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.10.4 \"Low-power modes\" in chapter 27 (Flexible memory controller (FMC)), RM0486 Rev 4, page 1273.",
+      "section_content": "Two low-power modes are available:\n• Self-refresh mode\nThe Auto-refresh cycles are performed by the SDRAM device itself to retain data\nwithout external clocking.\n• Power-down mode\nThe Auto-refresh cycles are performed by the SDRAM controller.\nSelf-refresh mode\nSDRAM devices can be forced into Self-refresh by software according to the MODE[2:0],\nDS1, DS2 bits of the FMC_SDCMR register.\nSDRAM devices exit Self-refresh either by a normal mode command from the\nFMC_SDCMR register (according to DS1 and DS2 bits), or upon the arrival of an AXI\nrequest (according to the device enabled through SDEN bit in the FMC_SDCRx).\nNote: Exiting Self-refresh by software using FMC_SDCMR is defined on a per-device basis, while\nthe Self-refresh exit upon receiving an AXI transfer is applicable to all devices, irrespectively\nof the AXI target controller, including NOR flash/PSRAM and NAND flash memories.\nChanging the SDRAM frequency is possible only during Self-Refresh: RPIPE[1:0] and\nSDCLK[1:0] of a device FMC_SDCRx register must not be modified when the device is not\nin Self-Refresh mode.\nNote: During Self-Refresh, any command other than normal mode configured in the\nFMC_SDCMR register, is ignored by the SDRAM controller.\n[Figure 192. SDRAM Self-refresh waveforms]\nPower-down mode\nSDRAM devices can be forced into Power-down by software according to the MODE[2:0],\nDS1, DS2 bits of the FMC_SDCMR register.\nSDRAM devices exit Power-down either by a normal mode command from the\nFMC_SDCMR register (according to DS1 and DS2 bits) or upon the arrival of an AXI\nrequest (according to the device enabled through SDEN bit in the FMC_SDCRx).\nNote: During Power-down, any command other than normal mode configured in the\nFMC_SDCMR register, is ignored by SDRAM controller.\n[Figure 193. Power-down mode]\nDuring Power-down mode, all SDRAM device input and output buffers are deactivated\nexcept for the SDCKE which remains low.\nThe SDRAM device cannot remain in Power-down mode longer than the refresh period and\ncannot perform the Auto-refresh cycles by itself. Therefore, the SDRAM controller carries\nout the refresh operation by executing the operations below:\n1. Exit from Power-down mode and drive the SDCKE high\n2. Generate the PALL command only if a row was active during Power-down mode\n3. Generate the Auto-refresh command\n4. Drive SDCKE low again to return to Power-down mode.\n[Figure 194. Power-down with Auto-refresh]\nClock stop during low-power modes\nIf all SDRAM devices are simultaneously in low-power mode, the controller stops\nthe SDRAM clock generation. The clock is resumed when at least one device exits\nfrom low-power mode.",
+      "semantic": {}
+    }
+  ]
+}

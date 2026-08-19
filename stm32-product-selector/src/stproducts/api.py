@@ -28,7 +28,9 @@ every one of their headers exactly, with no misses either way.
 
 from __future__ import annotations
 
+import base64
 import html
+import json
 import re
 from dataclasses import dataclass, field, replace
 
@@ -37,7 +39,16 @@ from .net import ST_ROOT, Fetcher
 GRID_URL = ST_ROOT + "/bin/st/selectors/cxst/en.cxst-ps-grid.html/{level_id}.json"
 RPN_URL = ST_ROOT + "/bin/st/selectors/cxst/en.cxst-rpn-info.html/{product_id}.json"
 
+#: What ST's "Export to Excel" button POSTs to, with a ``requestData`` form
+#: field carrying the base64 JSON of :func:`excel_export_payload`. Read out of
+#: ``product-selector.min.js`` (``onDownloadBtnClick`` /
+#: ``getDownloadInfo``) and ``commons.min.js`` (``FileDownloader``).
+EXCEL_DOWNLOAD_URL = ST_ROOT + "/bin/st/selectors/cxst/products-excel-download"
+
 PART_NUMBER_COLUMN_ID = "1"
+
+#: Three columns ST's export always opens with, in that order.
+FIXED_EXPORT_COLUMNS = ("1", "4", "163")
 
 #: ST joins repeated values with this inside a single cell.
 MULTI_SEP = "||"
@@ -213,6 +224,75 @@ def fetch_grid(fetcher: Fetcher, level_id: str, *, referer: str | None = None) -
         xhr=True,
     )
     return parse_grid(level_id, payload)
+
+
+def excel_export_payload(grid: Grid) -> dict:
+    """The ``downloadInfo`` object ST's export endpoint expects.
+
+    Mirrors ``getDownloadInfo`` in ST's ``product-selector.min.js``: the
+    fixed leading columns, then every visible column in its own ``order``,
+    all product ids, and one row object per product. ``rows`` is sent for
+    fidelity; the server rebuilds rows from ``productIds``, which is why a
+    row keyed by column id answers the same way the JS's does.
+
+    One deliberate difference from the JS: every ``rows`` entry carries **all**
+    column ids, filling absent cells with ``-``. The JS only sends the cells
+    the grid returned, and ST's server drops a row cell whose key is absent
+    and writes the rest positionally -- so a sparse part's values slide left
+    under the wrong headers. A dense row (verified for LN2519) keeps ST's own
+    export aligned, which is the whole point of downloading it.
+    """
+    visibility_ordered = sorted(
+        (c for c in grid.columns if c.show), key=lambda c: c.order
+    )
+    column_ids: list[str] = ["1"]
+    if any(c.id == "4" for c in grid.columns):
+        column_ids.append("4")
+    column_ids.append("163")
+    column_ids.extend(c.id for c in visibility_ordered if c.id not in FIXED_EXPORT_COLUMNS)
+
+    super_attribute_ids = [
+        c.id
+        for c in visibility_ordered
+        if c.qualifier and c.id not in FIXED_EXPORT_COLUMNS
+    ]
+
+    product_ids = [r["product_id"] for r in grid.rows]
+    exponent_pf = next(
+        (r["product_id"] for r in grid.rows if grid.level_id in (r.get("path") or "")),
+        product_ids[-1] if product_ids else None,
+    )
+    rows = []
+    for row in grid.rows:
+        cells = {column_id: "-" for column_id in column_ids}
+        cells.update(
+            {cid: value for cid, value in row["cells"].items() if cid in column_ids}
+        )
+        rows.append(cells)
+    return {
+        "exponentPF": exponent_pf,
+        "rootProductId": grid.level_id,
+        "productIds": product_ids,
+        "columnIds": column_ids,
+        "superAttributesColumnIds": super_attribute_ids,
+        "rows": rows,
+    }
+
+
+def download_workbook(fetcher: Fetcher, grid: Grid, *, referer: str | None = None) -> bytes:
+    """POST ``products-excel-download`` and return the raw XLSX bytes.
+
+    The response is a genuine ST export -- the same file the site's Export to
+    Excel button hands to a browser -- so a selector with no local workbook
+    can still get a real diff against ST's own original.
+    """
+    payload = json.dumps(excel_export_payload(grid))
+    request_data = base64.b64encode(payload.encode("utf-8")).decode("ascii")
+    return fetcher.post_form_bytes(
+        EXCEL_DOWNLOAD_URL,
+        data={"requestData": request_data},
+        referer=referer or ST_ROOT + "/en/microcontrollers-microprocessors.html",
+    )
 
 
 def fetch_datasheet_url(fetcher: Fetcher, product_id: str, *, referer: str | None = None) -> str | None:

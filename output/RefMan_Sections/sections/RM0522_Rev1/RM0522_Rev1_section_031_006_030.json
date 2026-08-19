@@ -1,0 +1,163 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S31.6.30",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "31",
+      "chapter_title": "Advanced-control timers (TIM1/TIM8)",
+      "section": "31.6.30",
+      "section_title": "TIM capture/compare mode register 4 (TIM_CCMR4)",
+      "level": 3,
+      "parent_section": "31.6",
+      "page": 1120,
+      "page_end": 1122,
+      "semantic_type": "register_description",
+      "features": [
+        "oc7ce",
+        "oc7fe",
+        "oc7m",
+        "oc7pe",
+        "tim",
+        "tim-ccmr4",
+        "timer"
+      ],
+      "chars": 4479,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1120",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.6.30 \"TIM capture/compare mode register 4 (TIM_CCMR4)\" in chapter 31 (Advanced-control timers (TIM1/TIM8)), RM0522 Rev 1, page 1120.",
+      "section_content": "Address offset: 0x078\nReset value: 0x0000 0000\nRefer to the above CCMR1 register description. Channel 7 can only be configured in output.\nBits 31:18 Reserved, must be kept at reset value.\nBits 15:8 Reserved, must be kept at reset value.\nBit 7 OC7CE: Output compare 7 clear enable\n0: tim_oc7ref is not affected by the tim_ocref_clr_int signal\n1: tim_oc7ref is cleared as soon as a High level is detected on tim_ocref_clr_int signal\n(tim_ocref_clr input or tim_etrf input)\nNote: This mode is not available for all PWM modes. Refer to Section31.3.23: Clearing the\ntim_ocxref signal on an external event for the list of forbidden configurations.\nBits 17:16, 6:4 OC7M[4:0]: Output compare 7 mode\nThese bits define the behavior of the output reference signal tim_ocref7. tim_oc7ref is active\nhigh whereas tim_oc7 active level depends on CC7P bit.\n00000:Frozen - The comparison between the output compare register TIM_CCR7 and the\ncounter TIM_CNT has no effect on the outputs.(this mode is used to generate a timing\nbase).\n00001:Set channel 7 to active level on match. tim_oc7ref signal is forced high when the\ncounter TIM_CNT matches the capture/compare register 7 (TIM_CCR7).\n00010:Set channel 7 to inactive level on match. tim_oc7ref signal is forced low when the\ncounter TIM_CNT matches the capture/compare register 7 (TIM_CCR7).\n00011:Toggle - tim_oc7ref toggles when TIM_CNT = TIM_CCR7.\n00100:Force inactive level - tim_oc7ref is forced low.\n00101:Force active level - tim_oc7ref is forced high.\n00110:PWM mode 1 - In upcounting, channel 7 is active as long as TIM_CNT<TIM_CCR7\nelse inactive. In downcounting, channel 7 is inactive (tim_oc7ref = 0) as long as\nTIM_CNT>TIM_CCR7 else active (tim_oc5ref = 1).\n00111:PWM mode 2 - In upcounting, channel 7 is inactive as long as TIM_CNT<TIM_CCR7\nelse active. In downcounting, channel 7 is active as long as TIM_CNT>TIM_CCR7\nelse inactive.\n01000:Retrigerrable OPM mode 1 - In up-counting mode, the channel is active until a trigger\nevent is detected (on tim_trgi signal). Then, a comparison is performed as in PWM\nmode 1 and the channels becomes active again at the next update. In down-counting\nmode, the channel is inactive until a trigger event is detected (on tim_trgi signal).\nThen, a comparison is performed as in PWM mode 1 and the channels becomes\ninactive again at the next update.\n01001:Retrigerrable OPM mode 2 - In up-counting mode, the channel is inactive until a\ntrigger event is detected (on tim_trgi signal). Then, a comparison is performed as in\nPWM mode 2 and the channels becomes inactive again at the next update. In down-\ncounting mode, the channel is active until a trigger event is detected (on tim_trgi\nsignal). Then, a comparison is performed as in PWM mode 1 and the channels\nbecomes active again at the next update.\nOthers: Reserved\nNote: These bits can not be modified as long as LOCK level 3 has been programmed (LOCK\nbits in TIM_BDTR register) and CC1S = 00 (the channel is configured in output).\nNote: In PWM mode, the OCREF level changes only when the result of the comparison\nchanges or when the output compare mode switches from “frozen” mode to “PWM”\nmode.\nBit 3 OC7PE: Output compare 7 preload enable\n0:Preload register on TIM_CCR7 disabled. TIM_CCR7 can be written at anytime, the new\nvalue is taken in account immediately.\n1:Preload register on TIM_CCR7 enabled. Read/Write operations access the preload\nregister. TIM_CCR7 preload value is loaded in the active register at each update event.\nThese bits can not be modified as long as LOCK level 3 has been programmed (LOCK bits in\nTIM_BDTR register) and CC1S = 00 (the channel is configured in output).\nBit 2 OC7FE: Output compare 7 fast enable\nThis bit decreases the latency between a trigger event and a transition on the timer output. It\nmust be used in one-pulse mode (OPM bit set in TIM_CR1 register), to have the output pulse\nstarting as soon as possible after the starting trigger.\n0:CC7 behaves normally depending on counter and CCR7 values even when the trigger is\nON. The minimum delay to activate CC7 output when an edge occurs on the trigger input\nis 5 clock cycles.\n1:An active edge on the trigger input acts like a compare match on CC7 output. Then, OC is\nset to the compare level independently from the result of the comparison. Delay to sample\nthe trigger input and to activate CC7 output is reduced to 3 clock cycles. OCFE acts only if\nthe channel is configured in PWM1 or PWM2 mode.\nBits 1:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "TIM_CCMR4",
+        "address_offset": "0x078",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "OC7CE",
+            "description": "Output compare 7 clear enable (tim_ocref_clr input or tim_etrf input) Note: This mode is not available for all PWM modes. Refer to Section31.3.23: Clearing the tim_ocxref signal on an external event for the list of forbidden configurations.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "tim_oc7ref is not affected by the tim_ocref_clr_int signal"
+              },
+              {
+                "value": "1",
+                "meaning": "tim_oc7ref is cleared as soon as a High level is detected on tim_ocref_clr_int signal"
+              }
+            ]
+          },
+          {
+            "bits": "17:16, 6:4",
+            "name": "OC7M[4:0]",
+            "description": "Output compare 7 mode These bits define the behavior of the output reference signal tim_ocref7. tim_oc7ref is active high whereas tim_oc7 active level depends on CC7P bit. counter TIM_CNT has no effect on the outputs.(this mode is used to generate a timing base). counter TIM_CNT matches the capture/compare register 7 (TIM_CCR7). counter TIM_CNT matches the capture/compare register 7 (TIM_CCR7). else inactive. In downcounting, channel 7 is inactive (tim_oc7ref = 0) as long as TIM_CNT>TIM_CCR7 else active (tim_oc5ref = 1). else active. In downcounting, channel 7 is active as long as TIM_CNT>TIM_CCR7 else inactive. event is detected (on tim_trgi signal). Then, a comparison is performed as in PWM mode 1 and the channels becomes active again at the next update. In down-counting mode, the channel is inactive until a trigger event is detected (on tim_trgi signal). Then, a comparison is performed as in PWM mode 1 and the channels becomes inactive again at the next update. trigger event is detected (on tim_trgi signal). Then, a comparison is performed as in PWM mode 2 and the channels becomes inactive again at the next update. In down- counting mode, the channel is active until a trigger event is detected (on tim_trgi signal). Then, a comparison is performed as in PWM mode 1 and the channels becomes active again at the next update. Note: These bits can not be modified as long as LOCK level 3 has been programmed (LOCK bits in TIM_BDTR register) and CC1S = 00 (the channel is configured in output). Note: In PWM mode, the OCREF level changes only when the result of the comparison changes or when the output compare mode switches from “frozen” mode to “PWM” mode.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "Frozen - The comparison between the output compare register TIM_CCR7 and the"
+              },
+              {
+                "value": "00001",
+                "meaning": "Set channel 7 to active level on match. tim_oc7ref signal is forced high when the"
+              },
+              {
+                "value": "00010",
+                "meaning": "Set channel 7 to inactive level on match. tim_oc7ref signal is forced low when the"
+              },
+              {
+                "value": "00011",
+                "meaning": "Toggle - tim_oc7ref toggles when TIM_CNT = TIM_CCR7."
+              },
+              {
+                "value": "00100",
+                "meaning": "Force inactive level - tim_oc7ref is forced low."
+              },
+              {
+                "value": "00101",
+                "meaning": "Force active level - tim_oc7ref is forced high."
+              },
+              {
+                "value": "00110",
+                "meaning": "PWM mode 1 - In upcounting, channel 7 is active as long as TIM_CNT<TIM_CCR7"
+              },
+              {
+                "value": "00111",
+                "meaning": "PWM mode 2 - In upcounting, channel 7 is inactive as long as TIM_CNT<TIM_CCR7"
+              },
+              {
+                "value": "01000",
+                "meaning": "Retrigerrable OPM mode 1 - In up-counting mode, the channel is active until a trigger"
+              },
+              {
+                "value": "01001",
+                "meaning": "Retrigerrable OPM mode 2 - In up-counting mode, the channel is inactive until a"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "OC7PE",
+            "description": "Output compare 7 preload enable value is taken in account immediately. register. TIM_CCR7 preload value is loaded in the active register at each update event. These bits can not be modified as long as LOCK level 3 has been programmed (LOCK bits in TIM_BDTR register) and CC1S = 00 (the channel is configured in output).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Preload register on TIM_CCR7 disabled. TIM_CCR7 can be written at anytime, the new"
+              },
+              {
+                "value": "1",
+                "meaning": "Preload register on TIM_CCR7 enabled. Read/Write operations access the preload"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "OC7FE",
+            "description": "Output compare 7 fast enable This bit decreases the latency between a trigger event and a transition on the timer output. It must be used in one-pulse mode (OPM bit set in TIM_CR1 register), to have the output pulse starting as soon as possible after the starting trigger. ON. The minimum delay to activate CC7 output when an edge occurs on the trigger input is 5 clock cycles. set to the compare level independently from the result of the comparison. Delay to sample the trigger input and to activate CC7 output is reduced to 3 clock cycles. OCFE acts only if the channel is configured in PWM1 or PWM2 mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CC7 behaves normally depending on counter and CCR7 values even when the trigger is"
+              },
+              {
+                "value": "1",
+                "meaning": "An active edge on the trigger input acts like a compare match on CC7 output. Then, OC is"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

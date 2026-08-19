@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S21.4.20",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "21",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "21.4.20",
+      "section_title": "Injected channel management",
+      "level": 3,
+      "parent_section": "21.4",
+      "page": 586,
+      "page_end": 587,
+      "semantic_type": "generic",
+      "features": [
+        "adc"
+      ],
+      "chars": 1905,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=586",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.4.20 \"Injected channel management\" in chapter 21 (Analog-to-digital converters (ADC)), RM0522 Rev 1, page 586.",
+      "section_content": "Triggered injection mode\nTo use triggered injection, the JAUTO bit in the ADC_CFGR1 register must be cleared.\n1. Start the conversion of a group of regular channels either by an external trigger or by\nsetting the ADSTART bit in the ADC_CR register.\n2. If an external injected trigger occurs, or if the JADSTART bit in the ADC_CR register is\nset during the conversion of a regular group of channels, the current conversion is\nreset and the injected channel sequence switches are launched (all the injected\nchannels are converted once if JDISCEN=0).\n3. Then, the regular conversion of the regular group of channels is resumed from the last\ninterrupted regular conversion.\n4. If a regular event occurs during an injected conversion, the injected conversion is not\ninterrupted but the regular sequence is executed at the end of the injected sequence.\nFigure98 shows the corresponding timing diagram.\nNote: When using triggered injection, one must ensure that the interval between trigger events is\nlonger than the injection sequence.\n[Figure 98. Injected conversion latency during ongoing regular conversion]\nStart of\nsampling\n1. The maximum latency value can be found in the electrical characteristics of the device datasheet.\nAutoinjection mode\nIf the JAUTO bit in the ADC_CFGR1 register is set, then the channels in the injected group\nare automatically converted after the regular group of channels. This can be used to convert\na sequence of up to 20 conversions programmed in the ADC_SQRy and ADC_JSQR\nregisters.\nIn this mode, the ADSTART bit in the ADC_CR register must be set to start regular\nconversions, followed by injected conversions (JADSTART must be kept cleared). Setting\nthe ADSTP bit aborts both regular and injected conversions (JADSTP bit must not be used).\nIn this mode, external trigger on injected channels must be disabled.\nNote: Autoinjection mode is compatible with discontinuous mode.",
+      "semantic": {}
+    }
+  ]
+}

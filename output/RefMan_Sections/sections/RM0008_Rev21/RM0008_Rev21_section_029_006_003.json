@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S29.6.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "29",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "29.6.3",
+      "section_title": "Host data buffer alignment",
+      "level": 3,
+      "parent_section": "29.6",
+      "page": 1012,
+      "page_end": 1012,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 1214,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1012",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.6.3 \"Host data buffer alignment\" in chapter 29 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0008 Rev 21, page 1012.",
+      "section_content": "The transmit and receive data buffers do not have any restrictions on start address\nalignment. In our system with 32-bit memory, the start address for the buffers can be aligned\nto any of the four bytes. However, the DMA always initiates transfers with address aligned to\nthe bus width with dummy data for the byte lanes not required. This typically happens during\nthe transfer of the beginning or end of an Ethernet frame.\n• Example of buffer read:\nIf the Transmit buffer address is 0x0000 0FF2, and 15 bytes need to be transferred,\nthen the DMA will read five full words from address 0x0000 0FF0, but when transferring\ndata to the Transmit FIFO, the extra bytes (the first two bytes) will be dropped or\nignored. Similarly, the last 3 bytes of the last transfer will also be ignored. The DMA\nalways ensures it transfers a full 32-bit data items to the Transmit FIFO, unless it is the\nend of frame.\n• Example of buffer write:\nIf the Receive buffer address is 0x0000 0FF2, and 16 bytes of a received frame need to\nbe transferred, then the DMA will write five full 32-bit data items from address\n0x00000FF0. But the first 2 bytes of the first transfer and the last 2 bytes of the third\ntransfer will have dummy data.",
+      "semantic": {}
+    }
+  ]
+}

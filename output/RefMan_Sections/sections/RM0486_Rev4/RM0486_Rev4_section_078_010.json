@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.10",
+      "section_title": "Access ports",
+      "level": 2,
+      "parent_section": null,
+      "page": 4395,
+      "page_end": 4396,
+      "semantic_type": "generic",
+      "features": [
+        "access",
+        "ports"
+      ],
+      "chars": 3053,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4395",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.10 \"Access ports\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4395.",
+      "section_content": "There are three access ports (AP) attached to the DP.\n[Figure 1080. Debug and access port connections]\n• AP0 debug access port to DBGMCU (APB-AP): is always accessible during reset so\nthat a debugger can initiate an authentication process even if it is a closed device.\n• AP1 Cortex-M55 access port (AHB-AP): allows access to the debug and trace features\nintegrated in the Cortex-M55 processor via its PPB bus, and all other debug\ncomponents located on the EPPB interface (external private peripheral bus). In a\nclosed device, AP1 is locked until the debug authentication process is complete.\n• AP2 system bus access port (AXI-AP): Allows access to the system bus matrix, which\ngives visibility of all the memory and peripherals accessible via the AXI interconnect.\nIna closed device, AP2 is locked until the debug authentication process is complete.\nAll access ports are of MEM-AP type: debug and trace component registers are mapped in\nthe address space of the associated debug bus. The AP is seen by the debugger as a set of\n32-bit registers organized in banks of four registers each. Some of these registers are used\nto configure or monitor the AP itself, while others are used to perform a transfer on the bus.\nThe address of the AP registers is composed of:\n• bits [7:4]: content of the DP_SELECT register’s APBANKSEL field\n• bits [3:2]: content of the A(3:2) field of the APACC data register in the JTAG-DP\n(seeTable860) or of the SW-DP packet request (see Table861), depending on the\ndebug interface used\n• bits [1:0]: Always set to 0\nThe content of APSEL field in DP_SELECT defines which MEM-AP is being accessed.\nThe debugger can access the AP registers as follows:\n• Program APSEL field in DP_SELECT to choose one of the APs, and APBANKSEL field\nto select the register bank to be accessed.\n• If using JTAG, program A[3:2] field in the APACC register with the register address\nwithin the bank. Program the RnW bit to select a read or a write. For a write, program\nthe DATA field with the write data.\nIf using SWD, the A(3:2) and RnW fields are part of the packet request word sent to the\nSW-DP with the APnDP bit set (see Table861). The write data are sent in the data\nphase.\nThe debugger can access the memory-mapped debug component registers through the\nMEM-AP registers (using the AP register access procedure described above) as follows:\n1. Program the transaction target address in APx_TAR.\n2. Program APx_CSW, if necessary, with the transfer parameters (AddrInc for example).\n3. Write to or read from APx_DRW to initiate a bus transaction at the address held in the\nAPx_TAR register. Alternatively, a read or write to banked data register BDn triggers an\naccess to address TAR[31:4] + n (this allows an access to the next four consecutive\naddresses without changing the address in APx_TAR).\nFor more detailed information on the MEM-AP, refer to the Arm Debug Interface Architecture\nSpecification [1].\nAuthentication\nThe effect of the authentication signals for AP1 and AP2 is shown in Table866.\n[Table 866. AP1-2 authentication behavior]",
+      "semantic": {}
+    }
+  ]
+}

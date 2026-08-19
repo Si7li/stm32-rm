@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S8.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "8",
+      "chapter_title": "Connectivity line devices: reset and clock control (RCC)",
+      "section": "8.2",
+      "section_title": "Clocks",
+      "level": 2,
+      "parent_section": null,
+      "page": 125,
+      "page_end": 127,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "chars": 3788,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=125",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 8.2 \"Clocks\" in chapter 8 (Connectivity line devices: reset and clock control (RCC)), RM0008 Rev 21, page 125.",
+      "section_content": "Three different clock sources can be used to drive the system clock (SYSCLK):\n• HSI oscillator clock\n• HSE oscillator clock\n• PLL clock\nThe devices have the following two secondary clock sources:\n• 40 kHz low speed internal RC (LSI RC) which drives the independent watchdog and\noptionally the RTC used for Auto-wakeup from Stop/Standby mode.\n• 32.768 kHz low speed external crystal (LSE crystal) which optionally drives the real-\ntime clock (RTCCLK)\nEach clock source can be switched on or off independently when it is not used, to optimize\npower consumption.\n[Figure 11. Clock tree]\n1. When the HSI is used as a PLL clock input, the maximum system clock frequency that can be achieved is\n36 MHz.\n2. For full details about the internal and external clock source characteristics, refer to the “Electrical\ncharacteristics” section in your device datasheet.\nThe advanced clock controller features 3 PLLs to provide a high degree of flexibility to the\napplication in the choice of the external crystal or oscillator to run the core and peripherals at\nthe highest frequency and guarantee the appropriate frequency for the Ethernet and USB\nOTG FS.\nA single 25 MHz crystal can clock the entire system and all peripherals including the\nEthernet and USB OTG FS peripherals. In order to achieve high-quality audio performance,\nan audio crystal can be used. In this case, the I2S master clock can generate all standard\nsampling frequencies from 8 kHz to 96 kHz with less than 0.5% accuracy.\nFor more details about clock configuration for applications requiring Ethernet, USB OTG FS\nand/or I2S (audio), refer to \"Appendix A Applicative block diagrams\" in your connectivity line\ndevice datasheet.\nSeveral prescalers allow the configuration of the AHB frequency, the high speed APB\n(APB2) and the low speed APB (APB1) domains. The maximum frequency of the AHB and\nthe APB2 domains is 72 MHz. The maximum allowed frequency of the APB1 domain is\n36MHz.\nAll peripheral clocks are derived from the system clock (SYSCLK) except:\n• The Flash memory programming interface clock (FLITFCLK) is always the HSI clock\n• The USB OTG FS 48MHz clock which is derived from the PLL VCO clock (2 ×\nPLLCLK), followed by a programmable prescaler (divide by 3 or 2). This selection is\nmade through the OTGFSPRE bit in the RCC_CFGR register. For proper USB OTG FS\noperation, the PLL should be configured to output 72MHz or 48MHz.\n• The I2S2 and I2S3 clocks which can be derived from the system clock (SYSCLK) or\nthe PLL3 VCO clock (2 × PLL3CLK). This selection is made through the I2SxSRC bit in\nthe RCC_CFGR2 register. For more information on PLL3 and how to configure the I2S\nclock to achieve high-quality audio performance, refer to Section25.4.3: Clock\ngenerator.\n• The Ethernet MAC clocks (TX, RX and RMII) which are provided from the external\nPHY. For further information on the Ethernet configuration, refer to Section29.4.4:\nMII/RMII selection.\nWhen the Ethernet is used, the AHB clock frequency must be at least 25MHz.\nThe RCC feeds the Cortex® System Timer (SysTick) external clock with the AHB clock\n(HCLK) divided by 8. The SysTick can work either with this clock or with the Cortex® clock\n(HCLK), configurable in the SysTick Control and Status register. The ADCs are clocked by\nthe clock of the High Speed domain (APB2) divided by 2, 4, 6 or 8.\nThe timer clock frequencies are automatically fixed by hardware. There are two cases:\n1. if the APB prescaler is 1, the timer clock frequencies are set to the same frequency as\nthat of the APB domain to which the timers are connected.\n2. otherwise, they are set to twice (×2) the frequency of the APB domain to which the\ntimers are connected.\nFCLK acts as Cortex®-M3 free-running clock. For more details refer to Arm®\nCortex-M3 r1p1 Technical Reference Manual (TRM).",
+      "semantic": {}
+    }
+  ]
+}

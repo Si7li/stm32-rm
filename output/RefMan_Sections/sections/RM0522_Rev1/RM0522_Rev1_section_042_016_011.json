@@ -1,0 +1,218 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.11",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.11",
+      "section_title": "I3C status error register (I3C_SER)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1766,
+      "page_end": 1768,
+      "semantic_type": "register_description",
+      "features": [
+        "anack",
+        "coderr",
+        "covr",
+        "derr",
+        "dnack",
+        "dovr",
+        "i3c",
+        "i3c-ser",
+        "perr",
+        "stall"
+      ],
+      "chars": 3633,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1766",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.11 \"I3C status error register (I3C_SER)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1766.",
+      "section_content": "Address offset: 0x034\nReset value: 0x00000000\nThis read register is used to get more information about the error when an error is raised by\nhardware and notified to the software via the error flag ERRF = 1 in the I3C_EVR register\n(and corresponding interrupt if enabled).\nBits 31:11 Reserved, must be kept at reset value.\nBit 10 DERR: Data error (when the I3C acts as controller)\n0: no detected error\n1: controller detected a data error during the controller-role hand-off procedure (GETACCCR\nCCC, formerly known as GETACCMST) when the received target address or/and the parity\nbit do no match. Active controller keeps controller-role.\nBit 9 DNACK: Data not acknowledged (when the I3C acts as controller)\n0: no detected error\n1: controller detected that a data byte is not acknowledged by a target, either during:\ni) a legacy I2C write transfer\nii) the second trial when sending dynamic address during ENTDAA procedure\nBit 8 ANACK: Address not acknowledged (when the I3C is configured as controller)\n0: no detected error\n1: controller detected that the static/dynamic address was not acknowledged by a target,\neither during:\ni) a legacy I2C read/write transfer\nii) a direct CCC write transfer\niii) the second trial of a direct CCC read transfer\niv) a private read/write transfer\nBit 7 COVR: C-FIFO underrun or S-FIFO overrun (when the I3C acts as controller)\n0: no detected error\n1: controller detected either:\ni) a C-FIFO underrun: control FIFO is empty and a restart must be emitted\nii) an S-FIFO overrun: S-FIFO is full and a new message ends\nBit 6 DOVR: RX-FIFO overrun or TX-FIFO underrun\n0: no detected error\n1: whatever controller or target, hardware detected either:\ni) a TX-FIFO underrun: TX-FIFO is empty and a write data byte must be transmitted\nii) a RX-FIFO overrun: RX-FIFO is full and a new data byte is received\nBit 5 STALL: SCL stall error (when the I3C acts as target)\n0: no detected error\n1: target detected that SCL was stable for more than 125 µs during an I3C SDR data read\n(during a direct CCC read, a private read, or an IB)\nBit 4 PERR: Protocol error\n0: no detected error\n1: whatever controller or target, hardware detected a protocol error, as detailed in\nCODERR[3:0]\nBits 3:0 CODERR[3:0]: Protocol error code/type\n0000: CE0 error (transaction after sending CCC):\ncontroller detected an illegally formatted CCC\n0001: CE1 error (monitoring error):\ncontroller detected that transmitted data on the bus is different from expected\n0010: CE2 error (no response to broadcast address):\ncontroller detected a not acknowledged broadcast address (0b111_1110)\n0011: CE3 error (failed controller-role hand-off):\ncontroller detected the new controller did not drive bus after controller-role hand-off\n1000: TE0 error (invalid broadcast address 0b111_1110 + W):\ntarget detected an invalid broadcast address 0b111_1110 + W\n1001: TE1 error (CCC code):\ntarget detected a parity error on a CCC code via a parity check (vs. T bit)\n1010: TE2 error (write data):\ntarget detected a parity error on a write data via a parity check (vs. T bit)\n1011: TE3 error (assigned address during dynamic address arbitration):\ntarget detected a parity error on the assigned address during dynamic address arbitration\nvia a parity check (vs. PAR bit)\n1100: TE4 error (0b111_1110 + R missing after Sr during dynamic address arbitration):\ntarget detected a 0b111_1110 + R missing after Sr during dynamic address arbitration\n1101: TE5 error (transaction after detecting CCC):\ntarget detected an illegally formatted CCC\n1110: TE6 error (monitoring error):\ntarget detected that transmitted data on the bus is different from expected\nothers: reserved",
+      "semantic": {
+        "register": "I3C_SER",
+        "address_offset": "0x034",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "DERR",
+            "description": "Data error (when the I3C acts as controller) CCC, formerly known as GETACCMST) when the received target address or/and the parity bit do no match. Active controller keeps controller-role.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no detected error"
+              },
+              {
+                "value": "1",
+                "meaning": "controller detected a data error during the controller-role hand-off procedure (GETACCCR"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "DNACK",
+            "description": "Data not acknowledged (when the I3C acts as controller) i) a legacy I2C write transfer ii) the second trial when sending dynamic address during ENTDAA procedure",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no detected error"
+              },
+              {
+                "value": "1",
+                "meaning": "controller detected that a data byte is not acknowledged by a target, either during:"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "ANACK",
+            "description": "Address not acknowledged (when the I3C is configured as controller) either during: i) a legacy I2C read/write transfer ii) a direct CCC write transfer iii) the second trial of a direct CCC read transfer iv) a private read/write transfer",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no detected error"
+              },
+              {
+                "value": "1",
+                "meaning": "controller detected that the static/dynamic address was not acknowledged by a target,"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "COVR",
+            "description": "C-FIFO underrun or S-FIFO overrun (when the I3C acts as controller) i) a C-FIFO underrun: control FIFO is empty and a restart must be emitted ii) an S-FIFO overrun: S-FIFO is full and a new message ends",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no detected error"
+              },
+              {
+                "value": "1",
+                "meaning": "controller detected either:"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "DOVR",
+            "description": "RX-FIFO overrun or TX-FIFO underrun i) a TX-FIFO underrun: TX-FIFO is empty and a write data byte must be transmitted ii) a RX-FIFO overrun: RX-FIFO is full and a new data byte is received",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no detected error"
+              },
+              {
+                "value": "1",
+                "meaning": "whatever controller or target, hardware detected either:"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "STALL",
+            "description": "SCL stall error (when the I3C acts as target) (during a direct CCC read, a private read, or an IB)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no detected error"
+              },
+              {
+                "value": "1",
+                "meaning": "target detected that SCL was stable for more than 125 µs during an I3C SDR data read"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "PERR",
+            "description": "Protocol error CODERR[3:0]",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no detected error"
+              },
+              {
+                "value": "1",
+                "meaning": "whatever controller or target, hardware detected a protocol error, as detailed in"
+              }
+            ]
+          },
+          {
+            "bits": "3:0",
+            "name": "CODERR[3:0]",
+            "description": "Protocol error code/type controller detected an illegally formatted CCC controller detected that transmitted data on the bus is different from expected controller detected a not acknowledged broadcast address (0b111_1110) controller detected the new controller did not drive bus after controller-role hand-off target detected an invalid broadcast address 0b111_1110 + W target detected a parity error on a CCC code via a parity check (vs. T bit) target detected a parity error on a write data via a parity check (vs. T bit) target detected a parity error on the assigned address during dynamic address arbitration via a parity check (vs. PAR bit) target detected a 0b111_1110 + R missing after Sr during dynamic address arbitration target detected an illegally formatted CCC target detected that transmitted data on the bus is different from expected",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "CE0 error (transaction after sending CCC):"
+              },
+              {
+                "value": "0001",
+                "meaning": "CE1 error (monitoring error):"
+              },
+              {
+                "value": "0010",
+                "meaning": "CE2 error (no response to broadcast address):"
+              },
+              {
+                "value": "0011",
+                "meaning": "CE3 error (failed controller-role hand-off):"
+              },
+              {
+                "value": "1000",
+                "meaning": "TE0 error (invalid broadcast address 0b111_1110 + W):"
+              },
+              {
+                "value": "1001",
+                "meaning": "TE1 error (CCC code):"
+              },
+              {
+                "value": "1010",
+                "meaning": "TE2 error (write data):"
+              },
+              {
+                "value": "1011",
+                "meaning": "TE3 error (assigned address during dynamic address arbitration):"
+              },
+              {
+                "value": "1100",
+                "meaning": "TE4 error (0b111_1110 + R missing after Sr during dynamic address arbitration):"
+              },
+              {
+                "value": "1101",
+                "meaning": "TE5 error (transaction after detecting CCC):"
+              },
+              {
+                "value": "1110",
+                "meaning": "TE6 error (monitoring error):"
+              },
+              {
+                "value": "others",
+                "meaning": "reserved"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

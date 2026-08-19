@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S26.3.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "26",
+      "chapter_title": "Inter-integrated circuit (I2C) interface",
+      "section": "26.3.2",
+      "section_title": "I2C slave mode",
+      "level": 3,
+      "parent_section": "26.3",
+      "page": 755,
+      "page_end": 757,
+      "semantic_type": "generic",
+      "features": [
+        "i2c"
+      ],
+      "chars": 4029,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=755",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.3.2 \"I2C slave mode\" in chapter 26 (Inter-integrated circuit (I2C) interface), RM0008 Rev 21, page 755.",
+      "section_content": "By default the I2C interface operates in Slave mode. To switch from default Slave mode to\nMaster mode a Start condition generation is needed.\nThe peripheral input clock must be programmed in the I2C_CR2 register in order to\ngenerate correct timings. The peripheral input clock frequency must be at least:\n• 2 MHz in Sm mode\n• 4 MHz in Fm mode\nAs soon as a start condition is detected, the address is received from the SDA line and sent\nto the shift register. Then it is compared with the address of the interface (OAR1) and with\nOAR2 (if ENDUAL=1) or the General Call address (if ENGC = 1).\nNote: In 10-bit addressing mode, the comparison includes the header sequence (11110xx0),\nwhere xx denotes the two most significant bits of the address.\nHeader or address not matched: the interface ignores it and waits for another Start\ncondition.\nHeader matched (10-bit mode only): the interface generates an acknowledge pulse if the\nACK bit is set and waits for the 8-bit slave address.\nAddress matched: the interface generates in sequence:\n• An acknowledge pulse if the ACK bit is set\n• The ADDR bit is set by hardware and an interrupt is generated if the ITEVFEN bit is\nset.\n• If ENDUAL=1, the software has to read the DUALF bit to check which slave address\nhas been acknowledged.\nIn 10-bit mode, after receiving the address sequence the slave is always in Receiver mode.\nIt will enter Transmitter mode on receiving a repeated Start condition followed by the header\nsequence with matching address bits and the least significant bit set (11110xx1).\nThe TRA bit indicates whether the slave is in Receiver or Transmitter mode.\nSlave transmitter\nFollowing the address reception and after clearing ADDR, the slave sends bytes from the\nDR register to the SDA line via the internal shift register.\nThe slave stretches SCL low until ADDR is cleared and DR filled with the data to be sent\n(see Figure271 Transfer sequencing EV1 EV3).\nWhen the acknowledge pulse is received:\n• The TxE bit is set by hardware with an interrupt if the ITEVFEN and the ITBUFEN bits\nare set.\nIf TxE is set and some data were not written in the I2C_DR register before the end of the\nnext data transmission, the BTF bit is set and the interface waits until BTF is cleared by a\nread to I2C_SR1 followed by a write to the I2C_DR register, stretching SCL low.\n[Figure 271. Transfer sequence diagram for slave transmitter]\nSlave receiver\nFollowing the address reception and after clearing ADDR, the slave receives bytes from the\nSDA line into the DR register via the internal shift register. After each byte the interface\ngenerates in sequence:\n• An acknowledge pulse if the ACK bit is set\n• The RxNE bit is set by hardware and an interrupt is generated if the ITEVFEN and\nITBUFEN bit is set.\nIf RxNE is set and the data in the DR register is not read before the end of the next data\nreception, the BTF bit is set and the interface waits until BTF is cleared by a read from\nI2C_SR1 followed by a read from the I2C_DR register, stretching SCL low (see Figure272\nTransfer sequencing).\n[Figure 272. Transfer sequence diagram for slave receiver]\n1. The EV1 event stretches SCL low until the end of the corresponding software sequence.\n2. The EV2 software sequence must be completed before the end of the current byte transfer\n3. After checking the SR1 register content, the user should perform the complete clearing sequence for each\nflag found set.\nThus, for ADDR and STOPF flags, the following sequence is required inside the I2C interrupt routine:\nREAD SR1\nif (ADDR == 1) {READ SR1; READ SR2}\nif (STOPF == 1) {READ SR1; WRITE CR1}\nThe purpose is to make sure that both ADDR and STOPF flags are cleared if both are found set.\nClosing slave communication\nAfter the last data byte is transferred a Stop Condition is generated by the master. The\ninterface detects this condition and sets:\n• The STOPF bit and generates an interrupt if the ITEVFEN bit is set.\nThe STOPF bit is cleared by a read of the SR1 register followed by a write to the CR1\nregister (see EV4 in Figure272).",
+      "semantic": {}
+    }
+  ]
+}

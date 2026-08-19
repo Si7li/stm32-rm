@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.9.10",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.9.10",
+      "section_title": "Internal FIFOs",
+      "level": 3,
+      "parent_section": "45.9",
+      "page": 1993,
+      "page_end": 1994,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2098,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1993",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.9.10 \"Internal FIFOs\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1993.",
+      "section_content": "The I2S interface can use a dedicated FIFO for the RX and the TX path. The samples to\ntransmit can be written into the TxFIFO via the SPI_TXDR register. The reading of RxFIFO\nis performed via the SPI_RXDR register.\nData alignment and ordering\nIt is possible to select the data alignment into the SPI_RXDR and SPI_TXDR registers\nthanks to the DATFMT bit.\nNote as well that the format of the data located into the SPI_RXDR or SPI_TXDR depends\nas well on the way those registers are accessed via the APB bus.\nFigure688 shows the allowed settings between APB access sizes, DATFMT, and DATLEN.\nNote: Caution must be taken when the APB access size is 32 bits, and DATLEN = 0. For read\noperation the RxFIFO must contain at least two data, otherwise the read data are invalid. In\nthe same way, for write operation, the TxFIFO must have at least two empty locations,\notherwise a data can be lost.\n[Figure 688. Data Format]\n[Table 467. CLKGEN programming examples for usual I2S frequencies]\nIt is possible to generate an interrupt or a DMA request according to a programmable FIFO\nthreshold levels. The FIFO threshold is common to RX and TxFIFOs can be adjusted via\nFTHLV.\nIn I2S mode, the left and right audio samples are interleaved into the FIFOs. It means that\nfor transmit operations, the user has to start to fill-up the TxFIFO with a left sample, followed\nby a right sample, and so on. For receive mode, the first data read from the RxFIFO is\nsupposed to represent a left channel, the next one is a right channel, and so on.\nNote that the read and write pointers of the FIFOs are reset when the bit SPE is cleared.\nRefer to Section45.9.11 and Section45.9.15 for additional information.\nFIFO size optimization\nThe basic element of the FIFO is the byte. This allows an optimization of the FIFO locations.\nFor example when the data size is fixed to 24 bits, each audio sample takes three basic\nFIFO elements.\nFor example, a FIFO with 16 basic elements can have a depth of:\n• 8 samples, if the DATLEN = 0 (16 bits),\n• 5 samples, if the DATLEN = 1 (24 bits)(a),\n• 4 samples, if the DATLEN = 2 (32 bits)(a).",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.21",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.21",
+      "section_title": "Provision for a secure layer",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2115,
+      "page_end": 2115,
+      "semantic_type": "generic",
+      "features": [
+        "layer",
+        "provision",
+        "secure"
+      ],
+      "chars": 1673,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2115",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.21 \"Provision for a secure layer\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2115.",
+      "section_content": "The LTDC allows a secure layer support, with the addition of a wrapper around the LTDC\nthat secures the access to its registers (register-per-register), and secures the access of\nitsAXI master to the layer framebuffers.\nThe layer 2 can be secured thanks to the measures described in the following sub-sections.\nConfiguration registers\nThe granularity between secure versus nonsecure items is at register level:\n• A secure register contains only to-be-secured bitfields.\n• Nonsecure bitfields are all in open-access registers.\nThere is no merge of secure and nonsecure bitfields in a same register. It allows allregisters\nto be segregated between secure ones (with an access only by secure software) and open\nones (with an access by any nonsecure software).\nInterruptions\nThe interruption logic has been duplicated, with one secure interrupt logic (register and pin)\nreserved for secure software, and another open interrupt logic (second register set and\nsecond output pin) for nonsecure software.\nBlending\nThe blending order (foreground to background) is defined in per-layer register, so that the\nblending order of the secure layer2 can be securely defined as foreground. If some\nnonsecure software defines layer 1 in foreground, the integrated hardware consistency\ncheck reverses the blending order to a fixed one, forcing the secure layer to be in the\nforeground.\nCRC\nThe CRC configuration registers stated next can also be defined as secure, to secure\ntheextracted signature of the displayed frame. The CRC that computes a signature of the\ndisplayed frame has its configuration located in specific registers that can be defined as\nsecure, too.\n• LTDC_ECRCR\n• LTDC_CCRCR",
+      "semantic": {}
+    }
+  ]
+}

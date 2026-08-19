@@ -1,0 +1,180 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "table_id": "RM0522-T304",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "304",
+      "title": "Output control bits for complementary tim_ocx and tim_ocxn channels",
+      "page": 1091,
+      "section": "31.6.11",
+      "section_title": "TIM capture/compare enable register (TIM_CCER)",
+      "semantic_type": "generic",
+      "features": [
+        "channels",
+        "complementary",
+        "control",
+        "output",
+        "tim-ocx",
+        "tim-ocxn"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1091",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Control bits",
+        "Control bits",
+        "Control bits",
+        "Control bits",
+        "Control bits",
+        "Output states(1)",
+        "Output states(1)"
+      ],
+      "text_helper": "Table 304, \"Output control bits for complementary tim_ocx and tim_ocxn channels\", in section 31.6.11 (TIM capture/compare enable register (TIM_CCER)) on page 1091. Columns: Control bits, Control bits, Control bits, Control bits, Control bits, Output states(1), Output states(1). 13 data row(s). Notes: 1. When both outputs of a channel are not used (control taken over by GPIO), the OISx, OISxN, CCxP and CCxNP bits must be kept cleared.",
+      "table_content": {
+        "headers": [
+          "Control bits",
+          "Control bits",
+          "Control bits",
+          "Control bits",
+          "Control bits",
+          "Output states(1)",
+          "Output states(1)"
+        ],
+        "rows": [
+          [
+            "MOE bit",
+            "OSSI bit",
+            "OSSR bit",
+            "CCxE bit",
+            "CCxNE bit",
+            "tim_ocx output state",
+            "tim_ocxn output state"
+          ],
+          [
+            "1",
+            "X",
+            "0",
+            "0",
+            "0",
+            "Output disabled (not driven by the timer: Hi-Z)\ntim_ocx = 0, tim_ocxn = 0",
+            "Output disabled (not driven by the timer: Hi-Z)\ntim_ocx = 0, tim_ocxn = 0"
+          ],
+          [
+            "1",
+            "X",
+            "1",
+            "0",
+            "0",
+            "Off-State (output enabled with inactive state)\ntim_ocx=CCxP, tim_ocxn=CCxNP",
+            "Off-State (output enabled with inactive state)\ntim_ocx=CCxP, tim_ocxn=CCxNP"
+          ],
+          [
+            "1",
+            "X",
+            "0",
+            "0",
+            "1",
+            "Output disabled (not driven \nby the timer: Hi-Z)\ntim_ocx = 0",
+            "tim_ocxref + Polarity tim_ocxn \n= tim_ocxref xor CCxNP"
+          ],
+          [
+            "1",
+            "X",
+            "0",
+            "1",
+            "0",
+            "tim_ocxref + Polarity\ntim_ocx = tim_ocxref xor \nCCxP",
+            "Output Disabled (not driven by \nthe timer: Hi-Z)\ntim_ocxn = 0"
+          ],
+          [
+            "1",
+            "X",
+            "X",
+            "1",
+            "1",
+            "OCREF + Polarity + dead-\ntime",
+            "Complementary to OCREF (not \nOCREF) + Polarity + dead-time"
+          ],
+          [
+            "1",
+            "X",
+            "1",
+            "0",
+            "1",
+            "Off-State (output enabled \nwith inactive state)\ntim_ocx = CCxP",
+            "tim_ocxref + Polarity\ntim_ocxn= tim_ocxref x or \nCCxNP"
+          ],
+          [
+            "1",
+            "X",
+            "1",
+            "1",
+            "0",
+            "tim_ocxref + Polarity\ntim_ocx = tim_ocxref xor \nCCxP",
+            "Off-State (output enabled with \ninactive state)\ntim_ocxn = CCxNP"
+          ],
+          [
+            "0",
+            "0",
+            "X",
+            "X",
+            "X",
+            "Output disabled (not driven by the timer: Hi-Z).",
+            "Output disabled (not driven by the timer: Hi-Z)."
+          ],
+          [
+            "0",
+            "1",
+            "X",
+            "0",
+            "0",
+            "Output disabled (not driven by the timer: Hi-Z).",
+            "Output disabled (not driven by the timer: Hi-Z)."
+          ],
+          [
+            "0",
+            "1",
+            "X",
+            "0",
+            "1",
+            "Off-State (output enabled with inactive state)\nAsynchronously: tim_ocx = CCxP, tim_ocxn = CCxNP (if \ntim_brk or tim_brk2 is triggered).\nThen (this is valid only if tim_brk is triggered), if the clock is \npresent: tim_ocx = OISx and tim_ocxn = OISxN after a dead-\ntime, assuming that OISx and OISxN do not correspond to \nOCX and tim_ocxn both in active state (may cause a short \ncircuit when driving switches in half-bridge configuration).\nNote: tim_brk2 can only be used if OSSI = OSSR = 1.",
+            "Off-State (output enabled with inactive state)\nAsynchronously: tim_ocx = CCxP, tim_ocxn = CCxNP (if \ntim_brk or tim_brk2 is triggered).\nThen (this is valid only if tim_brk is triggered), if the clock is \npresent: tim_ocx = OISx and tim_ocxn = OISxN after a dead-\ntime, assuming that OISx and OISxN do not correspond to \nOCX and tim_ocxn both in active state (may cause a short \ncircuit when driving switches in half-bridge configuration).\nNote: tim_brk2 can only be used if OSSI = OSSR = 1."
+          ],
+          [
+            "0",
+            "1",
+            "X",
+            "1",
+            "0",
+            "Off-State (output enabled with inactive state)\nAsynchronously: tim_ocx = CCxP, tim_ocxn = CCxNP (if \ntim_brk or tim_brk2 is triggered).\nThen (this is valid only if tim_brk is triggered), if the clock is \npresent: tim_ocx = OISx and tim_ocxn = OISxN after a dead-\ntime, assuming that OISx and OISxN do not correspond to \nOCX and tim_ocxn both in active state (may cause a short \ncircuit when driving switches in half-bridge configuration).\nNote: tim_brk2 can only be used if OSSI = OSSR = 1.",
+            "Off-State (output enabled with inactive state)\nAsynchronously: tim_ocx = CCxP, tim_ocxn = CCxNP (if \ntim_brk or tim_brk2 is triggered).\nThen (this is valid only if tim_brk is triggered), if the clock is \npresent: tim_ocx = OISx and tim_ocxn = OISxN after a dead-\ntime, assuming that OISx and OISxN do not correspond to \nOCX and tim_ocxn both in active state (may cause a short \ncircuit when driving switches in half-bridge configuration).\nNote: tim_brk2 can only be used if OSSI = OSSR = 1."
+          ],
+          [
+            "0",
+            "1",
+            "X",
+            "1",
+            "1",
+            "Off-State (output enabled with inactive state)\nAsynchronously: tim_ocx = CCxP, tim_ocxn = CCxNP (if \ntim_brk or tim_brk2 is triggered).\nThen (this is valid only if tim_brk is triggered), if the clock is \npresent: tim_ocx = OISx and tim_ocxn = OISxN after a dead-\ntime, assuming that OISx and OISxN do not correspond to \nOCX and tim_ocxn both in active state (may cause a short \ncircuit when driving switches in half-bridge configuration).\nNote: tim_brk2 can only be used if OSSI = OSSR = 1.",
+            "Off-State (output enabled with inactive state)\nAsynchronously: tim_ocx = CCxP, tim_ocxn = CCxNP (if \ntim_brk or tim_brk2 is triggered).\nThen (this is valid only if tim_brk is triggered), if the clock is \npresent: tim_ocx = OISx and tim_ocxn = OISxN after a dead-\ntime, assuming that OISx and OISxN do not correspond to \nOCX and tim_ocxn both in active state (may cause a short \ncircuit when driving switches in half-bridge configuration).\nNote: tim_brk2 can only be used if OSSI = OSSR = 1."
+          ]
+        ],
+        "notes": [
+          "1. When both outputs of a channel are not used (control taken over by GPIO), the OISx, OISxN, CCxP and CCxNP bits must be kept cleared."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

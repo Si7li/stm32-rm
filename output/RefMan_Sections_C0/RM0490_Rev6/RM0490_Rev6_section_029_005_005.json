@@ -1,0 +1,39 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S29.5.5",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "29",
+      "chapter_title": "Universal serial bus full-speed host/device interface (USB)",
+      "section": "29.5.5",
+      "section_title": "Isochronous transfers in Device mode",
+      "level": 3,
+      "parent_section": "29.5",
+      "page": 970,
+      "page_end": 971,
+      "semantic_type": "generic",
+      "features": [
+        "device",
+        "isochronous",
+        "mode",
+        "transfers"
+      ],
+      "chars": 3203,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=970",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.5.5 \"Isochronous transfers in Device mode\" in chapter 29 (Universal serial bus full-speed host/device interface (USB)), RM0490 Rev 6, page 970.",
+      "section_content": "The USB standard supports full speed peripherals requiring a fixed and accurate data\nproduction/consume frequency, defining this kind of traffic as ‘isochronous’. Typical\nexamples of this data are: audio samples, compressed video streams, and in general any\nsort of sampled data having strict requirements for the accuracy of delivered frequency.\nWhen an endpoint is defined to be ‘isochronous’ during the enumeration phase, the host\nallocates in the frame the required bandwidth and delivers exactly one IN or OUT packet\neach frame, depending on endpoint direction. To limit the bandwidth requirements, no re-\ntransmission of failed transactions is possible for isochronous traffic; this leads to the fact\nthat an isochronous transaction does not have a handshake phase and no ACK packet is\nexpected or sent after the data packet. For the same reason, isochronous transfers do not\nsupport data toggle sequencing and always use DATA0 PID to start any data packet.\nThe isochronous behavior for an endpoint is selected by setting the UTYPE bits at 10 in its\nUSB_CHEPnR register; since there is no handshake phase the only legal values for the\nSTATRX/STATTX bit pairs are 00 (DISABLED) and 11 (VALID), any other value produces\nresults not compliant to USB standard. Isochronous endpoints implement double-buffering\nto ease application software development, using both ‘transmission’ and ‘reception’ packet\nmemory areas to manage buffer swapping on each successful transaction in order to have\nalways a complete buffer to be used by the application, while the USB peripheral fills the\nother.\nThe memory buffer which is currently used by the USB peripheral is defined by the DTOG\nbit related to the endpoint direction (DTOGRX for ‘reception’ isochronous endpoints,\nDTOGTX for ‘transmission’ isochronous endpoints, both in the related USB_CHEPnR\nregister) according to Table 160.\n[Table 160. Isochronous memory buffers usage]\nAs it happens with double-buffered bulk endpoints, the USB_CHEPnR registers used to\nimplement isochronous endpoints are forced to be used as unidirectional ones. In case it is\nrequired to have isochronous endpoints enabled both for reception and transmission, two\nUSB_CHEPnR registers must be used.\nThe application software is responsible for the DTOG bit initialization according to the first\nbuffer to be used; this has to be done considering the special toggle-only property that these\ntwo bits have. At the end of each transaction, the VTRX or VTTX bit of the addressed\nendpoint USB_CHEPnR register is set, depending on the enabled direction. At the same\ntime, the affected DTOG bit in the USB_CHEPnR register is hardware toggled making buffer\nswapping completely software independent. STAT bit pair is not affected by transaction\ncompletion; since no flow control is possible for isochronous transfers due to the lack of\nhandshake phase, the endpoint remains always 11 (VALID). CRC errors or buffer-overrun\nconditions occurring during isochronous OUT transfers are anyway considered as correct\ntransactions and they always trigger a VTRX event. However, CRC errors set the ERR bit in\nthe USB_ISTR register anyway, in order to notify the software of the possible data\ncorruption.",
+      "semantic": {}
+    }
+  ]
+}

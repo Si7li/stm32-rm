@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S47.4.4",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "47",
+      "chapter_title": "Universal serial bus full-speed host/device interface (USB)",
+      "section": "47.4.4",
+      "section_title": "General description and Device mode functionality",
+      "level": 3,
+      "parent_section": "47.4",
+      "page": 2089,
+      "page_end": 2090,
+      "semantic_type": "generic",
+      "features": [
+        "device",
+        "functionality",
+        "general",
+        "mode"
+      ],
+      "chars": 4558,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2089",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 47.4.4 \"General description and Device mode functionality\" in chapter 47 (Universal serial bus full-speed host/device interface (USB)), RM0522 Rev 1, page 2089.",
+      "section_content": "The USB peripheral provides a USB-compliant connection between the function\nimplemented by the microcontroller and an external USB function which can be a host PC\nbut also a USB Device. Data transfer between the external USB host or device and the\nsystem memory occurs through a dedicated packet buffer memory accessed directly by the\nUSB peripheral. This dedicated memory size is 2048 bytes, and up to 16 mono-directional\nor 8 bidirectional endpoints can be used. The USB peripheral interfaces with the external\nUSB Host or Device, detecting token packets, handling data transmission/reception, and\nprocessing handshake packets as required by the USB standard. Transaction formatting is\nperformed by the hardware, including CRC generation and checking.\nEach endpoint/channel is associated with a buffer description block indicating where the\nendpoint/channel-related memory area is located, how large it is or how many bytes must\nbe transmitted. When a token for a valid function/endpoint pair is recognized by the USB\nperipheral, the related data transfer (if required and if the endpoint/channel is configured)\ntakes place. The data buffered by the USB peripheral are loaded in an internal 16-bit\nregister and memory access to the dedicated buffer is performed. When all the data have\nbeen transferred, if needed, the proper handshake packet over the USB is generated or\nexpected according to the direction of the transfer.\nAt the end of the transaction, an endpoint/channel-specific interrupt is generated, reading\nstatus registers and/or using different interrupt response routines. The microcontroller can\ndetermine:\n• which endpoint/channel has to be served,\n• which type of transaction took place, if errors occurred (bit stuffing, format, CRC,\nprotocol, missing ACK, over/underrun, etc.).\nSpecial support is offered to isochronous transfers and high throughput bulk transfers,\nimplementing a double buffer usage, which permits to always have an available buffer for\nthe USB peripheral while the microcontroller uses the other one.\nA special bit THR512 in register USB_ISTR allows notification of 512 bytes being received\nin (or transmitted from) the buffer. This bit must be used for long ISO packets (from 512 to\n1023 bytes) as it facilitates early start or read/write of data. In this way, the first 512 bytes\ncan be handled by software while avoiding use of double buffer mode. This bit works when\nonly one ISO endpoint is configured.\nThe unit can be placed in low-power mode (SUSPEND mode), by writing in the control\nregister, whenever required. At this time, all static power dissipation is avoided, and the USB\nclock can be slowed down or stopped. The detection of activity at the USB inputs, while in\nlow-power mode, wakes the device up asynchronously. A special interrupt source can be\nconnected directly to a wake-up line to permit the system to immediately restart the normal\nclock generation and/or support direct clock start/stop.\nHost mode and specific functionality\nA single bit, HOST, in register USB_CNTR permits Host mode to be activated. Host mode\nfunctionality permits the USB to talk to a remote peripheral. Supported functionality is\naligned to Device mode and uses the same register structures to manage the buffers. The\nsame number of endpoints can be supported in Host mode, however in Host mode the\nterminology “channel” is preferred, as each channel is in reality a combination of the\nconnected device and the endpoint on that device. The basic mechanisms for packet\ntransmission and reception are the same as those supported in Device mode.\nWhen operating in Host mode, the USB is in charge of the bus and in order to do this must\nissue transaction requests corresponding to active periodic and non-periodic endpoints. A\nhost frame scheduler assures efficient use of the frame. Connection to hubs is supported.\nConnection to low speed devices is supported, both with a direct connection and through a\nhub.\nDouble-buffered mode, as previously described in Device mode, is also supported in Host\nmode, in both bulk and isochronous channels. The THR512 functionality is also supported\n(but as in Device mode) only for ISO traffic.\nNote: Unlike in Device mode, where there is a detection of battery charging capability (in order to\nfacilitate fast charging), there is no integrated support in Host mode to present battery\ncharging capability (CDP or DCP cases in the standard), the host port is always presented\nas a default standard data port (SDP).\nFor LPM (link power management) this feature is not supported in Host mode.",
+      "semantic": {}
+    }
+  ]
+}

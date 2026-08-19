@@ -1,0 +1,146 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.5",
+      "section_title": "OTG reset register (OTG_GRSTCTL)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3793,
+      "page_end": 3795,
+      "semantic_type": "register_description",
+      "features": [
+        "ahbidl",
+        "csrst",
+        "dma",
+        "dmareq",
+        "fcrst",
+        "otg",
+        "otg-grstctl",
+        "psrst",
+        "rxfflsh",
+        "txfflsh",
+        "txfnum"
+      ],
+      "chars": 4657,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3793",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.5 \"OTG reset register (OTG_GRSTCTL)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3793.",
+      "section_content": "The application uses this register to reset various hardware features inside the core.\nAddress offset: 0x010\nReset value: 0x80000000\n[Table 745. TRDT values]\nBit 31 AHBIDL: AHB master idle\nIndicates that the AHB master state machine is in the Idle condition.\nNote: Accessible in both device and host modes.\nBit 30 DMAREQ: DMA request signal enabled\nThis bit indicates that the DMA request is in progress. Used for debug.\nBits 29:11 Reserved, must be kept at reset value.\nBits 10:6 TXFNUM[4:0]: Tx FIFO number\nThis is the FIFO number that must be flushed using the Tx FIFO Flush bit. This field must not\nbe changed until the core clears the Tx FIFO Flush bit.\nCondition: host mode\n00000: Non-periodic Tx FIFO flush\n00001: Periodic Tx FIFO flush\n10000: Flush all the transmit FIFOs\nCondition: device mode\n00000: Tx FIFO 0 flush\n00001: Tx FIFO 1 flush\n00010: Tx FIFO 2 flush\n...\n01111: Tx FIFO 15 flush\n10000: Flush all the transmit FIFOs\nNote: Accessible in both device and host modes.\nBit 5 TXFFLSH: Tx FIFO flush\nThis bit selectively flushes a single or all transmit FIFOs, but cannot do so if the core is in the\nmidst of a transaction.\nThe application must write this bit only after checking that the core is neither writing to the Tx\nFIFO nor reading from the Tx FIFO. Verify using these registers:\nRead—NAK Effective interrupt ensures the core is not reading from the FIFO\nWrite—AHBIDL bit in OTG_GRSTCTL ensures the core is not writing anything to the FIFO.\nFlushing is normally recommended when FIFOs are reconfigured. FIFO flushing is also\nrecommended during device endpoint disable. The application must wait until the core clears\nthis bit before performing any operations. This bit takes eight clocks to clear, using the slower\nclock of phy_clk or hclk.\nNote: Accessible in both device and host modes.\nBit 4 RXFFLSH: Rx FIFO flush\nThe application can flush the entire Rx FIFO using this bit, but must first ensure that the core\nis not in the middle of a transaction.\nThe application must only write to this bit after checking that the core is neither reading from\nthe Rx FIFO nor writing to the Rx FIFO.\nThe application must wait until the bit is cleared before performing any other operations. This\nbit requires 8 clocks (slowest of PHY or AHB clock) to clear.\nNote: Accessible in both device and host modes.\nBit 3 Reserved, must be kept at reset value.\nBit 2 FCRST: Host frame counter reset\nThe application writes this bit to reset the (micro-)frame number counter inside the core.\nWhen the (micro-)frame counter is reset, the subsequent SOF sent out by the core has a\nframe number of 0.\nWhen application writes '1' to the bit, it might not be able to read back the value as it gets\ncleared by the core in a few clock cycles.\nNote: Only accessible in host mode.\nBit 1 PSRST: Partial soft reset\nResets the internal state machines but keeps the enumeration info. Can be used to recover\nsome specific PHY errors.\nNote: Accessible in both device and host modes.\nBit 0 CSRST: Core soft reset\nResets the HCLK and PHY clock domains as follows:\nClears the interrupts and all the CSR register bits except for the following bits:\n– GATEHCLK bit in OTG_PCGCCTL\n– STPPCLK bit in OTG_PCGCCTL\n– FSLSPCS bits in OTG_HCFG\n– DSPD bit in OTG_DCFG\n– SDIS bit in OTG_DCTL\n– OTG_GCCFG register\n– FDMOD bit in OTG_GUSBCFG\n– FHMOD bit in OTG_GUSBCFG\n– PHYLPC bit in OTG_GUSBCFG\n– TSDPS bit in OTG_GUSBCFG\nAll module state machines (except for the AHB slave unit) are reset to the Idle state, and all\nthe transmit FIFOs and the receive FIFO are flushed.\nAny transactions on the AHB Master are terminated as soon as possible, after completing the\nlast data phase of an AHB transfer. Any transactions on the USB are terminated immediately.\nThe application can write to this bit any time it wants to reset the core. This is a self-clearing\nbit and the core clears this bit after all the necessary logic is reset in the core, which can take\nseveral clocks, depending on the current state of the core. Once this bit has been cleared,\nthe software must wait at least 3 PHY clocks before accessing the PHY domain\n(synchronization delay). The software must also check that bit 31 in this register is set to 1\n(AHB Master is Idle) before starting any operation.\nTypically, the software reset is used during software development and also when the user\ndynamically changes the PHY selection bits in the above listed USB configuration registers.\nWhen the user changes the PHY, the corresponding clock for the PHY is selected and used\nin the PHY domain. Once a new clock is selected, the PHY domain has to be reset for proper\noperation.\nNote: Accessible in both device and host modes.",
+      "semantic": {
+        "register": "OTG_GRSTCTL",
+        "address_offset": "0x010",
+        "reset_value": "0x80000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "AHBIDL",
+            "description": "AHB master idle Indicates that the AHB master state machine is in the Idle condition. Note: Accessible in both device and host modes.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "DMAREQ",
+            "description": "DMA request signal enabled This bit indicates that the DMA request is in progress. Used for debug.",
+            "values": []
+          },
+          {
+            "bits": "29:11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10:6",
+            "name": "TXFNUM[4:0]",
+            "description": "Tx FIFO number This is the FIFO number that must be flushed using the Tx FIFO Flush bit. This field must not be changed until the core clears the Tx FIFO Flush bit. Condition: host mode Condition: device mode ... Note: Accessible in both device and host modes.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "Non-periodic Tx FIFO flush"
+              },
+              {
+                "value": "00001",
+                "meaning": "Periodic Tx FIFO flush"
+              },
+              {
+                "value": "10000",
+                "meaning": "Flush all the transmit FIFOs"
+              },
+              {
+                "value": "00000",
+                "meaning": "Tx FIFO 0 flush"
+              },
+              {
+                "value": "00001",
+                "meaning": "Tx FIFO 1 flush"
+              },
+              {
+                "value": "00010",
+                "meaning": "Tx FIFO 2 flush"
+              },
+              {
+                "value": "01111",
+                "meaning": "Tx FIFO 15 flush"
+              },
+              {
+                "value": "10000",
+                "meaning": "Flush all the transmit FIFOs"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "TXFFLSH",
+            "description": "Tx FIFO flush This bit selectively flushes a single or all transmit FIFOs, but cannot do so if the core is in the midst of a transaction. The application must write this bit only after checking that the core is neither writing to the Tx FIFO nor reading from the Tx FIFO. Verify using these registers: Read—NAK Effective interrupt ensures the core is not reading from the FIFO Write—AHBIDL bit in OTG_GRSTCTL ensures the core is not writing anything to the FIFO. Flushing is normally recommended when FIFOs are reconfigured. FIFO flushing is also recommended during device endpoint disable. The application must wait until the core clears this bit before performing any operations. This bit takes eight clocks to clear, using the slower clock of phy_clk or hclk. Note: Accessible in both device and host modes.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "RXFFLSH",
+            "description": "Rx FIFO flush The application can flush the entire Rx FIFO using this bit, but must first ensure that the core is not in the middle of a transaction. The application must only write to this bit after checking that the core is neither reading from the Rx FIFO nor writing to the Rx FIFO. The application must wait until the bit is cleared before performing any other operations. This bit requires 8 clocks (slowest of PHY or AHB clock) to clear. Note: Accessible in both device and host modes.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "FCRST",
+            "description": "Host frame counter reset The application writes this bit to reset the (micro-)frame number counter inside the core. When the (micro-)frame counter is reset, the subsequent SOF sent out by the core has a frame number of 0. When application writes '1' to the bit, it might not be able to read back the value as it gets cleared by the core in a few clock cycles. Note: Only accessible in host mode.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "PSRST",
+            "description": "Partial soft reset Resets the internal state machines but keeps the enumeration info. Can be used to recover some specific PHY errors. Note: Accessible in both device and host modes.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "CSRST",
+            "description": "Core soft reset Resets the HCLK and PHY clock domains as follows: Clears the interrupts and all the CSR register bits except for the following bits: – GATEHCLK bit in OTG_PCGCCTL – STPPCLK bit in OTG_PCGCCTL – FSLSPCS bits in OTG_HCFG – DSPD bit in OTG_DCFG – SDIS bit in OTG_DCTL – OTG_GCCFG register – FDMOD bit in OTG_GUSBCFG – FHMOD bit in OTG_GUSBCFG – PHYLPC bit in OTG_GUSBCFG – TSDPS bit in OTG_GUSBCFG All module state machines (except for the AHB slave unit) are reset to the Idle state, and all the transmit FIFOs and the receive FIFO are flushed. Any transactions on the AHB Master are terminated as soon as possible, after completing the last data phase of an AHB transfer. Any transactions on the USB are terminated immediately. The application can write to this bit any time it wants to reset the core. This is a self-clearing bit and the core clears this bit after all the necessary logic is reset in the core, which can take several clocks, depending on the current state of the core. Once this bit has been cleared, the software must wait at least 3 PHY clocks before accessing the PHY domain (synchronization delay). The software must also check that bit 31 in this register is set to 1 (AHB Master is Idle) before starting any operation. Typically, the software reset is used during software development and also when the user dynamically changes the PHY selection bits in the above listed USB configuration registers. When the user changes the PHY, the corresponding clock for the PHY is selected and used in the PHY domain. Once a new clock is selected, the PHY domain has to be reset for proper operation. Note: Accessible in both device and host modes.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

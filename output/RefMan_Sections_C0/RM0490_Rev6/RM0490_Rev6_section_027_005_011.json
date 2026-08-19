@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.5.11",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.5.11",
+      "section_title": "SPI error flags",
+      "level": 3,
+      "parent_section": "27.5",
+      "page": 852,
+      "page_end": 853,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 3243,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=852",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.5.11 \"SPI error flags\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 852.",
+      "section_content": "An SPI interrupt is generated if one of the following error flags is set and interrupt is enabled\nby setting the ERRIE bit.\nOverrun flag (OVR)\nAn overrun condition occurs when data is received by a master or slave and the RXFIFO\nhas not enough space to store this received data. This can happen if the software or the\nDMA did not have enough time to read the previously received data (stored in the RXFIFO)\nor when space for data storage is limited e.g. the RXFIFO is not available when CRC is\nenabled in receive only mode so in this case the reception buffer is limited into a single data\nframe buffer (see Section27.5.14: CRC calculation).\nWhen an overrun condition occurs, the newly received value does not overwrite the\nprevious one in the RXFIFO. The newly received value is discarded and all data transmitted\nsubsequently is lost. Clearing the OVR bit is done by a read access to the SPI_DR register\nfollowed by a read access to the SPI_SR register.\nMode fault (MODF)\nMode fault occurs when the master device has its internal NSS signal (NSS pin in NSS\nhardware mode, or SSI bit in NSS software mode) pulled low. This automatically sets the\nMODF bit. Master mode fault affects the SPI interface in the following ways:\n• The MODF bit is set and an SPI interrupt is generated if the ERRIE bit is set.\n• The SPE bit is cleared. This blocks all output from the device and disables the SPI\ninterface.\n• The MSTR bit is cleared, thus forcing the device into slave mode.\nUse the following software sequence to clear the MODF bit:\n1. Make a read or write access to the SPIx_SR register while the MODF bit is set.\n2. Then write to the SPIx_CR1 register.\nTo avoid any multiple slave conflicts in a system comprising several MCUs, the NSS pin\nmust be pulled high during the MODF bit clearing sequence. The SPE and MSTR bits can\nbe restored to their original state after this clearing sequence. As a security, hardware does\nnot allow the SPE and MSTR bits to be set while the MODF bit is set. In a slave device the\nMODF bit cannot be set except as the result of a previous multimaster conflict.\nCRC error (CRCERR)\nThis flag is used to verify the validity of the value received when the CRCEN bit in the\nSPIx_CR1 register is set. The CRCERR flag in the SPIx_SR register is set if the value\nreceived in the shift register does not match the receiver SPIx_RXCRCR value. The flag is\ncleared by the software.\nTI mode frame format error (FRE)\nA TI mode frame format error is detected when an NSS pulse occurs during an ongoing\ncommunication when the SPI is operating in slave mode and configured to conform to the TI\nmode protocol. When this error occurs, the FRE flag is set in the SPIx_SR register. The SPI\nis not disabled when an error occurs, the NSS pulse is ignored, and the SPI waits for the\nnext NSS pulse before starting a new transfer. The data may be corrupted since the error\ndetection may result in the loss of two data bytes.\nThe FRE flag is cleared when SPIx_SR register is read. If the ERRIE bit is set, an interrupt\nis generated on the NSS error detection. In this case, the SPI should be disabled because\ndata consistency is no longer guaranteed and communications should be reinitiated by the\nmaster when the slave SPI is enabled again.",
+      "semantic": {}
+    }
+  ]
+}

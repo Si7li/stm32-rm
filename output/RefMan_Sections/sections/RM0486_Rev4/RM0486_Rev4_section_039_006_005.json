@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.6.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.6.5",
+      "section_title": "Input decimation",
+      "level": 3,
+      "parent_section": "39.6",
+      "page": 1848,
+      "page_end": 1849,
+      "semantic_type": "generic",
+      "features": [
+        "decimation",
+        "input"
+      ],
+      "chars": 1848,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1848",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.6.5 \"Input decimation\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1848.",
+      "section_content": "The decimation makes it possible to cheaply downsize a frame, by a factor 2, 4, or 8, in both\nhorizontal and vertical directions. It supports a special mode adapted to a raw Bayer format\nin input.\nThe decimation is redundant with the downsize, that brings a higher quality (the decimation\ndiscards the data of the dropped pixels, while the downsize averages all pixels and does not\nlose information).\nThe decimation has two main usages:\n• Reduces the width of very high resolution sensors to one accepted by the raw Bayer-\nto-RGB conversion. Indeed, the raw Bayer-to-RGB embeds a line buffer that limits its\nprocessed images to a maximum width of 2688 pixels. The decimation makes possible,\nfor instance, to plug a 12 Mpixel sensor (4000 x 3000), decimate its width by a factor 2x\nto 2000 pixels wide, and have it converted to RGB.\n• Complements the downsize (limited to ratio of 8 x 8), to have a combined downsizing\nratio of 64 x 64. It is recommended to have the largest ratio implemented in the\ndownsize, and the decimation complement to that. For instance, for a ratio 30x, is it\nrecommended to have a ratio 4x in decimation, and a ratio 30 / 4 = 7.5 in the downsize.\nFeatures\n• Forwards one item every 1, 2, 4, 8 pixels, independently, vertical and horizontal.\n• Supports raw Bayer formats, where RG-GB components must remain grouped. In that\nmode the above forwarded items are not pixels, but a double component (for example\nR and G or G and B for a RGGB format), in both vertical and horizontal directions. For\ninstance, with a decimation of 2x, the input sequence R0, G0, R1, G1, R2, G2, R3, G3\ngets forwarded as R0, G0, R2, G2 and not R0, R1, R2. The same applies vertically.\nSoftware configuration\n[Table 344. DCMIPP_P1DECR bit function]\nThe raw Bayer mode in decimation is indirectly activated when the Datatype is defined as\nraw Bayer.",
+      "semantic": {}
+    }
+  ]
+}

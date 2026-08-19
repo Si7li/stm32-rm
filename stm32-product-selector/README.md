@@ -83,6 +83,7 @@ Useful flags:
 | `--datasheet-cache DIR` | where PDFs fetched from ST are stored |
 | `--refresh` | rebuild `series_map.json` from scratch |
 | `--no-cache` / `--offline` | ignore the cache / refuse to touch the network |
+| `--download-originals` | for discovered selectors, fetch ST's own Excel export and diff against it (see below) |
 
 `--source api` reproduces the pre-inversion workbooks byte for byte; a hash
 manifest of them is committed under `tests/data/` and checked by the suite,
@@ -107,6 +108,7 @@ accident, this is what catches it.
 ```
 /bin/st/selectors/cxst/en.cxst-ps-grid.html/{levelId}.json    the grid
 /bin/st/selectors/cxst/en.cxst-rpn-info.html/{productId}.json per-part detail
+/bin/st/selectors/cxst/products-excel-download                the Export-to-Excel POST
 ```
 
 This is ST's public product selector — the same data the site's own **Export
@@ -115,6 +117,14 @@ fetched anonymously, exactly as a browser loading the page would. Requests are
 rate-limited to about one per second and every response is cached under
 `cache/`, so a second run is fully offline and makes zero network calls.
 `robots.txt` is honoured: none of the paths used here is disallowed.
+
+The Export-to-Excel endpoint is what `--download-originals` uses. ST's site
+POSTs a base64 `downloadInfo` payload to it and gets back the `ProductsList.xlsx`
+its button downloads — a workbook in exactly the shape this tool rebuilds.
+A discovered selector without a shipped workbook therefore need not be built
+against a synthesised schema: it can be diffed against **ST's own original**.
+The workbook is stored under `cache/originals/`, so the diff survives offline
+and later `stproducts diff` runs.
 
 Transport is `curl_cffi` with `impersonate="chrome"`. ST sits behind Akamai
 TLS-fingerprint checks, and plain `requests`, system `curl` and Playwright all
@@ -416,7 +426,7 @@ is hardened for this shape.
 python -m pytest stm32-product-selector/tests
 ```
 
-99 tests. `tests/test_validation.py` runs the acceptance checks from both
+109 tests. `tests/test_validation.py` runs the acceptance checks from both
 build specs against the real workbooks — including that `--source api` still
 reproduces the pre-inversion output byte for byte, and that every cell in
 every sheet carries exactly one provenance token. It uses the warm caches
@@ -424,7 +434,10 @@ offline and skips cleanly if they are absent.
 
 ## Out of scope
 
-Rebuilding values from datasheets (the API is authoritative), the
-`products-excel-download` endpoint (the workbook is generated here, so the
-format stays under our control and the extra columns can be appended),
-reference manuals (no per-part parametric data), and any LLM.
+Rebuilding values from datasheets (the API is authoritative), reference
+manuals (no per-part parametric data), and any LLM. The
+`products-excel-download` endpoint was previously out of scope on the grounds
+that the workbook is generated here anyway; since the format is reproduced
+under test, it is now optional scope — `--download-originals` — because it
+gives a discovered selector a real original to diff against instead of a
+synthesised stand-in.

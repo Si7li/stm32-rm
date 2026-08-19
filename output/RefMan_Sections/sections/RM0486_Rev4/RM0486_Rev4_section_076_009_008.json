@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.8",
+      "section_title": "Programming guidelines for multichannel multiqueue operation",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4127,
+      "page_end": 4129,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 4657,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4127",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.8 \"Programming guidelines for multichannel multiqueue operation\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4127.",
+      "section_content": "Transmit path\n1. Program the Transmit queue size in the TQS field in ETH_MTLTXQxOMR register. The\nsize of the queue is determined by the value programmed in the TQS field.\nDuring the Transmit operation, the number of channels is equal to the number of the\nqueues. As a result, the channel to queue mapping is fixed.\n2. To use a queue, the queue must be enabled by setting the TXQEN bit in the\ncorresponding ETH_MTLTXQxOMR register. The ST bit in Channel x transmit control\nregister (ETH_DMACxTXCR) and the corresponding TXQEN bit in\nETH_MTLTXQxOMR register must be enabled.\n3. Program the scheduling method in SCHALG bit of ETH_MTLOMR register.\n4. If CBS algorithm is enabled on AV queue 1, ETH_MTLTXQ1ECR,\nETH_MTLTXQ1SSCR, ETH_MTLTXQ1HCR and ETH_MTLTXQ1LCR registers also\nneed to be programmed as required.\nReceive path\n1. Program the Receive queue size in the RQS field in ETH_MTLRXQxOMR register. The\nsize of the queue is determined by the value programmed in the RQS field.\n2. Enable the Receive queues 0 to 1 in the RXQ0EN to RXQ1EN fields of\nETH_MACRXQ0CR register for AV.\nEnable SR bit of statically or dynamically mapped Channel x receive control register\n(ETH_DMACxRXCR) and corresponding RXQiEN in Rx queue control 0 register\n(ETH_MACRXQC0R).\n3. The MAC routes the Rx packets to the Rx queues depending on following packet types:\na) AV PTP packets are routed according to the value of PTPQ in ETH_MACRXQC1R\nregister\nb) AV untagged control packets are routed according to the value of AVCPQ in\nETH_MACRXQC1R register.\nc) VLAN tag priority field in VLAN tagged packets\nProgram PSRQ1 and PSRQ0 of the ETH_MACRXQC2R register to configure the\nrouting of tagged packets based on the USP (user priority) field of the received\npackets to the Rx queues 0 to 1.\nd) The AV tagged control and data packets are also routed according to PSRQ field\nof the ETH_MACRXQC2R register.\nNote: The priorities set in PSRQ0 and PSRQ1 must be unique.\n4. If multiple RX DMA channels are enabled, the following programming should be done\nfor proper arbitration and mapping:\na) Program the RAA field of Operating mode register (ETH_MTLOMR) to select the\narbitration algorithm to decide which Rx queue is read out from the RxFIFO\nmemory.\nb) Program the Rx queue x control register (ETH_MTLRXQxCR) to decide the\nweights and the packet arbitration for each Rx queue.\nc) If static mapping is programmed in Rx queue and Rx queue and DMA channel\nmapping register (ETH_MTLRXQDMAMR) (QiDDMACH is reset to 0), bits\nQiMDMACH need to be programmed to select the channel for which each queue\nis mapped.\nd) Set RXQiDDMACH bit in Rx queue and Rx queue and DMA channel mapping\nregister (ETH_MTLRXQDMAMR) to select dynamic mapping of packets in each\nRx queue.\ne) In dynamic channel mapping, the routing of a packet to a specific RxDMA channel\nis decided by the value of DCS field in the lowest MAC address register.\nProgramming guidelines for recovering from DMA channel failure\nWhen the DMA channel issues a bus error, follow the steps described below to recover from\nthe failure.\nRecovering from the receive DMA channel failure\nFollow these steps if a bus error occurred in the Receive DMA channel:\n1. Set the RPF bit to 1. This flushes all the packets one after the other. This step is\noptional. However, setting this bit prevents HOL (head-of-line) blocking in the Rx\nqueues when packets sent to the RXDMA are stopped due to bus error.\n2. Reprogram the specific registers of the DMA channel.\n3. Start the DMA channel.\nRecovering from the transmit DMA channel failure\n1. Stop the specific DMA channel, even if it is in active state.\n2. Flush the corresponding MTL queue.\n3. Reprogram the specific registers of the DMA channel.\n4. Start the DMA channel.\nNote: Due to the known limitations, reprogramming the DMA channel registers might not always\nbe successful to recover from a bus error. If the peripheral is not fully functional after\nreprogramming the DMA, as a workaround, issue a soft reset to recover from the bus error.\nProgramming guidelines for disabling receive queue\nFollow these steps to disable specific receive queue:\n1. Disable the receiver by setting the RE bit of the Operating mode configuration register\n(ETH_MACCR) to 0.\n2. Read the Debug register (ETH_MACDR) (ensure that RPESTS and RFCFCSTS fields\nare 0) and Rx queue x debug register (ETH_MTLRXQxDR) of all the Rx queues.\n3. When all Rx queue x debug register (ETH_MTLRXQxDR) are read as 0, disable the\nintended Rx queue by programming the corresponding fields in the Rx queue control 0\nregister (ETH_MACRXQC0R).\n4. Enable the receiver by setting the RE bit of Operating mode configuration register\n(ETH_MACCR) to 1.",
+      "semantic": {}
+    }
+  ]
+}

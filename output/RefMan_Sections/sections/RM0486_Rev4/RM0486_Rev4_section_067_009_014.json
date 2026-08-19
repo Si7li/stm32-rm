@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.9.14",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.9.14",
+      "section_title": "Frame error detection",
+      "level": 3,
+      "parent_section": "67.9",
+      "page": 3477,
+      "page_end": 3478,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2435,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3477",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.9.14 \"Frame error detection\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3477.",
+      "section_content": "When configured in slave mode, the SPI/I2S block detects two kinds of frame errors:\n• A frame synchronization is received while the shift-in or shift-out of the previous data is\nnot complete (early frame error). This mode is selected with FIXCH = 0.\n• A frame synchronization occurs at an unexpected position. This mode is selected with\nFIXCH = 1.\nIn slave mode, if the frame length provided by the external master device is different from 32\nor 64 bits, the user has to clear FIXCH. As the SPI/I2S synchronize each transfer with the\nWS there is no misalignment risk, but in a noisy environment, if a glitch occurs in the CK\nsignal, a sample may be affected and the application is not aware of this.\nIf the frame length provided by the external master device is equal to 32 or 64 bits, then the\nuser can set FIXCH and adjust accordingly CHLEN. As the SPI/I2S synchronize each\ntransfer with the WS there is still no misalignment risk, and if the amount of bit clock\nbetween each channel boundary is different from CHLEN, the frame error flag (TIFRE) is\nset.\nFigure912 shows an example of frame error detection. The SPI/I2S block is in slave mode\nand the number of bit clock periods for the left channel are not enough to shift-in or shift-out\nthe data. The figure shows that the ongoing transfer is interrupted and the next one is\nstarted in order to remain aligned to the WS signal.\n[Figure 912. Frame error detection, with FIXCH=0]\nAn interrupt can be generated if the TIFREIE bit is set. The frame error flag (TIFRE) is\ncleared by writing the TIFREC bit of the SPI_IFCR register to 1.\nIt is possible to extend the coverage of the frame error flag by setting the bit FIXCH. When\nthis bit is set, then the SPI/I2S is expecting fixed channel lengths in slave mode. This means\nthat the expected channel length can be 16 or 32 bits, according to CHLEN. As shown in\nFigure913, in this mode, the SPI/I2S block is able to detect if the WS signal is changing at\nthe expected moment (too early or too late).\nNote: Figure912 and Figure913 show the mechanism for the slave transmit mode, but this is also\ntrue for slave receive and slave full-duplex.\nThe frame error detection can be generally due to noisy environment disturbing the good\nreception of WS or CK signals.\nNote: The SPI/I2S is not able to recover properly if an overrun and an early frame occur within the\nsame frame. In this case the user has to disable and re-enable the SPI/I2S.",
+      "semantic": {}
+    }
+  ]
+}

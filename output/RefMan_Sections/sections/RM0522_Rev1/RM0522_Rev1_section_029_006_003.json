@@ -1,0 +1,91 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S29.6.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "29",
+      "chapter_title": "Hash processor (HASH)",
+      "section": "29.6.3",
+      "section_title": "HASH start register (HASH_STR)",
+      "level": 3,
+      "parent_section": "29.6",
+      "page": 909,
+      "page_end": 910,
+      "semantic_type": "register_description",
+      "features": [
+        "dcal",
+        "hash",
+        "hash-str",
+        "nblw"
+      ],
+      "chars": 1788,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=909",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.6.3 \"HASH start register (HASH_STR)\" in chapter 29 (Hash processor (HASH)), RM0522 Rev 1, page 909.",
+      "section_content": "Address offset: 0x008\nReset value: 0x0000 0000\nThe HASH_STR register has two functions:\n• It is used to define the number of valid bits in the last word of the message entered in\nthe hash processor (that is the number of valid least significant bits in the last data\nwritten to the HASH_DIN register)\n• It is used to start the processing of the last block in the message by setting the DCAL\nbit.\nBits 31:9 Reserved, must be kept at reset value.\nBit 8 DCAL: Digest calculation\nThis is a write-only bit always returning zero upon reading. Setting this bit starts the message\npadding using the previously written value of NBLW, and starts the calculation of the final\nmessage digest with all the data words written to the input FIFO since the INIT bit was last\nset.\nDo not set DCAL when BUSY is set.\nBits 7:5 Reserved, must be kept at reset value.\nBits 4:0 NBLW[4:0]: Number of valid bits in the last word\nWhen the last word of the message bit string is written to HASH_DIN register, the hash\nprocessor takes only the valid bits, specified as below, after internal data swapping.\nThe above mechanism is valid only if DCAL=0. If NBLW bits are written while DCAL is set,\nthe NBLW bitfield remains unchanged. In other words it is not possible to configure NBLW\nand set DCAL at the same time.\nReading NBLW bits returns the last value written to NBLW.\n0x00: All the 32 bits of the last data written are valid message bits, that is M[31:0]\n0x01: Only one bit of the last data written (after swapping) is valid, that is M[0]\n0x02: Only two bits of the last data written (after swapping) are valid, that is M[1:0]\n0x03: Only three bits of the last data written (after swapping) are valid that is M[2:0]\n...\n0x1F: Only 31 bits of the last data written (after swapping) are valid that is M[30:0]\nNote:",
+      "semantic": {
+        "register": "HASH_STR",
+        "address_offset": "0x008",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "DCAL",
+            "description": "Digest calculation This is a write-only bit always returning zero upon reading. Setting this bit starts the message padding using the previously written value of NBLW, and starts the calculation of the final message digest with all the data words written to the input FIFO since the INIT bit was last set. Do not set DCAL when BUSY is set.",
+            "values": []
+          },
+          {
+            "bits": "7:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4:0",
+            "name": "NBLW[4:0]",
+            "description": "Number of valid bits in the last word When the last word of the message bit string is written to HASH_DIN register, the hash processor takes only the valid bits, specified as below, after internal data swapping. The above mechanism is valid only if DCAL=0. If NBLW bits are written while DCAL is set, the NBLW bitfield remains unchanged. In other words it is not possible to configure NBLW and set DCAL at the same time. Reading NBLW bits returns the last value written to NBLW. ... Note:",
+            "values": [
+              {
+                "value": "0x00",
+                "meaning": "All the 32 bits of the last data written are valid message bits, that is M[31:0]"
+              },
+              {
+                "value": "0x01",
+                "meaning": "Only one bit of the last data written (after swapping) is valid, that is M[0]"
+              },
+              {
+                "value": "0x02",
+                "meaning": "Only two bits of the last data written (after swapping) are valid, that is M[1:0]"
+              },
+              {
+                "value": "0x03",
+                "meaning": "Only three bits of the last data written (after swapping) are valid that is M[2:0]"
+              },
+              {
+                "value": "0x1F",
+                "meaning": "Only 31 bits of the last data written (after swapping) are valid that is M[30:0]"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

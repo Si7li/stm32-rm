@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S21.3.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "21",
+      "chapter_title": "Flexible static memory controller (FSMC)",
+      "section": "21.3.1",
+      "section_title": "Supported memories and transactions",
+      "level": 3,
+      "parent_section": "21.3",
+      "page": 510,
+      "page_end": 510,
+      "semantic_type": "generic",
+      "features": [
+        "memory"
+      ],
+      "chars": 1751,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=510",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.3.1 \"Supported memories and transactions\" in chapter 21 (Flexible static memory controller (FSMC)), RM0008 Rev 21, page 510.",
+      "section_content": "General transaction rules\nThe requested AHB transaction data size can be 8-, 16- or 32-bit wide whereas the\naccessed external device has a fixed data width. This may lead to inconsistent transfers.\nTherefore, some simple transaction rules must be followed:\n• AHB transaction size and memory data size are equal\nThere is no issue in this case.\n• AHB transaction size is greater than the memory size\nIn this case, the FSMC splits the AHB transaction into smaller consecutive memory\naccesses in order to meet the external data width.\n• AHB transaction size is smaller than the memory size\nAsynchronous transfers may or not be consistent depending on the type of external\ndevice.\n– Asynchronous accesses to devices that have the byte select feature (SRAM,\nROM, PSRAM).\na) FSMC allows write transactions accessing the right data through its byte lanes\nNBL[1:0]\nb) Read transactions are allowed. All memory bytes are read and the useless\nones are discarded. The NBL[1:0] are kept low during read transactions.\n– Asynchronous accesses to devices that do not have the byte select feature (NOR\nand NAND Flash 16-bit).\nThis situation occurs when a byte access is requested to a 16-bit wide Flash\nmemory. Clearly, the device cannot be accessed in byte mode (only 16-bit words\ncan be read from/written to the Flash memory) therefore:\na) Write transactions are not allowed\nb) Read transactions are allowed. All memory bytes are read and the useless ones\nare discarded. The NBL[1:0] are set to 0 during read transactions.\nConfiguration registers\nThe FSMC can be configured using a register set. See Section21.5.6, for a detailed\ndescription of the NOR Flash/PSRAM control registers. See Section21.6.8, for a detailed\ndescription of the NAND Flash/PC Card registers.",
+      "semantic": {}
+    }
+  ]
+}

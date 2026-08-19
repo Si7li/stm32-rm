@@ -1,0 +1,40 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.9.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.9.1",
+      "section_title": "Parallel interface camera sensor module",
+      "level": 3,
+      "parent_section": "39.9",
+      "page": 1872,
+      "page_end": 1873,
+      "semantic_type": "generic",
+      "features": [
+        "camera",
+        "interface",
+        "module",
+        "parallel",
+        "sensor"
+      ],
+      "chars": 2017,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1872",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.9.1 \"Parallel interface camera sensor module\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1872.",
+      "section_content": "A parallel interface camera sensor can transfer images as well as statistics. It is easier to\nmanage the software processing by splitting the statistics and the image data on different\nmemory storages. Two pipes are used in such case, with Pipe0 extracting the statistics and\nPipe1 dealing with the image data (whatever the data format supported by the DCMIPP).\nBoth work in parallel on the same frame, frame by frame. Each output FIFO attached to the\npipe conveys the data on the targeted memory for further processing.\nThe camera sensor module may use some lines of the frame to transfer statistics or sensor\nconfiguration data. These lines can be placed at the beginning and at the end of the frame\n(see Figure409), even if there is no real standard.\n[Figure 409. Use case: Pipe0 (statistics), Pipe1 (pixels)]\nFrame\nCamera sensor\nconfiguration register\nvalues (Pipe0)\nData\nimage\nvalid\nHistogram\nvalues (Pipe0)\nSoftware configuration\n• Pipe0: select the crop area to extract statistics only\n– Configure HSTART[11:0] = 0 and VSTART[11:0] bits in the DCMIPP_P0SCSTR\nregister from the line number corresponding to the first pixel data line (after first\nstatistics line).\n– Configure HSIZE [11:0] (horizontal screen resolution in number of data 32-bit\nequivalent to the horizontal resolution of the screen in pixels) and VSIZE [11:0] to\nthe value corresponding to the offset line number from the first pixel data area.\nThese bits are in the DCMIPP_P0SCSZR register.\n– Set bit POSNEG of the DCMIPP_P0SCSZR register to reject data belonging to\nthe rectangle defined, to keep the outside area of the rectangle, where the\nstatistics are taken in this use case.\n• Pipe1: Select the area to extract the statistics into DCMIPP_P1SRCR register, by\nconfiguring bit FIRSTLINEDEL[2:0] and LASTLINE[11:0] (it avoids to start the image\nprocessing on statistics data). Only the pixel data are forwarded, if needed, to the\nimage processing blocks (for example demoisaicing, auto exposure, contrast\nenhancement) for further processing.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S49.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "49",
+      "chapter_title": "Debug support (DBG)",
+      "section": "49.5",
+      "section_title": "ROM tables",
+      "level": 2,
+      "parent_section": null,
+      "page": 2438,
+      "page_end": 2440,
+      "semantic_type": "generic",
+      "features": [
+        "rom"
+      ],
+      "chars": 2686,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2438",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.5 \"ROM tables\" in chapter 49 (Debug support (DBG)), RM0522 Rev 1, page 2438.",
+      "section_content": "The ROM table is a CoreSight component that contains the base addresses of the\nCoreSight debug components accessible via the access port to which it is attached. These\ntables allow a debugger to discover the topology of the CoreSight system automatically.\nThere is one top level ROM table behind each access port, APn. The base address of this\nROM table can be obtained by reading the APn_BASER register of the access port. The\ntop-level ROM table may point in turn to other ROM tables.\nThe system ROM table is pointed to by the AP0 base register, AP0_BASER. It contains the\nbase address pointer for the DBGMCU.\nThe system ROM table occupies a 4-Kbyte, 32-bit wide chunk of address space,\nfrom0xE00E0000 to 0xE00E0FFC, when accessed by the debugger.\n[Table 583. System ROM table]\nThere are two ROM tables in the CPU subsystem. The MCU ROM table is pointed to by the\nAP1 base register, AP1_BASER. It contains the base-address pointer for the processor\nROM table and for the TPIU registers.\nThe MCU ROM table (see the table below) occupies a 4-Kbyte, 32-bit wide chunk of\naddress space, from 0xE00FE000 to 0xE00FEFFC.\n[Table 584. MCU ROM table]\nThe processor ROM table contains the base-address pointer for the system control space\n(SCS) registers that allow the debugger to identify the CPU core, as well as for the BPU,\nDWT, ITM, ETM, and CTI.\nThe processor ROM table (see the table below) occupies a 4-Kbyte, 32-bit wide chunk of\naddress space, from 0xE00FF000 to 0xE00FFFFC.\n[Table 585. Processor ROM table]\nThe topology for the CoreSight components is shown in the figure below.\n[Figure 747. CoreSight topology]\n0x000 Offset: 0x00001000 0x010 Reserved 0xFFC CIDR3 Data wa ( t D c W hp T o ) int/trace\n0x004 Offset: 0xFFF42000 0x014 Offset: 0xFFF42000 @0xE0001000\n0x008 Reserved 0x018 Offset: 0xFFF43000 0x000 Register file base\n0x010 Top of table 0x020 Top of table @0xE0002000 0xFD0 PIDR4\n0x000 Register file base\n0xFD0 PIDR4 0xFD0 PIDR4 0xFFC CIDR3\n0xFD0 PIDR4\n0xFFC CIDR3 0xFFC CIDR3\nAP0 0xFFC CIDR3 Instrumentation trace\nre B g a is s t e er 0 ( x A E P 00 B E -A 00 P 0 ) 0 Tr @ ac 0 e x E p 0 o 0 rt 4 ( 0 T 0 P 0 I 0 U) 0x000 @ R 0 e x g E ( i I s T 0 te 0 M r 0 f ) i 0 le 0 0 ba 0 se\n(0xF8) 0x000 Register file base\nEmbedded trace (ETM)\nSy @ st 0 e x m E 0 R 0 O E M 00 t 0 a 0 ble 0xFD0 PIDR4 0x000 R @ e 0 gi x s E te 0 r 0 fi 4 le 1 b 0 a 0 s 0 e 0xFD0 PIDR4\n0x000 Offset: 0x00004000 0xFFC CIDR3\n0x004 Top of table 0xFFC CIDR3 0xFD0 PIDR4\n0xFD0 PIDR4 MCU @ d 0 e x b E u 0 g 0 ( E D 4 B 0 G 0 M 0 CU) 0xFFC CIDR3 Cr @ os 0 s x t E ri 0 g 0 g 4 e 2 r 0 (C 00 TI)\n0x000 Register file base 0x000 Register file base\n0xFFC CIDR3\n0xFD0 PIDR4 0xFD0 PIDR4\n0xFFC CIDR3 0xFFC CIDR3",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "table_id": "RM0522-T241",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "241",
+      "title": "Chaining mode to/from PKA",
+      "page": 924,
+      "section": "30.3.7",
+      "section_title": "Private keys protection using CCB",
+      "semantic_type": "generic",
+      "features": [
+        "ccop",
+        "opstep",
+        "pka"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=924",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "CCOP",
+        "CCOP",
+        "OP STEP",
+        "Expected MOD(E1)[5:0]",
+        "Chaining traffic(2)",
+        "Protected parameter written to PKA RAM",
+        "Expected flags(3)"
+      ],
+      "text_helper": "Table 241, \"Chaining mode to/from PKA\", in section 30.3.7 (Private keys protection using CCB) on page 924. Columns: CCOP, CCOP, OP STEP, Expected MOD(E1)[5:0], Chaining traffic(2), Protected parameter written to PKA RAM, Expected flags(3). 22 data row(s). Notes: 1. This mode must be written in PKA_CR before the START bit is set in PKA_CR.; 2. Chaining traffic triggered by the CPU access to PKA RAM. “N/A” means no chaining traffic, only CPU traffic.; 3. In PKA.",
+      "table_content": {
+        "headers": [
+          "CCOP",
+          "CCOP",
+          "OP STEP",
+          "Expected MOD(E1)[5:0]",
+          "Chaining traffic(2)",
+          "Protected parameter written to PKA RAM",
+          "Expected flags(3)"
+        ],
+        "rows": [
+          [
+            "x",
+            "0xC3",
+            "0x1",
+            "0x24",
+            "N/A",
+            "Hash (unprotected)",
+            "N/A"
+          ],
+          [
+            "ECDSA signature",
+            "0xC0 or 0xC2",
+            "0x3",
+            "0x24",
+            "CPU → PKA + SAES(4)",
+            "Integrity protected \nparameters(5)",
+            "CMF error only"
+          ],
+          [
+            "ECDSA signature",
+            "0xC3",
+            "0x13",
+            "0x24",
+            "CPU → PKA + SAES(4)",
+            "Integrity protected \nparameters(5)",
+            "CMF error only"
+          ],
+          [
+            "ECDSA signature",
+            "0xC3",
+            "0x14",
+            "0x24",
+            "SAES → PKA",
+            "Decrypted private key d",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "ECDSA signature",
+            "0xC3",
+            "0x16",
+            "0x24",
+            "RNG → PKA",
+            "Random integer k",
+            "RNGOKF or \nCMF error"
+          ],
+          [
+            "ECDSA signature",
+            "0xC0",
+            "0x4",
+            "0x24",
+            "N/A",
+            "Clear text private key d",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "ECDSA signature",
+            "0xC2",
+            "0x6",
+            "0x24",
+            "RNG → PKA",
+            "Random private key d",
+            "RNGOKF or \nCMF error"
+          ],
+          [
+            "ECDSA signature",
+            "0xC0 or 0xC2",
+            "0x8",
+            "0x24",
+            "PKA → SAES",
+            "Clear-text private key d",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "Scalar multiplication",
+            "0x80 or 0x82",
+            "0x3",
+            "0x20",
+            "CPU → PKA + SAES(4)",
+            "Integrity protected \nparameters(5)",
+            "CMF error only"
+          ],
+          [
+            "Scalar multiplication",
+            "0x81",
+            "0x13",
+            "0x20",
+            "CPU → PKA + SAES(4)",
+            "Integrity protected \nparameters(5)",
+            "CMF error only"
+          ],
+          [
+            "Scalar multiplication",
+            "0x81",
+            "0x14",
+            "0x20",
+            "SAES → PKA",
+            "Decrypted k",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "Scalar multiplication",
+            "0x80",
+            "0x04",
+            "0x20",
+            "N/A",
+            "Clear text scalar mult k",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "Scalar multiplication",
+            "0x82",
+            "0x6",
+            "0x20",
+            "RNG → PKA",
+            "Random scalar mult k",
+            "RNGOKF or \nCMF error"
+          ],
+          [
+            "Scalar multiplication",
+            "0x80 or 0x82",
+            "0x8",
+            "0x20",
+            "PKA → SAES",
+            "Clear-text scalar mult k",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "Modular exponentiation",
+            "0x44",
+            "0x3",
+            "0x3",
+            "CPU → PKA + SAES(4)",
+            "Integrity protected \nparameters(5)",
+            "CMF error only"
+          ],
+          [
+            "Modular exponentiation",
+            "0x45",
+            "0x13",
+            "0x3",
+            "CPU → PKA + SAES(4)",
+            "Integrity protected \nparameters(5)",
+            "CMF error only"
+          ],
+          [
+            "Modular exponentiation",
+            "0x45",
+            "0x14",
+            "0x3",
+            "SAES → PKA",
+            "Decrypted exponent e",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "Modular exponentiation",
+            "0x45",
+            "0x15",
+            "0x3",
+            "SAES → PKA",
+            "Decrypted phi",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "Modular exponentiation",
+            "0x44",
+            "0x4",
+            "0x3",
+            "N/A",
+            "Clear text exponent e",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "Modular exponentiation",
+            "0x44",
+            "0x5",
+            "0x3",
+            "N/A",
+            "Clear text phi",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "Modular exponentiation",
+            "0x44",
+            "0x8",
+            "0x3",
+            "PKA → SAES",
+            "Clear text exponent e",
+            "DATAOKF or \nCMF error"
+          ],
+          [
+            "Modular exponentiation",
+            "0x44",
+            "0x9",
+            "0x3",
+            "PKA → SAES",
+            "Clear text phi",
+            "DATAOKF or \nCMF error"
+          ]
+        ],
+        "notes": [
+          "1. This mode must be written in PKA_CR before the START bit is set in PKA_CR.",
+          "2. Chaining traffic triggered by the CPU access to PKA RAM. “N/A” means no chaining traffic, only CPU traffic.",
+          "3. In PKA_SR bits 8 to 15 (“CMF error” refers to error flag bits 8 to 14).",
+          "4. In this mode chaining traffic includes the 32-bit data word plus the 32-bit physical address to PKA RAM.",
+          "5. Defined in Table242."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

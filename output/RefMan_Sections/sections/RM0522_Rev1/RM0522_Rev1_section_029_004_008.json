@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S29.4.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "29",
+      "chapter_title": "Hash processor (HASH)",
+      "section": "29.4.8",
+      "section_title": "HASH suspend/resume operations",
+      "level": 3,
+      "parent_section": "29.4",
+      "page": 902,
+      "page_end": 904,
+      "semantic_type": "generic",
+      "features": [
+        "hash"
+      ],
+      "chars": 3527,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=902",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.4.8 \"HASH suspend/resume operations\" in chapter 29 (Hash processor (HASH)), RM0522 Rev 1, page 902.",
+      "section_content": "Overview\nIt is possible to interrupt a hash/HMAC operation to perform another processing with a\nhigher priority. The interrupted process completes later when the higher-priority task has\nbeen processed, as shown in Figure215.\n[Figure 215. HASH suspend/resume mechanism]\nTo do so, the context of the interrupted task must be saved from the HASH registers to\nmemory, and then be restored from memory to the HASH registers.\nThe procedures where the data flow is controlled by software or by DMA are described\nhereafter.\nData loaded by software\nWhen the DMA is not used to load the message into the hash processor, the context can be\nsaved only when no block processing is ongoing.\nTo suspend the processing of a message, proceed as follows after writing the number of\nwords defined in NBWE:\n1. In Polling mode, wait for BUSY=0 then poll if the DINIS status bit is set.\nIn Interrupt mode, implement the next step in DINIS interrupt handler (recommended).\n2. Store the contents of the following registers into memory:\n– HASH_IMR\n– HASH_STR\n– HASH_CR\n– HASH_CSR0 to HASH_CSR37, when SHA-1 or SHA2-256 is selected, plus\nHASH_CSR38 to HASH_CSR53 if an HMAC operation was ongoing\n– HASH_CSR0 to HASH_CSR90, when SHA2-384 or SHA2-512 (truncated or not)\nis selected, plus HASH_CSR91 to HASH_CSR102 if an HMAC operation was\nongoing.\nTo resume the processing of a message, proceed as follows:\n1. Write the following registers with the values saved in memory: HASH_IMR,\nHASH_STR, HASH_CR.\n2. Initialize the hash processor by setting the INIT bit in the HASH_CR register\n3. Write the HASH_CSRx registers with the values saved in memory.\n4. Restart the processing from the point where it has been interrupted.\nData loaded by DMA\nWhen the DMA is used to load the message into the hash processor, it is recommended to\nsuspend and then restore a secure digest computing as described below.\nIn this sequence the DMA channel allocated to the hash peripheral remains allocated to the\nprocessing of message 1 (see Figure215).\nTo suspend the processing of a message using DMA, proceed as follows:\n1. Clear the DMAE bit to disable the DMA interface. The hash peripheral automatically\nfetches enough data via the DMA to complete the current burst transfer.\n2. Wait until the last DMA transfer is complete (DMAS=0 in HASH_SR).\n3. Disable the DMA channel.\n4. In Polling or Interrupt mode (recommended), wait until the hash processor is ready (no\nblock is being processed), that is wait for DINIS=1 in HASH_SR. If DCIS is also set in\nHASH_SR, the hash result is available and the context swapping is useless. Else go to\nstep 5.\n5. Save HASH_IMR, HASH_STR and HASH_CR registers. Also save a number of\nHASH_CSRx registers depending on the SHA algorithm that is used:\n– When SHA-1 or SHA2-256 is selected, save HASH_CSR0 to HASH_CSR37, plus\nHASH_CSR38 to HASH_CSR53 if an HMAC operation was ongoing.\n– When SHA2-384 or SHA2-512 is selected, save HASH_CSR0 to HASH_CSR90,\nplus HASH_CSR91 to HASH_CSR102 if an HMAC operation was ongoing.\nTo resume the processing of a message using DMA, proceed as follows:\n1. Reconfigure the DMA controller so that it proceeds with the transfer of the message up\nto the end if it is not interrupted again.\n2. Program the values saved in memory to HASH_IMR, HASH_STR and HASH_CR\nregisters.\n3. Initialize the hash processor by setting the INIT bit in the HASH_CR register.\n4. Program the values saved in memory to the HASH_CSRx registers.\n5. Restart the processing from the point where it was interrupted by setting the DMAE bit.",
+      "semantic": {}
+    }
+  ]
+}

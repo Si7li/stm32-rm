@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S49.4.14",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "49",
+      "chapter_title": "Cryptographic processor (CRYP)",
+      "section": "49.4.14",
+      "section_title": "AES key sharing with secure AES co-processor",
+      "level": 3,
+      "parent_section": "49.4",
+      "page": 2385,
+      "page_end": 2386,
+      "semantic_type": "generic",
+      "features": [
+        "aes"
+      ],
+      "chars": 2167,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2385",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.4.14 \"AES key sharing with secure AES co-processor\" in chapter 49 (Cryptographic processor (CRYP)), RM0486 Rev 4, page 2385.",
+      "section_content": "The CRYP peripheral can use the SAES peripheral as security co-processor. The secure\napplication prepares the key in the robust SAES peripheral. When it is ready, the CRYP\napplication can load this prepared key through a dedicated hardware key bus.\nThe recommended sequence is described hereafter and in section SAES operations with\nshared keys in section Secure AES coprocessor (SAES) of this document.\n1. In SAES peripheral, the application encrypts the key to share in shared-key mode\n(KMOD[1:0] at 0x2). When applicable, the proper CRYP instance must be selected\nthrough KSHAREID[1:0].\n2. Each time the shared key is required in the CRYP peripheral, the application decrypts it\nin the SAES peripheral in shared-key mode (KMOD[1:0] at 0x2). When applicable, the\nproper CRYP instance must be selected through KSHAREID[1:0].\n3. Once the shared key is decrypted and loaded in SAES_KEYRx registers it can be\nshared with CRYP. To load the shared key in CRYP, the application sets KEYSIZE as\nappropriate and writes KMOD[1:0] with 0x2. When KEYVALID is cleared, the key is\nautomatically transfered by hardware into the CRYP_KxL/R registers and the BUSY\nflag in the CRYP_SR register set.\n4. Once the key transfer is complete, the BUSY flag is cleared and the KEYVALID flag set\nin the CRYP_SR register. If KEYVALID is not set when BUSY bit is cleared, or if the\nKERF flag is set in the CRYP_SR register, it means that the KEYSIZE value is incorrect\nor an unexpected event occurred during the transfer (such as DPA error, tamper event\nor KEYVALID in SAES_SR cleared before the end of the transfer). When such errors\noccur, reset both peripherals through their IPRST bits and restart the whole key sharing\nprocess.\nWhen the key sharing sequence is complete, the CRYP is initialized with a valid, shared\nkey. The application can then process data in normal key mode, by writing KMOD[1:0] with\n0x0.\nNote: This sequence in CRYP peripheral can be run multiple times (for example, to manage a\nsuspend/resume situation), as long as SAES peripheral is unused and duly remains in key\nsharing state.\nWhen sharing keys KEYSIZE in CRYP must be identical to SAES value (128 or 256 bits).",
+      "semantic": {}
+    }
+  ]
+}

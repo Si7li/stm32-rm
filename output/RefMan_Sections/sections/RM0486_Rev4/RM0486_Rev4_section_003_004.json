@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.4",
+      "section_title": "Temporal isolation",
+      "level": 2,
+      "parent_section": null,
+      "page": 184,
+      "page_end": 184,
+      "semantic_type": "generic",
+      "features": [
+        "isolation",
+        "temporal"
+      ],
+      "chars": 1375,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=184",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.4 \"Temporal isolation\" in chapter 3 (System security), RM0486 Rev 4, page 184.",
+      "section_content": "The Arm PSA specification states:\n1. The code in each stage must execute its tasks, complete, then terminate, and\nhandover execution to the next stage.\n2. The code in each stage must leave boot state to carry forward results and data from\none stage to the next.\n3. Private data for one stage (especially secrets) must not be directly accessible\nfromlaterstages.\nThe STM32N6x5/x7xx devices define four HDPL:\n• 0: Boot ROM\n• 1: Updatable root of trust (uRoT)\n• 2: Level 2\n• 3: Level 3\nThe HDPL is represented with a monotonically increasing 2-bit counter register\nBSEC_HDPLSR (on the system reset), which does not wrap back to zero. Only a secure\nprivileged software increments this counter (see Section4: Boot and security control\n(BSEC)).\nThe SAES (secure AES engine) uses an HDPL input when performing a derivation of the\nfused HUK to create the DHUK (derived-HUK). The HDPL value seen by the SAES can be\nincreased to a value higher than the current value, to provision data ready for the next\ntemporal stage. However, the generated DHUK with a particular HDPL value cannot be re-\ngenerated during later temporal stages (see Section48: Secure AES coprocessor (SAES)).\nTemporal isolation can also be implemented in the fuse wrapper (BSEC) via sticky read\nlocks and sticky programming locks. The BSEC hardware also ensures that only the boot\nROM accesses certain fuse secrets.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S24.3.10",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "24",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "24.3.10",
+      "section_title": "RTC synchronization",
+      "level": 3,
+      "parent_section": "24.3",
+      "page": 655,
+      "page_end": 656,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rtc"
+      ],
+      "chars": 2063,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=655",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.3.10 \"RTC synchronization\" in chapter 24 (Real-time clock (RTC)), RM0490 Rev 6, page 655.",
+      "section_content": "The RTC can be synchronized to a remote clock with a high degree of precision. After\nreading the sub-second field (RTC_SSR or RTC_TSSSR), a calculation can be made of the\nprecise offset between the times being maintained by the remote clock and the RTC. The\nRTC can then be adjusted to eliminate this offset by “shifting” its clock by a fraction of a\nsecond using RTC_SHIFTR.\nRTC_SSR contains the value of the synchronous prescaler counter. This allows one to\ncalculate the exact time being maintained by the RTC down to a resolution of\n1/(PREDIV_S+1) seconds. As a consequence, the resolution can be improved by\nincreasing the synchronous prescaler value (PREDIV_S[14:0]. The maximum resolution\nallowed (30.52µs with a 32768Hz clock) is obtained with PREDIV_S set to 0x7FFF.\nHowever, increasing PREDIV_S means that PREDIV_A must be decreased in order to\nmaintain the synchronous prescaler output at 1Hz. In this way, the frequency of the\nasynchronous prescaler output increases, which may increase the RTC dynamic\nconsumption.\nThe RTC can be finely adjusted using the RTC shift control register (RTC_SHIFTR). Writing\nto RTC_SHIFTR can shift (either delay or advance) the clock by up to a second with a\nresolution of 1/(PREDIV_S+1) seconds. The shift operation consists of adding the\nSUBFS[14:0] value to the synchronous prescaler counter SS[15:0]: this will delay the clock.\nIf at the same time the ADD1S bit is set, this results in adding one second and at the same\ntime subtracting a fraction of second, so this will advance the clock.\nCaution: Before initiating a shift operation, the user must check that SS[15] = 0 in order to ensure that\nno overflow will occur.\nAs soon as a shift operation is initiated by a write to the RTC_SHIFTR register, the SHPF\nflag is set by hardware to indicate that a shift operation is pending. This bit is cleared by\nhardware as soon as the shift operation has completed.\nCaution: This synchronization feature is not compatible with the reference clock detection feature:\nfirmware must not write to RTC_SHIFTR when REFCKON = 1.",
+      "semantic": {}
+    }
+  ]
+}

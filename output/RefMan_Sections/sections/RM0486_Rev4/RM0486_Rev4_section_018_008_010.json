@@ -1,0 +1,198 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.8.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.8.10",
+      "section_title": "HPDMA channel x status register (HPDMA_CxSR)",
+      "level": 3,
+      "parent_section": "18.8",
+      "page": 902,
+      "page_end": 903,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "dtef",
+        "fifol",
+        "hpdma",
+        "htf",
+        "idlef",
+        "memory",
+        "suspf",
+        "tcf",
+        "tof",
+        "ulef",
+        "usef"
+      ],
+      "chars": 3276,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=902",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.8.10 \"HPDMA channel x status register (HPDMA_CxSR)\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 902.",
+      "section_content": "Address offset: 0x060 + 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0001\nThis is a read register, reporting the channel status.\nThis register is secure or nonsecure, depending on the secure state of channel x\n(HPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of the channel (HPDMA_PRIVCFGR.PRIVx).\nThis register is CID-filtered depending on the CID configuration of the channel x\n(HPDMA_CxCIDCFGR.CFEN = 1). If the debug domain feature is activated, an access to\nthis register is granted to the debug domain CID, regardless of any CID filtering.\nBits 31:25 Reserved, must be kept at reset value.\nBits 24:16 FIFOL[8:0]: Monitored FIFO level\nNumber of available write beats in the FIFO, in units of the programmed destination data\nwidth (see Section18.8.12: HPDMA channel x transfer register 1 (HPDMA_CxTR1)\nDDW_LOG2[1:0], in units of bytes, half-words, words or double-words).\nNote: After having suspended an active transfer, the user may need to read FIFOL[8:0],\nadditionally to HPDMA_CxBR1.BDNT[15:0] and HPDMA_CxBR1.BRC[10:0], to know\nhow many data have been transferred to the destination. Before reading, the user may\nwait for the transfer to be suspended (HPDMA_CxSR.SUSPF = 1).\nBit 15 Reserved, must be kept at reset value.\nBit 14 TOF: Trigger overrun flag\n0: No trigger overrun event\n1: A trigger overrun event occurred.\nBit 13 SUSPF: Completed suspension flag\n0: No completed suspension event\n1: A completed suspension event occurred.\nBit 12 USEF: User setting error flag\n0: No user setting error event\n1: A user setting error event occurred.\nBit 11 ULEF: Update link transfer error flag\n0: No update link transfer error event\n1: A master bus error event occurred while updating a linked-list register from memory.\nBit 10 DTEF: Data transfer error flag\n0: No data transfer error event\n1: A master bus error event occurred on a data transfer.\nBit 9 HTF: Half-transfer flag\n0: No half-transfer event\n1: A half-transfer event occurred.\nA half-transfer event is either a half-block transfer or a half 2D/repeated block transfer,\ndepending on the transfer complete event mode (HPDMA_CxTR2.TCEM[1:0]).\nA half-block transfer occurs when half of the bytes of the source block size (rounded up\ninteger of HPDMA_CxBR1.BNDT[15:0]/2) has been transferred to the destination.\nA half 2D/repeated block transfer occurs when half of the repeated blocks (rounded up\ninteger of (HPDMA_CxBR1.BRC[10:0]+1)/2)) has been transferred to the destination.\nBit 8 TCF: Transfer complete flag\n0: No transfer complete event\n1: A transfer complete event occurred.\nA transfer complete event is either a block transfer complete, a 2D/repeated block transfer\ncomplete, a LLI transfer complete including the upload of the next LLI if any, or the full linked-\nlist completion, depending on the transfer complete event mode\n(HPDMA_CxTR2.TCEM[1:0]).\nBits 7:1 Reserved, must be kept at reset value.\nBit 0 IDLEF: Idle flag\n0: Channel not in idle state\n1: Channel in idle state\nThis idle flag is deasserted by hardware when the channel is enabled\n(HPDMA_CxCR.EN = 1) with a valid channel configuration (no USEF to be immediately\nreported).\nThis idle flag is asserted after hard reset or by hardware when the channel is back in idle\nstate (in suspended or disabled state).",
+      "semantic": {
+        "register": "HPDMA_CxSR",
+        "address_offset": "0x060 + 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0001",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24:16",
+            "name": "FIFOL[8:0]",
+            "description": "Monitored FIFO level Number of available write beats in the FIFO, in units of the programmed destination data width (see Section18.8.12: HPDMA channel x transfer register 1 (HPDMA_CxTR1) DDW_LOG2[1:0], in units of bytes, half-words, words or double-words). Note: After having suspended an active transfer, the user may need to read FIFOL[8:0], additionally to HPDMA_CxBR1.BDNT[15:0] and HPDMA_CxBR1.BRC[10:0], to know how many data have been transferred to the destination. Before reading, the user may wait for the transfer to be suspended (HPDMA_CxSR.SUSPF = 1).",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "TOF",
+            "description": "Trigger overrun flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No trigger overrun event"
+              },
+              {
+                "value": "1",
+                "meaning": "A trigger overrun event occurred."
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "SUSPF",
+            "description": "Completed suspension flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No completed suspension event"
+              },
+              {
+                "value": "1",
+                "meaning": "A completed suspension event occurred."
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "USEF",
+            "description": "User setting error flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No user setting error event"
+              },
+              {
+                "value": "1",
+                "meaning": "A user setting error event occurred."
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "ULEF",
+            "description": "Update link transfer error flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No update link transfer error event"
+              },
+              {
+                "value": "1",
+                "meaning": "A master bus error event occurred while updating a linked-list register from memory."
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "DTEF",
+            "description": "Data transfer error flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No data transfer error event"
+              },
+              {
+                "value": "1",
+                "meaning": "A master bus error event occurred on a data transfer."
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "HTF",
+            "description": "Half-transfer flag A half-transfer event is either a half-block transfer or a half 2D/repeated block transfer, depending on the transfer complete event mode (HPDMA_CxTR2.TCEM[1:0]). A half-block transfer occurs when half of the bytes of the source block size (rounded up integer of HPDMA_CxBR1.BNDT[15:0]/2) has been transferred to the destination. A half 2D/repeated block transfer occurs when half of the repeated blocks (rounded up integer of (HPDMA_CxBR1.BRC[10:0]+1)/2)) has been transferred to the destination.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No half-transfer event"
+              },
+              {
+                "value": "1",
+                "meaning": "A half-transfer event occurred."
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "TCF",
+            "description": "Transfer complete flag A transfer complete event is either a block transfer complete, a 2D/repeated block transfer complete, a LLI transfer complete including the upload of the next LLI if any, or the full linked- list completion, depending on the transfer complete event mode (HPDMA_CxTR2.TCEM[1:0]).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No transfer complete event"
+              },
+              {
+                "value": "1",
+                "meaning": "A transfer complete event occurred."
+              }
+            ]
+          },
+          {
+            "bits": "7:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "IDLEF",
+            "description": "Idle flag This idle flag is deasserted by hardware when the channel is enabled (HPDMA_CxCR.EN = 1) with a valid channel configuration (no USEF to be immediately reported). This idle flag is asserted after hard reset or by hardware when the channel is back in idle state (in suspended or disabled state).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Channel not in idle state"
+              },
+              {
+                "value": "1",
+                "meaning": "Channel in idle state"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

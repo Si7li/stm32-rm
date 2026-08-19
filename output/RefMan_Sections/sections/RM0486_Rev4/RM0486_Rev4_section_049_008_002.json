@@ -1,0 +1,168 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S49.8.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "49",
+      "chapter_title": "Cryptographic processor (CRYP)",
+      "section": "49.8.2",
+      "section_title": "CRYP status register (CRYP_SR)",
+      "level": 3,
+      "parent_section": "49.8",
+      "page": 2395,
+      "page_end": 2396,
+      "semantic_type": "register_description",
+      "features": [
+        "busy",
+        "cryp",
+        "cryp-sr",
+        "ifem",
+        "ifnf",
+        "kerf",
+        "keyvalid",
+        "offu",
+        "ofne"
+      ],
+      "chars": 2400,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2395",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.8.2 \"CRYP status register (CRYP_SR)\" in chapter 49 (Cryptographic processor (CRYP)), RM0486 Rev 4, page 2395.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0000 0003\nBits 31:8 Reserved, must be kept at reset value.\nBit 7 KEYVALID: Key valid flag\nThis read-only bit is set by hardware when the key of size defined by KEYSIZE is loaded in\nCRYP_KxR/LR key registers.\n0: Key not valid\n1: Key valid\nThe CRYPEN bit can only be set when KEYVALID is set.\nIn normal mode when KMOD[1:0] is at zero, the key must be written in the key registers in the\ncorrect sequence, otherwise the KERF flag is set and KEYVALID remains cleared.\nWhen KMOD[1:0] is different from zero, the BUSY flag is automatically set by CRYP. When\nthe key is loaded successfully, BUSY is cleared and KEYVALID set. Upon an error, KERF is\nset, BUSY cleared and KEYVALID remains cleared.\nIf set, KERF must be cleared, otherwise KEYVALID cannot be set. For further information on\nkey loading, refer to Section49.4.16: CRYP key registers.\nBit 6 KERF: Key error flag\nThis read-only bit is set by hardware when key information failed to load into key registers.\n0: No key error detected\n1: Key information failed to load into key registers\nKERF is triggered upon any of the following errors:\n– CRYP_KxR/LR register write does not respect the correct order (refer to\nSection49.4.16: CRYP key registers for details).\n– CRYP fails to load the key shared by SAES peripheral (KMOD=0x2).\nKERF must be cleared by the application software, otherwise KEYVALID cannot be set. It\ncan be done through IPRST bit of CRYP_CR, or when a correct key writing sequence starts.\nBit 5 Reserved, must be kept at reset value.\nBit 4 BUSY: Busy bit\nThis flag indicates whether CRYP is idle or busy.\n0: Idle\n1: Busy\nCRYP is flagged as idle when disabled (CRYPEN=0) or when the AES core is not\nprocessing any data. It happens when the last processing has completed, or CRYP is waiting\nfor enough data in the input FIFO or enough free space in the output FIFO (that is in each\ncase at least 4 words).\nCRYP is flagged as busy when processing a block data, preparing a key (ECB or CBC\ndecryption only), or transferring a shared key from SAES peripheral.\nBit 3 OFFU: Output FIFO full flag\n0: Output FIFO is not full\n1: Output FIFO is full\nBit 2 OFNE: Output FIFO not empty flag\n0: Output FIFO is empty\n1: Output FIFO is not empty\nBit 1 IFNF: Input FIFO not full flag\n0: Input FIFO is full\n1: Input FIFO is not full\nBit 0 IFEM: Input FIFO empty flag\n0: Input FIFO is not empty\n1: Input FIFO is empty",
+      "semantic": {
+        "register": "CRYP_SR",
+        "address_offset": "0x04",
+        "reset_value": "0x0000 0003",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "KEYVALID",
+            "description": "Key valid flag This read-only bit is set by hardware when the key of size defined by KEYSIZE is loaded in CRYP_KxR/LR key registers. The CRYPEN bit can only be set when KEYVALID is set. In normal mode when KMOD[1:0] is at zero, the key must be written in the key registers in the correct sequence, otherwise the KERF flag is set and KEYVALID remains cleared. When KMOD[1:0] is different from zero, the BUSY flag is automatically set by CRYP. When the key is loaded successfully, BUSY is cleared and KEYVALID set. Upon an error, KERF is set, BUSY cleared and KEYVALID remains cleared. If set, KERF must be cleared, otherwise KEYVALID cannot be set. For further information on key loading, refer to Section49.4.16: CRYP key registers.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Key not valid"
+              },
+              {
+                "value": "1",
+                "meaning": "Key valid"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "KERF",
+            "description": "Key error flag This read-only bit is set by hardware when key information failed to load into key registers. KERF is triggered upon any of the following errors: – CRYP_KxR/LR register write does not respect the correct order (refer to Section49.4.16: CRYP key registers for details). – CRYP fails to load the key shared by SAES peripheral (KMOD=0x2). KERF must be cleared by the application software, otherwise KEYVALID cannot be set. It can be done through IPRST bit of CRYP_CR, or when a correct key writing sequence starts.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No key error detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Key information failed to load into key registers"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "BUSY",
+            "description": "Busy bit This flag indicates whether CRYP is idle or busy. CRYP is flagged as idle when disabled (CRYPEN=0) or when the AES core is not processing any data. It happens when the last processing has completed, or CRYP is waiting for enough data in the input FIFO or enough free space in the output FIFO (that is in each case at least 4 words). CRYP is flagged as busy when processing a block data, preparing a key (ECB or CBC decryption only), or transferring a shared key from SAES peripheral.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Idle"
+              },
+              {
+                "value": "1",
+                "meaning": "Busy"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "OFFU",
+            "description": "Output FIFO full flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Output FIFO is not full"
+              },
+              {
+                "value": "1",
+                "meaning": "Output FIFO is full"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "OFNE",
+            "description": "Output FIFO not empty flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Output FIFO is empty"
+              },
+              {
+                "value": "1",
+                "meaning": "Output FIFO is not empty"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "IFNF",
+            "description": "Input FIFO not full flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Input FIFO is full"
+              },
+              {
+                "value": "1",
+                "meaning": "Input FIFO is not full"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "IFEM",
+            "description": "Input FIFO empty flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Input FIFO is not empty"
+              },
+              {
+                "value": "1",
+                "meaning": "Input FIFO is empty"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

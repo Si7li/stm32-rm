@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.8",
+      "section_title": "Ultra-high-speed phase I (UHS-I) voltage switch",
+      "level": 2,
+      "parent_section": null,
+      "page": 1426,
+      "page_end": 1429,
+      "semantic_type": "generic",
+      "features": [
+        "uhs"
+      ],
+      "chars": 4538,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1426",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.8 \"Ultra-high-speed phase I (UHS-I) voltage switch\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1426.",
+      "section_content": "UHS-I mode (SDR12, SDR25, SDR50, SDR104, and DDR50) requires the support for 1.8V\nsignaling. After power up the card starts in 3.3V mode. CMD11 invokes the voltage switch\nsequence to the 1.8V mode. When the voltage sequence is completed successfully the card\nenters UHS-I mode with default SDR12 and card input and output timings are changed.\n[Figure 259. CMD11 signal voltage switch sequence]\nTo perform the signal voltage switch sequence the following steps are needed:\n1. Before starting the Voltage Switch procedure, the SDMMC_CK frequency must be set\nin the range 100 kHz - 400 kHz.\n2. The host starts the Voltage Switch procedure by setting the VSWITCHEN bit before\nsending the CMD11.\n3. The card returns an R1 response.\n– if the response CRC is pass, the Voltage Switch procedure continues the host\ndoes no longer drive the CMD and SDMMC_D[3:0] signals until completion of the\nvoltage switch sequence. Some cycles after the response the SDMMC_CK is\nstopped and the CKSTOP flag is set.\n– if the response CRC is fail (CCRCFAIL flag) or no response is received before the\ntimeout (CTIMEOUT flag), the Voltage Switch procedure is stopped.\n4. The card drives CMD and SDMMC_D[3:0] to low at the next clock after the R1\nresponse.\n5. The host, after having received the R1 response, may monitor the SDMMC_D0 line\nusing the BUSYD0 register bit. The SDMMC_D0 line is sampled two SDMMC_CK\nclock cycles after the Response. The Firmware may read the BUSYD0 register bit\nfollowing the CKSTOP flag.\n– When the BUSYD0 is detected low the host firmware switches the Voltage\nregulator to 1.8V, after which it instructs the SDMMC to start the timing critical\nsection of the Voltage Switch sequence by setting register bit VSWITCH. The\nhardware continues to stop the SDMMC_CK by holding it low for at least 5ms.\n– When the BUSYD0 is detected high the host aborts the Voltage Switch sequence\nand cycle power the card.\n6. The card after detecting SDMMC_CK low begins switching signaling voltage to 1.8V.\n7. The host SDMMC hardware after at least 5ms restarts the SDMMC_CK.\n8. The card within 1ms from detecting SDMMC_CK transition drives CMD and DAT[3:0]\nhigh for at least 1 SDMMC_CK cycle and then stop driving CMD and DAT[3:0].\n9. The host SDMMC hardware, 1ms after the SDMMC_CK has been restarted, the\nSDMMC_D0 is sampled into BUSYD0 and the VSWEND flag is set.\n10. The host, on the VSWEND flag, checks SDMMC_D0 line using the BUSYD0 register\nbit, to confirm completion of voltage switch sequence:\n– When BUSYD0 is detected high, Voltage Switch has been completed successfully.\n– When BUSYD0 is detected low, Voltage Switch has failed, the host cycles the card\npower.\nThe minimum 5ms time to stop the SDMMC_CK is derived from the internal un-gated\nSDMMC_CK clock, which has a maximum frequency of 25MHz (SD mode), as set by the\nclock divider CLKDIV. The >5ms time is counted by 212 cycles (10.24ms @ 400kHz). If a\nlower SDMMC_CK frequency is selected by the clock divider CLKDIV the time for the\nSDMMC_CK clock to be stopped is longer.\nThe maximum 1ms time for the card to drive the SDMMC_Dn and SDMMC_CMD lines high\nis derived from the internal ungated SDMMC_CK which has a maximum frequency of\n25MHz (SD mode), as set by the clock divider CLKDIV. The SDMMC checks the lines after\n>1ms time which is counted by 29 cycles (1.28ms @ 25MHz). If a lower SDMMC_CK\nfrequency is selected by the clock divider CLKDIV the time to check the lines is longer.\nThe signal voltage level switch is supported through an external voltage translation\ntransceiver.\nNote: For external devices not needing a signal voltage level switch the signal voltage level can be\nkept static for all SDMMC operations, including UHS-I.\n[Figure 260. Voltage switch transceiver typical application]\nSD Card\nGPIO\nGPIO\nSDMMC\nSDMMC_CK CLK.h\nSDMMC_CKIN CLK-f\nSDMMC_CDIR CMD.dir\nSDMMC_CMD CMD.h\nSDMMC_D0DIR DAT0.dir\nSDMMC_D0 DAT0.h\nSDMMC_D123DIR DAT123.dir\nSDMMC_D1 DAT1.h\nSDMMC_D2 DAT2.h\nSDMMC_D3 DAT3.h\nTo interface with an external driver (a voltage switch transceiver), next to the standard\nsignals the SDMMC uses the following signals:\n• SDMMC_CKIN feedback input clock\n• SDMMC_CDIR I/O direction control for the CMD signal\n• SDMMC_D0DIR I/O direction control for the SDMMC_D0 signal\n• SDMMC_D123DIR I/O direction control for the SDMMC_D1, SDMMC_D2 and\nSDMMC_D3 signals\nThe voltage transceiver signals EN and SEL are to be handled through general-purpose\nI/O.\nThe polarity of the SDMMC_CDIR, SDMMC_D0DIR and SDMMC_D123DIR signals can be\nselected through SDMMC_POWER.DIRPOL control bit.",
+      "semantic": {}
+    }
+  ]
+}

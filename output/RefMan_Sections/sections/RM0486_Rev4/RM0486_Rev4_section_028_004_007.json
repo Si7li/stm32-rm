@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.4.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.4.7",
+      "section_title": "HyperBus protocol",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 1304,
+      "page_end": 1309,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 5858,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1304",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.7 \"HyperBus protocol\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1304.",
+      "section_content": "The XSPI can communicate with the external device using the HyperBus protocol.\nThe HyperBus uses 11 to 12 pins in 8-bit data mode, or 19 to 20 pins in 16-bit data mode\ndepending on the operating voltage:\n• IO[7:0] as bidirectional data bus for 8-bit data mode and IO[15:0] as bidirectional data\nbus for 16-bit data mode\n• DQS for read and write data strobe and latency insertion\n• NCS\n• CLK\n• NCLK for 1.8V operations (to support this mode, the device must be powered\nwith1.8V)\nThe HyperBus does not require any command specification nor any alternate bytes. As a\nconsequence, a separate register set is used to define the timing of the transaction.\nThe HyperBus frame is composed of the following phases:\n• command/address phase\n• data phase\nThe NCS falls before the start of a transaction and rises again after each transaction\nfinishes.\n[Figure 204. Example of HyperBus read operation (8-bit data mode)]\nThe specific HyperBus features are configured through the registers in the 0x0200-0x02FC\noffset range.\nCommand/address phase\nDuring this initial phase, the XSPI sends 48 bits over IO[7:0] to specify the operations to be\nperformed with the external device.\n[Table 197. Command/address phase description]\nThe address space is configured through the memory type MTYP[2:0] of XSPI_DCR1.\nThe total size of the device must be considered through DEVSIZE[4:0] of XSPI_DCR1. In\ncase of multi-chip product (MCP), the device size is the sum of all the sizes of all the MCP\ndies.\nWarning: Some memory specifications consider that each address\ncorresponds to a 16-bit value. The XSPI considers that each\naddress corresponds to an 8-bit value. So, the software\nneeds to multiply the address by two when accessing the\nmemory registers.\nRead/write operation with initial latency\nThe HyperBus read and write operations need to respect two timings:\n• tRWR: minimal read/write recovery time for the device (defined by TRWR[7:0]\ninXSPI_HLCR)\n• tACC: access time for the device (defined in TACC[7:0] of XSPI_HLCR) according to the\nmemory latency\nDuring the read operation, the DQS0/1 is used by the device, in two ways (see Figure204):\n• during the command/address phase, to request an additional latency\n• during the data phase, for data strobing\nDuring the write operation, the DQS0/1 is used:\n• by the device, during the command/address phase, to request an additional latency.\n• by the XSPI, during the data phase, for write data masking.\n[Figure 205. HyperBus write operation with initial latency (8-bit data mode)]\nRead/write operation with additional latency\nIf the device needs an additional latency (during refresh period of an SDRAM for example),\nDQS0/1 must be tied to one during one of the DQS signals, during the command/address\nphase.\nAn additional tACC duration is added by the XSPI to meet the device request.\n[Figure 206. HyperBus read operation with additional latency (8-bit data mode)]\ntRWR=Read write recovery Additional latency tACC= Access\nCLK\nLatency count 1 Latency count 2\nDQS0 High = 2x Latency count\nLow = 1x Latency count DQS0 and data\nare edge aligned.\nCommand-Address Memory drives IO[7:0]\nand DQS0\nHost drives IO[7:0] and memory drives DQS0\n[Figure 207. HyperBus write operation with additional latency (8-bit data mode)]\ntRWR= Read write recovery\ntACC = Initial access\nCLK\nLow = 1x Latency count CLK and data\nLatency count 1 Latency count 2 are center aligned.\nCommand-Address H an o d s t D d Q riv S e 0 s IO[7:0]\nHost drives IO[7:0] and memory drives DQS0\nFixed latency mode\nSome devices or some applications may not want to operate with a variable latency time as\ndescribed above.\nThe latency can be forced to 2xtACC by setting LM of XSPI_HLCR.\nIn this XSPI latency mode, the state of the DQS signal is not taken into account by the XSPI\nand an additional latency is always added leading to a fixed 2 x tACC latency time.\nWrite operation with no latency\nSome devices can also require a zero latency for the write operations. This write-zero\nlatency can be forced by setting WZL in XSPI_HLCR.\n[Figure 208. HyperBus write operation with no latency (register write)]\nLatency on page-crossing during the read operations\nAn additional latency can be needed by some devices for the read operation when crossing\npages.\nThe initial latency must be respected for any page access, as a consequence, when the first\naccess is close to the page boundary, a latency is automatically added at the page crossing\nto respect the tACC time.\n[Figure 209. HyperBus read operation page crossing with latency (8-bit data mode)]\n16-bit data transfer using HyperBus\nIn the HyperBus protocol, the XSPI supports a dual-octal configuration (16-bit data\ntransfers) when DMM = 1 in XSPI_CR. In this configuration, one octal HyperBus memory is\nconnected to IO0-IO7, and another is connected to IO8-IO15, following the same principle\nas the dual-octal configuration described in the regular command protocol. These memories\nshare all signals except DQS, which are dedicated.\nFor 16-bit data transfers, DMODE[2:0] must be to equal to 101. Any other value in\nDMODE[2:0] correspond to 8-bit data transfer (quad-, dual-, and single-bit data transfer do\nnot exist in HyperBus protocol). Command-address phase is always using 8 bits in\nHyperBus protocol (from IO8-IO15). Only the data is on 16-bit for write or read operations\naccessing the memory space (from IO0-IO15) as shown for instance in Figure210. For the\nmemory register accesses, the data is on 8-bit (from IO0 to IO7, IO8 to IO15 being not used\nbut driven by the controller) as shown in Figure208.\nThe behavior of the interface at protocol-level is exactly the same as for HyperBus octal\nconfiguration, as described above, except that the variable latency is not supported\nindual-octal HyperBus configuration. LM in XSPI_HLCR must be set.\n[Figure 210. HyperBus write operation with initial latency (16-bit mode)]",
+      "semantic": {}
+    }
+  ]
+}

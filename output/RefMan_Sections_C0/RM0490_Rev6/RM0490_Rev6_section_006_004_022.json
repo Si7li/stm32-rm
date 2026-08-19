@@ -1,0 +1,259 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S6.4.22",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "6",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "6.4.22",
+      "section_title": "RCC control/status register 1 (RCC_CSR1)",
+      "level": 3,
+      "parent_section": "6.4",
+      "page": 159,
+      "page_end": 161,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "lscoen",
+        "lscosel",
+        "lsebyp",
+        "lsecssd",
+        "lsecsson",
+        "lsedrv",
+        "lseon",
+        "lserdy",
+        "rcc",
+        "rcc-csr1",
+        "rtcen",
+        "rtcrst",
+        "rtcsel"
+      ],
+      "chars": 2985,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=159",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.4.22 \"RCC control/status register 1 (RCC_CSR1)\" in chapter 6 (Reset and clock control (RCC)), RM0490 Rev 6, page 159.",
+      "section_content": "Up to three wait states are inserted in case of successive accesses to this register.\nThe register bits are only reset upon RTC domain reset (see Section6.1.3: RTC domain\nreset), except the LSCOSEL, LSCOEN, and RTCRST bits that are only reset upon RTC\ndomain power-on reset. Any internal or external reset has no effect on these bits.\nAddress offset: 0x5C\nReset value: 0x0000 0000\nBits 31:26 Reserved, must be kept at reset value.\nBit 25 LSCOSEL: Low-speed clock output selection\nSet and cleared by software to select the low-speed output clock:\n0: LSI\n1: LSE\nBit 24 LSCOEN: Low-speed clock output (LSCO) enable\nSet and cleared by software.\n0: Disable\n1: Enable\nBits 23:17 Reserved, must be kept at reset value.\nBit 16 RTCRST: RTC domain software reset\nSet and cleared by software to reset the RTC domain:\n0: No effect\n1: Reset\nBit 15 RTCEN: RTC clock enable\nSet and cleared by software. The bit enables clock to RTC.\n0: Disable\n1: Enable\nBits 14:10 Reserved, must be kept at reset value.\nBits 9:8 RTCSEL[1:0]: RTC clock source selection\nSet by software to select the clock source for the RTC as follows:\n00: No clock\n01: LSE\n10: LSI\n11: HSE divided by 32\nOnce the RTC clock source is selected, it cannot be changed anymore unless the RTC\ndomain is reset, or unless a failure is detected on LSE (LSECSSD is set). The RTCRST bit\ncan be used to reset this bitfield to 00.\nBit 7 Reserved, must be kept at reset value.\nBit 6 LSECSSD: CSS on LSE failure Detection\nSet by hardware to indicate when a failure is detected by the clock security system\non the external 32kHz oscillator (LSE):\n0: No failure detected\n1: Failure detected\nBit 5 LSECSSON: CSS on LSE enable\nSet by software to enable the clock security system on LSE (32kHz) oscillator as follows:\n0: Disable\n1: Enable\nLSECSSON must be enabled after the LSE oscillator is enabled (LSEON bit enabled) and\nready (LSERDY flag set by hardware), and after the RTCSEL bit is selected.\nOnce enabled, this bit cannot be disabled, except after a LSE failure detection (LSECSSD\n=1). In that case the software must disable the LSECSSON bit.\nBit 4 Reserved, must be kept at reset value.\nBit 3 LSEDRV: LSE oscillator drive capability\nSet by software to select the LSE oscillator drive capability as follows:\n0: medium-high driving capability\n1: high driving capability\nApplicable when the LSE oscillator is in Xtal mode, as opposed to bypass mode.\nBit 2 LSEBYP: LSE oscillator bypass\nSet and cleared by software to bypass the LSE oscillator (in debug mode).\n0: Not bypassed\n1: Bypassed\nThis bit can be written only when the external 32kHz oscillator is disabled (LSEON=0 and\nLSERDY=0).\nBit 1 LSERDY: LSE oscillator ready\nSet and cleared by hardware to indicate when the external 32kHz oscillator is ready (stable):\n0: Not ready\n1: Ready\nAfter the LSEON bit is cleared, LSERDY goes low after 6 external low-speed oscillator clock\ncycles.\nBit 0 LSEON: LSE oscillator enable\nSet and cleared by software to enable LSE oscillator:\n0: Disable\n1: Enable",
+      "semantic": {
+        "register": "RCC_CSR1",
+        "address_offset": "0x5C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25",
+            "name": "LSCOSEL",
+            "description": "Low-speed clock output selection Set and cleared by software to select the low-speed output clock:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "LSI"
+              },
+              {
+                "value": "1",
+                "meaning": "LSE"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "LSCOEN",
+            "description": "Low-speed clock output (LSCO) enable Set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "23:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "RTCRST",
+            "description": "RTC domain software reset Set and cleared by software to reset the RTC domain:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Reset"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "RTCEN",
+            "description": "RTC clock enable Set and cleared by software. The bit enables clock to RTC.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "14:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "RTCSEL[1:0]",
+            "description": "RTC clock source selection Set by software to select the clock source for the RTC as follows: Once the RTC clock source is selected, it cannot be changed anymore unless the RTC domain is reset, or unless a failure is detected on LSE (LSECSSD is set). The RTCRST bit can be used to reset this bitfield to 00.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No clock"
+              },
+              {
+                "value": "01",
+                "meaning": "LSE"
+              },
+              {
+                "value": "10",
+                "meaning": "LSI"
+              },
+              {
+                "value": "11",
+                "meaning": "HSE divided by 32"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "LSECSSD",
+            "description": "CSS on LSE failure Detection Set by hardware to indicate when a failure is detected by the clock security system on the external 32kHz oscillator (LSE):",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No failure detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Failure detected"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "LSECSSON",
+            "description": "CSS on LSE enable Set by software to enable the clock security system on LSE (32kHz) oscillator as follows: LSECSSON must be enabled after the LSE oscillator is enabled (LSEON bit enabled) and ready (LSERDY flag set by hardware), and after the RTCSEL bit is selected. Once enabled, this bit cannot be disabled, except after a LSE failure detection (LSECSSD =1). In that case the software must disable the LSECSSON bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "LSEDRV",
+            "description": "LSE oscillator drive capability Set by software to select the LSE oscillator drive capability as follows: Applicable when the LSE oscillator is in Xtal mode, as opposed to bypass mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "medium-high driving capability"
+              },
+              {
+                "value": "1",
+                "meaning": "high driving capability"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "LSEBYP",
+            "description": "LSE oscillator bypass Set and cleared by software to bypass the LSE oscillator (in debug mode). This bit can be written only when the external 32kHz oscillator is disabled (LSEON=0 and LSERDY=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not bypassed"
+              },
+              {
+                "value": "1",
+                "meaning": "Bypassed"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "LSERDY",
+            "description": "LSE oscillator ready Set and cleared by hardware to indicate when the external 32kHz oscillator is ready (stable): After the LSEON bit is cleared, LSERDY goes low after 6 external low-speed oscillator clock cycles.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not ready"
+              },
+              {
+                "value": "1",
+                "meaning": "Ready"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "LSEON",
+            "description": "LSE oscillator enable Set and cleared by software to enable LSE oscillator:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

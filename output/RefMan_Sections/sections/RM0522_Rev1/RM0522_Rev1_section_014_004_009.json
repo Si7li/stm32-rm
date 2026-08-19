@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.4.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.4.9",
+      "section_title": "LPDMA channel state and linked-list programming",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 406,
+      "page_end": 407,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 2097,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=406",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.9 \"LPDMA channel state and linked-list programming\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 406.",
+      "section_content": "The software can reconfigure a channel when the channel is disabled\n(LPDMA_CxCR.EN=0) and update the execution mode (LPDMA_CxCR.LSM) to change\nfrom/to run-to-completion mode to/from link step mode.\nIn any execution mode, the software can:\n• reprogram LLIn+1 in the memory to finally complete the channel by this LLIn+1 (clear the\nLPDMA_CxLLR of this LLIn+1), before this LLIn+1 is loaded/used by the LPDMA\nchannel\n• abort and reconfigure the channel with a LSM update (seeSection14.4.4)\nIn link step mode, the software can clear LSM after each a single execution of any LLI,\nduring LLIn-1.\nFigure53 shows the overall and unified LPDMA linked-list programming, whatever is the\nexecution mode.\nNote: Figure53 is not intended to illustrate how often a TCEF can be raised, depending on the\nprogrammed value of TCEM[1:0] in LPDMA_CxTR2. It can be raised at (each) block\ncompletion, at (each) 2D block completion, at (each) LLI completion, or only at the last LLI\ndata transfer completion. In run-to-completion mode, whatever is the value of TCEM[1:0], at\nthe channel completion the hardware always set TCEF=1 and disables the channel. In link\nstep mode, the channel is disabled after each single execution of a LLI, and depending on\nthe value of TCEM[1:0] a TCEF is raised or not.\nIn Figure53, BNDT?0 is the typical condition for starting the first data transfer. This\ncondition becomes (BNDT?0 and PFREQ = 1) if the peripheral requests a data transfer\nwith early termination (see Section14.3.6).\n[Figure 53. LPDMA channel execution and linked-list programming]\nChannel state = Idle\nReconfigure DMA channel\nEnable DMA channel\nChannel state = Active\nValid user\nsetting ? N\nSetting USEF = 1\nBNDT (cid:143)(cid:3) 0 ? N Disabling DMA channel\nExecuting once the data\ntransfer from the register file\nNo transfer\nerror ? N\nSetting DTEF = 1\nN LLR (cid:143)(cid:3)0 ? Disabling DMA channel\nLoading next LLI\ninto the register file\nNo transfer\nerror ? N\nY Setting ULEF = 1\nDisabling DMA channel\nValid user\nsetting ? N\nY Setting USEF = 1\nDisabling DMA channel\nN LSM = 1 ?\nSetting TCF = 1\nDisabling DMA channel\nEnd",
+      "semantic": {}
+    }
+  ]
+}

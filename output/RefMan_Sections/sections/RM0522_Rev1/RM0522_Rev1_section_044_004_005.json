@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S44.4.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "44",
+      "chapter_title": "Low-power universal asynchronous receiver transmitter (LPUART)",
+      "section": "44.4.5",
+      "section_title": "LPUART FIFOs and thresholds",
+      "level": 3,
+      "parent_section": "44.4",
+      "page": 1895,
+      "page_end": 1895,
+      "semantic_type": "generic",
+      "features": [
+        "lpuart",
+        "power",
+        "uart"
+      ],
+      "chars": 1730,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1895",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 44.4.5 \"LPUART FIFOs and thresholds\" in chapter 44 (Low-power universal asynchronous receiver transmitter (LPUART)), RM0522 Rev 1, page 1895.",
+      "section_content": "The LPUART can operate in FIFO mode.\nThe LPUART comes with a transmit FIFO (TXFIFO) and a Receive FIFO (RXFIFO). The\nFIFO mode is enabled by setting FIFOEN bit (bit 29) in the LPUART_CR1 register.\nSince 9 bits the maximum data word length is 9 bits, the TXFIFO is 9-bit wide. However, the\nRXFIFO default width is 12 bits. This is due to the fact that the receiver does not only store\nthe data in the FIFO, but also the error flags associated to each character (Parity error,\nNoise error and Framing error flags).\nNote: The received data is stored in the RXFIFO together with the corresponding flags. However,\nonly the data are read when reading the RDR.\nThe status flags are available in the LPUART_ISR register.\nIt is possible to define the TXFIFO and RXFIFO levels at which the Tx and RX interrupts are\ntriggered. These thresholds are programmed through the RXFTCFG[2:0] and\nTXFTCFG[2:0] bitfields of the LPUART_CR3 control register.\nIn this case:\n• The Rx interrupt is generated when the number of received data in the RXFIFO\nreaches the threshold programmed in the RXFTCFG[2:0] bitfield.\nIn this case, the RXFT flag is set in the LPUART_ISR register. This means that\nRXFTCFG[2:0] data have been received: 1 data in LPUART_RDR and\n(RXFTCFG[2:0]–1) data in the RXFIFO. As an example, when the RXFTCFG[2:0] is\nprogrammed to 101, the RXFT flag is set when a number of data corresponding to the\nFIFO size has been received: FIFO size – 1 data in the RXFIFO and 1 data in the\nLPUART_RDR. As a result, the next received data does not set the overrun flag.\n• The Tx interrupt is generated when the number of empty locations in the TXFIFO is\ngreater than the threshold programmed in the TXFTCFG[2:0] bitfield of the\nLSART_CR3 register.",
+      "semantic": {}
+    }
+  ]
+}

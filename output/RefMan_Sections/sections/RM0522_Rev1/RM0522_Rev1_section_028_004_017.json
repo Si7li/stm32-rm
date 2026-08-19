@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S28.4.17",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "28",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "28.4.17",
+      "section_title": "SAES key registers",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 872,
+      "page_end": 873,
+      "semantic_type": "generic",
+      "features": [
+        "saes"
+      ],
+      "chars": 2932,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=872",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.17 \"SAES key registers\" in chapter 28 (Secure AES coprocessor (SAES)), RM0522 Rev 1, page 872.",
+      "section_content": "The eight SAES_KEYRx write-only registers store the encryption or decryption key\ninformation, as shown on Table225. Reads are not allowed for security reason.\nNote: In memory and in SAES key registers, keys are stored in little-endian format, with most\nsignificant byte on the highest address.\n[Table 225. Key endianness in SAES_KEYRx registers (128/256-bit keys)]\nThe key registers are not affected by the data swapping feature controlled by the\nDATATYPE[1:0] bitfield.\nWrite operations to the SAES_KEYRx registers are ignored when SAES peripheral is\nenabled (EN bit set) and KEYSEL[2:0] is different from zero. The application must check this\nbefore modifying key registers.\nThe entire key must be written before starting an AES computation.\nIn normal key mode (KMOD[1:0] at 0x0), with KEYSEL[2:0] at 0x0, the key registers must\nalways be written in either ascending or descending order. The write sequence becomes:\n• SAES_KEYRx (x=0to3 or x=3 to 0) for KEYSIZE cleared\n• SAES_KEYRx (x=0to7 or x=7 to 0) for KEYSIZE set\nNote: KEYSIZE must be written before the key.\nAs soon as the first key register is written, the KEYVALID flag is cleared. Once the key\nregisters writing sequence is completed, KEYVALID is set and EN becomes writable. If an\nerror occurs, KEYVALID is cleared and KEIF set (see Section28.4.19).\nKey selection\nWith KEYSEL[2:0] at 0x0, the application must write the key in the SAES_KEYRx registers.\nWith KEYSEL[2:0] at 0x1, a derived hardware unique key (DHUK), computed inside SAES\nfrom a nonvolatile and secret root hardware unique key, is loaded directly into key registers,\nbased on KEYSIZE information.\nWith KEYSEL[2:0] at 0x2, the boot hardware key (BHK), stored in tamper-resistant secure\nbackup registers, is entirely transferred into key registers upon performing a single read of\nall TAMP_BKPxR registers (x = 0 to 3 for KEYSIZE cleared, x = 0 to 7 for KEYSIZE set) in\nascending order. Refer to Table225.\nWith KEYSEL[2:0] at 0x4, the XOR combination of DHUK and BHK is entirely transferred\ninto key registers upon performing a single read of all TAMP_BKPxR registers (x = 0 to 3 for\nKEYSIZE cleared, x = 0 to 7 for KEYSIZE set) in ascending order. Refer to Table225.\nRepeated writing of KEYSEL[2:0] with the same non-zero value only triggers the loading of\nDHUK or BHK if KEYVALID is cleared. The recommended method to clear KEYVALID is to\nset IPRST. Such method is required for example when switching from ECB decryption to\nECB encryption, selecting the same BHK (KEYSEL[2:0] at 0x2).\nFor all KEYSEL[2:0] values, initiating the key-loading sequence sets the BUSY flag and\nclears the KEYVALID flag. Once the amount of bits defined by KEYSIZE is transfered to the\nSAES_KEYRx registers, BUSY is cleared, KEYVALID set and the EN bit becomes writable.\nIf an error occurs, BUSY and KEYVALID are cleared and KEIF set (see Section28.4.19).\nNote: DHUK, BHK and their XOR combination are not readable by software.",
+      "semantic": {}
+    }
+  ]
+}

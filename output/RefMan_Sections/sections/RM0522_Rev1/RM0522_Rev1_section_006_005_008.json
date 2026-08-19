@@ -1,0 +1,40 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.5.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.5.8",
+      "section_title": "RDP level transitions",
+      "level": 3,
+      "parent_section": "6.5",
+      "page": 160,
+      "page_end": 161,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "rdp",
+        "readout-protection",
+        "security"
+      ],
+      "chars": 1729,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=160",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.5.8 \"RDP level transitions\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 160.",
+      "section_content": "Progressing to more closed levels is the normal product life cycle, that does not require\nsecurity measures. Transition in direction to open level (RDP Level 0) is a regression, and is\npossible only thanks to the OEM Key.\nThere is no restriction on reading the current RDP level.\nTransitions to L2 with boundary scan (L2_wBS) or L2 (L2) closed states\nTransition from L0 to L2 with or without boundary scan is managed either by software\nrunning on the device, or directly, using a debug interface. By software, it is assumed that\ntransitions are triggered by the bootloader, but generally any software running on the device\ncan do a progress transition.\nCaution: The new RDP Level will only be valid after next system or power reset.\nTransition from L2 with boundary scan to L2 is only feasible thanks the BSKEY option-byte\nkey:\n• If the BSKEY key have not been modified under L0 state, the default value apply.\n• If the BSKEY key have been modified under L0 state, the user must apply the key\npopulated.\nThis key must be written under reset and L2 with boundary scan thanks to JTAG in order to\nprogress to L2 RDP level.\nRegression to L0 open debug level\nThis transition is a full regression, possible from either L2_wBS or L2 if an OEM key has\nbeen provisioned. The debug tools are used to provide the OEM key, if the key matches the\none provisioned under L0, the device regresses securely in RDP L0.\nThe regression has the following consequences:\n• RDP level updated\n• User options updated (security settings reset)\n• Flash memory mass erase (even write protected pages)\n[Table 36. RDP levels transitions]\nAn attempt to make a illegal transition results in the OPTCHANGEERR.\nAn incorrect RDP_LEVEL (on OBL) is interpreted as L2.",
+      "semantic": {}
+    }
+  ]
+}

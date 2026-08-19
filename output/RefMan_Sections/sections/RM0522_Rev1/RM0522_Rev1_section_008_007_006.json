@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S8.7.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "8",
+      "chapter_title": "Power control (PWR)",
+      "section": "8.7.6",
+      "section_title": "Stop 1 mode",
+      "level": 3,
+      "parent_section": "8.7",
+      "page": 237,
+      "page_end": 239,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2227,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=237",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 8.7.6 \"Stop 1 mode\" in chapter 8 (Power control (PWR)), RM0522 Rev 1, page 237.",
+      "section_content": "The Stop 1 mode is based on the Cortex-M33 Deep sleep mode combined with the\nperipheral clock gating. In comparison to Stop 0, the voltage regulator is configured to Low\nvoltage retention at 0.9V. All clocks in the core domain are stopped. The HSI, PSI, and HSE\noscillators are disabled.\nAll register contents are preserved. SRAMs can be preserved or powered down, depending\non SRAMxPDSx bits in PWR_PMCR. Refer to Table57: Memory power down block\nselection for details.\nThe power-down reset is always available in Stop mode.\nI/O states in Stop 1 mode\nIn the Stop mode, all I/O pins keep the same state as in the Run mode.\nEntering the Stop 1 mode\nThe MCU enters the Stop 1 mode as described in Entering into a low-power mode, when the\nSLEEPDEEP bit in the Cortex-M33 system control register is set (see Table54 for details on\nhow to enter the Stop mode).\nIf the flash memory programming is ongoing, the Stop 1 mode entry is delayed until the\nmemory access is finished.\nIf an access to the APB domain is ongoing, the Stop 1 mode entry is delayed until the APB\naccess is finished.\nIn Stop 1 mode, the following features can be selected by programming the individual\ncontrol bits:\n• The independent watchdog (IWDG) is started by writing to its key register or by\nhardware option. Once started, it can be stopped only by a reset (see Section37.4:\nIWDG functional description).\n• The real-time clock (RTC) is configured by the RTCEN bit in RCC_RTCCR.\n• The internal RC oscillator LSI clock is configured by the LSION bit in RCC_RTCCR.\n• The external 32.768kHz oscillator (LSE) is configured by the LSEON bit\ninRCC_RTCCR.\nThe PVD can be used in Stop mode. If not needed, it must be disabled by software to save\npower consumption.\nThe ADCx (x = 1 to 3) and the DAC1 can consume power during the Stop 1 mode, unless\nthey are disabled before entering this mode.\nExiting the Stop 1 mode\nThe MCU exits Stop mode by enabling an EXTI interrupt or event depending on how the\nlow-power mode was entered.\nWhen exiting Stop mode by issuing an interrupt or a wake-up event, HSI is selected as\nsystem clock. The MCU exits Stop 1 mode by enabling an EXTI interrupt or event\ndepending on how the low-power mode was entered.\n[Table 59. Stop 1 mode]",
+      "semantic": {}
+    }
+  ]
+}

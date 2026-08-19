@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.3",
+      "section_title": "MAC initialization",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4125,
+      "page_end": 4125,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "mac"
+      ],
+      "chars": 2179,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4125",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.3 \"MAC initialization\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4125.",
+      "section_content": "The MAC configuration registers establish the operating mode of the MAC. If possible,\nthese registers must be initialized before initializing the DMA. The following MAC\nInitialization operations can also be performed after DMA initialization. If the MAC\ninitialization is complete before the DMA is configured, enable the MAC receiver (last step in\nthe following sequence) only after the DMA is active. Otherwise, received frames fill the Rx\nFIFO and overflow.\n1. Provide the MAC address registers: MAC address x low register (ETH_MACAxLR),\nMAC address 0 high register (ETH_MACA0HR) and MAC address x high register\n(ETH_MACAxHR).\n2. Program the following fields to set the appropriate filters for the incoming frames in the\nPacket filtering control register (ETH_MACPFR):\na) Receive All.\nb) Promiscuous mode.\nc) Hash or Perfect Filter.\nd) Unicast, multicast, broadcast, and control frames filter settings.\n3. Program the following fields for proper flow control in the Tx Queue 0 flow control\nregister (ETH_MACQ0TXFCR):\na) Pause time and other Pause frame control bits.\nb) Transmit Flow control bits.\nc) Flow Control Busy.\n4. Program the Interrupt enable register (ETH_MACIER) as required, if it is applicable for\nyour configuration.\n5. Program the appropriate fields in the Operating mode configuration register\n(ETH_MACCR) register. For example, Inter-packet gap while transmission and jabber\ndisable.\n6. Set bit 0 and 1 in Operating mode configuration register (ETH_MACCR) register to\nstart the MAC transmitter and receiver.\nTo support Jumbo Transmit/Receive packets, follow these steps:\n• In the Operating mode configuration register (ETH_MACCR)\na) Set JE bit to 1.\nb) Set JD and WD bits to 0 to avoid giant packet error reporting.\nc) Set GPSLCE bit to 1\nd) Set GPSL bitfield of the Extended operating mode configuration register\n(ETH_MACECR) to a value > 9026\nTo support Transmit/Receive packets, up to 16K, follow these steps:\n• In the Operating mode configuration register (ETH_MACCR)\na) Set JD and WD bits to 1 to avoid giant packet error reporting.\nb) Set GPSLCE bit to 1.\nc) Set GPSL bitfield of the Extended operating mode configuration register\n(ETH_MACECR) to 16383.",
+      "semantic": {}
+    }
+  ]
+}

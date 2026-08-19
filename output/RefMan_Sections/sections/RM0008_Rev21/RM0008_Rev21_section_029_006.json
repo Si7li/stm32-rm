@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S29.6",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "29",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "29.6",
+      "section_title": "Ethernet functional description: DMA controller operation",
+      "level": 2,
+      "parent_section": null,
+      "page": 1010,
+      "page_end": 1011,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 2371,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1010",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.6 \"Ethernet functional description: DMA controller operation\" in chapter 29 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0008 Rev 21, page 1010.",
+      "section_content": "The DMA has independent transmit and receive engines, and a CSR space. The transmit\nengine transfers data from system memory into the Tx FIFO while the receive engine\ntransfers data from the Rx FIFO into system memory. The controller utilizes descriptors to\nefficiently move data from source to destination with minimum CPU intervention. The DMA\nis designed for packet-oriented data transfers such as frames in Ethernet. The controller can\nbe programmed to interrupt the CPU in cases such as frame transmit and receive transfer\ncompletion, and other normal/error conditions. The DMA and the STM32F107xx\ncommunicate through two data structures:\n• Control and status registers (CSR)\n• Descriptor lists and data buffers.\nControl and status registers are described in detail in Section29.8. Descriptors are\ndescribed in detail in Tx DMA descriptors.\nThe DMA transfers the received data frames to the receive buffer in the\nSTM32F107xxmemory, and transmits data frames from the transmit buffer in the\nSTM32F107xx memory. Descriptors that reside in the STM32F107xx memory act as\npointers to these buffers. There are two descriptor lists: one for reception, and one for\ntransmission. The base address of each list is written into DMA registers 3 and 4,\nrespectively. A descriptor list is forward-linked (either implicitly or explicitly). The last\ndescriptor may point back to the first entry to create a ring structure. Explicit chaining of\ndescriptors is accomplished by configuring the second address chained in both the receive\nand transmit descriptors (RDES1[14] and TDES0[20]). The descriptor lists reside in the\nHost’s physical memory space. Each descriptor can point to a maximum of two buffers. This\nenables the use of two physically addressed buffers, instead of two contiguous buffers in\nmemory. A data buffer resides in the Host’s physical memory space, and consists of an\nentire frame or part of a frame, but cannot exceed a single frame. Buffers contain only data.\nThe buffer status is maintained in the descriptor. Data chaining refers to frames that span\nmultiple data buffers. However, a single descriptor cannot span multiple frames. The DMA\nskips to the next frame buffer when the end of frame is detected. Data chaining can be\nenabled or disabled. The descriptor ring and chain structure is shown in Figure353.\n[Figure 353. Descriptor ring and chain structure]",
+      "semantic": {}
+    }
+  ]
+}

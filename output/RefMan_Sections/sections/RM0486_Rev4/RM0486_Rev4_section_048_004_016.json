@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S48.4.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "48",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "48.4.16",
+      "section_title": "SAES data registers and data swapping",
+      "level": 3,
+      "parent_section": "48.4",
+      "page": 2333,
+      "page_end": 2335,
+      "semantic_type": "generic",
+      "features": [
+        "saes"
+      ],
+      "chars": 1992,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2333",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.4.16 \"SAES data registers and data swapping\" in chapter 48 (Secure AES coprocessor (SAES)), RM0486 Rev 4, page 2333.",
+      "section_content": "Data input and output\nA 16-byte data block enters the SAES peripheral with four successive 32-bit word writes into\nthe SAES_DINR register (bitfield DIN[31:0]), the most significant word (bits [127:96]) first,\nthe least significant word (bits [31:0]) last.\nA 16-byte data block is retrieved from the SAES peripheral with four successive 32-bit word\nreads of the SAES_DOUTR register (bitfield DOUT[31:0]), the most significant word (bits\n[127:96]) first, the least significant word (bits [31:0]) last.\nThe four 32-bit words of a 16-byte data block must be stored in the memory consecutively\nand in big-endian order, that is, with the most significant word on the lowest address. See\nTable408 “no swapping” option for details.\nData swapping\nThe SAES peripheral can be configured to perform a bit-, a byte-, a half-word-, or no\nswapping on the input data word in the SAES_DINR register, before loading it to the AES\nprocessing core, and on the data output from the AES processing core, before sending it to\nthe SAES_DOUTR register. The choice depends on the type of data. For example, a byte\nswapping is used for an ASCII text stream.\nThe data swap type is selected through DATATYPE[1:0]. The selection applies to both\nSAES input and output.\nNote: The data in SAES key registers (SAES_KEYRx) and initialization vector registers\n(SAES_IVRx) are not sensitive to the swap mode selection.\nThe SAES data swapping feature is summarized in Table408 and Figure474.\n[Table 408. AES data swapping example]\n[Figure 474. 128-bit block construction according to the data type]\nData padding\nFigure474 also gives an example of memory data block padding with zeros such that the\nzeroed bits after the data swap form a contiguous zone at the MSB end of the AES core\ninput buffer. The example shows the padding of an input data block containing:\n• 84 message bits, with DATATYPE[1:0]=0x0\n• 48 message bits, with DATATYPE[1:0]=0x1\n• 56 message bits, with DATATYPE[1:0]=0x2\n• 34 message bits, with DATATYPE[1:0]=0x3",
+      "semantic": {}
+    }
+  ]
+}

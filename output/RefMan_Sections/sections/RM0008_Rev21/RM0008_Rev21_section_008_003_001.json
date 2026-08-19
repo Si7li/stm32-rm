@@ -1,0 +1,269 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S8.3.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "8",
+      "chapter_title": "Connectivity line devices: reset and clock control (RCC)",
+      "section": "8.3.1",
+      "section_title": "Clock control register (RCC_CR)",
+      "level": 3,
+      "parent_section": "8.3",
+      "page": 132,
+      "page_end": 134,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "csson",
+        "hsebyp",
+        "hseon",
+        "hserdy",
+        "hsical",
+        "hsion",
+        "hsirdy",
+        "hsitrim",
+        "pll2on",
+        "pll2rdy",
+        "pll3on",
+        "pll3rdy",
+        "pllon",
+        "pllrdy",
+        "rcc",
+        "rcc-cr"
+      ],
+      "chars": 4070,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=132",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 8.3.1 \"Clock control register (RCC_CR)\" in chapter 8 (Connectivity line devices: reset and clock control (RCC)), RM0008 Rev 21, page 132.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000 XX83 where X is undefined.\nAccess: no wait state, word, half-word and byte access\nBits 31:30 Reserved, must be kept at reset value.\nBit 29 PLL3RDY: PLL3 clock ready flag\nSet by hardware to indicate that the PLL3 is locked.\n0: PLL3 unlocked\n1: PLL3 locked\nBit 28 PLL3ON: PLL3 enable\nSet and cleared by software to enable PLL3.\nCleared by hardware when entering Stop or Standby mode.\n0: PLL3 OFF\n1: PLL3 ON\nBit 27 PLL2RDY: PLL2 clock ready flag\nSet by hardware to indicate that the PLL2 is locked.\n0: PLL2 unlocked\n1: PLL2 locked\nBit 26 PLL2ON: PLL2 enable\nSet and cleared by software to enable PLL2.\nCleared by hardware when entering Stop or Standby mode. This bit can not be cleared if the\nPLL2 clock is used indirectly as system clock (i.e. it is used as PLL clock entry that is used\nas system clock).\n0: PLL2 OFF\n1: PLL2 ON\nBit 25 PLLRDY: PLL clock ready flag\nSet by hardware to indicate that the PLL is locked.\n0: PLL unlocked\n1: PLL locked\nBit 24 PLLON: PLL enable\nSet and cleared by software to enable PLL.\nCleared by hardware when entering Stop or Standby mode. This bit can not be reset if the\nPLL clock is used as system clock or is selected to become the system clock. Software\nmust disable the USB OTG FS clock before clearing this bit.\n0: PLL OFF\n1: PLL ON\nBits 23:20 Reserved, must be kept at reset value.\nBit 19 CSSON: Clock security system enable\nSet and cleared by software to enable the clock security system. When CSSON is set, the\nclock detector is enabled by hardware when the HSE oscillator is ready, and disabled by\nhardware if a HSE clock failure is detected.\n0: Clock detector OFF\n1: Clock detector ON (Clock detector ON if the HSE oscillator is ready, OFF if not)\nBit 18 HSEBYP: External high-speed clock bypass\nSet and cleared by software to bypass the oscillator with an external clock. The external\nclock must be enabled with the HSEON bit set, to be used by the device. The HSEBYP bit\ncan be written only if the HSE oscillator is disabled.\n0: external 3-25 MHz oscillator not bypassed\n1: external 3-25 MHz oscillator bypassed with external clock\nBit 17 HSERDY: External high-speed clock ready flag\nSet by hardware to indicate that the HSE oscillator is stable. This bit needs 6 cycles of the\nHSE oscillator clock to fall down after HSEON reset.\n0: HSE oscillator not ready\n1: HSE oscillator ready\nBit 16 HSEON: HSE clock enable\nSet and cleared by software.\nCleared by hardware to stop the HSE oscillator when entering Stop or Standby mode. This\nbit cannot be reset if the HSE oscillator is used directly or indirectly as the system clock.\n0: HSE oscillator OFF\n1: HSE oscillator ON\nBits 15:8 HSICAL[7:0]: Internal high-speed clock calibration\nThese bits are initialized automatically at startup.\nBits 7:3 HSITRIM[4:0]: Internal high-speed clock trimming\nThese bits provide an additional user-programmable trimming value that is added to the\nHSICAL[7:0] bits. It can be programmed to adjust to variations in voltage and temperature\nthat influence the frequency of the internal HSI RC.\nThe default value is 16, which, when added to the HSICAL value, should trim the HSI to 8\nMHz ± 1%. The trimming step (Fhsitrim) is around 40 kHz between two consecutive HSICAL\nsteps.\nBit 2 Reserved, must be kept at reset value.\nBit 1 HSIRDY: Internal high-speed clock ready flag\nSet by hardware to indicate that internal 8 MHz RC oscillator is stable. After the HSION bit\nis cleared, HSIRDY goes low after 6 internal 8 MHz RC oscillator clock cycles.\n0: Internal 8 MHz RC oscillator not ready\n1: Internal 8 MHz RC oscillator ready\nBit 0 HSION: Internal high-speed clock enable\nSet and cleared by software.\nSet by hardware to force the internal 8 MHz RC oscillator ON when leaving Stop or Standby\nmode or in case of failure of the external 3-25 MHz oscillator used directly or indirectly as\nsystem clock. This bit can not be cleared if the internal 8 MHz RC is used directly or\nindirectly as system clock or is selected to become the system clock.\n0: Internal 8 MHz RC oscillator OFF\n1: Internal 8 MHz RC oscillator ON",
+      "semantic": {
+        "register": "RCC_CR",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 XX83 where X is undefined.",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "PLL3RDY",
+            "description": "PLL3 clock ready flag Set by hardware to indicate that the PLL3 is locked.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PLL3 unlocked"
+              },
+              {
+                "value": "1",
+                "meaning": "PLL3 locked"
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "PLL3ON",
+            "description": "PLL3 enable Set and cleared by software to enable PLL3. Cleared by hardware when entering Stop or Standby mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PLL3 OFF"
+              },
+              {
+                "value": "1",
+                "meaning": "PLL3 ON"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "PLL2RDY",
+            "description": "PLL2 clock ready flag Set by hardware to indicate that the PLL2 is locked.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PLL2 unlocked"
+              },
+              {
+                "value": "1",
+                "meaning": "PLL2 locked"
+              }
+            ]
+          },
+          {
+            "bits": "26",
+            "name": "PLL2ON",
+            "description": "PLL2 enable Set and cleared by software to enable PLL2. Cleared by hardware when entering Stop or Standby mode. This bit can not be cleared if the PLL2 clock is used indirectly as system clock (i.e. it is used as PLL clock entry that is used as system clock).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PLL2 OFF"
+              },
+              {
+                "value": "1",
+                "meaning": "PLL2 ON"
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "PLLRDY",
+            "description": "PLL clock ready flag Set by hardware to indicate that the PLL is locked.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PLL unlocked"
+              },
+              {
+                "value": "1",
+                "meaning": "PLL locked"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "PLLON",
+            "description": "PLL enable Set and cleared by software to enable PLL. Cleared by hardware when entering Stop or Standby mode. This bit can not be reset if the PLL clock is used as system clock or is selected to become the system clock. Software must disable the USB OTG FS clock before clearing this bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PLL OFF"
+              },
+              {
+                "value": "1",
+                "meaning": "PLL ON"
+              }
+            ]
+          },
+          {
+            "bits": "23:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "CSSON",
+            "description": "Clock security system enable Set and cleared by software to enable the clock security system. When CSSON is set, the clock detector is enabled by hardware when the HSE oscillator is ready, and disabled by hardware if a HSE clock failure is detected.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Clock detector OFF"
+              },
+              {
+                "value": "1",
+                "meaning": "Clock detector ON (Clock detector ON if the HSE oscillator is ready, OFF if not)"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "HSEBYP",
+            "description": "External high-speed clock bypass Set and cleared by software to bypass the oscillator with an external clock. The external clock must be enabled with the HSEON bit set, to be used by the device. The HSEBYP bit can be written only if the HSE oscillator is disabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "external 3-25 MHz oscillator not bypassed"
+              },
+              {
+                "value": "1",
+                "meaning": "external 3-25 MHz oscillator bypassed with external clock"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "HSERDY",
+            "description": "External high-speed clock ready flag Set by hardware to indicate that the HSE oscillator is stable. This bit needs 6 cycles of the HSE oscillator clock to fall down after HSEON reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSE oscillator not ready"
+              },
+              {
+                "value": "1",
+                "meaning": "HSE oscillator ready"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "HSEON",
+            "description": "HSE clock enable Set and cleared by software. Cleared by hardware to stop the HSE oscillator when entering Stop or Standby mode. This bit cannot be reset if the HSE oscillator is used directly or indirectly as the system clock.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSE oscillator OFF"
+              },
+              {
+                "value": "1",
+                "meaning": "HSE oscillator ON"
+              }
+            ]
+          },
+          {
+            "bits": "15:8",
+            "name": "HSICAL[7:0]",
+            "description": "Internal high-speed clock calibration These bits are initialized automatically at startup.",
+            "values": []
+          },
+          {
+            "bits": "7:3",
+            "name": "HSITRIM[4:0]",
+            "description": "Internal high-speed clock trimming These bits provide an additional user-programmable trimming value that is added to the HSICAL[7:0] bits. It can be programmed to adjust to variations in voltage and temperature that influence the frequency of the internal HSI RC. The default value is 16, which, when added to the HSICAL value, should trim the HSI to 8 MHz ± 1%. The trimming step (Fhsitrim) is around 40 kHz between two consecutive HSICAL steps.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "HSIRDY",
+            "description": "Internal high-speed clock ready flag Set by hardware to indicate that internal 8 MHz RC oscillator is stable. After the HSION bit is cleared, HSIRDY goes low after 6 internal 8 MHz RC oscillator clock cycles.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Internal 8 MHz RC oscillator not ready"
+              },
+              {
+                "value": "1",
+                "meaning": "Internal 8 MHz RC oscillator ready"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "HSION",
+            "description": "Internal high-speed clock enable Set and cleared by software. Set by hardware to force the internal 8 MHz RC oscillator ON when leaving Stop or Standby mode or in case of failure of the external 3-25 MHz oscillator used directly or indirectly as system clock. This bit can not be cleared if the internal 8 MHz RC is used directly or indirectly as system clock or is selected to become the system clock.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Internal 8 MHz RC oscillator OFF"
+              },
+              {
+                "value": "1",
+                "meaning": "Internal 8 MHz RC oscillator ON"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

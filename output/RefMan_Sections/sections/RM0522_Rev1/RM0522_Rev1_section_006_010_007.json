@@ -1,0 +1,306 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.10.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.10.7",
+      "section_title": "FLASH control register (FLASH_CR)",
+      "level": 3,
+      "parent_section": "6.10",
+      "page": 180,
+      "page_end": 182,
+      "semantic_type": "register_description",
+      "features": [
+        "ber",
+        "bksel",
+        "edatasel",
+        "eopie",
+        "flash",
+        "flash-cr",
+        "incerrie",
+        "lock",
+        "memory",
+        "mer",
+        "optchangeerrie",
+        "per",
+        "pgserrie",
+        "pnb",
+        "strberrie",
+        "strt",
+        "write-protection",
+        "wrperrie"
+      ],
+      "chars": 6589,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=180",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.10.7 \"FLASH control register (FLASH_CR)\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 180.",
+      "section_content": "Address offset: 0x028\nReset value: 0x0000 0001\nThis register can be protected against unprivileged access when PRIV = 1\ninFLASH_PRIVCFGR.\nAccess: No wait state when no flash memory operation is ongoing.\nThis register is not accessible in write mode when the BSY bit is set. Any attempt to write to\nit with the BSY bit set causes the AHB bus to stall until the BSY bit is cleared.\nBit 31 BKSEL: Bank selector bit\nThis bit can only be programmed when LOCK is cleared to 0. This bit selects physical bank,\nSWAP_BANK setting is ignored.\n0: Bank1 is selected for bank erase (BER)/page erase (PER)/interrupt enable.\n1: Bank2 is selected for BER/PER.\nBit 30 Reserved, must be kept at reset value.\nBit 29 EDATASEL: EDATA erase selector bit\nThis bit can only be programmed when LOCK is cleared to 0. This bit selects if page erased\nconcern EDATA page or User main flash pages. This bit has no effect if PER bit is reset.\n0: Main FLASH page erase\n1: FLASH data area EDATA page erase\nNote: During a bank erase, the user and the EDATA sectors are always erased, regardless of\nthis bit setting.\nBits 28:24 Reserved, must be kept at reset value.\nBit 23 OPTCHANGEERRIE: Option-byte change error interrupt enable bit\nThis bit controls if an interrupt has to be generated when an error occurs during an\noption-byte change. This bit can be programmed only when LOCK bit is cleared to 0.\n0: No interrupt is generated when an error occurs during an option-byte change.\n1: An interrupt is generated when and error occurs during an option-byte change.\nBits 22:21 Reserved, must be kept at reset value.\nBit 20 INCERRIE: Inconsistency error interrupt enable bit\nWhen INCERRIE bit is set to 1, an interrupt is generated when an inconsistency error occurs\nduring a write operation. INCERRIE can be programmed only when LOCK is cleared to 0.\n0: No interrupt generated when a inconsistency error occurs.\n1: Interrupt generated when a inconsistency error occurs.\nBit 19 STRBERRIE: Strobe error interrupt enable bit\nWhen this bit is set to 1, an interrupt is generated when a strobe error occurs (the master\nprograms several times the same byte in the write buffer) during a write operation.\nSTRBERRIE can be programmed only when LOCK is cleared to 0.\n0: No interrupt generated when a strobe error occurs.\n1: Interrupt generated when strobe error occurs.\nBit 18 PGSERRIE: Programming sequence error interrupt enable bit\nWhen this bit is set to 1, an interrupt is generated when a sequence error occurs during a\nprogram operation. PGSERRIE can be programmed only when LOCK is cleared to 0.\n0: No interrupt generated when a sequence error occurs.\n1: Interrupt generated when sequence error occurs.\nBit 17 WRPERRIE: Write protection error interrupt enable bit\nWhen this bit is set to 1, an interrupt is generated when a protection error occurs during a\nprogram operation. WRPERRIE can be programmed only when LOCK is cleared to 0.\n0: No interrupt generated when a protection error occurs.\n1: Interrupt generated when a protection error occurs.\nBit 16 EOPIE: End of operation interrupt control bit\nSetting this bit to 1 enables the generation of an interrupt at the end of a program or erase\noperation. EOPIE can be programmed only when LOCK is cleared to 0.\n0: No interrupt generated at the end of operation.\n1: Interrupt enabled when at the end of operation.\nBit 15 MER: Mass erase request\nSetting this bit to 1 requests a mass erase operation (user flash memory only). MER can be\nprogrammed only when LOCK is cleared to 0. If BER or PER are both set, a PGSERR is\nraised.\n0: Mass erase not requested\n1: Mass erase requested\nNote: An error is triggered when a mass erase is required and some pages are protected.\nBits 14:13 Reserved, must be kept at reset value.\nBits 12:6 PNB[6:0]: Page erase selection number\nThese bits are used to select the target page for an erase operation (they are unused\notherwise). PNB can be programmed only when LOCK is cleared to 0.\n0x00: Page 0 selected\n0x01: Page 1 selected\n0x02-0x3F: Page {v} selected\nNote: Values corresponding to addresses outside the main memory are not allowed. Refer to\nTable24: Memory map and the swapping option (STM32C53x/542 devices), Table25:\nMemory map and the swapping option (STM32C55x/562 devices), and Table26:\nMemory map and the swapping option (STM32C59x/5A3 devices)\nBit 5 STRT: Erase start control bit\nThis bit is used to start a page erase or a bank erase operation. STRT can be programmed\nonly when LOCK is cleared to 0.\nThis bit is reset at the end of the operation or when an error occurs. It cannot be reseted by\nsoftware.\nBit 4 FW: Write forcing control bit\nThis bit forces a write operation even if the write buffer is not full. In this case, all bits not\nwritten are set to 1 by hardware. FW can be programmed only when LOCK is cleared to 0.\nThe FLASH resets this bit when the corresponding operation has been acknowledged.\nNote: Using a force-write operation prevents the application from updating later the missing\nbits with something else than 1, because it is likely that it leads to permanent ECC error.\nWrite forcing is effective only if the write buffer is not empty (in particular, FW does not start\nseveral write operations when the force-write operations are performed consecutively).\nSince there is just one write buffer, FW can force a write in bank1 or bank2.\nBit 3 BER: Bank-erase request\nSetting this bit to 1 requests a bank erase operation (user flash memory only). BER can be\nprogrammed only when LOCK is cleared to 0. If MER and PER are also set, a PGSERR is\nraised.\n0: Bank erase not requested\n1: Bank erase requested\nNote: Write protection error is triggered when a bank erase is required and some pages are\nprotected.\nBit 2 PER: Page-erase request\nSetting this bit to 1 requests a sector erase. PER can be programmed only when LOCK is\ncleared to 0. If MER and PER are also set, a PGSERR is raised.\n0: Page erase not requested\n1: Page erase requested\nBit 1 PG: Programming control bit\nThis bit can be programmed only when LOCK is cleared to 0. It allows programming in bank1\nand bank2.\n0: Programming disabled\n1: Programming enabled\nBit 0 LOCK: Configuration lock bit\nThis bit locks FLASH_CR. The correct write sequence to FLASH_KEYR unlocks this bit. If a\nwrong sequence is executed, or if the unlock sequence to FLASH_KEYR is performed twice,\nthis bit remains locked until the next system reset.\nLOCK can be set by programming it to 1. When set to 1, a new unlock sequence is\nmandatory to unlock it. When LOCK changes from 0 to 1, the other bits of FLASH_CR\nregister do not change.\n0: FLASH_CR unlocked\n1: FLASH_CR locked",
+      "semantic": {
+        "register": "FLASH_CR",
+        "address_offset": "0x028",
+        "reset_value": "0x0000 0001",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "BKSEL",
+            "description": "Bank selector bit This bit can only be programmed when LOCK is cleared to 0. This bit selects physical bank, SWAP_BANK setting is ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Bank1 is selected for bank erase (BER)/page erase (PER)/interrupt enable."
+              },
+              {
+                "value": "1",
+                "meaning": "Bank2 is selected for BER/PER."
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "EDATASEL",
+            "description": "EDATA erase selector bit This bit can only be programmed when LOCK is cleared to 0. This bit selects if page erased concern EDATA page or User main flash pages. This bit has no effect if PER bit is reset. Note: During a bank erase, the user and the EDATA sectors are always erased, regardless of this bit setting.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Main FLASH page erase"
+              },
+              {
+                "value": "1",
+                "meaning": "FLASH data area EDATA page erase"
+              }
+            ]
+          },
+          {
+            "bits": "28:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "OPTCHANGEERRIE",
+            "description": "Option-byte change error interrupt enable bit This bit controls if an interrupt has to be generated when an error occurs during an option-byte change. This bit can be programmed only when LOCK bit is cleared to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt is generated when an error occurs during an option-byte change."
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt is generated when and error occurs during an option-byte change."
+              }
+            ]
+          },
+          {
+            "bits": "22:21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "INCERRIE",
+            "description": "Inconsistency error interrupt enable bit When INCERRIE bit is set to 1, an interrupt is generated when an inconsistency error occurs during a write operation. INCERRIE can be programmed only when LOCK is cleared to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt generated when a inconsistency error occurs."
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt generated when a inconsistency error occurs."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "STRBERRIE",
+            "description": "Strobe error interrupt enable bit When this bit is set to 1, an interrupt is generated when a strobe error occurs (the master programs several times the same byte in the write buffer) during a write operation. STRBERRIE can be programmed only when LOCK is cleared to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt generated when a strobe error occurs."
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt generated when strobe error occurs."
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "PGSERRIE",
+            "description": "Programming sequence error interrupt enable bit When this bit is set to 1, an interrupt is generated when a sequence error occurs during a program operation. PGSERRIE can be programmed only when LOCK is cleared to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt generated when a sequence error occurs."
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt generated when sequence error occurs."
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "WRPERRIE",
+            "description": "Write protection error interrupt enable bit When this bit is set to 1, an interrupt is generated when a protection error occurs during a program operation. WRPERRIE can be programmed only when LOCK is cleared to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt generated when a protection error occurs."
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt generated when a protection error occurs."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "EOPIE",
+            "description": "End of operation interrupt control bit Setting this bit to 1 enables the generation of an interrupt at the end of a program or erase operation. EOPIE can be programmed only when LOCK is cleared to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt generated at the end of operation."
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled when at the end of operation."
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "MER",
+            "description": "Mass erase request Setting this bit to 1 requests a mass erase operation (user flash memory only). MER can be programmed only when LOCK is cleared to 0. If BER or PER are both set, a PGSERR is raised. Note: An error is triggered when a mass erase is required and some pages are protected.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Mass erase not requested"
+              },
+              {
+                "value": "1",
+                "meaning": "Mass erase requested"
+              }
+            ]
+          },
+          {
+            "bits": "14:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12:6",
+            "name": "PNB[6:0]",
+            "description": "Page erase selection number These bits are used to select the target page for an erase operation (they are unused otherwise). PNB can be programmed only when LOCK is cleared to 0. 0x02-0x3F: Page {v} selected Note: Values corresponding to addresses outside the main memory are not allowed. Refer to Table24: Memory map and the swapping option (STM32C53x/542 devices), Table25: Memory map and the swapping option (STM32C55x/562 devices), and Table26: Memory map and the swapping option (STM32C59x/5A3 devices)",
+            "values": [
+              {
+                "value": "0x00",
+                "meaning": "Page 0 selected"
+              },
+              {
+                "value": "0x01",
+                "meaning": "Page 1 selected"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "STRT",
+            "description": "Erase start control bit This bit is used to start a page erase or a bank erase operation. STRT can be programmed only when LOCK is cleared to 0. This bit is reset at the end of the operation or when an error occurs. It cannot be reseted by software.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "FW",
+            "description": "Write forcing control bit This bit forces a write operation even if the write buffer is not full. In this case, all bits not written are set to 1 by hardware. FW can be programmed only when LOCK is cleared to 0. The FLASH resets this bit when the corresponding operation has been acknowledged. Note: Using a force-write operation prevents the application from updating later the missing bits with something else than 1, because it is likely that it leads to permanent ECC error. Write forcing is effective only if the write buffer is not empty (in particular, FW does not start several write operations when the force-write operations are performed consecutively). Since there is just one write buffer, FW can force a write in bank1 or bank2.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "BER",
+            "description": "Bank-erase request Setting this bit to 1 requests a bank erase operation (user flash memory only). BER can be programmed only when LOCK is cleared to 0. If MER and PER are also set, a PGSERR is raised. Note: Write protection error is triggered when a bank erase is required and some pages are protected.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Bank erase not requested"
+              },
+              {
+                "value": "1",
+                "meaning": "Bank erase requested"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "PER",
+            "description": "Page-erase request Setting this bit to 1 requests a sector erase. PER can be programmed only when LOCK is cleared to 0. If MER and PER are also set, a PGSERR is raised.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Page erase not requested"
+              },
+              {
+                "value": "1",
+                "meaning": "Page erase requested"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "PG",
+            "description": "Programming control bit This bit can be programmed only when LOCK is cleared to 0. It allows programming in bank1 and bank2.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Programming disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Programming enabled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "LOCK",
+            "description": "Configuration lock bit This bit locks FLASH_CR. The correct write sequence to FLASH_KEYR unlocks this bit. If a wrong sequence is executed, or if the unlock sequence to FLASH_KEYR is performed twice, this bit remains locked until the next system reset. LOCK can be set by programming it to 1. When set to 1, a new unlock sequence is mandatory to unlock it. When LOCK changes from 0 to 1, the other bits of FLASH_CR register do not change.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "FLASH_CR unlocked"
+              },
+              {
+                "value": "1",
+                "meaning": "FLASH_CR locked"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

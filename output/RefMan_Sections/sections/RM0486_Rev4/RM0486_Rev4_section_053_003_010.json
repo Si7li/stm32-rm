@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S53.3.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "53",
+      "chapter_title": "Advanced-control timers (TIM1/TIM8)",
+      "section": "53.3.10",
+      "section_title": "PWM input mode",
+      "level": 3,
+      "parent_section": "53.3",
+      "page": 2513,
+      "page_end": 2514,
+      "semantic_type": "generic",
+      "features": [
+        "pwm",
+        "timer"
+      ],
+      "chars": 1865,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2513",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 53.3.10 \"PWM input mode\" in chapter 53 (Advanced-control timers (TIM1/TIM8)), RM0486 Rev 4, page 2513.",
+      "section_content": "This mode is used to measure both the period and the duty cycle of a PWM signal\nconnected to single tim_tix input:\n• The TIMx_CCR1 register holds the period value (interval between two consecutive\nrising edges).\n• The TIM_CCR2 register holds the pulsewidth (interval between two consecutive rising\nand falling edges.\nThis mode is a particular case of input capture mode. The set-up procedure is similar with\nthe following differences:\n• Two ICx signals are mapped on the same tim_tixfp1 input.\n• These two ICx signals are active on edges with opposite polarity.\n• One of the two tim_tixfp signals is selected as trigger input and the slave mode\ncontroller is configured in reset mode.\nThe period and the pulsewidth of a PWM signal applied on tim_ti1 can be measured using\nthe following procedure:\n• Select the active input for TIMx_CCR1: write the CC1S bits to 01 in the TIMx_CCMR1\nregister (tim_ti1 selected).\n• Select the active polarity for tim_ti1fp1 (used both for capture in TIMx_CCR1 and\ncounter clear): write the CC1P and CC1NP bits to 0 (active on rising edge).\n• Select the active input for TIMx_CCR2: write the CC2S bits to 10 in the TIMx_CCMR1\nregister (tim_ti1 selected).\n• Select the active polarity for tim_ti1fp2 (used for capture in TIMx_CCR2): write the\nCC2P and CC2NP bits to CC2P/CC2NP = 10 (active on falling edge).\n• Select the valid trigger input: write the TS bits to 00101 in the TIMx_SMCR register\n(tim_ti1fp1 selected).\n• Configure the slave mode controller in reset mode: write the SMS bits to 0100 in the\nTIMx_SMCR register.\n• Enable the captures: write the CC1E and CC2E bits to 1 in the TIMx_CCER register.\n[Figure 532. PWM input mode timing]\ntim_ti1\nTIMx_CNT 0004 0000 0001 0002 0003 0004 0000\nTIMx_CCR1 0004\nTIMx_CCR2 0002\nIC1 capture IC2 capture IC1 capture\nIC2 capture pulse width pulse width\nreset counter measurement measurement",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S9.2.7",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "9",
+      "chapter_title": "General-purpose and alternate-function I/Os (GPIOs and AFIOs)",
+      "section": "9.2.7",
+      "section_title": "Port configuration lock register (GPIOx_LCKR) (x=A..G)",
+      "level": 3,
+      "parent_section": "9.2",
+      "page": 174,
+      "page_end": 175,
+      "semantic_type": "register_description",
+      "features": [
+        "gpio",
+        "lckk"
+      ],
+      "chars": 1245,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=174",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.2.7 \"Port configuration lock register (GPIOx_LCKR) (x=A..G)\" in chapter 9 (General-purpose and alternate-function I/Os (GPIOs and AFIOs)), RM0008 Rev 21, page 174.",
+      "section_content": "This register is used to lock the configuration of the port bits when a correct write sequence\nis applied to bit 16 (LCKK). The value of bits [15:0] is used to lock the configuration of the\nGPIO. During the write sequence, the value of LCKR[15:0] must not change. When the\nLOCK sequence has been applied on a port bit it is no longer possible to modify the value of\nthe port bit until the next reset.\nEach lock bit freezes the corresponding 4 bits of the control register (CRL, CRH).\nAddress offset: 0x18\nReset value: 0x0000 0000\nBits 31:17 Reserved\nBit 16 LCKK[16]: Lock key\nThis bit can be read anytime. It can only be modified using the Lock Key Writing Sequence.\n0: Port configuration lock key not active\n1: Port configuration lock key active. GPIOx_LCKR register is locked until the next reset.\nLOCK key writing sequence:\nWrite 1\nWrite 0\nWrite 1\nRead 0\nRead 1 (this read is optional but confirms that the lock is active)\nNote: During the LOCK Key Writing sequence, the value of LCK[15:0] must not change.\nAny error in the lock sequence will abort the lock.\nBits 15:0 LCKy: Port x Lock bit y (y= 0 .. 15)\nThese bits are read write but can only be written when the LCKK bit is 0.\n0: Port configuration not locked\n1: Port configuration locked.",
+      "semantic": {
+        "register": "GPIOx_LCKR",
+        "address_offset": "0x18",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:17",
+            "name": "Res.",
+            "description": "Reserved",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "LCKK[16]",
+            "description": "Lock key This bit can be read anytime. It can only be modified using the Lock Key Writing Sequence. LOCK key writing sequence: Write 1 Write 0 Write 1 Read 0 Read 1 (this read is optional but confirms that the lock is active) Note: During the LOCK Key Writing sequence, the value of LCK[15:0] must not change. Any error in the lock sequence will abort the lock.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Port configuration lock key not active"
+              },
+              {
+                "value": "1",
+                "meaning": "Port configuration lock key active. GPIOx_LCKR register is locked until the next reset."
+              }
+            ]
+          },
+          {
+            "bits": "15:0",
+            "name": "LCKy",
+            "description": "Port x Lock bit y (y= 0 .. 15) These bits are read write but can only be written when the LCKK bit is 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Port configuration not locked"
+              },
+              {
+                "value": "1",
+                "meaning": "Port configuration locked."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

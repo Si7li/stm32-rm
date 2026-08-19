@@ -1,0 +1,88 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T715",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "715",
+      "title": "Standard message ID filter element field description",
+      "page": 3677,
+      "section": "71.4.22",
+      "section_title": "FDCAN standard message ID filter element",
+      "semantic_type": "generic",
+      "features": [
+        "element",
+        "filter",
+        "message",
+        "standard"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3677",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Field",
+        "Field",
+        "Description"
+      ],
+      "text_helper": "Table 715, \"Standard message ID filter element field description\", in section 71.4.22 (FDCAN standard message ID filter element) on page 3677. Columns: Field, Field, Description. 7 data row(s). Notes: 1. With SFT = “11” the filter element is disabled and the acceptance filtering continues (same behavior as with SFEC = “000”).",
+      "table_content": {
+        "headers": [
+          "Field",
+          "Field",
+          "Description"
+        ],
+        "rows": [
+          [
+            "Bit 31:30\nSFT[1:0](1)",
+            "Bit 31:30\nSFT[1:0](1)",
+            "Standard filter type\n– 00: Range filter from SFID1 to SFID2 \n– 01: Dual ID filter for SFID1 or SFID2\n– 10: Classic filter: SFID1 = filter, SFID2 = mask\n– 11: Filter element disabled"
+          ],
+          [
+            "Bit 29:27\nSFEC[2:0]",
+            "Bit 29:27\nSFEC[2:0]",
+            "Standard filter element configuration\nAll enabled filter elements are used for acceptance filtering of standard frames. \nAcceptance filtering stops at the first matching enabled filter element or when the end \nof the filter list is reached. If SFEC = “100”, “101”, or “110” a match sets interrupt flag \nFDCAN_IR.HPM and, if enabled, an interrupt is generated. In this case register \nFDCAN_HPMS is updated with the status of the priority match.\n– 000: Disable filter element\n– 001: Store in Rx FIFO 0 if filter matches\n– 010: Store in Rx FIFO 1 if filter matches\n– 011: Reject ID if filter matches\n– 100: Set priority if filter matches\n– 101: Set priority and store in FIFO 0 if filter matches\n– 110: Set priority and store in FIFO 1 if filter matches\n– 111: Store into Rx buffer or as debug message, configuration of FDCAN_SFT[1:0] \nignored"
+          ],
+          [
+            "Bits 26:16\nSFID1[10:0]",
+            "Bits 26:16\nSFID1[10:0]",
+            "Standard filter ID 1\nFirst ID of standard ID filter element.\nWhen filtering for Rx buffers or for debug messages this field defines the ID of a \nstandard message to be stored. The received identifiers must match exactly, no \nmasking mechanism is used."
+          ],
+          [
+            "Bits 15:0",
+            "SFID2[15:10]",
+            "Standard filter ID 2\nThis bit field has a different meaning depending on the configuration of SFEC:\n– SFEC = 001 ... 110 Second ID of standard ID filter element\n– SFEC = 111 Filter for Rx buffers or for debug messages"
+          ],
+          [
+            "Bits 15:0",
+            "SFID2[10:9]",
+            "Decides whether the received message is stored into an Rx buffer or treated as \nmessage A, B, or C of the debug message sequence.\n– 00: Store message into an Rx buffer\n– 01: Debug message A\n– 10: Debug message B\n– 11: Debug message C"
+          ],
+          [
+            "Bits 15:0",
+            "SFID2[8:6]",
+            "Is used to control the filter event pins at the Extension Interface. A 1 at the respective \nbit position enables generation of a pulse at the related filter event pin with the \nduration of one fdcan_pclk period in case the filter matches.\nSFID2[8] is used by the calibration unit."
+          ],
+          [
+            "Bits 15:0",
+            "SFID2[5:0]",
+            "Defines the offset to the Rx buffer start address FDCAN_RXBC.RBSA for storage of \na matching message."
+          ]
+        ],
+        "notes": [
+          "1. With SFT = “11” the filter element is disabled and the acceptance filtering continues (same behavior as with SFEC = “000”)."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

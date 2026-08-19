@@ -1,0 +1,40 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.4.7",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.4.7",
+      "section_title": "Stream access, stream write and stream read (MultiMediaCard only)",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 584,
+      "page_end": 585,
+      "semantic_type": "generic",
+      "features": [
+        "access",
+        "multimediacard",
+        "read",
+        "stream",
+        "write"
+      ],
+      "chars": 3121,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=584",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.7 \"Stream access, stream write and stream read (MultiMediaCard only)\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 584.",
+      "section_content": "In stream mode, data is transferred in bytes and no CRC is appended at the end of each\nblock.\nStream write (MultiMediaCard only)\nWRITE_DAT_UNTIL_STOP (CMD20) starts the data transfer from the SDIO card host to the\ncard, beginning at the specified address and continuing until the SDIO card host issues a\nstop command. When partial blocks are allowed (CSD parameter WRITE_BL_PARTIAL is\nset), the data stream can start and stop at any address within the card address space,\notherwise it can only start and stop at block boundaries. Because the amount of data to be\ntransferred is not determined in advance, a CRC cannot be used. When the end of the\nmemory range is reached while sending data and no stop command is sent by the SD card\nhost, any additional transferred data are discarded.\nThe maximum clock frequency for a stream write operation is given by the following\nequation fields of the card-specific data register:\nMaximumspeed= MIN(TRANSPEED,(---8-----×-----2--- w ----- r -- i -- t -- e ---- b --- l -- l -- e --- n ----)---(--–---N-----S----A-----C----)-)\nTAAC×R2WFACTOR\n• Maximumspeed = maximum write frequency\n• TRANSPEED = maximum data transfer rate\n• writebllen = maximum write data block length\n• NSAC = data read access time 2 in CLK cycles\n• TAAC = data read access time 1\n• R2WFACTOR = write speed factor\nIf the host attempts to use a higher frequency, the card may not be able to process the data\nand stop programming, set the OVERRUN error bit in the status register, and while ignoring\nall further data transfer, wait (in the receive data state) for a stop command. The write\noperation is also aborted if the host tries to write over a write-protected area. In this case,\nhowever, the card sets the WP_VIOLATION bit.\nStream read (MultiMediaCard only)\nREAD_DAT_UNTIL_STOP (CMD11) controls a stream-oriented data transfer.\nThis command instructs the card to send its data, starting at a specified address, until the\nSDIO card host sends STOP_TRANSMISSION (CMD12). The stop command has an\nexecution delay due to the serial command transmission and the data transfer stops after\nthe end bit of the stop command. When the end of the memory range is reached while\nsending data and no stop command is sent by the SDIO card host, any subsequent data\nsent are considered undefined.\nThe maximum clock frequency for a stream read operation is given by the following\nequation and uses fields of the card specific data register.\nMaximumspeed= MIN(TRANSPEED,-(--8-----×-----2--- r --- e --- a ---- d ---- b --- l -- l -- e --- n ----)---(--–---N-----S----A-----C----)-)\nTAAC×R2WFACTOR\n• Maximumspeed = maximum read frequency\n• TRANSPEED = maximum data transfer rate\n• readbllen = maximum read data block length\n• writebllen = maximum write data block length\n• NSAC = data read access time 2 in CLK cycles\n• TAAC = data read access time 1\n• R2WFACTOR = write speed factor\nIf the host attempts to use a higher frequency, the card is not able to sustain data transfer. If\nthis happens, the card sets the UNDERRUN error bit in the status register, aborts the\ntransmission and waits in the data state for a stop command.",
+      "semantic": {}
+    }
+  ]
+}

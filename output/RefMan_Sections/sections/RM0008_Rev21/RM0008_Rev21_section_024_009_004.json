@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S24.9.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "24",
+      "chapter_title": "Controller area network (bxCAN)",
+      "section": "24.9.4",
+      "section_title": "CAN filter registers",
+      "level": 3,
+      "parent_section": "24.9",
+      "page": 691,
+      "page_end": 694,
+      "semantic_type": "generic",
+      "features": [
+        "can"
+      ],
+      "chars": 4214,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=691",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.9.4 \"CAN filter registers\" in chapter 24 (Controller area network (bxCAN)), RM0008 Rev 21, page 691.",
+      "section_content": "CAN filter master register (CAN_FMR)\nAddress offset: 0x200\nReset value: 0x2A1C 0E01\nAll bits of this register are set and cleared by software.\nReserved\nBits 31:14 Reserved, must be kept at reset value.\nBits 13:8 CAN2SB[5:0]: CAN2 start bank\nThese bits are set and cleared by software. They define the start bank for the CAN2\ninterface (Slave) in the range 0 to 27.\nNote: When CAN2SB[5:0] = 28d, all the filters to CAN1 can be used.\nWhen CAN2SB[5:0] is set to 0, no filters are assigned to CAN1.\nBits 7:1 Reserved, must be kept at reset value.\nBit 0 FINIT: Filter init mode\nInitialization mode for filter banks\n0: Active filters mode.\n1: Initialization mode for the filters.\nCAN filter mode register (CAN_FM1R)\nAddress offset: 0x204\nReset value: 0x00000000\nThis register can be written only when the filter initialization mode is set (FINIT=1) in the\nCAN_FMR register.\nNote: Refer to Figure230.\nBits 31:28 Reserved, must be kept at reset value.\nBits 27:0 FBMx: Filter mode\nMode of the registers of Filter x.\n0: Two 32-bit registers of filter bank x are in Identifier Mask mode.\n1: Two 32-bit registers of filter bank x are in Identifier List mode.\nNote: Bits 27:14 are available in connectivity line devices only and are reserved otherwise.\nCAN filter scale register (CAN_FS1R)\nAddress offset: 0x20C\nReset value: 0x00000000\nThis register can be written only when the filter initialization mode is set (FINIT=1) in the\nCAN_FMR register.\nBits 31:28 Reserved, must be kept at reset value.\nBits 27:0 FSCx: Filter scale configuration\nThese bits define the scale configuration of Filters 13-0.\n0: Dual 16-bit scale configuration\n1: Single 32-bit scale configuration\nNote: Bits 27:14 are available in connectivity line devices only and are reserved otherwise.\nNote: Refer to Figure230.\nCAN filter FIFO assignment register (CAN_FFA1R)\nAddress offset: 0x214\nReset value: 0x00000000\nThis register can be written only when the filter initialization mode is set (FINIT=1) in the\nCAN_FMR register.\nBits 31:28 Reserved, must be kept at reset value.\nBits 27:0 FFAx: Filter FIFO assignment for filter x\nThe message passing through this filter will be stored in the specified FIFO.\n0: Filter assigned to FIFO 0\n1: Filter assigned to FIFO 1\nNote: Bits 27:14 are available in connectivity line devices only and are reserved otherwise.\nCAN filter activation register (CAN_FA1R)\nAddress offset: 0x21C\nReset value: 0x00000000\nBits 31:28 Reserved, must be kept at reset value.\nBits 27:0 FACTx: Filter active\nThe software sets this bit to activate Filter x. To modify the Filter x registers (CAN_FxR[0:7]),\nthe FACTx bit must be cleared or the FINIT bit of the CAN_FMR register must be set.\n0: Filter x is not active\n1: Filter x is active\nNote: Bits 27:14 are available in connectivity line devices only and are reserved otherwise.\nFilter bank i register x (CAN_FiRx) (i=0..27, x=1, 2)\nAddress offsets: 0x240..0x31C\nReset value: 0xXXXX XXXX\nn connectivity line devices there are 28 filter banks, i=0 .. 27, in other devices there are 14\nfilter banks i = 0 ..13. Each filter bank i is composed of two 32-bit registers, CAN_FiR[2:1].\nThis register can only be modified when the FACTx bit of the CAN_FAxR register is cleared\nor when the FINIT bit of the CAN_FMR register is set.\nIn all configurations:\nBits 31:0 FB[31:0]: Filter bits\nIdentifier\nEach bit of the register specifies the level of the corresponding bit of the expected identifier.\n0: Dominant bit is expected\n1: Recessive bit is expected\nMask\nEach bit of the register specifies whether the bit of the associated identifier register must\nmatch with the corresponding bit of the expected identifier or not.\n0: Don’t care, the bit is not used for the comparison\n1: Must match, the bit of the incoming identifier must have the same level has specified in\nthe corresponding identifier register of the filter.\nNote: Depending on the scale and mode configuration of the filter the function of each register can\ndiffer. For the filter mapping, functions description and mask registers association, refer to\nSection24.7.4.\nA Mask/Identifier register in mask mode has the same bit mapping as in identifier list\nmode.\nFor the register mapping/addresses of the filter banks refer to Table181.",
+      "semantic": {}
+    }
+  ]
+}

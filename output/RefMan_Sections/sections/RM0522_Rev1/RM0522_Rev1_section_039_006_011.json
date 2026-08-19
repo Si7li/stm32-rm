@@ -1,0 +1,74 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S39.6.11",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "39",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "39.6.11",
+      "section_title": "RTC shift control register (RTC_SHIFTR)",
+      "level": 3,
+      "parent_section": "39.6",
+      "page": 1584,
+      "page_end": 1584,
+      "semantic_type": "register_description",
+      "features": [
+        "add1s",
+        "clock",
+        "rtc",
+        "rtc-shiftr",
+        "subfs"
+      ],
+      "chars": 1668,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1584",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.6.11 \"RTC shift control register (RTC_SHIFTR)\" in chapter 39 (Real-time clock (RTC)), RM0522 Rev 1, page 1584.",
+      "section_content": "This register is write protected. The write access procedure is described in RTC register\nwrite protection on page1561.\nThis register can be protected against unprivileged access. Refer to Section39.3.4: RTC\nprivilege protection modes.\nAddress offset: 0x2C\nRTC domain reset value: 0x0000 0000\nSystem reset: not affected\nBit 31 ADD1S: Add one second\n0: No effect\n1: Add one second to the clock/calendar\nThis bit is write only and is always read as zero. Writing to this bit has no effect when a shift\noperation is pending (when SHPF = 1, in RTC_ICSR).\nThis function is intended to be used with SUBFS (see description below) in order to\neffectively add a fraction of a second to the clock in an atomic operation.\nBits 30:15 Reserved, must be kept at reset value.\nBits 14:0 SUBFS[14:0]: Subtract a fraction of a second\nThese bits are write only and is always read as zero. Writing to this bit has no effect when a\nshift operation is pending (when SHPF = 1, in RTC_ICSR).\nThe value which is written to SUBFS is added to the synchronous prescaler counter. Since\nthis counter counts down, this operation effectively subtracts from (delays) the clock by:\nDelay (seconds) = SUBFS / (PREDIV_S + 1)\nA fraction of a second can effectively be added to the clock (advancing the clock) when the\nADD1S function is used in conjunction with SUBFS, effectively advancing the clock by:\nAdvance (seconds) = (1 - (SUBFS / (PREDIV_S + 1))).\nIn mixed BCD-binary mode (BIN=10 or 11), the SUBFS[14:BCDU+8] must be written with 0.\nNote: Writing to SUBFS causes RSF to be cleared. Software can then wait until RSF = 1 to be\nsure that the shadow registers have been updated with the shifted time.",
+      "semantic": {
+        "register": "RTC_SHIFTR",
+        "address_offset": "0x2C",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "ADD1S",
+            "description": "Add one second This bit is write only and is always read as zero. Writing to this bit has no effect when a shift operation is pending (when SHPF = 1, in RTC_ICSR). This function is intended to be used with SUBFS (see description below) in order to effectively add a fraction of a second to the clock in an atomic operation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Add one second to the clock/calendar"
+              }
+            ]
+          },
+          {
+            "bits": "30:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14:0",
+            "name": "SUBFS[14:0]",
+            "description": "Subtract a fraction of a second These bits are write only and is always read as zero. Writing to this bit has no effect when a shift operation is pending (when SHPF = 1, in RTC_ICSR). The value which is written to SUBFS is added to the synchronous prescaler counter. Since this counter counts down, this operation effectively subtracts from (delays) the clock by: Delay (seconds) = SUBFS / (PREDIV_S + 1) A fraction of a second can effectively be added to the clock (advancing the clock) when the ADD1S function is used in conjunction with SUBFS, effectively advancing the clock by: Advance (seconds) = (1 - (SUBFS / (PREDIV_S + 1))). In mixed BCD-binary mode (BIN=10 or 11), the SUBFS[14:BCDU+8] must be written with 0. Note: Writing to SUBFS causes RSF to be cleared. Software can then wait until RSF = 1 to be sure that the shadow registers have been updated with the shifted time.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

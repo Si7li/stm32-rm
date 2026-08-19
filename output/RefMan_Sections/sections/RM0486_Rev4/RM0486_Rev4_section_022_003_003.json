@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S22.3.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "22",
+      "chapter_title": "Chrom-GRC (GFXMMU)",
+      "section": "22.3.3",
+      "section_title": "Virtual memory",
+      "level": 3,
+      "parent_section": "22.3",
+      "page": 1067,
+      "page_end": 1069,
+      "semantic_type": "generic",
+      "features": [
+        "memory"
+      ],
+      "chars": 3207,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1067",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.3.3 \"Virtual memory\" in chapter 22 (Chrom-GRC (GFXMMU)), RM0486 Rev 4, page 1067.",
+      "section_content": "The GFXMMU provides a virtual memory space seen by the system masters. This virtual\nmemory space is divided into four virtual buffers.\nVirtual buffer\nA virtual buffer is seen by any system master as a continuous memory space representing a\nvirtual frame buffer of 1024 lines.\nEach line is divided into 256 12-byte or 16-byte blocks depending on the BS bit of the\nGFXMMU configuration register (GFXMMU_CR).\nWhen the address translation is enabled setting the address translation enable (ATE) bit of\nthe graphic MMU configuration register (GFXMMU_CR), each line can be configured\nindividually to be mapped onto a physical memory.\nDepending on the display shape and size, only the necessary blocks are mapped to a\nphysical memory location. This mapping is done programming the LUT entry for each line:\n• The enable of the line\n• The number of the first “visible” block\n• The number of the last “visible” block\n• The address offset of the line within the physical buffer\nThe “visible” blocks can be arranged in the physical buffer in a continuous way programming\nthe address offset of each line.\nThe LUT is common to all the buffers i.e. all the buffers have the same “shape”.\n[Figure 136. Virtual buffer]\nLine N first block on Line N last block Line N+1 first Line N+1 last\nscreen on screen block on screen block on screen\nVirtual buffer overview\nFor a frame buffer coded in 32bpp or 16bpp, the virtual buffer can be configured to have\n12-byte or 16-byte blocks. This results in a virtual frame buffer of 768x1024 or 1024x1024\npixels for 32bpp and 1536x1024 or 2048x1024 for 16bpp.\nFor a frame buffer coded in 24bpp, the virtual buffer must be configured to have 12-byte\nblocks to have an integer number of pixel per lines. This results in a virtual frame buffer of\n1024x1024 pixels for 24bpp.\nEach buffer can be physically mapped anywhere in the physical memory thanks to:\n• The physical buffer base address (PBBA) field of the GFXMMU buffer x configuration\nregister (GFXMMU_BxCR). It configures the physical location of the 8-Mbyte area\nwhere the buffer is mapped.\n• The physical buffer location respective to the physical buffer base address is defined by\nthe physical buffer offset (PBO) field of the GFXMMU buffer x configuration register\n(GFXMMU_BxCR).\n[Figure 137. Virtual buffer and physical buffer memory map]\nThe buffer can not overflow the 8-Mbyte boundary of the zone defined by its base address.\nIn case of overflow, the buffer x overflow flag (BxOF) of the GFXMMU status register\n(GFXMMU_SR) is set and an interrupt is generated if the buffer x overflow interrupt enable\n(BxOIE) bit of the GFXMMU configuration register (GFXMMU_CR) is set.\nVirtual buffer application use case\nAs the physical locations are independently configurable, the four virtual buffers can be\nphysically mapped to non continuous locations. This allows for example to have the four\nbuffers mapped on to four different SDRAM banks and avoid extra precharge cycles\naccessing the SDRAM.\nAs a consequence, one buffer must be used by the CPU/Graphic accelerator for frame\nbuffer calculation while an other one must be used by the LTDC.\nThe two remaining buffers can be used as a graphical library requiring extra drawing\nbuffers.",
+      "semantic": {}
+    }
+  ]
+}

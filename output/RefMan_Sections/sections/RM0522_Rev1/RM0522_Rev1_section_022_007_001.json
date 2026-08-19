@@ -1,0 +1,417 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S22.7.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "22",
+      "chapter_title": "Digital-to-analog converter (DAC)",
+      "section": "22.7.1",
+      "section_title": "DAC control register (DAC_CR)",
+      "level": 3,
+      "parent_section": "22.7",
+      "page": 693,
+      "page_end": 696,
+      "semantic_type": "register_description",
+      "features": [
+        "cen1",
+        "cen2",
+        "dac",
+        "dac-cr",
+        "dma",
+        "dmaen1",
+        "dmaen2",
+        "dmaudrie1",
+        "dmaudrie2",
+        "en1",
+        "en2",
+        "mamp1",
+        "mamp2",
+        "ten1",
+        "ten2",
+        "tsel1",
+        "tsel2",
+        "wave1",
+        "wave2"
+      ],
+      "chars": 6949,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=693",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.7.1 \"DAC control register (DAC_CR)\" in chapter 22 (Digital-to-analog converter (DAC)), RM0522 Rev 1, page 693.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000 0000\nBit 31 Reserved, must be kept at reset value.\nBit 30 CEN2: DAC channel2 calibration enable\nThis bit is set and cleared by software to enable/disable DAC channel2 calibration, it can be\nwritten only if EN2 bit is set to 0 into DAC_CR (the calibration mode can be entered/exit only\nwhen the DAC channel is disabled) Otherwise, the write operation is ignored.\n0: DAC channel2 in normal operating mode\n1: DAC channel2 in calibration mode\nNote: This bit is available only on dual-channel DACs. Refer to Section22.3: DAC\nimplementation.\nBit 29 DMAUDRIE2: DAC channel2 DMA underrun interrupt enable\nThis bit is set and cleared by software.\n0: DAC channel2 DMA underrun interrupt disabled\n1: DAC channel2 DMA underrun interrupt enabled\nNote: This bit is available only on dual-channel DACs. Refer to Section22.3: DAC\nimplementation.\nBit 28 DMAEN2: DAC channel2 DMA enable\nThis bit is set and cleared by software.\n0: DAC channel2 DMA mode disabled\n1: DAC channel2 DMA mode enabled\nNote: This bit is available only on dual-channel DACs. Refer to Section22.3: DAC\nimplementation.\nBits 27:24 MAMP2[3:0]: DAC channel2 mask/amplitude selector\nThese bits are written by software to select mask in wave generation mode or amplitude in\ntriangle generation mode.\n0000: Unmask bit0 of LFSR/ triangle amplitude equal to 1\n0001: Unmask bits[1:0] of LFSR/ triangle amplitude equal to 3\n0010: Unmask bits[2:0] of LFSR/ triangle amplitude equal to 7\n0011: Unmask bits[3:0] of LFSR/ triangle amplitude equal to 15\n0100: Unmask bits[4:0] of LFSR/ triangle amplitude equal to 31\n0101: Unmask bits[5:0] of LFSR/ triangle amplitude equal to 63\n0110: Unmask bits[6:0] of LFSR/ triangle amplitude equal to 127\n0111: Unmask bits[7:0] of LFSR/ triangle amplitude equal to 255\n1000: Unmask bits[8:0] of LFSR/ triangle amplitude equal to 511\n1001: Unmask bits[9:0] of LFSR/ triangle amplitude equal to 1023\n1010: Unmask bits[10:0] of LFSR/ triangle amplitude equal to 2047\n≥ 1011: Unmask bits[11:0] of LFSR/ triangle amplitude equal to 4095\nNote: These bits are available only on dual-channel DACs. Refer to Section22.3: DAC\nimplementation.\nBits 23:22 WAVE2[1:0]: DAC channel2 noise/triangle wave generation enable\nThese bits are set/reset by software.\n00: wave generation disabled\n01: Noise wave generation enabled\n10: Triangle wave generation enabled\n11: Reserved\nNote: Only used if bit TEN2 = 1 (DAC channel2 trigger enabled)\nThese bits are available only on dual-channel DACs. Refer to Section22.3: DAC\nimplementation.\nBits 21:18 TSEL2[3:0]: DAC channel2 trigger selection\nThese bits select the external event used to trigger DAC channel2\n0000: SWTRIG2\n0001: dac_ch2_trg1\n0010: dac_ch2_trg2\n...\n1111: dac_ch2_trg15\nFor details on trigger configuration and mapping, refer to Section22.4.2: DAC pins and\ninternal signals.\nNote: Only used if bit TEN2=1 (DAC channel2 trigger enabled).\nThese bits are available only on dual-channel DACs. Refer to Section22.3: DAC\nimplementation.\nBit 17 TEN2: DAC channel2 trigger enable\nThis bit is set and cleared by software to enable/disable DAC channel2 trigger\n0: DAC channel2 trigger disabled and data written into the DAC_DHR2 register are\ntransferred one dac_hclk clock cycle later to the DAC_DOR2 register\n1: DAC channel2 trigger enabled and data from the DAC_DHR2 register are transferred\nthree dac_hclk clock cycles later to the DAC_DOR2 register\nNote: When software trigger is selected, the transfer from the DAC_DHR2 register to the\nDAC_DOR2 register takes only one dac_hclk clock cycle.\nThese bits are available only on dual-channel DACs. Refer to Section22.3: DAC\nimplementation.\nBit 16 EN2: DAC channel2 enable\nThis bit is set and cleared by software to enable/disable DAC channel2.\n0: DAC channel2 disabled\n1: DAC channel2 enabled\nNote: These bits are available only on dual-channel DACs. Refer to Section22.3: DAC\nimplementation.\nBit 15 Reserved, must be kept at reset value.\nBit 14 CEN1: DAC channel1 calibration enable\nThis bit is set and cleared by software to enable/disable DAC channel1 calibration, it can be\nwritten only if bit EN1=0 into DAC_CR (the calibration mode can be entered/exit only when\nthe DAC channel is disabled) Otherwise, the write operation is ignored.\n0: DAC channel1 in normal operating mode\n1: DAC channel1 in calibration mode\nBit 13 DMAUDRIE1: DAC channel1 DMA Underrun Interrupt enable\nThis bit is set and cleared by software.\n0: DAC channel1 DMA Underrun Interrupt disabled\n1: DAC channel1 DMA Underrun Interrupt enabled\nBit 12 DMAEN1: DAC channel1 DMA enable\nThis bit is set and cleared by software.\n0: DAC channel1 DMA mode disabled\n1: DAC channel1 DMA mode enabled\nBits 11:8 MAMP1[3:0]: DAC channel1 mask/amplitude selector\nThese bits are written by software to select mask in wave generation mode or amplitude in\ntriangle generation mode.\n0000: Unmask bit0 of LFSR/ triangle amplitude equal to 1\n0001: Unmask bits[1:0] of LFSR/ triangle amplitude equal to 3\n0010: Unmask bits[2:0] of LFSR/ triangle amplitude equal to 7\n0011: Unmask bits[3:0] of LFSR/ triangle amplitude equal to 15\n0100: Unmask bits[4:0] of LFSR/ triangle amplitude equal to 31\n0101: Unmask bits[5:0] of LFSR/ triangle amplitude equal to 63\n0110: Unmask bits[6:0] of LFSR/ triangle amplitude equal to 127\n0111: Unmask bits[7:0] of LFSR/ triangle amplitude equal to 255\n1000: Unmask bits[8:0] of LFSR/ triangle amplitude equal to 511\n1001: Unmask bits[9:0] of LFSR/ triangle amplitude equal to 1023\n1010: Unmask bits[10:0] of LFSR/ triangle amplitude equal to 2047\n≥ 1011: Unmask bits[11:0] of LFSR/ triangle amplitude equal to 4095\nBits 7:6 WAVE1[1:0]: DAC channel1 noise/triangle wave generation enable\nThese bits are set and cleared by software.\n00: wave generation disabled\n01: Noise wave generation enabled\n10: Triangle wave generation enabled\n11: Reserved\nOnly used if bit TEN1=1 (DAC channel1 trigger enabled).\nBits 5:2 TSEL1[3:0]: DAC channel1 trigger selection\nThese bits select the external event used to trigger DAC channel1\n0000: SWTRIG1\n0001: dac_ch1_trg1\n0010: dac_ch1_trg2\n...\n1111: dac_ch1_trg15\nFor details on trigger configuration and mapping, refer to Section22.4.2: DAC pins and\ninternal signals.\nNote: Only used if bit TEN1=1 (DAC channel1 trigger enabled).\nBit 1 TEN1: DAC channel1 trigger enable\nThis bit is set and cleared by software to enable/disable DAC channel1 trigger.\n0: DAC channel1 trigger disabled and data written into the DAC_DHR1 register are\ntransferred one dac_hclk clock cycle later to the DAC_DOR1 register\n1: DAC channel1 trigger enabled and data from the DAC_DHR1 register are transferred\nthree dac_hclk clock cycles later to the DAC_DOR1 register\nNote: When software trigger is selected, the transfer from the DAC_DHR1 register to the\nDAC_DOR1 register takes only one dac_hclk clock cycle.\nBit 0 EN1: DAC channel1 enable\nThis bit is set and cleared by software to enable/disable DAC channel1.\n0: DAC channel1 disabled\n1: DAC channel1 enabled",
+      "semantic": {
+        "register": "DAC_CR",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "CEN2",
+            "description": "DAC channel2 calibration enable This bit is set and cleared by software to enable/disable DAC channel2 calibration, it can be written only if EN2 bit is set to 0 into DAC_CR (the calibration mode can be entered/exit only when the DAC channel is disabled) Otherwise, the write operation is ignored. Note: This bit is available only on dual-channel DACs. Refer to Section22.3: DAC implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel2 in normal operating mode"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel2 in calibration mode"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "DMAUDRIE2",
+            "description": "DAC channel2 DMA underrun interrupt enable This bit is set and cleared by software. Note: This bit is available only on dual-channel DACs. Refer to Section22.3: DAC implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel2 DMA underrun interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel2 DMA underrun interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "DMAEN2",
+            "description": "DAC channel2 DMA enable This bit is set and cleared by software. Note: This bit is available only on dual-channel DACs. Refer to Section22.3: DAC implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel2 DMA mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel2 DMA mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "27:24",
+            "name": "MAMP2[3:0]",
+            "description": "DAC channel2 mask/amplitude selector These bits are written by software to select mask in wave generation mode or amplitude in triangle generation mode. ≥ 1011: Unmask bits[11:0] of LFSR/ triangle amplitude equal to 4095 Note: These bits are available only on dual-channel DACs. Refer to Section22.3: DAC implementation.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Unmask bit0 of LFSR/ triangle amplitude equal to 1"
+              },
+              {
+                "value": "0001",
+                "meaning": "Unmask bits[1:0] of LFSR/ triangle amplitude equal to 3"
+              },
+              {
+                "value": "0010",
+                "meaning": "Unmask bits[2:0] of LFSR/ triangle amplitude equal to 7"
+              },
+              {
+                "value": "0011",
+                "meaning": "Unmask bits[3:0] of LFSR/ triangle amplitude equal to 15"
+              },
+              {
+                "value": "0100",
+                "meaning": "Unmask bits[4:0] of LFSR/ triangle amplitude equal to 31"
+              },
+              {
+                "value": "0101",
+                "meaning": "Unmask bits[5:0] of LFSR/ triangle amplitude equal to 63"
+              },
+              {
+                "value": "0110",
+                "meaning": "Unmask bits[6:0] of LFSR/ triangle amplitude equal to 127"
+              },
+              {
+                "value": "0111",
+                "meaning": "Unmask bits[7:0] of LFSR/ triangle amplitude equal to 255"
+              },
+              {
+                "value": "1000",
+                "meaning": "Unmask bits[8:0] of LFSR/ triangle amplitude equal to 511"
+              },
+              {
+                "value": "1001",
+                "meaning": "Unmask bits[9:0] of LFSR/ triangle amplitude equal to 1023"
+              },
+              {
+                "value": "1010",
+                "meaning": "Unmask bits[10:0] of LFSR/ triangle amplitude equal to 2047"
+              }
+            ]
+          },
+          {
+            "bits": "23:22",
+            "name": "WAVE2[1:0]",
+            "description": "DAC channel2 noise/triangle wave generation enable These bits are set/reset by software. Note: Only used if bit TEN2 = 1 (DAC channel2 trigger enabled) These bits are available only on dual-channel DACs. Refer to Section22.3: DAC implementation.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "wave generation disabled"
+              },
+              {
+                "value": "01",
+                "meaning": "Noise wave generation enabled"
+              },
+              {
+                "value": "10",
+                "meaning": "Triangle wave generation enabled"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "21:18",
+            "name": "TSEL2[3:0]",
+            "description": "DAC channel2 trigger selection These bits select the external event used to trigger DAC channel2 ... For details on trigger configuration and mapping, refer to Section22.4.2: DAC pins and internal signals. Note: Only used if bit TEN2=1 (DAC channel2 trigger enabled). These bits are available only on dual-channel DACs. Refer to Section22.3: DAC implementation.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "SWTRIG2"
+              },
+              {
+                "value": "0001",
+                "meaning": "dac_ch2_trg1"
+              },
+              {
+                "value": "0010",
+                "meaning": "dac_ch2_trg2"
+              },
+              {
+                "value": "1111",
+                "meaning": "dac_ch2_trg15"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "TEN2",
+            "description": "DAC channel2 trigger enable This bit is set and cleared by software to enable/disable DAC channel2 trigger transferred one dac_hclk clock cycle later to the DAC_DOR2 register three dac_hclk clock cycles later to the DAC_DOR2 register Note: When software trigger is selected, the transfer from the DAC_DHR2 register to the DAC_DOR2 register takes only one dac_hclk clock cycle. These bits are available only on dual-channel DACs. Refer to Section22.3: DAC implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel2 trigger disabled and data written into the DAC_DHR2 register are"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel2 trigger enabled and data from the DAC_DHR2 register are transferred"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "EN2",
+            "description": "DAC channel2 enable This bit is set and cleared by software to enable/disable DAC channel2. Note: These bits are available only on dual-channel DACs. Refer to Section22.3: DAC implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel2 disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel2 enabled"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "CEN1",
+            "description": "DAC channel1 calibration enable This bit is set and cleared by software to enable/disable DAC channel1 calibration, it can be written only if bit EN1=0 into DAC_CR (the calibration mode can be entered/exit only when the DAC channel is disabled) Otherwise, the write operation is ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel1 in normal operating mode"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel1 in calibration mode"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "DMAUDRIE1",
+            "description": "DAC channel1 DMA Underrun Interrupt enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel1 DMA Underrun Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel1 DMA Underrun Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "DMAEN1",
+            "description": "DAC channel1 DMA enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel1 DMA mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel1 DMA mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "11:8",
+            "name": "MAMP1[3:0]",
+            "description": "DAC channel1 mask/amplitude selector These bits are written by software to select mask in wave generation mode or amplitude in triangle generation mode. ≥ 1011: Unmask bits[11:0] of LFSR/ triangle amplitude equal to 4095",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Unmask bit0 of LFSR/ triangle amplitude equal to 1"
+              },
+              {
+                "value": "0001",
+                "meaning": "Unmask bits[1:0] of LFSR/ triangle amplitude equal to 3"
+              },
+              {
+                "value": "0010",
+                "meaning": "Unmask bits[2:0] of LFSR/ triangle amplitude equal to 7"
+              },
+              {
+                "value": "0011",
+                "meaning": "Unmask bits[3:0] of LFSR/ triangle amplitude equal to 15"
+              },
+              {
+                "value": "0100",
+                "meaning": "Unmask bits[4:0] of LFSR/ triangle amplitude equal to 31"
+              },
+              {
+                "value": "0101",
+                "meaning": "Unmask bits[5:0] of LFSR/ triangle amplitude equal to 63"
+              },
+              {
+                "value": "0110",
+                "meaning": "Unmask bits[6:0] of LFSR/ triangle amplitude equal to 127"
+              },
+              {
+                "value": "0111",
+                "meaning": "Unmask bits[7:0] of LFSR/ triangle amplitude equal to 255"
+              },
+              {
+                "value": "1000",
+                "meaning": "Unmask bits[8:0] of LFSR/ triangle amplitude equal to 511"
+              },
+              {
+                "value": "1001",
+                "meaning": "Unmask bits[9:0] of LFSR/ triangle amplitude equal to 1023"
+              },
+              {
+                "value": "1010",
+                "meaning": "Unmask bits[10:0] of LFSR/ triangle amplitude equal to 2047"
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "WAVE1[1:0]",
+            "description": "DAC channel1 noise/triangle wave generation enable These bits are set and cleared by software. Only used if bit TEN1=1 (DAC channel1 trigger enabled).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "wave generation disabled"
+              },
+              {
+                "value": "01",
+                "meaning": "Noise wave generation enabled"
+              },
+              {
+                "value": "10",
+                "meaning": "Triangle wave generation enabled"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "5:2",
+            "name": "TSEL1[3:0]",
+            "description": "DAC channel1 trigger selection These bits select the external event used to trigger DAC channel1 ... For details on trigger configuration and mapping, refer to Section22.4.2: DAC pins and internal signals. Note: Only used if bit TEN1=1 (DAC channel1 trigger enabled).",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "SWTRIG1"
+              },
+              {
+                "value": "0001",
+                "meaning": "dac_ch1_trg1"
+              },
+              {
+                "value": "0010",
+                "meaning": "dac_ch1_trg2"
+              },
+              {
+                "value": "1111",
+                "meaning": "dac_ch1_trg15"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "TEN1",
+            "description": "DAC channel1 trigger enable This bit is set and cleared by software to enable/disable DAC channel1 trigger. transferred one dac_hclk clock cycle later to the DAC_DOR1 register three dac_hclk clock cycles later to the DAC_DOR1 register Note: When software trigger is selected, the transfer from the DAC_DHR1 register to the DAC_DOR1 register takes only one dac_hclk clock cycle.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel1 trigger disabled and data written into the DAC_DHR1 register are"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel1 trigger enabled and data from the DAC_DHR1 register are transferred"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EN1",
+            "description": "DAC channel1 enable This bit is set and cleared by software to enable/disable DAC channel1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DAC channel1 disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DAC channel1 enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

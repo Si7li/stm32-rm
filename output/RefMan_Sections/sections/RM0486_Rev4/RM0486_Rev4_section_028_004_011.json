@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.4.11",
+      "section_title": "XSPI automatic status-polling mode",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 1313,
+      "page_end": 1313,
+      "semantic_type": "generic",
+      "features": [
+        "spi",
+        "xspi"
+      ],
+      "chars": 1939,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1313",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.11 \"XSPI automatic status-polling mode\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1313.",
+      "section_content": "In automatic status-polling mode, the XSPI periodically starts a command to read a defined\nnumber of status bytes (up to four). The received bytes can be masked to isolate some\nstatus bits and an interrupt can be generated when the selected bits have a defined value.\nThe automatic status-polling mode must be used only in regular-command protocol. For\nHyperBus protocol, it is not exploitable since the read status register into the HyperFlash\nmemory must be performed in two steps (a write operation followed by a read operation).\nThe access to the device begins in the same manner as in indirect-read mode. BUSY in\nXSPI_SR goes high at this point, and stays high even between the periodic accesses.\nThe content of MASK[31:0] in XSPI_PSMAR is used to mask the data from the external\ndevice in automatic status-polling mode:\n• If the MASK[n]=0, then bit n of the result is masked and not considered.\n• If MASK[n]=1, and the content of bit[n] is the same as MATCH[n] in XSPI_PSMAR,\nthen there is a match for bit n.\nIf PMM=0 in XSPI_CR, the AND-match mode is activated: SMF is set in XSPI_SR only\nwhen there is a match on all of the unmasked bits.\nIf PMM=1 in XSPI_CR, the OR-match mode is activated: SMF gets set if there is a match\non any of the unmasked bits.\nAn interrupt is called when SMF=1 if SMIE=1.\nIf APMS is set in XSPI_CR, the operation stops and BUSY goes to 0 as soon as a match is\ndetected. Otherwise, BUSY stays at 1 and the periodic accesses continue until there is an\nabort or until the XSPI is disabled (EN=0).\nXSPI_DR contains the latest received status bytes (FIFO deactivated). The content of this\nregister is not affected by the masking used in the matching logic. FTF in XSPI_SR is set as\nsoon as a new reading of the status is complete. FTF is cleared as soon as the data is read.\nIn automatic status-polling mode, variable latency is not supported. As a consequence, the\nmemory must be configured in fixed latency.",
+      "semantic": {}
+    }
+  ]
+}

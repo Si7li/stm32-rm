@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S7.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "7",
+      "chapter_title": "Resource isolation slave unit for address space protection (full version) (RISAF)",
+      "section": "7.3",
+      "section_title": "RISAF implementation",
+      "level": 2,
+      "parent_section": null,
+      "page": 259,
+      "page_end": 260,
+      "semantic_type": "generic",
+      "features": [
+        "risaf"
+      ],
+      "chars": 2197,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=259",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 7.3 \"RISAF implementation\" in chapter 7 (Resource isolation slave unit for address space protection (full version) (RISAF)), RM0486 Rev 4, page 259.",
+      "section_content": "The following table describes the characteristics of the available RISAFs, including\nwatermark programming details (such as granularity and protected address space).\n[Table 24. RISAF resource assignment]\nRISAF4/5/6 are used to partition the 2-Mbyte NPU RAM. This memory is implemented as\nfour RAM cuts, each with its own AXI target port, but using an interleaved (re-mapped)\naddressing scheme. To retain the software normal view of memory addressing, the RISAFs\nprotecting these RAMs are placed on the three entry ports of the NPU interconnect. The\nuser must program an identical partitioning into each of the three RISAFs. These RISAFs\nare furnished with two extra regions that the secure privileged software must configure to be\ntransparent (permissive) to all accesses either side of the NPU RAMs.\nAs summarized in the CID management column of Table24, the AHB bus does not carry\nCID information (it is fixed at 0). The RISAFs on the AHB bus only filter on security and\nprivilege, in read or in write (using RDENC0 or WRENC0 bits, respectively). All accesses\nare effectively assumed to be owned by the CPU. When a secure privileged application\ndelegates to the nonsecure world the access control configuration of subregions in a\nnonsecure base region, DCEN must be set, and DCCID and SRCID must stay at 0 for this\nspecific base region.\nAs summarized in Table24 the AXI bus carries CID information. All AHB configuration\naccesses to AXI RISAF registers are assumed to come from CID1. When a secure\nprivileged application delegates to the nonsecure world the access control configuration of\nsubregions in a nonsecure base region, DCEN must be set and DCCID must be 0x1.\nFor STM32N6x5xx devices the configuration port of the CACHEAXI is not functional and\nmust not be addressed. For STM32N6x7xx devices the AHB configuration port of the\nCACHEAXI is protected by a small RISAF that offers two base regions. These must be\nconfigured to cover the register address spaces, each side of the registers controlling cache\ninvalidation. The cache invalidation operation can thus be reserved for use only by the\nsecure privileged software, because the controlling registers are left in the default region 0.",
+      "semantic": {}
+    }
+  ]
+}

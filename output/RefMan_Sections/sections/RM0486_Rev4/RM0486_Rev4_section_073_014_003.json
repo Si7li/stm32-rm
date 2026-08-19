@@ -1,0 +1,142 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.3",
+      "section_title": "OTG AHB configuration register (OTG_GAHBCFG)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3790,
+      "page_end": 3791,
+      "semantic_type": "register_description",
+      "features": [
+        "ahb",
+        "dma",
+        "dmaen",
+        "gintmsk",
+        "hbstlen",
+        "otg",
+        "otg-gahbcfg",
+        "ptxfelvl",
+        "txfelvl"
+      ],
+      "chars": 2388,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3790",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.3 \"OTG AHB configuration register (OTG_GAHBCFG)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3790.",
+      "section_content": "This register can be used to configure the core after power-on or a change in mode. This\nregister mainly contains AHB system-related configuration parameters. Do not change this\nregister after the initial programming. The application must program this register before\nstarting any transactions on either the AHB or the USB.\nAddress offset: 0x008\nReset value: 0x00000000\nBits 31:9 Reserved, must be kept at reset value.\nBit 8 PTXFELVL: Periodic Tx FIFO empty level\nIndicates when the periodic Tx FIFO empty interrupt bit in the OTG_GINTSTS register\n(PTXFE bit in OTG_GINTSTS) is triggered.\n0:PTXFE (in OTG_GINTSTS) interrupt indicates that the Periodic Tx FIFO is half empty\n1:PTXFE (in OTG_GINTSTS) interrupt indicates that the Periodic Tx FIFO is completely\nempty\nNote: Only accessible in host mode.\nBit 7 TXFELVL: Tx FIFO empty level\nCondition: device mode\nThis bit indicates when IN endpoint Transmit FIFO empty interrupt (TXFE in OTG_DIEPINTx)\nis triggered:\n0:The TXFE (in OTG_DIEPINTx) interrupt indicates that the IN endpoint Tx FIFO is half\nempty\n1:The TXFE (in OTG_DIEPINTx) interrupt indicates that the IN endpoint Tx FIFO is\ncompletely empty\nCondition: host mode\nThis bit indicates when the nonperiodic Tx FIFO empty interrupt (NPTXFE bit in\nOTG_GINTSTS) is triggered:\n0:The NPTXFE (in OTG_GINTSTS) interrupt indicates that the nonperiodic Tx FIFO is half\nempty\n1:The NPTXFE (in OTG_GINTSTS) interrupt indicates that the nonperiodic Tx FIFO is\ncompletely empty\nBit 6 Reserved, must be kept at reset value.\nBit 5 DMAEN: DMA enabled\n0: The core operates in slave mode\n1: The core operates in DMA mode\nBits 4:1 HBSTLEN[3:0]: Burst length/type\n0000 Single: Bus transactions use single 32 bit accesses (not recommended)\n0001 INCR: Bus transactions use unspecified length accesses (not recommended, uses the\nINCR AHB bus command)\n0011 INCR4: Bus transactions target 4x 32 bit accesses\n0101 INCR8: Bus transactions target 8x 32 bit accesses\n0111 INCR16: Bus transactions based on 16x 32 bit accesses\nOthers: Reserved\nBit 0 GINTMSK: Global interrupt mask\nThe application uses this bit to mask or unmask the interrupt line assertion to itself.\nIrrespective of this bit setting, the interrupt status registers are updated by the core.\n0: Mask the interrupt assertion to the application.\n1: Unmask the interrupt assertion to the application.\nNote: Accessible in both device and host modes.",
+      "semantic": {
+        "register": "OTG_GAHBCFG",
+        "address_offset": "0x008",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "PTXFELVL",
+            "description": "Periodic Tx FIFO empty level Indicates when the periodic Tx FIFO empty interrupt bit in the OTG_GINTSTS register (PTXFE bit in OTG_GINTSTS) is triggered. empty Note: Only accessible in host mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PTXFE (in OTG_GINTSTS) interrupt indicates that the Periodic Tx FIFO is half empty"
+              },
+              {
+                "value": "1",
+                "meaning": "PTXFE (in OTG_GINTSTS) interrupt indicates that the Periodic Tx FIFO is completely"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "TXFELVL",
+            "description": "Tx FIFO empty level Condition: device mode This bit indicates when IN endpoint Transmit FIFO empty interrupt (TXFE in OTG_DIEPINTx) is triggered: empty completely empty Condition: host mode This bit indicates when the nonperiodic Tx FIFO empty interrupt (NPTXFE bit in OTG_GINTSTS) is triggered: empty completely empty",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The TXFE (in OTG_DIEPINTx) interrupt indicates that the IN endpoint Tx FIFO is half"
+              },
+              {
+                "value": "1",
+                "meaning": "The TXFE (in OTG_DIEPINTx) interrupt indicates that the IN endpoint Tx FIFO is"
+              },
+              {
+                "value": "0",
+                "meaning": "The NPTXFE (in OTG_GINTSTS) interrupt indicates that the nonperiodic Tx FIFO is half"
+              },
+              {
+                "value": "1",
+                "meaning": "The NPTXFE (in OTG_GINTSTS) interrupt indicates that the nonperiodic Tx FIFO is"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "DMAEN",
+            "description": "DMA enabled",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The core operates in slave mode"
+              },
+              {
+                "value": "1",
+                "meaning": "The core operates in DMA mode"
+              }
+            ]
+          },
+          {
+            "bits": "4:1",
+            "name": "HBSTLEN[3:0]",
+            "description": "Burst length/type 0000 Single: Bus transactions use single 32 bit accesses (not recommended) 0001 INCR: Bus transactions use unspecified length accesses (not recommended, uses the INCR AHB bus command) 0011 INCR4: Bus transactions target 4x 32 bit accesses 0101 INCR8: Bus transactions target 8x 32 bit accesses 0111 INCR16: Bus transactions based on 16x 32 bit accesses",
+            "values": [
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "GINTMSK",
+            "description": "Global interrupt mask The application uses this bit to mask or unmask the interrupt line assertion to itself. Irrespective of this bit setting, the interrupt status registers are updated by the core. Note: Accessible in both device and host modes.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Mask the interrupt assertion to the application."
+              },
+              {
+                "value": "1",
+                "meaning": "Unmask the interrupt assertion to the application."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

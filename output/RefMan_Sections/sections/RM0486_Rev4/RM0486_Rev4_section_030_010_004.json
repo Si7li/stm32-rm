@@ -1,0 +1,163 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.10.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.10.4",
+      "section_title": "SDMMC command register (SDMMC_CMDR)",
+      "level": 3,
+      "parent_section": "30.10",
+      "page": 1434,
+      "page_end": 1436,
+      "semantic_type": "register_description",
+      "features": [
+        "boot",
+        "booten",
+        "bootmode",
+        "cmdindex",
+        "cmdstop",
+        "cmdsuspend",
+        "cmdtrans",
+        "cpsmen",
+        "dthold",
+        "sdmmc",
+        "sdmmc-cmdr",
+        "waitint",
+        "waitpend",
+        "waitresp"
+      ],
+      "chars": 3797,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1434",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.10.4 \"SDMMC command register (SDMMC_CMDR)\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1434.",
+      "section_content": "Address offset: 0x00C\nReset value: 0x00000000\nThis register contains the command index and command type bits. The command index is\nsent to a card as part of a command message. The command type bits control the\ncommand path state machine (CPSM).\nBits 31:17 Reserved, must be kept at reset value.\nBit 16 CMDSUSPEND: The CPSM treats the command as a Suspend or Resume command and\nsignals interrupt period start/end\nThis bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).\nCMDSUSPEND = 1 and CMDTRANS = 0 Suspend command, start interrupt period when\nresponse bit BS = 0.\nCMDSUSPEND = 1 and CMDTRANS = 1 Resume command with data, end interrupt period\nwhen response bit DF = 1.\nBit 15 BOOTEN: Enable boot mode procedure\n0: Boot mode procedure disabled\n1: Boot mode procedure enabled\nBit 14 BOOTMODE: Select the boot mode procedure to be used\nThis bit can only be written by firmware when CPSM is disabled (CPSMEN = 0)\n0: Normal boot mode procedure selected\n1: Alternative boot mode procedure selected\nBit 13 DTHOLD: Hold new data block transmission and reception in the DPSM\nIf this bit is set, the DPSM does not move from the Wait_S state to the Send state or from the\nWait_R state to the Receive state.\nBit 12 CPSMEN: Command path state machine (CPSM) enable bit\nThis bit is written 1 by firmware, and cleared by hardware when the CPSM enters the Idle\nstate.\nIf this bit is set, the CPSM is enabled.\nWhen DTEN = 1, no command is transfered nor boot procedure is started. CPSMEN is\ncleared to 0.\nDuring Read Wait with SDMMC_CK stopped no command is sent and CPSMEN is kept 0.\nBit 11 WAITPEND: CPSM waits for end of data transfer (CmdPend internal signal) from DPSM\nThis bit when set, the CPSM waits for the end of data transfer trigger before it starts sending\na command.\nWAITPEND is only taken into account when DTMODE = e•MMC stream data transfer,\nWIDBUS = 1-bit wide bus mode, DPSMACT = 1 and DTDIR = from host to card.\nBit 10 WAITINT: CPSM waits for interrupt request\nIf this bit is set, the CPSM disables command timeout and waits for an card interrupt request\n(Response).\nIf this bit is cleared in the CPSM Wait state, it causes the abort of the interrupt mode.\nBits 9:8 WAITRESP[1:0]: Wait for response bits\nThis bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).\nThey are used to configure whether the CPSM is to wait for a response, and if yes, which\nkind of response.\n00: No response, expect CMDSENT flag\n01: Short response, expect CMDREND or CCRCFAIL flag\n10: Short response, expect CMDREND flag (No CRC)\n11: Long response, expect CMDREND or CCRCFAIL flag\nBit 7 CMDSTOP: The CPSM treats the command as a Stop Transmission command and signals\nabort to the DPSM\nThis bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).\nIf this bit is set, the CPSM issues the abort signal to the DPSM when the command is sent.\nBit 6 CMDTRANS: The CPSM treats the command as a data transfer command, stops the interrupt\nperiod, and signals DataEnable to the DPSM\nThis bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).\nIf this bit is set, the CPSM issues an end of interrupt period and issues DataEnable signal to\nthe DPSM when the command is sent.\nBits 5:0 CMDINDEX[5:0]: Command index\nThis bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).\nThe command index is sent to the card as part of a command message.\nNote: 1 At least seven sdmmc_hclk clock periods are needed between two write accesses to this\nregister.\n2 MultiMediaCard can send two kinds of response: short responses, 48 bits, or long\nresponses,136 bits. SD card and SD I/O card can send only short responses, the argument\ncan vary according to the type of response: the software distinguishes the type of response\naccording to the send command.",
+      "semantic": {
+        "register": "SDMMC_CMDR",
+        "address_offset": "0x00C",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "CMDSUSPEND",
+            "description": "The CPSM treats the command as a Suspend or Resume command and signals interrupt period start/end This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0). CMDSUSPEND = 1 and CMDTRANS = 0 Suspend command, start interrupt period when response bit BS = 0. CMDSUSPEND = 1 and CMDTRANS = 1 Resume command with data, end interrupt period when response bit DF = 1.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "BOOTEN",
+            "description": "Enable boot mode procedure",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Boot mode procedure disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Boot mode procedure enabled"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "BOOTMODE",
+            "description": "Select the boot mode procedure to be used This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal boot mode procedure selected"
+              },
+              {
+                "value": "1",
+                "meaning": "Alternative boot mode procedure selected"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "DTHOLD",
+            "description": "Hold new data block transmission and reception in the DPSM If this bit is set, the DPSM does not move from the Wait_S state to the Send state or from the Wait_R state to the Receive state.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "CPSMEN",
+            "description": "Command path state machine (CPSM) enable bit This bit is written 1 by firmware, and cleared by hardware when the CPSM enters the Idle state. If this bit is set, the CPSM is enabled. When DTEN = 1, no command is transfered nor boot procedure is started. CPSMEN is cleared to 0. During Read Wait with SDMMC_CK stopped no command is sent and CPSMEN is kept 0.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "WAITPEND",
+            "description": "CPSM waits for end of data transfer (CmdPend internal signal) from DPSM This bit when set, the CPSM waits for the end of data transfer trigger before it starts sending a command. WAITPEND is only taken into account when DTMODE = e•MMC stream data transfer, WIDBUS = 1-bit wide bus mode, DPSMACT = 1 and DTDIR = from host to card.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "WAITINT",
+            "description": "CPSM waits for interrupt request If this bit is set, the CPSM disables command timeout and waits for an card interrupt request (Response). If this bit is cleared in the CPSM Wait state, it causes the abort of the interrupt mode.",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "WAITRESP[1:0]",
+            "description": "Wait for response bits This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0). They are used to configure whether the CPSM is to wait for a response, and if yes, which kind of response.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No response, expect CMDSENT flag"
+              },
+              {
+                "value": "01",
+                "meaning": "Short response, expect CMDREND or CCRCFAIL flag"
+              },
+              {
+                "value": "10",
+                "meaning": "Short response, expect CMDREND flag (No CRC)"
+              },
+              {
+                "value": "11",
+                "meaning": "Long response, expect CMDREND or CCRCFAIL flag"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "CMDSTOP",
+            "description": "The CPSM treats the command as a Stop Transmission command and signals abort to the DPSM This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0). If this bit is set, the CPSM issues the abort signal to the DPSM when the command is sent.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "CMDTRANS",
+            "description": "The CPSM treats the command as a data transfer command, stops the interrupt period, and signals DataEnable to the DPSM This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0). If this bit is set, the CPSM issues an end of interrupt period and issues DataEnable signal to the DPSM when the command is sent.",
+            "values": []
+          },
+          {
+            "bits": "5:0",
+            "name": "CMDINDEX[5:0]",
+            "description": "Command index This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0). The command index is sent to the card as part of a command message. Note: 1 At least seven sdmmc_hclk clock periods are needed between two write accesses to this register. 2 MultiMediaCard can send two kinds of response: short responses, 48 bits, or long responses,136 bits. SD card and SD I/O card can send only short responses, the argument can vary according to the type of response: the software distinguishes the type of response according to the send command.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

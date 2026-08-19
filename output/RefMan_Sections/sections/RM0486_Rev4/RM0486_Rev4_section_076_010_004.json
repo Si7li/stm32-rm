@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.10.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.10.4",
+      "section_title": "Receive descriptor",
+      "level": 3,
+      "parent_section": "76.10",
+      "page": 4164,
+      "page_end": 4176,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 3704,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4164",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.10.4 \"Receive descriptor\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4164.",
+      "section_content": "The DMA in the Ethernet peripheral attempts to read a descriptor only if the Tail pointer is\ndifferent from the Base pointer or current pointer. It is recommended to have a descriptor\nring with a length that can accommodate at least two complete packets received by the\nMAC; otherwise, the performance of the DMA is greatly impacted because of the unavail-\nability of the descriptors. In such a situation, the MTL RxFIFO becomes full and starts drop-\nping packets.\nThe following receive descriptors are present:\n• Normal descriptors with read and write-back formats\n• Context descriptors\nAll received descriptors are prepared by the software and given to the DMA as “normal”\ndescriptors (see Figure1067: Receive normal descriptor (read format) for a description of\ntheir content). The DMA reads this descriptor and, after transferring a received packet (or\npart of it) to the buffers indicated by the descriptor, the Rx DMA closes the descriptor with\nthe corresponding packet status. The status format is given in Figure1068: Receive normal\ndescriptor (write-back format).\nFor some packets, the normal descriptor bits are not sufficient to write the complete status.\nFor such packets, the Rx DMA writes the extended status to the next descriptor (without\nprocessing or using the Buffers pointers embedded in that descriptor). The format and con-\ntent of this write-back descriptor is described in Figure1069: Receive context descriptor.\nReceive normal descriptor (read format)\nFigure1067 shows the read format for receive normal descriptors. Table833 to Table836\nprovide a detailed description of all receive normal descriptors (read format).\n[Figure 1067. Receive normal descriptor (read format)]\nNote: In the receive descriptor (read format), if the Buffer Address field contains only 0s, the MAC\ndoes not transfer data to this buffer and skips to the next buffer or next descriptor.\n• RDES0 normal descriptor (read format)\n[Table 833. RDES0 normal descriptor (read format)]\n• RDES1 normal descriptor (read format)\n[Table 834. RDES1 normal descriptor (read format)]\n• RDES2 normal descriptor (read format)\n[Table 835. RDES2 normal descriptor (read format)]\n• RDES3 normal descriptor (read format)\nReserved\n[Table 836. RDES3 normal descriptor (read format)]\nReceive normal descriptor (write-back format)\nFigure1068 shows the write-back format for receive normal descriptors. Table837 to\nTable840 provide a detailed description of all receive normal descriptors (write-back for-\nmat).\n[Figure 1068. Receive normal descriptor (write-back format)]\n• RDES0 normal descriptor (write-back format)\n[Table 837. RDES0 normal descriptor (write-back format)]\n• RDES1 normal descriptor (write-back format)\nOPC\n[Table 838. RDES1 normal descriptor (write-back format)(1)]\n• RDES2 normal descriptor (write-back format)\n[Table 839. RDES2 normal descriptor (write-back format)]\n• RDES3 normal descriptor (write-back format)\n[Table 840. RDES3 normal descriptor (write-back format)]\nReceive context descriptor\nThis descriptor is read-only for the application. This descriptor can be written only by the\nDMA.\nThe context descriptor provides information about the extended status related to the last\nreceived packet. Bit 30 of RDES3 indicates the context type descriptor.\nFigure1069 shows the format for receive context descriptors. Table841 to Table844 pro-\nvide a detailed description of all receive context descriptors.\n[Figure 1069. Receive context descriptor]\n• RDES0 context descriptor\n[Table 841. RDES0 context descriptor]\n• RDES1 context descriptor\n[Table 842. RDES1 context descriptor]\n• RDES2 context descriptor\n[Table 843. RDES2 context descriptor]\n• RDES3 context descriptor\n[Table 844. RDES3 context descriptor]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,314 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S9.8.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "9",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "9.8.3",
+      "section_title": "RCC clock configuration register1 (RCC_CFGR1)",
+      "level": 3,
+      "parent_section": "9.8",
+      "page": 279,
+      "page_end": 281,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "mco1pre",
+        "mco1sel",
+        "mco2pre",
+        "mco2sel",
+        "rcc",
+        "rcc-cfgr1",
+        "rtcpre",
+        "stopwuck",
+        "sws"
+      ],
+      "chars": 4493,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=279",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.8.3 \"RCC clock configuration register1 (RCC_CFGR1)\" in chapter 9 (Reset and clock control (RCC)), RM0522 Rev 1, page 279.",
+      "section_content": "Address offset: 0x01C\nReset value: 0x0000 0000\nAccess: 0 ≤ wait state ≤ 2; word and half-word access\nOne or two wait states are inserted only if the access occurs during the clock source switch.\nBits 31:29 MCO2SEL[2:0]: Microcontroller clock output 2\nThis bitfield is set and cleared by software. Clock source selection may generate glitches on\nMCO2. It is highly recommended to configure these bits only after reset, before enabling the\nexternal oscillators.\n000: system clock selected (sys_ck) (default after reset)\n001: HSE clock selected (hse_ck)\n010: LSE clock selected (lse_ck)\n011: LSI clock selected (lsi_ck)\n100: PSIK clock selected (psik_ck)\n101: HSIK clock selected (hsik_ck)\n110: PSIDIV3 clock selected (psidiv3_ck)\n111: HSIDIV3 clock selected (hsidiv3_ck): if this clock is retained by HSIKERON, it is not\nvisible on MCO output under the Stop 0 mode.\nOther: Reserved\nBits 28:25 MCO2PRE[3:0]: MCO2 prescaler\nThis bitfield is set and cleared by software to configure the prescaler of the MCO2.\nModification of this prescaler may generate glitches on MCO2. It is highly recommended to\nchange this prescaler only after reset, before enabling the external oscillators and the PLLs.\n0000: Prescaler disabled (default after reset)\n0001: Division by 1 (bypass)\n0010: Division by 2\n0011: Division by 3\n0100: Division by 4\n...\n1111: Division by 15\nBits 24:22 MCO1SEL[2:0]: Microcontroller clock output 1\nThis bitfield is set and cleared by software. Clock source selection may generate glitches on\nMCO1. It is highly recommended to configure these bits only after reset, before enabling the\nexternal oscillators.\n000: System clock selected (sys_ck) (default after reset)\n001: HSE clock selected (hse_ck)\n010: LSE clock selected (lse_ck)\n011: LSI clock selected (lsi_ck)\n100: PSIK clock selected (psik_ck)\n101: HSIK clock selected (hsik_ck)\n110: PSIS clock selected (psis_ck), if this clock is retained by PSIKERON, it is not visible on\nMCO output under the Stop 0 mode.\n111: HSIS clock selected (hsis_ck), if this clock is retained by HSIKERON, it is not visible on\nMCO output under the Stop 0 mode.\nOther: Reserved\nBits 21:18 MCO1PRE[3:0]: MCO1 prescaler\nThis bitfield is set and cleared by software to configure the prescaler of the MCO1.\nModification of this prescaler may generate glitches on MCO1. It is highly recommended to\nchange this prescaler only after reset, before enabling the external oscillators and the PLLs.\n0000: Prescaler disabled (default after reset)\n0001: Division by 1 (bypass)\n0010: Division by 2\n0011: Division by 3\n0100: Division by 4\n...\n1111: Division by 15\nBits 17:16 Reserved, must be kept at reset value.\nBits 15:7 RTCPRE[8:0]: HSE division factor for RTC clock (source of HSE_1MHz clock)\nThis bitfield is set and cleared by software to divide the HSE to generate a clock for RTC.\nCaution: Software must set these bits correctly to ensure that the clock supplied to the RTC is\nlower than 1 MHz. These bits must be configured if needed before selecting the\nRTC clock source.\n000000000: No clock (default after reset)\n000000001: No clock\n000000010: HSE/2\n000000011: HSE/3\n000000100: HSE/4\n...\n111111110: HSE/510\n111111111: HSE/511\nBit 6 STOPWUCK: System clock selection after a wake-up from system Stop mode\nThis bit is set and reset by software to select the system wake-up clock from system Stop.\n0: HSIDIV3 selected as wake-up clock from system Stop mode (default after reset)\n1: HSIS selected as wake-up clock from system Stop mode\nBit 5 Reserved, must be kept at reset value.\nBits 4:3 SWS[1:0]: System clock switch status\nThis bitfield is set and reset by hardware to indicate which clock source is used as system\nclock.\n00: HSIDIV3 used as system clock (hsidiv3_ck) (default after reset).\n01: HSIS used as system clock (hsis_ck)\n10: HSE used as system clock (hse_ck)\n11: PSIS used as system clock (psis_ck)\nBit 2 Reserved, must be kept at reset value.\nBits 1:0 SW[1:0]: System clock and trace clock switch\nThis bitfield is set and reset by software to select system clock and trace clock sources\n(sys_ck). It is set by hardware to force the selection of the HSI or CSI (depending on\nSTOPWUCK selection) when leaving a system Stop mode, and to force the selection of the\nHSI in case of failure of the HSE when used directly or indirectly as system clock\n00: HSIDIV3 selected as system clock (hsidiv3_ck) (default after reset)\n01: HSIS selected as system clock (hsis_ck)\n10: HSE selected as system clock (hse_ck)\n11: PSIS selected as system clock (psis_ck)",
+      "semantic": {
+        "register": "RCC_CFGR1",
+        "address_offset": "0x01C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:29",
+            "name": "MCO2SEL[2:0]",
+            "description": "Microcontroller clock output 2 This bitfield is set and cleared by software. Clock source selection may generate glitches on MCO2. It is highly recommended to configure these bits only after reset, before enabling the external oscillators. visible on MCO output under the Stop 0 mode.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "system clock selected (sys_ck) (default after reset)"
+              },
+              {
+                "value": "001",
+                "meaning": "HSE clock selected (hse_ck)"
+              },
+              {
+                "value": "010",
+                "meaning": "LSE clock selected (lse_ck)"
+              },
+              {
+                "value": "011",
+                "meaning": "LSI clock selected (lsi_ck)"
+              },
+              {
+                "value": "100",
+                "meaning": "PSIK clock selected (psik_ck)"
+              },
+              {
+                "value": "101",
+                "meaning": "HSIK clock selected (hsik_ck)"
+              },
+              {
+                "value": "110",
+                "meaning": "PSIDIV3 clock selected (psidiv3_ck)"
+              },
+              {
+                "value": "111",
+                "meaning": "HSIDIV3 clock selected (hsidiv3_ck): if this clock is retained by HSIKERON, it is not"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "28:25",
+            "name": "MCO2PRE[3:0]",
+            "description": "MCO2 prescaler This bitfield is set and cleared by software to configure the prescaler of the MCO2. Modification of this prescaler may generate glitches on MCO2. It is highly recommended to change this prescaler only after reset, before enabling the external oscillators and the PLLs. ...",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Prescaler disabled (default after reset)"
+              },
+              {
+                "value": "0001",
+                "meaning": "Division by 1 (bypass)"
+              },
+              {
+                "value": "0010",
+                "meaning": "Division by 2"
+              },
+              {
+                "value": "0011",
+                "meaning": "Division by 3"
+              },
+              {
+                "value": "0100",
+                "meaning": "Division by 4"
+              },
+              {
+                "value": "1111",
+                "meaning": "Division by 15"
+              }
+            ]
+          },
+          {
+            "bits": "24:22",
+            "name": "MCO1SEL[2:0]",
+            "description": "Microcontroller clock output 1 This bitfield is set and cleared by software. Clock source selection may generate glitches on MCO1. It is highly recommended to configure these bits only after reset, before enabling the external oscillators. MCO output under the Stop 0 mode. MCO output under the Stop 0 mode.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "System clock selected (sys_ck) (default after reset)"
+              },
+              {
+                "value": "001",
+                "meaning": "HSE clock selected (hse_ck)"
+              },
+              {
+                "value": "010",
+                "meaning": "LSE clock selected (lse_ck)"
+              },
+              {
+                "value": "011",
+                "meaning": "LSI clock selected (lsi_ck)"
+              },
+              {
+                "value": "100",
+                "meaning": "PSIK clock selected (psik_ck)"
+              },
+              {
+                "value": "101",
+                "meaning": "HSIK clock selected (hsik_ck)"
+              },
+              {
+                "value": "110",
+                "meaning": "PSIS clock selected (psis_ck), if this clock is retained by PSIKERON, it is not visible on"
+              },
+              {
+                "value": "111",
+                "meaning": "HSIS clock selected (hsis_ck), if this clock is retained by HSIKERON, it is not visible on"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "21:18",
+            "name": "MCO1PRE[3:0]",
+            "description": "MCO1 prescaler This bitfield is set and cleared by software to configure the prescaler of the MCO1. Modification of this prescaler may generate glitches on MCO1. It is highly recommended to change this prescaler only after reset, before enabling the external oscillators and the PLLs. ...",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Prescaler disabled (default after reset)"
+              },
+              {
+                "value": "0001",
+                "meaning": "Division by 1 (bypass)"
+              },
+              {
+                "value": "0010",
+                "meaning": "Division by 2"
+              },
+              {
+                "value": "0011",
+                "meaning": "Division by 3"
+              },
+              {
+                "value": "0100",
+                "meaning": "Division by 4"
+              },
+              {
+                "value": "1111",
+                "meaning": "Division by 15"
+              }
+            ]
+          },
+          {
+            "bits": "17:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:7",
+            "name": "RTCPRE[8:0]",
+            "description": "HSE division factor for RTC clock (source of HSE_1MHz clock) This bitfield is set and cleared by software to divide the HSE to generate a clock for RTC. Caution: Software must set these bits correctly to ensure that the clock supplied to the RTC is lower than 1 MHz. These bits must be configured if needed before selecting the RTC clock source. ...",
+            "values": [
+              {
+                "value": "000000000",
+                "meaning": "No clock (default after reset)"
+              },
+              {
+                "value": "000000001",
+                "meaning": "No clock"
+              },
+              {
+                "value": "000000010",
+                "meaning": "HSE/2"
+              },
+              {
+                "value": "000000011",
+                "meaning": "HSE/3"
+              },
+              {
+                "value": "000000100",
+                "meaning": "HSE/4"
+              },
+              {
+                "value": "111111110",
+                "meaning": "HSE/510"
+              },
+              {
+                "value": "111111111",
+                "meaning": "HSE/511"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "STOPWUCK",
+            "description": "System clock selection after a wake-up from system Stop mode This bit is set and reset by software to select the system wake-up clock from system Stop.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSIDIV3 selected as wake-up clock from system Stop mode (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSIS selected as wake-up clock from system Stop mode"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4:3",
+            "name": "SWS[1:0]",
+            "description": "System clock switch status This bitfield is set and reset by hardware to indicate which clock source is used as system clock.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "HSIDIV3 used as system clock (hsidiv3_ck) (default after reset)."
+              },
+              {
+                "value": "01",
+                "meaning": "HSIS used as system clock (hsis_ck)"
+              },
+              {
+                "value": "10",
+                "meaning": "HSE used as system clock (hse_ck)"
+              },
+              {
+                "value": "11",
+                "meaning": "PSIS used as system clock (psis_ck)"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1:0",
+            "name": "SW[1:0]",
+            "description": "System clock and trace clock switch This bitfield is set and reset by software to select system clock and trace clock sources (sys_ck). It is set by hardware to force the selection of the HSI or CSI (depending on STOPWUCK selection) when leaving a system Stop mode, and to force the selection of the HSI in case of failure of the HSE when used directly or indirectly as system clock",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "HSIDIV3 selected as system clock (hsidiv3_ck) (default after reset)"
+              },
+              {
+                "value": "01",
+                "meaning": "HSIS selected as system clock (hsis_ck)"
+              },
+              {
+                "value": "10",
+                "meaning": "HSE selected as system clock (hse_ck)"
+              },
+              {
+                "value": "11",
+                "meaning": "PSIS selected as system clock (psis_ck)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

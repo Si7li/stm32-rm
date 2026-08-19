@@ -1,0 +1,240 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S56.7.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "56",
+      "chapter_title": "General-purpose timers (TIM9/TIM10/TIM11/TIM12/TIM13/TIM14)",
+      "section": "56.7.8",
+      "section_title": "TIMx capture/compare mode register 1 [alternate] (TIMx_CCMR1)(x = 9, 12)",
+      "level": 3,
+      "parent_section": "56.7",
+      "page": 2800,
+      "page_end": 2803,
+      "semantic_type": "register_description",
+      "features": [
+        "cc1s",
+        "cc2s",
+        "oc1fe",
+        "oc1m",
+        "oc1pe",
+        "oc2fe",
+        "oc2m",
+        "oc2pe",
+        "timer"
+      ],
+      "chars": 5172,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2800",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 56.7.8 \"TIMx capture/compare mode register 1 [alternate] (TIMx_CCMR1)(x = 9, 12)\" in chapter 56 (General-purpose timers (TIM9/TIM10/TIM11/TIM12/TIM13/TIM14)), RM0486 Rev 4, page 2800.",
+      "section_content": "Address offset: 0x018\nReset value: 0x00000000\nThe same register can be used for output compare mode (this section) or for input capture\nmode (previous section). The direction of a channel is defined by configuring the\ncorresponding CCxS bits. All the other bits in this register have different functions in input\nand output modes.\nOutput compare mode:\nBits 31:25 Reserved, must be kept at reset value.\nBits 23:17 Reserved, must be kept at reset value.\nBit 15 Reserved, must be kept at reset value.\nBits 24, 14:12 OC2M[3:0]: Output compare 2 mode\nRefer to OC1M[3:0] for bit description.\nBit 11 OC2PE: Output compare 2 preload enable\nBit 10 OC2FE: Output compare 2 fast enable\nBits 9:8 CC2S[1:0]: Capture/Compare 2 selection\nThis bitfield defines the direction of the channel (input/output) as well as the used input.\n00:CC2 channel is configured as output\n01:CC2 channel is configured as input, IC2 is mapped on tim_ti2\n10:CC2 channel is configured as input, IC2 is mapped on tim_ti1\n11:CC2 channel is configured as input, IC2 is mapped on tim_trc. This mode works only if\nan internal trigger input is selected through the TS bit (TIMx_SMCR register\nNote: The CC2S bits are writable only when the channel is OFF (CC2E = 0 in TIMx_CCER).\nBit 7 Reserved, must be kept at reset value.\nBits 16, 6:4 OC1M[3:0]: Output compare 1 mode (refer to bit 16 for OC1M[3])\nThese bits define the behavior of the output reference signal tim_oc1ref from which tim_oc1\nis derived. tim_oc1ref is active high whereas the active level of tim_oc1 depends on the\nCC1P.\n0000: Frozen - The comparison between the output compare register TIMx_CCR1 and the\ncounter TIMx_CNT has no effect on the outputs. This mode can be used when the\ntimer serves as a software timebase. When the frozen mode is enabled during timer\noperation, the ouput keeps the state (active or inactive) it had before entering the\nfrozen state.\n0001: Set channel 1 to active level on match. The tim_oc1ref signal is forced high when the\nTIMx_CNT counter matches the capture/compare register 1 (TIMx_CCR1).\n0010: Set channel 1 to inactive level on match. The tim_oc1ref signal is forced low when the\nTIMx_CNT counter matches the capture/compare register 1 (TIMx_CCR1).\n0011: Toggle - tim_oc1ref toggles when TIMx_CNT = TIMx_CCR1\n0100: Force inactive level - tim_oc1ref is forced low\n0101: Force active level - tim_oc1ref is forced high\n0110: PWM mode 1 - channel 1 is active as long as TIMx_CNT<TIMx_CCR1 else it is\ninactive\n0111: PWM mode 2 - channel 1 is inactive as long as TIMx_CNT<TIMx_CCR1 else it is\nactive\n1000: Retrigerrable OPM mode 1 - The channel is active until a trigger event is detected (on\ntim_trgi signal). Then, a comparison is performed as in PWM mode 1 and the\nchannels becomes active again at the next update.\n1001: Retrigerrable OPM mode 2 - The channel is inactive until a trigger event is detected\n(on tim_trgi signal). Then, a comparison is performed as in PWM mode 2 and the\nchannels becomes inactive again at the next update.\n1010: Reserved,\n1011: Reserved,\n1100: Combined PWM mode 1 - tim_oc1ref has the same behavior as in PWM mode 1.\ntim_oc1refc is the logical OR between tim_oc1ref and tim_oc2ref.\n1101: Combined PWM mode 2 - tim_oc1ref has the same behavior as in PWM mode 2.\ntim_oc1refc is the logical AND between tim_oc1ref and tim_oc2ref.\n1110: Reserved,\n1111: Reserved\nNote: In PWM mode, the OCREF level changes when the result of the comparison changes,\nwhen the output compare mode switches from “frozen” mode to “PWM” mode and\nwhen the output compare mode switches from “force active/inactive” mode to “PWM”\nmode.\nBit 3 OC1PE: Output compare 1 preload enable\n0:Preload register on TIMx_CCR1 disabled. TIMx_CCR1 can be written at anytime, the new\nvalue is taken into account immediately\n1:Preload register on TIMx_CCR1 enabled. Read/Write operations access the preload\nregister. TIMx_CCR1 preload value is loaded into the active register at each update event\nBit 2 OC1FE: Output compare 1 fast enable\nThis bit is used to accelerate the effect of an event on the trigger in input on the CC output.\n0:CC1 behaves normally depending on the counter and CCR1 values even when the trigger\nis ON. The minimum delay to activate the CC1 output when an edge occurs on the trigger\ninput is 5 clock cycles\n1:An active edge on the trigger input acts like a compare match on the CC1 output. Then,\nOC is set to the compare level independently of the result of the comparison. Delay to\nsample the trigger input and to activate CC1 output is reduced to 3 clock cycles. OC1FE\nacts only if the channel is configured in PWM1 or PWM2 mode.\nBits 1:0 CC1S[1:0]: Capture/Compare 1 selection\nThis bitfield defines the direction of the channel (input/output) as well as the used input.\n00:CC1 channel is configured as output\n01:CC1 channel is configured as input, tim_ic1 is mapped on tim_ti1\n10:CC1 channel is configured as input, tim_ic1 is mapped on tim_ti2\n11:CC1 channel is configured as input, tim_ic1 is mapped on tim_trc. This mode works only\nif an internal trigger input is selected through the TS bit (TIMx_SMCR register)\nNote: The CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIMx_CCER).",
+      "semantic": {
+        "register": "TIMx_CCMR1",
+        "address_offset": "0x018",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24, 14:12",
+            "name": "OC2M[3:0]",
+            "description": "Output compare 2 mode Refer to OC1M[3:0] for bit description.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "OC2PE",
+            "description": "Output compare 2 preload enable",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "OC2FE",
+            "description": "Output compare 2 fast enable",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "CC2S[1:0]",
+            "description": "Capture/Compare 2 selection This bitfield defines the direction of the channel (input/output) as well as the used input. an internal trigger input is selected through the TS bit (TIMx_SMCR register Note: The CC2S bits are writable only when the channel is OFF (CC2E = 0 in TIMx_CCER).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CC2 channel is configured as output"
+              },
+              {
+                "value": "01",
+                "meaning": "CC2 channel is configured as input, IC2 is mapped on tim_ti2"
+              },
+              {
+                "value": "10",
+                "meaning": "CC2 channel is configured as input, IC2 is mapped on tim_ti1"
+              },
+              {
+                "value": "11",
+                "meaning": "CC2 channel is configured as input, IC2 is mapped on tim_trc. This mode works only if"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16, 6:4",
+            "name": "OC1M[3:0]",
+            "description": "Output compare 1 mode (refer to bit 16 for OC1M[3]) These bits define the behavior of the output reference signal tim_oc1ref from which tim_oc1 is derived. tim_oc1ref is active high whereas the active level of tim_oc1 depends on the CC1P. counter TIMx_CNT has no effect on the outputs. This mode can be used when the timer serves as a software timebase. When the frozen mode is enabled during timer operation, the ouput keeps the state (active or inactive) it had before entering the frozen state. TIMx_CNT counter matches the capture/compare register 1 (TIMx_CCR1). TIMx_CNT counter matches the capture/compare register 1 (TIMx_CCR1). inactive active tim_trgi signal). Then, a comparison is performed as in PWM mode 1 and the channels becomes active again at the next update. (on tim_trgi signal). Then, a comparison is performed as in PWM mode 2 and the channels becomes inactive again at the next update. tim_oc1refc is the logical OR between tim_oc1ref and tim_oc2ref. tim_oc1refc is the logical AND between tim_oc1ref and tim_oc2ref. Note: In PWM mode, the OCREF level changes when the result of the comparison changes, when the output compare mode switches from “frozen” mode to “PWM” mode and when the output compare mode switches from “force active/inactive” mode to “PWM” mode.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Frozen - The comparison between the output compare register TIMx_CCR1 and the"
+              },
+              {
+                "value": "0001",
+                "meaning": "Set channel 1 to active level on match. The tim_oc1ref signal is forced high when the"
+              },
+              {
+                "value": "0010",
+                "meaning": "Set channel 1 to inactive level on match. The tim_oc1ref signal is forced low when the"
+              },
+              {
+                "value": "0011",
+                "meaning": "Toggle - tim_oc1ref toggles when TIMx_CNT = TIMx_CCR1"
+              },
+              {
+                "value": "0100",
+                "meaning": "Force inactive level - tim_oc1ref is forced low"
+              },
+              {
+                "value": "0101",
+                "meaning": "Force active level - tim_oc1ref is forced high"
+              },
+              {
+                "value": "0110",
+                "meaning": "PWM mode 1 - channel 1 is active as long as TIMx_CNT<TIMx_CCR1 else it is"
+              },
+              {
+                "value": "0111",
+                "meaning": "PWM mode 2 - channel 1 is inactive as long as TIMx_CNT<TIMx_CCR1 else it is"
+              },
+              {
+                "value": "1000",
+                "meaning": "Retrigerrable OPM mode 1 - The channel is active until a trigger event is detected (on"
+              },
+              {
+                "value": "1001",
+                "meaning": "Retrigerrable OPM mode 2 - The channel is inactive until a trigger event is detected"
+              },
+              {
+                "value": "1010",
+                "meaning": "Reserved,"
+              },
+              {
+                "value": "1011",
+                "meaning": "Reserved,"
+              },
+              {
+                "value": "1100",
+                "meaning": "Combined PWM mode 1 - tim_oc1ref has the same behavior as in PWM mode 1."
+              },
+              {
+                "value": "1101",
+                "meaning": "Combined PWM mode 2 - tim_oc1ref has the same behavior as in PWM mode 2."
+              },
+              {
+                "value": "1110",
+                "meaning": "Reserved,"
+              },
+              {
+                "value": "1111",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "OC1PE",
+            "description": "Output compare 1 preload enable value is taken into account immediately register. TIMx_CCR1 preload value is loaded into the active register at each update event",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Preload register on TIMx_CCR1 disabled. TIMx_CCR1 can be written at anytime, the new"
+              },
+              {
+                "value": "1",
+                "meaning": "Preload register on TIMx_CCR1 enabled. Read/Write operations access the preload"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "OC1FE",
+            "description": "Output compare 1 fast enable This bit is used to accelerate the effect of an event on the trigger in input on the CC output. is ON. The minimum delay to activate the CC1 output when an edge occurs on the trigger input is 5 clock cycles OC is set to the compare level independently of the result of the comparison. Delay to sample the trigger input and to activate CC1 output is reduced to 3 clock cycles. OC1FE acts only if the channel is configured in PWM1 or PWM2 mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CC1 behaves normally depending on the counter and CCR1 values even when the trigger"
+              },
+              {
+                "value": "1",
+                "meaning": "An active edge on the trigger input acts like a compare match on the CC1 output. Then,"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "CC1S[1:0]",
+            "description": "Capture/Compare 1 selection This bitfield defines the direction of the channel (input/output) as well as the used input. if an internal trigger input is selected through the TS bit (TIMx_SMCR register) Note: The CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIMx_CCER).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CC1 channel is configured as output"
+              },
+              {
+                "value": "01",
+                "meaning": "CC1 channel is configured as input, tim_ic1 is mapped on tim_ti1"
+              },
+              {
+                "value": "10",
+                "meaning": "CC1 channel is configured as input, tim_ic1 is mapped on tim_ti2"
+              },
+              {
+                "value": "11",
+                "meaning": "CC1 channel is configured as input, tim_ic1 is mapped on tim_trc. This mode works only"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,284 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S15.4.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "15",
+      "chapter_title": "General-purpose timers (TIM2 to TIM5)",
+      "section": "15.4.3",
+      "section_title": "TIMx slave mode control register (TIMx_SMCR)",
+      "level": 3,
+      "parent_section": "15.4",
+      "page": 407,
+      "page_end": 409,
+      "semantic_type": "register_description",
+      "features": [
+        "ece",
+        "etf",
+        "etp",
+        "etps",
+        "msm",
+        "sms",
+        "timer"
+      ],
+      "chars": 4631,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=407",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 15.4.3 \"TIMx slave mode control register (TIMx_SMCR)\" in chapter 15 (General-purpose timers (TIM2 to TIM5)), RM0008 Rev 21, page 407.",
+      "section_content": "Address offset: 0x08\nReset value: 0x0000\nBit 15 ETP: External trigger polarity\nThis bit selects whether ETR or ETR is used for trigger operations\n0: ETR is non-inverted, active at high level or rising edge\n1: ETR is inverted, active at low level or falling edge\nBit 14 ECE: External clock enable\nThis bit enables External clock mode 2.\n0: External clock mode 2 disabled\n1: External clock mode 2 enabled. The counter is clocked by any active edge on the ETRF\nsignal.\n1: Setting the ECE bit has the same effect as selecting external clock mode 1 with TRGI\nconnected to ETRF (SMS=111 and TS=111).\n2: It is possible to simultaneously use external clock mode 2 with the following slave modes:\nreset mode, gated mode and trigger mode. Nevertheless, TRGI must not be connected to\nETRF in this case (TS bits must not be 111).\n3: If external clock mode 1 and external clock mode 2 are enabled at the same time, the\nexternal clock input is ETRF.\nBits 13:12 ETPS: External trigger prescaler\nExternal trigger signal ETRP frequency must be at most 1/4 of CK_INT frequency. A\nprescaler can be enabled to reduce ETRP frequency. It is useful when inputting fast external\nclocks.\n00: Prescaler OFF\n01: ETRP frequency divided by 2\n10: ETRP frequency divided by 4\n11: ETRP frequency divided by 8\nBits 11:8 ETF[3:0]: External trigger filter\nThis bit-field then defines the frequency used to sample ETRP signal and the length of the\ndigital filter applied to ETRP. The digital filter is made of an event counter in which N\nconsecutive events are needed to validate a transition on the output:\n0000: No filter, sampling is done at fDTS\n0001: fSAMPLING=fCK_INT, N=2\n0010: fSAMPLING=fCK_INT, N=4\n0011: fSAMPLING=fCK_INT, N=8²\n0100: fSAMPLING=fDTS/2, N=6\n0101: fSAMPLING=fDTS/2, N=8\n0110: fSAMPLING=fDTS/4, N=6²\n0111: fSAMPLING=fDTS/4, N=8\n1000: fSAMPLING=fDTS/8, N=6\n1001: fSAMPLING=fDTS/8, N=8\n1010: fSAMPLING=fDTS/16, N=5\n1011: fSAMPLING=fDTS/16, N=6\n1100: fSAMPLING=fDTS/16, N=8\n1101: fSAMPLING=fDTS/32, N=5\n1110: fSAMPLING=fDTS/32, N=6\n1111: fSAMPLING=fDTS/32, N=8\nBit 7 MSM: Master/Slave mode\n0: No action\n1: The effect of an event on the trigger input (TRGI) is delayed to allow a perfect\nsynchronization between the current timer and its slaves (through TRGO). It is useful if we\nwant to synchronize several timers on a single external event.\nBits 6:4 TS: Trigger selection\nThis bit-field selects the trigger input to be used to synchronize the counter.\n000: Internal Trigger 0 (ITR0).\n001: Internal Trigger 1 (ITR1).\n010: Internal Trigger 2 (ITR2).\n011: Internal Trigger 3 (ITR3).\n100: TI1 Edge Detector (TI1F_ED)\n101: Filtered Timer Input 1 (TI1FP1)\n110: Filtered Timer Input 2 (TI2FP2)\n111: External Trigger input (ETRF)\nSee Table86: TIMx Internal trigger connection for more details on ITRx meaning for each\nTimer.\nNote: These bits must be changed only when they are not used (e.g. when SMS=000) to\navoid wrong edge detections at the transition.\nBit 3 Reserved, must be kept at reset value.\nBits 2:0 SMS: Slave mode selection\nWhen external signals are selected the active edge of the trigger signal (TRGI) is linked to\nthe polarity selected on the external input (see Input Control register and Control register\ndescription.\n000: Slave mode disabled - if CEN = ‘1 then the prescaler is clocked directly by the internal\nclock.\n001: Encoder mode 1 - Counter counts up/down on TI2FP1 edge depending on TI1FP2\nlevel.\n010: Encoder mode 2 - Counter counts up/down on TI1FP2 edge depending on TI2FP1\nlevel.\n011: Encoder mode 3 - Counter counts up/down on both TI1FP1 and TI2FP2 edges\ndepending on the level of the other input.\n100: Reset mode - Rising edge of the selected trigger input (TRGI) reinitializes the counter\nand generates an update of the registers.\n101: Gated mode - The counter clock is enabled when the trigger input (TRGI) is high. The\ncounter stops (but is not reset) as soon as the trigger becomes low. Both start and stop of\nthe counter are controlled.\n110: Trigger mode - The counter starts at a rising edge of the trigger TRGI (but it is not\nreset). Only the start of the counter is controlled.\n111: External Clock mode 1 - Rising edges of the selected trigger (TRGI) clock the counter.\nNote: The gated mode must not be used if TI1F_ED is selected as the trigger input (TS=100).\nIndeed, TI1F_ED outputs 1 pulse for each transition on TI1F, whereas the gated mode\nchecks the level of the trigger signal.\nThe clock of the slave timer must be enabled prior to receiving events from the master\ntimer, and must not be changed on-the-fly while triggers are received from the master\ntimer.\n[Table 86. TIMx Internal trigger connection(1)]",
+      "semantic": {
+        "register": "TIMx_SMCR",
+        "address_offset": "0x08",
+        "reset_value": "0x0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "15",
+            "name": "ETP",
+            "description": "External trigger polarity This bit selects whether ETR or ETR is used for trigger operations",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "ETR is non-inverted, active at high level or rising edge"
+              },
+              {
+                "value": "1",
+                "meaning": "ETR is inverted, active at low level or falling edge"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "ECE",
+            "description": "External clock enable This bit enables External clock mode 2. signal. connected to ETRF (SMS=111 and TS=111). reset mode, gated mode and trigger mode. Nevertheless, TRGI must not be connected to ETRF in this case (TS bits must not be 111). external clock input is ETRF.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "External clock mode 2 disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "External clock mode 2 enabled. The counter is clocked by any active edge on the ETRF"
+              },
+              {
+                "value": "1",
+                "meaning": "Setting the ECE bit has the same effect as selecting external clock mode 1 with TRGI"
+              },
+              {
+                "value": "2",
+                "meaning": "It is possible to simultaneously use external clock mode 2 with the following slave modes:"
+              },
+              {
+                "value": "3",
+                "meaning": "If external clock mode 1 and external clock mode 2 are enabled at the same time, the"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "ETPS",
+            "description": "External trigger prescaler External trigger signal ETRP frequency must be at most 1/4 of CK_INT frequency. A prescaler can be enabled to reduce ETRP frequency. It is useful when inputting fast external clocks.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Prescaler OFF"
+              },
+              {
+                "value": "01",
+                "meaning": "ETRP frequency divided by 2"
+              },
+              {
+                "value": "10",
+                "meaning": "ETRP frequency divided by 4"
+              },
+              {
+                "value": "11",
+                "meaning": "ETRP frequency divided by 8"
+              }
+            ]
+          },
+          {
+            "bits": "11:8",
+            "name": "ETF[3:0]",
+            "description": "External trigger filter This bit-field then defines the frequency used to sample ETRP signal and the length of the digital filter applied to ETRP. The digital filter is made of an event counter in which N consecutive events are needed to validate a transition on the output:",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "No filter, sampling is done at fDTS"
+              },
+              {
+                "value": "0001",
+                "meaning": "fSAMPLING=fCK_INT, N=2"
+              },
+              {
+                "value": "0010",
+                "meaning": "fSAMPLING=fCK_INT, N=4"
+              },
+              {
+                "value": "0011",
+                "meaning": "fSAMPLING=fCK_INT, N=8²"
+              },
+              {
+                "value": "0100",
+                "meaning": "fSAMPLING=fDTS/2, N=6"
+              },
+              {
+                "value": "0101",
+                "meaning": "fSAMPLING=fDTS/2, N=8"
+              },
+              {
+                "value": "0110",
+                "meaning": "fSAMPLING=fDTS/4, N=6²"
+              },
+              {
+                "value": "0111",
+                "meaning": "fSAMPLING=fDTS/4, N=8"
+              },
+              {
+                "value": "1000",
+                "meaning": "fSAMPLING=fDTS/8, N=6"
+              },
+              {
+                "value": "1001",
+                "meaning": "fSAMPLING=fDTS/8, N=8"
+              },
+              {
+                "value": "1010",
+                "meaning": "fSAMPLING=fDTS/16, N=5"
+              },
+              {
+                "value": "1011",
+                "meaning": "fSAMPLING=fDTS/16, N=6"
+              },
+              {
+                "value": "1100",
+                "meaning": "fSAMPLING=fDTS/16, N=8"
+              },
+              {
+                "value": "1101",
+                "meaning": "fSAMPLING=fDTS/32, N=5"
+              },
+              {
+                "value": "1110",
+                "meaning": "fSAMPLING=fDTS/32, N=6"
+              },
+              {
+                "value": "1111",
+                "meaning": "fSAMPLING=fDTS/32, N=8"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "MSM",
+            "description": "Master/Slave mode synchronization between the current timer and its slaves (through TRGO). It is useful if we want to synchronize several timers on a single external event.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No action"
+              },
+              {
+                "value": "1",
+                "meaning": "The effect of an event on the trigger input (TRGI) is delayed to allow a perfect"
+              }
+            ]
+          },
+          {
+            "bits": "6:4",
+            "name": "TS",
+            "description": "Trigger selection This bit-field selects the trigger input to be used to synchronize the counter. See Table86: TIMx Internal trigger connection for more details on ITRx meaning for each Timer. Note: These bits must be changed only when they are not used (e.g. when SMS=000) to avoid wrong edge detections at the transition.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Internal Trigger 0 (ITR0)."
+              },
+              {
+                "value": "001",
+                "meaning": "Internal Trigger 1 (ITR1)."
+              },
+              {
+                "value": "010",
+                "meaning": "Internal Trigger 2 (ITR2)."
+              },
+              {
+                "value": "011",
+                "meaning": "Internal Trigger 3 (ITR3)."
+              },
+              {
+                "value": "100",
+                "meaning": "TI1 Edge Detector (TI1F_ED)"
+              },
+              {
+                "value": "101",
+                "meaning": "Filtered Timer Input 1 (TI1FP1)"
+              },
+              {
+                "value": "110",
+                "meaning": "Filtered Timer Input 2 (TI2FP2)"
+              },
+              {
+                "value": "111",
+                "meaning": "External Trigger input (ETRF)"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2:0",
+            "name": "SMS",
+            "description": "Slave mode selection When external signals are selected the active edge of the trigger signal (TRGI) is linked to the polarity selected on the external input (see Input Control register and Control register description. clock. level. level. depending on the level of the other input. and generates an update of the registers. counter stops (but is not reset) as soon as the trigger becomes low. Both start and stop of the counter are controlled. reset). Only the start of the counter is controlled. Note: The gated mode must not be used if TI1F_ED is selected as the trigger input (TS=100). Indeed, TI1F_ED outputs 1 pulse for each transition on TI1F, whereas the gated mode checks the level of the trigger signal. The clock of the slave timer must be enabled prior to receiving events from the master timer, and must not be changed on-the-fly while triggers are received from the master timer.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Slave mode disabled - if CEN = ‘1 then the prescaler is clocked directly by the internal"
+              },
+              {
+                "value": "001",
+                "meaning": "Encoder mode 1 - Counter counts up/down on TI2FP1 edge depending on TI1FP2"
+              },
+              {
+                "value": "010",
+                "meaning": "Encoder mode 2 - Counter counts up/down on TI1FP2 edge depending on TI2FP1"
+              },
+              {
+                "value": "011",
+                "meaning": "Encoder mode 3 - Counter counts up/down on both TI1FP1 and TI2FP2 edges"
+              },
+              {
+                "value": "100",
+                "meaning": "Reset mode - Rising edge of the selected trigger input (TRGI) reinitializes the counter"
+              },
+              {
+                "value": "101",
+                "meaning": "Gated mode - The counter clock is enabled when the trigger input (TRGI) is high. The"
+              },
+              {
+                "value": "110",
+                "meaning": "Trigger mode - The counter starts at a rising edge of the trigger TRGI (but it is not"
+              },
+              {
+                "value": "111",
+                "meaning": "External Clock mode 1 - Rising edges of the selected trigger (TRGI) clock the counter."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

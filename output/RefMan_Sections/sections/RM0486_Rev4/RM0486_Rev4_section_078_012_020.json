@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.12.20",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.12.20",
+      "section_title": "Microcontroller debug unit (DBGMCU)",
+      "level": 3,
+      "parent_section": "78.12",
+      "page": 4648,
+      "page_end": 4649,
+      "semantic_type": "generic",
+      "features": [
+        "dbgmcu"
+      ],
+      "chars": 3386,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4648",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.12.20 \"Microcontroller debug unit (DBGMCU)\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4648.",
+      "section_content": "The DBGMCU is a component containing a number of registers which control the power and\nclock behavior in debug mode. Specifically it allows the debugger, or debug software:\n• to maintain the clock and power to the processor and/or peripherals when in low-power\nmodes (Sleep, Stop, or Standby)\n• to maintain the clock and power to the system debug and trace components when in\nlow-power modes\n• to stop the clock to certain peripherals (CAN, SMBUS timeout, watchdogs, timers,\nRTC, DMAs) when the processor is halted in debug mode\nLegacy DBGMCU features (dbg/trace_en, dbg_sleep/stop/stby, dbg_freeze) are disabled\nwhen debug is closed. Only registers required for authentication procedure are accessible.\nLow-power mode emulation in debug\nWhen entering a low-power state (Sleep, Stop, Standby), the clock to the processor, the\nsystem clock or, in the case of Standby, the core power supply can be switched off.\nThisprevents any debug accesses to the unclocked domains.\nTo simplify debugging of applications which use these power saving features, the clock and\npower can be maintained or not, according to the setting of DBG_STANDBY, DBG_STOP,\nand DBG_SLEEP bits in DBGMCU_CR.\nThere are no restrictions from a security perspective to access these control bits, as the\noverall system behavior is not modified, except that the power and clocks remain on.\nIf the system enters one of the power saving modes, and the corresponding register bit is\nset, the system state in the EXTI is not affected: the system enters and exits the low-power\nstate as normal. However the clock and power remain active, allowing the debugger full\naccess.\nNote: If the TPIU is used, loss of trace data can occur if the system goes into Standby mode, and\nswitches off the core power before the TPIU FIFO is empty. The software can check the\nFIFO state to avoid this. If the DBG_STANDBY bit is set while using the trace port, the trace\ncontinues to flush during Standby mode, and no specific software action is required.\nPeripheral clock “freeze” in debug\nWhen the processor is halted in debug state, by default the peripherals continue to operate.\nThe system state, at the moment the breakpoint was taken, is overwritten and cannot be\nrecovered. Furthermore, certain peripherals require software intervention on a regular basis,\nor they can time out, and generate a reset (watchdogs, for example).\nBy setting the corresponding bits in the DBGMCU peripheral freeze registers, certain\nperipherals clocks can be stopped automatically as soon as processor enters debug state.\nThe clocks remain stopped until the processor is restarted.\nThe following peripherals support this feature:\n• all DMA engines (HPDMA3 and GPDMA1)\n• all timers (TIMx, LPTIMx)\n• all I2C/I3C peripherals (to prevent SMBus timeout)\n• FDCAN\n• all watchdog timers (WWDGx, IWDGx)\n• real time clock (RTC)\nThe peripheral accesses can be controlled from a RISUP for peripherals (see Section6:\nResource isolation framework security controller (RIFSC) for more details).\nDBGMCU freeze register bits inherit the security level of the peripheral from the RISUP, or\nfrom the peripheral itself if it is TrustZone-aware (such as DMA) as follows:\n• When spiden = 1 (secure privilege debug enabled), all debug freeze bits can be\nmodified.\n• When spiden = 0 (secure privilege debug disabled), only the bits corresponding to\nnon-secure peripherals can be modified.",
+      "semantic": {}
+    }
+  ]
+}

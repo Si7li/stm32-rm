@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.4.13",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.4.13",
+      "section_title": "LPDMA circular buffering with linked-list programming",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 415,
+      "page_end": 417,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 1626,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=415",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.13 \"LPDMA circular buffering with linked-list programming\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 415.",
+      "section_content": "LPDMA circular buffering for memory-to-peripheral and peripheral-to-\nmemory transfers\nFor a circular buffering, with a continuous memory-to-peripheral (or peripheral-to-memory)\ntransfer, the software must set up a channel with half-transfer and complete transfer\nevents/interrupts generation (LPDMA_CxCR.HTIE=1 and LPDMA_CxCR.TCIE=1), in\norder to enable a concurrent buffer software processing.\nLLI0 is configured for the first block transfer. A continuously-executed LLI1 is needed to\nrestore the memory source (or destination) start address, for the memory-to-peripheral\ntransfer (respectively the peripheral-to-memory transfer). LPDMA automatically reloads the\ninitially programmed LPDMA_CxBR1.BNDT[15:0] when a block transfer is completed, and\nthere is no need to restore LPDMA_CxBR1.\nThe figure below illustrates this programming with a LPDMA channel and a source circular\nbuffer.\n[Figure 56. LPDMA circular buffer programming: update of the memory start address]\nIf circular buffering must be executed after some other transfers over the shared LPDMA\nchannel x, the before-last LLIN-1 in memory is needed to configure the first block transfer.\nAnd the last LLIN restores the memory source (or destination) start address in memory-to-\nperipheral transfer (respectively in peripheral-to-memory transfer).\nThe figure below illustrates this programming with a shared LPDMA channel, and a source\ncircular buffer.\n[Figure 57. Shared LPDMA channel with circular buffering:]\nupdate of the memory start address\nReq=PERIPH_TX Req=PERIPH_TX\nInit/LLI0 LLI1 ... LLIN-1 LLIN\nChannel X Ht+ tcf Ht+ tcf\nUSA = 1, others Uxx = 0 LA+ = 0xC",
+      "semantic": {}
+    }
+  ]
+}

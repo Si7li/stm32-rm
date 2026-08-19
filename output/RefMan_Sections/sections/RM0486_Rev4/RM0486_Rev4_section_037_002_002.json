@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S37.2.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "37",
+      "chapter_title": "Camera subsystem",
+      "section": "37.2.2",
+      "section_title": "DCMIPP path main features",
+      "level": 3,
+      "parent_section": "37.2",
+      "page": 1783,
+      "page_end": 1784,
+      "semantic_type": "generic",
+      "features": [
+        "dcmipp"
+      ],
+      "chars": 3778,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1783",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 37.2.2 \"DCMIPP path main features\" in chapter 37 (Camera subsystem), RM0486 Rev 4, page 1783.",
+      "section_content": "The DCMIPP path groups the DCMIPP pixel pipeline block, its included parallel interface,\nand the abutted CSI-2-Host and PHY.\nThe parallel interface shows the following features:\n• Input rate: 120 MHz up to 16-bit capability (with I/O ReTime)\n• Pixel format: RGB565, 888, YUV422, RawBayer/Mono 8/10/12/14\n• Synchronization: embedded versus external line and frame synchronization\nSee Section39: Digital camera interface pixel pipeline (DCMIPP) for more details.\nThe CSI-2 serial interface shows the following features:\n• Standard: MIPI CSI2 v1.3\n• Input rate: 2 data lanes @ 2.5Gbps/lane\n• Pixel rate: if RGB888: up to 200Mpixel/s, if RawBayer 10: up to 333Mpixel/s\n• Pixel format: any MIPI CSI2 v1.3: RGB565, 888, YUV422, RawBayer\n• Miscellaneous: interlaced video, interleaved packets, virtual channels\nSee Section40: CSI-2 Host (CSI) for more details.\nDCMIPP sizings and limitations\n• Camera target: 5 Mpixels (typ. 2560x2048 or 2688x1944) before decimation\n• Pipe resolution: 4094x4094 pixels max\n– Demosaicing: 2688 pixels wide max line-buffers (decimation available ahead)\n– Downsize: 2688 pixels wide max line-buffers\n– YUV420: 2688 pixels wide max line-buffers.\n• Pipe pixel rate: 333 Mpixel/s peak.\n• AXI FIFO: 5Kbytes available, with a flexible allocation between all outputs.\n• AXI master: AXI-64 bits @ 400MHz, with FIFO for latencies up to 2μs, 16 outstanding.\nThe DCMIPP provides three different pipes to process data:\n• Pipe0: to dump data without any processing, branched before any ISP\nIt is aimed at dumping metadata or statistics as-is from the sensor, or at dumping the\nfull picture as RawBayer data, for a potential long but optimal software processing.\n• Pipe1: main full-featured pipe (such as ISP, then downsize, YUV-multi-planar)\nIt provides a picture ready for any application (such as display, video encode, or neural\nprocessing).\n• Pipe2: ancillary semi-featured pipe\nSame ISP as pipe1, then downsize, but noYUV-multiplanar. It provides an RGB output\nfor a display use, or neural processing if using RGB as input.\nDCMIPP ISP capabilities common to pipe1 and 2, are the following:\n• flow selection: parallel-vs-CSI2, CSI virtual packets\n• capture mode: continuous versus snapshot mode\n• pixel extraction: RGB565, 888, YUV422, RawBayer/Mono 8/10/12/14.\n• statistic removal: to remove unused metadata (like statistics) from received pictures\n• bad-pixel removal: automatic detection and correction of bad pixels from sensor array\n• decimation: one pixel every 1/2/4/8, used to fit the max 2688 pixels\n• exposure control: to amplify the exposure from 0.0 to 255.99x\n• statistic extraction: average R,G,B,L values, dynamic bins\n• demosaicing: to convert RawBayer to RGB, supports NIR patterns (2x2, 4x4)\n• white-balance: to adapt to sensor white and global Illumination\n• contrast: to enhance the contrast, via luminance\nThe DCMIPP application capabilities, replicated for pipe1 and 2, are listed below:\n• cropping: to select a region of interest or stabilize the picture\n• downsize: box-filtering, with any decimal ratio, up to 8x8 (64x64 with decimation)\n• gamma conversion: predistortion with gamma = 2.2 for display purposes\n• YUV color conversion: to convert to YUV to later store a video-friendly buffer\n(pipe1only).\n• YUV422/420: chroma subsampling to YUV422 or YUV420\n• output streaming capability of three pixel pipes to a slave peripheral (VENC, NPU, or\nLP/HPDMA1), using a small multiline internal buffer located in the system memory\n• regions of interest (ROI): draw capability of a colored rectangle around each ROI\nOutput pixel format:\n• Pipe1 and 2: 888, 565, 422-1, Y8, ARGB and RGBA (coplanar only)\n• Pipe1: to adds422-2, 420-2, 420-3 (multi-planar possibility)\nThe full features are detailed in Section38: Digital camera interface (DCMI).",
+      "semantic": {}
+    }
+  ]
+}

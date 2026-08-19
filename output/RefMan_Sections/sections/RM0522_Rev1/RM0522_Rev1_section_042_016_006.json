@@ -1,0 +1,57 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.6",
+      "section_title": "I3C transmit data byte register (I3C_TDR)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1761,
+      "page_end": 1762,
+      "semantic_type": "register_description",
+      "features": [
+        "i3c",
+        "i3c-tdr",
+        "tdb0"
+      ],
+      "chars": 2404,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1761",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.6 \"I3C transmit data byte register (I3C_TDR)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1761.",
+      "section_content": "Address offset: 0x018\nReset value: 0x00000000\nThis register is used to write data bytes to be transmitted over the I3C bus.\nThis register implements a byte-based write access to the transmit FIFO (TX-FIFO), and is\nused when TXTHRES = 0 in the I3C_CFGR register.\nWhen the I3C acts as controller:\n• When TXDMAEN = 1 and if TXTHRES = 0 in the I3C_CFGR register: programmed I3C\nand DMA automatically manage by hardware the relevant and successive writes.\n• When TXDMAEN = 0 and if TXTHRES = 0: before a write, the software must wait to be\nnotified that must be written a next data byte via the TX-FIFO non full flag (TXFNFF = 1\nin the I3C_EVR register) or via the corresponding interrupt if enabled. Last transmitted\nbyte of a given message to be written is also marked with TXLASTF = 1 in the\nI3C_EVR register.\nWhen the I3C acts as target:\n• When TXDMAEN = 1 and if TXTHRES = 0 and if PRELOAD = 1 in the I3C_TGTTDR\nregister: programmed I3C and DMA automatically manage by hardware the relevant\nand successive number of writes to I3C_TDR register, according to TGTTDCNT[15:0]\nin the I3C_TGTDR register.\n• When TXDMAEN = 0 and if TXTHRES = 0:\n– when PRELOAD = 1 in the I3C_TGTTDR register: before a write, the software\nmust wait to be notified that must be written a next data byte via the TX-FIFO non\nfull flag (TXFNFF = 1) or via the corresponding interrupt, if enabled. The last\ntransmitted byte of the initially programmed TGTTDCNT[15:0] is also marked with\nTXLASTF = 1 in the I3C_EVR register.\n– when PRELOAD = 0: before a write, the software must wait to be notified that can\nbe written up to 8 next data bytes (TX-FIFO size) via the TX-FIFO empty flag\n(TXFEF = 1 in the I3C_EVR register), or via the corresponding interrupt if enabled.\nIf the software needs to write another data byte, it must wait for the TX-FIFO be\nempty (TXFEF = 1), and then write this data byte to be transmitted before nine\nSCL clock periods elapse, to avoid a data underrun error flag (ERRF = 1 in the\nI3C_EVR register and DOVR = 1 in the I3C_SER register).\nIf the TX-FIFO is empty and the controller cannot wait longer a data byte to be transmitted,\nthe software is notified by an error flag ERRF = 1 in the I3C_EVR register and a data\nunderrun flag DOF = 1 (and corresponding interrupt if enabled) in the I3C_SER register.\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:0 TDB0[7:0]: 8-bit data to transmit on I3C bus.",
+      "semantic": {
+        "register": "I3C_TDR",
+        "address_offset": "0x018",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "TDB0[7:0]",
+            "description": "8-bit data to transmit on I3C bus.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

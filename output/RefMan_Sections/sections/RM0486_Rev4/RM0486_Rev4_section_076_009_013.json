@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.13",
+      "section_title": "Programming guidelines for Energy Efficient Ethernet (EEE)",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4138,
+      "page_end": 4139,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "eee"
+      ],
+      "chars": 4961,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4138",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.13 \"Programming guidelines for Energy Efficient Ethernet (EEE)\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4138.",
+      "section_content": "Entering and exiting Tx LPI mode\nEEE enables the IEEE 802.3 Media Access Control (MAC) sublayer along with a family of\nphysical layers to operate in the Low-power idle (LPI) mode. In the Transmit path, the\nsoftware must set the LPIEN bit of the LPI control and status register (ETH_MACLCSR) to\nindicate to the MAC to stop transmission and initiate the LPI protocol.\nComplete the following steps during MAC initialization:\n1. Read the PHY register through the MDIO interface and check if the remote end has the\nEEE capability. Then negotiate the timer values.\n2. Program the PHY registers through the MDIO interface (including the\nRX_CLK_stoppable bit that indicates to the PHY whether to stop Rx clock in LPI mode\nor not).\n3. Program bits 25 to 16 and bits 15 to 0 in LPI timers control register (ETH_MACLTCR).\n4. Read the PHY link status by using the MDIO interface and update bit 17 of LPI control\nand status register (ETH_MACLCSR).\nUpdate LPI control and status register (ETH_MACLCSR) accordingly. This update\nshould be done whenever the link status in the PHY chip changes.\n5. Program One-microsecond-tick counter register (ETH_MAC1USTCR) as per the\nfrequency of the clock used for accessing the CSR slave port.\n6. Program the LPIET bit in the LPI entry timer register (ETH_MACLETR) with the IDLE\ntime for which the MAC should wait before entering the LPI state on its own.\n7. Set LPITE and LPITXA (bits 20 to 19) of LPI control and status register\n(ETH_MACLCSR) to enable LPI auto-entry and MAC auto-exit from LPI state.\n8. Set bit 16 of LPI control and status register (ETH_MACLCSR) to put the MAC\ntransmitter in LPI state.\nThe MAC enters the LPI state when all scheduled packets are completed. It remains\nIDLE for the time indicated by LPIET bits. It sets the TLPIEN (bit 0) after entering LPI\nstate.\n9. When a packet transmission is scheduled (when the TxDMA exits IDLE state or when a\npacket is presented at ATI or MTI interface), the MAC transmitter automatically exits\nLPI state. It waits for TWT time before setting the TLPIEX interrupt status bit and then\nresume the packet transmission.\n10. The MAC transmitter enters again LPI state if it remains IDLE for LPIET time. It then\nsets the TLPIEN bit and the entry-exit cycle continues.\n11. Reset LPIEN bit if the application needs to override the auto-entry/exit modes and\ndirectly exit the MAC transmitter from LPI state.\nNote: To make sure the MAC enters the LPI state only after the transmission of all the queued\nframes in the Tx FIFO is complete, set LPITXA bit in LPI control and status register\n(ETH_MACLCSR).\nTo switch off the GMII Transmit clock during the LPI state, use the sbd_tx_clk_gating_ctrl_o\nsignal to gate the clock input.\nTo switch off the CSR clock or power to the rest of the system during the LPI state, wait for\nthe TLPIEN interrupt of LPI control and status register (ETH_MACLCSR) to be generated.\nRestore the clocks before performing step 6 when you want to come out of the LPI state.\nGating Off the CSR Clock in the LPI mode\nYou can gate off the CSR clock to save the power when the MAC is in the Low-Power Idle\n(LPI) mode.\nGating off the CSR clock in the Rx LPI mode\nThe following operations are performed when the MAC receives the LPI pattern from the\nPHY:\n1. The MAC RX enters the LPI mode and the Rx LPI entry interrupt status (RLPIEN\ninterrupt of LPI control and status register (ETH_MACLCSR)) is set.\n2. The interrupt pin (sbd_intr_o) is asserted. The sbd_intr_o interrupt is cleared when the\nhost reads the LPI control and status register (ETH_MACLCSR).\nAfter the sbd_intr_o interrupt is asserted and the MAC Tx is also in the LPI mode, the CSR\nclock can be gated off. If the MAC TX is not in LPI mode when the CSR clock is gated off,\nthe events on the MAC transmitter do not get reported or updated in the CSR. To restore the\nCSR clock, wait for the LPI exit indication from the PHY after which the MAC asserts the LPI\nexit interrupt on lpi_intr_o (synchronous to clk_rx_i). The lpi_intr_o interrupt is cleared when\nLPI control and status register (ETH_MACLCSR) is read.\nGating off the CSR clock in the Tx LPI mode\nThe following operations are performed when bit 16 (LPIEN) of LPI control and status\nregister (ETH_MACLCSR) is set:\n1. The Transmit LPI Entry interrupt (TLPIEN bit of LPI control and status register\n(ETH_MACLCSR)) is set.\n2. The interrupt pin (sbd_intr_o) is asserted. The sbd_intr_o interrupt is cleared when the\nhost reads the LPI control and status register (ETH_MACLCSR).\nAfter the sbd_intr_o interrupt is asserted and the MAC RX is also in the LPI mode, the CSR\nclock can be gated off. If the MAC RX is not in LPI mode when the CSR clock is gated off,\nthe events on the MAC receiver do not get reported or updated in the CSR. To restore the\nCSR clock, switch on the CSR clock when the MAC has exited TX LPI mode. After the CSR\nclock is resumed, reset bit 16 (LPIEN) of LPI control and status register (ETH_MACLCSR)\nto exit the MAC from LPI mode.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S3.7.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.7.1",
+      "section_title": "Life cycle management with readout protection (RDP)",
+      "level": 3,
+      "parent_section": "3.7",
+      "page": 108,
+      "page_end": 110,
+      "semantic_type": "generic",
+      "features": [
+        "rdp",
+        "readout-protection",
+        "security"
+      ],
+      "chars": 3527,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=108",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.7.1 \"Life cycle management with readout protection (RDP)\" in chapter 3 (System security), RM0522 Rev 1, page 108.",
+      "section_content": "The readout protection mechanism (full hardware feature) controls the access to the\ndevices debug, test and provisioned secrets, as summarized in the table below.\n[Table 9. Typical product life cycle phases]\nNote: OEMKEY option byte can be modified when RDP=0 only.\nThe supported transitions, summarized in the following figure can be requested\n(whenavailable) through the debug interface, or via the system bootloader to go to RDP\nL2_wBS or L2. Additionally, through JTAG/SWD under reset, once in L2_wBS or L2, it is\npossible to either progress to L2 or regress to L0.\n[Figure 8. RDP level transition scheme]\nRDP\nlevel 2\nwith BS\nConditioned\nby BSKEY\nRegression to level 0\nconditioned by OEMKEY,\nfull FLASH erase\nRDP RDP\nlevel 2 level 0\nAs shown in the previous figure, the user flash memory is automatically erased, during an\nRDP regression. These regressions can be conditioned on dedicated 128-bit password\nkeys, if provisioned by the OEM (see the next subsection). Duringthe regression from RDP\nL2 or L2_wBS to RDP L0, the FLASH is erased. The OTP area in the flash memory is kept,\nall SRAMS and targeted device secrets are erased. Hence, no secrets must be stored in the\nOTP as they are revealed after a regression toRDP L0. These secrets, also erased as\nresponse to tamper, are defined in Section3.3.3: Tamper detection and response.\nFor more details on RDP, refer to Section6: Embedded flash memory (FLASH).\nRDP unlocking sequences\nThe use of the OEM and BS password keys described in Figure8 is described hereafter.\nNote: The devices support password-based RDP L2 (or L2_wBS) regression to L0. This L2\nregression erases the application code.\nDetails on the password-based regression can be found in the tables below.\n[Table 10. OEM RDP unlocking methods]\n[Table 11. BS RDP locking methods]\n• OEM unlock sequence, starting at RDP L2 or L2_wBS:\n– Shift the password key through JTAG/SWD under reset.\n– If this key matches the OEMKEY provisioned in the device, the device\nautomatically triggers a regression sequence to level 0. After the regression is\ncompleted, a power-on reset has to be performed by the user.\n– In case of mismatch value, the RDP regression is blocked, and RDP L2\nprotections are enforced until the next power-on reset.\n• BS lock sequence, starting at RDP L2_wBS:\n– Shift the password key through JTAG/SWD under reset (see the note below).\nAdefault key is provisioned in ST factory 0xAAAAAAAA. The user can provision a\ncustom one under RDP L0.\n– If this key matches the BSKEY provisioned in the device, the device automatically\ntriggers a progression sequence to L2. After the progression is completed, a\npower-on reset has to be performed by the user.\n– In case of a mismatch value, the RDP progression is blocked until the next power-\non reset.\nNote: Unlocking the device with a password is possible only once per power cycle.\nShifting the OEM password key through JTAG/SWD corresponds to writing four 32-bit key\nwords: AUTH_KEY[31:0], then AUTH_KEY[63:32], AUTH_KEY[95:64], then\nAUTH_KEY[127:96] in the DBGMCU_DBG_AUTH_HOST register.\nShifting the BS password key through JTAG/SWD corresponds to writing a 32-bit key word:\nBS_KEY[31:0] in the DBG_BSKEY_PWD register.\nJTAG 32-bit device specific ID\nUnless the JTAG port is deactivated (OEMLOCK=0 and RDP L2), a 32-bit device specific\nquantity can always be read through the JTAG port. This information is stored\ninDBGMCU_DBG_AUTH_DEVICE.\nThe OEM can use this 32-bit information to derive the expected OEM password keys to\nunlock this specific device.",
+      "semantic": {}
+    }
+  ]
+}

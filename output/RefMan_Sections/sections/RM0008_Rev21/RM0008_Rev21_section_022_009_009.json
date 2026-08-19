@@ -1,0 +1,217 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.9.9",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.9.9",
+      "section_title": "SDIO data control register (SDIO_DCTRL)",
+      "level": 3,
+      "parent_section": "22.9",
+      "page": 612,
+      "page_end": 613,
+      "semantic_type": "register_description",
+      "features": [
+        "dblocksize",
+        "dma",
+        "dmaen",
+        "dtdir",
+        "dtmode",
+        "rwmod",
+        "rwstart",
+        "rwstop",
+        "sdio",
+        "sdio-dctrl",
+        "sdioen"
+      ],
+      "chars": 2329,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=612",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.9.9 \"SDIO data control register (SDIO_DCTRL)\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 612.",
+      "section_content": "Address offset: 0x2C\nReset value: 0x0000 0000\nThe SDIO_DCTRL register control the data path state machine (DPSM).\nBits 31:12 Reserved, must be kept at reset value.\nBit 11 SDIOEN: SD I/O enable functions\nIf this bit is set, the DPSM performs an SD I/O-card-specific operation.\nBit 10 RWMOD: Read wait mode\n0: Read Wait control stopping SDIO_D2\n1: Read Wait control using SDIO_CK\nBit 9 RWSTOP: Read wait stop\n0: Read wait in progress if RWSTART bit is set\n1: Enable for read wait stop if RWSTART bit is set\nBit 8 RWSTART: Read wait start\nIf this bit is set, read wait operation starts.\nBits 7:4 DBLOCKSIZE: Data block size\nDefine the data block length when the block data transfer mode is selected:\n0000: (0 decimal) lock length = 20 = 1 byte\n0001: (1 decimal) lock length = 21 = 2 bytes\n0010: (2 decimal) lock length = 22 = 4 bytes\n0011: (3 decimal) lock length = 23 = 8 bytes\n0100: (4 decimal) lock length = 24 = 16 bytes\n0101: (5 decimal) lock length = 25 = 32 bytes\n0110: (6 decimal) lock length = 26 = 64 bytes\n0111: (7 decimal) lock length = 27 = 128 bytes\n1000: (8 decimal) lock length = 28 = 256 bytes\n1001: (9 decimal) lock length = 29 = 512 bytes\n1010: (10 decimal) lock length = 210 = 1024 bytes\n1011: (11 decimal) lock length = 211 = 2048 bytes\n1100: (12 decimal) lock length = 212 = 4096 bytes\n1101: (13 decimal) lock length = 213 = 8192 bytes\n1110: (14 decimal) lock length = 214 = 16384 bytes\n1111: (15 decimal) reserved\nBit 3 DMAEN: DMA enable bit\n0: DMA disabled.\n1: DMA enabled.\nBit 2 DTMODE: Data transfer mode selection 1: Stream or SDIO multibyte data transfer.\n0: Block data transfer\n1: Stream or SDIO multibyte data transfer on STM32F10xxx XL-density devices.\nStream data transfer on STM32F10xxx high-density devices.\nBit 1 DTDIR: Data transfer direction selection\n0: From controller to card.\n1: From card to controller.\n[0] DTEN: Data transfer enabled bit\nData transfer starts if 1b is written to the DTEN bit. Depending on the direction bit, DTDIR,\nthe DPSM moves to the Wait_S, Wait_R state or Readwait if RW Start is set immediately at\nthe beginning of the transfer. It is not necessary to clear the enable bit after the end of a data\ntransfer but the SDIO_DCTRL must be updated to enable a new data transfer\nNote: At least seven HCLK clock periods are needed between two write accesses to this register.",
+      "semantic": {
+        "register": "SDIO_DCTRL",
+        "address_offset": "0x2C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "SDIOEN",
+            "description": "SD I/O enable functions If this bit is set, the DPSM performs an SD I/O-card-specific operation.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "RWMOD",
+            "description": "Read wait mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Read Wait control stopping SDIO_D2"
+              },
+              {
+                "value": "1",
+                "meaning": "Read Wait control using SDIO_CK"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "RWSTOP",
+            "description": "Read wait stop",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Read wait in progress if RWSTART bit is set"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable for read wait stop if RWSTART bit is set"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "RWSTART",
+            "description": "Read wait start If this bit is set, read wait operation starts.",
+            "values": []
+          },
+          {
+            "bits": "7:4",
+            "name": "DBLOCKSIZE",
+            "description": "Data block size Define the data block length when the block data transfer mode is selected:",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "(0 decimal) lock length = 20 = 1 byte"
+              },
+              {
+                "value": "0001",
+                "meaning": "(1 decimal) lock length = 21 = 2 bytes"
+              },
+              {
+                "value": "0010",
+                "meaning": "(2 decimal) lock length = 22 = 4 bytes"
+              },
+              {
+                "value": "0011",
+                "meaning": "(3 decimal) lock length = 23 = 8 bytes"
+              },
+              {
+                "value": "0100",
+                "meaning": "(4 decimal) lock length = 24 = 16 bytes"
+              },
+              {
+                "value": "0101",
+                "meaning": "(5 decimal) lock length = 25 = 32 bytes"
+              },
+              {
+                "value": "0110",
+                "meaning": "(6 decimal) lock length = 26 = 64 bytes"
+              },
+              {
+                "value": "0111",
+                "meaning": "(7 decimal) lock length = 27 = 128 bytes"
+              },
+              {
+                "value": "1000",
+                "meaning": "(8 decimal) lock length = 28 = 256 bytes"
+              },
+              {
+                "value": "1001",
+                "meaning": "(9 decimal) lock length = 29 = 512 bytes"
+              },
+              {
+                "value": "1010",
+                "meaning": "(10 decimal) lock length = 210 = 1024 bytes"
+              },
+              {
+                "value": "1011",
+                "meaning": "(11 decimal) lock length = 211 = 2048 bytes"
+              },
+              {
+                "value": "1100",
+                "meaning": "(12 decimal) lock length = 212 = 4096 bytes"
+              },
+              {
+                "value": "1101",
+                "meaning": "(13 decimal) lock length = 213 = 8192 bytes"
+              },
+              {
+                "value": "1110",
+                "meaning": "(14 decimal) lock length = 214 = 16384 bytes"
+              },
+              {
+                "value": "1111",
+                "meaning": "(15 decimal) reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "DMAEN",
+            "description": "DMA enable bit",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "DMA enabled."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "DTMODE",
+            "description": "Data transfer mode selection 1: Stream or SDIO multibyte data transfer. Stream data transfer on STM32F10xxx high-density devices.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Block data transfer"
+              },
+              {
+                "value": "1",
+                "meaning": "Stream or SDIO multibyte data transfer on STM32F10xxx XL-density devices."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "DTDIR",
+            "description": "Data transfer direction selection [0] DTEN: Data transfer enabled bit Data transfer starts if 1b is written to the DTEN bit. Depending on the direction bit, DTDIR, the DPSM moves to the Wait_S, Wait_R state or Readwait if RW Start is set immediately at the beginning of the transfer. It is not necessary to clear the enable bit after the end of a data transfer but the SDIO_DCTRL must be updated to enable a new data transfer Note: At least seven HCLK clock periods are needed between two write accesses to this register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "From controller to card."
+              },
+              {
+                "value": "1",
+                "meaning": "From card to controller."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

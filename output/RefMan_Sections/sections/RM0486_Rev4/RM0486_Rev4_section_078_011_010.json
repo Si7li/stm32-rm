@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.11.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.11.10",
+      "section_title": "Cortex-M55 BPU registers",
+      "level": 3,
+      "parent_section": "78.11",
+      "page": 4460,
+      "page_end": 4466,
+      "semantic_type": "generic",
+      "features": [
+        "bpu",
+        "m55"
+      ],
+      "chars": 4664,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4460",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.11.10 \"Cortex-M55 BPU registers\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4460.",
+      "section_content": "The register file base address for the BPU is defined in Table873: Processor ROM table.\nBPU control register (BPU_CTRL)\nAddress offset: 0x000\nReset value: 0x10000080\nBits 31:28 REV[3:0]: BPU architecture revision\n1: Revision 2\nBits 27:15 Reserved, must be kept at reset value.\nBits 14:12 NUM_CODE[6:4]: Instruction address comparator number (three MSBs)\nThis read-only field holds the three MSBs of the number of instruction address comparators\nsupported.\n0x0: the MSBs of the number are all 0.\nBits 11:8 NUM_LIT[3:0]: Number of literal address comparators supported (read-only)\n0x0: No literal comparators supported\nBits 7:4 NUM_CODE[3:0]: Instruction address comparator number (four LSBs)\nThis read-only field holds the four LSBs of the number of instruction address comparators\nsupported.\n0x8: Eight instruction comparators supported\nBits 3:2 Reserved, must be kept at reset value.\nBit 1 KEY: Write protect key\nA write to BPU_CTRL register is ignored if this bit is not set to 1.\nBit 0 ENABLE: BPU enable\n0: Disabled\n1: Enabled\nBPU remap register (BPU_REMAP)\nAddress offset: 0x004\nReset value: 0x00000000\nBits 31:30 Reserved, must be kept at reset value.\nBit 29 RMPSPT: Flash patch remap support (read-only)\n0: Remapping not supported\nBits 28:5 REMAP[23:0]: Not supported\nBits 4:0 Reserved, must be kept at reset value.\nBPU comparator registers (BPU_COMPx)\nAddress offset: 0x008 + 0x4 * x (x = 0 to 7)\nReset value: 0x00000000\nBits 31:1 BPADDR[31:1]: Breakpoint address\nSpecifies bits[31:1] of the breakpoint instruction address.\nBit 0 ENABLE: Comparator enable\nThe comparator is only enabled if both this bit and BPU ENABLE in BPU_CTRL are set.\n0: Disabled\n1: Enabled\nBPU device type architecture register (BPU_DEVARCH)\nAddress offset: 0xFBC\nReset value: 0x4770 1A03\nBits 31:21 ARCHITECT[10:0]: Architect JEDEC code\n0x23B: Arm JEDEC code\nBit 20 PRESENT: DEVARCH register present\n1: Present\nBits 19:16 REVISION[3:0]: Architecture revision\n0x0: BPU architecture v2.0\nBits 15:12 ARCHVER[3:0]: Architecture version\n0x1: BPU architecture v2\nBits 11:0 ARCHPART[11:0]: Architecture\n0xA03: BPU architecture\nBPU CoreSight peripheral identity register 4 (BPU_PIDR4)\nAddress offset: 0xFD0\nReset value: 0x0000 0004\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:4 SIZE[3:0]: Register file size\n0x0: Register file occupies a single 4-Kbyte region.\nBits 3:0 JEP106CON[3:0]: JEP106 continuation code\n0x4: Arm JEDEC code\nBPU CoreSight peripheral identity register 0 (BPU_PIDR0)\nAddress offset: 0xFE0\nReset value: 0x0000 0023\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:0 PARTNUM[7:0]: Part number field, bits [7:0]\n0x23: BPU part number\nBPU CoreSight peripheral identity register 1 (BPU_PIDR1)\nAddress offset: 0xFE4\nReset value: 0x0000 00BD\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:4 JEP106ID[3:0]: JEP106 identity code field, bits [3:0]\n0xB: Arm JEDEC code\nBits 3:0 PARTNUM[11:8]: Part number field, bits [11:8]\n0xD: BPU part number\nBPU CoreSight peripheral identity register 2 (BPU_PIDR2)\nAddress offset: 0xFE8\nReset value: 0x0000000B\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:4 REVISION[3:0]: Component revision number\n0x0: r0p0\nBit 3 JEDEC: JEDEC assigned value\n1: Designer ID specified by JEDEC\nBits 2:0 JEP106ID[6:4]: JEP106 identity code field, bits [6:4]\n0x3: Arm JEDEC code\nBPU CoreSight peripheral identity register 3 (BPU_PIDR3)\nAddress offset: 0xFEC\nReset value: 0x00000000\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:4 REVAND[3:0]: Metal fix version\n0x0: No metal fix\nBits 3:0 CMOD[3:0]: Customer modified\n0x0: No customer modifications\nBPU CoreSight component identity register 0 (BPU_CIDR0)\nAddress offset: 0xFF0\nReset value: 0x0000000D\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:0 PREAMBLE[7:0]: Component ID field, bits [7:0]\n0x0D: Common ID value\nBPU CoreSight component identity register 1 (BPU_CIDR1)\nAddress offset: 0xFF4\nReset value: 0x00000090\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:4 CLASS[3:0]: Component ID field, bits [15:12] - component class\n0x9: BPU\nBits 3:0 PREAMBLE[11:8]: Component ID field, bits [11:8]\n0x0: Common ID value\nBPU CoreSight component identity register 2 (BPU_CIDR2)\nAddress offset: 0xFF8\nReset value: 0x00000005\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:0 PREAMBLE[19:12]: Component ID field, bits [23:16]\n0x05: Common ID value\nBPU CoreSight component identity register 3 (BPU_CIDR3)\nAddress offset: 0xFFC\nReset value: 0x000000B1\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:0 PREAMBLE[27:20]: Component ID field, bits [31:24]\n0xB1: Common ID value\nBPU register map\n[Table 878. BPU register map and reset values]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.3.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.3.5",
+      "section_title": "SPDIFRX synchronization",
+      "level": 3,
+      "parent_section": "69.3",
+      "page": 3577,
+      "page_end": 3579,
+      "semantic_type": "generic",
+      "features": [
+        "spdifrx"
+      ],
+      "chars": 3034,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3577",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.3.5 \"SPDIFRX synchronization\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3577.",
+      "section_content": "The synchronization phase starts when setting SPDIFRXEN to 01 or 11. Figure944 shows\nthe synchronization process.\nIf the bit WFA of SPDIFRX_CR register is set to 1, then the peripheral must first detect\nactivity on the selected SPDIFRX_IN line before starting the synchronization process. The\nactivity detection is performed by detecting four transitions on the selected SPDIFRX_IN.\nThe peripheral remains in this state until transitions are not detected. This function can be\nparticularly helpful because the SPDIFRX switches in COARSE SYNC mode only if activity\nis present on the selected SPDIFRX_IN input, avoiding synchronization errors. See\nSection69.4 for additional information.\nThe user can still set the SPDIFRX into STATE_IDLE by setting SPDIFRXEN to 0. If the\nWFA is set to 0, the peripheral starts the coarse synchronization without checking activity.\nThe next step consists on doing a first estimate of the thresholds (COARSE SYNC), in order\nto perform the fine synchronization (FINE SYNC). Due to disturbances of the SPDIFRX line,\nit can happen that the process is not executed first time right. For this purpose, the user can\nprogram the number of allowed re-tries (NBTR) before setting SERR error flag.\nWhen the SPDIFRX is able to measure properly the duration of 24 and 40 consecutive\nsymbols then the FINE SYNC is completed, the threshold values are updated, and the flag\nSYNCD is set to 1. Refer to Transition coder and preamble detector for additional\ninformation.\nTwo kinds of errors are detected:\n• An overflow of the TRCNT, which generally means that there is no valid S/PDIF stream\nin the input line. This overflow is indicated by TERR flag.\n• The number of retries reached the programmed value. This means that strong jitter is\npresent on the S/PDIF signal. This error is indicated by SERR flag.\nWhen the first FINE SYNC is completed, the reception of channel status (C) and user data\n(U) starts when the next “B” preamble is detected (see Figure948).Then the user can read\nIEC-60958 C and U bits through SPDIFRX_CSR register. According to this information the\nuser can then select the proper settings for DRFMT and RXSTEO. For example if the user\ndetects that the current audio stream transports encoded data, then he can put RXSTEO to\n0, and DRFMT to 10 prior to start data reception. Note that DRFMT and RXSTEO cannot be\nmodified when SPDIFRXEN = 11. Writes to these fields are ignored if SPDIFRXEN is\nalready 11, though these field can be changed with the same write instruction that causes\nSPDIFRXEN to become 11. Then the SPDIFRX waits for SPDIFRXEN = 11 and the “B”\npreamble before starting saving audio samples.\n[Figure 944. Synchronization flowchart]\nRefer to Frame structure and synchronization error for additional information concerning\nTRCNT overflow.\nThe FINE SYNC process is re-triggered every frame in order to update thresholds as shown\nin Figure945 in order to continuously track S/PDIF synchronization.\n[Figure 945. Synchronization process scheduling]\nS T Transition Search (optional phase)",
+      "semantic": {}
+    }
+  ]
+}

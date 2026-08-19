@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.3.8",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.3.8",
+      "section_title": "Disabling the SPI",
+      "level": 3,
+      "parent_section": "25.3",
+      "page": 718,
+      "page_end": 718,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2018,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=718",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.3.8 \"Disabling the SPI\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 718.",
+      "section_content": "When a transfer is terminated, the application can stop the communication by disabling the\nSPI peripheral. This is done by clearing the SPE bit.\nFor some configurations, disabling the SPI and entering the Halt mode while a transfer is\nongoing can cause the current transfer to be corrupted and/or the BSY flag might become\nunreliable.\nTo avoid any of those effects, it is recommended to respect the following procedure when\ndisabling the SPI:\nIn master or slave full-duplex mode (BIDIMODE=0, RXONLY=0)\n1. Wait until RXNE=1 to receive the last data\n2. Wait until TXE=1\n3. Then wait until BSY=0\n4. Disable the SPI (SPE=0) and, eventually, enter the Halt mode (or disable the peripheral\nclock)\nIn master or slave unidirectional transmit-only mode (BIDIMODE=0,\nRXONLY=0) or bidirectional transmit mode (BIDIMODE=1, BIDIOE=1)\nAfter the last data is written into the SPI_DR register:\n1. Wait until TXE=1\n2. Then wait until BSY=0\n3. Disable the SPI (SPE=0) and, eventually, enter the Halt mode (or disable the peripheral\nclock)\nIn master unidirectional receive-only mode (MSTR=1, BIDIMODE=0,\nRXONLY=1) or bidirectional receive mode (MSTR=1, BIDIMODE=1, BIDIOE=0)\nThis case must be managed in a particular way to ensure that the SPI does not initiate a\nnew transfer:\n1. Wait for the second to last occurrence of RXNE=1 (n–1)\n2. Then wait for one SPI clock cycle (using a software loop) before disabling the SPI\n(SPE=0)\n3. Then wait for the last RXNE=1 before entering the Halt mode (or disabling the\nperipheral clock)\nNote: In master bidirectional receive mode (MSTR=1 and BDM=1 and BDOE=0), the BSY flag is\nkept low during transfers.\nIn slave receive-only mode (MSTR=0, BIDIMODE=0, RXONLY=1) or\nbidirectional receive mode (MSTR=0, BIDIMODE=1, BIDOE=0)\n1. You can disable the SPI (write SPE=1) at any time: the current transfer will complete\nbefore the SPI is effectively disabled\n2. Then, if you want to enter the Halt mode, you must first wait until BSY = 0 before\nentering the Halt mode (or disabling the peripheral clock).",
+      "semantic": {}
+    }
+  ]
+}

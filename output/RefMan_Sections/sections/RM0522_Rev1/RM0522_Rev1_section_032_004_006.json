@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S32.4.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "32",
+      "chapter_title": "General-purpose timers(TIM2/TIM3/TIM4/TIM5)",
+      "section": "32.4.6",
+      "section_title": "Clock selection",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1154,
+      "page_end": 1158,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "timer"
+      ],
+      "chars": 4516,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1154",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.6 \"Clock selection\" in chapter 32 (General-purpose timers(TIM2/TIM3/TIM4/TIM5)), RM0522 Rev 1, page 1154.",
+      "section_content": "The counter clock can be provided by the following clock sources:\n• Internal clock (tim_ker_ck).\n• External clock mode1: external input pin (tim_ti1 or tim_ti2).\n• External clock mode2: external trigger input (tim_etr_in).\n• Internal trigger inputs (tim_itr): using one timer as prescaler for another timer, for\nexample, timer 1 can be configured to act as a prescaler for timer 2. Refer to Using one\ntimer as prescaler for another timer for more details.\nInternal clock source (tim_ker_ck)\nIf the slave mode controller is disabled (SMS = 000 in the TIM_SMCR register), then the\nCEN, DIR (in the TIM_CR1 register), and UG bits (in the TIM_EGR register) are actual\ncontrol bits and can be changed only by software (except UG which remains cleared\nautomatically). As soon as the CEN bit is written to 1, the prescaler is clocked by the internal\nclock tim_ker_ck.\nFigure346 shows the behavior of the control circuit and the upcounter in normal mode,\nwithout prescaler.\n[Figure 346. Control circuit in normal mode, internal clock divided by 1]\nExternal clock source mode 1\nThis mode is selected when SMS = 111 in the TIM_SMCR register. The counter can count at\neach rising or falling edge on a selected input.\n[Figure 347. tim_ti2 external clock connection example]\nTIM_CH2 tim_ti1f_ed 00100 tim_trgi External clock\ntim_ti2 ti _ m in _ [ t 1 i2 5 _ :1 in ] 0 tim_ti2 Filter de E t d e g c e tor t t i i m m _ _ t t i i 2 2 f f _ _ f r a is il i i n n g g 0 1 t t e i i m m tr _ _ f t t i i 1 2 f f p p 2 2 0 0 0 0 0 0 1 1 1 1 1 0 1 0 1 tim_etrf E m m x o o t d d e e e rn 2 1 al clock tim_psc_ck\n(1) tim_ker_ck Internal clock\nICF[3:0] CC2P (internal clock) mode\nTIM_CCMR1 TIM_CCER\nECE SMS[2:0]\nTIM_SMCR\nFor example, to configure the upcounter to count in response to a rising edge on the tim_ti2\ninput, use the following procedure:\n1. Select the proper tim_ti2_in[15:0] source (internal or external) with the TI2SEL[3:0] bits\nin the TIM_TISEL register.\n2. Configure channel 2 to detect rising edges on the tim_ti2 input by writing CC2S= 01 in\nthe TIM_CCMR1 register.\n3. Configure the input filter duration by writing the IC2F[3:0] bits in the TIM_CCMR1\nregister (if no filter is needed, keep IC2F = 0000).\nNote: The capture prescaler is not used for triggering, so it does not need to be configured.\n4. Select rising edge polarity by writing CC2P = 0 and CC2NP = 0 in the TIM_CCER\nregister.\n5. Configure the timer in external clock mode 1 by writing SMS = 111 in the TIM_SMCR\nregister.\n6. Select tim_ti2 as the input source by writing TS = 00110 in the TIM_SMCR register.\n7. Enable the counter by writing CEN = 1 in the TIM_CR1 register.\nWhen a rising edge occurs on tim_ti2, the counter counts once and the TIF flag is set.\nThe delay between the rising edge on tim_ti2 and the actual clock of the counter is due to\nthe resynchronization circuit on tim_ti2 input.\n[Figure 348. Control circuit in external clock mode 1]\nExternal clock source mode 2\nThis mode is selected by writing ECE = 1 in the TIM_SMCR register.\nThe counter can count at each rising or falling edge on the external trigger input tim_etr_in.\nFigure349 gives an overview of the external trigger input block.\n[Figure 349. External trigger input block]\n1. Refer to Section32.4.2: TIM2/TIM3/TIM4/TIM5 pins and internal signals\nFor example, to configure the upcounter to count each two rising edges on tim_etr_in, use\nthe following procedure:\n1. Select the proper tim_etr_in source (internal or external) with the ETRSEL[4:0] bits in\nthe TIM_AF1 register.\n2. As no filter is needed in this example, write ETF[3:0] = 0000 in the TIM_SMCR register.\n3. Set the prescaler by writing ETPS[1:0] = 01 and SETPS[3:0] = 0 in the TIM_SMCR\nregister.\n4. Select rising edge detection on the tim_etr_in by writing ETP = 0 in the TIM_SMCR\nregister.\n5. Enable external clock mode 2 by writing ECE = 1 in the TIM_SMCR register.\n6. Enable the counter by writing CEN = 1 in the TIM_CR1 register.\nThe counter counts once each two tim_etr_in rising edges.\nThe delay between the rising edge on tim_etr_in and the actual clock of the counter is due\nto the resynchronization circuit on the tim_etrp signal. As a consequence, the maximum\nfrequency that can be correctly captured by the counter is at most ¼ of TIMxCLK frequency.\nWhen the ETRP signal is faster, the user must apply a division of the external signal by a\nproper ETPS prescaler setting.\n[Figure 350. Control circuit in external clock mode 2]\ntim_etr_in\ntim_etrp\ntim_etrf\ntim_cnt_ck\ntim_psc_ck\nCounter register 34 35 36",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.14.100",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.14.100",
+      "section_title": "DCMIPP Pipe1 current flow selection configuration register (DCMIPP_P1CFSCR)",
+      "level": 3,
+      "parent_section": "39.14",
+      "page": 1966,
+      "page_end": 1967,
+      "semantic_type": "register_description",
+      "features": [
+        "dcmipp",
+        "dcmipp-p1cfscr",
+        "dtida",
+        "dtidb",
+        "dtmode",
+        "fdtf",
+        "fdtfen",
+        "pipediff",
+        "pipen"
+      ],
+      "chars": 2271,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1966",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.14.100 \"DCMIPP Pipe1 current flow selection configuration register (DCMIPP_P1CFSCR)\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1966.",
+      "section_content": "Address offset: 0xA04\nReset value: 0x0000 0000\nBit 31 PIPEN: Current activation of PipeN\n0: Pipe disabled\n1: Pipe enabled, can start capturing with CPTMODE, CPTREQ, CPTACK.\nBit 30 FDTFEN: Current force data type format enable\n0: Disable force data type format. The data type format used by the pipe is the one defined\ninto DTIDx\n1: Enable force data type format. When the data type DTIDx is detected by the pipe, the real\npixel format considering by the pipe is the one set into the FDTF[5:0] bit field instead of the\nphysical one received by the CSI2 host. It allows to handle, for instance, 3D sensors camera\nwith user data type in bottom-up approach, and to explicitly define the pixel format to be\nhandled by the pipe.\nBits 29:24 FDTF[5:0]: Current force data type format\nForcing the data type format. This data type overwrites the one received by the CSI2-HOST\nby specifying the pixel format to consider. The value must follow the CSI2 data type format\ndefinition in the CSI2 standard. This bit field has no meaning if the FDTFEN bit is cleared.\nBits 23:21 Reserved, must be kept at reset value.\nBits 20:19 VC[1:0]: Current flow selection mode\nVirtual channel ID of the CSI flow to select for further processing on the pipe.\nBit 18 PIPEDIFF: Current differentiates Pipe2 vs. Pipe1\n0: Pipe2 gets Pipe1 pixels after their processing in shared Gamma, StatRemoval,\nDemosaicing. Pipe2 shares the same VC DTID of Pipe1 when a CSI2 camera sensor is\nplugged.\n1: Pipe1 gets pixels from only VC/DTID configured in Pipe1, processed by all including\nGamma, StatRemoval, Demosaicing. Pipe2 gets pixels from only VC/DTID configured in\nPipe2, processed from Crop only (Gamma common with Pipe1, no StatRem, no\ndemosaicing)\nBits 17:16 DTMODE[1:0]: Flow selection mode\n00: Only flow DTID A from the selected virtual channel is forwarded in the pipe.\n01: Flows DTIDA and DTIDB from the selected virtual channel are forwarded in the pipe.\nThis combination is valid only if the FDTFEN bit is set.\nOther values: Reserved.\nBits 15:14 Reserved, must be kept at reset value.\nBits 13:8 DTIDB[5:0]: Current data type ID B\nData type ID of the CSI flow to select.\nBits 7:6 Reserved, must be kept at reset value.\nBits 5:0 DTIDA[5:0]: Current data type ID A\nData type ID of the CSI flow to select.",
+      "semantic": {
+        "register": "DCMIPP_P1CFSCR",
+        "address_offset": "0xA04",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "PIPEN",
+            "description": "Current activation of PipeN",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Pipe disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Pipe enabled, can start capturing with CPTMODE, CPTREQ, CPTACK."
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "FDTFEN",
+            "description": "Current force data type format enable into DTIDx pixel format considering by the pipe is the one set into the FDTF[5:0] bit field instead of the physical one received by the CSI2 host. It allows to handle, for instance, 3D sensors camera with user data type in bottom-up approach, and to explicitly define the pixel format to be handled by the pipe.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable force data type format. The data type format used by the pipe is the one defined"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable force data type format. When the data type DTIDx is detected by the pipe, the real"
+              }
+            ]
+          },
+          {
+            "bits": "29:24",
+            "name": "FDTF[5:0]",
+            "description": "Current force data type format Forcing the data type format. This data type overwrites the one received by the CSI2-HOST by specifying the pixel format to consider. The value must follow the CSI2 data type format definition in the CSI2 standard. This bit field has no meaning if the FDTFEN bit is cleared.",
+            "values": []
+          },
+          {
+            "bits": "23:21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20:19",
+            "name": "VC[1:0]",
+            "description": "Current flow selection mode Virtual channel ID of the CSI flow to select for further processing on the pipe.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "PIPEDIFF",
+            "description": "Current differentiates Pipe2 vs. Pipe1 Demosaicing. Pipe2 shares the same VC DTID of Pipe1 when a CSI2 camera sensor is plugged. Gamma, StatRemoval, Demosaicing. Pipe2 gets pixels from only VC/DTID configured in Pipe2, processed from Crop only (Gamma common with Pipe1, no StatRem, no demosaicing)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Pipe2 gets Pipe1 pixels after their processing in shared Gamma, StatRemoval,"
+              },
+              {
+                "value": "1",
+                "meaning": "Pipe1 gets pixels from only VC/DTID configured in Pipe1, processed by all including"
+              }
+            ]
+          },
+          {
+            "bits": "17:16",
+            "name": "DTMODE[1:0]",
+            "description": "Flow selection mode This combination is valid only if the FDTFEN bit is set. Other values: Reserved.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Only flow DTID A from the selected virtual channel is forwarded in the pipe."
+              },
+              {
+                "value": "01",
+                "meaning": "Flows DTIDA and DTIDB from the selected virtual channel are forwarded in the pipe."
+              }
+            ]
+          },
+          {
+            "bits": "15:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:8",
+            "name": "DTIDB[5:0]",
+            "description": "Current data type ID B Data type ID of the CSI flow to select.",
+            "values": []
+          },
+          {
+            "bits": "7:6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5:0",
+            "name": "DTIDA[5:0]",
+            "description": "Current data type ID A Data type ID of the CSI flow to select.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

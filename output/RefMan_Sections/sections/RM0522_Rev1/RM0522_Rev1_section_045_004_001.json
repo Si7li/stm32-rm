@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.4.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.4.1",
+      "section_title": "SPI block diagram",
+      "level": 3,
+      "parent_section": "45.4",
+      "page": 1947,
+      "page_end": 1948,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2083,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1947",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.4.1 \"SPI block diagram\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1947.",
+      "section_content": "The SPI enables synchronous, serial communications between the MCU and external\ndevices. The application software can manage the communication by polling the status flag\nor using a dedicated SPI interrupt. The main SPI elements and their interactions are shown\nin Figure660.\n[Figure 660. SPI/I2S block diagram]\nSPI/I2S\nspi_pclk_req\nRDY\nspi_tx_dma\nNSS /\nMOSI / SDO\nMISO / SDI\nSCK / CK\nspi_pclk\nclock domain\nspi_ker_ck clock domain\nspi_ker_ck\nspi_ker_ck_req\nBold: I2S signal names\nThe simplified scheme of Figure660 shows three fully independent clock domains:\n• The spi_pclk clock domain\n• The spi_ker_ck kernel clock domain\n• The serial interface clock domain\nAll the control and status signals between these domains are strictly synchronized. There is\nno specific constraint concerning the frequency ratio between these clock signals. The user\nhas to consider a ratio compatible with the data flow speed to avoid data underrun or\noverrun events.\nThe spi_pclk clock signal feeds the peripheral bus interface. It must be active when\naccesses to the SPI registers are required.\nThe SPI working in slave mode handles a data flow using the serial interface clock derived\nfrom the external SCK signal provided by the external master SPI device. That is why the\nSPI slave is able to receive and send data even when the spi_pclk and spi_ker_ck clock\nsignals are inactive. As a consequence, a specific slave logic working within the serial\ninterface clock domain needs some additional traffic to be set up correctly (for example\nwhen underrun or overrun is evaluated, see Section45.5.2 for details). This cannot be done\nwhen the bus becomes idle. In some specific cases, the slave even requires the clock\ngenerator working (see Section45.5.1).\nWhen the SPI works as a master, the RCC must provide the spi_ker_ck kernel clock to the\nperipheral during communication to feed the serial interface clock via the clock generator\nwhere it can be divided by prescaler or bypassed. The signal is then provided to the slaves\nvia the SCK pin and internally to the serial interface domain of the master.",
+      "semantic": {}
+    }
+  ]
+}

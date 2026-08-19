@@ -1,0 +1,127 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.22",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.22",
+      "section_title": "I3C timing register 2 (I3C_TIMINGR2)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3268,
+      "page_end": 3268,
+      "semantic_type": "register_description",
+      "features": [
+        "i3c",
+        "i3c-timingr2",
+        "stall",
+        "stalla",
+        "stallc",
+        "stalld",
+        "stallt"
+      ],
+      "chars": 1795,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3268",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.22 \"I3C timing register 2 (I3C_TIMINGR2)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3268.",
+      "section_content": "Address offset: 0x0A8\nReset value: 0x00000000\nWhen the I3C acts as controller, this register is used to configure and enable SCL clock\nstalling, to enable SCL clock low stalling, if needed by the addressed I3C or legacy I2C\ntarget(s).\nThis register can be written only when the I3C acts as controller.\nBits 31:16 Reserved, must be kept at reset value.\nBits 15:8 STALL[7:0]: Controller clock stall time, in number of kernel clock cycles\ntSCLL_STALL=STALL x tI3CCLK\nBits 7:4 Reserved, must be kept at reset value.\nBit 3 STALLA: Controller clock stall enable on ACK phase\nThe SCL is stalled (during tSCLL_STALLas defined by STALL) in the address ACK/NACK\nphase (before the ninth bit). This allows the target to prepare data. The ACK driven by the\ncontroller itself on a target-initiated request (IBI/HJ/CR) is not impacted by this control bit.\n0: no stall\n1: stall enabled\nBit 2 STALLC: Controller clock stall enable on PAR phase of CCC\nThe SCL is stalled during STALLxtSCLL_PP in the T-bit phase of common command code\n(before the ninth bit). This allows the target to decode the command.\n0: no stall\n1: stall enabled\nNote: tSCLL_PP=(I3C_TIMINGR0.SCLL_PP[7:0]+1)xtI3CCLK\nBit 1 STALLD: Controller clock stall enable on PAR phase of Data\nThe SCL is stalled during STALLxtSCLL_PP in the T-bit phase (before the ninth bit). This allows\nthe target to read received data.\n0: no stall\n1: stall enabled\nNote: tSCLL_PP=(I3C_TIMINGR0.SCLL_PP[7:0]+1)xtI3CCLK\nBit 0 STALLT: Controller clock stall enable on T-bit phase of data (and on the ACK/NACK phase of\ndata byte of a legacy I2C read)\nThe SCL is stalled during STALLxtSCLL_PP in the T-bit phase (before the ninth bit). This\nallows the target to prepare the data to be sent.\n0: no stall\n1: stall enabled\nNote: tSCLL_PP=(I3C_TIMINGR0.SCLL_PP[7:0]+1)xtI3CCLK",
+      "semantic": {
+        "register": "I3C_TIMINGR2",
+        "address_offset": "0x0A8",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "STALL[7:0]",
+            "description": "Controller clock stall time, in number of kernel clock cycles tSCLL_STALL=STALL x tI3CCLK",
+            "values": []
+          },
+          {
+            "bits": "7:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "STALLA",
+            "description": "Controller clock stall enable on ACK phase The SCL is stalled (during tSCLL_STALLas defined by STALL) in the address ACK/NACK phase (before the ninth bit). This allows the target to prepare data. The ACK driven by the controller itself on a target-initiated request (IBI/HJ/CR) is not impacted by this control bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no stall"
+              },
+              {
+                "value": "1",
+                "meaning": "stall enabled"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "STALLC",
+            "description": "Controller clock stall enable on PAR phase of CCC The SCL is stalled during STALLxtSCLL_PP in the T-bit phase of common command code (before the ninth bit). This allows the target to decode the command. Note: tSCLL_PP=(I3C_TIMINGR0.SCLL_PP[7:0]+1)xtI3CCLK",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no stall"
+              },
+              {
+                "value": "1",
+                "meaning": "stall enabled"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "STALLD",
+            "description": "Controller clock stall enable on PAR phase of Data The SCL is stalled during STALLxtSCLL_PP in the T-bit phase (before the ninth bit). This allows the target to read received data. Note: tSCLL_PP=(I3C_TIMINGR0.SCLL_PP[7:0]+1)xtI3CCLK",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no stall"
+              },
+              {
+                "value": "1",
+                "meaning": "stall enabled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "STALLT",
+            "description": "Controller clock stall enable on T-bit phase of data (and on the ACK/NACK phase of data byte of a legacy I2C read) The SCL is stalled during STALLxtSCLL_PP in the T-bit phase (before the ninth bit). This allows the target to prepare the data to be sent. Note: tSCLL_PP=(I3C_TIMINGR0.SCLL_PP[7:0]+1)xtI3CCLK",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no stall"
+              },
+              {
+                "value": "1",
+                "meaning": "stall enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S56.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "56",
+      "chapter_title": "General-purpose timers (TIM9/TIM10/TIM11/TIM12/TIM13/TIM14)",
+      "section": "56.4.11",
+      "section_title": "PWM mode",
+      "level": 3,
+      "parent_section": "56.4",
+      "page": 2777,
+      "page_end": 2781,
+      "semantic_type": "generic",
+      "features": [
+        "pwm",
+        "timer"
+      ],
+      "chars": 4361,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2777",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 56.4.11 \"PWM mode\" in chapter 56 (General-purpose timers (TIM9/TIM10/TIM11/TIM12/TIM13/TIM14)), RM0486 Rev 4, page 2777.",
+      "section_content": "Pulse width modulation mode is used to generate a signal with a frequency determined by\nthe value of the TIMx_ARR register and a duty cycle determined by the value of the\nTIMx_CCRx register.\nThe PWM mode can be selected independently on each channel (one PWM per tim_ocx\noutput) by writing 0110 (PWM mode 1) or 0111 (PWM mode 2) in the OCxM bits in the\nTIMx_CCMRx register. The corresponding preload register must be enabled by setting the\nOCxPE bit in the TIMx_CCMRx register, and eventually the autoreload preload register (in\nupcounting or center-aligned modes) by setting the ARPE bit in the TIMx_CR1 register.\nAs the preload registers are transferred to the shadow registers only when an update event\noccurs, before starting the counter, all registers must be initialized by setting the UG bit in\nthe TIMx_EGR register.\nThe tim_ocx polarity is software programmable using the CCxP bit in the TIMx_CCER\nregister. It can be programmed as active high or active low. The tim_ocx output is enabled\nby the CCxE bit in the TIMx_CCER register. Refer to the TIMx_CCERx register description\nfor more details.\nIn PWM mode (1 or 2), TIMx_CNT and TIMx_CCRx are always compared to determine\nwhether TIMx_CNT ≤ TIMx_CCRx.\nThe timer is able to generate PWM in edge-aligned mode only since the counter is\nupcounting.\nIn the following example, the user considers PWM mode 1. The reference PWM signal\ntim_ocxref is high as long as TIMx_CNT < TIMx_CCRx else it becomes low. If the compare\nvalue in TIMx_CCRx is greater than the autoreload value (in TIMx_ARR) then tim_ocxref is\nheld at 1. If the compare value is 0 then tim_ocxref is held at 0. Figure705 shows some\nedge-aligned PWM waveforms in an example where TIMx_ARR = 8.\n[Figure 705. Edge-aligned PWM waveforms (ARR = 8)]\nDithering mode\nThe PWM mode effective resolution can be increased by enabling the dithering mode, using\nthe DITHEN bit in the TIMx_CR1 register. This applies to both the CCR (for duty cycle\nresolution increase) and ARR (for PWM frequency resolution increase).\nThe operating principle is to have the actual CCR (or ARR) value slightly changed (adding\nor not one timer clock period) over 16 consecutive PWM periods, with predefined patterns.\nThis allows a 16-fold resolution increase, considering the average duty cycle or PWM\nperiod. Figure706 presents the dithering principle applied to four consecutive PWM cycles.\n[Figure 706. Dithering principle]\nWhen the dithering mode is enabled, the register coding is changed as follows (see\nFigure707 for example):\n• The four LSBs are coding for the enhanced resolution part (fractional part).\n• The MSBs are left-shifted to the bits 19:4 and are coding for the base value.\nNote: The following sequence must be followed when resetting the DITHEN bit:\n1. CEN and ARPE bits must be reset\n2. The DITHEN bit must be reset\n3. The CCIF flags must be cleared\n4. The CEN bit can be set (eventually with ARPE = 1).\n[Figure 707. Data format and register coding in dithering mode]\nb19 b0\nb19 b0\nExample\nBase compare value is 20 during 16 periods Additional 6 cycles are spread over the\n16 periods\nThe minimum frequency is given by the following formula:\n-- F --\nF ----\n-T--\n--i-m-\nT--\n-i--m\n---⇒ FpwmMin =\nResolution =\n------\n----\n---\n---\n--- F -\n---T\n---i-\nm---\nDithering mode disabled: FpwmMin =\n6\n5\n5\n3\n6\n-- F -\n---T-\n--i--m-\nDithering mode enabled: FpwmMin =\n----\n---\n-----\n1-\n-5\n6\n5\n5\n3\n5\n16\nNote: The maximum TIMx_ARR and TIMxCCRy values are limited to 0xFFFEF in dithering mode\n(corresponds to 65534 for the integer part and 15 for the dithered part).\nAs shown on Figure708, the dithering mode is used to increase the PWM resolution\nwhatever the PWM frequency.\n[Figure 708. PWM resolution vs frequency]\nThe duty cycle and/or period changes are spread over 16 consecutive periods, as described\nin Figure709.\n[Figure 709. PWM dithering pattern]\nCCR1 value 322\nCompare1 value 21 20 20 20 20 20 20 20 21 20 20 20 20 20 20 20\nCCR2 value 326\nCompare2value 21 20 21 20 21 20 20 20 21 20 21 20 21 20 20 20\nARR value 643\nAuto-Reload\nvalue 41 40 40 40 41 40 40 40 41 40 40 40 40 40 40 40\nThe autoreload and compare values increments are spread following specific patterns\ndescribed in Table531. The dithering sequence is done to have increments distributed as\nevenly as possible and minimize the overall ripple.\n[Table 531. CCR and ARR register change dithering pattern]",
+      "semantic": {}
+    }
+  ]
+}

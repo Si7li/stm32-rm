@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.10.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.10.1",
+      "section_title": "AP0 registers",
+      "level": 3,
+      "parent_section": "78.10",
+      "page": 4397,
+      "page_end": 4400,
+      "semantic_type": "generic",
+      "features": [
+        "ap0"
+      ],
+      "chars": 3026,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4397",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.10.1 \"AP0 registers\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4397.",
+      "section_content": "Access port 0 control/status word register (AP0_CSW)\nAddress offset: 0x0\nReset value: 0x8000 0002\nBit 31 DBGSWENABLE: Software debug enable\nThis bit enables or disables software access to the APB bus via the APB interconnect. It must\nalways be set to 1 to enable software access to the DBGMCU.\n0 Disable software access.\n1 Enable software access.\nBits 30:12 Reserved, must be kept at reset value.\nBits 11:8 MODE[3:0]: Mode of operation\n0x0: Normal download or upload model.\nOthers: reserved\nBit 7 TRINPROG: Transfer in progress\nThis bit indicates that an AP bus transfer is in progress.\n0: No transfer in progress\n1: Bus transfer in progress\nBit 6 DEVICEEN: Device enable\nThis bit defines whether the AP can be accessed or not.\n1: AP access enabled\nBits 5:4 ADDRINC[1:0]: Auto-increment mode bits\nThese bits define whether the TAR address is automatically incremented after a transaction.\n0x0: No auto-increment\n0x1: Address is incremented by the size in bytes of the transaction (SIZE in this register).\nOthers: reserved\nBit 3 Reserved, must be kept at reset value.\nBits 2:0 SIZE[2:0]: Size of next memory access transaction\n0x2: Word (32-bit)\nAP0 transfer address register (AP0_TAR)\nAddress offset: 0x04\nReset value: 0x00000000\nBits 31:0 ADDRESS[31:0]: address of the current transfer\nAP0 data read/write register (AP0_DRW)\nAddress offset: 0x0C\nReset value: 0x00000000\nBits 31:0 DATA[31:0]: read/write data for current transfer\nIn write mode, this is the write data value. In read mode, this is the read data value.\nAP0 banked data register x (AP0_BDx)\nAddress offset: 0x10 + 0x4 * x (x = 0 to 3)\nReset value: 0x00000000\nBits 31:0 DATA[31:0]: Read/write data for current transfer\nThe transaction address is TAR[31:4]<<4+ 0x4 *x.\nAP0 base address register (AP0_BASE)\nAddress offset: 0xF8\nReset value: 0x8000 0003\nBits 31:12 BASEADDR[19:0]: Base address (bits 31 to 12) of the AP ROM table\nThe twelve LSBs are 0 since the ROM table must be aligned on a 4-Kbyte boundary.\n0x80000: ROM table base address is 0x8000 0000\nBits 11:2 Reserved, must be kept at reset value.\nBit 1 FORMAT: Base-address register format\n1: Arm debug interface v5\nBit 0 ENTRYPRESENT: Debug component present status\nThis bit indicates that debug components are present on the access port bus:\n1: Debug components are present.\nAP0 identification register (AP0_IDR)\nAddress offset: 0xFC\nReset value: 0x5477 0002 (AP0)\nBits 31:28 REVISION[3:0]: Arm core revision\n0x5: r1p0\nBits 27:24 JEDECBANK[3:0]: JEDEC bank\n0x4: Arm\nBits 23:17 JEDECCODE[6:0]: JEDEC code\n0x3B: Arm\nBit 16 MEMAP: Memory access port\n1: Standard register map\nBits 15:8 Reserved, must be kept at reset value.\nBits 7:0 IDENTITY[7:0]: AP type identification\n0x02: APB-AP\nAP0 register map\nThese registers are not on the CPU memory bus. They are only accessed through SW-DP\nand JTAG-DP debug interfaces.\nThe access port address is 8-bit wide, defined by APBANKSEL[3:0] in DP_SELECT and by\nJTAG-DP register DPACC or SW-DP packet request A[3:2] field.\n[Table 867. AP0 register map and reset values]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.10.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.10.3",
+      "section_title": "Transmit descriptor",
+      "level": 3,
+      "parent_section": "76.10",
+      "page": 4151,
+      "page_end": 4162,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 3598,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4151",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.10.3 \"Transmit descriptor\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4151.",
+      "section_content": "The Ethernet peripheral DMA requires at least one descriptor for a transmit packet. In addi-\ntion to two buffers, two byte-count buffers, and two address pointers, the transmit descriptor\nfeatures control fields which can be used to manage the MAC operation on per-transmit\npacket basis. The Transmit normal descriptor has the following two formats: Read format\nand Write-back format.\nTransmit normal descriptor (read format)\nFigure1064 shows the Read format for Transmit normal descriptor. Table821 to Table824\nprovide a detailed description of all Transmit normal descriptors (read format).\n[Figure 1064. Transmit descriptor (read format)]\n• TDES0 normal descriptor (read format)\n[Table 821. TDES0 normal descriptor (read format)]\n• TDES1 normal descriptor (read format)\n[Table 822. TDES1 normal descriptor (read format)]\n• TDES2 normal descriptor (read format)\n[Table 823. TDES2 normal descriptor (read format)]\n• TDES3 normal descriptor (read format)\nFT/L\n[Table 824. TDES3 normal descriptor (read format)]\nTransmit normal descriptor (write-back format)\nThe write-back format is applicable only for the last descriptor of the corresponding packet.\nThe LD bit (TDES3[28]) is set in the descriptor where the DMA writes back the status and\ntimestamp information for the corresponding Transmit packet.\nFigure1065 shows the write-back format for Transmit normal descriptors. Table825 to\nTable828 provide a detailed description of all Transmit Normal descriptors (Write-Back For-\nmat).\n[Figure 1065. Transmit descriptor write-back format]\n• TDES0 normal descriptor (write-back format)\n[Table 825. TDES0 normal descriptor (write-back format)(1)]\n• TDES1 normal descriptor (write-back format)\n[Table 826. TDES1 normal descriptor (write-back format)(1)]\n• TDES2 normal descriptor (write-back format)\n[Table 827. TDES2 normal descriptor (write-back format)(1)]\n• TDES3 normal descriptor (write-back format)\n[Table 828. TDES3 normal descriptor (write-back format)(1)]\nTransmit context descriptor\nThe Transmit context descriptor can be provided any time before a packet descriptor. The\ncontext is valid for the current packet and subsequent packets. The context descriptor is\nused to provide the timestamps for one-step timestamp correction, and VLAN Tag ID for\nVLAN insertion feature. Write-back is only done on a context descriptor to reset the OWN\nbit.\nNote: The VLAN tag IDs and MSS values, which are provided by the application in a context\ndescriptor with their corresponding Valid bits set, are stored internally by the DMA.\nWhen the outer or inner VLAN tag is provided with the Valid bit set, the DMA always passes\nthe last valid VLAN tag to the MTL. The application cannot invalidate the valid VLAN tag\nstored by the DMA. The VLAN tag is inserted or replaced based on the control inputs\nprovided for the packet.\nThe Inner VLAN Tag Control input is used only for the packet that immediately follows the\ncontext descriptor. The application must provide a context descriptor before the normal\ndescriptor of each packet for which the DMA should use the inner VLAN tag control input.\nFigure1066 shows the format for transmit context descriptors. Table829 to Table832 pro-\nvide a detailed description of all transmit context descriptors.\n[Figure 1066. Transmit context descriptor format]\n• TDES0 context descriptor (read format)\n[Table 829. TDES0 context descriptor]\n• TDES1 context descriptor (read format)\n[Table 830. TDES1 context descriptor]\n• TDES2 context descriptor (read format)\n[Table 831. TDES2 context descriptor]\n• TDES3 context descriptor (read format)\n[Table 832. TDES3 context descriptor]",
+      "semantic": {}
+    }
+  ]
+}

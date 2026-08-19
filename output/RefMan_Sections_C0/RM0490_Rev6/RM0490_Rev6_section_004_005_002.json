@@ -1,0 +1,39 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.5.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.5.2",
+      "section_title": "FLASH proprietary code readout protection (PCROP)",
+      "level": 3,
+      "parent_section": "4.5",
+      "page": 72,
+      "page_end": 73,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "flash-protection",
+        "memory",
+        "pcrop"
+      ],
+      "chars": 3022,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=72",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.5.2 \"FLASH proprietary code readout protection (PCROP)\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 72.",
+      "section_content": "Two areas of the flash memory can be protected against unwanted read and/or write by a\nthird party.\nThe protected area is execute-only: it can only be reached by the STM32 CPU, with an\ninstruction code, while all other accesses (DMA, debug and CPU data read, write and\nerase) are strictly prohibited. The PCROP areas have subpage (512-byte) granularity. An\nadditional option bit (PCROP_RDP) allows to select if the PCROP area is erased or not\nwhen the RDP protection is changed from level 1 to level 0 (refer to Changing the read\nprotection level).\nEach PCROP area is defined by a start subpage offset and an end subpage offset into the\nflash memory. These offsets are defined with the corresponding bitfields of the PCROP\naddress registers FLASH PCROP area A start address register (FLASH_PCROP1ASR),\nFLASH PCROP area A end address register (FLASH_PCROP1AER), FLASH PCROP area\nB start address register (FLASH_PCROP1BSR), and FLASH PCROP area B end address\nregister (FLASH_PCROP1BER).\nA PCROP area x (A or B) is defined from the address:\nflash memory base address + [PCROP1x_STRT x 0x200] (included)\nto the address:\nflash memory base address + [(PCROP1x_END + 1) x 0x200] (excluded).\nThe minimum PCROP area size is two PCROP subpages (2 x 512 bytes):\nPCROP1x_END = PCROP1x_STRT + 1.\nWhen\nPCROP1x_END = PCROP1x_STRT,\nthe full flash memory is PCROP-protected.\nFor example, to PCROP-protect the address area from 0x0800 0800 to 0x0800 13FF, set\nthe PCROP start subpage bitfield of the FLASH_PCROP1xSR register and the PCROP end\nsubpage bitfield of the FLASH_PCROP1xER register (x = A or B) as follows:\n– PCROP1x_STRT = 0x04 (PCROP area start address 0x0800 0800)\n– PCROP1x_END = 0x09 (PCROP area end address 0x0800 13FF)\nData read access to a PCROP-protected address raises the RDERR flag.\nPCROP-protected addresses are also write protected. Write access to a PCROP-protected\naddress raises the WRPERR flag.\nPCROP-protected areas are also erase protected. Attempts to erase a page including at\nleast one PCROP-protected subpage fails. Moreover, software mass erase cannot be\nperformed if a PCROP-protected area is defined.\nDeactivation of PCROP can only occur upon the RDP change from level 1 to level 0.\nModification of user options to clear PCROP or to decrease the size of a PCROP-protected\narea do not have any effect to the PCROP areas. On the contrary, it is possible to increase\nthe size of the PCROP-protected areas.\nWith the option bit PCROP_RDP cleared, the change of RDP from level 1 to level 0 triggers\na partial mass erase that preserves the contents of the flash memory pages overlapping\nwith PCROP-protected areas. Refer to section Changing the read protection level for\ndetails.\n[Table 22. PCROP protection]\nNote: With PCROP_RDP cleared, it is recommended to either define the PCROP area start and\nend onto flash memory page boundaries (2-Kbyte granularity), or to keep reserved and\nempty the PCROP-unprotected memory space of the PCROP area boundary pages (pages\ninside which the PCROP area starts and ends).",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S20.5.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "20",
+      "chapter_title": "General-purpose timers (TIM15/TIM16/TIM17)",
+      "section": "20.5.3",
+      "section_title": "TIM15 slave mode control register (TIM15_SMCR)",
+      "level": 3,
+      "parent_section": "20.5",
+      "page": 587,
+      "page_end": 588,
+      "semantic_type": "register_description",
+      "features": [
+        "msm",
+        "sms",
+        "tim15",
+        "tim15-smcr",
+        "timer"
+      ],
+      "chars": 2926,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=587",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 20.5.3 \"TIM15 slave mode control register (TIM15_SMCR)\" in chapter 20 (General-purpose timers (TIM15/TIM16/TIM17)), RM0490 Rev 6, page 587.",
+      "section_content": "Address offset: 0x08\nReset value: 0x00000000\nBits 31:22 Reserved, must be kept at reset value.\nBits 19:17 Reserved, must be kept at reset value.\nBits 15:8 Reserved, must be kept at reset value.\nBit 7 MSM: Master/slave mode\n0: No action\n1: The effect of an event on the trigger input (TRGI) is delayed to allow a perfect\nsynchronization between the current timer and its slaves (through TRGO). It is useful if\nwe want to synchronize several timers on a single external event.\nBits 21, 20, 6, 5, 4 TS[4:0]: Trigger selection\nThis bit field selects the trigger input to be used to synchronize the counter.\n00000: Internal Trigger 0 (ITR0)\n00001: Internal Trigger 1 (ITR1)\n00010: Internal Trigger 2 (ITR2)\n00011: Internal Trigger 3 (ITR3)\n00100: TI1 Edge Detector (TI1F_ED)\n00101: Filtered Timer Input 1 (TI1FP1)\n00110: Filtered Timer Input 2 (TI2FP2)\nOther: Reserved\nSee Table91: TIMx Internal trigger connection on page588 for more details on ITRx\nmeaning for each Timer.\nNote: These bits must be changed only when they are not used (e.g. when SMS=000) to\navoid wrong edge detections at the transition.\nBit 3 Reserved, must be kept at reset value.\nBits 16, 2, 1, 0 SMS[3:0]: Slave mode selection\nWhen external signals are selected the active edge of the trigger signal (TRGI) is linked to\nthe polarity selected on the external input (refer to ETP bit in TIMx_SMCR for tim_etr_in and\nCCxP/CCxNP bits in TIMx_CCER register for tim_ti1fp1 and tim_ti2fp2).\n0000: Slave mode disabled - if CEN = ‘1’ then the prescaler is clocked directly by the\ninternal clock.\n0001: Reserved\n0010: Reserved\n0011: Reserved\n0100: Reset Mode - Rising edge of the selected trigger input (TRGI) reinitializes the counter\nand generates an update of the registers.\n0101: Gated Mode - The counter clock is enabled when the trigger input (TRGI) is high. The\ncounter stops (but is not reset) as soon as the trigger becomes low. Both start and\nstop of the counter are controlled.\n0110: Trigger Mode - The counter starts at a rising edge of the trigger TRGI (but it is not\nreset). Only the start of the counter is controlled.\n0111: External Clock Mode 1 - Rising edges of the selected trigger (TRGI) clock the counter.\n1000: Combined reset + trigger mode - Rising edge of the selected trigger input (TRGI)\nreinitializes the counter, generates an update of the registers and starts the counter.\nOther codes: reserved.\nNote: The gated mode must not be used if TI1F_ED is selected as the trigger input\n(TS=’00100’). Indeed, TI1F_ED outputs 1 pulse for each transition on TI1F, whereas\nthe gated mode checks the level of the trigger signal.\nNote: The clock of the slave peripherals (timer, ADC, ...) receiving the TRGO or the TRGO2\nsignals must be enabled prior to receive events from the master timer, and the clock\nfrequency (prescaler) must not be changed on-the-fly while triggers are received from\nthe master timer.\n[Table 91. TIMx Internal trigger connection]",
+      "semantic": {
+        "register": "TIM15_SMCR",
+        "address_offset": "0x08",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "MSM",
+            "description": "Master/slave mode synchronization between the current timer and its slaves (through TRGO). It is useful if we want to synchronize several timers on a single external event.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No action"
+              },
+              {
+                "value": "1",
+                "meaning": "The effect of an event on the trigger input (TRGI) is delayed to allow a perfect"
+              }
+            ]
+          },
+          {
+            "bits": "21, 20, 6, 5, 4",
+            "name": "TS[4:0]",
+            "description": "Trigger selection This bit field selects the trigger input to be used to synchronize the counter. See Table91: TIMx Internal trigger connection on page588 for more details on ITRx meaning for each Timer. Note: These bits must be changed only when they are not used (e.g. when SMS=000) to avoid wrong edge detections at the transition.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "Internal Trigger 0 (ITR0)"
+              },
+              {
+                "value": "00001",
+                "meaning": "Internal Trigger 1 (ITR1)"
+              },
+              {
+                "value": "00010",
+                "meaning": "Internal Trigger 2 (ITR2)"
+              },
+              {
+                "value": "00011",
+                "meaning": "Internal Trigger 3 (ITR3)"
+              },
+              {
+                "value": "00100",
+                "meaning": "TI1 Edge Detector (TI1F_ED)"
+              },
+              {
+                "value": "00101",
+                "meaning": "Filtered Timer Input 1 (TI1FP1)"
+              },
+              {
+                "value": "00110",
+                "meaning": "Filtered Timer Input 2 (TI2FP2)"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16, 2, 1, 0",
+            "name": "SMS[3:0]",
+            "description": "Slave mode selection When external signals are selected the active edge of the trigger signal (TRGI) is linked to the polarity selected on the external input (refer to ETP bit in TIMx_SMCR for tim_etr_in and CCxP/CCxNP bits in TIMx_CCER register for tim_ti1fp1 and tim_ti2fp2). internal clock. and generates an update of the registers. counter stops (but is not reset) as soon as the trigger becomes low. Both start and stop of the counter are controlled. reset). Only the start of the counter is controlled. reinitializes the counter, generates an update of the registers and starts the counter. Other codes: reserved. Note: The gated mode must not be used if TI1F_ED is selected as the trigger input (TS=’00100’). Indeed, TI1F_ED outputs 1 pulse for each transition on TI1F, whereas the gated mode checks the level of the trigger signal. Note: The clock of the slave peripherals (timer, ADC, ...) receiving the TRGO or the TRGO2 signals must be enabled prior to receive events from the master timer, and the clock frequency (prescaler) must not be changed on-the-fly while triggers are received from the master timer.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Slave mode disabled - if CEN = ‘1’ then the prescaler is clocked directly by the"
+              },
+              {
+                "value": "0001",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0010",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0011",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0100",
+                "meaning": "Reset Mode - Rising edge of the selected trigger input (TRGI) reinitializes the counter"
+              },
+              {
+                "value": "0101",
+                "meaning": "Gated Mode - The counter clock is enabled when the trigger input (TRGI) is high. The"
+              },
+              {
+                "value": "0110",
+                "meaning": "Trigger Mode - The counter starts at a rising edge of the trigger TRGI (but it is not"
+              },
+              {
+                "value": "0111",
+                "meaning": "External Clock Mode 1 - Rising edges of the selected trigger (TRGI) clock the counter."
+              },
+              {
+                "value": "1000",
+                "meaning": "Combined reset + trigger mode - Rising edge of the selected trigger input (TRGI)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

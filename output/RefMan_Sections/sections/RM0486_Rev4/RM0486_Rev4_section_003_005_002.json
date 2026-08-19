@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.5.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.5.2",
+      "section_title": "Privileged OS-controlled isolation",
+      "level": 3,
+      "parent_section": "3.5",
+      "page": 186,
+      "page_end": 186,
+      "semantic_type": "generic",
+      "features": [
+        "controlled",
+        "isolation",
+        "privileged"
+      ],
+      "chars": 2220,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=186",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.5.2 \"Privileged OS-controlled isolation\" in chapter 3 (System security), RM0486 Rev 4, page 186.",
+      "section_content": "The Cortex-M55 MPU (memory protection unit) facilitates the isolation between a privileged\noperating system, and the user processes it schedules.\nThe MPU is banked between the secure and nonsecure worlds as follows:\n• Secure-world accesses to MPU registers update physical registers in the MPU_S,\nwhich filters accesses that emerge from the SAU marked secure.\n• Nonsecure world accesses to MPU registers update physical registers intheMPU_NS,\nwhich filters accesses emerging from the SAU marked nonsecure.\nFor each world, attributes are defined for 16 non-overlapping regions, and for the remaining\nbackground. The MPU blocks user code from accessing regions marked privileged.\nIf the MPU is configured to designate a memory region as normal, then all transactions\ninitiated by the Cortex-55 on the AXI bus emerge as privileged (even if originated from a\nuser process). Only the MPU prevents CPU user processes from accessing privileged\nnormal data in SRAM and external flash memories.\nWhen switching from one user process to another, the OS can re-program the MPU and\nperipheral firewalls to ensure each process can only access its own data. A user application\nmay need to use a peripheral with an AXI initiator that continues to operate in background\nafter the user has been descheduled. To avoid the peripheral being blocked by a modified\nMPU regime, the user process must ask the OS to configure the peripheral to operate in\nprivilege mode on the user's behalf. It is up to the OS to sanity-check the requested\noperation. The HPDMA on the AXI bus is a special case (see Section3.5.4).\nThe Cortex-M55 PAHBCR register must enable the P-AHB, and configure it to allow\naccesses to the peripheral region on the P-AHB bus. The MPU must be configured so that\nthe peripheral region is execute-never device memory. Accesses to peripherals on the\nP-AHB carry the correct privilege level: to save wasting MPU regions, the MPU can be\nconfigured to make the whole peripheral region user-accessible, and to rely on the RISUP\ndownstream filtering to restrict certain peripherals to OS control.\nThe Cortex-M55 introduces a PXN (privilege-execute-never) region attribute to prevent\ntheOS from being tricked into jumping to user code.",
+      "semantic": {}
+    }
+  ]
+}

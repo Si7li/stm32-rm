@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.5.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.5.4",
+      "section_title": "Securable memory area",
+      "level": 3,
+      "parent_section": "4.5",
+      "page": 74,
+      "page_end": 75,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory"
+      ],
+      "chars": 1567,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=74",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.5.4 \"Securable memory area\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 74.",
+      "section_content": "The main purpose of the securable memory area is to protect a specific part of flash\nmemory against undesired access. After system reset, the code in the securable memory\narea can only be executed until the securable area becomes secured and never again until\nthe next system reset. This allows implementing software security services such as secure\nkey storage or safe boot.\nSecurable memory area is located in the main flash memory. It is dedicated to executing\ntrusted code. When not secured, the securable memory behaves like the rest of main flash\nmemory. When secured (the SEC_PROT bit of the FLASH_CR register set), any access\n(fetch, read, programming, erase) to securable memory area is rejected, generating a bus\nerror. The securable area can only be unsecured by a system reset.\nThe size of the securable memory area is defined by the SEC_SIZE[5:0] bitfield of the\nFLASH_SECR register. It can be only modified in RDP level 0 or in RDP level 1 when\nSEC_PROT = 0. Its content is erased upon changing from RDP level 1 to level 0, even if it\noverlaps with PCROP subpages.\nNote: The securable memory area start address is 0x0800 0000. Before activating the securable\nmemory area, move the vector table outside the page 0 if necessary.\nNote: Upon change from RDP level 1 to level 0 while the PCROP_RDP bit is cleared, the\nsecurable memory area is erased even if it overlaps with the PCROP subpages. The\nPCROP subpages not overlapping with the securable memory area are not erased. See\nTable 24.\n[Table 24. Securable memory erase at RDP level 1 to level 0 change]",
+      "semantic": {}
+    }
+  ]
+}

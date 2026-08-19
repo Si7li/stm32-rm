@@ -1,0 +1,74 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S26.6.8",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "26",
+      "chapter_title": "Inter-integrated circuit (I2C) interface",
+      "section": "26.6.8",
+      "section_title": "I2C Clock control register (I2C_CCR)",
+      "level": 3,
+      "parent_section": "26.6",
+      "page": 781,
+      "page_end": 782,
+      "semantic_type": "register_description",
+      "features": [
+        "ccr",
+        "clock",
+        "duty",
+        "i2c",
+        "i2c-ccr"
+      ],
+      "chars": 1479,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=781",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.6.8 \"I2C Clock control register (I2C_CCR)\" in chapter 26 (Inter-integrated circuit (I2C) interface), RM0008 Rev 21, page 781.",
+      "section_content": "Address offset: 0x1C\nReset value: 0x0000\nNote: fPCLK1 must be at least 2 MHz to achieve Sm mode I²C frequencies. It must be at least 4\nMHz to achieve Fm mode I²C frequencies. It must be a multiple of 10MHz to reach the\n400kHz maximum I²C Fm mode clock.\nThe CCR register must be configured only when the I2C is disabled (PE = 0).\nBit 15 F/S: I2C master mode selection\n0: Sm mode I2C\n1: Fm mode I2C\nBit 14 DUTY: Fm mode duty cycle\n0: Fm mode tlow/thigh = 2\n1: Fm mode tlow/thigh = 16/9 (see CCR)\nBits 13:12 Reserved, must be kept at reset value\nBits 11:0 CCR[11:0]: Clock control register in Fm/Sm mode (Master mode)\nControls the SCL clock in master mode.\nSm mode or SMBus:\nThigh = CCR * TPCLK1\nTlow = CCR * TPCLK1\nFm mode:\nIf DUTY = 0:\nThigh = CCR * TPCLK1\nTlow = 2 * CCR * TPCLK1\nIf DUTY = 1:\nThigh = 9 * CCR * TPCLK1\nTlow = 16 * CCR * TPCLK1\nFor instance: in Sm mode, to generate a 100 kHz SCL frequency:\nIf FREQ = 08, TPCLK1 = 125 ns so CCR must be programmed with 0x28\n(0x28 <=> 40d x 125 ns = 5000 ns.)\nNote: The minimum allowed value is 0x04, except in FAST DUTY mode where the minimum\nallowed value is 0x01\nthigh = tr(SCL) + tw(SCLH). See device datasheet for the definitions of parameters.\ntlow = tf(SCL) + tw(SCLL). See device datasheet for the definitions of parameters.\nI2C communication speed, fSCL ~ 1/(thigh + tlow). The real frequency may differ due to\nthe analog noise filter input delay.\nThe CCR register must be configured only when the I2C is disabled (PE = 0).",
+      "semantic": {
+        "register": "I2C_CCR",
+        "address_offset": "0x1C",
+        "reset_value": "0x0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "14",
+            "name": "DUTY",
+            "description": "Fm mode duty cycle",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Fm mode tlow/thigh = 2"
+              },
+              {
+                "value": "1",
+                "meaning": "Fm mode tlow/thigh = 16/9 (see CCR)"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value",
+            "values": []
+          },
+          {
+            "bits": "11:0",
+            "name": "CCR[11:0]",
+            "description": "Clock control register in Fm/Sm mode (Master mode) Controls the SCL clock in master mode. Sm mode or SMBus: Thigh = CCR * TPCLK1 Tlow = CCR * TPCLK1 Fm mode: If DUTY = 0: Thigh = CCR * TPCLK1 Tlow = 2 * CCR * TPCLK1 If DUTY = 1: Thigh = 9 * CCR * TPCLK1 Tlow = 16 * CCR * TPCLK1 For instance: in Sm mode, to generate a 100 kHz SCL frequency: If FREQ = 08, TPCLK1 = 125 ns so CCR must be programmed with 0x28 (0x28 <=> 40d x 125 ns = 5000 ns.) Note: The minimum allowed value is 0x04, except in FAST DUTY mode where the minimum allowed value is 0x01 thigh = tr(SCL) + tw(SCLH). See device datasheet for the definitions of parameters. tlow = tf(SCL) + tw(SCLL). See device datasheet for the definitions of parameters. I2C communication speed, fSCL ~ 1/(thigh + tlow). The real frequency may differ due to the analog noise filter input delay. The CCR register must be configured only when the I2C is disabled (PE = 0).",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

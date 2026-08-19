@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S24.7.6",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "24",
+      "chapter_title": "Controller area network (bxCAN)",
+      "section": "24.7.6",
+      "section_title": "Error management",
+      "level": 3,
+      "parent_section": "24.7",
+      "page": 670,
+      "page_end": 670,
+      "semantic_type": "generic",
+      "features": [
+        "error",
+        "management"
+      ],
+      "chars": 1658,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=670",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.7.6 \"Error management\" in chapter 24 (Controller area network (bxCAN)), RM0008 Rev 21, page 670.",
+      "section_content": "The error management as described in the CAN protocol is handled entirely by hardware\nusing a Transmit Error Counter (TEC value, in CAN_ESR register) and a Receive Error\nCounter (REC value, in the CAN_ESR register), which get incremented or decremented\naccording to the error condition. For detailed information about TEC and REC management,\nrefer to the CAN standard.\nBoth of them may be read by software to determine the stability of the network.\nFurthermore, the CAN hardware provides detailed information on the current error status in\nCAN_ESR register. By means of the CAN_IER register (ERRIE bit, etc.), the software can\nconfigure the interrupt generation on error detection in a very flexible way.\nBus-Off recovery\nThe Bus-Off state is reached when TEC is greater than 255, this state is indicated by BOFF\nbit in CAN_ESR register. In Bus-Off state, the bxCAN is no longer able to transmit and\nreceive messages.\nDepending on the ABOM bit in the CAN_MCR register bxCAN will recover from Bus-Off\n(become error active again) either automatically or on software request. But in both cases\nthe bxCAN has to wait at least for the recovery sequence specified in the CAN standard\n(128 occurrences of 11 consecutive recessive bits monitored on CANRX).\nIf ABOM is set, the bxCAN will start the recovering sequence automatically after it has\nentered Bus-Off state.\nIf ABOM is cleared, the software must initiate the recovering sequence by requesting\nbxCAN to enter and to leave initialization mode.\nNote: In initialization mode, bxCAN does not monitor the CANRX signal, therefore it cannot\ncomplete the recovery sequence. To recover, bxCAN must be in normal mode.",
+      "semantic": {}
+    }
+  ]
+}

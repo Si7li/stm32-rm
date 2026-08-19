@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S23.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "23",
+      "chapter_title": "Universal serial bus full-speed device interface (USB)",
+      "section": "23.3",
+      "section_title": "USB functional description",
+      "level": 2,
+      "parent_section": null,
+      "page": 622,
+      "page_end": 624,
+      "semantic_type": "generic",
+      "features": [
+        "usb"
+      ],
+      "chars": 2889,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=622",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 23.3 \"USB functional description\" in chapter 23 (Universal serial bus full-speed device interface (USB)), RM0008 Rev 21, page 622.",
+      "section_content": "Figure220 shows the block diagram of the USB peripheral.\n[Figure 220. USB peripheral block diagram]\nDP DM\nAnalog PCLK\nUSB\nClock Control\nS.I.E. selection registers and logic\nPacket\nbuffer\nEndpoint Endpoint\ninterface\nregisters registers\nPacket RReeggiisstteerr Interrupt\nArbiter buffer mmaappppeerr mapper\nmemory\nAPB1 wrapper\nAPB1 interface\nPCLK1 APB1_bus IRQs to NVIC\nThe USB peripheral provides an USB compliant connection between the host PC and the\nfunction implemented by the microcontroller. Data transfer between the host PC and the\nsystem memory occurs through a dedicated packet buffer memory accessed directly by the\nUSB peripheral. The size of this dedicated buffer memory must be according to the number\nof endpoints used and the maximum packet size. This dedicated memory is sized to 512\nbytes and up to 16 mono-directional or 8 bidirectional endpoints can be used.The USB\nperipheral interfaces with the USB host, detecting token packets, handling data\ntransmission/reception, and processing handshake packets as required by the USB\nstandard. Transaction formatting is performed by the hardware, including CRC generation\nand checking.\nEach endpoint is associated with a buffer description block indicating where the endpoint\nrelated memory area is located, how large it is or how many bytes must be transmitted.\nWhen a token for a valid function/endpoint pair is recognized by the USB peripheral, the\nrelated data transfer (if required and if the endpoint is configured) takes place. The data\nbuffered by the USB peripheral is loaded in an internal 16 bit register and memory access to\nthe dedicated buffer is performed. When all the data has been transferred, if needed, the\nproper handshake packet over the USB is generated or expected according to the direction\nof the transfer.\nAt the end of the transaction, an endpoint-specific interrupt is generated, reading status\nregisters and/or using different interrupt response routines. The microcontroller can\ndetermine:\n• the endpoint to be served\n• the type of transaction that took place, if errors (such as bit stuffing, format, CRC,\nprotocol, missing ACK, over/underrun) occurred.\nSpecial support is offered to Isochronous transfers and high throughput bulk transfers,\nimplementing a double buffer usage, which allows to always have an available buffer for the\nUSB peripheral while the microcontroller uses the other one.\nThe unit can be placed in low-power mode (SUSPEND mode), by writing in the control\nregister, whenever required. At this time, all static power dissipation is avoided, and the USB\nclock can be slowed down or stopped. The detection of activity at the USB inputs, while in\nlow-power mode, wakes the device up asynchronously. A special interrupt source can be\nconnected directly to a wakeup line to allow the system to immediately restart the normal\nclock generation and/or support direct clock start/stop.",
+      "semantic": {}
+    }
+  ]
+}

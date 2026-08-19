@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.8.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.8.5",
+      "section_title": "Error correction code error (ECCC/ECCD)",
+      "level": 3,
+      "parent_section": "6.8",
+      "page": 169,
+      "page_end": 171,
+      "semantic_type": "generic",
+      "features": [
+        "eccc",
+        "eccd",
+        "flash",
+        "memory"
+      ],
+      "chars": 3278,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=169",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.8.5 \"Error correction code error (ECCC/ECCD)\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 169.",
+      "section_content": "When a single-error correction is detected during a read, the FLASH interface sets the\nsingle-error correction flag ECCC in FLASH_ECCCORR.\nWhen two ECC errors are detected during a read, the FLASH interface sets the double error\ndetection flag ECCD in FLASH_ECCDETR.\nWhen ECCC flag is raised, the corrected read data are returned. Hence the application can\nignore the error and request new read operations. When ECCD flag is raised a NMI is\ngenerated. The software must invalidate the instruction cache (CACHEINV=1) in the NMI\ninterrupt service routine when the ECCD flag is set. This NMI can be masked in SBS\nregisters Section12.5.12: SBS ECC NMI mask register (SBS_ECCNMIR) for data access\n(OTP, data area, RO data).\nWhen ECCC or ECCD flag is raised, the address of the FLASH word that generated the\nerror is saved in the FLASH_ECCCORR (FLASH_ECCDETR). If the address corresponds\nto a read-only area, to a EDATA page (in user mode or in FLASH data area mode) or to an\nOTP area, the OTP_ECC or SYSF_ECC or EDATA_ECC bit is also set to 1\ninFLASH_ECCCORRR (FLASHBS_ECCDETR). This register is automatically cleared\nwhen the associated flag that generated the error is reset.\nA BK_ECC flag indicates in which FLASH bank the error occurred.\nA SYSF_ECC flag indicates error detected in the system FLASH area.\n[Table 41. Locating ECC failure]\nNote: In case of successive single correction or double detection errors, only the address\ncorresponding to the first error is stored in FLASH_ECCCORR (FLASH_ECCDETR).\nIt is mandatory to clear ECCC or ECCD flags before starting a new read operation.\nAs the ECC interface is shared by the two banks, if the same error is registered\nsimultaneously, a physical bank1 error is registered. Both errors are registered if one bank\nreports ECCD and the other bank ECCC.\nADDR_ECC value indicates the FLASH line where the ECC error occurred.\nIf the EDATA_EN option bit is set, the EDATA sectors are programmed and read as 16-bit\naccesses, (memory row being 137 bits long: 128-bit + 9-bit ECC). Consequently, the\narrangement of the memory is modified. The first 32bits of each row of a sector are filled\nfirst, then the bits from 32 to 63 and finally from 64 to 96 (the rest of the memory row\ncontains ECC code). The ADDR_ECC indicates the memory line holding the failure. To\nidentify the data corrupted on the line, DATA_ADDR_ECC bitfield value can be used to\ndiscriminate which column holds the failed data (only in case of error relative to data area or\nOTP).\nExample: ADDR_ECC = 0x0312 and DATA_ADDR_ECC = 0x3.\n• With ADDR_ECC between 0x0300 and 0x037F, the address of failure is in page 6,\nstarting at 0x0900 2400.\n• DATA_ADDR_ECC = 0b01X indicates the concerned column is the second, starting\nfrom 0x0900 2600.\n• ADDR_ECC ending with 0xXX12 means the concerned row in memory is 0x12. With 4\nbytes per column, this gives the 32-bit address as 0x0900 2648.\n• DATA_ADDR_ECC = 0b0X1 indicates the concerned final address is the second 16-bit\ndata, so 0x0900 264A.\nECCC (respectively ECCD) flag is cleared by setting to 1 the ECCC bit (respectively ECCD\nbit) in FLASH_ECCCORR (FLASH_ECCDETR).\nIf ECCC bit in FLASH_ECCCORR is set to 1, an interrupt is generated when ECCC flag is\nraised. Only NMI is generated for the ECCD (see Section6.9 for details).",
+      "semantic": {}
+    }
+  ]
+}

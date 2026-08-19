@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S14.5.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "14",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "14.5.9",
+      "section_title": "Reset pulse control (RPCTL)",
+      "level": 3,
+      "parent_section": "14.5",
+      "page": 418,
+      "page_end": 418,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc",
+        "rpctl"
+      ],
+      "chars": 1222,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=418",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.5.9 \"Reset pulse control (RPCTL)\" in chapter 14 (Reset and clock control (RCC)), RM0486 Rev 4, page 418.",
+      "section_content": "The RPCTL allows the application to control the minimum activation time of the NRST pad.\nThis feature is particularly helpful because some external devices may require a specific\nreset duration. In addition, the internal reset pulse, for example from IWDG, may be too\nshort for external devices.\nThe RPCTL is located in the VDD domain, and is reset only after a power-on reset.\nThe RPCTL is controlled by MRD[4:0] in RCC_RDCR.\nIf MRD is 0, then the RPCTL is bypassed. The minimum activation time in this case is given\nby the pulse stretcher embedded in the reset pad (typically 20 μs).\nIf MRD is non-0, then the rising edge of cmd_pad_rst causes NRST to be immediately\ndriven low, for at least the duration set by MRD[4:0]. The duration of the reset is unchanged\nif the cmd_pad_rst signal is active for longer than the duration set by MRD[4:0]. The\nminimum activation time is between 1 and 31 ms.\nThe RPCTL uses the LSI clock to measure time. When the cmd_pad_rst goes high, the\nRPCTL requests the LSI clock to control the reset duration. If the LSI was not enabled by\nanother function, it may take some microseconds before obtaining LSI ready (TLSI_SU).\nFigure36 shows two scenarios.\n[Figure 36. NRST reset pulse control]",
+      "semantic": {}
+    }
+  ]
+}

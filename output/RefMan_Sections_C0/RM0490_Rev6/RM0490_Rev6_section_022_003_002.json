@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S22.3.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "22",
+      "chapter_title": "Independent watchdog (IWDG)",
+      "section": "22.3.2",
+      "section_title": "Window option",
+      "level": 3,
+      "parent_section": "22.3",
+      "page": 633,
+      "page_end": 633,
+      "semantic_type": "generic",
+      "features": [
+        "option",
+        "window"
+      ],
+      "chars": 1869,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=633",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.3.2 \"Window option\" in chapter 22 (Independent watchdog (IWDG)), RM0490 Rev 6, page 633.",
+      "section_content": "The IWDG can also work as a window watchdog by setting the appropriate window in the\nIWDG window register (IWDG_WINR).\nIf the reload operation is performed while the counter is greater than the value stored in the\nIWDG window register (IWDG_WINR), a reset is provided.\nThe default value of the IWDG window register (IWDG_WINR) is 0x0000 0FFF, so if it is not\nupdated, the window option is disabled.\nAs soon as the window value is changed, a reload operation is performed to reset the\ndowncounter to the IWDG reload register (IWDG_RLR) value, and to ease the cycle number\ncalculation to generate the next reload.\nConfiguring the IWDG when the window option is enabled\n1. Enable the IWDG by writing 0x0000CCCC in the IWDG key register (IWDG_KR).\n2. Enable register access by writing 0x00005555 in the IWDG key register (IWDG_KR).\n3. Write the IWDG prescaler by programming IWDG prescaler register (IWDG_PR) from\n0 to 7.\n4. Write the IWDG reload register (IWDG_RLR).\n5. Wait for the registers to be updated (IWDG_SR = 0x00000000).\n6. Write to the IWDG window register (IWDG_WINR). This automatically refreshes the\ncounter value in the IWDG reload register (IWDG_RLR).\nNote: Writing the window value allows the counter value to be refreshed by the RLR when the\nIWDG status register (IWDG_SR) is set to 0x00000000.\nConfiguring the IWDG when the window option is disabled\nWhen the window option is not used, the IWDG can be configured as follows:\n1. Enable the IWDG by writing 0x0000 CCCC in the IWDG key register (IWDG_KR).\n2. Enable register access by writing 0x00005555 in the IWDG key register (IWDG_KR).\n3. Write the prescaler by programming the IWDG prescaler register (IWDG_PR) from 0 to\n7.\n4. Write the IWDG reload register (IWDG_RLR).\n5. Wait for the registers to be updated (IWDG_SR = 0x00000000).\n6. Refresh the counter value with IWDG_RLR (IWDG_KR = 0x0000 AAAA).",
+      "semantic": {}
+    }
+  ]
+}

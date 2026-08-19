@@ -1,0 +1,215 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S47.7.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "47",
+      "chapter_title": "True random number generator (RNG)",
+      "section": "47.7.1",
+      "section_title": "RNG control register (RNG_CR)",
+      "level": 3,
+      "parent_section": "47.7",
+      "page": 2297,
+      "page_end": 2299,
+      "semantic_type": "register_description",
+      "features": [
+        "ardis",
+        "ced",
+        "clkdiv",
+        "condrst",
+        "configlock",
+        "nistc",
+        "rng",
+        "rng-config1",
+        "rng-config2",
+        "rng-config3",
+        "rng-cr",
+        "rngen"
+      ],
+      "chars": 4508,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2297",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 47.7.1 \"RNG control register (RNG_CR)\" in chapter 47 (True random number generator (RNG)), RM0486 Rev 4, page 2297.",
+      "section_content": "Address offset: 0x000\nReset value: 0x0080 0D00\n[Table 399. Configuration selection]\nBit 31 CONFIGLOCK: RNG Config lock\n0: Writes to the RNG_NSCR, RNG_HTCR and RNG_CR configuration bits [29:4] are\nallowed.\n1: Writes to the RNG_NSCR, RNG_HTCR and RNG_CR configuration bits [29:4] are\nignored until the next RNG reset.\nOnce set, this bit can only be cleared when RNG is reset (set once bit).\nBit 30 CONDRST: Conditioning soft reset\nWrite 1 and then write 0 to reset the conditioning logic, clear all the FIFOs and start a new\nRNG initialization process, with RNG_SR cleared. Registers RNG_CR, RNG_NSCR and\nRNG_HTCR are not changed by CONDRST.\nThis bit must be set to 1 in the same access that set any configuration bits [29:4]. In other\nwords, when CONDRST bit is set to 1 correct configuration in bits [29:4] must also be\nwritten.\nWhen CONDRST is set to 0 by the software, its value goes to 0 when the reset process is\ndone. It takes about 2 AHB clock cycles + 2 RNG clock cycles.\nBits 29:28 Reserved, must be kept at reset value.\nBits 27:20 RNG_CONFIG1[7:0]: RNG configuration 1\nReserved to the RNG configuration (bitfield 1). Must be initialized using the recommended\nvalue documented in Section47.6: RNG entropy source validation.\nWriting any bit of RNG_CONFIG1 is taken into account only if the CONDRST bit is set to 1 in\nthe same access, while CONFIGLOCK remains at 0. Writing to this bit is ignored if\nCONFIGLOCK=1.\nBits 19:16 CLKDIV[3:0]: Clock divider factor\nThis value used to configure an internal programmable divider (from 1 to 16) acting on the\nincoming RNG clock. These bits can be written only when the core is disabled (RNGEN=0).\n0x0: internal RNG clock after divider is similar to incoming RNG clock.\n0x1: two RNG clock cycles per internal RNG clock.\n0x2: 22 (= 4) RNG clock cycles per internal RNG clock.\n...\n0xF: 215 RNG clock cycles per internal clock (for example. an incoming 48MHz RNG clock\nbecomes a 1.5kHz internal RNG clock)\nWriting these bits is taken into account only if the CONDRST bit is set to 1 in the same\naccess, while CONFIGLOCK remains at 0. Writing to this bit is ignored if CONFIGLOCK=1.\nBits 15:13 RNG_CONFIG2[2:0]: RNG configuration 2\nReserved to the RNG configuration (bitfield 2). Bit 13 can be set when RNG power\nconsumption is critical. See Section47.3.8: RNG low-power use. Refer to the\nRNG_CONFIG1 bitfield for details.\nBit 12 NISTC: NIST custom\n0: Hardware default values for NIST compliant RNG. In this configuration per 128-bit output\ntwo conditioning loops are performed and 256 bits of noise source are used.\n1: Custom values for NIST compliant RNG. See Section47.6: RNG entropy source\nvalidation for recommended configuration.\nWriting this bit is taken into account only if CONDRST bit is set to 1 in the same access,\nwhile CONFIGLOCK remains at 0. Writing to this bit is ignored if CONFIGLOCK=1.\nBits 11:8 RNG_CONFIG3[3:0]: RNG configuration 3\nReserved to the RNG configuration (bitfield 3). Refer to RNG_CONFIG1 bitfield for details.\nIf the NISTC bit is cleared in this register RNG_CONFIG3 bitfield values are ignored by\nRNG.\nBit 7 ARDIS: Auto reset disable\nSet this bit to deactivate the auto-reset feature.\n0: Auto-reset enabled\n1: Auto-reset disabled\nKeeping the auto-reset enabled (automatic clearance of the SECS bit) simplifies the\nmanagement of noise source errors, as described in Section47.3.7: Error management.\nWriting this bit is taken into account only if CONDRST bit is set to 1 in the same access,\nwhile CONFIGLOCK remains at 0. Writing to this bit is ignored if CONFIGLOCK=1.\nBit 6 Reserved, must be kept at reset value.\nBit 5 CED: Clock error detection\n0: Clock error detection enabled\n1: Clock error detection is disabled\nThe clock error detection cannot be enabled nor disabled on-the-fly when the RNG is\nenabled, that is to enable or disable CED, the RNG must be disabled.\nWriting this bit is taken into account only if the CONDRST bit is set to 1 in the same access,\nwhile CONFIGLOCK remains at 0. Writing to this bit is ignored if CONFIGLOCK=1.\nBit 4 Reserved, must be kept at reset value.\nBit 3 IE: Interrupt enable\n0: RNG interrupt is disabled\n1: RNG interrupt is enabled. An interrupt is pending as soon as the DRDY, SEIS, or CEIS is\nset in the RNG_SR register.\nBit 2 RNGEN: True random number generator enable\n0: True random number generator is disabled. Analog noise sources are powered off and\nlogic clocked by the RNG clock is gated.\n1: True random number generator is enabled.\nBits 1:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "RNG_CR",
+        "address_offset": "0x000",
+        "reset_value": "0x0080 0D00",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "CONFIGLOCK",
+            "description": "RNG Config lock allowed. ignored until the next RNG reset. Once set, this bit can only be cleared when RNG is reset (set once bit).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Writes to the RNG_NSCR, RNG_HTCR and RNG_CR configuration bits [29:4] are"
+              },
+              {
+                "value": "1",
+                "meaning": "Writes to the RNG_NSCR, RNG_HTCR and RNG_CR configuration bits [29:4] are"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "CONDRST",
+            "description": "Conditioning soft reset Write 1 and then write 0 to reset the conditioning logic, clear all the FIFOs and start a new RNG initialization process, with RNG_SR cleared. Registers RNG_CR, RNG_NSCR and RNG_HTCR are not changed by CONDRST. This bit must be set to 1 in the same access that set any configuration bits [29:4]. In other words, when CONDRST bit is set to 1 correct configuration in bits [29:4] must also be written. When CONDRST is set to 0 by the software, its value goes to 0 when the reset process is done. It takes about 2 AHB clock cycles + 2 RNG clock cycles.",
+            "values": []
+          },
+          {
+            "bits": "29:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27:20",
+            "name": "RNG_CONFIG1[7:0]",
+            "description": "RNG configuration 1 Reserved to the RNG configuration (bitfield 1). Must be initialized using the recommended value documented in Section47.6: RNG entropy source validation. Writing any bit of RNG_CONFIG1 is taken into account only if the CONDRST bit is set to 1 in the same access, while CONFIGLOCK remains at 0. Writing to this bit is ignored if CONFIGLOCK=1.",
+            "values": []
+          },
+          {
+            "bits": "19:16",
+            "name": "CLKDIV[3:0]",
+            "description": "Clock divider factor This value used to configure an internal programmable divider (from 1 to 16) acting on the incoming RNG clock. These bits can be written only when the core is disabled (RNGEN=0). ... becomes a 1.5kHz internal RNG clock) Writing these bits is taken into account only if the CONDRST bit is set to 1 in the same access, while CONFIGLOCK remains at 0. Writing to this bit is ignored if CONFIGLOCK=1.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "internal RNG clock after divider is similar to incoming RNG clock."
+              },
+              {
+                "value": "0x1",
+                "meaning": "two RNG clock cycles per internal RNG clock."
+              },
+              {
+                "value": "0x2",
+                "meaning": "22 (= 4) RNG clock cycles per internal RNG clock."
+              },
+              {
+                "value": "0xF",
+                "meaning": "215 RNG clock cycles per internal clock (for example. an incoming 48MHz RNG clock"
+              }
+            ]
+          },
+          {
+            "bits": "15:13",
+            "name": "RNG_CONFIG2[2:0]",
+            "description": "RNG configuration 2 Reserved to the RNG configuration (bitfield 2). Bit 13 can be set when RNG power consumption is critical. See Section47.3.8: RNG low-power use. Refer to the RNG_CONFIG1 bitfield for details.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "NISTC",
+            "description": "NIST custom two conditioning loops are performed and 256 bits of noise source are used. validation for recommended configuration. Writing this bit is taken into account only if CONDRST bit is set to 1 in the same access, while CONFIGLOCK remains at 0. Writing to this bit is ignored if CONFIGLOCK=1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Hardware default values for NIST compliant RNG. In this configuration per 128-bit output"
+              },
+              {
+                "value": "1",
+                "meaning": "Custom values for NIST compliant RNG. See Section47.6: RNG entropy source"
+              }
+            ]
+          },
+          {
+            "bits": "11:8",
+            "name": "RNG_CONFIG3[3:0]",
+            "description": "RNG configuration 3 Reserved to the RNG configuration (bitfield 3). Refer to RNG_CONFIG1 bitfield for details. If the NISTC bit is cleared in this register RNG_CONFIG3 bitfield values are ignored by RNG.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "ARDIS",
+            "description": "Auto reset disable Set this bit to deactivate the auto-reset feature. Keeping the auto-reset enabled (automatic clearance of the SECS bit) simplifies the management of noise source errors, as described in Section47.3.7: Error management. Writing this bit is taken into account only if CONDRST bit is set to 1 in the same access, while CONFIGLOCK remains at 0. Writing to this bit is ignored if CONFIGLOCK=1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Auto-reset enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Auto-reset disabled"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "CED",
+            "description": "Clock error detection The clock error detection cannot be enabled nor disabled on-the-fly when the RNG is enabled, that is to enable or disable CED, the RNG must be disabled. Writing this bit is taken into account only if the CONDRST bit is set to 1 in the same access, while CONFIGLOCK remains at 0. Writing to this bit is ignored if CONFIGLOCK=1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Clock error detection enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Clock error detection is disabled"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "IE",
+            "description": "Interrupt enable set in the RNG_SR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RNG interrupt is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "RNG interrupt is enabled. An interrupt is pending as soon as the DRDY, SEIS, or CEIS is"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "RNGEN",
+            "description": "True random number generator enable logic clocked by the RNG clock is gated.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "True random number generator is disabled. Analog noise sources are powered off and"
+              },
+              {
+                "value": "1",
+                "meaning": "True random number generator is enabled."
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

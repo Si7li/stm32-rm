@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S39.3.16",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "39",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "39.3.16",
+      "section_title": "Timestamp function",
+      "level": 3,
+      "parent_section": "39.3",
+      "page": 1568,
+      "page_end": 1569,
+      "semantic_type": "generic",
+      "features": [
+        "clock"
+      ],
+      "chars": 1591,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1568",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.3.16 \"Timestamp function\" in chapter 39 (Real-time clock (RTC)), RM0522 Rev 1, page 1568.",
+      "section_content": "Timestamp is enabled by setting the TSE bit of RTC_CR register to 1.\nWhen TSE is set:\nThe calendar is saved in the timestamp registers (RTC_TSSSR, RTC_TSTR, RTC_TSDR)\nwhen a timestamp event is detected on the RTC_TS pin.\nWhen TAMPTS is set:\nThe calendar is saved in the timestamp registers (RTC_TSSSR, RTC_TSTR, RTC_TSDR)\nwhen an internal or external tamper event is detected. Refer to RTC control register\n(RTC_CR) and refer to Section: Timestamp on tamper event.\nWhen a timestamp event occurs, the timestamp flag bit (TSF) in RTC_SR register is set.\nBy setting the TSIE bit in the RTC_CR register, an interrupt is generated when a timestamp\nevent occurs.\nIf a new timestamp event is detected while the timestamp flag (TSF) is already set, the\ntimestamp overflow flag (TSOVF) flag is set and the timestamp registers (RTC_TSTR and\nRTC_TSDR) maintain the results of the previous event.\nNote: TSF is set up to 2 ck_apre cycles after the timestamp event from RTC_TS pin occurs, due to\nsynchronization process. TSF is set up to 3 ck_apre cycles after tamper flags.\nTSOVF is set up to only 1 ck_apre cycle after the event occurs. This means that if two\ntimestamp events are close together, TSOVF can be seen as '1' while TSF is still '0'. As a\nconsequence, it is recommended to poll TSOVF only after TSF has been set.\nCaution: If a timestamp event occurs immediately after the TSF bit is supposed to be cleared, then\nboth TSF and TSOVF bits are set. To avoid masking a timestamp event occurring at the\nsame moment, the application must not write 0 into TSF bit unless it has already read it to 1.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S38.3.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "38",
+      "chapter_title": "Digital camera interface (DCMI)",
+      "section": "38.3.5",
+      "section_title": "DCMI physical interface",
+      "level": 3,
+      "parent_section": "38.3",
+      "page": 1795,
+      "page_end": 1797,
+      "semantic_type": "generic",
+      "features": [
+        "dcmi"
+      ],
+      "chars": 3121,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1795",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 38.3.5 \"DCMI physical interface\" in chapter 38 (Digital camera interface (DCMI)), RM0486 Rev 4, page 1795.",
+      "section_content": "The interface is composed of 11/13/15/17 inputs. Only the Slave mode is supported.\nThe camera interface can capture 8-bit, 10-bit, 12-bit or 14-bit data depending on the\nEDM[1:0] bits of the DCMI_CR register. If less than 14 bits are used, the unused input pins\nmust be connected to ground.\nDCMI pins are shown in Table316.\nThe data are synchronous with DCMI_PIXCLK and change on the rising/falling edge of the\npixel clock depending on the polarity.\nThe DCMI_HSYNC signal indicates the start/end of a line.\nThe DCMI_VSYNC signal indicates the start/end of a frame\n[Figure 390. DCMI signal waveforms]\n1. The capture edge of DCMI_PIXCLK is the falling edge, the active state of DCMI_HSYNC and\nDCMI_VSYNC is 1.\n2. DCMI_HSYNC and DCMI_VSYNC can change states at the same time.\n8-bit data\nWhen EDM[1:0] = 00 in DCMI_CR the interface captures 8 LSBs at its input (DCMI_D[7:0])\nand stores them as 8-bit data. The DCMI_D[13:8] inputs are ignored. In this case, to capture\na 32-bit word, the camera interface takes four pixel clock cycles.\nThe first captured data byte is placed in the LSB position in the 32-bit word and the 4th\ncaptured data byte is placed in the MSB position in the 32-bit word. The table below gives\nan example of the positioning of captured data bytes in two 32-bit words.\n[Table 318. Positioning of captured data bytes in 32-bit words (8-bit width)]\n10-bit data\nWhen EDM[1:0] = 01 in DCMI_CR, the camera interface captures 10-bit data at its input\nDCMI_D[9:0] and stores them as the 10 least significant bits of a 16-bit word. The remaining\nmost significant bits of the DCMI_DR register (bits 11 to 15) are cleared to zero. So, in this\ncase, a 32-bit data word is made up every two pixel clock cycles.\nThe first captured data are placed in the LSB position in the 32-bit word and the 2nd\ncaptured data are placed in the MSB position in the 32-bit word as shown in the table below.\n[Table 319. Positioning of captured data bytes in 32-bit words (10-bit width)]\n12-bit data\nWhen EDM[1:0] = 10 in DCMI_CR, the camera interface captures the 12-bit data at its input\nDCMI_D[11:0] and stores them as the 12 least significant bits of a 16-bit word. The\nremaining most significant bits are cleared to zero. So, in this case a 32-bit data word is\nmade up every two pixel clock cycles.\nThe first captured data are placed in the LSB position in the 32-bit word and the 2nd\ncaptured data are placed in the MSB position in the 32-bit word as shown in the table below.\n[Table 320. Positioning of captured data bytes in 32-bit words (12-bit width)]\n14-bit data\nWhen EDM[1:0] = 11 in DCMI_CR, the camera interface captures the 14-bit data at its input\nDCMI_D[13:0] and stores them as the 14 least significant bits of a 16-bit word. The\nremaining most significant bits are cleared to zero. So, in this case a 32-bit data word is\nmade up every two pixel clock cycles.\nThe first captured data are placed in the LSB position in the 32-bit word and the 2nd\ncaptured data are placed in the MSB position in the 32-bit word as shown in the table below.\n[Table 321. Positioning of captured data bytes in 32-bit words (14-bit width)]",
+      "semantic": {}
+    }
+  ]
+}

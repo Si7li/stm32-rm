@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S21.4.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "21",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "21.4.9",
+      "section_title": "Constraints when writing the ADC control bits",
+      "level": 3,
+      "parent_section": "21.4",
+      "page": 575,
+      "page_end": 576,
+      "semantic_type": "generic",
+      "features": [
+        "adc"
+      ],
+      "chars": 1814,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=575",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.4.9 \"Constraints when writing the ADC control bits\" in chapter 21 (Analog-to-digital converters (ADC)), RM0522 Rev 1, page 575.",
+      "section_content": "The software is allowed to write the RCC control bits to configure and enable the ADC clock\n(refer to RCC section) and configure the ADEN bit in the ADC_CR register, only if the ADC\nis disabled (ADEN must be cleared).\nThe software can write the ADSTART, JADSTART and ADDIS control bits in the ADC_CR\nregister only if the ADC is enabled and there is no pending request to disable the ADC\n(ADEN must be equal to 1 and ADDIS to 0).\nThe following constraints apply to all the other control bits of the ADC_CFGRx,\nADC_SMPRx, ADC_TRy, ADC_SQRy, ADC_JDRy, ADC_OFRy, ADC_OFCHRy and\nADC_IER registers:\n• For control bits related to configuration of regular conversions, the software is allowed\nto write them only if no regular conversions are ongoing (ADSTART must be cleared).\n• For control bits related to configuration of injected conversions, the software is allowed\nto write them only if no injected conversions are ongoing (JADSTART must be cleared).\n• ADC_TRy register thresholds can be modified when an analog-to-digital conversion is\nongoing (refer to Section21.4.27: Analog window watchdog (AWD1EN, JAWD1EN,\nAWD1SGL, AWD1CH, AWDCH of ADC_AWD2CR and ADC_AWD3CR, HTR, LTR,\nAWDFILT) for details).\n• To modify the all above control bits when the software trigger function is used, an\nADSTP or JADSTP must be issued to make sure all activities are stopped, even if\nADSTART and JADSTART are cleared.\nThe software is allowed to write the ADSTP or JADSTP control bits in the ADC_CR register\nonly if the ADC is enabled and if there is no pending request to disable the ADC.\nNote: Not all forbidden write accesses to ADC control bits are protected by hardware. In some\ncases, the ADC state may become unknown. To recover from this situation, the ADC must\nbe disabled (ADEN=0 as well as all the bits of the ADC_CR register).",
+      "semantic": {}
+    }
+  ]
+}

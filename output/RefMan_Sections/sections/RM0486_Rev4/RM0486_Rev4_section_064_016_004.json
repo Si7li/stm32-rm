@@ -1,0 +1,57 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.4",
+      "section_title": "I3C receive data byte register (I3C_RDR)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3241,
+      "page_end": 3241,
+      "semantic_type": "register_description",
+      "features": [
+        "i3c",
+        "i3c-rdr",
+        "rdb0"
+      ],
+      "chars": 1232,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3241",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.4 \"I3C receive data byte register (I3C_RDR)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3241.",
+      "section_content": "Address offset: 0x010\nReset value: 0x00000000\nThis register is used to read received data bytes from the I3C bus if the RX-FIFO is\nconfigured with a byte-based read access (RXTHRES = 0 in the I3C_CFGR register). Then:\n• On read, I3C_RDR returns a 32-bit data word, with the received data byte in LSB\nposition, and other reserved bits read as 0.\n• When RXDMAEN = 1 in the I3C_CFGR register: programmed I3C and DMA\nautomatically manage by hardware the relevant and successive reads.\n• When RXDMAEN = 0: before a read, the software must wait to be notified that a next\nreceived data byte must be read via the RX-FIFO non empty flag (RXFNEF = 1 in the\nI3C_EVR register) or via the corresponding interrupt if enabled. Last received byte of a\ngiven message to be read is also marked with RXLASTF = 1 in the I3C_EVR register\nwhen acting as controller.\n• If the RX-FIFO is full, a new byte is received and cannot be pushed into the RX-FIFO\nwithout waiting anymore, the software is notified by error flag ERRF = 1 in the I3C_EVR\nregister and by a data overrun flag DOVRF = 1 in the I3C_SER register (and\ncorresponding interrupt if enabled).\nBits 31:8 Reserved, must be kept at reset value.\nBits 7:0 RDB0[7:0]: 8-bit received data on I3C bus.",
+      "semantic": {
+        "register": "I3C_RDR",
+        "address_offset": "0x010",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "RDB0[7:0]",
+            "description": "8-bit received data on I3C bus.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

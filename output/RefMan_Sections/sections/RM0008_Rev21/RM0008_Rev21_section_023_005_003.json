@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S23.5.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "23",
+      "chapter_title": "Universal serial bus full-speed device interface (USB)",
+      "section": "23.5.3",
+      "section_title": "Buffer descriptor table",
+      "level": 3,
+      "parent_section": "23.5",
+      "page": 648,
+      "page_end": 651,
+      "semantic_type": "generic",
+      "features": [
+        "buffer",
+        "descriptor"
+      ],
+      "chars": 5037,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=648",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 23.5.3 \"Buffer descriptor table\" in chapter 23 (Universal serial bus full-speed device interface (USB)), RM0008 Rev 21, page 648.",
+      "section_content": "Although the buffer descriptor table is located inside the packet buffer memory, its entries\ncan be considered as additional registers used to configure the location and size of the\npacket buffers used to exchange data between the USB macro cell and the STM32F10xxx.\nDue to the common APB bridge limitation on word addressability, all packet memory\nlocations are accessed by the APB using 32-bit aligned addresses, instead of the actual\nmemory location addresses utilized by the USB peripheral for the USB_BTABLE register\nand buffer description table locations.\nIn the following pages two location addresses are reported: the one to be used by\napplication software while accessing the packet memory, and the local one relative to USB\nPeripheral access. To obtain the correct STM32F10xxx memory address value to be used in\nthe application software while accessing the packet memory, the actual memory location\naddress must be multiplied by two. The first packet memory location is located at\n0x40006000. The buffer descriptor table entry associated with the USB_EPnR registers is\ndescribed below.\nA thorough explanation of packet buffers and the buffer descriptor table usage can be found\nin Structure and usage of packet buffers.\nTransmission buffer address n (USB_ADDRn_TX)\nAddress offset: [USB_BTABLE] + n*16\nUSB local address: [USB_BTABLE] + n*8\n[Table 176. Transmission status encoding]\nBits 15:1 ADDRn_TX[15:1]: Transmission buffer address\nThese bits point to the starting address of the packet buffer containing data to be transmitted\nby the endpoint associated with the USB_EPnR register at the next IN token addressed to it.\nBit 0 Must always be written as ‘0 since packet memory is word-wide and all packet buffers must be\nword-aligned.\nTransmission byte count n (USB_COUNTn_TX)\nAddress offset: [USB_BTABLE] + n*16 + 4\nUSB local Address: [USB_BTABLE] + n*8 + 2\nBits 15:10 These bits are not used since packet size is limited by USB specifications to 1023 bytes. Their\nvalue is not considered by the USB peripheral.\nBits 9:0 COUNTn_TX[9:0]: Transmission byte count\nThese bits contain the number of bytes to be transmitted by the endpoint associated with the\nUSB_EPnR register at the next IN token addressed to it.\nNote: Double-buffered and Isochronous IN Endpoints have two USB_COUNTn_TX registers:\nnamed USB_COUNTn_TX_1 and USB_COUNTn_TX_0 with the following content.\nReception buffer address n (USB_ADDRn_RX)\nAddress offset: [USB_BTABLE] + n*16 + 8\nUSB local Address: [USB_BTABLE] + n*8 + 4\nBits 15:1 ADDRn_RX[15:1]: Reception buffer address\nThese bits point to the starting address of the packet buffer, which will contain the data\nreceived by the endpoint associated with the USB_EPnR register at the next OUT/SETUP\ntoken addressed to it.\nBit 0 This bit must always be written as ‘0 since packet memory is word-wide and all packet buffers\nmust be word-aligned.\nReception byte count n (USB_COUNTn_RX)\nAddress offset: [USB_BTABLE] + n*16 + 12\nUSB local Address: [USB_BTABLE] + n*8 + 6\nThis table location is used to store two different values, both required during packet\nreception. The most significant bits contains the definition of allocated buffer size, to allow\nbuffer overflow detection, while the least significant part of this location is written back by the\nUSB peripheral at the end of reception to give the actual number of received bytes. Due to\nthe restrictions on the number of available bits, buffer size is represented using the number\nof allocated memory blocks, where block size can be selected to choose the trade-off\nbetween fine-granularity/small-buffer and coarse-granularity/large-buffer. The size of\nallocated buffer is a part of the endpoint descriptor and it is normally defined during the\nenumeration process according to its maxPacketSize parameter value (See “Universal\nSerial Bus Specification”).\nBit 15 BL_SIZE: BLock size\nThis bit selects the size of memory block used to define the allocated buffer area.\n– If BL_SIZE=0, the memory block is 2 byte large, which is the minimum block allowed in a\nword-wide memory. With this block size the allocated buffer size ranges from 2 to 62 bytes.\n– If BL_SIZE=1, the memory block is 32 byte large, which allows to reach the maximum\npacket length defined by USB specifications. With this block size the allocated buffer size\nranges from 32 to 1024 bytes, which is the longest packet size allowed by USB standard\nspecifications.\nBits 14:10 NUM_BLOCK[4:0]: Number of blocks\nThese bits define the number of memory blocks allocated to this packet buffer. The actual\namount of allocated memory depends on the BL_SIZE value as illustrated in Table177.\nBits 9:0 COUNTn_RX[9:0]: Reception byte count\nThese bits contain the number of bytes received by the endpoint associated with the\nUSB_EPnR register during the last OUT/SETUP transaction addressed to it.\nNote: Double-buffered and Isochronous IN Endpoints have two USB_COUNTn_TX registers:\nnamed USB_COUNTn_TX_1 and USB_COUNTn_TX_0 with the following content.\n[Table 177. Definition of allocated buffer memory]",
+      "semantic": {}
+    }
+  ]
+}

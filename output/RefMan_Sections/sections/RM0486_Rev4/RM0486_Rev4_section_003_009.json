@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.9",
+      "section_title": "Access controlled debug",
+      "level": 2,
+      "parent_section": null,
+      "page": 200,
+      "page_end": 200,
+      "semantic_type": "generic",
+      "features": [
+        "access",
+        "controlled",
+        "debug"
+      ],
+      "chars": 2623,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=200",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.9 \"Access controlled debug\" in chapter 3 (System security), RM0486 Rev 4, page 200.",
+      "section_content": "The BSEC and DBGMCU hardware support an Arm PSA-compliant debug authentication\nmechanism.\nA secure debug is where the debugger arranges to make secure privileged accesses on\nitsAXI initiator. A nonsecure debug is more restricted: the debugger can only make\nnon-secure privileged accesses via its AXI port.\nOn power-up, regardless of whether or not the reset pin is still asserted, fuses are\nimmediately read to determine whether the device is BSEC-open or BSEC-closed. If the\ndevice is BSEC-open, an attached debugger can perform a “chip discovery” (reading\nvarious CPU identification registers), even while holding the device in reset via the RESET\npin.\nOn a BSEC-closed device, the debug access depends on the content of BSEC_DBGCR\nand BSEC_AP_UNLOCK, which are only writable once by secure-privileged code after\nthebootROM has completed. The debug opens when both conditions are met:\n• DBG_UNLOCK = 0xB4 in BSEC_DBGCR.\n• UNLOCK = 0xB4 in BSEC_AP_UNLOCK.\nThe current HDPL (reported inBSEC_HDPLSR) must also be non-zero. It must reach the\nlevel defined by DBG_AUTH_TIL in BSEC_DBGCR. DBG_AUTH_SEC in BSEC_DBGCR\ndetermines whether it is secure or nonsecure debug (see Section4: Boot and security\ncontrol (BSEC) for more details).\nIn order to control the debug reopening, the uRoT can impose a debug authentication\nprotocol. This protocol must implement a challenge response mechanism based on\nasymmetric cryptography to authenticate requests from the host (relying on an OEM debug\npublic key stored in the device by the OEM).\nThe protocol can implement a bidirectional communication between the host and the device\nthrough a mailbox interface located in the DBGMCU. The host debugger writes to\nthemailbox via the JTAG/SWD interface, and expects to get responses and messages from\nthedevice via the same mailbox.\nThe debug authentication protocol is launched on a power-up of the device, when\nanopen-request message is posted by the host, while the device is still under reset.\nTrustedDBG_AUTH code sees this, and generates a random challenge token.\nThedebugger appends this token to a certificate chain that confers certain rights to the\ndebugger, signs this \"debug certificate\" structure, and submits it back to the device.\nTheDBG_AUTH code validates it with respect to a root public key provisioned in fuses\nbythe OEM. The random token stops any later replay of the same interaction.\nThe debug certificate determines whether the debug is secure or nonsecure.\nBSEC_DBGCR is only reset on power-up: it retains its value through warm resets.\nThedebugger does not have to repeat the authentication procedure on system resets.",
+      "semantic": {}
+    }
+  ]
+}

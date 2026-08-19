@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S47.4.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "47",
+      "chapter_title": "Universal serial bus full-speed host/device interface (USB)",
+      "section": "47.4.5",
+      "section_title": "Description of USB blocks used in both Device and Host modes",
+      "level": 3,
+      "parent_section": "47.4",
+      "page": 2090,
+      "page_end": 2091,
+      "semantic_type": "generic",
+      "features": [
+        "usb"
+      ],
+      "chars": 3986,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2090",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 47.4.5 \"Description of USB blocks used in both Device and Host modes\" in chapter 47 (Universal serial bus full-speed host/device interface (USB)), RM0522 Rev 1, page 2090.",
+      "section_content": "The USB peripheral implements all the features related to USB interfacing, which include\nthe following blocks:\n• USB physical interface (USB PHY): this block is maintaining the electrical interface to\nan external USB host. It contains the differential analog transceiver itself, controllable\nembedded pull-up resistor (connected to USB_DP line) and support for battery\ncharging detection (BCD), multiplexed on same USB_DP and USB_DM lines.\n• Serial interface engine (SIE): the functions of this block include: synchronization\npattern recognition, bit-stuffing, CRC generation and checking, PID\nverification/generation, and handshake evaluation. It must interface with the USB\ntransceivers and uses the virtual buffers provided by the packet buffer interface for\nlocal data storage. This unit also generates signals according to USB peripheral\nevents, such as start of frame (SOF), USB_Reset, data errors etc. and to endpoint\nrelated events like end of transmission or correct reception of a packet; these signals\nare then used to generate interrupts.\n• Timer: this block generates a start-of-frame locked clock pulse and detects a global\nsuspend (from the host) when no traffic has been received for 3ms.\n• Packet buffer interface: this block manages the local memory implementing a set of\nbuffers in a flexible way, both for transmission and reception. It can choose the proper\nbuffer according to requests coming from the SIE and locate them in the memory\naddresses pointed by the endpoint/channel registers. It increments the address after\neach exchanged byte until the end of packet, keeping track of the number of\nexchanged bytes and preventing the buffer to overrun the maximum capacity.\n• Endpoint/channel-related registers: each endpoint/channel has an associated register\ncontaining the endpoint/channel type and its current status. For mono-\ndirectional/single-buffer endpoints, a single register can be used to implement two\ndistinct endpoints. The number of registers is 8, allowing up to 16 mono-\ndirectional/single-buffer or up to 7 double-buffer endpoints in any combination. For\nexample the USB peripheral can be programmed to have 4 double buffer endpoints\nand 8 single-buffer/mono-directional endpoints.\n• Control registers: these are the registers containing information about the status of the\nwhole USB peripheral and used to force some USB events, such as resume and\npower-down.\n• Interrupt registers: these contain the interrupt masks and a record of the events. They\ncan be used to inquire an interrupt reason, the interrupt status or to clear the status of a\npending interrupt.\nNote: * Endpoint/channel 0 is always used for control transfer in single-buffer mode.\nThe USB peripheral is connected to the APB2 bus through an APB2 interface, containing\nthe following blocks:\n• Packet memory: this is the local memory that physically contains the packet buffers. It\ncan be used by the packet buffer interface, which creates the data structure and can be\naccessed directly by the application software. The size of the packet memory is\n2048bytes, structured as 512 words of 32 bits.\n• Arbiter: this block accepts memory requests coming from the APB2 bus and from the\nUSB interface. It resolves the conflicts by giving priority to APB2 accesses, while\nalways reserving half of the memory bandwidth to complete all USB transfers. This\ntime-duplex scheme implements a virtual dual-port SRAM that allows memory access,\nwhile an USB transaction is happening. Multiword APB2 transfers of any length are\nalso allowed by this scheme.\n• Register mapper: this block collects the various byte-wide and bit-wide registers of the\nUSB peripheral in a structured 32-bit wide word set addressed by the APB2.\n• APB2 wrapper: this provides an interface to the APB2 for the memory and register. It\nalso maps the whole USB peripheral in the APB2 address space.\n• Interrupt mapper: this block is used to select how the possible USB events can\ngenerate interrupts and map them to the NVIC.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S27.6.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "27",
+      "chapter_title": "Flexible memory controller (FMC)",
+      "section": "27.6.1",
+      "section_title": "Supported memories and transactions",
+      "level": 3,
+      "parent_section": "27.6",
+      "page": 1180,
+      "page_end": 1181,
+      "semantic_type": "generic",
+      "features": [
+        "memory"
+      ],
+      "chars": 2147,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1180",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.6.1 \"Supported memories and transactions\" in chapter 27 (Flexible memory controller (FMC)), RM0486 Rev 4, page 1180.",
+      "section_content": "General transaction rules\nThe requested AXI transaction data size can be 8-, 16-, 32- or 64-bit wide whereas the\naccessed external device has a fixed data width. This may lead to inconsistent transfers.\nTherefore, some simple transaction rules must be followed:\n• AXI transaction size and memory data size must be equal to prevent issues from\noccurring.\n• AXI transaction size is greater than the memory size:\nIn this case, the FMC splits the AXI transaction into smaller consecutive memory\naccesses to meet the external data width.\n• AXI transaction size is smaller than the memory size:\nThe transfer may or not be consistent depending on the type of external device:\n– Accesses to devices that have the byte select feature (SRAM, ROM, PSRAM,\nSDRAM)\nIn this case, the FMC allows read/write transactions and accesses the right data\nthrough its byte lanes NBL[3:0].\nBytes to be written are addressed by NBL[3:0].\nAll memory bytes are read (NBL[3:0] are driven low during read transaction) and\nthe useless ones are discarded.\n– Accesses to devices that do not have the byte select feature (NOR and NAND\nflash memories)\nThis situation occurs when a byte access is requested to a 16-bit wide flash\nmemory. Since the device cannot be accessed in Byte mode (only 16-bit words\ncan be read/written from/to the flash memory), write transactions are not allowed\nwhile read transactions are allowed (the controller reads the entire 16-bit memory\nword and uses only the required byte).\nWrap support for NOR flash/PSRAM\nSynchronous memories must be configured in Linear burst mode of undefined length as not\nall masters can issue wrap transactions.\nIf a master generates a wrap transaction:\n• The read operation is split into two linear burst transactions.\n• The write operation is split into two linear burst transactions.\nConfiguration registers\nThe FMC can be configured through a set of registers. Refer to Section27.8.6, for a\ndetailed description of the NOR flash/PSRAM controller registers. Refer to Section27.9.9,\nfor a detailed description of the NAND flash registers and to Section27.10.5 for a detailed\ndescription of the SDRAM controller registers.",
+      "semantic": {}
+    }
+  ]
+}

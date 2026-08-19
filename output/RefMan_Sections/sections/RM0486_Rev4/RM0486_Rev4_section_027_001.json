@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S27.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "27",
+      "chapter_title": "Flexible memory controller (FMC)",
+      "section": "27.1",
+      "section_title": "FMC main features",
+      "level": 2,
+      "parent_section": null,
+      "page": 1176,
+      "page_end": 1177,
+      "semantic_type": "generic",
+      "features": [
+        "fmc",
+        "memory"
+      ],
+      "chars": 3385,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1176",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.1 \"FMC main features\" in chapter 27 (Flexible memory controller (FMC)), RM0486 Rev 4, page 1176.",
+      "section_content": "The FMC functional block makes the interface with: synchronous and asynchronous static\nmemories, SDRAM memories, and NAND flash memory. Its main purposes are:\n• to translate AXI transactions into the appropriate external device protocol\n• to meet the access time requirements of the external memory devices\nAll external memories share the addresses, data and control signals with the controller.\nEach external device is accessed by means of a unique Chip Select. The FMC performs\nonly one access at a time to an external device.\nThe main features of the FMC are the following:\n• Interface with static-memory mapped devices including:\n– Static random access memory (SRAM)\n– NOR flash memory/One NAND flash memory\n– PSRAM (4 memory subregions)\n– Ferroelectric RAM (FRAM)\n– NAND flash memory with ECC hardware to check up to 8 Kbytes of data\n• Interface with synchronous DRAM (SDRAM/Mobile LPSDR SDRAM) memories\n• Burst mode support for faster access to synchronous devices such as NOR flash\nmemory, PSRAM and SDRAM)\n• Programmable continuous clock output for asynchronous and synchronous accesses\n• 8-,16- or 32-bit wide data bus\n• Independent chip-select control for each memory region\n• Independent configuration for each memory region\n• Write enable and byte lane select outputs for use with PSRAM, SRAM and SDRAM\ndevices\n• External asynchronous wait control\nAt startup the FMC pins must be configured by the user application. The FMC input/output\npins which are not used by the application can be used for other purposes.\nAfter reset, the FMC is disabled. Once all the used memory controllers are configured, the\nFMC must be enabled by setting the FMCEN bit.\nThe FMC registers that define the external device type and associated characteristics are\nset at boot time and do not change until the next reset or power-up. If some registers have\nto be re-configured, the FMC must be disabled (FMCEN bit set to 0x0). However, only few\nbits can be changed on the fly:\n• FMCEN bit\n• ECCEN and PBEN bits in FMC_PCR register\n• FMC_CSQICR and FMC_CSQIER register bits\n• FMC command sequencer registers and FMC BCH registers\n• WEN bit in the FMC_PCR register\n• MODE[2:0], DS1/DS2, NRFS[3:0] and MRD[13:0] bits in FMC_SDCMR register\n• REIE and CRE bits in the FMC_SDRTR register.\nIf some parameters have to be modified while the FMC is enabled, the FMC must be first\ndisabled so that no further access is allowed to any memory controller during register\nmodification. Once all needed configurations are updated, enable the FMC as follows:\n1. Disable FMC by resetting the FMCEN bit.\n2. Wait ISOST[1:0] bits in FMC_SR register to be set to 0b11.\n3. Wait until PEF flag is set in the FMC_SR register.\n4. Program the registers with new values.\n5. Enable the FMC by setting the FMCEN bit.\nWhen the SDRAM controller is available, if the SDCLK clock ratio or refresh rate has to be\nmodified after the initialization phase, the following procedure must be followed.\n1. Stop by software, the AXI traffic from/to the SDRAM devices only.\n2. Put all the SDRAM devices in self refresh and wait for the CMDOK command\ncompletion flag.\n3. Change the clock ratio to the new value.\n4. Send a normal mode command (NRM) to exit from SR and wait for the CMDOK\ncommand completion flag.\n5. Send a load mode register command (LMR) as needed to update devices timing\n(optional)\n6. Resume the AXI traffic to SDRAM devices.",
+      "semantic": {}
+    }
+  ]
+}

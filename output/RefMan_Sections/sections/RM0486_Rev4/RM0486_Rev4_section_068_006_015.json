@@ -1,0 +1,204 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.6.15",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.6.15",
+      "section_title": "SAI status register (SAI_BSR)",
+      "level": 3,
+      "parent_section": "68.6",
+      "page": 3560,
+      "page_end": 3562,
+      "semantic_type": "register_description",
+      "features": [
+        "afsdet",
+        "cnrdy",
+        "flvl",
+        "freq",
+        "lfsdet",
+        "mutedet",
+        "ovrudr",
+        "sai",
+        "sai-bsr",
+        "wckcfg"
+      ],
+      "chars": 4007,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3560",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.6.15 \"SAI status register (SAI_BSR)\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3560.",
+      "section_content": "Address offset: 0x38\nReset value: 0x0000 0008\nBits 31:19 Reserved, must be kept at reset value.\nBits 18:16 FLVL[2:0]: FIFO level threshold.\nThis bit is read only. The FIFO level threshold flag is managed only by hardware and its setting\ndepends on SAI block configuration (transmitter or receiver mode).\n000: FIFO empty (transmitter and receiver modes)\n001: FIFO ≤ ¼ but not empty (transmitter mode), FIFO < ¼ but not empty (receiver mode)\n010: ¼ < FIFO ≤ ½ (transmitter mode), ¼ ≤ FIFO < ½ (receiver mode)\n011: ½ < FIFO ≤ ¾ (transmitter mode), ½ ≤ FIFO < ¾ (receiver mode)\n100: ¾ < FIFO but not full (transmitter mode), ¾ ≤ FIFO but not full (receiver mode)\n101: FIFO full (transmitter and receiver modes)\nOthers: Reserved\nBits 15:7 Reserved, must be kept at reset value.\nBit 6 LFSDET: Late frame synchronization detection.\nThis bit is read only.\n0: No error.\n1: Frame synchronization signal is not present at the right time.\nThis flag can be set only if the audio block is configured in slave mode.\nIt is not used in AC’97 or SPDIF mode.\nIt can generate an interrupt if LFSDETIE bit is set in the SAI_xIM register.\nThis flag is cleared when the software sets bit CLFSDET in SAI_xCLRFR register\nBit 5 AFSDET: Anticipated frame synchronization detection.\nThis bit is read only.\n0: No error.\n1: Frame synchronization signal is detected earlier than expected.\nThis flag can be set only if the audio block is configured in slave mode.\nIt is not used in AC’97or SPDIF mode.\nIt can generate an interrupt if AFSDETIE bit is set in SAI_xIM register.\nThis flag is cleared when the software sets CAFSDET bit in SAI_xCLRFR register.\nBit 4 CNRDY: Codec not ready.\nThis bit is read only.\n0: External AC’97 Codec is ready\n1: External AC’97 Codec is not ready\nThis bit is used only when the AC’97 audio protocol is selected in the SAI_xCR1 register and\nconfigured in receiver mode.\nIt can generate an interrupt if CNRDYIE bit is set in SAI_xIM register.\nThis flag is cleared when the software sets CCNRDY bit in SAI_xCLRFR register.\nBit 3 FREQ: FIFO request.\nThis bit is read only.\n0: No FIFO request.\n1: FIFO request to read or to write the SAI_xDR.\nThe request depends on the audio block configuration:\n– If the block is configured in transmission mode, the FIFO request is related to a write request\noperation in the SAI_xDR.\n– If the block configured in reception, the FIFO request related to a read request operation from the\nSAI_xDR.\nThis flag can generate an interrupt if FREQIE bit is set in SAI_xIM register.\nBit 2 WCKCFG: Wrong clock configuration flag.\nThis bit is read only.\n0: Clock configuration is correct\n1: Clock configuration does not respect the rule concerning the frame length specification defined in\nSection68.4.6: Frame synchronization (configuration of FRL[7:0] bit in the SAI_xFRCR register)\nThis bit is used only when the audio block operates in master mode (MODE[1] = 0) and NODIV = 0.\nIt can generate an interrupt if WCKCFGIE bit is set in SAI_xIM register.\nThis flag is cleared when the software sets CWCKCFG bit in SAI_xCLRFR register.\nBit 1 MUTEDET: Mute detection.\nThis bit is read only.\n0: No MUTE detection on the SD input line\n1: MUTE value detected on the SD input line (0 value) for a specified number of consecutive audio\nframe\nThis flag is set if consecutive 0 values are received in each slot of a given audio frame and for a\nconsecutive number of audio frames (set in the MUTECNT bit in the SAI_xCR2 register).\nIt can generate an interrupt if MUTEDETIE bit is set in SAI_xIM register.\nThis flag is cleared when the software sets bit CMUTEDET in the SAI_xCLRFR register.\nBit 0 OVRUDR: Overrun / underrun.\nThis bit is read only.\n0: No overrun/underrun error.\n1: Overrun/underrun error detection.\nThe overrun and underrun conditions can occur only when the audio block is configured as a\nreceiver and a transmitter, respectively.\nIt can generate an interrupt if OVRUDRIE bit is set in SAI_xIM register.\nThis flag is cleared when the software sets COVRUDR bit in SAI_xCLRFR register.",
+      "semantic": {
+        "register": "SAI_BSR",
+        "address_offset": "0x38",
+        "reset_value": "0x0000 0008",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18:16",
+            "name": "FLVL[2:0]",
+            "description": "FIFO level threshold. This bit is read only. The FIFO level threshold flag is managed only by hardware and its setting depends on SAI block configuration (transmitter or receiver mode).",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "FIFO empty (transmitter and receiver modes)"
+              },
+              {
+                "value": "001",
+                "meaning": "FIFO ≤ ¼ but not empty (transmitter mode), FIFO < ¼ but not empty (receiver mode)"
+              },
+              {
+                "value": "010",
+                "meaning": "¼ < FIFO ≤ ½ (transmitter mode), ¼ ≤ FIFO < ½ (receiver mode)"
+              },
+              {
+                "value": "011",
+                "meaning": "½ < FIFO ≤ ¾ (transmitter mode), ½ ≤ FIFO < ¾ (receiver mode)"
+              },
+              {
+                "value": "100",
+                "meaning": "¾ < FIFO but not full (transmitter mode), ¾ ≤ FIFO but not full (receiver mode)"
+              },
+              {
+                "value": "101",
+                "meaning": "FIFO full (transmitter and receiver modes)"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "15:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "LFSDET",
+            "description": "Late frame synchronization detection. This bit is read only. This flag can be set only if the audio block is configured in slave mode. It is not used in AC’97 or SPDIF mode. It can generate an interrupt if LFSDETIE bit is set in the SAI_xIM register. This flag is cleared when the software sets bit CLFSDET in SAI_xCLRFR register",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No error."
+              },
+              {
+                "value": "1",
+                "meaning": "Frame synchronization signal is not present at the right time."
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "AFSDET",
+            "description": "Anticipated frame synchronization detection. This bit is read only. This flag can be set only if the audio block is configured in slave mode. It is not used in AC’97or SPDIF mode. It can generate an interrupt if AFSDETIE bit is set in SAI_xIM register. This flag is cleared when the software sets CAFSDET bit in SAI_xCLRFR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No error."
+              },
+              {
+                "value": "1",
+                "meaning": "Frame synchronization signal is detected earlier than expected."
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "CNRDY",
+            "description": "Codec not ready. This bit is read only. This bit is used only when the AC’97 audio protocol is selected in the SAI_xCR1 register and configured in receiver mode. It can generate an interrupt if CNRDYIE bit is set in SAI_xIM register. This flag is cleared when the software sets CCNRDY bit in SAI_xCLRFR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "External AC’97 Codec is ready"
+              },
+              {
+                "value": "1",
+                "meaning": "External AC’97 Codec is not ready"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "FREQ",
+            "description": "FIFO request. This bit is read only. The request depends on the audio block configuration: – If the block is configured in transmission mode, the FIFO request is related to a write request operation in the SAI_xDR. – If the block configured in reception, the FIFO request related to a read request operation from the SAI_xDR. This flag can generate an interrupt if FREQIE bit is set in SAI_xIM register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No FIFO request."
+              },
+              {
+                "value": "1",
+                "meaning": "FIFO request to read or to write the SAI_xDR."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "WCKCFG",
+            "description": "Wrong clock configuration flag. This bit is read only. Section68.4.6: Frame synchronization (configuration of FRL[7:0] bit in the SAI_xFRCR register) This bit is used only when the audio block operates in master mode (MODE[1] = 0) and NODIV = 0. It can generate an interrupt if WCKCFGIE bit is set in SAI_xIM register. This flag is cleared when the software sets CWCKCFG bit in SAI_xCLRFR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Clock configuration is correct"
+              },
+              {
+                "value": "1",
+                "meaning": "Clock configuration does not respect the rule concerning the frame length specification defined in"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "MUTEDET",
+            "description": "Mute detection. This bit is read only. frame This flag is set if consecutive 0 values are received in each slot of a given audio frame and for a consecutive number of audio frames (set in the MUTECNT bit in the SAI_xCR2 register). It can generate an interrupt if MUTEDETIE bit is set in SAI_xIM register. This flag is cleared when the software sets bit CMUTEDET in the SAI_xCLRFR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No MUTE detection on the SD input line"
+              },
+              {
+                "value": "1",
+                "meaning": "MUTE value detected on the SD input line (0 value) for a specified number of consecutive audio"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "OVRUDR",
+            "description": "Overrun / underrun. This bit is read only. The overrun and underrun conditions can occur only when the audio block is configured as a receiver and a transmitter, respectively. It can generate an interrupt if OVRUDRIE bit is set in SAI_xIM register. This flag is cleared when the software sets COVRUDR bit in SAI_xCLRFR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No overrun/underrun error."
+              },
+              {
+                "value": "1",
+                "meaning": "Overrun/underrun error detection."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

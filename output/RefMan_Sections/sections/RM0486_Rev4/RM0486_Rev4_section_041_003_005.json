@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S41.3.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "41",
+      "chapter_title": "Parallel synchronous slave interface (PSSI)",
+      "section": "41.3.5",
+      "section_title": "PSSI optional control signals",
+      "level": 3,
+      "parent_section": "41.3",
+      "page": 2077,
+      "page_end": 2080,
+      "semantic_type": "generic",
+      "features": [
+        "pssi"
+      ],
+      "chars": 5076,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2077",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 41.3.5 \"PSSI optional control signals\" in chapter 41 (Parallel synchronous slave interface (PSSI)), RM0486 Rev 4, page 2077.",
+      "section_content": "Data Enable (PSSI_DE) alternate function input\nThe data enable signal, PSSI_DE, is an optional signal. It is driven by the data\nsource/transmitter in order to indicate that the data is valid to be transferred during the\ncurrent cycle. When PSSI_DE is inactive, it means that the data must not be sampled by the\nreceiver at the next clock edge.\nThis alternate function signal can be enabled using the DERDYCFG (bits 20:18 of\nPSSI_CR) control bits. PSSI_DE polarity is configured through DEPOL control bit (bit 6 of\nPSSI_CR). PSSI_DE is active low when DEPOL is cleared to 0, and high when DEPOL is et\nto 1.\nThe direction of the PSSI_DE signal is defined by the OUTEN value. It is the same as the\ndata direction.\nIf the PSSI_DE alternate function input is enabled (through DERDYCFG) in receive mode\n(OUTEN cleared to 0), the PSSI samples PSSI_DE on the same PSSI_PDCK edge as the\none used for sampling the data (D[15:0]). If PSSI_DE is active, the sampled data is saved in\nthe FIFO. Otherwise, the sampled data is considered invalid and discarded. The\ntransmitting device can use PSSI_DE as a data valid signal, driving it inactive when the data\nin the current cycle is not valid. This flow control function allows avoiding underrun errors.\n[Figure 438. Data enable in receive mode waveform diagram (CKPOL=0)]\nIf the PSSI_DE alternate output function is enabled (through DERDYCFG) in transmit mode\n(OUTEN=1), the PSSI drives PSSI_DE on the same PSSI_PDCK edge that the one used to\ndrive the data (D[15:0]). If a new 8 or 16-bit data (as programmed in the EDM[1:0] control\nbits in PSSI_CR) is available for transmission in the internal FIFO, this data is output on the\ndata outputs (D[15:0]) and the PSSI_DE output becomes active on the current PSSI_PDCK\nedge. Otherwise (if the TX FIFO is empty), the D[15:0] outputs remains unchanged on the\nnext clock edge and the PSSI_DE output becomes inactive.\n[Figure 439. Data enable waveform diagram in transmit mode (CKPOL=1)]\nReady (PSSI_RDY) alternate function output\nThe ready signal, PSSI_RDY, is an optional signal. It is driven by the receiving device and\nindicates whether data is being accepted in the current cycle. When PSSI_RDY is inactive,\nit means that the data must not be sampled by the receiver at the next clock edge.\nThis alternate function signal can be enabled using the DERDYCFG control bits (bits 20:18\nof PSSI_CR). PSSI_RDY polarity is configured through the RDYPOL control bit (bit 6 of\nPSSI_CR). PSSI_RDY is active low when RDYPOL is cleared to 0, and high when RDYPOL\nset to 1.\nThe direction of the PSSI_RDY signal is defined by the OUTEN (bit 31 of PSSI_CR). It is set\nin the opposite direction compared to the PSSI_DE and data signals.\nIf the PSSI_RDY alternate output function is enabled (through DERDYCFG) in receive\nmode (OUTEN=0), the PSSI drives PSSI_RDY one PSSI_PDCK half cycle after it samples\nthe data (D[15:0]). If the FIFO has enough free space to receive more data, the PSSI drives\nthe PSSI_RDY signal active. Otherwise, if the FIFO is full and cannot accept more data, the\nPSSI drives the PSSI_RDY signal inactive. The transmitting device must repeat the current\ndata in the next cycle when it detects that PSSI_RDY is inactive. This flow control function\nallows the PSSI to avoid overrun errors when the system (via the DMA) is unable to keep up\nwith the data flow.\nIf the PSSI_RDY alternate input function is enabled (through DERDYCFG) in transmit mode\n(OUTEN=1), the PSSI samples the PSSI_RDY signal on the opposite PSSI_PDCK edge to\nthe one at which D[15:0] are driven. If the PSSI_RDY signal is inactive, the PSSI keeps the\nsame data (D[15:0]) and PSSI_DE signals that valid data are available during the next\nPSSI_PDCK clock cycle. Otherwise, if PSSI_RDY signal is sampled as active, the next data\nfrom the TX FIFO (if available) is output on the data outputs (D[15:0]). If no new data are\navailable in the TX FIFO, the PSSI keeps the data output values and outputs the PSSI_DE\nsignal as inactive (if enabled).\nThe receiving device uses the PSSI_RDY to control the data flow and avoid overrun errors\nwhen the system (via the DMA) is unable to keep up with the data flow.\nBidirectional PSSI_DE/PSSI_RDY signal\nA single pin can be used for both data enable (PSSI_DE) and ready (PSSI_RDY) functions\nif DEPOL and RDYPOL are both set to 1 and DERDYCFG is set to 111 or 100 in the\nPSSI_CR register. In this case, the GPIO corresponding to selected alternate function\n(PSSI_DE when DERDYCFG=111 or PSSI_RDY when DERDYCFG=100) must be\nconfigured as open-drain. The other device must also be configured to drive the line as\nopen-drain, and a weak pull-up must be applied to the line.\nThe signal thus becomes bidirectional. If either the sender drives the line low (to indicate\nthat the data is not valid) or the receiver drives the line low (to indicate that it is not sampling\nthe current data), then both devices know that the data is not being transferred in the current\ncycle.\n[Figure 441. Bidirectional PSSI_DE/PSSI_RDY waveform]\n[Figure 442. Bidirectional PSSI_DE/PSSI_RDY connection diagram]",
+      "semantic": {}
+    }
+  ]
+}

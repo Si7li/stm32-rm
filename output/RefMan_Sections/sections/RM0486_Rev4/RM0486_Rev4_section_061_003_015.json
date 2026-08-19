@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S61.3.15",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "61",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "61.3.15",
+      "section_title": "RTC reference clock detection",
+      "level": 3,
+      "parent_section": "61.3",
+      "page": 3019,
+      "page_end": 3020,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rtc"
+      ],
+      "chars": 2182,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3019",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 61.3.15 \"RTC reference clock detection\" in chapter 61 (Real-time clock (RTC)), RM0486 Rev 4, page 3019.",
+      "section_content": "This feature is available only in BCD mode (BIN=00).\nThe update of the RTC calendar can be synchronized to a reference clock, RTC_REFIN,\nwhich is usually the mains frequency (50 or 60Hz). The precision of the RTC_REFIN\nreference clock should be higher than the 32.768kHz LSE clock. When the RTC_REFIN\ndetection is enabled (REFCKON bit of RTC_CR set to 1), the calendar is still clocked by the\nLSE, and RTC_REFIN is used to compensate for the imprecision of the calendar update\nfrequency (1Hz).\nEach 1Hz clock edge is compared to the nearest RTC_REFIN clock edge (if one is found\nwithin a given time window). In most cases, the two clock edges are properly aligned. When\nthe 1Hz clock becomes misaligned due to the imprecision of the LSE clock, the RTC shifts\nthe 1Hz clock a bit so that future 1Hz clock edges are aligned. Thanks to this mechanism,\nthe calendar becomes as precise as the reference clock.\nThe RTC detects if the reference clock source is present by using the 256Hz clock\n(ck_apre) generated from the 32.768kHz quartz. The detection is performed during a time\nwindow around each of the calendar updates (every 1s). The window equals 7 ck_apre\nperiods when detecting the first reference clock edge. A smaller window of 3 ck_apre\nperiods is used for subsequent calendar updates.\nEach time the reference clock is detected in the window, the asynchronous prescaler which\noutputs the ck_spre clock is forced to reload. This has no effect when the reference clock\nand the 1Hz clock are aligned because the prescaler is being reloaded at the same\nmoment. When the clocks are not aligned, the reload shifts future 1Hz clock edges a little\nfor them to be aligned with the reference clock.\nIf the reference clock halts (no reference clock edge occurred during the 3 ck_apre window),\nthe calendar is updated continuously based solely on the LSE clock. The RTC then waits for\nthe reference clock using a large 7 ck_apre period detection window centered on the\nck_spre edge.\nWhen the RTC_REFIN detection is enabled, PREDIV_A and PREDIV_S must be set to their\ndefault values:\n• PREDIV_A = 0x007F\n• PREVID_S = 0x00FF\nNote: RTC_REFIN clock detection is not available in Standby mode.",
+      "semantic": {}
+    }
+  ]
+}

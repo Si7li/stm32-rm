@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S20.3.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "20",
+      "chapter_title": "Neural-ART accelerator™ (NPU)",
+      "section": "20.3.10",
+      "section_title": "Convolutional accelerator",
+      "level": 3,
+      "parent_section": "20.3",
+      "page": 1018,
+      "page_end": 1019,
+      "semantic_type": "generic",
+      "features": [
+        "accelerator",
+        "convolutional"
+      ],
+      "chars": 1846,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1018",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 20.3.10 \"Convolutional accelerator\" in chapter 20 (Neural-ART accelerator™ (NPU)), RM0486 Rev 4, page 1018.",
+      "section_content": "This is the core of the NPU. It implements clusters of multiply-accumulate (MAC) engines\nsupporting fixed-point acceleration of the 3x3 convolutions used by many of the neural\nnetwork models. It can be configured as 16- or 8-bit MACs, depending on which fixed-point\nprecision for kernels and feature data is considered sufficient.\n[Figure 120. Convolutional accelerator (CONVACC)]\nbuffer\nControl I/F\nThe convolution accelerator connects to the stream switch by three input stream links and\none output stream link.\n• iSL0: receives the feature data as 8- or 16-bit raster scan or raw data. Data go through\na bit rate adaptation stream buffer and is then transmitted to the feature data\npreprocessing unit before it is stored in the feature line buffer.\n• iSL1: receives the kernel data as 8- or 16-bit raster scan or raw data.\n• oSL: provides convolution results as 8- or 16-bit raster scan or raw data stream, with up\nto 24-bit wide signed data values.\n• iSL2: can receive intermediate 24-bit signed accumulator values to be accumulated\nwith the convolution results.\nEach convolution accelerator supports signed or unsigned arithmetic. It includes eighteen\n16-bit MAC units grouped as six clusters of three MAC units. Each MAC performs a single\n16x16-, two 16x8-, or four 8x8-bit multiply accumulate operation, which sums up to a\nmaximum of 18 16x16-, 36 16x8-, or 72 8x8-bit multiply accumulate operations per clock\ncycle and per convolution accelerator unit.\nThe preprocessing unit implements the following sequence:\n1. Format detection: determines if the data is raster scan or raw\n2. Shift/round/saturation\n3. HOR/VER cropping\n4. Zero frame generation: on-the-fly extend the feature tensor structure.\n5. Iteration control: simplifies the iterative processing of kernels larger than the 3x3\nnatively supported by the convolutional accelerator.",
+      "semantic": {}
+    }
+  ]
+}

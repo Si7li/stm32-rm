@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S35.5.21",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "35",
+      "chapter_title": "General purpose timers (TIM15/TIM16/TIM17)",
+      "section": "35.5.21",
+      "section_title": "Clearing the tim_ocxref signal on an external event",
+      "level": 3,
+      "parent_section": "35.5",
+      "page": 1386,
+      "page_end": 1388,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 1603,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1386",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.5.21 \"Clearing the tim_ocxref signal on an external event\" in chapter 35 (General purpose timers (TIM15/TIM16/TIM17)), RM0522 Rev 1, page 1386.",
+      "section_content": "The tim_ocxref signal of a given channel can be cleared when a high level is applied on the\ntim_ocref_clr_int input (OCxCE enable bit in the corresponding TIM_CCMRx register set to\n1). tim_ocxref remains low until the next transition to the active state, on the following PWM\ncycle. This function can only be used in Output compare and PWM modes. It must not be\nused in Forced mode.\nThe tim_ocref_clr_int input can be selected among several inputs, as shown on Figure515\nbelow.\n[Figure 515. tim_ocref_clr input selection multiplexer]\nThis feature is also supported in combined and asymmetric modes. In this case, it is\nmandatory to have the OCxCE bit enabled for the channel, the OCxCE bit of the\ncomplementary channel (for example OC2CE = X for oc2ref in Figure516) is ignored in this\ncase.\nFigure516 to Figure518 are describing the output waveforms for some use cases, when\nthe ocref_clr_int signal is asserted.\n[Figure 516. Asymmetric PWM mode 1]\n[Figure 517. Asymmetric PWM mode 2]\n[Figure 518. Combined PWM mode 1]\n(OC1CE = 1 OC2CE = X)\nocref_clr_int\noc1refc\n(OC1CE = 1 OC2CE = X)\nocref_clr_int\noc1refc\n(OC1CE = 1 OC2CE = X)\nConditions of use\nThis feature is intended to support cycle-by-cycle current control loops, typically with a\ncomparator shortening the PWM on-time when a current threshold is exceeded.\nIt cannot be used for the following modes, where the OCxCE bit must be cleared:\n• PWM toggle mode (OCxM[4:0] = 0x03)\n• One pulse mode with PWM active on match (OPM=1 and OCxM[4:0] = 0x06, 0x08,\n0x0C, 0x0E)\n• Combined PWM mode 1 in center aligned mode (CMS[1:0] = 1,2,3 and\nOCxM[4:0]=0x0C)",
+      "semantic": {}
+    }
+  ]
+}

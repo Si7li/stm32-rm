@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.4.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.4.8",
+      "section_title": "TTCAN operations (FDCAN1 only)",
+      "level": 3,
+      "parent_section": "71.4",
+      "page": 3649,
+      "page_end": 3650,
+      "semantic_type": "generic",
+      "features": [
+        "fdcan1",
+        "ttcan"
+      ],
+      "chars": 2872,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3649",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.4.8 \"TTCAN operations (FDCAN1 only)\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3649.",
+      "section_content": "Reference message\nA reference message is a data frame characterized by a specific CAN identifier. It is\nreceived and accepted by all nodes except the time master (sender of the reference\nmessage).\nFor level 1 the data length must be at least one; for levels 0, 2 the data length must be at\nleast four; otherwise, the message is not accepted as reference message. The reference\nmessage may be extended by other data up to the sum of eight CAN data bytes. All bits of\nthe identifier except the three LSBs characterize the message as a reference message. The\nlast three bits specify the priorities of up to eight potential time masters. Reserved bits are\ntransmitted as logical 0 and are ignored by the receivers. The reference message is\nconfigured via register FDCAN_TTRMC.\nThe time master transmits the reference message. If the reference message is disturbed by\nan error, it is retransmitted immediately. In case of a retransmission, the transmitted\nMaster_Ref_Mark is updated. The reference message is sent periodically, but is allowed to\nstop the periodic transmission (Next_is_Gap bit) and to initiate transmission event-\nsynchronized at the start of the next basic cycle by the current time master or by one of the\nother potential time masters.\nThe node transmitting the reference message is the current time master. The time master is\nallowed to transmit other messages. If the current time master fails, its function is replicated\nby the potential time master with the highest priority. Nodes that are neither time master nor\npotential time master are time-receiving nodes.\nLevel 1\nLevel 1 operation is configured via FDCAN_TTOCF.OM = 01 and FDCAN_TTOCF.GEN.\nexternal clock synchronization is not available in level 1. The information related to the\nreference message is stored in the first data byte as shown in Table701. Cycle_Count is\noptional.\n[Table 701. First byte of level 1 reference message]\nLevel 2\nLevel 2 operation is configured via FDCAN_TTOCF.OM = 10 and FDCAN_TTOCF.GEN.\nThe information related to the reference message is stored in the first four data bytes as\nshown in Table702. Cycle_Count and the lower four bits of FDCAN_NTU_Res are optional.\nThe TTCAN does not evaluate NTU_Res[3:0] from received reference messages, it always\ntransmits these bits as 0.\n[Table 702. First four bytes of level 2 reference message]\nLevel 0\nLevel 0 operation is configured via FDCAN_TTOCF.OM = 11. External event-synchronized\ntime-triggered operation is not available in level 0. The information related to the reference\nmessage is stored in the first four data bytes as shown in the table below. In level 0\nNext_is_Gap is always 0. Cycle_Count and the lower four bits of NTU_Res are optional.\nThe TTCAN does not evaluate NTU_Res[3:0] from received reference messages, it always\ntransmits these bits as 0.\n[Table 703. First four bytes of level 0 reference message]",
+      "semantic": {}
+    }
+  ]
+}

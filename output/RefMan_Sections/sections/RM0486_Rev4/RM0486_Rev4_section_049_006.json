@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S49.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "49",
+      "chapter_title": "Cryptographic processor (CRYP)",
+      "section": "49.6",
+      "section_title": "CRYP DMA requests",
+      "level": 2,
+      "parent_section": null,
+      "page": 2391,
+      "page_end": 2392,
+      "semantic_type": "generic",
+      "features": [
+        "cryp",
+        "dma"
+      ],
+      "chars": 1674,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2391",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.6 \"CRYP DMA requests\" in chapter 49 (Cryptographic processor (CRYP)), RM0486 Rev 4, page 2391.",
+      "section_content": "The CRYP peripheral provides an interface to connect to the DMA (direct memory access)\ncontroller. The DMA operation is controlled through the DIEN and DOEN bits of the\nCRYP_DMACR register.\nDetailed usage of DMA with CRYP can be found in Appending data using the DMA\nsubsection of Section49.4.5: CRYP encryption/ decryption typical usage.\nData input using DMA\nSetting DIEN enables DMA writing into CRYP. The CRYP then initiates, during the input\nphase, a DMA request for each 16-byte data block to write to the CRYP_DINR register\n(quadruple 32-bit word, MSB first).\nThe CRYP supports both single and burst DMA transfers. Recommended configuration is\nfixed burst size of four words.\nCRYP issues a DMA transfer request to its input FIFO every time a 16-bytes block has been\nread from the FIFO.\nNote: According to the algorithm and the mode selected, special padding / ciphertext stealing\nmight be required (see Section49.4.7).\nData output using DMA\nSetting DOEN enables DMA reading from CRYP. The CRYP then initiates, during the output\nphase, a DMA request for each 16-byte data block to read from the CRYP_DOUTR register\n(quadruple 32-bit word, MSB first).\nThe CRYP supports both single and burst DMA transfers. Recommended configuration is\nfixed burst size of four words.\nCRYP issues a DMA transfer request from output FIFO every time one 16-byte block has\nbeen written into the FIFO.\nNote: According to the message size, extra bytes might need to be discarded by application in the\nlast block.\nStopping DMA transfers\nAll DMA request signals are de-asserted when CRYP is disabled (CRYPEN cleared) or the\nDMA enable bit (DIEN for input data, DOEN for output data) is cleared.",
+      "semantic": {}
+    }
+  ]
+}

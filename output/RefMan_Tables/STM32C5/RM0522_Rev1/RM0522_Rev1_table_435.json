@@ -1,0 +1,124 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "table_id": "RM0522-T435",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "435",
+      "title": "I3C target error management",
+      "page": 1745,
+      "section": "42.12.2",
+      "section_title": "Target error management",
+      "semantic_type": "generic",
+      "features": [
+        "i3c"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1745",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Error type",
+        "Description",
+        "Error detection",
+        "Next (when emitted by the controller)",
+        "Reported error(1)"
+      ],
+      "text_helper": "Table 435, \"I3C target error management\", in section 42.12.2 (Target error management) on page 1745. Columns: Error type, Description, Error detection, Next (when emitted by the controller), Reported error(1). 10 data row(s). Notes: 1. ERRF in the I3C_EVR register, PERR, ODERR[3:0], STALL, and DOVR in the I3C_SER register.",
+      "table_content": {
+        "headers": [
+          "Error type",
+          "Description",
+          "Error detection",
+          "Next (when emitted by the controller)",
+          "Reported error(1)"
+        ],
+        "rows": [
+          [
+            "TE0",
+            "Invalid broadcast \naddress\n(0b111_1110+RnW = 0) \nor\nInvalid 7-bit dynamic \naddress + RnW = 1 after \nDAA assignment",
+            "A forbidden address is detected \nafter a start or a repeated start",
+            "Hardware waits for an \nHDR exit pattern ",
+            "ERRF = 1 and\nPERR = 1 and \nODERR[3:0] = 1000"
+          ],
+          [
+            "TE1",
+            "CCC code",
+            " A CCC code is detected with a \nparity error",
+            "Hardware waits for an \nHDR exit pattern ",
+            "ERRF = 1 and\nPERR = 1 and \nODERR[3:0] = 1001"
+          ],
+          [
+            "TE2",
+            "Write data",
+            "A write data byte is detected with \na parity error on an I3C private \nwrite message",
+            "Hardware waits for a \nstop or a repeated \nstart",
+            "ERRF = 1 and\nPERR = 1 and \nODERR[3:0] = 1010"
+          ],
+          [
+            "TE3",
+            "Assigned address during \ndynamic address \narbitration",
+            "Assigned dynamic address is \ndetected with a parity error on a \nENTDAA CCC",
+            "Hardware waits for a \nstop or a repeated \nstart",
+            "ERRF = 1 and\nPERR = 1 and \nODERR[3:0] = 1011"
+          ],
+          [
+            "TE4",
+            "0b111_1110 + RnW = 1 \nmissing after Sr during \ndynamic address \narbitration",
+            "Missing {0b111_1110 + RnW = 1} \nafter Sr during dynamic address \narbitration is detected",
+            "Hardware waits for a \nstop or a repeated \nstart",
+            "ERRF = 1 and\nPERR = 1 and \nODERR[3:0] = 1100"
+          ],
+          [
+            "TE5",
+            "Transaction after \ndetecting CCC",
+            "Invalid CCC direction is detected \nvs. direction provided during \naddress phase, on a CCC direct \nread/write",
+            "Hardware waits for a \nstop or a repeated \nstart",
+            "ERRF = 1 and\nPERR = 1 and \nODERR[3:0] = 1101"
+          ],
+          [
+            "TE6",
+            " Monitoring error of I3C \nbus",
+            "SDA is detected as driven at \nunexpected value on an data \nread (during a CCC direct read or \na private read or an IBI)",
+            "Hardware releases \nSDA, then waits for a \nstop or a repeated \nstart",
+            "ERRF = 1 and\nPERR = 1 and \nODERR[3:0] = 1110"
+          ],
+          [
+            "-",
+            "Monitoring SCL on an \nSDR data read",
+            "SCL is detected as stable for \nmore than 125 µs on an SDR \ndata read (during a CCC direct \nread or a private read or an IBI)",
+            "Hardware releases \nSDA, then waits for a \nstop or a repeated \nstart",
+            "ERRF = 1 and \nSTALL = 1"
+          ],
+          [
+            "-",
+            "Data to be transmitted \nnot written/available in \ntime vs. I3C bus timings",
+            "Data to be transmitted not written \nby software or DMA in due time \non a private read",
+            "Hardware detects a \nstop or a repeated \nstart",
+            "ERRF = 1 and \nDOVR = 1"
+          ],
+          [
+            "-",
+            "Received data cannot be \nregistered in time vs. I3C \nbus timings",
+            "Received data is not read by \nsoftware or DMA in due time on a \nprivate write or a DEFTGTS or a \nDEFGRPA CCC",
+            "Hardware detects a \nstop or a repeated \nstart",
+            "ERRF = 1 and \nDOVR = 1"
+          ]
+        ],
+        "notes": [
+          "1. ERRF in the I3C_EVR register, PERR, ODERR[3:0], STALL, and DOVR in the I3C_SER register."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

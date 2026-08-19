@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S27.4.18",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "27",
+      "chapter_title": "AES hardware accelerator (AES)",
+      "section": "27.4.18",
+      "section_title": "AES error management",
+      "level": 3,
+      "parent_section": "27.4",
+      "page": 821,
+      "page_end": 822,
+      "semantic_type": "generic",
+      "features": [
+        "aes"
+      ],
+      "chars": 2100,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=821",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.4.18 \"AES error management\" in chapter 27 (AES hardware accelerator (AES)), RM0522 Rev 1, page 821.",
+      "section_content": "The AES peripheral manages the errors described in this section.\nRead error flag (RDERRF)\nUnexpected read attempt of the AES_DOUTR register returns zero, setting the RDERRF\nflag and the RWEIF flag. RDERRF is triggered during the computation phase or during the\ninput phase.\nNote: AES is not disabled when RDERRF rises and it continues processing.\nAn interrupt is generated if the RWEIE bit is set. For more details, refer to Section27.5: AES\ninterrupts.\nThe RDERRF and RWEIF flags are cleared by setting the RWEIF bit of the AES_ICR\nregister.\nWrite error flag (WRERRF)\nUnexpected write attempt of the AES_DINR register is ignored, setting the WRERRF and\nthe RWEIF flags. WRERRF is triggered during the computation phase or during the output\nphase.\nNote: AES is not disabled when WRERRF rises and it continues processing.\nAn interrupt is generated if the RWEIE bit is set. For more details, refer to Section27.5: AES\ninterrupts.\nThe WRERRF and RWEIF flags are cleared by setting the RWEIF bit of the AES_ICR\nregister.\nKey error interrupt flag (KEIF)\nThere are multiple sources of errors that set the KEIF flag of the AES_ISR register and clear\nthe KEYVALID bit of the AES_SR register:\n• Key writing sequence error: triggered upon detecting an incorrect sequence of\nwriting key registers. See Section27.4.16: AES key registers for details.\n• Key sharing size mismatch error: triggered when KMOD[1:0] is at 0x2 and KEYSIZE\nin AES peripheral does not match KEYSIZE in SAES peripheral.\n• Key sharing error: triggered upon failing transfer of SAES shared key to AES\nperipheral. See Section27.4.14: AES key sharing with secure AES co-processor for\ndetails.\nThe KEIF flag is cleared with corresponding bit of the AES_ICR register. An interrupt is\ngenerated if the KEIE bit of the AES_IER register is set. For more details, refer to\nSection27.5: AES interrupts.\nUpon a key sharing error, reset both AES and SAES peripherals through the IPRST bit of\ntheir corresponding control register, then restart the key sharing sequence.\nNote: For any key error, clear KEIF flag prior to disabling and re-configuring AES.",
+      "semantic": {}
+    }
+  ]
+}

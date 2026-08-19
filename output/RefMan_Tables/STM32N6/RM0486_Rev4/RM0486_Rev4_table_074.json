@@ -1,0 +1,149 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T074",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "74",
+      "title": "Peripheral clock enabling",
+      "page": 471,
+      "section": "14.6.11",
+      "section_title": "Peripheral clock-gating control",
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=471",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "PERxEN",
+        "PERxLPEN",
+        "PERxSEL",
+        "perx_ker_ckreq",
+        "CPU state",
+        "rcc_perx_ker_ck",
+        "rcc_perx_bus_ck",
+        "Comments"
+      ],
+      "text_helper": "Table 74, \"Peripheral clock enabling\", in section 14.6.11 (Peripheral clock-gating control) on page 471. Columns: PERxEN, PERxLPEN, PERxSEL, perx_ker_ckreq, CPU state, rcc_perx_ker_ck, rcc_perx_bus_ck, Comments. 9 data row(s).",
+      "table_content": {
+        "headers": [
+          "PERxEN",
+          "PERxLPEN",
+          "PERxSEL",
+          "perx_ker_ckreq",
+          "CPU state",
+          "rcc_perx_ker_ck",
+          "rcc_perx_bus_ck",
+          "Comments"
+        ],
+        "rows": [
+          [
+            "0",
+            "X",
+            "X",
+            "X",
+            "X",
+            "-",
+            "-",
+            "No clock provided to the peripheral (PERxEN =0)"
+          ],
+          [
+            "1",
+            "X",
+            "X",
+            "X",
+            "Run",
+            "CK",
+            "CK",
+            "Kernel and bus interface clocks are provided to the peripheral (CPU \nin Run mode, and PERxEN =1)"
+          ],
+          [
+            "1",
+            "0",
+            "X",
+            "X",
+            "Sleep",
+            "-",
+            "-",
+            "No clock provided to the peripheral (CPU is in Sleep mode and \nPERxLPEN=0)"
+          ],
+          [
+            "1",
+            "1",
+            "X",
+            "X",
+            "Sleep",
+            "CK",
+            "CK",
+            "Kernel and bus interface clocks are provided to the peripheral (CPU \nin Sleep mode and PERxLPEN =1)"
+          ],
+          [
+            "1",
+            "0",
+            "X",
+            "X",
+            "Stop",
+            "-",
+            "-",
+            "No clock provided to the peripheral (PERxLPEN = 0)"
+          ],
+          [
+            "1",
+            "1",
+            "no lsi_ck\nand\nno lse_ck\nand no \nhsi_ker_ck\nand no \nmsi_ker_ck",
+            "X",
+            "Stop",
+            "-",
+            "-",
+            "No clock provided to the peripheral (CPU in Stop mode, and lse_ck \nor lsi_ck or hsi_ker_ck or msi_ker_ck not selected as kernel clock)"
+          ],
+          [
+            "1",
+            "1",
+            "lsi_ck or \nlse_ck",
+            "X",
+            "Stop",
+            "CK",
+            "-",
+            "Kernel clock provided to the peripheral (PERxEN=PERxLPEN=1, \nand lsi_ck or lse_ck selected and enabled)\nBus interface clock not provided as the CPU is in Stop mode"
+          ],
+          [
+            "1",
+            "1",
+            "hsi_ker_ck or \nmsi_ker_ck ",
+            "1",
+            "Stop",
+            "CK",
+            "-",
+            "Kernel clock provided to the peripheral (req_ker_perx =1, \nPERxEN =PERxLPEN=1, and hsi_ker_ck or msi_ker_ck selected \nand enabled)\nBus interface clock not provided as the CPU is in Stop mode"
+          ],
+          [
+            "1",
+            "1",
+            "hsi_ker_ck or \nmsi_ker_ck ",
+            "0",
+            "Stop",
+            "-",
+            "-",
+            "No clock provided to the peripheral (CPU in Stop mode, and no \nkernel clock request pending)"
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

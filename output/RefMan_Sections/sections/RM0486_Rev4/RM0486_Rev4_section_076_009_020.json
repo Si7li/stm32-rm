@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.20",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.20",
+      "section_title": "Programming guidelines for EST",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4145,
+      "page_end": 4146,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "est"
+      ],
+      "chars": 4487,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4145",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.20 \"Programming guidelines for EST\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4145.",
+      "section_content": "Program the gate control values and time intervals in the software owned gate control list\n(SWOL) along with the other EST related registers that are described in Section76.11.3:\nEthernet MTL registers, to appropriate values. The following subsections provide step-by-\nstep details for programming the GCL and the other EST related registers.\nProgramming the GCL and GCL-linked registers\nFollow these steps to program the gate control list (GCL) and the four other registers\nimplemented per GCL.\n1. The GCL and the four other GCL-linked registers should be accessed through indirect\naddressing using the EST gate control list register (ETH_MTLESTGCLCR) and EST\nGate Control List Data register (ETH_MTLESTGCLDR). The SWOL bitfield of the EST\nstatus register (ETH_MTLESTSR) indicates if GCL0 or GCL1 is owned by software.\n2. To program the GCL, write the 32-bit write data to EST Gate Control List Data register\n(ETH_MTLESTGCLDR). Then program EST Gate Control List Data register\n(ETH_MTLESTGCLDR) register to write the write address and other control\ninformation.\n3. In the EST Gate Control List Data register (ETH_MTLESTGCLDR), writing data\nconsists of 8 bits of gate controls plus 24 bits of time interval. Gate close is indicated by\nprogramming a 0 and gate open is indicated by programming a 1. The data should be\nwritten in the following format:\n{TC7, TC6, TC5, TC4, TC3, TC2, TC1, TC0, 24-bit time interval} where TCx = 0 or 1.\n4. In the EST Gate Control List Data register (ETH_MTLESTGCLDR), program the\nSRWO bit to 1 (to start a write operation) and program the address and r/w bitfields\nappropriately.\n5. Poll and check for the SRWO bit to be cleared by hardware to indicate the completion\nof the previous operation before initiating a new read/write operation using the same\nindirect addressing mode.\n6. Repeat steps 3, 4, 5 until the programming of the GCL is complete.\n7. Using the indirect addressing method, program the BTR, CTR, TER and LLR registers.\nSet the GCRR bit in the EST Gate Control List Data register (ETH_MTLESTGCLDR)\nappropriately. The GCRR bit interprets the address field as belonging to these registers\n(instead of the GCL).\nAfter programming the GCL and the related registers, program the EST control register\n(ETH_MTLESTCR) to allow the hardware to own and process the GCL. When the List\nlength (as indicated in LLR) is 1, the associated time interval should be smaller than the\nvalue of the cycle time register. Otherwise, an error is reported (as detailed in the Error\nhandling section) as a single set of gate controls adds no value in the TSN context.\nNote: The time unit in all the GCL related registers is seconds and nanoseconds. In cases where\ninternally generated PTP system time is used, the nanoseconds field must be programmed\nto use the Digital rollover mode (TSCTRLSSR bitfield of Timestamp control register\n(ETH_MACTSCR) set to 1).\nProgramming the EST registers\nAfter completing the steps mentioned in Section: Programming the GCL and GCL-linked\nregisters, program the EST control register (ETH_MTLESTCR).\n1. Set the current time offset value and time internal left shift bitfields of the EST control\nregister (ETH_MTLESTCR) appropriately. In addition, set the enable EST (EEST) and\nswitch to SWOL (SWOL) bits.\n2. This enables the Ethernet controller to own and process the new GCL and switch to the\nnew GCL at the BTR value. If enabled, the Ethernet controller generates an interrupt\nwhen the switch to the new list occurs.\n3. Software must address any other interrupts received during the hardware execution of\nthe GCL.\nSet the SSWL field in the EST control register (ETH_MTLESTCR) to hand off to the\ncontroller.\nThe SSWL bit is reset/cleared by the controller when it successfully switches to the new list.\nThe controller also flips the SWOL bit to indicate the new GCL that the software owns.\nTo install a new GCL, program the GCL it owns (indicated by SWOL bit) as described in\nSection: Programming the GCL and GCL-linked registers and then program the EST\ncontrol register (ETH_MTLESTCR) as described above. Ensure that the new BTR is set to\nan appropriate value to avoid BTR error that might need software intervention in some\ncases.\nTo avoid transmission overruns, the packet length (frame size) information should be\navailable at all times. Therefore, in the DMA configurations, program the packet length in the\nfirst descriptor of every Tx frame. Similarly, in the MTL configuration, provide the packet\nlength in the control word.",
+      "semantic": {}
+    }
+  ]
+}

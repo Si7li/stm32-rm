@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.6.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.6.6",
+      "section_title": "Response R1b handling",
+      "level": 3,
+      "parent_section": "30.6",
+      "page": 1422,
+      "page_end": 1422,
+      "semantic_type": "generic",
+      "features": [
+        "handling",
+        "response"
+      ],
+      "chars": 1098,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1422",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.6.6 \"Response R1b handling\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1422.",
+      "section_content": "When sending commands which have a R1b response the busy signaling is reflected in the\nBUSYD0 register bit and the release of busy with the BUSYD0END flag. The SDMMC_D0\nline is sampled at the end of the R1b response and signaled in the BUSYD0 register bit. The\nBUSYD0 register bit is reset to not busy when the SDMMC_D0 line release busy, at the\nsame time the BUSYD0END flag is generated.\n[Figure 255. Command response R1b busy signaling]\nThe expected maximum busy time must be set in the DATATIME register before sending the\ncommand. When enabled, the DTIMEOUT flag is set when after the R1b response busy\nstays active longer then the programmed time.\nTo detect the SDMMC_D0 busy signaling when sending a Command with R1b response the\nfollowing procedure applies:\n• Enable CMDREND flag.\n• Send Command through CPSM.\n• On the CMDREND flag check the BUSYD0 register bit.\n– If BUSYD0 signals not busy, signal busy release to firmware\n– If BUSYD0 signals busy, wait for BUSYD0END flag\n• On BUSYD0END flag signal busy released to firmware.\n• On DTIMEOUT flag busy is active longer then programmed time.",
+      "semantic": {}
+    }
+  ]
+}

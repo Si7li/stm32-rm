@@ -1,0 +1,336 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.6.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.6.10",
+      "section_title": "SAI configuration register 1 (SAI_BCR1)",
+      "level": 3,
+      "parent_section": "68.6",
+      "page": 3552,
+      "page_end": 3555,
+      "semantic_type": "register_description",
+      "features": [
+        "ckstr",
+        "dma",
+        "dmaen",
+        "lsbfirst",
+        "mckdiv",
+        "mcken",
+        "mode",
+        "mono",
+        "nodiv",
+        "osr",
+        "outdriv",
+        "prtcfg",
+        "sai",
+        "sai-bcr1",
+        "saien",
+        "syncen"
+      ],
+      "chars": 5818,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3552",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.6.10 \"SAI configuration register 1 (SAI_BCR1)\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3552.",
+      "section_content": "Address offset: 0x24\nReset value: 0x0000 0040\nBits 31:28 Reserved, must be kept at reset value.\nBit 27 MCKEN: Master clock generation enable\n0: The master clock is not generated\n1: The master clock is generated independently of SAIEN bit\nBit 26 OSR: Oversampling ratio for master clock\nThis bit is meaningful only when NODIV bit is set to 0.\n0: Master clock frequency = FFS x 256\n1: Master clock frequency = FFS x 512\nBits 25:20 MCKDIV[5:0]: Master clock divider\nThese bits are set and cleared by software.\n000000: Divides by 1 the kernel clock input (sai_x_ker_ck).\nOtherwise, the master clock frequency is calculated according to the formula given in Section68.4.8.\nThese bits have no meaning when the audio block is slave.\nThey have to be configured when the audio block is disabled.\nBit 19 NODIV: No divider\nThis bit is set and cleared by software.\n0: the ratio between the Master clock generator and frame synchronization is fixed to 256 or 512\n1: the ratio between the Master clock generator and frame synchronization depends on FRL[7:0]\nBit 18 Reserved, must be kept at reset value.\nBit 17 DMAEN: DMA enable\nThis bit is set and cleared by software.\n0: DMA disabled\n1: DMA enabled\nNote: Since the audio block defaults to operate as a transmitter after reset, the MODE[1:0] bits must\nbe configured before setting DMAEN to avoid a DMA request in receiver mode.\nBit 16 SAIEN: Audio block enable\nThis bit is set by software.\nTo switch off the audio block, the application software must program this bit to 0 and poll the bit till it\nreads back 0, meaning that the block is completely disabled. Before setting this bit to 1, check that it\nis set to 0, otherwise the enable command is not taken into account.\nThis bit enables to control the state of the SAI audio block. If it is disabled when an audio frame\ntransfer is ongoing, the ongoing transfer completes and the cell is fully disabled at the end of this\naudio frame transfer.\n0: SAI audio block disabled\n1: SAI audio block enabled.\nNote: When the SAI block (A or B) is configured in master mode, the clock must be present on the\nSAI block input before setting SAIEN bit.\nBits 15:14 Reserved, must be kept at reset value.\nBit 13 OUTDRIV: Output drive\nThis bit is set and cleared by software.\n0: Audio block output driven when SAIEN is set\n1: Audio block output driven immediately after the setting of this bit.\nNote: This bit has to be set before enabling the audio block and after the audio block configuration.\nBit 12 MONO: Mono mode\nThis bit is set and cleared by software. It is meaningful only when the number of slots is equal to 2.\nWhen the mono mode is selected, slot 0 data are duplicated on slot 1 when the audio block operates\nas a transmitter. In reception mode, the slot1 is discarded and only the data received from slot 0 are\nstored. Refer to Section: Mono/stereo mode for more details.\n0: Stereo mode\n1: Mono mode.\nBits 11:10 SYNCEN[1:0]: Synchronization enable\nThese bits are set and cleared by software. They must be configured when the audio subblock is\ndisabled.\n00: audio subblock in asynchronous mode.\n01: audio subblock is synchronous with the other internal audio subblock. In this case, the audio\nsubblock must be configured in slave mode\n10: audio subblock is synchronous with an external SAI embedded peripheral. In this case the audio\nsubblock must be configured in Slave mode.\n11: Reserved\nNote: The audio subblock must be configured as asynchronous when SPDIF mode is enabled.\nBit 9 CKSTR: Clock strobing edge\nThis bit is set and cleared by software. It must be configured when the audio block is disabled. This\nbit has no meaning in SPDIF audio protocol.\n0: Signals generated by the SAI change on SCK rising edge, while signals received by the SAI are\nsampled on the SCK falling edge.\n1: Signals generated by the SAI change on SCK falling edge, while signals received by the SAI are\nsampled on the SCK rising edge.\nBit 8 LSBFIRST: Least significant bit first\nThis bit is set and cleared by software. It must be configured when the audio block is disabled. This\nbit has no meaning in AC’97 audio protocol since AC’97 data are always transferred with the MSB\nfirst. This bit has no meaning in SPDIF audio protocol since in SPDIF data are always transferred\nwith LSB first.\n0: Data are transferred with MSB first\n1: Data are transferred with LSB first\nBits 7:5 DS[2:0]: Data size\nThese bits are set and cleared by software. These bits are ignored when the SPDIF protocols are\nselected (bit PRTCFG[1:0]), because the frame and the data size are fixed in such case. When the\ncompanding mode is selected through COMP[1:0] bits, DS[1:0] are ignored since the data size is\nfixed to 8 bits by the algorithm.\nThese bits must be configured when the audio block is disabled.\n000: Reserved\n001: Reserved\n010: 8 bits\n011: 10 bits\n100: 16 bits\n101: 20 bits\n110: 24 bits\n111: 32 bits\nBit 4 Reserved, must be kept at reset value.\nBits 3:2 PRTCFG[1:0]: Protocol configuration\nThese bits are set and cleared by software. These bits have to be configured when the audio block is\ndisabled.\n00: Free protocol. Free protocol enables to use the powerful config uration of the audio block to\naddress a specific audio protocol (such as I2S, LSB/MSB justified, TDM, PCM/DSP...) by setting\nmost of the configuration register bits as well as frame configuration register.\n01: SPDIF protocol\n10: AC’97 protocol\n11: Reserved\nBits 1:0 MODE[1:0]: SAIx audio block mode\nThese bits are set and cleared by software. They must be configured when SAIx audio block is\ndisabled.\n00: Master transmitter\n01: Master receiver\n10: Slave transmitter\n11: Slave receiver\nNote: When the audio block is configured in SPDIF mode, the master transmitter mode is forced\n(MODE[1:0] = 00). In Master transmitter mode, the audio block starts generating the FS and the\nclocks immediately.",
+      "semantic": {
+        "register": "SAI_BCR1",
+        "address_offset": "0x24",
+        "reset_value": "0x0000 0040",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "MCKEN",
+            "description": "Master clock generation enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The master clock is not generated"
+              },
+              {
+                "value": "1",
+                "meaning": "The master clock is generated independently of SAIEN bit"
+              }
+            ]
+          },
+          {
+            "bits": "26",
+            "name": "OSR",
+            "description": "Oversampling ratio for master clock This bit is meaningful only when NODIV bit is set to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Master clock frequency = FFS x 256"
+              },
+              {
+                "value": "1",
+                "meaning": "Master clock frequency = FFS x 512"
+              }
+            ]
+          },
+          {
+            "bits": "25:20",
+            "name": "MCKDIV[5:0]",
+            "description": "Master clock divider These bits are set and cleared by software. Otherwise, the master clock frequency is calculated according to the formula given in Section68.4.8. These bits have no meaning when the audio block is slave. They have to be configured when the audio block is disabled.",
+            "values": [
+              {
+                "value": "000000",
+                "meaning": "Divides by 1 the kernel clock input (sai_x_ker_ck)."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "NODIV",
+            "description": "No divider This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "the ratio between the Master clock generator and frame synchronization is fixed to 256 or 512"
+              },
+              {
+                "value": "1",
+                "meaning": "the ratio between the Master clock generator and frame synchronization depends on FRL[7:0]"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "DMAEN",
+            "description": "DMA enable This bit is set and cleared by software. Note: Since the audio block defaults to operate as a transmitter after reset, the MODE[1:0] bits must be configured before setting DMAEN to avoid a DMA request in receiver mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA enabled"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "SAIEN",
+            "description": "Audio block enable This bit is set by software. To switch off the audio block, the application software must program this bit to 0 and poll the bit till it reads back 0, meaning that the block is completely disabled. Before setting this bit to 1, check that it is set to 0, otherwise the enable command is not taken into account. This bit enables to control the state of the SAI audio block. If it is disabled when an audio frame transfer is ongoing, the ongoing transfer completes and the cell is fully disabled at the end of this audio frame transfer. Note: When the SAI block (A or B) is configured in master mode, the clock must be present on the SAI block input before setting SAIEN bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SAI audio block disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "SAI audio block enabled."
+              }
+            ]
+          },
+          {
+            "bits": "15:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "OUTDRIV",
+            "description": "Output drive This bit is set and cleared by software. Note: This bit has to be set before enabling the audio block and after the audio block configuration.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Audio block output driven when SAIEN is set"
+              },
+              {
+                "value": "1",
+                "meaning": "Audio block output driven immediately after the setting of this bit."
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "MONO",
+            "description": "Mono mode This bit is set and cleared by software. It is meaningful only when the number of slots is equal to 2. When the mono mode is selected, slot 0 data are duplicated on slot 1 when the audio block operates as a transmitter. In reception mode, the slot1 is discarded and only the data received from slot 0 are stored. Refer to Section: Mono/stereo mode for more details.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Stereo mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Mono mode."
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "SYNCEN[1:0]",
+            "description": "Synchronization enable These bits are set and cleared by software. They must be configured when the audio subblock is disabled. subblock must be configured in slave mode subblock must be configured in Slave mode. Note: The audio subblock must be configured as asynchronous when SPDIF mode is enabled.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "audio subblock in asynchronous mode."
+              },
+              {
+                "value": "01",
+                "meaning": "audio subblock is synchronous with the other internal audio subblock. In this case, the audio"
+              },
+              {
+                "value": "10",
+                "meaning": "audio subblock is synchronous with an external SAI embedded peripheral. In this case the audio"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "CKSTR",
+            "description": "Clock strobing edge This bit is set and cleared by software. It must be configured when the audio block is disabled. This bit has no meaning in SPDIF audio protocol. sampled on the SCK falling edge. sampled on the SCK rising edge.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Signals generated by the SAI change on SCK rising edge, while signals received by the SAI are"
+              },
+              {
+                "value": "1",
+                "meaning": "Signals generated by the SAI change on SCK falling edge, while signals received by the SAI are"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "LSBFIRST",
+            "description": "Least significant bit first This bit is set and cleared by software. It must be configured when the audio block is disabled. This bit has no meaning in AC’97 audio protocol since AC’97 data are always transferred with the MSB first. This bit has no meaning in SPDIF audio protocol since in SPDIF data are always transferred with LSB first.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data are transferred with MSB first"
+              },
+              {
+                "value": "1",
+                "meaning": "Data are transferred with LSB first"
+              }
+            ]
+          },
+          {
+            "bits": "7:5",
+            "name": "DS[2:0]",
+            "description": "Data size These bits are set and cleared by software. These bits are ignored when the SPDIF protocols are selected (bit PRTCFG[1:0]), because the frame and the data size are fixed in such case. When the companding mode is selected through COMP[1:0] bits, DS[1:0] are ignored since the data size is fixed to 8 bits by the algorithm. These bits must be configured when the audio block is disabled.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "001",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "010",
+                "meaning": "8 bits"
+              },
+              {
+                "value": "011",
+                "meaning": "10 bits"
+              },
+              {
+                "value": "100",
+                "meaning": "16 bits"
+              },
+              {
+                "value": "101",
+                "meaning": "20 bits"
+              },
+              {
+                "value": "110",
+                "meaning": "24 bits"
+              },
+              {
+                "value": "111",
+                "meaning": "32 bits"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3:2",
+            "name": "PRTCFG[1:0]",
+            "description": "Protocol configuration These bits are set and cleared by software. These bits have to be configured when the audio block is disabled. address a specific audio protocol (such as I2S, LSB/MSB justified, TDM, PCM/DSP...) by setting most of the configuration register bits as well as frame configuration register.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Free protocol. Free protocol enables to use the powerful config uration of the audio block to"
+              },
+              {
+                "value": "01",
+                "meaning": "SPDIF protocol"
+              },
+              {
+                "value": "10",
+                "meaning": "AC’97 protocol"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "MODE[1:0]",
+            "description": "SAIx audio block mode These bits are set and cleared by software. They must be configured when SAIx audio block is disabled. Note: When the audio block is configured in SPDIF mode, the master transmitter mode is forced (MODE[1:0] = 00). In Master transmitter mode, the audio block starts generating the FS and the clocks immediately.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Master transmitter"
+              },
+              {
+                "value": "01",
+                "meaning": "Master receiver"
+              },
+              {
+                "value": "10",
+                "meaning": "Slave transmitter"
+              },
+              {
+                "value": "11",
+                "meaning": "Slave receiver"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

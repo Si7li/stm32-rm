@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.3.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.3.6",
+      "section_title": "SPDIFRX handling",
+      "level": 3,
+      "parent_section": "69.3",
+      "page": 3579,
+      "page_end": 3581,
+      "semantic_type": "generic",
+      "features": [
+        "spdifrx"
+      ],
+      "chars": 2795,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3579",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.3.6 \"SPDIFRX handling\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3579.",
+      "section_content": "The software can control the state of the SPDIFRX through SPDIFRXEN field. The\nSPDIFRX can be into one of the following states:\n• STATE_IDLE:\nThe peripheral is disabled, the spdifrx_ker_ck domain is reset. The spdifrx_pclk domain\nis functional.\n• STATE_SYNC:\nThe peripheral is synchronized to the stream, thresholds are updated regularly, user\nand channel status can be read via interrupt of DMA. The audio samples are not\nprovided to receive buffer.\n• STATE_RCV:\nThe peripheral is synchronized to the stream, thresholds are updated regularly, user,\nchannel status and audio samples can be read via interrupt or DMA channels. When\nSPDIFRXEN goes to 11, the SPDIFRX waits for “B” preamble before starting saving\naudio samples.\n• STOP_STATE:\nThe peripheral is no longer synchronized, the reception of the user, channel status and\naudio samples are stopped. It is expected that the software re-starts the SPDIFRX.\nFigure946 shows the possible states of the SPDIFRX, and how to transition from one state\nto the other. The bits under software control are followed by the mention “(SW)”, the bits\nunder SPDIFRX control are followed by the mention “(HW)”.\n[Figure 946. SPDIFRX states]\nSTATE_STOP SPDIFRXEN = 0b11 (SW)\nand\nSYNCD = 1 (HW)\nSTATE_RCV\nFERR = 1 (HW) or\nTERR = 1 (HW)\nNOTE: SYNCD is an internal event informing that the SPDIFRX is properly synchronized\nWhen SPDIFRX is in STATE_IDLE:\n• The software can transition to STATE_SYNC by setting SPDIFRXEN to 01 or 11\nWhen SPDIFRX is in STATE_SYNC:\n• If the synchronization fails or if the received data are not properly decoded with no\nchance of recovery without a re-synchronization (FERR or SERR or TERR = 1), the\nSPDIFRX goes to STATE_STOP, and waits for software acknowledge.\n• When the synchronization phase is completed, if SPDIFRXEN = 01 the peripheral\nremains in this state.\n• At any time the software can set SPDIFRXEN to 0, then SPDIFRX returns immediately\nto STATE_IDLE. If a DMA transfer is on-going, it is properly completed.\n• The SPDIFRX goes to STATE_RCV if SPDIFRXEN = 11 and if the SYNCD= 1\nWhen SPDIFRX is in STATE_RCV:\n• If the received data are not properly decoded with no chance of recovery without a re-\nsynchronization (FERR or SERR or TERR = 1), the SPDIFRX goes to STATE_STOP,\nand waits for software acknowledge.\n• At any time the software can set SPDIFRXEN to 0, then SPDIFRX returns immediately\nto STATE_IDLE. If a DMA transfer is on-going, it is properly completed.\nWhen SPDIFRX is in STATE_STOP:\n• The SPDIFRX stops reception and synchronization, and waits for the software to set\nthe bit SPDIFRXEN to 0, in order to clear the error flags.\nWhen SPDIFRXEN is set to 0, the SPDIFRX is disabled, meaning that all the state\nmachines are reset, and RX_BUF is flushed. Note as well that flags FERR, SERR and\nTERR are reset.",
+      "semantic": {}
+    }
+  ]
+}

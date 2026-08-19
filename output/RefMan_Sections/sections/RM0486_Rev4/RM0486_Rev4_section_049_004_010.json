@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S49.4.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "49",
+      "chapter_title": "Cryptographic processor (CRYP)",
+      "section": "49.4.10",
+      "section_title": "CRYP counter mode (CTR)",
+      "level": 3,
+      "parent_section": "49.4",
+      "page": 2371,
+      "page_end": 2373,
+      "semantic_type": "generic",
+      "features": [
+        "cryp",
+        "ctr"
+      ],
+      "chars": 3641,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2371",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.4.10 \"CRYP counter mode (CTR)\" in chapter 49 (Cryptographic processor (CRYP)), RM0486 Rev 4, page 2371.",
+      "section_content": "The CTR mode uses the AES core to generate a key stream. The keys are then XOR-ed\nwith the plaintext to obtain the ciphertext. Unlike with ECB and CBC modes, no key\nscheduling is required for the CTR decryption since the AES core is always used in\nencryption mode.\nA typical message construction in CTR mode is given in Figure484.\n[Figure 484. Message construction in CTR mode]\nThe structure of this message is:\n• A 16-byte initial counter block (ICB), composed of two distinct fields:\n– Initialization vector (IVI): a 96-bit value that must be unique for each encryption\ncycle with a given key.\n– Counter: a 32-bit big-endian integer that is incremented each time a block\nprocessing is complete. The initial value of the counter must be set.\n• The plaintext P is encrypted as ciphertext C, with a known length. This length can be\nnon-multiple of 16 bytes, in which case a plaintext padding is required.\nFor more details, refer to NIST Special Publication 800-38A, Recommendation for Block\nCipher Modes of Operation.\nCTR encryption and decryption\nFigure485 describes the counter (CTR) chaining implementation in the CRYP peripheral\n(encryption). To select this chaining mode, write ALGOMODE[3:0] with 0x6.\n[Figure 485. CTR encryption]\ninput DATATYPE[1:0] man S a w g a e p m ent DATATYPE[1:0] man S a w g a e p m ent\noutput\nXOR DOUT (ciphertext C1) DOUT (ciphertext C2)\nInitialization vectors in CRYP must be initialized as shown in Table418.\n[Table 418. Counter mode initialization vectordefinition]\nCTR encryption and decryption process\nThis process is described in Section49.4.5, with the following sequence of events:\n1. Disable the CRYP peripheral, by clearing CRYPEN.\n2. Flush the FIFOs by setting FFLUSH.\n3. Initialize the CRYP_CR register as follows:\na) Select CTR chaining mode (write ALGOMODE[3:0] with 0x6) in encryption or\ndecryption mode (write ALGODIR with 0 or 1).\nb) Configure the data type through DATATYPE[1:0].\nc) Configure the key size through KEYSIZE.\nd) Select the key mode, using KMOD[1:0]: if the key is coming from SAES peripheral\nset KMOD[1:0] to 0x2 else keep it at 0x0.\n4. Write the initialization vector into the CRYP_IVxL/R registers according to Table418.\n5. Write the key into the CRYP_KxL/R registers if KMOD[1:0] is 0x0. If KMOD[1:0]= 0x2\nthe key is being transferred from the SAES peripheral (see Section49.4.14).\n6. Wait until KEYVALID is set (the key loading completed).\n7. Enable CRYP by setting CRYPEN.\n8. Append data:\na) If it is the last block and the plaintext (encryption) or ciphertext (decryption) size in\nthe block is less than 16 bytes, pad the remainder of the block with zeros.\nb) Append the data block into CRYP as described in Section49.4.5, then read the\nCRYP_DOUTR register to save the resulting block(s), MSB first.\nc) Repeat the step b) until the second-last block is processed. For the last block of\nplaintext (encryption only), follow the steps a) and b). For the last block, discard\nthe bits that are not part of the message when the last block is smaller than 16\nbytes.\n9. Finalize the sequence: disable the CRYP peripheral, by clearing CRYPEN.\nNote: KEYSIZE and ALGOMODE[3:0] must be written before the key, as explained above.\nKMOD[1:0]=0x2 (shared key) must be written after ALGOMODE[3:0] or at the same time.\nSuspend and resume operations in CTR mode\nLike for the CBC mode, it is possible to interrupt a message to send a higher priority\nmessage, then resume the interrupted message. Detailed CBC suspend and resume\nsequence is described in Section49.4.9: CRYP basic chaining modes (ECB, CBC).\nNote: Like for CBC mode, IVI registers must be reloaded during the resume operation.",
+      "semantic": {}
+    }
+  ]
+}

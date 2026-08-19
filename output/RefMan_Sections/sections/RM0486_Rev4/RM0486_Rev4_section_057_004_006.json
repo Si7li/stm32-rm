@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S57.4.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "57",
+      "chapter_title": "General purpose timers (TIM15/TIM16/TIM17)",
+      "section": "57.4.6",
+      "section_title": "Clock selection",
+      "level": 3,
+      "parent_section": "57.4",
+      "page": 2835,
+      "page_end": 2837,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "timer"
+      ],
+      "chars": 2800,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2835",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 57.4.6 \"Clock selection\" in chapter 57 (General purpose timers (TIM15/TIM16/TIM17)), RM0486 Rev 4, page 2835.",
+      "section_content": "The counter clock can be provided by the following clock sources:\n• Internal clock (tim_ker_ck)\n• External clock mode1: external input pin (tim_ti1 or tim_ti2, if available)\n• Internal trigger inputs (tim_itrx) (only for TIM15): using one timer as the prescaler for\nanother timer, for example, TIM1 can be configured to act as a prescaler for TIM15.\nRefer to Using one timer as prescaler for another timer for more details.\nInternal clock source (tim_ker_ck)\nIf the slave mode controller is disabled (SMS = 000), then the CEN (in the TIMx_CR1\nregister) and UG bits (in the TIMx_EGR register) are actual control bits and can be changed\nonly by software (except UG which remains cleared automatically). As soon as the CEN bit\nis written to 1, the prescaler is clocked by the internal clock tim_ker_ck.\nFigure728 shows the behavior of the control circuit and the upcounter in normal mode,\nwithout prescaler.\n[Figure 728. Control circuit in normal mode, internal clock divided by 1]\nExternal clock source mode 1\nThis mode is selected when SMS = 111 in the TIMx_SMCR register. The counter can count\nat each rising or falling edge on a selected input.\n[Figure 729. tim_ti2 external clock connection example]\nTIM_CH2 tim_ti1f_ed 00100 tim_trgi External clock\ntim_ti2 ti _ m in _ [ t 1 i2 5 _ :1 in ] 0 tim_ti2 Filter de E t d e g c e tor t t i i m m _ _ t t i i 2 2 f f _ _ f r a is il i i n n g g 0 1 t t i i m m _ _ t t i i 1 2 f _ p f 2 p2 0 0 0 0 1 1 1 0 0 1 tim_ker_ck m In o te d r e n a 1 l clock tim_psc_ck\n(internal clock) mode\nICF[3:0] CC2P\nTIMx_CCMR1 TIMx_CCER\nSMS[2:0]\nTIMx_SMCR\nFor example, to configure the upcounter to count in response to a rising edge on the tim_ti2\ninput, use the following procedure:\n1. Select the proper tim_ti2_in[15:0] source (internal or external) with the TI2SEL[3:0] bits\nin the TIMx_TISEL register.\n2. Configure channel 2 to detect rising edges on the tim_ti2 input by writing CC2S = 01 in\nthe TIMx_CCMR1 register.\n3. Configure the input filter duration by writing the IC2F[3:0] bits in the TIMx_CCMR1\nregister (if no filter is needed, keep IC2F = 0000).\n4. Select rising edge polarity by writing CC2P = 0 in the TIMx_CCER register.\n5. Configure the timer in external clock mode 1 by writing SMS = 111 in the TIMx_SMCR\nregister.\n6. Select tim_ti2 as the trigger input source by writing TS = 00110 in the TIMx_SMCR\nregister.\n7. Enable the counter by writing CEN = 1 in the TIMx_CR1 register.\nNote: The capture prescaler is not used for triggering, it is not necessary to configure it.\nWhen a rising edge occurs on tim_ti2, the counter counts once and the TIF flag is set.\nThe delay between the rising edge on tim_ti2 and the actual clock of the counter is due to\nthe resynchronization circuit on tim_ti2 input.\n[Figure 730. Control circuit in external clock mode 1]",
+      "semantic": {}
+    }
+  ]
+}

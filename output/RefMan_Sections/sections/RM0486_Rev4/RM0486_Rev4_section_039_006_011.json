@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.6.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.6.11",
+      "section_title": "Statistics extraction",
+      "level": 3,
+      "parent_section": "39.6",
+      "page": 1857,
+      "page_end": 1861,
+      "semantic_type": "generic",
+      "features": [
+        "extraction",
+        "statistics"
+      ],
+      "chars": 6024,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1857",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.6.11 \"Statistics extraction\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1857.",
+      "section_content": "This module extracts several statistics across the frame, to provide inputs to the software\nimage compensation algorithms, that configure feedbacks to the following implemented\nhardware modules: black level calibration, exposure compensation, white balance, and\ncontrast enhancement.\nThe statistics are accumulated during a full frame, and sampled at the end of the frame, thus\nallows the software to have the full next frame to read the accumulated statistics, process\nthem, define the adapted configuration for the hardware feedback modules, and to configure\nthese modules.\nThanks the shadowing mechanism, the newly configuration parameters are active at the\nfollowing frame, thus active at an average two frames after the statistics are accumulated.\nThe statistics extraction block is considering all frames selected by means of the\nDCMIPP_P1FSCR configuration registers. Statistics block is running even when the frame\nis not supposed to be captured, respect to the DCMIPP_FCTCR configuration register.\nThe latency is not an issue, as the captured scene is expected to be almost static, and\ntypical software compensation algorithms filter the statistic variations to avoid oscillations\nand visual artifacts (the low-pass filter typically has a one-second period).\nFunctionality\n• Three statistics accumulators available, allowing three statistics extractions per frame.\n– Different types of statistics can be extracted frame over frame\n• 32-bit accumulators, allowing to accumulate 8-bit samples over 16 Mpixels.\n• Average mode, that extracts averages (accumulates component values)\n– Capability to discard extreme values (if value is <16 or >240, same for 32 or 64).\n• Binning mode, which extracts presences (accumulates 256 per fit)\n– 12 available bins (values: <4, <8, <16, <32, <64, <128, and reverse to 256).\n• Capability to define a sub-rectangle within the frame where statistics are extracted\n– Allows to focus the statistics on a specific region of interest.\n• Raw Bayer supported, with the statistics using the specific locally available R, G, B\ncomponents of the raw Bayer\n• Statistics can be performed on either the input data (before any pixel modification) or\nafter demosaicing, to benefit of a full RGB and thus luminance presence per pixel.\nSoftware configuration\nDCMIPP_P1STSTR and DCMIPP_P1STSZR bit function\n[Table 351. DCMIPP_P1STyCR (y = 1, 2, 3), DCMIPP_P1STySR (y = 1, 2, 3),]\nDCMIPP_P1STSTR and DCMIPP_P1STSZR bit function (continued)\nNote: If HSIZE or VSIZE = 0 when the CROPEN bit is set, the block internally forces the “0” value\nat the maximum for the corresponding bit field (i.e. 0xFFE).\n[Table 352. Statistics extraction: collected data vs. modes]\nConfiguration example for exposure control\nFor exposure control and white balance calibration, user would typically extract the average\nvalues of the luminance, and of the R, G, B. It can be done in a single frame capture\ncampaign, with the following settings:\n• ENABLE = 1 (enabled)\n• MODE = 0 (average mode)\n• SRC = 0 for red, 1 for G, 2 for B (upper values, before processing)\n• BINS = 0 (all pixel values)\n• CROPEN = 1 (1 below: to select a 300 x 220 close to top-left corner: 10,10)\n• VSTART = 10\n• HSTART = 10\n• VSIZE= 220\n• HSIZE= 300\nAfter one frame (after a VSync), the Accu0, Accu1, Accu2 counters contain, respectively,\nthe average red, green, blue accumulated across the 300 x 220 rectangle.\nThe value to expect from the Accu0, Accu1, Accu2 can be computed according to the\nfollowing hypotheses:\n• Amount of pixels: 300 x 220 (or full frame if statistics has CROPEN = 0)\n• Amount of components:\n– Raw Bayer-red: 1/4, as one pixel every four in raw Bayer has a red component.\n– Raw Bayer-green: 1/2, as one pixel every two in raw Bayer has a green\ncomponent.\n– Raw Bayer-blue: 1/4, as one pixel every four in raw Bayer has a blue component.\n– RGB: 1, as all pixels contain R, G, B components.\n• Average value on 8 bits: 128 typically for a mid-gray picture (RGB: 128, 128, 128).\n• Re-sampling: 1/256 (re-sampling accumulator to ACCU at end of frame).\nThe expected values in the accumulators are:\n• Accu0 (red): 300 x 220 / 4 x 128 / 256 = 8250\n• Accu1 (green): 300 x 220 / 2 x 128 / 256 = 16500\n• Accu2 (blue): 300 x 220 / 4 x 128 / 256 = 8250\nConfiguration example for contrast enhancement\nFor contrast enhancement, the amount of pixels with a luminance inside a bin is typically\nextracted. As statistics are extracted 3 by 3, and as 12 bins can be accumulated, data are\nextracted during four consecutive frames, with three different bins for each frame.\nThe typical configuration is the following:\n• ENABLE = 1 (enabled)\n• MODE = 1 (bin mode)\n• SRC = 3 (upper value, luminance selected)\n• BINS = 0 (then, at next frame 1, then 2, then 3)\n• CROPEN = 0 (no stat sub-rectangle)\nAfter one frame (after a VSync), Accu0, Accu1, Accu2 counters contain the amount of pixels\nfitting bins <4, <8, <16, respectively.\nThe value to expect from the Accu0, Accu1, Accu2 can be computed by multiplying the\nfollowing:\n• Amount of pixels: 640 x 480 (assuming a full frame resolution of VGA).\n• Amount of components: 1 (all pixels contribute to the luminance, even in raw Bayer).\n• All pixels contribute to the statistics, both in raw Bayer and in RGB. In raw Bayer, a fake\nstatistics is extracted, assuming a RGB-balanced pixel (Gray-world algorithm).\n• Average value for bins: 256 (as in Bin mode, 256 is added for each fitting presence).\n• Re-sampling: 1/256 (at end of frame)\nThe resulting value in accumulators are:\n• Accu0 (bin < 4): 640 x 480 x 1 x 256 / 256 x 1% = 3072 (assuming 1% of pixels have\nlum<4)\n• Accu1 (bin < 8): 640 x 480 x 1 x 256 / 256 x 3% = 9000 (assuming 3% of pixels have\nlum<8)\n• Accu2 (bin < 16): 640 x 480 x 1 x 256 / 256 x 8% = 24000 (assuming 8% of pixels have\nlum<16)\nAt the following frame, with BINS = 1, the statistics for luminance <32, <64, <128 are\nextracted, providing figures like 72k (25%), 144k (50%), and 210k (75%).\nSuch values indicate a median luminance ~64, as 50% of the pixels have a luminance <64.",
+      "semantic": {}
+    }
+  ]
+}

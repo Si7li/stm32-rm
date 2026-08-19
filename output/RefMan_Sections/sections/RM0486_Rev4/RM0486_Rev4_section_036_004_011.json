@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S36.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "36",
+      "chapter_title": "Audio digital filter (ADF)",
+      "section": "36.4.11",
+      "section_title": "Data transfer to memory",
+      "level": 3,
+      "parent_section": "36.4",
+      "page": 1746,
+      "page_end": 1748,
+      "semantic_type": "generic",
+      "features": [
+        "memory"
+      ],
+      "chars": 4451,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1746",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.4.11 \"Data transfer to memory\" in chapter 36 (Audio digital filter (ADF)), RM0486 Rev 4, page 1746.",
+      "section_content": "Data format\nThe samples processed by DFLT0 are stored into a RXFIFO. The application can read the\nsamples stored into these FIFOs via the ADF digital filter data register 0 (ADF_DFLT0DR).\nThe samples inside this register are signed and left aligned. The bit 31 always represents\nthe sign.\nThe ADF provides 24-bit left-aligned data. Performing a 16-bit access to ADF_DFLT0DR\nallows the application to get the 16 most significant bits. Performing a 32-bit access to\nADF_DFLT0DR allows the application to get a 24-bit data size.\n[Figure 377. ADF_DFLTxDR data format]\nRXFIFO width\n23 0\n1\n...\nFIFO_DEPTH\n31 1615 7 0\nADF_DFLT0DR PCM[23:0] zero’s\nData resynchronization\nThe samples stored into the RXFIFO can be transferred into the memory by using either\nDMA requests or interrupt signaling.\nNote: The RXFIFO is located into the adf_ker_ck clock domain, while ADF_DFLT0DR is located\ninto the adf_hclk (AHB) clock domain.\nWhen the AHB clock is available, if ADF_DFLT0DR is empty and if a sample is available\ninto the RXFIFO, this sample is transferred into ADF_DFLT0DR.\nThe sample transfer from the RXFIFO to ADF_DFLT0DR takes two periods of the AHB\nclock (adf_hclk) and two periods of the adf_ker_ck clock. The ADF inserts automatically\nwait-states if the application performs a read operation of ADF_DFLT0DR while the transfer\nof the new sample from the RXFIFO to ADF_DFLT0DR is not yet completed.\n[Figure 378. Data resynchronization]\nData transfer\nThe content of the RXFIFO can be transfered to the memory either by using a DMA channel\nor interrupt services.\nBoth single and burst, DMA transfers are supported by the ADF, but the application has to\ncare about the following points:\n• The RXFIFO must contain at least the same amount of samples than the burst size.\n• The burst mode efficiency may be reduced due to the data resynchronization explained\nin the previous section.\nNote: The burst mode is not available in all products (see the DMA section to check if the product\nsupports it).\nIn addition, the application can select the RXFIFO threshold (FTH bit) in order to trigger the\ndata transfer: a data transfer can be triggered as soon as the RXFIFO is not empty, or when\nthe RXFIFO is half-full (containing depth/2 samples).\nFor the DMA transfer, as soon as one of the RXFIFO reaches the threshold level, the DMA\nrequest is asserted in order to ask for data transfer. Successive DMA requests are\nperformed as long as the RXFIFO is not empty.\nThe DMA mode of the RXFIFO is enabled via the DMAEN bit in ADF_DFLT0DR.\nFor the interrupt signaling, the following cases must be considered:\n• If FTH = 0, as soon as a data is available in ADF_DFLT0DR, the FTHF is set, allowing\nthe generation of an interrupt. FTHF is released as soon as ADF_DFLT0DR is read.\n• If FTH = 1, as soon as the RXFIFO reaches the threshold level and a data is available\nin ADF_DFLT0DR, the FTHF is set, allowing the generation of an interrupt. FTHF is\nreleased as soon as one data is read. FTHF is set again if the threshold condition is\nmet again. In this mode, every time an interrupt occurs, the application is supposed to\nread FIFO_SIZE/2 data.\nRXFIFO overrun\nA RXFIFO overrun condition is detected when the RXFIFO is full, and a new sample from\nthe DFLT0 must be written.\nIn this case, DOVRF is set and the new sample is dropped. When the RXFIFO has at least\none location available, the new incoming sample is written into the RXFIFO.\nFigure379 shows an example based on a RXFIFO depth of four words and FTH set to 1, so\nthat FTHF goes to 1 when the RXFIFO is half-full.\nThe S7 sample is lost due to an overrun: the RXFIFO is full while S7 must be written into the\nRXFIFO. The S7 write operation is not performed. DOVRF is set to 1 at the moment where\nthe write operation was expected. The overflow event remains to 1 as long as it is not\ncleared by the application.\nIn this example, DOVRIE is set to 1 to have an interrupt if an overrun condition is detected.\nAfter the S7 sample, the application manages to read data from the RXFIFO, and the ADF\ncan write the S8 sample and consecutive. Later, the application clears DOVR, allowing the\ndetection of a new overrun situation.\nIn the adf_hclk line, the gray boxes indicate that the ADF requested the AHB clock.\nFigure379 shows the AHB clock available only when the ADF requests it. In real\napplications, the AHB clock may also be present if the ADF does not request it.\n[Figure 379. Example of overflow and transfer to memory]",
+      "semantic": {}
+    }
+  ]
+}

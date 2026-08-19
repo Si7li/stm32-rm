@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S12.4.5",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "12",
+      "chapter_title": "DMA request multiplexer (DMAMUX)",
+      "section": "12.4.5",
+      "section_title": "DMAMUX request generator",
+      "level": 3,
+      "parent_section": "12.4",
+      "page": 251,
+      "page_end": 252,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "dmamux"
+      ],
+      "chars": 2784,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=251",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.4.5 \"DMAMUX request generator\" in chapter 12 (DMA request multiplexer (DMAMUX)), RM0490 Rev 6, page 251.",
+      "section_content": "The DMAMUX request generator produces DMA requests following trigger events on its\nDMA request trigger inputs.\nThe DMAMUX request generator has multiple channels. DMA request trigger inputs are\nconnected in parallel to all channels.\nThe outputs of DMAMUX request generator channels are inputs to the DMAMUX request\nline multiplexer.\nEach DMAMUX request generator channel x has an enable bit GE (generator enable) in the\ncorresponding DMAMUX_RGxCR register.\nThe DMA request trigger input for the DMAMUX request generator channel x is selected\nthrough the SIG_ID (trigger signal ID) field in the corresponding DMAMUX_RGxCR register.\nTrigger events on a DMA request trigger input can be rising edge, falling edge or either\nedge. The active edge is selected through the GPOL (generator polarity) field in the\ncorresponding DMAMUX_RGxCR register.\nUpon the trigger event, the corresponding generator channel starts generating DMA\nrequests on its output. Each time the DMAMUX generated request is served by the\nconnected DMA controller (a served request is deasserted), a built-in (inside the DMAMUX\nrequest generator) DMA request counter is decremented. At its underrun, the request\ngenerator channel stops generating DMA requests and the DMA request counter is\nautomatically reloaded to its programmed value upon the next trigger event.\nThus, the number of DMA requests generated after the trigger event is GNBREQ + 1.\nNote: The GNBREQ field value can be written by software only when the enable GE bit of the\ncorresponding generator channel x is disabled.\nThere is no hardware write protection.\nA trigger event (edge) is detected if the state following the edge remains stable for more\nthan two AHB clock cycles.\nUpon writing into DMAMUX_RGxCR register, the trigger events are masked during three\nAHB clock cycles.\nTrigger overrun and interrupt\nIf a new DMA request trigger event occurs before the DMAMUX request generator counter\nunderrun (the internal counter programmed via the GNBREQ field of the DMAMUX_RGxCR\nregister), and if the request generator channel x was enabled via GE, then the request\ntrigger event overrun flag bit OFx is asserted by the hardware in the DMAMUX_RGSR\nregister.\nNote: The request generator channel x must be disabled (DMAMUX_RGxCR.GE = 0) when the\nusage of the related channel of the DMA controller is completed. Else, upon a new detected\ntrigger event, there is a trigger overrun due to the absence of an acknowledge (that is, no\nserved request) received from the DMA.\nThe overrun flag OFx is reset by setting the associated clear overrun flag bit COFx in the\nDMAMUX_RGCFR register.\nSetting the DMAMUX request trigger overrun flag generates an interrupt if the DMA request\ntrigger event overrun interrupt enable bit OIE is set in the DMAMUX_RGxCR register.",
+      "semantic": {}
+    }
+  ]
+}

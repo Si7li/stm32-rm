@@ -1,0 +1,147 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.18",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.18",
+      "section_title": "I3C device x characteristics register (I3C_DEVRx)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1780,
+      "page_end": 1782,
+      "semantic_type": "register_description",
+      "features": [
+        "crack",
+        "dis",
+        "i3c",
+        "ibiack",
+        "ibiden",
+        "susp"
+      ],
+      "chars": 5764,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1780",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.18 \"I3C device x characteristics register (I3C_DEVRx)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1780.",
+      "section_content": "Address offset: 0x060+0x4*x, (x=1 to 4)\nReset value: 0x00000000\nWhen the I3C peripheral acts as controller, this register is used to define and store some\ncharacteristics of a device target x with their related management from the controller, to\ncommunicate accordingly with any of this target x over the I3C bus. Then, the hardware can\nautonomously identify and acknowledge an allowed IBI or/and controller-role request from a\ntarget x, receive the expected IBI payload data if any, and notify the software via the\ncorresponding flag IBIF/CRF (and the corresponding interrupt if enabled) in the I3C_EVR\nregister.\nBit 31 DIS: Disables writes to DA[6:0] (when the I3C acts as controller)\nWhen the I3C acts as controller, once the software sets IBIACK= 1 or CRACK= 1, this read\nbit is set by hardware (DIS= 1) to lock the configured DA[6:0] and IBIDEN values.\nThen, to be able to modify DA[6:0], IBIDEN or SUSP, the software must wait for DIS to be\nde-asserted by hardware (polling on DIS= 0) before modifying these three assigned values to\nthe target x. Indeed, the target can request an IBI or a controller-role while the controller\nintends to modify DA[6:0], IBIDEN or SUSP.\n0: write to DA[7:0] and to IBIDEN in the I3C_DEVRx register is allowed\n1: write to DA[7:0] and to IBIDEN is disabled/locked\nBits 30:20 Reserved, must be kept at reset value.\nBit 19 SUSP: Suspend/stop I3C transfer on received IBI (when the I3C acts as controller)\nWhen the I3C acts as controller, this bit can be used to receive an IBI from target x with\npending read notification feature (received MDB[7:5] = 3’b101).\nIf this bit is set, when an IBI is received and completed (IBIF = 1 in the I3C_EVR register), a\nstop is emitted on the I3C bus and both C-FIFO and TX-FIFO are automatically flushed by\nhardware. The controller execution flow is stopped, even if a next control message is\nprogrammed. When the IBI is completed, the controller software can issue a new control\nword, such as a private read, to the target device that initiated the IBI request.\n0: C-FIFO and TX-FIFO are not flushed after an IBI request from target x is acknowledged\nand completed, and depending on the presence or absence of a next control word, a\nrepeated start or a stop is emitted\n1: I3C transfer is stopped and both C-FIFO and TX-FIFO are flushed after receiving an IBI\nrequest from target x\nBit 18 IBIDEN: IBI data enable (when the I3C acts as controller)\nWhen the I3C acts as controller, this bit must be written by software to store the BCR[2] bit as\nreceived from the target x during broadcast ENTDAA or direct GETBCR CCC via the\nreceived I3C_RDR.\nWriting to this field has no impact when the DIS = 1 in the I3C_DEVRx register.\n0: no data byte follows the acknowledged IBI from target x\n1: the mandatory data byte MDB[7:0] follows the acknowledged IBI from target x\nBit 17 CRACK: Controller-role request acknowledge (when the I3C acts as controller)\nWhen the I3C acts as controller, this bit is written by software to define the acknowledge\npolicy to be applied on the I3C bus on the reception of a controller-role request from target x:\n0: a controller-role request from target x must be NACK-ed\nAfter the NACK, the message continues as initially programmed (the target is aware of the\nNACK and can emit another controller-role request later on)\n1: a controller-role request (with 7-bit dynamic address DA[6:0]) from target x must be ACKed\n- The field DIS is asserted by hardware to protect DA[6:0] from being modified by software\nmeanwhile the hardware can store internally the current DA[6:0] into the kernel clock\ndomain.\n- After the ACK, the message continues as initially programmed. The software is notified\nby the controller-role request flag (CRF = 1 in the I3C_EVR register) and/or the\ncorresponding interrupt if enabled; For effectively granting the controller-role to the\nrequesting secondary controller, software must issue a GETACCCR (formerly known as\nGETACCMST), followed by a stop.\n- Independently of CRACK configuration for this or other devices, further controller-role\nrequest(s) are NACK-ed until controller-role request flag (CRF) and IBI flag (IBIF) in the\nI3C_EVR register are both cleared.\nBit 16 IBIACK: IBI request acknowledge (when the I3C acts as controller)\nWhen the I3C acts as controller, this bit is written by software to define the acknowledge\npolicy to be applied on the I3C bus on the reception of an IBI request from target x:\n0: an IBI request from target x must be NACK-ed\n- After the NACK, the message continues as initially programmed (the target is aware of\nthe NACK and can emit another IBI request later on)\n1: an IBI request (with 7-bit dynamic address DA[6:0]) from target x must be ACKed\n- The field DIS is asserted by hardware to protect DA[6:0] from being modified by software\nmeanwhile the hardware can store internally the current DA[6:0] into the kernel clock\ndomain.\n- After the ACK, the controller logs the IBI payload data, if any, depending on\nI3C_DEVRx.IBIDEN.\n- The software is notified by the IBI flag (IBIF = 1) and/or the corresponding interrupt if\nenabled;\n- Independently from IBIACK configuration for this or other devices, further IBI request(s)\nare NACK-ed until IBI request flag (IBIF) and controller-role request flag (CRF) are both\ncleared.\nBits 15:8 Reserved, must be kept at reset value.\nBits 7:1 DA[6:0]: Assigned I3C dynamic address to target x (when the I3C acts as controller)\nWhen the I3C acts as controller, this field must be written by software to store the 7-bit\ndynamic address that the controller sends via a broadcast ENTDAA or a direct SETNEWDA\nCCC acknowledged by the target x.\nWriting to this field has no impact when the read field DIS = 1 in the I3C_DEVRx register.\nBit 0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "I3C_DEVRx",
+        "address_offset": "0x060+0x4*x, (x=1 to 4)",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "DIS",
+            "description": "Disables writes to DA[6:0] (when the I3C acts as controller) When the I3C acts as controller, once the software sets IBIACK= 1 or CRACK= 1, this read bit is set by hardware (DIS= 1) to lock the configured DA[6:0] and IBIDEN values. Then, to be able to modify DA[6:0], IBIDEN or SUSP, the software must wait for DIS to be de-asserted by hardware (polling on DIS= 0) before modifying these three assigned values to the target x. Indeed, the target can request an IBI or a controller-role while the controller intends to modify DA[6:0], IBIDEN or SUSP.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "write to DA[7:0] and to IBIDEN in the I3C_DEVRx register is allowed"
+              },
+              {
+                "value": "1",
+                "meaning": "write to DA[7:0] and to IBIDEN is disabled/locked"
+              }
+            ]
+          },
+          {
+            "bits": "30:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "SUSP",
+            "description": "Suspend/stop I3C transfer on received IBI (when the I3C acts as controller) When the I3C acts as controller, this bit can be used to receive an IBI from target x with pending read notification feature (received MDB[7:5] = 3’b101). If this bit is set, when an IBI is received and completed (IBIF = 1 in the I3C_EVR register), a stop is emitted on the I3C bus and both C-FIFO and TX-FIFO are automatically flushed by hardware. The controller execution flow is stopped, even if a next control message is programmed. When the IBI is completed, the controller software can issue a new control word, such as a private read, to the target device that initiated the IBI request. and completed, and depending on the presence or absence of a next control word, a repeated start or a stop is emitted request from target x",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "C-FIFO and TX-FIFO are not flushed after an IBI request from target x is acknowledged"
+              },
+              {
+                "value": "1",
+                "meaning": "I3C transfer is stopped and both C-FIFO and TX-FIFO are flushed after receiving an IBI"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "IBIDEN",
+            "description": "IBI data enable (when the I3C acts as controller) When the I3C acts as controller, this bit must be written by software to store the BCR[2] bit as received from the target x during broadcast ENTDAA or direct GETBCR CCC via the received I3C_RDR. Writing to this field has no impact when the DIS = 1 in the I3C_DEVRx register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no data byte follows the acknowledged IBI from target x"
+              },
+              {
+                "value": "1",
+                "meaning": "the mandatory data byte MDB[7:0] follows the acknowledged IBI from target x"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "CRACK",
+            "description": "Controller-role request acknowledge (when the I3C acts as controller) When the I3C acts as controller, this bit is written by software to define the acknowledge policy to be applied on the I3C bus on the reception of a controller-role request from target x: After the NACK, the message continues as initially programmed (the target is aware of the NACK and can emit another controller-role request later on) - The field DIS is asserted by hardware to protect DA[6:0] from being modified by software meanwhile the hardware can store internally the current DA[6:0] into the kernel clock domain. - After the ACK, the message continues as initially programmed. The software is notified by the controller-role request flag (CRF = 1 in the I3C_EVR register) and/or the corresponding interrupt if enabled; For effectively granting the controller-role to the requesting secondary controller, software must issue a GETACCCR (formerly known as GETACCMST), followed by a stop. - Independently of CRACK configuration for this or other devices, further controller-role request(s) are NACK-ed until controller-role request flag (CRF) and IBI flag (IBIF) in the I3C_EVR register are both cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "a controller-role request from target x must be NACK-ed"
+              },
+              {
+                "value": "1",
+                "meaning": "a controller-role request (with 7-bit dynamic address DA[6:0]) from target x must be ACKed"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "IBIACK",
+            "description": "IBI request acknowledge (when the I3C acts as controller) When the I3C acts as controller, this bit is written by software to define the acknowledge policy to be applied on the I3C bus on the reception of an IBI request from target x: - After the NACK, the message continues as initially programmed (the target is aware of the NACK and can emit another IBI request later on) - The field DIS is asserted by hardware to protect DA[6:0] from being modified by software meanwhile the hardware can store internally the current DA[6:0] into the kernel clock domain. - After the ACK, the controller logs the IBI payload data, if any, depending on I3C_DEVRx.IBIDEN. - The software is notified by the IBI flag (IBIF = 1) and/or the corresponding interrupt if enabled; - Independently from IBIACK configuration for this or other devices, further IBI request(s) are NACK-ed until IBI request flag (IBIF) and controller-role request flag (CRF) are both cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "an IBI request from target x must be NACK-ed"
+              },
+              {
+                "value": "1",
+                "meaning": "an IBI request (with 7-bit dynamic address DA[6:0]) from target x must be ACKed"
+              }
+            ]
+          },
+          {
+            "bits": "15:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:1",
+            "name": "DA[6:0]",
+            "description": "Assigned I3C dynamic address to target x (when the I3C acts as controller) When the I3C acts as controller, this field must be written by software to store the 7-bit dynamic address that the controller sends via a broadcast ENTDAA or a direct SETNEWDA CCC acknowledged by the target x. Writing to this field has no impact when the read field DIS = 1 in the I3C_DEVRx register.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

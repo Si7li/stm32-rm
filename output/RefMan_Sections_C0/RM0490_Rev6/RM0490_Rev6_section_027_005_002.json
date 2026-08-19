@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.5.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.5.2",
+      "section_title": "Communications between one master and one slave",
+      "level": 3,
+      "parent_section": "27.5",
+      "page": 833,
+      "page_end": 835,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 4132,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=833",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.5.2 \"Communications between one master and one slave\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 833.",
+      "section_content": "The SPI allows the MCU to communicate using different configurations, depending on the\ndevice targeted and the application requirements. These configurations use 2 or 3 wires\n(with software NSS management) or 3 or 4 wires (with hardware NSS management).\nCommunication is always initiated by the master.\nFull-duplex communication\nBy default, the SPI is configured for full-duplex communication. In this configuration, the\nshift registers of the master and slave are linked using two unidirectional lines between the\nMOSI and the MISO pins. During SPI communication, data is shifted synchronously on the\nSCK clock edges provided by the master. The master transmits the data to be sent to the\nslave via the MOSI line and receives data from the slave via the MISO line. When the data\nframe transfer is complete (all the bits are shifted) the information between the master and\nslave is exchanged.\n[Figure 280. Full-duplex single master/ single slave application]\n1. The NSS pins can be used to provide a hardware control flow between master and slave. Optionally, the\nHalf-duplex communication\nThe SPI can communicate in half-duplex mode by setting the BIDIMODE bit in the\nSPIx_CR1 register. In this configuration, one single cross connection line is used to link the\nshift registers of the master and slave together. During this communication, the data is\nsynchronously shifted between the shift registers on the SCK clock edge in the transfer\ndirection selected reciprocally by both master and slave with the BDIOE bit in their\nSPIx_CR1 registers. In this configuration, the master’s MISO pin and the slave’s MOSI pin\nare free for other application uses and act as GPIOs.\n[Figure 281. Half-duplex single master/ single slave application]\nRx shift register Tx shift register\n1. The NSS pins can be used to provide a hardware control flow between master and slave. Optionally, the\n2. In this configuration, the master’s MISO pin and the slave’s MOSI pin can be used as GPIOs.\n3. A critical situation can happen when communication direction is changed not synchronously between two\nSimplex communications\nThe SPI can communicate in simplex mode by setting the SPI in transmit-only or in receive-\nonly using the RXONLY bit in the SPIx_CR1 register. In this configuration, only one line is\nused for the transfer between the shift registers of the master and slave. The remaining\nMISO and MOSI pins pair is not used for communication and can be used as standard\nGPIOs.\n• Transmit-only mode (RXONLY=0): The configuration settings are the same as for full-\nduplex. The application has to ignore the information captured on the unused input pin.\nThis pin can be used as a standard GPIO.\n• Receive-only mode (RXONLY=1): The application can disable the SPI output function\nby setting the RXONLY bit. In slave configuration, the MISO output is disabled and the\npin can be used as a GPIO. The slave continues to receive data from the MOSI pin\nwhile its slave select signal is active (see 27.5.5: Slave select (NSS) pin management).\nReceived data events appear depending on the data buffer configuration. In the master\nconfiguration, the MOSI output is disabled and the pin can be used as a GPIO. The\nclock signal is generated continuously as long as the SPI is enabled. The only way to\nstop the clock is to clear the RXONLY bit or the SPE bit and wait until the incoming\npattern from the MISO pin is finished and fills the data buffer structure, depending on its\nconfiguration.\n[Figure 282. Simplex single master/single slave application (master in transmit-only/]\nslave in receive-only mode)\nRx shift register (2) MISO MISO Tx shift register\n1. The NSS pins can be used to provide a hardware control flow between master and slave. Optionally, the\n2. An accidental input information is captured at the input of transmitter Rx shift register. All the events\n3. In this configuration, both the MISO pins can be used as GPIOs.\nNote: Any simplex communication can be alternatively replaced by a variant of the half-duplex\ncommunication with a constant setting of the transaction direction (bidirectional mode is\nenabled while BDIO bit is not changed).",
+      "semantic": {}
+    }
+  ]
+}

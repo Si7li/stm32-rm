@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.4",
+      "section_title": "YUV planar",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2101,
+      "page_end": 2102,
+      "semantic_type": "generic",
+      "features": [
+        "yuv"
+      ],
+      "chars": 1987,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2101",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.4 \"YUV planar\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2101.",
+      "section_content": "This operator handles the YUV planar formats, reading data from potentially several distinct\nbuffers (Y versus Cb versus Cr) into a single pixel information. The feature is available for\nlayer 1 and layer 2 (coplanar only for the layer 2).\nThe LTDC supports the following planar formats:\n• YUV422 coplanar (one buffer)\n• YUV420 semi-planar (two buffers)\n• YUV420 full-planar (three buffers)\nFollowing its configuration, the LTDC reads the relevant luminance and chrominance\nbuffers, upscales the chrominance components required to reach YUV444 pixels, and\nconverts the color from YUV to RGB as described in Section43.4.5.\nThe LTDC allows swapping the memory locations of the Y and Cb/Cr data and of the Cb and\nCr data. It also allows inverting the endianness of the Y data. This extends the amount of\nsupported pixel format variants.\nParameters\nPixel format parameters are stored in LTDC_LxPCR:\n• YCEN: activates the YUV mode (both the planar extraction and color conversion).\n• YCM: selects the input scheme (422 for coplanar, 420 for semi-planar,\n420forfull-planar).\n• YF: defines if either Y or Cb/Cr is provided first (from LSB).\n• CBF: defines if either Cb or Cr is provided first (from LSB).\n• OF: defines if either odd or even Y is provided first (from LSB).\nWhen using a semi-planar or full-planar buffer, some additional base-address must be\nconfigured for auxiliary (chrominance) buffers, as well as the pitch of these buffers\n(seeSection43.4.2).\nConfiguration examples\nSettings of OF, CBF, YF bits for a YCbCr 422 pixel format:\n• OF=0, CBF=0, YF=0 define the buffer word to containWord[31:0]=Y1-Cb-Y0-Cr.\n• OF=1, CBF=0, YF=0 define the buffer word to contain Word[31:0]= Y0-Cb-Y1-Cr.\n• OF=0, CBF=1, YF=0 define the buffer word to contain Word[31:0]=Y0-Cr-Y1-Cb.\n• OF=0, CBF=0, YF=1 define the buffer word to contain Word[31:0]=Cb-Y1-Cr-Y0.\n• OF=1, CBF=1, YF=1 define the buffer word to contain Word[31:0]=Cr-Y0-Cb-Y1.\nThese settings are also valid for YCbCr 420 pixel formats.",
+      "semantic": {}
+    }
+  ]
+}

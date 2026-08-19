@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S31.16.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "31",
+      "chapter_title": "Debug support (DBG)",
+      "section": "31.16.3",
+      "section_title": "Debug MCU configuration register",
+      "level": 3,
+      "parent_section": "31.16",
+      "page": 1101,
+      "page_end": 1103,
+      "semantic_type": "generic",
+      "features": [
+        "mcu"
+      ],
+      "chars": 5003,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1101",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.16.3 \"Debug MCU configuration register\" in chapter 31 (Debug support (DBG)), RM0008 Rev 21, page 1101.",
+      "section_content": "This register allows the configuration of the MCU under DEBUG. This concerns:\n• Low-power mode support\n• Timer and watchdog counter support\n• bxCAN communication support\n• Trace pin assignment\nThis DBGMCU_CR is mapped on the External PPB bus at address 0xE0042004\nIt is asynchronously reset by the PORESET (and not the system reset). It can be written by\nthe debugger under system reset.\nIf the debugger host does not support these features, it is still possible for the user software\nto write to these registers.\nDBGMCU_CR register\nAddress: 0xE0042004\nOnly 32-bit access supported\nPOR Reset: 0x0000 0000 (not reset by system reset)\nBit 31 Reserved, must be kept at reset value.\nBits 30:25 DBG_TIMx_STOP: TIMx counter stopped when core is halted (x=9..14)\n0: The clock of the involved timer counter is fed even if the core is halted, and the outputs\nbehave normally.\n1: The clock of the involved timer counter is stopped when the core is halted, and the\noutputs are disabled (as if there were an emergency stop in response to a break event).\nBits 24:22 Reserved, must be kept at reset value.\nBit 21 DBG_CAN2_STOP: Debug CAN2 stopped when core is halted\n0: Same behavior as in normal mode\n1: CAN2 receive registers are frozen\nBits 20:17 DBG_TIMx_STOP: TIMx counter stopped when core is halted (x=8..5)\n0: The clock of the involved timer counter is fed even if the core is halted, and the outputs\nbehave normally.\n1: The clock of the involved timer counter is stopped when the core is halted, and the\noutputs are disabled (as if there were an emergency stop in response to a break event).\nBit 16 DBG_I2C2_SMBUS_TIMEOUT: SMBUS timeout mode stopped when Core is halted\n0: Same behavior as in normal mode\n1: The SMBUS timeout is frozen\nBit 15 DBG_I2C1_SMBUS_TIMEOUT: SMBUS timeout mode stopped when Core is halted\n0: Same behavior as in normal mode\n1: The SMBUS timeout is frozen\nBit 14 DBG_CAN1_STOP: Debug CAN1 stopped when Core is halted\n0: Same behavior as in normal mode\n1: CAN1 receive registers are frozen\nBits 12:11 DBG_TIMx_STOP: TIMx counter stopped when core is halted (x=4..1)\n0: The clock of the involved Timer Counter is fed even if the core is halted\n1: The clock of the involved Timer counter is stopped when the core is halted\nBit 9 DBG_WWDG_STOP: Debug window watchdog stopped when core is halted\n0: The window watchdog counter clock continues even if the core is halted\n1: The window watchdog counter clock is stopped when the core is halted\nBit 8 DBG_IWDG_STOP: Debug independent watchdog stopped when core is halted\n0: The watchdog counter clock continues even if the core is halted\n1: The watchdog counter clock is stopped when the core is halted\nBits 7:5 TRACE_MODE[1:0] and TRACE_IOEN: Trace pin assignment control\n– With TRACE_IOEN=0:\nTRACE_MODE=xx: TRACE pins not assigned (default state)\n– With TRACE_IOEN=1:\n– TRACE_MODE=00: TRACE pin assignment for Asynchronous Mode\n– TRACE_MODE=01: TRACE pin assignment for Synchronous Mode with a\nTRACEDATA size of 1\n– TRACE_MODE=10: TRACE pin assignment for Synchronous Mode with a\nTRACEDATA size of 2\n– TRACE_MODE=11: TRACE pin assignment for Synchronous Mode with a\nTRACEDATA size of 4\nBits 4:3 Reserved, must be kept at reset value.\nBit 2 DBG_STANDBY: Debug Standby mode\n0: (FCLK=Off, HCLK=Off) The whole digital part is unpowered.\nFrom software point of view, exiting from Standby is identical than fetching reset vector\n(except a few status bit indicated that the MCU is resuming from Standby)\n1: (FCLK=On, HCLK=On) In this case, the digital part is not unpowered and FCLK and\nHCLK are provided by the internal RC oscillator which remains active. In addition, the MCU\ngenerate a system reset during Standby mode so that exiting from Standby is identical than\nfetching from reset\nBit 1 DBG_STOP: Debug Stop mode\n0: (FCLK=Off, HCLK=Off) In STOP mode, the clock controller disables all clocks (including\nHCLK and FCLK). When exiting from STOP mode, the clock configuration is identical to the\none after RESET (CPU clocked by the 8 MHz internal RC oscillator (HSI)). Consequently,\nthe software must reprogram the clock controller to enable the PLL, the Xtal, etc.\n1: (FCLK=On, HCLK=On) In this case, when entering STOP mode, FCLK and HCLK are\nprovided by the internal RC oscillator which remains active in STOP mode. When exiting\nSTOP mode, the software must reprogram the clock controller to enable the PLL, the Xtal,\netc. (in the same way it would do in case of DBG_STOP=0)\nBit 0 DBG_SLEEP: Debug Sleep mode\n0: (FCLK=On, HCLK=Off) In Sleep mode, FCLK is clocked by the system clock as\npreviously configured by the software while HCLK is disabled.\nIn Sleep mode, the clock controller configuration is not reset and remains in the previously\nprogrammed state. Consequently, when exiting from Sleep mode, the software does not\nneed to reconfigure the clock controller.\n1: (FCLK=On, HCLK=On) In this case, when entering Sleep mode, HCLK is fed by the same\nclock that is provided to FCLK (system clock as previously configured by the software).",
+      "semantic": {}
+    }
+  ]
+}

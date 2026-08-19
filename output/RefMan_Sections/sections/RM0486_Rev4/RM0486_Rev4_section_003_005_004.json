@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.5.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.5.4",
+      "section_title": "Multi-tenancy",
+      "level": 3,
+      "parent_section": "3.5",
+      "page": 187,
+      "page_end": 188,
+      "semantic_type": "generic",
+      "features": [
+        "multi",
+        "tenancy"
+      ],
+      "chars": 3641,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=187",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.5.4 \"Multi-tenancy\" in chapter 3 (System security), RM0486 Rev 4, page 187.",
+      "section_content": "Several AI network providers may need to have their private NPU data on the device at the\nsame time. This is referred to as multi-tenancy, where providers are considered as tenants\non the device.\nThe secure OS needs to ensure that one tenant cannot snoop or corrupt the private NPU\ndata of another tenant.\nNote: Tenants must all trust the secure OS to implement the isolation.\nTo facilitate the isolation between the NPU networks of distinct tenants, and other CPU\nsoftware, the RIF and bus infrastructure support the concept of compartments. An AXI bus\ntransaction carries a 3-bit CID value that identifies the transaction initiator compartment.\nThe secure OS configure the RISAF firewalls in front of memories on the AXI buses to filter\naccesses according to the carried CID.\nRISAF treats a CID = 7 as a wildcard: if it allows an access with CID = n, it also allows it with\nCID = 7. The CID used by AXI transactions from the DAP is defined by DAPCID in\nRIFSC_RIMC_CR. This bitfield is reset to 7, but can be changed by a secure privileged\naccess.\nThe CPU always issues transactions on the AXI bus with CID = 1. Only the CPU initiates\ntransactions on the AHB bus (directly, or indirectly via the DMA). The AHB does not carry\naCID bus: implicitly all transactions to peripherals occurring on the AHB bus have CID = 1.\nIn a multi-tenancy scenario, a distinct CID (values ≠ 1 and ≠7) is assigned to each tenant.\nThe secure OS configures the RISAFs to ensure tenant data are only accessible by\naccesses carrying the tenant CID. Before allocating temporary exclusive NPU use to a\nparticular tenant, the secure OS configures the RIFSC: the NPU RIMUs ensure AXI reads\nand writes are made with the CID of this tenant. This ensures the NPU cannot be used to\nsnoop the data of a different tenant.\nA mechanism on STM32N6x5/x7xx devices allows a secure tenant to use the HPDMA to\nmove its own data, but no-one else's. The secure OS can allocate an HPDMA channel n to\na tenant c bysetting SCID = c in HPDMA_CnCIDCFGR. This ensures that transfers on this\nchannel can be set up only by configuration writes that carry CID = c. Tenants operate as\nuser processes, so such an allocated channel n must be configured with bit n = 0 in\nHPDMA_PRIVCFGR (unprivileged). The mechanism is available only for tenants operating\nin the secure world, so the secure OS must set bit n = 1 in HPDMA_SECCFGR. AXI\ntransactions made by the channel carry security, privilege, and cid attributes that match\nwhat these registers are set to.\nJust before scheduling a tenant's user process, the secure OS must write thetenant CID\ninSYSCFG_SEC_AIDCR. This ensures that all AHB secure user accesses which arrive at\nthe HPDMA, appear to carry that CID. The tenant’s secure user process is then only able to\nuse secure HPDMA channels allocated to its own CID. When descheduling the tenant’s\nsecure user process, the secure OS resets SYSCFG_SEC_AIDCR to 1. The tenant’s\nHPDMA job continues to operate in the background. Other user processes cannot interfere\nwithHPDMA channels belonging to that tenant.\nThe SYSCFG_SECPRIV_AIDCR register plays the same role for AHB secure privileged\naccesses which arrive at the HPDMA. The interrupt handler for a DMA channel allocated\ntoa tenant user must configure this register in order to interrogate and clear the interrupt\nregisters in this DMA channel.\nSYSCFG_SEC_AIDCR and SYSCFG_SECPRIV_AIDCR affect only the CID of secure\naccesses. Nonsecure accesses always carry a CID of 1 (for example the CPU).\nAll other AXI initiators have RIMUs: what was described above for the NPU can be applied\nto other AXI initiators (but using the RISUP and RIMUs).",
+      "semantic": {}
+    }
+  ]
+}

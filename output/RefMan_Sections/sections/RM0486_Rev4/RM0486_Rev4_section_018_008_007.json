@@ -1,0 +1,248 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.8.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.8.7",
+      "section_title": "HPDMA channel x CID register (HPDMA_CxCIDCFGR)",
+      "level": 3,
+      "parent_section": "18.8",
+      "page": 898,
+      "page_end": 899,
+      "semantic_type": "register_description",
+      "features": [
+        "cfen",
+        "cid",
+        "dma",
+        "hpdma",
+        "memory",
+        "scid",
+        "sem-en",
+        "sem-wlist-cid0",
+        "sem-wlist-cid1",
+        "sem-wlist-cid2",
+        "sem-wlist-cid3",
+        "sem-wlist-cid4",
+        "sem-wlist-cid5",
+        "sem-wlist-cid6"
+      ],
+      "chars": 3752,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=898",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.8.7 \"HPDMA channel x CID register (HPDMA_CxCIDCFGR)\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 898.",
+      "section_content": "Address offset: 0x054+ 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0000\nThis channel-based register can be written by the secure, privileged, and trusted domain\nCID, in order to individually configure the CID allocation of any HPDMA channel x. If the\ndebug domain feature is activated, a read/write access to this register is granted to the\ndebug domain CID, regardless of any CID filtering.\nThis register must be written when the resource configuration of the channel x is unlocked\n(HPDMA_RCFGLOCKR.LOCKx = 0) and when the channel is disabled\n(HPDMA_CxCR.EN = 0).\nA read access may be privileged or unprivileged, secure or nonsecure, and with any CID.\nBits 31:23 Reserved, must be kept at reset value.\nBit 22 SEM_WLIST_CID6: White-listed CID6 in the CID allocation pool (for when the channel x\nin semaphore mode)\n0: CID6 black-listed in the semaphore-based CID allocation pool\n1: CID6 white-listed in the semaphore-based CID allocation pool\nBit 21 SEM_WLIST_CID5: White-listed CID5 in the CID allocation pool (for when the channel x\nin semaphore mode)\n0: CID5 black-listed in the semaphore-based CID allocation pool\n1: CID5 white-listed in the semaphore-based CID allocation pool\nBit 20 SEM_WLIST_CID4: White-listed CID4 in the CID allocation pool (for when the channel x\nin semaphore mode)\n0: CID4 black-listed in the semaphore-based CID allocation pool\n1: CID4 white-listed in the semaphore-based CID allocation pool\nBit 19 SEM_WLIST_CID3: White-listed CID3 in the CID allocation pool (for when the channel x\nin semaphore mode)\n0: CID3 black-listed in the semaphore-based CID allocation pool\n1: CID3 white-listed in the semaphore-based CID allocation pool\nBit 18 SEM_WLIST_CID2: White-listed CID2 in the CID allocation pool (for when the channel x\nin semaphore mode)\n0: CID2 black-listed in the semaphore-based CID allocation pool\n1: CID2 white-listed in the semaphore-based CID allocation pool\nBit 17 SEM_WLIST_CID1: White-listed CID1 in the CID allocation pool (for when the channel x\nin semaphore mode)\n0: CID1 black-listed in the semaphore-based CID allocation pool\n1: CID1 white-listed in the semaphore-based CID allocation pool\nBit 16 SEM_WLIST_CID0: White-listed CID0 in the CID allocation pool (for when the channel x\nin semaphore mode)\n0: CID0 black-listed in the semaphore-based CID allocation pool\n1: CID0 white-listed in the semaphore-based CID allocation pool\nBits 15:7 Reserved, must be kept at reset value.\nBits 6:4 SCID[2:0]: Allocation of a static/single CID to the channel x (for when the channel x CID\nconfiguration is not in semaphore mode)\n000: CID0 allocated to the channel x\n001: CID1 allocated to the channel x\n010: CID2 allocated to the channel x\n011: CID3 allocated to the channel x\n100: CID4 allocated to the channel x\n101: CID5 allocated to the channel x\n110: CID6 allocated to the channel x\n111: Reserved (write ignored)\nBits 3:2 Reserved, must be kept at reset value.\nBit 1 SEM_EN: Semaphore mode enable (for the CID allocation policy to the channel x)\n0: Semaphore mode disabled. CID allocation policy to the channel x is defined by SCID[1:0].\n1: Semaphore mode enabled. CID allocation policy to the channel x is defined by\nthe white-listed allocation pool SEM_WLIST_CIDx and HPDMA_CxSEMCR.SEM_MUTEX.\nNote: If SEM_EN = 1 and if a trusted domain or debug domain CID agent clears this bit, then\nthe HPDMA hardware automatically clears the HPDMA_CxSEMCR.SEM_MUTEX.\nBit 0 CFEN: CID filtering enable of the channel x\n0: CID filtering disabled for when accessing a channel x register/bitfield\n1: CID filtering enabled for when accessing a channel x register/bitfield\nNote: If CFEN = 1 and if a trusted domain or debug domain CID agent clears this bit, then the\nHPDMA hardware automatically clears the HPDMA_CxSEMCR.SEM_MUTEX.",
+      "semantic": {
+        "register": "HPDMA_CxCIDCFGR",
+        "address_offset": "0x054+ 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "SEM_WLIST_CID6",
+            "description": "White-listed CID6 in the CID allocation pool (for when the channel x in semaphore mode)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CID6 black-listed in the semaphore-based CID allocation pool"
+              },
+              {
+                "value": "1",
+                "meaning": "CID6 white-listed in the semaphore-based CID allocation pool"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "SEM_WLIST_CID5",
+            "description": "White-listed CID5 in the CID allocation pool (for when the channel x in semaphore mode)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CID5 black-listed in the semaphore-based CID allocation pool"
+              },
+              {
+                "value": "1",
+                "meaning": "CID5 white-listed in the semaphore-based CID allocation pool"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "SEM_WLIST_CID4",
+            "description": "White-listed CID4 in the CID allocation pool (for when the channel x in semaphore mode)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CID4 black-listed in the semaphore-based CID allocation pool"
+              },
+              {
+                "value": "1",
+                "meaning": "CID4 white-listed in the semaphore-based CID allocation pool"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "SEM_WLIST_CID3",
+            "description": "White-listed CID3 in the CID allocation pool (for when the channel x in semaphore mode)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CID3 black-listed in the semaphore-based CID allocation pool"
+              },
+              {
+                "value": "1",
+                "meaning": "CID3 white-listed in the semaphore-based CID allocation pool"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "SEM_WLIST_CID2",
+            "description": "White-listed CID2 in the CID allocation pool (for when the channel x in semaphore mode)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CID2 black-listed in the semaphore-based CID allocation pool"
+              },
+              {
+                "value": "1",
+                "meaning": "CID2 white-listed in the semaphore-based CID allocation pool"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "SEM_WLIST_CID1",
+            "description": "White-listed CID1 in the CID allocation pool (for when the channel x in semaphore mode)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CID1 black-listed in the semaphore-based CID allocation pool"
+              },
+              {
+                "value": "1",
+                "meaning": "CID1 white-listed in the semaphore-based CID allocation pool"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "SEM_WLIST_CID0",
+            "description": "White-listed CID0 in the CID allocation pool (for when the channel x in semaphore mode)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CID0 black-listed in the semaphore-based CID allocation pool"
+              },
+              {
+                "value": "1",
+                "meaning": "CID0 white-listed in the semaphore-based CID allocation pool"
+              }
+            ]
+          },
+          {
+            "bits": "15:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6:4",
+            "name": "SCID[2:0]",
+            "description": "Allocation of a static/single CID to the channel x (for when the channel x CID configuration is not in semaphore mode)",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "CID0 allocated to the channel x"
+              },
+              {
+                "value": "001",
+                "meaning": "CID1 allocated to the channel x"
+              },
+              {
+                "value": "010",
+                "meaning": "CID2 allocated to the channel x"
+              },
+              {
+                "value": "011",
+                "meaning": "CID3 allocated to the channel x"
+              },
+              {
+                "value": "100",
+                "meaning": "CID4 allocated to the channel x"
+              },
+              {
+                "value": "101",
+                "meaning": "CID5 allocated to the channel x"
+              },
+              {
+                "value": "110",
+                "meaning": "CID6 allocated to the channel x"
+              },
+              {
+                "value": "111",
+                "meaning": "Reserved (write ignored)"
+              }
+            ]
+          },
+          {
+            "bits": "3:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "SEM_EN",
+            "description": "Semaphore mode enable (for the CID allocation policy to the channel x) the white-listed allocation pool SEM_WLIST_CIDx and HPDMA_CxSEMCR.SEM_MUTEX. Note: If SEM_EN = 1 and if a trusted domain or debug domain CID agent clears this bit, then the HPDMA hardware automatically clears the HPDMA_CxSEMCR.SEM_MUTEX.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Semaphore mode disabled. CID allocation policy to the channel x is defined by SCID[1:0]."
+              },
+              {
+                "value": "1",
+                "meaning": "Semaphore mode enabled. CID allocation policy to the channel x is defined by"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CFEN",
+            "description": "CID filtering enable of the channel x Note: If CFEN = 1 and if a trusted domain or debug domain CID agent clears this bit, then the HPDMA hardware automatically clears the HPDMA_CxSEMCR.SEM_MUTEX.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CID filtering disabled for when accessing a channel x register/bitfield"
+              },
+              {
+                "value": "1",
+                "meaning": "CID filtering enabled for when accessing a channel x register/bitfield"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

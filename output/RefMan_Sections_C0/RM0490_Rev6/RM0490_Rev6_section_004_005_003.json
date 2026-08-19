@@ -1,0 +1,39 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.5.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.5.3",
+      "section_title": "FLASH write protection (WRP)",
+      "level": 3,
+      "parent_section": "4.5",
+      "page": 73,
+      "page_end": 74,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "write-protection",
+        "wrp"
+      ],
+      "chars": 1981,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=73",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.5.3 \"FLASH write protection (WRP)\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 73.",
+      "section_content": "The user area in flash memory can be protected against unwanted write operations. Two\nwrite-protected (WRP) areas can be defined, with page (2-Kbyte) granularity. Each area is\ndefined by a start page offset and an end page offset related to the physical flash memory\nbase address. These offsets are defined in the WRP address registers FLASH WRP area A\naddress register (FLASH_WRP1AR) and FLASH WRP area B address register\n(FLASH_WRP1BR).\nThe WRP x area (x = A, B) is defined from the address\nflash memory Base address + [WRP1x_STRT x 0x0800] (included)\nto the address\nflash memory Base address + [(WRP1x_END+1) x 0x0800] (excluded).\nThe minimum WRP area size is one WRP page (2 Kbytes):\nWRP1x_END = WRP1x_STRT.\nFor example, to protect the flash memory by WRP from the address 0x0800 1000 (included)\nto the address 0x0800 3FFF (included):\nIf boot in flash memory is selected, FLASH_WRP1AR register must be programmed\nwith:\n– WRP1A_STRT = 0x02.\n– WRP1A_END = 0x07.\nWRP1B_STRT and WRP1B_END in FLASH_WRP1BR can be used instead (area B in\nthe flash memory).\nWhen WRP is active, it cannot be erased or programmed. Consequently, a software mass\nerase cannot be performed if one area is write-protected.\nIf an erase/program operation to a write-protected part of the flash memory is attempted, the\nwrite protection error flag (WRPERR) of the FLASH_SR register is set. This flag is also set\nfor any write access to:\n– OTP area\n– part of the flash memory that can never be written like the ICP\n– PCROP area\nNote: When the flash memory read protection level is selected (RDP level = 1), it is not possible to\nprogram or erase the memory if the CPU debug features are connected (single wire) or boot\ncode is being executed from SRAM or system flash memory, even if WRP is not activated.\nAny attempt generates a hard fault (BusFault).\nTable 23: WRP protection\nNote: To validate the WRP options, the option bytes must be reloaded by setting the\nOBL_LAUNCH bit in flash memory control register.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S33.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "33",
+      "chapter_title": "Digital temperature sensor (DTS)",
+      "section": "33.4",
+      "section_title": "DTS interrupts",
+      "level": 2,
+      "parent_section": null,
+      "page": 1592,
+      "page_end": 1592,
+      "semantic_type": "generic",
+      "features": [
+        "dts",
+        "interrupt"
+      ],
+      "chars": 2447,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1592",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 33.4 \"DTS interrupts\" in chapter 33 (Digital temperature sensor (DTS)), RM0486 Rev 4, page 1592.",
+      "section_content": "The DTS provides a single active high (level) hardware interrupt output from the controller.\nThis is the logical OR of all the embedded TS interrupt sources and the common delay\ntimer.\nThe enabling, masking, and status of the interrupts are readily available through the IRQ\ncontrol registers. The interrupts from each TS instance are coalesced into a single interrupt,\nthe status of which can be observed through the DTS_TSn_ISR register. The index number\nof a set bit indicates the source TS number with an interrupt condition.\nEach TS block can generate an interrupt based on the following sources:\n• The irq_smpl indicates that sample data have been updated for the corresponding TS\ninstance.\n• The irq_alarma indicates that the recovered sample value has exceeded the\nprogrammed alarm A threshold for the corresponding TS instance.\n• The irq_alarmb indicates that the recovered sample value has exceeded the\nprogrammed alarm B threshold for the corresponding TS instance.\n• The irq_fault indicates that the corresponding TS instance has signaled a fault.\nWhen an interrupt event occurs, the rising edge is detected and the corresponding flag is\nset in the interrupt source register, DTS_TSn_ISR. The IRQ status bits are individually gated\n(logical AND) with their corresponding interrupt enabled in the DTS_TSn_IER register to\ngenerate interrupt request bits. These IRQ bits are then ORed together and registered by\nck_ker_dts to generate the interrupt outputs for IRQ control registers.\nOnce set the interrupt source bits are sticky, they must be cleared by writing a 1 to the\ncorresponding bit of the DTS_TSn_ICR register. This also clears the associated IRQ if it has\nbeen enabled.\nInterrupt events are triggered when the following flags are asserted or the force bits in the\nDTS_TSnIRQTESTR register are set. The forcing allows interrupts to be manually\ngenerated for software test purposes.\n• irq_smpl: asserted whenever a new TS data sample is recovered.\n• irq_alarma: asserted whenever the alarm A thresholds have been reached.\n• irq_alarmb: asserted whenever the alarm B thresholds have been reached.\n• irq_fault: asserted whenever the TS block asserts its fault output.\nGenerally, the embedded temperature sensors run continuously relying on their alarms to\nsignal out-of-bounds conditions. The user would usually disable the sample done flags for\nthese TS types unless they wish to log every data sample.\n[Table 265. DTS interrupts]",
+      "semantic": {}
+    }
+  ]
+}

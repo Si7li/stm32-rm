@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.8.4",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.8.4",
+      "section_title": "Inconsistency error (INCERR)",
+      "level": 3,
+      "parent_section": "6.8",
+      "page": 168,
+      "page_end": 169,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "incerr",
+        "memory"
+      ],
+      "chars": 1072,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=168",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.8.4 \"Inconsistency error (INCERR)\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 168.",
+      "section_content": "When a programming inconsistency is detected, the FLASH sets the inconsistency error\nflag INCERR in FLASH_SR.\nMore specifically, INCERR flag is set when the following condition is met:\n• A write operation is attempted before completion of the previous write operation, for\nexample:\n– The application software starts a write operation to fill the 128-bit write buffer, but\nsends a new write burst request to a different flash memory address before the\nbuffer is full.\nNote: INCERR flag must be cleared before starting a new write operation, otherwise a sequence\nerror (PGSERR) is raised.\nIt is recommended to follow the sequence below to avoid losing data when an inconsistency\nerror occurs:\n1. Execute a handler routine when INCERR flag is raised.\n2. Stop all write requests to FLASH.\n3. Clear INCERR bit.\n4. Restart the write operations where they have been interrupted.\nINCERR flag is cleared by setting CLR_INCERR bit to 1 in FLASH_CCR.\nIf INCERRIE bit in FLASH_CR register is set to 1, an interrupt is generated when INCERR\nflag is raised (see Section6.9 for details).",
+      "semantic": {}
+    }
+  ]
+}

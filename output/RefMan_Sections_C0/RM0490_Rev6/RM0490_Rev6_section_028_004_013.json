@@ -1,0 +1,243 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S28.4.13",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "28",
+      "chapter_title": "FD controller area network (FDCAN)",
+      "section": "28.4.13",
+      "section_title": "FDCAN protocol status register (FDCAN_PSR)",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 930,
+      "page_end": 932,
+      "semantic_type": "register_description",
+      "features": [
+        "act",
+        "dlec",
+        "fdcan",
+        "fdcan-psr",
+        "lec",
+        "pxe",
+        "rbrs",
+        "redl",
+        "resi",
+        "tdcv"
+      ],
+      "chars": 5499,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=930",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.13 \"FDCAN protocol status register (FDCAN_PSR)\" in chapter 28 (FD controller area network (FDCAN)), RM0490 Rev 6, page 930.",
+      "section_content": "Address offset: 0x0044\nReset value: 0x0000 0707\nBits 31:23 Reserved, must be kept at reset value.\nBits 22:16 TDCV[6:0]: Transmitter delay compensation value\nPosition of the secondary sample point, defined by the sum of the measured delay from\nFDCAN_TX to FDCAN_RX and TDCO[6:0] in FDCAN_TDCR. The SSP position is, in the\ndata phase, the number of minimum time quanta (mtq) between the start of the transmitted bit\nand the secondary sample point. Valid values are 0 to 127 × mtq.\nBit 15 Reserved, must be kept at reset value.\nBit 14 PXE: Protocol exception event\n0: No protocol exception event occurred since last read access\n1: Protocol exception event occurred\nBit 13 REDL: Received FDCAN message\nThis bit is set independent of acceptance filtering.\n0: Since this bit was cleared by the CPU, no FDCAN message has been received.\n1: Message in FDCAN format with EDL flag set has been received.\nAccess type is rc_r: cleared on read.\nBit 12 RBRS: BRS flag of last received FDCAN message\nThis bit is set together with REDL, independent of acceptance filtering.\n0: Last received FDCAN message did not have its BRS flag set.\n1: Last received FDCAN message had its BRS flag set.\nAccess type is rc_r: cleared on read.\nBit 11 RESI: ESI flag of last received FDCAN message\nThis bit is set together with REDL, independent of acceptance filtering.\n0: Last received FDCAN message did not have its ESI flag set.\n1: Last received FDCAN message had its ESI flag set.\nAccess type is rc_r: cleared on read.\nBits 10:8 DLEC[2:0]: Data last error code\nType of last error that occurred in the data phase of a FDCAN format frame with its BRS flag\nset. Coding is the same as for LEC[2:0]. This field is cleared when a FDCAN format frame\nwith its BRS flag set has been transferred (reception or transmission) without error.\nAccess type is rs: set on read.\nBit 7 BO: Bus-off status\n0: The FDCAN is not in bus-off state.\n1: The FDCAN is in bus-off state.\nBit 6 EW: Warning status\n0: Both error counters are below the error-warning limit of 96.\n1: At least one of error counter has reached the error-warning limit of 96.\nBit 5 EP: Error passive\n0: The FDCAN is in the error-active state. It normally takes part in bus communication and\nsends an active error flag when an error has been detected.\n1: The FDCAN is in the error-passive state.\nBits 4:3 ACT[1:0]: Activity\nMonitors the module’s CAN communication state.\n00: Synchronizing: node is synchronizing on CAN communication.\n01: Idle: node is neither receiver nor transmitter.\n10: Receiver: node is operating as receiver.\n11: Transmitter: node is operating as transmitter.\nBits 2:0 LEC[2:0]: Last error code\nLEC[2:0] indicates the type of the last error to occur on the CAN bus. This bitfield is cleared\nwhen a message has been transferred (reception or transmission) without error.\n000: No error occurred since LEC[2:0] has been cleared by successful reception or\ntransmission.\n001: Stuff error. More than five equal bits in a sequence have occurred in a part of a received\nmessage where this is not allowed.\n010: Form error. A fixed format part of a received frame has the wrong format.\n011: Ack error. The message transmitted by the FDCAN was not acknowledged by another\nnode.\n100: Bit1 error. During the transmission of a message (with the exception of the arbitration\nfield), the device wanted to send a recessive level (bit of logical value 1), but the monitored\nbus value was dominant.\n101: Bit0 error. During the transmission of a message (or acknowledge bit, or active error\nflag, or overload flag), the device wanted to send a dominant level (data or identifier bit logical\nvalue 0), but the monitored bus value was recessive. During bus-off recovery this status is set\neach time a sequence of 11 recessive bits has been monitored. This enables the CPU to\nmonitor the proceeding of the bus-off recovery sequence (indicating the bus is not stuck at\ndominant or continuously disturbed).\n110: CRC error. The CRC check sum of a received message was incorrect. The CRC of an\nincoming message does not match with the CRC calculated from the received data.\n111: No change. Any read access to the protocol status register reinitializes LEC[2:0] to 7.\nWhen the LEC[2:0] shows the value 7, no CAN bus event was detected since the last CPU\nread access to the protocol status register.\nAccess type is rs: set on read.\nNote: When a frame in FDCAN format has reached the data phase with the BRS flag set, the next\nCAN event (error or valid frame) is shown in DLEC[2:0] instead of LEC[2:0]. An error in a\nfixed stuff bit of an FDCAN CRC sequence is shown as a form error, not as a stuff error.\nThe bus-off recovery sequence (see CAN Specification Rev. 2.0 or ISO11898-1) cannot be\nshortened by setting or clearing the INIT bit of the FDCAN_CCCR register. If the device\nenters bus-off, it sets the INIT bit of its own, stopping all bus activities. Once INIT has been\ncleared by the CPU, the device waits for 129 occurrences of bus-idle (129 × 11 consecutive\nrecessive bits) before resuming normal operation. At the end of the bus-off recovery\nsequence, the error management counters are reset. During the waiting time after clearing\nINIT, each time a sequence of 11 recessive bits has been monitored, a bit0 error code is\nwritten to LEC[2:0] of FDCAN_PSR, enabling the CPU to check up whether the CAN bus is\nstuck at dominant or continuously disturbed, and to monitor the bus-off recovery sequence.\nThe REC[6:0] bitfield of the FDCAN_ECR register is used to count these sequences.",
+      "semantic": {
+        "register": "FDCAN_PSR",
+        "address_offset": "0x0044",
+        "reset_value": "0x0000 0707",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22:16",
+            "name": "TDCV[6:0]",
+            "description": "Transmitter delay compensation value Position of the secondary sample point, defined by the sum of the measured delay from FDCAN_TX to FDCAN_RX and TDCO[6:0] in FDCAN_TDCR. The SSP position is, in the data phase, the number of minimum time quanta (mtq) between the start of the transmitted bit and the secondary sample point. Valid values are 0 to 127 × mtq.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "PXE",
+            "description": "Protocol exception event",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No protocol exception event occurred since last read access"
+              },
+              {
+                "value": "1",
+                "meaning": "Protocol exception event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "REDL",
+            "description": "Received FDCAN message This bit is set independent of acceptance filtering. Access type is rc_r: cleared on read.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Since this bit was cleared by the CPU, no FDCAN message has been received."
+              },
+              {
+                "value": "1",
+                "meaning": "Message in FDCAN format with EDL flag set has been received."
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "RBRS",
+            "description": "BRS flag of last received FDCAN message This bit is set together with REDL, independent of acceptance filtering. Access type is rc_r: cleared on read.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Last received FDCAN message did not have its BRS flag set."
+              },
+              {
+                "value": "1",
+                "meaning": "Last received FDCAN message had its BRS flag set."
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "RESI",
+            "description": "ESI flag of last received FDCAN message This bit is set together with REDL, independent of acceptance filtering. Access type is rc_r: cleared on read.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Last received FDCAN message did not have its ESI flag set."
+              },
+              {
+                "value": "1",
+                "meaning": "Last received FDCAN message had its ESI flag set."
+              }
+            ]
+          },
+          {
+            "bits": "10:8",
+            "name": "DLEC[2:0]",
+            "description": "Data last error code Type of last error that occurred in the data phase of a FDCAN format frame with its BRS flag set. Coding is the same as for LEC[2:0]. This field is cleared when a FDCAN format frame with its BRS flag set has been transferred (reception or transmission) without error. Access type is rs: set on read.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "BO",
+            "description": "Bus-off status",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The FDCAN is not in bus-off state."
+              },
+              {
+                "value": "1",
+                "meaning": "The FDCAN is in bus-off state."
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "EW",
+            "description": "Warning status",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Both error counters are below the error-warning limit of 96."
+              },
+              {
+                "value": "1",
+                "meaning": "At least one of error counter has reached the error-warning limit of 96."
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "EP",
+            "description": "Error passive sends an active error flag when an error has been detected.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The FDCAN is in the error-active state. It normally takes part in bus communication and"
+              },
+              {
+                "value": "1",
+                "meaning": "The FDCAN is in the error-passive state."
+              }
+            ]
+          },
+          {
+            "bits": "4:3",
+            "name": "ACT[1:0]",
+            "description": "Activity Monitors the module’s CAN communication state.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Synchronizing: node is synchronizing on CAN communication."
+              },
+              {
+                "value": "01",
+                "meaning": "Idle: node is neither receiver nor transmitter."
+              },
+              {
+                "value": "10",
+                "meaning": "Receiver: node is operating as receiver."
+              },
+              {
+                "value": "11",
+                "meaning": "Transmitter: node is operating as transmitter."
+              }
+            ]
+          },
+          {
+            "bits": "2:0",
+            "name": "LEC[2:0]",
+            "description": "Last error code LEC[2:0] indicates the type of the last error to occur on the CAN bus. This bitfield is cleared when a message has been transferred (reception or transmission) without error. transmission. message where this is not allowed. node. field), the device wanted to send a recessive level (bit of logical value 1), but the monitored bus value was dominant. flag, or overload flag), the device wanted to send a dominant level (data or identifier bit logical value 0), but the monitored bus value was recessive. During bus-off recovery this status is set each time a sequence of 11 recessive bits has been monitored. This enables the CPU to monitor the proceeding of the bus-off recovery sequence (indicating the bus is not stuck at dominant or continuously disturbed). incoming message does not match with the CRC calculated from the received data. When the LEC[2:0] shows the value 7, no CAN bus event was detected since the last CPU read access to the protocol status register. Access type is rs: set on read. Note: When a frame in FDCAN format has reached the data phase with the BRS flag set, the next CAN event (error or valid frame) is shown in DLEC[2:0] instead of LEC[2:0]. An error in a fixed stuff bit of an FDCAN CRC sequence is shown as a form error, not as a stuff error. The bus-off recovery sequence (see CAN Specification Rev. 2.0 or ISO11898-1) cannot be shortened by setting or clearing the INIT bit of the FDCAN_CCCR register. If the device enters bus-off, it sets the INIT bit of its own, stopping all bus activities. Once INIT has been cleared by the CPU, the device waits for 129 occurrences of bus-idle (129 × 11 consecutive recessive bits) before resuming normal operation. At the end of the bus-off recovery sequence, the error management counters are reset. During the waiting time after clearing INIT, each time a sequence of 11 recessive bits has been monitored, a bit0 error code is written to LEC[2:0] of FDCAN_PSR, enabling the CPU to check up whether the CAN bus is stuck at dominant or continuously disturbed, and to monitor the bus-off recovery sequence. The REC[6:0] bitfield of the FDCAN_ECR register is used to count these sequences.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "No error occurred since LEC[2:0] has been cleared by successful reception or"
+              },
+              {
+                "value": "001",
+                "meaning": "Stuff error. More than five equal bits in a sequence have occurred in a part of a received"
+              },
+              {
+                "value": "010",
+                "meaning": "Form error. A fixed format part of a received frame has the wrong format."
+              },
+              {
+                "value": "011",
+                "meaning": "Ack error. The message transmitted by the FDCAN was not acknowledged by another"
+              },
+              {
+                "value": "100",
+                "meaning": "Bit1 error. During the transmission of a message (with the exception of the arbitration"
+              },
+              {
+                "value": "101",
+                "meaning": "Bit0 error. During the transmission of a message (or acknowledge bit, or active error"
+              },
+              {
+                "value": "110",
+                "meaning": "CRC error. The CRC check sum of a received message was incorrect. The CRC of an"
+              },
+              {
+                "value": "111",
+                "meaning": "No change. Any read access to the protocol status register reinitializes LEC[2:0] to 7."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

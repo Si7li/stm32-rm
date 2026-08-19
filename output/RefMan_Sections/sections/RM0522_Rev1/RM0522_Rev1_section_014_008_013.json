@@ -1,0 +1,160 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.8.13",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.8.13",
+      "section_title": "LPDMA channel x linked-list address register (LPDMA_CxLLR)",
+      "level": 3,
+      "parent_section": "14.8",
+      "page": 437,
+      "page_end": 438,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power",
+        "ub1",
+        "uda",
+        "ull",
+        "usa",
+        "ut1",
+        "ut2"
+      ],
+      "chars": 3088,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=437",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.8.13 \"LPDMA channel x linked-list address register (LPDMA_CxLLR)\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 437.",
+      "section_content": "Address offset: 0x0CC + 0x80 * x (x = 0 to 7)\nReset value: 0x0000 0000\nThis register is privileged or unprivileged, depending on the privileged state of channel x\n(LPDMA_PRIVCFGR.PRIVx).\nThis register configures the data structure of the next LLI in the memory and its address\npointer. A channel transfer is completed when this register is null.\nThis register must be written when LPDMA_CxCR.EN=0.\nThis register is read-only when LPDMA_CxCR.EN=1.\nThis register must be written when the channel is completed (then the hardware has\ndeasserted LPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block or LLI or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by LPDMA\nfrom the memory if LPDMA_CxLLR.ULL=1.\nBit 31 UT1: Update LPDMA_CxTR1 from memory\nThis bit controls the update of the LPDMA_CxTR1 register from the memory during the link transfer.\n0: no LPDMA_CxTR1 update\n1: LPDMA_CxTR1 update\nBit 30 UT2: Update LPDMA_CxTR2 from memory\nThis bit controls the update of the LPDMA_CxTR2 register from the memory during the link transfer.\n0: no LPDMA_CxTR2 update\n1: LPDMA_CxTR2 update\nBit 29 UB1: Update LPDMA_CxBR1 from memory\nThis bit controls the update of the LPDMA_CxBR1 register from the memory during the link transfer.\n0: no LPDMA_CxBR1 update from memory and internally restored to the previous programmed\nvalue\n1: LPDMA_CxBR1 update\nBit 28 USA: update LPDMA_CxSAR from memory\nThis bit controls the update of the LPDMA_CxSAR register from the memory during the link transfer.\n0: no LPDMA_CxSAR update\n1: LPDMA_CxSAR update\nBit 27 UDA: Update LPDMA_CxDAR register from memory\nThis bit is used to control the update of the LPDMA_CxDAR register from the memory during the link\ntransfer.\n0: no LPDMA_CxDAR update\n1: LPDMA_CxDAR update\nBits 26:17 Reserved, must be kept at reset value.\nBit 16 ULL: Update LPDMA_CxLLR register from memory\nThis bit is used to control the update of the LPDMA_CxLLR register from the memory during the link\ntransfer.\n0: no LPDMA_CxLLR update\n1: LPDMA_CxLLR update\nBits 15:2 LA[15:2]: pointer (16-bit low-significant address) to the next linked-list data structure\nIf UT1=UT2=UB1=USA=UDA=ULL=0 and if LA[15:2]=0, the current LLI is the last one. The\nchannel transfer is completed without any update of the linked-list DMA register file.\nElse, this field is the pointer to the memory address offset from which the next linked-list data\nstructure is automatically fetched from, once the data transfer is completed, in order to conditionally\nupdate the linked-list DMA internal register file (LPDMA_CxTR1, LPDMA_CxTR2, LPDMA_CxBR1,\nLPDMA_CxSAR, LPDMA_CxDAR and LPDMA_CxLLR).\nCaution: The user must program this pointer not to exceed the 64-Kbyte addressable space defined\nby the link base address register LPDMA_CxLBAR. The complete linked-list data structure\nmust be included in the 64-Kbyte addressable space.\nNote: The user must program the pointer to be 32-bit aligned. The two low-significant bits are write\nignored.\nBits 1:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "LPDMA_CxLLR",
+        "address_offset": "0x0CC + 0x80 * x (x = 0 to 7)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "UT1",
+            "description": "Update LPDMA_CxTR1 from memory This bit controls the update of the LPDMA_CxTR1 register from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no LPDMA_CxTR1 update"
+              },
+              {
+                "value": "1",
+                "meaning": "LPDMA_CxTR1 update"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "UT2",
+            "description": "Update LPDMA_CxTR2 from memory This bit controls the update of the LPDMA_CxTR2 register from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no LPDMA_CxTR2 update"
+              },
+              {
+                "value": "1",
+                "meaning": "LPDMA_CxTR2 update"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "UB1",
+            "description": "Update LPDMA_CxBR1 from memory This bit controls the update of the LPDMA_CxBR1 register from the memory during the link transfer. value",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no LPDMA_CxBR1 update from memory and internally restored to the previous programmed"
+              },
+              {
+                "value": "1",
+                "meaning": "LPDMA_CxBR1 update"
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "USA",
+            "description": "update LPDMA_CxSAR from memory This bit controls the update of the LPDMA_CxSAR register from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no LPDMA_CxSAR update"
+              },
+              {
+                "value": "1",
+                "meaning": "LPDMA_CxSAR update"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "UDA",
+            "description": "Update LPDMA_CxDAR register from memory This bit is used to control the update of the LPDMA_CxDAR register from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no LPDMA_CxDAR update"
+              },
+              {
+                "value": "1",
+                "meaning": "LPDMA_CxDAR update"
+              }
+            ]
+          },
+          {
+            "bits": "26:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "ULL",
+            "description": "Update LPDMA_CxLLR register from memory This bit is used to control the update of the LPDMA_CxLLR register from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no LPDMA_CxLLR update"
+              },
+              {
+                "value": "1",
+                "meaning": "LPDMA_CxLLR update"
+              }
+            ]
+          },
+          {
+            "bits": "15:2",
+            "name": "LA[15:2]",
+            "description": "pointer (16-bit low-significant address) to the next linked-list data structure If UT1=UT2=UB1=USA=UDA=ULL=0 and if LA[15:2]=0, the current LLI is the last one. The channel transfer is completed without any update of the linked-list DMA register file. Else, this field is the pointer to the memory address offset from which the next linked-list data structure is automatically fetched from, once the data transfer is completed, in order to conditionally update the linked-list DMA internal register file (LPDMA_CxTR1, LPDMA_CxTR2, LPDMA_CxBR1, LPDMA_CxSAR, LPDMA_CxDAR and LPDMA_CxLLR). Caution: The user must program this pointer not to exceed the 64-Kbyte addressable space defined by the link base address register LPDMA_CxLBAR. The complete linked-list data structure must be included in the 64-Kbyte addressable space. Note: The user must program the pointer to be 32-bit aligned. The two low-significant bits are write ignored.",
+            "values": []
+          },
+          {
+            "bits": "1:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

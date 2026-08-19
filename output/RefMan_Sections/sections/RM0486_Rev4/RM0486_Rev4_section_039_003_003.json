@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.3.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.3.3",
+      "section_title": "DCMIPP reset and clocks",
+      "level": 3,
+      "parent_section": "39.3",
+      "page": 1821,
+      "page_end": 1824,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "dcmipp"
+      ],
+      "chars": 3099,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1821",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.3.3 \"DCMIPP reset and clocks\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1821.",
+      "section_content": "[Table 332. DCMIPP clocks]\n[Table 333. DCMIPP resets]\nClocks and pixel rate limitations\nThis paragraph lists the DCMIPP limitations and bottlenecks:\n• The target is to sustain an average pixel rate (PixRateAvg):\n– A 5 Mpixel sensor at 30 fps requires 150 Mpixel/s (CSI-2 interface)\n– Higher resolution sensors can be supported, but with lower FPS (for example\n10Mpixels at 15 fps)\n• Vertical and horizontal blanking:\n– The full system (sensor, interface, pipe, AXI) embeds limited capacity FIFOs. The\nidle times that the sensor inserts during its blanking periods impact all the\ndownstream elements, including interface, pipe, and AXI. A pixel rate\n(PixRatePeak) higher than average must be used. The idle time due to the\nblanking can reach 33% of the frame duration, sometimes more (check sensor\nspecification).\n– PixRatePeak = 1.33 * PixRateAvg = 200 Mpixel/s in our example.\n• Parallel interface clock (dcmipp_pxclk):\n– On the parallel interface, pixels are received sequentially, in one, two or three\ncycles. The maximum implemented clock (120 MHz) constrains the peak pixel\nrate, depending on the ratio of cycles per pixel.\n– PixRatePeak ≤ dcmipp_pxclk / (1, 2 or 3) = 120 / (1, 2 or 3)\n– Clock frequency:\n> dcmipp_pxclk ≤ dcmipp_ker_ck (due to resync interface between them)\n> dcmipp_pxclk ≤ dcmipp_aclk\n– Consequences: see Table334.\n[Table 334. Parallel interface maximum resolution (80 MHz)]\n– Clock setting: dcmipp_pxclk ≥ PixRatePeak * Ratio(1,2,3)\n• Pipe clock dcmipp_ker_ck (when using the CSI-2 host interface)\n– CSI-2 PHY provides data bit at the clk_bit rate, on DL parallel data lanes.\n– Rationale: internally, the CSI-2 host interface packs the serial stream on 32-bit\nwords, resynchronized on the pipe clock (dcmipp_ker_ck).\n– Clock setting: dcmipp_ker_ck ≥ clk_bit * DL / 32 bpp = 156.25 MHz.\n– Rationale 2: The pixel pipe processes 1 pixel/clk, so that dcmipp_ker_ck must be\nhigher than the wanted PixRatePeak.\n– Clock setting: dcmipp_ker_ck ≥ PixRatePeak.\n– For small footprint pixels (like Raw8), the DCMIPP is limited by its maximum\ndcmipp_ker_clk, and can be unable to handle the maximum CSI pixel rate\n(clk_bit * DL / 8 bpp for Raw8).\n• Downsize:\n– The line buffer of the vertical downsize operator is limited to a width of 2688 pixels\nafter the horizontal downsize operation, limiting the resolution, when the\ndownsizing is active, to 2688 x 1944 (1944 is the usual maximum height with a\nwidth of 2688), thus 5.1 Mpixel.\n– If a camera resolution higher than 5 Mpixel is targeted, a basic decimation has to\nbe performed to decrease the resolution to a maximum of 5 Mpixel before\nprocessing the downsizing operation.\n• AXI clock:\n– The pixels must be reclocked from the processing to the AXI domain, resulting in\n> dcmipp_ker_ck ≤ dcmipp_aclk\n– The AXI bus must drain the running pipelines. The maximum footprint of pixel (or\ndata) pipes is 32 bpp (Pipe1 and Pipe2) and 16 bpp (Pipe0). AXI is on 64 bits, with\nan efficiency of 8 / 9 for the typical 64-byte burst.\n– dcmipp_aclk ≥ dcmipp_ker_ck * (32 bpp + 32 bpp + 16 bpp) /\n(64bit/bus)*9/8(efficiency) = dcmipp_ker_ck * 1.4.",
+      "semantic": {}
+    }
+  ]
+}

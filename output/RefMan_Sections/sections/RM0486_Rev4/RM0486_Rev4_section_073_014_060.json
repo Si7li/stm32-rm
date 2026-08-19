@@ -1,0 +1,100 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.60",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.60",
+      "section_title": "OTG device OUT endpoint x transfer size register (OTG_DOEPTSIZx)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3859,
+      "page_end": 3860,
+      "semantic_type": "register_description",
+      "features": [
+        "otg",
+        "out",
+        "pktcnt",
+        "rxdpid",
+        "xfrsiz"
+      ],
+      "chars": 1507,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3859",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.60 \"OTG device OUT endpoint x transfer size register (OTG_DOEPTSIZx)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3859.",
+      "section_content": "The application must modify this register before enabling the endpoint. Once the endpoint is\nenabled using endpoint enable bit of the OTG_DOEPCTLx registers (EPENA bit in\nOTG_DOEPCTLx), the core modifies this register. The application can only read this\nregister once the core has cleared the endpoint enable bit.\nAddress offset: 0xB10 + 0x20 * x, (x = 1 to 8)\nReset value: 0x00000000\nBit 31 Reserved, must be kept at reset value.\nBits 30:29 RXDPID[1:0]:\nCondition: isochronous OUT endpoints\nReceived data PID\nThis is the data PID received in the last packet for this endpoint.\n00: DATA0\n01: DATA2\n10: DATA1\n11: MDATA\nCondition: control OUT endpoints\nSTUPCNT[1:0]: SETUP packet count\nThis field specifies the number of back-to-back SETUP data packets the endpoint can\nreceive.\n01: 1 packet\n10: 2 packets\n11: 3 packets\nBits 28:19 PKTCNT[9:0]: Packet count\nIndicates the total number of USB packets that constitute the transfer size amount of data for\nthis endpoint.\nThis field is decremented every time a packet (maximum size or short packet) is written to\nthe Rx FIFO.\nBits 18:0 XFRSIZ[18:0]: Transfer size\nThis field contains the transfer size in bytes for the current endpoint. The core only interrupts\nthe application after it has exhausted the transfer size amount of data. The transfer size can\nbe set to the maximum packet size of the endpoint, to be interrupted at the end of each\npacket.\nThe core decrements this field every time a packet is read from the Rx FIFO and written to\nthe external memory.",
+      "semantic": {
+        "register": "OTG_DOEPTSIZx",
+        "address_offset": "0xB10 + 0x20 * x, (x = 1 to 8)",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30:29",
+            "name": "RXDPID[1:0]",
+            "description": "Condition: isochronous OUT endpoints Received data PID This is the data PID received in the last packet for this endpoint. Condition: control OUT endpoints STUPCNT[1:0]: SETUP packet count This field specifies the number of back-to-back SETUP data packets the endpoint can receive.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "DATA0"
+              },
+              {
+                "value": "01",
+                "meaning": "DATA2"
+              },
+              {
+                "value": "10",
+                "meaning": "DATA1"
+              },
+              {
+                "value": "11",
+                "meaning": "MDATA"
+              },
+              {
+                "value": "01",
+                "meaning": "1 packet"
+              },
+              {
+                "value": "10",
+                "meaning": "2 packets"
+              },
+              {
+                "value": "11",
+                "meaning": "3 packets"
+              }
+            ]
+          },
+          {
+            "bits": "28:19",
+            "name": "PKTCNT[9:0]",
+            "description": "Packet count Indicates the total number of USB packets that constitute the transfer size amount of data for this endpoint. This field is decremented every time a packet (maximum size or short packet) is written to the Rx FIFO.",
+            "values": []
+          },
+          {
+            "bits": "18:0",
+            "name": "XFRSIZ[18:0]",
+            "description": "Transfer size This field contains the transfer size in bytes for the current endpoint. The core only interrupts the application after it has exhausted the transfer size amount of data. The transfer size can be set to the maximum packet size of the endpoint, to be interrupted at the end of each packet. The core decrements this field every time a packet is read from the Rx FIFO and written to the external memory.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

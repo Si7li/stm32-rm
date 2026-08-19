@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S48.9.12",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "48",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "48.9.12",
+      "section_title": "Programming guidelines for flexible pulse-per-second (PPS) output",
+      "level": 3,
+      "parent_section": "48.9",
+      "page": 2246,
+      "page_end": 2248,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "pps"
+      ],
+      "chars": 5495,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2246",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.9.12 \"Programming guidelines for flexible pulse-per-second (PPS) output\" in chapter 48 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0522 Rev 1, page 2246.",
+      "section_content": "Generating a single pulse on PPS\nTo generate a single pulse on PPS:\n1. Program TRGTMODSEL[1:0] bit to 11 or 10 (for interrupt) in PPS control register\n(ETH_MACPPSCR). This instructs the MAC to use the Target Time registers (PPS\ntarget time seconds register (ETH_MACPPSTTSR) and PPS target time nanoseconds\nregister (ETH_MACPPSTTNR)) as start time of PPS signal output.\n2. Program the start time value in the target time registers (register PPS target time\nseconds register (ETH_MACPPSTTSR) and PPS target time nanoseconds register\n(ETH_MACPPSTTNR)).\n3. Program the width of the PPS signal output in PPS width register (ETH_MACPPSWR)\nRegister.\n4. Program PPSCMD[3:0] of PPS control register (ETH_MACPPSCR) to 0001. This\ninstructs the MAC to generate a single pulse on the PPS signal output at the time\nprogrammed in the Target Time registers.\nGenerating next pulse on PPS\nWhen the PPSCMD is executed (PPSCMD bits = 0), you can cancel the pulse generation by\ngiving the Cancel Start Command (PPSCMD=0011) before the programmed start time has\nelapsed. You can also program the behavior of the next pulse in advance. To program the\nnext pulse:\n1. Program the start time for the next pulse in the Target Time registers. This time should\nbe higher than the time at which the falling edge occurs for the previous pulse.\n2. Program the width of the next PPS signal output in PPS width register\n(ETH_MACPPSWR).\n3. Program PPSCMD[3:0] bits of PPS control register (ETH_MACPPSCR) to generate a\nsingle pulse after the previous pulse is deasserted. This instructs the MAC to generate\na single pulse on the PPS signal output at the time programmed in Target Time\nregisters.\nIf this command is given before the previous pulse becomes low, then the new\ncommand overwrites the previous command and the peripheral may generate only 1\nextended pulse.\nGenerating a pulse train on PPS\nTo generate a pulse train on PPS:\n1. Program TRGTMODSEL[1:0] bits to 11 or 10 (for interrupt) in PPS control register\n(ETH_MACPPSCR). This instructs the MAC to use the Target Time registers (PPS\ntarget time seconds register (ETH_MACPPSTTSR) and PPS target time nanoseconds\nregister (ETH_MACPPSTTNR)) for start time of the PPS signal output.\n2. Program the start time value in the Target Time registers (register PPS target time\nseconds register (ETH_MACPPSTTSR) and PPS target time nanoseconds register\n(ETH_MACPPSTTNR)).\n3. Program the interval value between the train of pulses on the PPS signal output in PPS\ninterval register (ETH_MACPPSIR).\n4. Program the width of the PPS signal output in PPS width register (ETH_MACPPSWR).\n5. Program PPSCMD[3:0] bits in PPS control register (ETH_MACPPSCR) to 0010. This\ninstructs the MAC to generate a train of pulses on the PPS signal output at the start\ntime programmed in Target Time registers.\nBy default, the PPS pulse train is free-running unless it is stopped by issuing a ‘STOP\nPulse train at time’ or ‘STOP Pulse Train immediately’ commands.\n6. Program the stop value in the Target Time registers. Ensure that TSTRBUSY bit in PPS\ntarget time nanoseconds register (ETH_MACPPSTTNR) is reset before programming\nthe Target Time registers again.\n7. Program the PPSCMD[3:0] bits in PPS control register (ETH_MACPPSCR) to 0100 to\nstop the train of pulses on PPS signal output after the programmed stop time specified\nat step 6 has elapsed.\nThe pulse train can be stopped at any time by programming 0101 in the PPSCMD[3:0] field.\nSimilarly, the Stop Pulse train command (given in Step 7) can be canceled by programming\nPPSCMD[3:0] bits to 0110 before the time (programmed at step 6) has elapsed.\nThe pulse train generation can be stopped by programming PPSCMD[3:0] to 0011 before\nthe start time programmed at step 2) has elapsed.\nGenerating an interrupt without affecting the PPS\nTRGTMODSEL[1:0] bits in PPS control register (ETH_MACPPSCR) enable you to program\nthe Target Time registers (PPS target time seconds register (ETH_MACPPSTTSR) and\nPPS target time nanoseconds register (ETH_MACPPSTTNR)) to do any one of the\nfollowing:\n• Generate only interrupts.\n• Generate interrupts and the PPS start and stop time.\n• Generate only PPS start and stop time.\nTo program the Target Time registers to generate only interrupt event:\n1. Program TRGTMODSEL[1:0] bits of PPS control register (ETH_MACPPSCR) to 00 (for\ninterrupt). This instructs the MAC to use the Target Time registers for target time\ninterrupt.\n2. Program a target time value in the Target Time registers. This instructs the MAC to\ngenerate an interrupt when the target time elapses.\nIf TRGTMODSEL[1:0] bits are changed (for example, to control the PPS), then the\ninterrupt generation is overwritten with the new mode and new programmed Target\nTime register value.\nNote: The TSTRGTERR0 bit in Timestamp status register (ETH_MACTSSR) is set when the\nprogrammed target time is smaller (that is corresponds to a time in the past) compared to\nthe system time in the System time seconds register (ETH_MACSTSR) and System time\nnanoseconds register (ETH_MACSTNR).\nAn interrupt is generated (sbd_intr_o) if the TSIE bit in the Interrupt enable register\n(ETH_MACIER) is set.\nTherefore, to avoid unwanted interrupts, the correct writing order is as follows:\n1. PPS target time nanoseconds register (ETH_MACPPSTTNR).\n2. PPS target time seconds register (ETH_MACPPSTTSR).\n3. PPS interval register (ETH_MACPPSIR).\n4. PPS width register (ETH_MACPPSWR).\n5. PPSCTRL[3:0] and PPSCTRL[3:0] and PPSEN0 bitfields of PPS control register\n(ETH_MACPPSCR).",
+      "semantic": {}
+    }
+  ]
+}

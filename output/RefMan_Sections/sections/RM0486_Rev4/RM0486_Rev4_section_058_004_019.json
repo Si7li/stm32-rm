@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S58.4.19",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "58",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "58.4.19",
+      "section_title": "PWM mode",
+      "level": 3,
+      "parent_section": "58.4",
+      "page": 2948,
+      "page_end": 2950,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "pwm",
+        "timer"
+      ],
+      "chars": 2773,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2948",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 58.4.19 \"PWM mode\" in chapter 58 (Low-power timer (LPTIM)), RM0486 Rev 4, page 2948.",
+      "section_content": "The PWM mode enables to generate a signal with a frequency determined by the value of\nthe LPTIM_ARR register and a duty cycle determined by the value of the LPTIM_CCRx\nregister. The LPTIM is able to generate PWM in edge-aligned mode.\nOCx polarity is software programmable using the CCxP bit in the LPTIM_CCMRx register. It\ncan be programmed as active high or active low. OCx output is enabled by the CCxE bit in\nthe LPTIM_CCMRx register. Refer to the LPTIM_CCMRx register description for more\ndetails.\nFigure769 gives an example where the LPTIM channel 1 is configured in PWM mode with\nLPTIM_CCR1 = 6 then 1 and LPTIM_ARR=10.\n[Figure 769. Edge-aligned PWM mode (PRELOAD = 1)]\nIn the following example the reference PWM signal OCxREF is low as long as\nLPTIM_CNT≤LPTIM_CCRx else it becomes high.\nFigure770 shows some edge-aligned PWM waveforms in an example where\nLPTIM_ARR=8.\n[Figure 770. Edge-aligned PWM waveforms (ARR=8 and CCxP = 0)]\nPWM mode with immediate update PRELOAD = 0\nThe PWM mode with PRELOAD = 0 enables the early change of the output level within the\ncurrent PWM cycle. Based on the immediate update (PRELOAD = 0) of the LPTIM_CCRx\nregister and on the continuous comparison of LPTIM_CNT and LPTIM_CCRx registers, it\npermits to have a new duty cycle value applied as soon as possible within the current PWM\ncycle, without having to wait for the completion of the current PWM period.\nWhen the (PRELOAD = 0), the OCxREF signal level can be changed on-the-fly by software\n(or DMA) by updating the compare value in the LPTIM_CCRx register.\nDepending on the written compare value and on the current counter and compare values,\nthe OCxREF level is re-assigned as illustrated below:\n• If the new compare value does not exceed the current counter value and the current\ncompare value exceeds the counter, OCxREF level is re-assigned high as soon as the\nnew compare value is written.\n• If the new compare value exceeds the counter value and the current compare value\ndoes not exceed the counter, OCxREF level is re-assigned low as soon as the new\ncompare value is written.\nThe output reference signal OCxREF level is left unchanged when none of the new\ncompare value and the current compare value exceed the counter. Figure771 illustrates the\nbehavior of the OCxREF signal level when PRELOAD = 0 and PRELOAD = 1.\n[Figure 771. PWM mode with immediate update versus preloaded update]\nLPTIM_CCRx\nNote: For both PWM modes, the compare match, auto-reload match, and the update event flags\nare set one LPTIM counter cycle later after the corresponding event, the OCxREF level is\nalso changed one LPTIM counter cycle later after the corresponding event. For instance\nwhen the LPTIM_CCRx is set to 3 the CCxIF is set when the LPTIM_CNT = 4. Figure769\nillustrates this behavior.",
+      "semantic": {}
+    }
+  ]
+}

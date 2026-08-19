@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S26.3.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "26",
+      "chapter_title": "True random number generator (RNG)",
+      "section": "26.3.7",
+      "section_title": "Error management",
+      "level": 3,
+      "parent_section": "26.3",
+      "page": 780,
+      "page_end": 782,
+      "semantic_type": "generic",
+      "features": [
+        "error",
+        "management"
+      ],
+      "chars": 4026,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=780",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.3.7 \"Error management\" in chapter 26 (True random number generator (RNG)), RM0522 Rev 1, page 780.",
+      "section_content": "In parallel to random number generation a health check block verifies the correct noise\nsource behavior and the frequency of the RNG source clock as detailed in this section.\nAssociated error state is also described.\nClock error detection\nWhen the clock error detection is enabled (CED = 0) and if the RNG clock frequency is too\nlow, the RNG sets to 1 both the CEIS and CECS bits to indicate that a clock error occurred.\nIn this case, the application must check that the RNG clock is configured correctly (see\nSection26.3.6), and then it must clear the CEIS bit interrupt flag. The CECS bit is\nautomatically cleared when the clocking condition is normal.\nWhen CECS is set, values are available in the RNG_DR register, but it must not be used as\ndescribed in Section26.3.5.\nNote: CEIS is set only when CECS is set to 1 by RNG.\nNoise source error detection\nWhen a noise source (or seed) error occurs, the RNG stops generating random numbers\nand sets to 1 both SEIS and SECS bits to indicate that a seed error occurred.\nWhen SECS is set, values are available in the RNG_DR register, but it must not be used as\ndescribed in Section26.3.5.\nTo manage a seed error, follow the recommended sequence below. It requires the\nCONFIGLOCK bit to be cleared.\n• When ARDIS is cleared (auto-reset enabled):\n– Clear the SEIS bit in the RNG_SR register\n– If SECS is cleared RNG can be used as usual. If SECS is still set in RNG_SR it\nmeans a new seed error occurred (unlikely). In this case, executes following step\n1)\n• When ARDIS is set (auto-reset disabled) the following sequence must be used to\nrecover from a seed error.\n1. Read both RNG_HTSRx registers. Using the previous HTSR values saved in RAM,\ncompute the accumulated number of errors per oscillator (can be RPERR or ADERR\nerrors). In a nsmr variable, mask the oscillators with accumulated number of errors\ngreater than 3. This variable is used in step 3). Save the updated HTSR values in RAM.\n– During the first iteration, initialize nsmr variable with the RNG_NSCR value.\n2. If fewer than 6 oscillators are active in the nsmr variable, reinitialize it with the\nRNG_NSCR value.\n– When RNG configuration is Configuration B, and the third time you reach this loop,\ngo to Step 3 changing the RNG configuration to Configuration C. Both\nconfigurations are defined in Section26.6.2.\n3. Write CONDRST at 1 in RNG_CR, then update RNG_NSMR with nsmr value. Refer to\nSection26.7.8 for details.\n4. Write CONDRST at 0 to finalize the reset of the RNG conditioning logic.\n5. Wait for the CONDRST bit to be cleared by hardware, or poll for BUSY bit= 0. Then\nclear the SEIS interrupt status bit in the RNG_SR register.\n6. If SECS is still set in RNG_SR it means a new seed error occurred (unlikely). In this\ncase go back to step 1). If SECS is cleared, restart the generation of random numbers\nby setting RNGEN in RNG_CR.\nIf application has set the CONFIGLOCK bit (not recommended), do the following:\n• When ARDIS is cleared (auto-reset enabled) clear the SEIS interrupt status bit in the\nRNG_SR register before drawing random numbers again.\n• When ARDIS is set (auto-reset disabled), the following sequence must be used to fully\nrecover from a seed error:\n1. Write CONDRST at 1 and at 0 in the RNG_CR register to reset the conditioning logic.\n2. Wait for the CONDRST bit to be cleared by hardware, or poll for BUSY = 0. Then clear\nthe SEIS interrupt status bit in the RNG_SR register.\n3. If SECS is still set in RNG_SR it means a new seed error occurred (unlikely). In this\ncase go back to step 1).\nNote: After a seed error RNG restarts generating random numbers when SECS is cleared.\nRNG tamper errors\nWhen an unexpected error is found by the RNG, an internal tamper event is triggered in the\nTAMP peripheral, and the RNG stops delivering random data.\nWhen this event occurs, the secure application needs to reset the RNG peripheral, using the\ncentral reset management or the global SoC reset. A proper initialization of the RNG is\nrequired again.\nNote: Seed errors do not trigger tamper errors.",
+      "semantic": {}
+    }
+  ]
+}

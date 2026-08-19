@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.10",
+      "section_title": "Display composition - windowing",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2105,
+      "page_end": 2106,
+      "semantic_type": "generic",
+      "features": [
+        "composition",
+        "display",
+        "windowing"
+      ],
+      "chars": 2014,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2105",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.10 \"Display composition - windowing\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2105.",
+      "section_content": "When performing the display composition, every layer can be cropped and positioned into\nthe active display area. The window position and size are configured by defining its top-left\nand bottom-right corners.\nNote: The locations are defined versus the internal timing generator that must take into account\nthe potential synchronization header, the back porch size and the chosen active pixel area\n(as shown in Figure446).\nThe mapping between the input layer and the visible window is performed as follows:\n• The most top-left pixels of the input layer are mapped to the top-left of the visible\nwindow of this layer.\n• If the visible window is smaller (less wide, less high) than the input layer, then the\nexceeding input pixels are automatically discarded from the pipe.\nParameters:\nThe following parameters are defined versus the top-left of thesynchronization:\n• WHSTPOS in LTDC_LxWHPCR: first (left) visible pixel of the layer\n• WHSPPOS in LTDC_LxWHPCR: last (right) visible pixel of the layer\n• WVSTPOS in LTDC_LxWVPCR: first (top) visible line of the layer\n• WVSPPOS in LTDC_LxWVPCR: last (bottom) visible line of the layer\n[Figure 446. Layer window programmable parameters]\nConfiguration examples\n• LTDC_BPCR is configured to 0x000E0005 (AHBP[11:0] is 0xE), and LTDC_AWCR\nisconfigured to 0x028E01E5 (AAW[11:0] is 0x28E). To configure the horizontal position\nof a window size of 630x460, with horizontal start offset of 5 pixels in the active data\narea:\n– Layer window first pixel: WHSTPOS[11:0] must be programmed to 0x14\n(0xE+1+0x5).\n– Layer window last pixel: WHSPPOS[11:0] must be programmed to 0x28A.\n• LTDC_BPCR is configured to 0x000E0005 (AVBP[11:0] is 0x5) and LTDC_AWCR is\nconfigured to 0x028E01E5 (AAH[11:0] is 0x1E5). To configure the vertical position of a\nwindow size of 630x460, with vertical start offset of eight lines in the active data area:\n– Layer window, first line: WVSTPOS[11:0] must be programmed to 0xE\n(0x5+1+0x8).\n– Layer window last line: WVSTPOS[11:0] must be programmed to 0x1DA.",
+      "semantic": {}
+    }
+  ]
+}

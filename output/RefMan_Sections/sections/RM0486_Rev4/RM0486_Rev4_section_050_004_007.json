@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S50.4.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "50",
+      "chapter_title": "Hash processor (HASH)",
+      "section": "50.4.7",
+      "section_title": "HMAC operation",
+      "level": 3,
+      "parent_section": "50.4",
+      "page": 2415,
+      "page_end": 2416,
+      "semantic_type": "generic",
+      "features": [
+        "hmac"
+      ],
+      "chars": 4026,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2415",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 50.4.7 \"HMAC operation\" in chapter 50 (Hash processor (HASH)), RM0486 Rev 4, page 2415.",
+      "section_content": "Overview\nAs specified by Internet Engineering Task Force RFC2104 and NIST FIPS PUB 198-1, the\nHMAC algorithm is used for message authentication by irreversibly binding the message\nbeing processed to a key chosen by the user. The algorithm consists of two nested hash\noperations:\nHMAC(message)= Hash((Key | pad) XOR opad |\nHash((Key | pad) XOR ipad | message))\nWhere:\n• opad=[0x5C]n (outer pad) and ipad =[0x36]n (inner pad)\n• [X]n represents a repetition of X n times, where n equal to the byte size of the\nunderlying hash function data block (n=64 when block size is 512 bits).\n• pad is a sequence of zeroes needed to extend the key to the length n defined above. If\nthe key length is greater than n, the application must first hash the key using Hash()\nfunction and then use the resultant byte string as the actual key to HMAC.\n• | represents the concatenation operator.\nNote: HMAC mode of the hash processor can be used with all supported algorithms.\nHMAC processing\nFour different steps are required to compute the HMAC:\n1. The software sets the INIT bit, with the MODE bit set and the ALGO bits selecting the\ndesired algorithm. The LKEY bit must also be set if the key being used is longer than\nthe block size. In this case, as required by HMAC specifications, the hash processor\nuses the hash of the key instead of the real key.\n2. The software provides the key to be used for the inner hash function, using the same\nmechanism as the message string loading that is by writing the key data into\nHASH_DIN register and then completing the transfer by setting DCAL bit and the\ncorrect NBLW to HASH_STR register.\n3. Once the processor is ready again (DINIS=1 in HASH_SR), the software can write the\nmessage string to HASH_DIN. When the last word of the last block is entered and the\nsoftware sets DCAL bit in HASH_STR register, the NBLW bitfield must be programmed\nat the same time to a value different from zero if the message length is not an exact\nmultiple of the block size. Note that the DMA can also be used to feed the message\nstring, as described in Section50.4.5: Message digest computing.\n4. Once the processor is ready again (DINIS=1 in HASH_SR), the software provides the\nkey to be used for the outer hash function, writing the key data into HASH_DIN register,\nand then completing the transfer by setting DCAL bit and programming the correct\nNBLW to HASH_STR register. The HMAC result can be found in the valid output\nregisters (HASH_HRx) as soon as DCIS bit is set.\nNote: The computation latency of the HMAC primitive depends on the lengths of the keys and\nmessage, as described in Section50.4.11: HASH processing time.\nEndianness management details can be found in Section50.4.4: Message data feeding.\nHMAC example\nBelow is an example of HMAC SHA-1 algorithm (ALGO=00 and MODE=1 in HASH_CR)\nas specified by NIST. SHA-1 block size is 64 bytes.\nLet us assume that the original message is the ASCII binary-coded form of “Sample\nmessage for keylen = blocklen”, of length L=34 bytes. If the HASH is programmed\nin no swapping mode (DATATYPE=00 in HASH_CR), the following data must be loaded\nsequentially into HASH_DIN register:\n1. Inner hash key input (length=64, that is, no padding), specified by NIST. As key\nlength=64, LKEY bit is cleared in HASH_CR register\n00010203 04050607 08090A0B 0C0D0E0F 10111213 14151617\n18191A1B 1C1D1E1F 20212223 24252627 28292A2B 2C2D2E2F\n30313233 34353637 38393A3B 3C3D3E3F\n2. Message input (length=34, that is, padding required). HASH_STR must be set to\n0x20 to start message padding and inner hash computation (see ‘U’ as don’t care)\n53616D70 6C65206D 65737361 67652066 6F72206B 65796C65\n6E3D626C 6F636B6C 656EUUUU\n3. Outer hash key input (length=64, that is, no padding). A key identical to the inner\nhash key is entered here.\n4. Final outer hash computing is then performed by the HASH. The HMAC-SHA1 digest\nresult is available in the HASH_HRx registers, as shown below:\nHASH_HR0 = 0x5FD596EE\nHASH_HR1 = 0x78D5553C\nHASH_HR2 = 0x8FF4E72D\nHASH_HR3 = 0x266DFD19\nHASH_HR4 = 0x2366DA29",
+      "semantic": {}
+    }
+  ]
+}

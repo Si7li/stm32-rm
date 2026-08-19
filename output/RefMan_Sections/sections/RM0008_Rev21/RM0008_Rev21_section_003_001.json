@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S3.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "3",
+      "chapter_title": "Memory and bus architecture",
+      "section": "3.1",
+      "section_title": "System architecture",
+      "level": 2,
+      "parent_section": null,
+      "page": 47,
+      "page_end": 49,
+      "semantic_type": "generic",
+      "features": [
+        "memory"
+      ],
+      "chars": 2813,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=47",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.1 \"System architecture\" in chapter 3 (Memory and bus architecture), RM0008 Rev 21, page 47.",
+      "section_content": "In low-, medium-, high- and XL-density devices, the main system consists of:\n• Four masters:\n– Cortex®-M3 core DCode bus (D-bus) and System bus (S-bus)\n– GP-DMA1 & 2 (general-purpose DMA)\n• Four slaves:\n– Internal SRAM\n– Internal Flash memory\n– FSMC\n– AHB to APBx (APB1 or APB2), which connect all the APB peripherals\nThese are interconnected using a multilayer AHB bus architecture as shown in Figure1:\n[Figure 1. System architecture (low-, medium-, XL-density devices)]\nIn connectivity line devices the main system consists of:\n• Five masters:\n– Cortex®-M3 core DCode bus (D-bus) and System bus (S-bus)\n– GP-DMA1 & 2 (general-purpose DMA)\n– Ethernet DMA\n• Three slaves:\n– Internal SRAM\n– Internal Flash memory\n– AHB to APB bridges (AHB to APBx), which connect all the APB peripherals\nThese are interconnected using a multilayer AHB bus architecture as shown in Figure2:\n[Figure 2. System architecture in connectivity line devices]\nICode bus\nThis bus connects the Instruction bus of the Cortex®-M3 core to the Flash memory\ninstruction interface. Prefetching is performed on this bus.\nDCode bus\nThis bus connects the DCode bus (literal load and debug access) of the Cortex®-M3 core to\nthe Flash memory Data interface.\nSystem bus\nThis bus connects the system bus of the Cortex®-M3 core (peripherals bus) to a BusMatrix\nwhich manages the arbitration between the core and the DMA.\nDMA bus\nThis bus connects the AHB master interface of the DMA to the BusMatrix which manages\nthe access of CPU DCode and DMA to SRAM, Flash memory and peripherals.\nBusMatrix\nThe BusMatrix manages the access arbitration between the core system bus and the DMA\nmaster bus. The arbitration uses a Round Robin algorithm. In connectivity line devices, the\nBusMatrix is composed of five masters (CPU DCode, System bus, Ethernet DMA, DMA1\nand DMA2 bus) and three slaves (FLITF, SRAM and AHB2APB bridges). In other devices,\nthe BusMatrix is composed of four masters (CPU DCode, System bus, DMA1 bus and\nDMA2 bus) and four slaves (FLITF, SRAM, FSMC and AHB2APB bridges).\nAHB peripherals are connected on system bus through a BusMatrix to allow DMA access.\nAHB/APB bridges (APB)\nThe two AHB/APB bridges provide full synchronous connections between the AHB and the\n2 APB buses. APB1 is limited to 36 MHz, APB2 operates at full speed (up to 72 MHz\ndepending on the device).\nRefer to Table3 for the address mapping of the peripherals connected to each bridge.\nAfter each device reset, all peripheral clocks are disabled (except for the SRAM and FLITF).\nBefore using a peripheral you have to enable its clock in the RCC_AHBENR,\nRCC_APB2ENR or RCC_APB1ENR register.\nNote: When a 16- or 8-bit access is performed on an APB register, the access is transformed into\na 32-bit access: the bridge duplicates the 16- or 8-bit data to feed the 32-bit vector.",
+      "semantic": {}
+    }
+  ]
+}

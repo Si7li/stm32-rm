@@ -1,0 +1,127 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.9.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.9.4",
+      "section_title": "SDIO command register (SDIO_CMD)",
+      "level": 3,
+      "parent_section": "22.9",
+      "page": 609,
+      "page_end": 610,
+      "semantic_type": "register_description",
+      "features": [
+        "atacmd",
+        "cmdindex",
+        "cpsmen",
+        "sdio",
+        "sdio-cmd",
+        "waitint",
+        "waitpend",
+        "waitresp"
+      ],
+      "chars": 2006,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=609",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.9.4 \"SDIO command register (SDIO_CMD)\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 609.",
+      "section_content": "Address offset: 0x0C\nReset value: 0x0000 0000\nThe SDIO_CMD register contains the command index and command type bits. The\ncommand index is sent to a card as part of a command message. The command type bits\ncontrol the command path state machine (CPSM).\nBits 31:15 Reserved, must be kept at reset value.\nBit 14 ATACMD: CE-ATA command\nIf ATACMD is set, the CPSM transfers CMD61.\nBit 13 nIEN: not Interrupt Enable\nif this bit is 0, interrupts in the CE-ATA device are enabled.\nBit 12 ENCMDcompl: Enable CMD completion\nIf this bit is set, the command completion signal is enabled.\nBit 11 SDIOSuspend: SD I/O suspend command\nIf this bit is set, the command to be sent is a suspend command (to be used only with SDIO\ncard).\nBit 10 CPSMEN: Command path state machine (CPSM) Enable bit\nIf this bit is set, the CPSM is enabled.\nBit 9 WAITPEND: CPSM Waits for ends of data transfer (CmdPend internal signal).\nIf this bit is set, the CPSM waits for the end of data transfer before it starts sending a\ncommand.\nBit 8 WAITINT: CPSM waits for interrupt request\nIf this bit is set, the CPSM disables command timeout and waits for an interrupt request.\nBits 7:6 WAITRESP: Wait for response bits\nThey are used to configure whether the CPSM is to wait for a response, and if yes, which\nkind of response.\n00: No response, expect CMDSENT flag\n01: Short response, expect CMDREND or CCRCFAIL flag\n10: No response, expect CMDSENT flag\n11: Long response, expect CMDREND or CCRCFAIL flag\nBit 5:0 CMDINDEX: Command index\nThe command index is sent to the card as part of a command message.\nNote: At least seven HCLK clock periods are needed between two write accesses to this register.\nMultiMediaCards can send two kinds of response: short responses, 48 bits long, or long\nresponses,136 bits long. SD card and SD I/O card can send only short responses, the\nargument can vary according to the type of response: the software will distinguish the type\nof response according to the sent command. CE-ATA devices send only short responses.",
+      "semantic": {
+        "register": "SDIO_CMD",
+        "address_offset": "0x0C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "ATACMD",
+            "description": "CE-ATA command If ATACMD is set, the CPSM transfers CMD61.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "nIEN",
+            "description": "not Interrupt Enable if this bit is 0, interrupts in the CE-ATA device are enabled.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "ENCMDcompl",
+            "description": "Enable CMD completion If this bit is set, the command completion signal is enabled.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "SDIOSuspend",
+            "description": "SD I/O suspend command If this bit is set, the command to be sent is a suspend command (to be used only with SDIO card).",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "CPSMEN",
+            "description": "Command path state machine (CPSM) Enable bit If this bit is set, the CPSM is enabled.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "WAITPEND",
+            "description": "CPSM Waits for ends of data transfer (CmdPend internal signal). If this bit is set, the CPSM waits for the end of data transfer before it starts sending a command.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "WAITINT",
+            "description": "CPSM waits for interrupt request If this bit is set, the CPSM disables command timeout and waits for an interrupt request.",
+            "values": []
+          },
+          {
+            "bits": "7:6",
+            "name": "WAITRESP",
+            "description": "Wait for response bits They are used to configure whether the CPSM is to wait for a response, and if yes, which kind of response.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No response, expect CMDSENT flag"
+              },
+              {
+                "value": "01",
+                "meaning": "Short response, expect CMDREND or CCRCFAIL flag"
+              },
+              {
+                "value": "10",
+                "meaning": "No response, expect CMDSENT flag"
+              },
+              {
+                "value": "11",
+                "meaning": "Long response, expect CMDREND or CCRCFAIL flag"
+              }
+            ]
+          },
+          {
+            "bits": "5:0",
+            "name": "CMDINDEX",
+            "description": "Command index The command index is sent to the card as part of a command message. Note: At least seven HCLK clock periods are needed between two write accesses to this register. MultiMediaCards can send two kinds of response: short responses, 48 bits long, or long responses,136 bits long. SD card and SD I/O card can send only short responses, the argument can vary according to the type of response: the software will distinguish the type of response according to the sent command. CE-ATA devices send only short responses.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

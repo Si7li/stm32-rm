@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.5.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.5.1",
+      "section_title": "Hide protection (HDP)",
+      "level": 3,
+      "parent_section": "6.5",
+      "page": 155,
+      "page_end": 157,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "hdp",
+        "memory"
+      ],
+      "chars": 2705,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=155",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.5.1 \"Hide protection (HDP)\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 155.",
+      "section_content": "A nonvolatile hide-protection (HDP) area per bank can be defined with a page granularity.\nAccess to the hide-protection area can be denied by progressing the HDPL level in the SBS.\nWhen the HDPL = 1, no user FLASH is protected by the HDP. With HDPL≥2, the user OB\ndefined HDP area in each bank is closed. No read, write, fetch, or erase is allowed in the\nHDP area.\nThe HDP area can be extended. The extension setting is only a register value, not stored in\nthe OB. With HDPL = 3, the HDP area remains activated and the extension is added. If an\nextension is added while the base user OB defined area is not active, the extension covers\none more page, because HDPx_END page is also protected.\nThe HDPL level can be only cleared by a system reset, there is no means to deactivate the\nHDP area.\nThe protected HDP area is defined by setting its size using start and end pages .\nThe size of the inaccessible area can be extended using register FLASH_HDPEXTR values\nHDPx_EXT. The value HDPx_EXT is a number of pages added to the HDP area (past the\nHDPx_END page). The volatile HDPx_EXT value in the register can be increased, but\ncannot decrement.\nIn case of HDPx_STRT > HDPx_END, the extension covers (HDPx_EXT + 1) size area\nbetween pages marked by HDPx_END and HDPx_END + HDPx_EXT.\nBy default, the HDPx_END is set to zero and HDPx_STRT is set to one. This means that the\nHDP area in user FLASH is zero size, and extends from the FLASH start address (first\npage).\nFor example, to protect area by HDP from 0x08002000 (included) to 0x08007FFF\n(included):\n• For physical bank1, the option-byte registers must be programmed with:\n– HDP1_STRT = 0x01,\n– HDP1_END = 0x03.\n[Figure 14. HDP in user flash memory]\nFlash bank\nPage 0 Page 31\n• Once the HDPL is incremented to 2, the marked area becomes inaccessible.\nTheHDPL = 2 code then sets the extension size to 2. Once the HDPL is incremented\nto 3, the extension area becomes also inaccessible.\nAlternatively, if:\n– HDP1_END = 0\n– HDP1_START = 1\n– HDPx_EXT = 1\nPage 0 and page 1 are HDP protected.\nOr a rather unusual example:\n– HDP1_END = 2\n– HDP1_START = 7\n– HDPx_EXT = 3\n• Pages 2 until 5 are HDP protected. Here the user must know that, if the application\nneeds pages 2 until 4 only as HDP area, HDPx_EXT must be programmed at 2 instead\nof 3.\n• If the two banks are swapped, the protection defined to physical bank1 remains on the\nphysical bank1, unaffected by swapping. Separate protection applies to physical bank2\nand the option bytes registers must also be programmed with:\n– HDP2_STRT = 0x01\n– HDP2_END = 0x03\nNote: For more details on the bank-swapping mechanism, refer to Section6.5.3.\n[Table 32. Secure hide protection]\n[Table 33. HDP protections summary]",
+      "semantic": {}
+    }
+  ]
+}

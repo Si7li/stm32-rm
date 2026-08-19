@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.19",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.19",
+      "section_title": "Programming sequence for queue/channel-",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4144,
+      "page_end": 4144,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 2871,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4144",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.19 \"Programming sequence for queue/channel-\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4144.",
+      "section_content": "based VLAN inclusion register\nWriting to the per queue/channel VLAN inclusion indirect registers\nTo write to the queue/channel-based VLAN inclusion register, complete the following steps.\nNote: Indirect VLAN include registers are not accessed while setting the CBTI bit.\n1. Set the CBTI bit of VLAN inclusion register (ETH_MACVIR) to 1, to enable\nqueue/channel based VLAN tag insertion on all transmitted packets. This bit must be\nset before any indirect access to the queue/channel specific VLAN inclusion register\n[alternate] (ETH_MACVIR).\n2. Set the RDWR field of VLAN inclusion register (ETH_MACVIR) to 1, to indicate write\naccess.\n3. Program the VLAN tag and VLAN type to be inserted in the packets from a particular\nqueue/channel in VLT[15:0] and CSVL fields of VLAN inclusion register\n(ETH_MACVIR). The corresponding offset address in ADDR field (0 for queue/channel\n0, 1 for queue/channel 1, and so on) must be set. Set the RDWR bit to 1 to indicate\nwrite access. The write to byte 0 of VLAN inclusion register (ETH_MACVIR) initiates\naccess to indirect access VLAN inclusion register [alternate] (ETH_MACVIR).\n4. The BUSY bit of VLAN inclusion register (ETH_MACVIR) is set by the peripheral to\nindicate the progress of access to indirect access VLAN inclusion register [alternate]\n(ETH_MACVIR). On completion of the access, the BUSY bit is cleared. The application\nmust not attempt subsequent access to VLAN inclusion register [alternate]\n(ETH_MACVIR) when the BUSY bit is 1.\n5. Repeat step 2 and step 3 to program VLAN tag and VLAN type to be inserted in\npackets from the remaining queues/channels. The application must ensure that the\nrequired VLAN tag and VLAN type for all the queues/channels are programmed;\notherwise unintended VLAN tag and VLAN type might be inserted.\nRead the per queue/channel VLAN inclusion indirect registers\nTo read the queue/channel-based VLAN inclusion register, complete the following steps:\n1. Set the CBTI field of VLAN inclusion register (ETH_MACVIR) to 1, to enable\nqueue/channel based VLAN tag insertion on all the transmitted packets. This bit must\nbe set before indirect access to the queue/channel specific VLAN inclusion register\n[alternate] (ETH_MACVIR).\n2. Program the read offset address in the ADDR field (0 for queue/channel 0, 1 for\nqueue/channel 1, and so on).\nSet the RDWR bit to 0 to indicate read access.\n3. The BUSY field of VLAN inclusion register (ETH_MACVIR) is set by the peripheral to\nindicate the progress of access to the indirect access VLAN inclusion register\n[alternate] (ETH_MACVIR). On completion of the access, the BUSY field is cleared.\nBits[15:0] and bit [19] of VLAN inclusion register (ETH_MACVIR) contain the VLAN tag\nand VLAN type respectively, from the corresponding queue/channel/offset address.\n4. Repeat step 2 and step 3 to read VLAN tag and VLAN type from the remaining\nqueues/channels.",
+      "semantic": {}
+    }
+  ]
+}

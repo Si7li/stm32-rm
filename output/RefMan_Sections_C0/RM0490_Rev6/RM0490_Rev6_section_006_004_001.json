@@ -1,0 +1,333 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S6.4.1",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "6",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "6.4.1",
+      "section_title": "RCC clock control register (RCC_CR)",
+      "level": 3,
+      "parent_section": "6.4",
+      "page": 133,
+      "page_end": 135,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "csson",
+        "hsebyp",
+        "hseon",
+        "hserdy",
+        "hsidiv",
+        "hsikerdiv",
+        "hsikeron",
+        "hsion",
+        "hsirdy",
+        "hsiusb48on",
+        "hsiusb48rdy",
+        "rcc",
+        "rcc-cr",
+        "sysdiv"
+      ],
+      "chars": 4136,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=133",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.4.1 \"RCC clock control register (RCC_CR)\" in chapter 6 (Reset and clock control (RCC)), RM0490 Rev 6, page 133.",
+      "section_content": "Address offset: 0x00\nPower-on reset value: 0x0000 1540\nOther types of reset: same as power-on reset, except the HSEBYP bit that keeps its\nprevious value.\nThis register only supports word and half-word access.\nBits 31:24 Reserved, must be kept at reset value.\nBit 23 HSIUSB48RDY: HSIUSB48 clock ready flag\nSet by hardware when the HSIUSB48 oscillator is enabled through HSIUSB48ON and ready\nto use (stable).\n0: Not ready\n1: Ready\nNote: Only applicable to STM32C071xx, reserved on the other products.\nBit 22 HSIUSB48ON: HSIUSB48 clock enable\nSet and cleared by software and hardware, with hardware taking priority. Kept low by\nhardware as long as the device is in a low-power mode. Kept high by hardware as long as\nthe system is clocked from HSIUSB48.\n0: Disable\n1: Enable\nNote: Only applicable to STM32C071xx, reserved on the other products.\nBits 21:20 Reserved, must be kept at reset value.\nBit 19 CSSON: Clock security system enable\nSet by software to enable the clock security system. When the bit is set, the clock detector is\nenabled by hardware when the HSE oscillator is ready, and disabled by hardware if a HSE\nclock failure is detected. The bit is cleared by hardware upon reset.\n0: Disable\n1: Enable\nBit 18 HSEBYP: HSE crystal oscillator bypass\nSet and cleared by software.\nWhen the bit is set, the internal HSE oscillator is bypassed for use of an external clock. The\nexternal clock must then be enabled with the HSEON bit set. Write access to the bit is only\neffective when the HSE oscillator is disabled.\n0: No bypass\n1: Bypass\nBit 17 HSERDY: HSE clock ready flag\nSet by hardware to indicate that the HSE oscillator is stable and ready for use.\n0: Not ready\n1: Ready\nNote: Upon clearing HSEON, HSERDY goes low after six HSE clock cycles.\nBit 16 HSEON: HSE clock enable\nSet and cleared by software.\nCleared by hardware to stop the HSE oscillator when entering Stop, or Standby, or Shutdown\nmode. This bit cannot be cleared if the HSE oscillator is used directly or indirectly as the\nsystem clock.\n0: Disable\n1: Enable\nBits 15:14 Reserved, must be kept at reset value.\nBits 13:11 HSIDIV[2:0]: HSI48 clock division factor\nThis bitfield controlled by software sets the division factor of the HSI48 clock divider to\nproduce HSISYS clock:\n000: 1\n001: 2\n010: 4 (reset value)\n011: 8\n100: 16\n101: 32\n110: 64\n111: 128\nBit 10 HSIRDY: HSI48 clock ready flag\nSet by hardware when the HSI48 oscillator is enabled through HSION and ready to use\n(stable).\n0: Not ready\n1: Ready\nNote: Upon clearing HSION, HSIRDY goes low after six HSI48 clock cycles.\nBit 9 HSIKERON: HSI48 always-enable for peripheral kernels.\nSet and cleared by software.\nSetting the bit activates the HSI48 oscillator in Run and Stop modes, regardless of the\nHSION bit state. The HSI48 clock can only feed USART1, USART2, and I2C1 peripherals\nconfigured with HSI48 as kernel clock.\n0: HSI48 oscillator enable depends on the HSION bit\n1: HSI48 oscillator is active in Run and Stop modes\nNote: Keeping the HSI48 active in Stop mode allows speeding up the serial interface\ncommunication as the HSI48 clock is ready immediately upon exiting Stop mode.\nBit 8 HSION: HSI48 clock enable\nSet and cleared by software and hardware, with hardware taking priority.\nKept low by hardware as long as the device is in a low-power mode.\nKept high by hardware as long as the system is clocked with a clock derived from HSI48.\nThis includes the exit from low-power modes and the system clock fall-back to HSI48 upon\nfailing HSE oscillator clock selected as system clock source.\n0: Disable\n1: Enable\nBits 7:5 HSIKERDIV[2:0]: HSI48 kernel clock division factor\nThis bitfield controlled by software sets the division factor of the kernel clock divider to\nproduce HSIKER clock:\n000: 1\n001: 2\n010: 3 (reset value)\n011: 4\n100: 5\n101: 6\n110: 7\n111: 8\nBits 4:2 SYSDIV[2:0]: Clock division factor for system clock\nSet and cleared by software. SYSCLK is result of the division by:\n000: 1 (no division, reset value)\n001: 2\n010: 3\n011: 4\n100: 5\n101: 6\n110: 7\n111: 8\nNote: This bitfield is only available on STM32C051xx, STM32C071xx, and\nSTM32C091xx/92xx.\nBits 1:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "RCC_CR",
+        "address_offset": "0x00",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "HSIUSB48RDY",
+            "description": "HSIUSB48 clock ready flag Set by hardware when the HSIUSB48 oscillator is enabled through HSIUSB48ON and ready to use (stable). Note: Only applicable to STM32C071xx, reserved on the other products.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not ready"
+              },
+              {
+                "value": "1",
+                "meaning": "Ready"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "HSIUSB48ON",
+            "description": "HSIUSB48 clock enable Set and cleared by software and hardware, with hardware taking priority. Kept low by hardware as long as the device is in a low-power mode. Kept high by hardware as long as the system is clocked from HSIUSB48. Note: Only applicable to STM32C071xx, reserved on the other products.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "21:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "CSSON",
+            "description": "Clock security system enable Set by software to enable the clock security system. When the bit is set, the clock detector is enabled by hardware when the HSE oscillator is ready, and disabled by hardware if a HSE clock failure is detected. The bit is cleared by hardware upon reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "HSEBYP",
+            "description": "HSE crystal oscillator bypass Set and cleared by software. When the bit is set, the internal HSE oscillator is bypassed for use of an external clock. The external clock must then be enabled with the HSEON bit set. Write access to the bit is only effective when the HSE oscillator is disabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No bypass"
+              },
+              {
+                "value": "1",
+                "meaning": "Bypass"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "HSERDY",
+            "description": "HSE clock ready flag Set by hardware to indicate that the HSE oscillator is stable and ready for use. Note: Upon clearing HSEON, HSERDY goes low after six HSE clock cycles.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not ready"
+              },
+              {
+                "value": "1",
+                "meaning": "Ready"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "HSEON",
+            "description": "HSE clock enable Set and cleared by software. Cleared by hardware to stop the HSE oscillator when entering Stop, or Standby, or Shutdown mode. This bit cannot be cleared if the HSE oscillator is used directly or indirectly as the system clock.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "15:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:11",
+            "name": "HSIDIV[2:0]",
+            "description": "HSI48 clock division factor This bitfield controlled by software sets the division factor of the HSI48 clock divider to produce HSISYS clock:",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "1"
+              },
+              {
+                "value": "001",
+                "meaning": "2"
+              },
+              {
+                "value": "010",
+                "meaning": "4 (reset value)"
+              },
+              {
+                "value": "011",
+                "meaning": "8"
+              },
+              {
+                "value": "100",
+                "meaning": "16"
+              },
+              {
+                "value": "101",
+                "meaning": "32"
+              },
+              {
+                "value": "110",
+                "meaning": "64"
+              },
+              {
+                "value": "111",
+                "meaning": "128"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "HSIRDY",
+            "description": "HSI48 clock ready flag Set by hardware when the HSI48 oscillator is enabled through HSION and ready to use (stable). Note: Upon clearing HSION, HSIRDY goes low after six HSI48 clock cycles.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not ready"
+              },
+              {
+                "value": "1",
+                "meaning": "Ready"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "HSIKERON",
+            "description": "HSI48 always-enable for peripheral kernels. Set and cleared by software. Setting the bit activates the HSI48 oscillator in Run and Stop modes, regardless of the HSION bit state. The HSI48 clock can only feed USART1, USART2, and I2C1 peripherals configured with HSI48 as kernel clock. Note: Keeping the HSI48 active in Stop mode allows speeding up the serial interface communication as the HSI48 clock is ready immediately upon exiting Stop mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSI48 oscillator enable depends on the HSION bit"
+              },
+              {
+                "value": "1",
+                "meaning": "HSI48 oscillator is active in Run and Stop modes"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "HSION",
+            "description": "HSI48 clock enable Set and cleared by software and hardware, with hardware taking priority. Kept low by hardware as long as the device is in a low-power mode. Kept high by hardware as long as the system is clocked with a clock derived from HSI48. This includes the exit from low-power modes and the system clock fall-back to HSI48 upon failing HSE oscillator clock selected as system clock source.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "7:5",
+            "name": "HSIKERDIV[2:0]",
+            "description": "HSI48 kernel clock division factor This bitfield controlled by software sets the division factor of the kernel clock divider to produce HSIKER clock:",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "1"
+              },
+              {
+                "value": "001",
+                "meaning": "2"
+              },
+              {
+                "value": "010",
+                "meaning": "3 (reset value)"
+              },
+              {
+                "value": "011",
+                "meaning": "4"
+              },
+              {
+                "value": "100",
+                "meaning": "5"
+              },
+              {
+                "value": "101",
+                "meaning": "6"
+              },
+              {
+                "value": "110",
+                "meaning": "7"
+              },
+              {
+                "value": "111",
+                "meaning": "8"
+              }
+            ]
+          },
+          {
+            "bits": "4:2",
+            "name": "SYSDIV[2:0]",
+            "description": "Clock division factor for system clock Set and cleared by software. SYSCLK is result of the division by: Note: This bitfield is only available on STM32C051xx, STM32C071xx, and STM32C091xx/92xx.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "1 (no division, reset value)"
+              },
+              {
+                "value": "001",
+                "meaning": "2"
+              },
+              {
+                "value": "010",
+                "meaning": "3"
+              },
+              {
+                "value": "011",
+                "meaning": "4"
+              },
+              {
+                "value": "100",
+                "meaning": "5"
+              },
+              {
+                "value": "101",
+                "meaning": "6"
+              },
+              {
+                "value": "110",
+                "meaning": "7"
+              },
+              {
+                "value": "111",
+                "meaning": "8"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

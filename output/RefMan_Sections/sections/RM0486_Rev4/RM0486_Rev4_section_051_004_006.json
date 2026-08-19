@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S51.4.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "51",
+      "chapter_title": "Memory cipher engine (MCE)",
+      "section": "51.4.6",
+      "section_title": "MCE stream cipher encryption mode",
+      "level": 3,
+      "parent_section": "51.4",
+      "page": 2435,
+      "page_end": 2436,
+      "semantic_type": "generic",
+      "features": [
+        "mce",
+        "memory"
+      ],
+      "chars": 1583,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2435",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 51.4.6 \"MCE stream cipher encryption mode\" in chapter 51 (Memory cipher engine (MCE)), RM0486 Rev 4, page 2435.",
+      "section_content": "Figure499 details the stream cipher implementations in the MCE peripheral. It pictures\nencryptions for AXI writes.\n[Figure 499. MCE implementation of stream cipher]\n[Table 436. MCE block cipher latencies]\n128-bit 128-bit\n128-bit\nBlock cipher encryption(1) Block cipher encryption(1)\nCC_KEY\nData_OUT (plain text i) Data_OUT (plain text i+1)\nData_IN (cipher text i) Data_IN (cipher text i+1)\n1. Operation starts from the capture of the address.\nEvery 128-bit data block (i), a counter (i) information is computed, as defined below:\n• Counter[127:0] = MCE_CCzNR1[31:0] || MCE_CCzNR0[31:0] || 0b0000 0000 0000\n0000 || MCE_CCzCFGR[31:16] || 0b0000 || Address_i [31:4].\nAddress_i is the physical address of block (i), modulo 16 bytes.\nVersion and Nonce are stored by application respectively in MCE_CCzCFGR and\nMCE_CCzNRx registers, with cipher context z selected in MCE_REGCR (CTXID=z).\nThe least significant byte of Data_IN and Data_OUT are stored in the first 8 bits of the data\nblocks.\nCC_KEY is stored in write-only MCE_CCzKEYRx registers, with cipher context z selected in\nMCE_REGCR (CTXID=z). When a complete key have not been written in\nMCE_CCzKEYR registers bypass mode is selected instead of stream cipher mode.\nNote: Stream cipher mode offers no protection against bit-flip attacks, and is sensitive against side\nchannel attacks.\nCaution: When MCE is used in conjunction with XSPI it is mandatory to read or write the flash\nmemory using the memory map mode of the flash memory controller.\nRelative performances are described on Table437.\n[Table 437. MCE stream cipher latencies]",
+      "semantic": {}
+    }
+  ]
+}

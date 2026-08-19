@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S28.6.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "28",
+      "chapter_title": "USB on-the-go full-speed (OTG_FS)",
+      "section": "28.6.3",
+      "section_title": "Host channels",
+      "level": 3,
+      "parent_section": "28.6",
+      "page": 841,
+      "page_end": 842,
+      "semantic_type": "generic",
+      "features": [
+        "channels",
+        "host"
+      ],
+      "chars": 3163,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=841",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.6.3 \"Host channels\" in chapter 28 (USB on-the-go full-speed (OTG_FS)), RM0008 Rev 21, page 841.",
+      "section_content": "The OTG_FS core instantiates 8 host channels. Each host channel supports an USB host\ntransfer (USB pipe). The host is not able to support more than 8 transfer requests at the\nsame time. If more than 8 transfer requests are pending from the application, the host\ncontroller driver (HCD) must re-allocate channels when they become available from\nprevious duty, that is, after receiving the transfer completed and channel halted interrupts.\nEach host channel can be configured to support in/out and any type of periodic/nonperiodic\ntransaction. Each host channel makes us of proper control (HCCHARx), transfer\nconfiguration (HCTSIZx) and status/interrupt (HCINTx) registers with associated mask\n(HCINTMSKx) registers.\nHost channel control\n• The following host channel controls are available to the application through the host\nchannel-x characteristics register (HCCHARx):\n– Channel enable/disable\n– Program the FS/LS speed of target USB peripheral\n– Program the address of target USB peripheral\n– Program the endpoint number of target USB peripheral\n– Program the transfer IN/OUT direction\n– Program the USB transfer type (control, bulk, interrupt, isochronous)\n– Program the maximum packet size (MPS)\n– Program the periodic transfer to be executed during odd/even frames\nHost channel transfer\nThe host channel transfer size registers (HCTSIZx) allow the application to program the\ntransfer size parameters, and read the transfer status. Programming must be done before\nsetting the channel enable bit in the host channel characteristics register. Once the endpoint\nis enabled the packet count field is read-only as the OTG FS core updates it according to\nthe current transfer status.\n• The following transfer parameters can be programmed:\n– transfer size in bytes\n– number of packets making up the overall transfer size\n– initial data PID\nHost channel status/interrupt\nThe host channel-x interrupt register (HCINTx) indicates the status of an endpoint with\nrespect to USB- and AHB-related events. The application must read these register when the\nhost channels interrupt bit in the core interrupt register (HCINT bit in OTG_FS_GINTSTS) is\nset. Before the application can read these registers, it must first read the host all channels\ninterrupt (HCAINT) register to get the exact channel number for the host channel-x interrupt\nregister. The application must clear the appropriate bit in this register to clear the\ncorresponding bits in the HAINT and GINTSTS registers. The mask bits for each interrupt\nsource of each channel are also available in the OTG_FS_HCINTMSK-x register.\n• The host core provides the following status checks and interrupt generation:\n– Transfer completed interrupt, indicating that the data transfer is complete on both\nthe application (AHB) and USB sides\n– Channel has stopped due to transfer completed, USB transaction error or disable\ncommand from the application\n– Associated transmit FIFO is half or completely empty (IN endpoints)\n– ACK response received\n– NAK response received\n– STALL response received\n– USB transaction error due to CRC failure, timeout, bit stuff error, false EOP\n– Babble error\n– fraMe overrun\n– dAta toggle error",
+      "semantic": {}
+    }
+  ]
+}

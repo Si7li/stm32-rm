@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.4.10",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.4.10",
+      "section_title": "LPDMA direct transfers",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 408,
+      "page_end": 409,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 2413,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=408",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.10 \"LPDMA direct transfers\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 408.",
+      "section_content": "There is a single transfer operation mode called the direct mode. Any LPDMA channel is\nused in direct mode. Any channel is implemented without any FIFO (for every channel x,\ndma_fifo_size[x]=0).\nLPDMA single\nA programmed transfer at the lowest level is called a LPDMA single.\nA LPDMA single data width is 1, 2 or 4 bytes, as defined by the SDW_LOG2[1:0] and\nDDW_LOG2[1:0] fields of LPDMA_CxTR1(respectively for source and destination).\nNote: The user must not assign a 8-byte data width (SDW_LOG2[1:0]=0b11 or\nDDW_LOG2[1:0]=0b11) else a user setting is reported and no transfer is issued.\nThe addressing mode after each data of a LPDMA single is defined by the SINC and DINC\nbits of LPDMA_CxTR1(respectively for source and destination): either a fixed addressing or\nan incremented addressing with contiguous data.\nThe start and next addresses of a LPDMA source/destination single (defined by\nLPDMA_CxSAR and LPDMA_CxDAR) must be aligned with the respective data width.\nThe table below lists the main characteristics of a LPDMA single.\nThe next single address in the table is the next source/destination address, pointed by\nLPDMA_CxSAR and LPDMA_CxDAR, once the programmed source/destination single is\ncompleted.\n[Table 95. Programmed LPDMA source/destination single]\nIn direct mode, a LPDMA single is an AHB single transfer.\nLPDMA data handling: byte-based padding/truncation, sign extension and\nleft/right alignment\nThe user can configure some data manipulation between a transferred data from the source\nand its transfer to the destination. Data handling is controlled by the LPDMA_CxTR1\nregister:\n• If destination data width = source data width (DDW_LOG2[1:0]=SDW_LOG2[1:0]), the\nsource data is copied as is and transferred to the destination.\n• Else, depending on PAM:\n– If destination data width > source data width, the source data can be either right-\naligned and padded with 0 s, or sign extended up to the destination data width.\n– If destination data width < source data width, the source data can be either right-\naligned and left-truncated down to the destination data width, or left-aligned and\nright-truncated down to the destination data width.\nThere is no data manipulation between two distinct transferred data from the source, before\nthe generation of the destination transfer.\nThe table below lists possible data handling from the source to the destination.\n[Table 96. Programmed data handling]",
+      "semantic": {}
+    }
+  ]
+}

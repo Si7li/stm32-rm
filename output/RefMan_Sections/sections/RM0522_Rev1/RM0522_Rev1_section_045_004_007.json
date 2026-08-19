@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.4.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.4.7",
+      "section_title": "Slave select (NSS pin) management",
+      "level": 3,
+      "parent_section": "45.4",
+      "page": 1956,
+      "page_end": 1960,
+      "semantic_type": "generic",
+      "features": [
+        "nss",
+        "spi"
+      ],
+      "chars": 5110,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1956",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.4.7 \"Slave select (NSS pin) management\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1956.",
+      "section_content": "In slave mode, the NSS works as a standard ‘chip select’ input and lets the slave\ncommunicate with the master. In master mode, the NSS can be used either as an output or\nan input. As an input it can prevent a multimaster bus collision, and as an output it can drive\na slave select signal of a single slave. The NSS signal can be managed internally (software\nmanagement of the NSS input) or externally when both the NSS input and output are\nassociated with the NSS pin (hardware slave select management). The user can configure\nwhich level of this input/output external signal (present on the NSS pin) is considered as\nactive by the SSIOP bit setting. NSS level is considered as active if it is equal to SSIOP.\nThe hardware or software slave select management can be set using the SSM bit in the\nSPI_CFG2 register:\n• Software slave select management (SSM = 1): in this configuration, slave select\ninformation is driven internally by the SSI bit value in the SPI_CR1 register. The\nexternal NSS pin is free for other application uses (such as GPIO or other alternate\nfunctions).\n• Hardware slave select management (SSM = 0): in this case, there are two possible\nconfigurations. The configuration used depends on the NSS output configuration\n(SSOE bit in the SPI_CFG2 register).\n– NSS output enable (SSOE = 1): this configuration is only used when the MCU is\nset as master. The NSS pin is managed by the hardware. The functionality is tied\nto CSTART and EOT control. As a consequence, the master must apply the\nproper TSIZE>0 setting to control the NSS output correctly. Even if SPI AF is not\napplied at the NSS pin (it can be used as a standard GPIO then), keep anyway\nSSOE=1 to ensure the default NSS input level and prevent any mode fault\nevaluation at the input of the master NSS internal logic applicable at a multimaster\ntopology exclusively.\na) When SSOM = 0 and SP = 000, the NSS signal is driven to the active level as\nsoon as the master transfer starts (CSTART = 1) and it is kept active until its EOT\nflag is set or the transmission is suspended.\nb) When SP = 001, a pulse is generated as defined by the TI mode.\nc) When SSOM = 1, SP = 000 and MIDI > 1 the NSS is pulsed inactive between data\nframes, and kept inactive for a number of SPI clock periods defined by the MIDI\nvalue decremented by one (from 1 to 14).\nd) NSS input is forced to nonactive state internally at master to prevent any mode\nfault.\n– NSS output disable (SSM = 0, SSOE = 0):\na) If the microcontroller is acting as the master on the bus, this configuration allows\nmultimaster capability. If the NSS pin is pulled into an active level in this mode, the\nSPI enters master mode fault state and the SPI device is automatically\nreconfigured in slave mode (MASTER = 0).\nb) In slave mode, the NSS pin works as a standard ‘chip select’ input and the slave is\nselected while the NSS line is at its active level.\nNote: The purpose of automatic switching into slave mode when a mode fault occurs is to avoid\nthe possible conflicts on data and clock lines. As the SPE is automatically reset in this\ncondition, both Rx and Tx FIFOs are flushed and current data is lost.\nWhen the SPI slave is enabled in the hardware slave select management mode, all the\ntransfers are ignored even in case of the NSS is found at active level. They are ignored until\nthe slave detects a start of the NSS signal (transition from nonactive to active level) just\nsynchronizing the slave with the master. This is because the hardware management mode\ncannot be used when the external NSS pin is fixed. There is no such protection in the slave\nselect software management. Then the SSI bit must be changed when there is no traffic on\nthe bus and the SCK signal is in idle state level between transfers exclusively in this case.\n[Figure 667. Scheme of NSS control logic]\nWhen the hardware output NSS control is applied (SSM = 0, SSOE = 1), by configuration of\nthe MIDI[3:0] and MSSI[3:0] bitfields, the user can control the timing of the NSS signal\nbetween data frames and can insert an extra delay at the beginning of every transfer (to\nseparate the NSS and clock starts). This can be useful when the slave needs to slow down\nthe flow to obtain sufficient room for correct data handling (see Figure668).\n[Figure 668. Data flow timing control (SSOE = 1, SSOM = 0, SSM = 0)]\n1. MSSI[3:0] = 0011, MIDI[3:0] = 0011 (SCK flow is continuous when MIDI[3:0] = 0).\n2. CPHA = 0, CPOL = 0, SSIOP = 0, LSBFRST = 0.\nAdditionally, setting the SSOM bit invokes a specific mode, which interleaves pulses\nbetween data frames if there is a sufficient space to provide them (MIDI[3:0] must be set\ngreater than one SPI period). Some configuration examples are shown in Figure669.\n[Figure 669. NSS interleaving pulses between data (SSOE = 1, SSOM = 1, SSM = 0)]\n1. MSSI[3:0] = 0010, MIDI[3:0] = 0010.\n2. NSS interleaves between data when MIDI[3:0] > 1 wide of the interleaving pulse is always one SCK period\nless than the gap provided between the frames (defined by the MIDI parameter). If MIDI is set, the frames\nare separated by a single SCK period but no interleaving pulse appears on NSS.",
+      "semantic": {}
+    }
+  ]
+}

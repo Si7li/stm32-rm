@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.4.10",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.4.10",
+      "section_title": "Configuring the SPI",
+      "level": 3,
+      "parent_section": "45.4",
+      "page": 1962,
+      "page_end": 1963,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 1991,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1962",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.4.10 \"Configuring the SPI\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1962.",
+      "section_content": "The configuration procedure is almost the same for the master and the slave. For specific\nmode setups, follow the dedicated chapters. When a standard communication must be\ninitialized, perform these steps:\n1. Write the proper GPIO registers: configure GPIO alternate functions at MOSI, MISO,\nSCK, NSS, and RDY pins if applied.\n2. Write into the SPI_CFG1 and SPI_CFG2 registers and set up the proper values of all\n‘not reserved’ bits and bitfields, prior to enabling the SPI, with the following exceptions:\na) The SSOM, MASRX, SSOE, RDIOM, MBR[2:0], BPASS, MIDI[3:0], MSSI[3:0] bits\nare taken into account in master mode only, the MSSI[3:0] bits take effect when\nthe SSOE bit is set, the RDIOP bit takes no effect when the RDIOM bit is not set in\nmaster mode. When the slave is configured in TI mode, the MBR[2:0] setting is\nalso considered.\nb) UDRCFG is taken into account in slave mode only.\nc) CRCSIZE[4:0] bitfield must be configured if CRCEN is set.\nd) CPOL, CPHA, LSBFRST, SSOM, SSOE, SSIOP, SSM, RDIOP, RDIOM, MSSI,\nand MIDI are not required in TI mode.\ne) Once the AFCNTR bit is set in the SPI_CFG2 register, all the SPI outputs start to\nbe propagated onto the associated GPIO pins regardless of the peripheral enable.\nSo, any later configuration changes of the SPI_CFG1 and SPI_CFG2 registers\ncan affect the level of signals on these pins.\n3. Write to the SPI_CR2 register to select the length of the transfer, if it is not known\nTSIZE must be programmed to zero.\n4. Write to the SPI_CRCPOLY and into the TCRCINI, RCRCINI, and CRC33_17 bits of\nthe SPI_CR1 register to configure the CRC polynomial and CRC calculation if needed.\n5. Configure DMA streams dedicated for the SPI Tx and Rx in DMA registers if the DMA\nstreams are used (see Section45.4.14: Communication using DMA (direct memory\naddressing)).\n6. Configure SSI, HDDIR, and MASRX in the SPI_CR1 register if required.\n7. Program the IOLOCK bit in the SPI_CR1 register if the configuration protection is\nrequired (for safety).",
+      "semantic": {}
+    }
+  ]
+}

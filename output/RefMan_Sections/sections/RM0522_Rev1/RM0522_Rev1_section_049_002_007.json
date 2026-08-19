@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S49.2.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "49",
+      "chapter_title": "Debug support (DBG)",
+      "section": "49.2.7",
+      "section_title": "OEMKEY and BSKEY password management",
+      "level": 3,
+      "parent_section": "49.2",
+      "page": 2417,
+      "page_end": 2419,
+      "semantic_type": "generic",
+      "features": [
+        "bskey",
+        "oemkey"
+      ],
+      "chars": 2922,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2417",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.2.7 \"OEMKEY and BSKEY password management\" in chapter 49 (Debug support (DBG)), RM0522 Rev 1, page 2417.",
+      "section_content": "Readout protection (RDP) L2 and L2_wBS can be changed to L0 under the condition that\na128-bit OEMKEY was provisioned under RDP L0. That is an RDP regression.\nRead-out protection L2_wBS can be changed to L2 thanks to the BSKEY. This is an RDP\ntransition.\n[Figure 744. Product life cycle states and regression management]\nRegression request\nOEMKEY Yes\npassword Regression\nmatch\nRDP L0\nFigure744 shows the product life cycle and regression mechanism. If the device is\ninRDP_STATE “L2” or “L2_BS”, the debug state is CLOSED. The regression procedure\nallows a full-regression if the adequate password (128-bit OEMKEY) is provided under reset\nto the DBGMCU_DBG_AUTH_HOST register, thanks to JTAG or SWD.\nRDP regression erases the entire user flash memory area.\nOEMKEY regression principle\nThe RDP regression protocol is based on a password (OEMKEY) provisioned under\nRDP_L0 to trigger the full regression action. The OEMKEY must be provisioned under\nRDPL0. After option-byte loading, the OEMLOCK bit in FLASH_SR indicates if an\nOEMKEY has been provisioned. If reset, no OEMKEY is provisioned under RDP L0, and\ntheregression is impossible.\nThe host can write this password to the DBGMCU_DBG_AUTH_HOST register via the\nJTAG/SWD interface. It can get information on product identification through\ntheDBGMCU_DBG_AUTH_DEVICE register.\nIf the provided password matches the populated key, the regression is automatically started\nby hardware.\nOEMKEY validation principle\nThe OEMKEY password is write only. Transitioning to RDP L2 or L2_wBS with an incorrect\npassword loaded, means that it becomes impossible for the user to regress to RDP L0.\nInorder to verify OEMKEY under RDP L0 prior transitioning to RDP L2 or RDP L2_wBS, a\nvalidation mechanism exists.\nTo validate the OEMKEY the host can write the password in DBGMCU_DBG_AUTH_HOST\nvia the JTAG/SWD interface under reset and RDP L0.\nOnce the provided password has been compared to the OEMKEY, the VAL_RDY status flag\nis set in DBGMCU_DBG_VALR. The VAL_OEMKEY bit indicates then if the OEMKEY\npassword provided for validation matches the provisioned one.\nBSKEY transition principle\nThe RDP transition protocol to go from RDP L2_wBS to RDP_L2 (to close the boundary\nscan) is based on a password (BSKEY) populated under RDP_L0 to trigger the full\nregression action. A default value (0xAAAAAAAA) is preloaded during manufacturing.\nThe host can write this password to DBGMCU_BSKEY_HOST via the JTAG/SWD interface.\nIt can get information on product identification through DBGMCU_DBG_AUTH_DEVICE.\nIf the provided password matches the provisioned key, the transition is automatically started\nby hardware.\nFigure745 shows the product life cycle states during a transition stage from RDP L2_wBS\nto L2. The debug state is CLOSED in both of these product lifecycles.\n[Figure 745. Product life cycle states and transition management]\nTransition request\nBSKEY Yes\npassword Transition\nmatch\nRDP L2",
+      "semantic": {}
+    }
+  ]
+}

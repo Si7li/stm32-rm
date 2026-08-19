@@ -1,0 +1,252 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S18.4.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "18",
+      "chapter_title": "CORDIC coprocessor (CORDIC)",
+      "section": "18.4.1",
+      "section_title": "CORDIC control/status register (CORDIC_CSR)",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 493,
+      "page_end": 495,
+      "semantic_type": "register_description",
+      "features": [
+        "argsize",
+        "cordic",
+        "cordic-csr",
+        "dma",
+        "dmaren",
+        "dmawen",
+        "func",
+        "ien",
+        "nargs",
+        "nres",
+        "precision",
+        "ressize",
+        "rrdy",
+        "scale"
+      ],
+      "chars": 3865,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=493",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.1 \"CORDIC control/status register (CORDIC_CSR)\" in chapter 18 (CORDIC coprocessor (CORDIC)), RM0522 Rev 1, page 493.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000 0050\nBit 31 RRDY: Result ready flag\n0: No new data in output register\n1: CORDIC_RDATA register contains new data.\nThis bit is set by hardware when a CORDIC operation completes. It is reset by hardware\nwhen the CORDIC_RDATA register is read (NRES+1) times.\nWhen this bit is set, if the IEN bit is also set, the CORDIC interrupt is asserted. If the\nDMAREN bit is set, a DMA read channel request is generated. While this bit is set, no new\ncalculation is started.\nBits 30:23 Reserved, must be kept at reset value.\nBit 22 ARGSIZE: Width of input data\n0: 32-bit\n1: 16-bit\nARGSIZE selects the number of bits used to represent input data.\nIf 32-bit data is selected, the CORDIC_WDATA register expects arguments in q1.31 format.\nIf 16-bit data is selected, the CORDIC_WDATA register expects arguments in q1.15 format.\nThe primary argument (ARG1) is written to the least significant half-word, and the secondary\nargument (ARG2) to the most significant half-word.\nBit 21 RESSIZE: Width of output data\n0: 32-bit\n1: 16-bit\nRESSIZE selects the number of bits used to represent output data.\nIf 32-bit data is selected, the CORDIC_RDATA register contains results in q1.31 format.\nIf 16-bit data is selected, the least significant half-word of CORDIC_RDATA contains the\nprimary result (RES1) in q1.15 format, and the most significant half-word contains the\nsecondary result (RES2), also in q1.15 format.\nBit 20 NARGS: Number of arguments expected by the CORDIC_WDATA register\n0: Only one 32-bit write (or two 16-bit values if ARGSIZE = 1) is needed for the next\ncalculation.\n1: Two 32-bit values must be written to the CORDIC_WDATA register to trigger the next\ncalculation.\nReads return the current state of the bit.\nBit 19 NRES: Number of results in the CORDIC_RDATA register\n0: Only one 32-bit value (or two 16-bit values if RESSIZE = 1) is transferred to the\nCORDIC_RDATA register on completion of the next calculation. One read from\nCORDIC_RDATA resets the RRDY flag.\n1: Two 32-bit values are transferred to the CORDIC_RDATA register on completion of the\nnext calculation. Two reads from CORDIC_RDATA are necessary to reset the RRDY flag.\nReads return the current state of the bit.\nBit 18 DMAWEN: Enable DMA write channel\n0: Disabled. No DMA write requests are generated.\n1: Enabled. Requests are generated on the DMA write channel whenever no operation is\npending\nThis bit is set and cleared by software. A read returns the current state of the bit.\nBit 17 DMAREN: Enable DMA read channel\n0: Disabled. No DMA read requests are generated.\n1: Enabled. Requests are generated on the DMA read channel whenever the RRDY flag is\nset.\nThis bit is set and cleared by software. A read returns the current state of the bit.\nBit 16 IEN: Enable interrupt.\n0: Disabled. No interrupt requests are generated.\n1: Enabled. An interrupt request is generated whenever the RRDY flag is set.\nThis bit is set and cleared by software. A read returns the current state of the bit.\nBits 15:11 Reserved, must be kept at reset value.\nBits 10:8 SCALE[2:0]: Scaling factor\nThe value of this field indicates the scaling factor applied to the arguments and/or results. A\nvalue n implies that the arguments have been multiplied by a factor 2-n, and/or the results\nneed to be multiplied by 2n. Refer to Section18.3.2 for the applicability of the scaling factor\nfor each function and the appropriate range.\nBits 7:4 PRECISION[3:0]: Precision required (number of iterations)\n0: reserved\n1 to 15: (Number of iterations)/4\nTo determine the number of iterations needed for a given accuracy refer to Table123.\nNote that for most functions, the recommended range for this field is 3 to 6.\nBits 3:0 FUNC[3:0]: Function\n0: Cosine\n1: Sine\n2: Phase\n3: Modulus\n4: Arctangent\n5: Hyperbolic cosine\n6: Hyperbolic sine\n7: Arctanh\n8: Natural logarithm\n9: Square root\n10 to 15: Reserved",
+      "semantic": {
+        "register": "CORDIC_CSR",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 0050",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "RRDY",
+            "description": "Result ready flag This bit is set by hardware when a CORDIC operation completes. It is reset by hardware when the CORDIC_RDATA register is read (NRES+1) times. When this bit is set, if the IEN bit is also set, the CORDIC interrupt is asserted. If the DMAREN bit is set, a DMA read channel request is generated. While this bit is set, no new calculation is started.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No new data in output register"
+              },
+              {
+                "value": "1",
+                "meaning": "CORDIC_RDATA register contains new data."
+              }
+            ]
+          },
+          {
+            "bits": "30:23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "ARGSIZE",
+            "description": "Width of input data ARGSIZE selects the number of bits used to represent input data. If 32-bit data is selected, the CORDIC_WDATA register expects arguments in q1.31 format. If 16-bit data is selected, the CORDIC_WDATA register expects arguments in q1.15 format. The primary argument (ARG1) is written to the least significant half-word, and the secondary argument (ARG2) to the most significant half-word.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "32-bit"
+              },
+              {
+                "value": "1",
+                "meaning": "16-bit"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "RESSIZE",
+            "description": "Width of output data RESSIZE selects the number of bits used to represent output data. If 32-bit data is selected, the CORDIC_RDATA register contains results in q1.31 format. If 16-bit data is selected, the least significant half-word of CORDIC_RDATA contains the primary result (RES1) in q1.15 format, and the most significant half-word contains the secondary result (RES2), also in q1.15 format.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "32-bit"
+              },
+              {
+                "value": "1",
+                "meaning": "16-bit"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "NARGS",
+            "description": "Number of arguments expected by the CORDIC_WDATA register calculation. calculation. Reads return the current state of the bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Only one 32-bit write (or two 16-bit values if ARGSIZE = 1) is needed for the next"
+              },
+              {
+                "value": "1",
+                "meaning": "Two 32-bit values must be written to the CORDIC_WDATA register to trigger the next"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "NRES",
+            "description": "Number of results in the CORDIC_RDATA register CORDIC_RDATA register on completion of the next calculation. One read from CORDIC_RDATA resets the RRDY flag. next calculation. Two reads from CORDIC_RDATA are necessary to reset the RRDY flag. Reads return the current state of the bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Only one 32-bit value (or two 16-bit values if RESSIZE = 1) is transferred to the"
+              },
+              {
+                "value": "1",
+                "meaning": "Two 32-bit values are transferred to the CORDIC_RDATA register on completion of the"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "DMAWEN",
+            "description": "Enable DMA write channel pending This bit is set and cleared by software. A read returns the current state of the bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled. No DMA write requests are generated."
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled. Requests are generated on the DMA write channel whenever no operation is"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "DMAREN",
+            "description": "Enable DMA read channel set. This bit is set and cleared by software. A read returns the current state of the bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled. No DMA read requests are generated."
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled. Requests are generated on the DMA read channel whenever the RRDY flag is"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "IEN",
+            "description": "Enable interrupt. This bit is set and cleared by software. A read returns the current state of the bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled. No interrupt requests are generated."
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled. An interrupt request is generated whenever the RRDY flag is set."
+              }
+            ]
+          },
+          {
+            "bits": "15:11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10:8",
+            "name": "SCALE[2:0]",
+            "description": "Scaling factor The value of this field indicates the scaling factor applied to the arguments and/or results. A value n implies that the arguments have been multiplied by a factor 2-n, and/or the results need to be multiplied by 2n. Refer to Section18.3.2 for the applicability of the scaling factor for each function and the appropriate range.",
+            "values": []
+          },
+          {
+            "bits": "7:4",
+            "name": "PRECISION[3:0]",
+            "description": "Precision required (number of iterations) 1 to 15: (Number of iterations)/4 To determine the number of iterations needed for a given accuracy refer to Table123. Note that for most functions, the recommended range for this field is 3 to 6.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3:0",
+            "name": "FUNC[3:0]",
+            "description": "Function 10 to 15: Reserved",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Cosine"
+              },
+              {
+                "value": "1",
+                "meaning": "Sine"
+              },
+              {
+                "value": "2",
+                "meaning": "Phase"
+              },
+              {
+                "value": "3",
+                "meaning": "Modulus"
+              },
+              {
+                "value": "4",
+                "meaning": "Arctangent"
+              },
+              {
+                "value": "5",
+                "meaning": "Hyperbolic cosine"
+              },
+              {
+                "value": "6",
+                "meaning": "Hyperbolic sine"
+              },
+              {
+                "value": "7",
+                "meaning": "Arctanh"
+              },
+              {
+                "value": "8",
+                "meaning": "Natural logarithm"
+              },
+              {
+                "value": "9",
+                "meaning": "Square root"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

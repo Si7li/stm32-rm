@@ -1,0 +1,110 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S4.5.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "4",
+      "chapter_title": "Boot and security control (BSEC)",
+      "section": "4.5.7",
+      "section_title": "BSEC OTP control register (BSEC_OTPCR)",
+      "level": 3,
+      "parent_section": "4.5",
+      "page": 217,
+      "page_end": 218,
+      "semantic_type": "register_description",
+      "features": [
+        "addr",
+        "boot",
+        "bsec",
+        "bsec-otpcr",
+        "lastcid",
+        "otp",
+        "pplock",
+        "prog"
+      ],
+      "chars": 1504,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=217",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.5.7 \"BSEC OTP control register (BSEC_OTPCR)\" in chapter 4 (Boot and security control (BSEC)), RM0486 Rev 4, page 217.",
+      "section_content": "Address offset: 0xC04\nReset value: 0x0000 0000\nWriting to this register causes an access to be made to the fuse memory.\nSecure privileged read and write only. Illegal reads return 0, illegal writes are ignored.\nBits 31:22 Reserved, must be kept at reset value.\nBits 21:19 LASTCID[2:0]: Last CID\nThis always returns the value 001.\nBits 18:15 Reserved, must be kept at reset value.\nBit 14 PPLOCK: Permanent programming lock\nWhen this bit is set together with PROG bit, no further write to this fuse word is possible.\n0: Fuse word at address ADDR[8:0] is programmed normally.\n1: Fuse word at address ADDR[8:0] is locked, preventing further modifications.\nPermanent programming lock mechanism is immutable, as it is committed in the fuse\nmemory.\nBit 13 PROG: Fuse word programming\nThis bit determines whether BSEC operation is a read or a write. If a write is selected, the\ndata stored in BSEC_WDR is programmed in the fuse word indexed by ADDR bitfield.\n0: Fuse word read operation is required\n1: Fuse word programming operation is required\nWhile BUSY is set in BSEC_OTPSR, writes to PROG bit have no effect.\nBits 12:9 Reserved, must be kept at reset value.\nBits 8:0 ADDR[8:0]: Fuse word address\nThis bitfield represents the address of the fuse word in the OTP memory array.\nWhen a lower fuse address is selected two fuse words are addressed by BSEC.\nWhen fuse words 376 to 383 are selected, read or programming requests are denied.\nWhen fuse words 368 to 375 are selected, programming requests are ignored.",
+      "semantic": {
+        "register": "BSEC_OTPCR",
+        "address_offset": "0xC04",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21:19",
+            "name": "LASTCID[2:0]",
+            "description": "Last CID This always returns the value 001.",
+            "values": []
+          },
+          {
+            "bits": "18:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "PPLOCK",
+            "description": "Permanent programming lock When this bit is set together with PROG bit, no further write to this fuse word is possible. Permanent programming lock mechanism is immutable, as it is committed in the fuse memory.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Fuse word at address ADDR[8:0] is programmed normally."
+              },
+              {
+                "value": "1",
+                "meaning": "Fuse word at address ADDR[8:0] is locked, preventing further modifications."
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "PROG",
+            "description": "Fuse word programming This bit determines whether BSEC operation is a read or a write. If a write is selected, the data stored in BSEC_WDR is programmed in the fuse word indexed by ADDR bitfield. While BUSY is set in BSEC_OTPSR, writes to PROG bit have no effect.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Fuse word read operation is required"
+              },
+              {
+                "value": "1",
+                "meaning": "Fuse word programming operation is required"
+              }
+            ]
+          },
+          {
+            "bits": "12:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8:0",
+            "name": "ADDR[8:0]",
+            "description": "Fuse word address This bitfield represents the address of the fuse word in the OTP memory array. When a lower fuse address is selected two fuse words are addressed by BSEC. When fuse words 376 to 383 are selected, read or programming requests are denied. When fuse words 368 to 375 are selected, programming requests are ignored.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

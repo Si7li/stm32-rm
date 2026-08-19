@@ -1,0 +1,135 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S51.6.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "51",
+      "chapter_title": "Memory cipher engine (MCE)",
+      "section": "51.6.12",
+      "section_title": "MCE cipher context z configuration register (MCE_CCzCFGR)",
+      "level": 3,
+      "parent_section": "51.6",
+      "page": 2445,
+      "page_end": 2446,
+      "semantic_type": "register_description",
+      "features": [
+        "ccen",
+        "cclock",
+        "clock",
+        "keycrc",
+        "keylock",
+        "mce",
+        "memory",
+        "mode",
+        "version"
+      ],
+      "chars": 2879,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2445",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 51.6.12 \"MCE cipher context z configuration register (MCE_CCzCFGR)\" in chapter 51 (Memory cipher engine (MCE)), RM0486 Rev 4, page 2445.",
+      "section_content": "Address offset: 0x240 + 0x30 *(z - 1) (z = 1 to 2)\nReset value: 0x0000 0000\nWrites are ignored if CCLOCK bit is set in this register. Writes are also ignored if GLOCK is\nset in MCE_CR register.\nBits 31:16 VERSION[15:0]: Version\nThis 16-bit bitfield must be correctly initialized before CCEN bit is set. Bitfield usage is defined\nin Section51.4.6: MCE stream cipher encryption mode.\nBits 15:8 KEYCRC[7:0]: Key CRC\nWhen KEYLOCK = 0, KEYCRC information is automatically computed by hardware while\nloading the key of this region in this exact sequence: KEYR0 then KEYR1 then KEYR2 then\nfinally KEYR3 (all written once). A new KEYCRC computation starts as soon as a new valid\nsequence is initiated. KEYCRC bitfield reads as zero until a valid sequence is completed (after\nit return the computed CRC value).\nWhen KEYLOCK or GLOCK=1, KEYCRC bitfield always returns the computed CRC value\nuntil the next reset.\nCRC computation is an 8-bit checksum using the standard CRC-8-CCITT algorithm\nX8+X2+X+1 (according the convention).\nCRC information is updated, and the key is usable by MCE, only after the last bit of the key has\nbeen written.\nBits 7:6 Reserved, must be kept at reset value.\nBits 5:4 MODE[1:0]: Authorized cipher mode\nThis bitfield defines the encrypted region type authorized for this cipher context z.\n0X: Stream cipher is allowed with this cipher context\n10: Block cipher is allowed with this cipher context\n11: Fast block cipher is allowed with this cipher context\nThis cipher mode selection is done in MCE_REGCRx register, by writing ENC[1:0] bitfield, and\nsetting CTXID = z. See CTXID bitfield for details.\nWhen either of the MODE bits are changed, the region key and associated CRC are zeroed.\nBit 3 Reserved, must be kept at reset value.\nBit 2 KEYLOCK: Key lock\n0: Writes to MCE_CCzKEYR registers are allowed\n1: Writes to MCE_CCzKEYR registers are ignored until next MCE reset. KEYCRC bitfield value\ndoes not change.\nNote: This bit is set once. If this bit is set, it can only be cleared to 0 if MCE is reset.\nBit 1 CCLOCK: Cipher context lock\n0: Writes to MCE_CCzCFGR and MCE_CCzNR registers are allowed\n1: Writes to MCE_CCzCFGR and MCE_CCzNR registers are ignored until next MCE reset.\nNote: This bit is set once. If this bit is set, it can only be cleared to 0 if MCE is reset. Setting this\nbit forces KEYLOCK bit to 1.\nBit 0 CCEN: Cipher context enable\n0: If an enabled region selects CTXID = z bypass mode is selected by MCE\n1: If an enabled region selects CTXID = z with ENC=01 MCE selects with the stream cipher\nthe information stored in MCE_CCzCFGR, MCE_CCzNR and MCE_CCzKEYR. If the\nenabled region selects ENC = 10 or 11 instead MCE selects with the block cipher the key\ninformation stored in MCE_CCzKEYR. When CCEN is set and MODE[1:0] bits do not allow\nthe configuration written in ENC[1:0] bits (see MODE bitfield) reads return zero and writes\nare ignored.",
+      "semantic": {
+        "register": "MCE_CCzCFGR",
+        "address_offset": "0x240 + 0x30 *(z - 1) (z = 1 to 2)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "VERSION[15:0]",
+            "description": "Version This 16-bit bitfield must be correctly initialized before CCEN bit is set. Bitfield usage is defined in Section51.4.6: MCE stream cipher encryption mode.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "KEYCRC[7:0]",
+            "description": "Key CRC When KEYLOCK = 0, KEYCRC information is automatically computed by hardware while loading the key of this region in this exact sequence: KEYR0 then KEYR1 then KEYR2 then finally KEYR3 (all written once). A new KEYCRC computation starts as soon as a new valid sequence is initiated. KEYCRC bitfield reads as zero until a valid sequence is completed (after it return the computed CRC value). When KEYLOCK or GLOCK=1, KEYCRC bitfield always returns the computed CRC value until the next reset. CRC computation is an 8-bit checksum using the standard CRC-8-CCITT algorithm X8+X2+X+1 (according the convention). CRC information is updated, and the key is usable by MCE, only after the last bit of the key has been written.",
+            "values": []
+          },
+          {
+            "bits": "7:6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5:4",
+            "name": "MODE[1:0]",
+            "description": "Authorized cipher mode This bitfield defines the encrypted region type authorized for this cipher context z. 0X: Stream cipher is allowed with this cipher context This cipher mode selection is done in MCE_REGCRx register, by writing ENC[1:0] bitfield, and setting CTXID = z. See CTXID bitfield for details. When either of the MODE bits are changed, the region key and associated CRC are zeroed.",
+            "values": [
+              {
+                "value": "10",
+                "meaning": "Block cipher is allowed with this cipher context"
+              },
+              {
+                "value": "11",
+                "meaning": "Fast block cipher is allowed with this cipher context"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "KEYLOCK",
+            "description": "Key lock does not change. Note: This bit is set once. If this bit is set, it can only be cleared to 0 if MCE is reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Writes to MCE_CCzKEYR registers are allowed"
+              },
+              {
+                "value": "1",
+                "meaning": "Writes to MCE_CCzKEYR registers are ignored until next MCE reset. KEYCRC bitfield value"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CCLOCK",
+            "description": "Cipher context lock Note: This bit is set once. If this bit is set, it can only be cleared to 0 if MCE is reset. Setting this bit forces KEYLOCK bit to 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Writes to MCE_CCzCFGR and MCE_CCzNR registers are allowed"
+              },
+              {
+                "value": "1",
+                "meaning": "Writes to MCE_CCzCFGR and MCE_CCzNR registers are ignored until next MCE reset."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CCEN",
+            "description": "Cipher context enable the information stored in MCE_CCzCFGR, MCE_CCzNR and MCE_CCzKEYR. If the enabled region selects ENC = 10 or 11 instead MCE selects with the block cipher the key information stored in MCE_CCzKEYR. When CCEN is set and MODE[1:0] bits do not allow the configuration written in ENC[1:0] bits (see MODE bitfield) reads return zero and writes are ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "If an enabled region selects CTXID = z bypass mode is selected by MCE"
+              },
+              {
+                "value": "1",
+                "meaning": "If an enabled region selects CTXID = z with ENC=01 MCE selects with the stream cipher"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

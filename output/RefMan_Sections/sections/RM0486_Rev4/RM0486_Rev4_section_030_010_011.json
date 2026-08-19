@@ -1,0 +1,272 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.10.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.10.11",
+      "section_title": "SDMMC status register (SDMMC_STAR)",
+      "level": 3,
+      "parent_section": "30.10",
+      "page": 1441,
+      "page_end": 1443,
+      "semantic_type": "register_description",
+      "features": [
+        "ackfail",
+        "acktimeout",
+        "busyd0",
+        "busyd0end",
+        "ccrcfail",
+        "ckstop",
+        "cmdrend",
+        "cmdsent",
+        "cpsmact",
+        "ctimeout",
+        "dabort",
+        "dataend",
+        "dbckend",
+        "dcrcfail",
+        "dhold",
+        "dma",
+        "dpsmact",
+        "dtimeout",
+        "idmabtc",
+        "idmate",
+        "rxfifoe",
+        "rxfifof",
+        "rxfifohf",
+        "rxoverr",
+        "sdioit",
+        "sdmmc",
+        "sdmmc-star",
+        "txfifoe",
+        "txfifof",
+        "txfifohe",
+        "txunderr",
+        "vswend"
+      ],
+      "chars": 5526,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1441",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.10.11 \"SDMMC status register (SDMMC_STAR)\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1441.",
+      "section_content": "Address offset: 0x034\nReset value: 0x00000000\nThis register is a read-only register. It contains two types of flag:\n• Static flags (bits [28, 21, 11:0]): these bits remain asserted until they are cleared by\nwriting to the SDMMC interrupt Clear register (see SDMMC_ICR)\n• Dynamic flags (bits [20:12]): these bits change state depending on the state of the\nunderlying logic (for example, FIFO full and empty flags are asserted and deasserted\nas data while written to the FIFO)\nBits 31:29 Reserved, must be kept at reset value.\nBit 28 IDMABTC: IDMA buffer transfer complete\nThe interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 27 IDMATE: IDMA transfer error\nThe interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 26 CKSTOP: SDMMC_CK stopped in Voltage switch procedure\nThe interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 25 VSWEND: Voltage switch critical timing section completion\nThe interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 24 ACKTIMEOUT: Boot acknowledgment timeout\nThe interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 23 ACKFAIL: Boot acknowledgment received (boot acknowledgment check fail)\nThe interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 22 SDIOIT: SDIO interrupt received\nThe interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 21 BUSYD0END: end of SDMMC_D0 Busy following a CMD response detected\nThis indicates only end of busy following a CMD response. This bit does not signal busy due\nto data transfer. Interrupt flag is cleared by writing corresponding interrupt clear bit in\nSDMMC_ICR.\n0: card SDMMC_D0 signal does NOT signal change from busy to not busy.\n1: card SDMMC_D0 signal changed from busy to NOT busy.\nBit 20 BUSYD0: Inverted value of SDMMC_D0 line (Busy), sampled at the end of a CMD response\nand a second time 2 SDMMC_CK cycles after the CMD response\nThis bit is reset to not busy when the SDMMCD0 line changes from busy to not busy. This bit\ndoes not signal busy due to data transfer. This is a hardware status flag only, it does not\ngenerate an interrupt.\n0: card signals not busy on SDMMC_D0.\n1: card signals busy on SDMMC_D0.\nBit 19 RXFIFOE: Receive FIFO empty\nThis is a hardware status flag only, does not generate an interrupt. This bit is cleared when\none FIFO location becomes full.\nBit 18 TXFIFOE: Transmit FIFO empty\nThis bit is cleared when one FIFO location becomes full.\nBit 17 RXFIFOF: Receive FIFO full\nThis bit is cleared when one FIFO location becomes empty.\nBit 16 TXFIFOF: Transmit FIFO full\nThis is a hardware status flag only, does not generate an interrupt. This bit is cleared when\none FIFO location becomes empty.\nBit 15 RXFIFOHF: Receive FIFO half full\nThere are at least half the number of words in the FIFO. This bit is cleared when the FIFO\nbecomes half+1 empty.\nBit 14 TXFIFOHE: Transmit FIFO half empty\nAt least half the number of words can be written into the FIFO. This bit is cleared when the\nFIFO becomes half+1 full.\nBit 13 CPSMACT: Command path state machine active (not in Idle state)\nThis is a hardware status flag only, does not generate an interrupt.\nBit 12 DPSMACT: Data path state machine active (not in Idle state)\nThis is a hardware status flag only, does not generate an interrupt.\nBit 11 DABORT: Data transfer aborted by CMD12\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 10 DBCKEND: Data block sent/received\nDBCKEND is set when:\n- CRC check passed and DPSM moves to the R_W state\n- IDMAEN = 0 and transmit data transfer hold and DATACOUNT >0 and DPSM moves to\nWait_S.\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 9 DHOLD: Data transfer Hold\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 8 DATAEND: Data transfer ended correctly\nDATAEND is set if data counter DATACOUNT is zero and no errors occur, and no transmit\ndata transfer hold.\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 7 CMDSENT: Command sent (no response required)\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 6 CMDREND: Command response received (CRC check passed, or no CRC)\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 5 RXOVERR: Received FIFO overrun error (masked by hardware when IDMA is enabled)\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 4 TXUNDERR: Transmit FIFO underrun error (masked by hardware when IDMA is enabled)\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 3 DTIMEOUT: Data timeout\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 2 CTIMEOUT: Command response timeout\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nThe Command Timeout period has a fixed value of 64 SDMMC_CK clock periods.\nBit 1 DCRCFAIL: Data block sent/received (CRC check failed)\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nBit 0 CCRCFAIL: Command response received (CRC check failed)\nInterrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.\nNote: FIFO interrupt flags must be masked in SDMMC_MASKR when using IDMA mode.",
+      "semantic": {
+        "register": "SDMMC_STAR",
+        "address_offset": "0x034",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:29",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "28",
+            "name": "IDMABTC",
+            "description": "IDMA buffer transfer complete The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "IDMATE",
+            "description": "IDMA transfer error The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "CKSTOP",
+            "description": "SDMMC_CK stopped in Voltage switch procedure The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "25",
+            "name": "VSWEND",
+            "description": "Voltage switch critical timing section completion The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "ACKTIMEOUT",
+            "description": "Boot acknowledgment timeout The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "ACKFAIL",
+            "description": "Boot acknowledgment received (boot acknowledgment check fail) The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "SDIOIT",
+            "description": "SDIO interrupt received The interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "BUSYD0END",
+            "description": "end of SDMMC_D0 Busy following a CMD response detected This indicates only end of busy following a CMD response. This bit does not signal busy due to data transfer. Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "card SDMMC_D0 signal does NOT signal change from busy to not busy."
+              },
+              {
+                "value": "1",
+                "meaning": "card SDMMC_D0 signal changed from busy to NOT busy."
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "BUSYD0",
+            "description": "Inverted value of SDMMC_D0 line (Busy), sampled at the end of a CMD response and a second time 2 SDMMC_CK cycles after the CMD response This bit is reset to not busy when the SDMMCD0 line changes from busy to not busy. This bit does not signal busy due to data transfer. This is a hardware status flag only, it does not generate an interrupt.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "card signals not busy on SDMMC_D0."
+              },
+              {
+                "value": "1",
+                "meaning": "card signals busy on SDMMC_D0."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "RXFIFOE",
+            "description": "Receive FIFO empty This is a hardware status flag only, does not generate an interrupt. This bit is cleared when one FIFO location becomes full.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "TXFIFOE",
+            "description": "Transmit FIFO empty This bit is cleared when one FIFO location becomes full.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "RXFIFOF",
+            "description": "Receive FIFO full This bit is cleared when one FIFO location becomes empty.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "TXFIFOF",
+            "description": "Transmit FIFO full This is a hardware status flag only, does not generate an interrupt. This bit is cleared when one FIFO location becomes empty.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "RXFIFOHF",
+            "description": "Receive FIFO half full There are at least half the number of words in the FIFO. This bit is cleared when the FIFO becomes half+1 empty.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "TXFIFOHE",
+            "description": "Transmit FIFO half empty At least half the number of words can be written into the FIFO. This bit is cleared when the FIFO becomes half+1 full.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "CPSMACT",
+            "description": "Command path state machine active (not in Idle state) This is a hardware status flag only, does not generate an interrupt.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "DPSMACT",
+            "description": "Data path state machine active (not in Idle state) This is a hardware status flag only, does not generate an interrupt.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "DABORT",
+            "description": "Data transfer aborted by CMD12 Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "DBCKEND",
+            "description": "Data block sent/received DBCKEND is set when: - CRC check passed and DPSM moves to the R_W state - IDMAEN = 0 and transmit data transfer hold and DATACOUNT >0 and DPSM moves to Wait_S. Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "DHOLD",
+            "description": "Data transfer Hold Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "DATAEND",
+            "description": "Data transfer ended correctly DATAEND is set if data counter DATACOUNT is zero and no errors occur, and no transmit data transfer hold. Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "CMDSENT",
+            "description": "Command sent (no response required) Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "CMDREND",
+            "description": "Command response received (CRC check passed, or no CRC) Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "RXOVERR",
+            "description": "Received FIFO overrun error (masked by hardware when IDMA is enabled) Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "TXUNDERR",
+            "description": "Transmit FIFO underrun error (masked by hardware when IDMA is enabled) Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "DTIMEOUT",
+            "description": "Data timeout Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "CTIMEOUT",
+            "description": "Command response timeout Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR. The Command Timeout period has a fixed value of 64 SDMMC_CK clock periods.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "DCRCFAIL",
+            "description": "Data block sent/received (CRC check failed) Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "CCRCFAIL",
+            "description": "Command response received (CRC check failed) Interrupt flag is cleared by writing corresponding interrupt clear bit in SDMMC_ICR. Note: FIFO interrupt flags must be masked in SDMMC_MASKR when using IDMA mode.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

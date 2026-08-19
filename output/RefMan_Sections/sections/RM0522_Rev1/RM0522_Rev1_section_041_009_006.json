@@ -1,0 +1,118 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S41.9.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "41",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "41.9.6",
+      "section_title": "I2C timeout register (I2C_TIMEOUTR)",
+      "level": 3,
+      "parent_section": "41.9",
+      "page": 1680,
+      "page_end": 1681,
+      "semantic_type": "register_description",
+      "features": [
+        "i2c",
+        "i2c-timeoutr",
+        "texten",
+        "tidle",
+        "timeouta",
+        "timeoutb",
+        "timouten"
+      ],
+      "chars": 1874,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1680",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 41.9.6 \"I2C timeout register (I2C_TIMEOUTR)\" in chapter 41 (Inter-integrated circuit interface (I2C)), RM0522 Rev 1, page 1680.",
+      "section_content": "Address offset: 0x14\nReset value: 0x0000 0000\nAccess: no wait states, except if a write access occurs while a write access is ongoing. In\nthis case, wait states are inserted in the second write access until the previous one is\ncompleted. The latency of the second write access can be up to 2 x i2c_pclk + 6 x\ni2c_ker_ck.\nBit 31 TEXTEN: Extended clock timeout enable\n0: Extended clock timeout detection is disabled\n1: Extended clock timeout detection is enabled. When a cumulative SCL stretch for more\nthan tLOW:EXT is done by the I2C interface, a timeout error is detected (TIMEOUT = 1).\nBits 30:28 Reserved, must be kept at reset value.\nBits 27:16 TIMEOUTB[11:0]: Bus timeout B\nThis field is used to configure the cumulative clock extension timeout:\n– Controller mode: the controller cumulative clock low extend time (tLOW:MEXT) is\ndetected\n– Target mode: the target cumulative clock low extend time (tLOW:SEXT) is detected\ntLOW:EXT = (TIMEOUTB + TIDLE = 01) x 2048 x tI2CCLK\nNote: These bits can be written only when TEXTEN = 0.\nBit 15 TIMOUTEN: Clock timeout enable\n0: SCL timeout detection is disabled\n1: SCL timeout detection is enabled. When SCL is low for more than tTIMEOUT (TIDLE = 0) or\nhigh for more than tIDLE (TIDLE = 1), a timeout error is detected (TIMEOUT = 1).\nBits 14:13 Reserved, must be kept at reset value.\nBit 12 TIDLE: Idle clock timeout detection\n0: TIMEOUTA is used to detect SCL low timeout\n1: TIMEOUTA is used to detect both SCL and SDA high timeout (bus idle condition)\nNote: This bit can be written only when TIMOUTEN = 0.\nBits 11:0 TIMEOUTA[11:0]: Bus timeout A\nThis field is used to configure:\nThe SCL low timeout condition tTIMEOUT when TIDLE = 0\ntTIMEOUT= (TIMEOUTA + 1) x 2048 x tI2CCLK\nThe bus idle condition (both SCL and SDA high) when TIDLE = 1\ntIDLE= (TIMEOUTA + 1) x 4 x tI2CCLK\nNote: These bits can be written only when TIMOUTEN = 0.",
+      "semantic": {
+        "register": "I2C_TIMEOUTR",
+        "address_offset": "0x14",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "TEXTEN",
+            "description": "Extended clock timeout enable than tLOW:EXT is done by the I2C interface, a timeout error is detected (TIMEOUT = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Extended clock timeout detection is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Extended clock timeout detection is enabled. When a cumulative SCL stretch for more"
+              }
+            ]
+          },
+          {
+            "bits": "30:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27:16",
+            "name": "TIMEOUTB[11:0]",
+            "description": "Bus timeout B This field is used to configure the cumulative clock extension timeout: – Controller mode: the controller cumulative clock low extend time (tLOW:MEXT) is detected – Target mode: the target cumulative clock low extend time (tLOW:SEXT) is detected tLOW:EXT = (TIMEOUTB + TIDLE = 01) x 2048 x tI2CCLK Note: These bits can be written only when TEXTEN = 0.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "TIMOUTEN",
+            "description": "Clock timeout enable high for more than tIDLE (TIDLE = 1), a timeout error is detected (TIMEOUT = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SCL timeout detection is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "SCL timeout detection is enabled. When SCL is low for more than tTIMEOUT (TIDLE = 0) or"
+              }
+            ]
+          },
+          {
+            "bits": "14:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "TIDLE",
+            "description": "Idle clock timeout detection Note: This bit can be written only when TIMOUTEN = 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "TIMEOUTA is used to detect SCL low timeout"
+              },
+              {
+                "value": "1",
+                "meaning": "TIMEOUTA is used to detect both SCL and SDA high timeout (bus idle condition)"
+              }
+            ]
+          },
+          {
+            "bits": "11:0",
+            "name": "TIMEOUTA[11:0]",
+            "description": "Bus timeout A This field is used to configure: The SCL low timeout condition tTIMEOUT when TIDLE = 0 tTIMEOUT= (TIMEOUTA + 1) x 2048 x tI2CCLK The bus idle condition (both SCL and SDA high) when TIDLE = 1 tIDLE= (TIMEOUTA + 1) x 4 x tI2CCLK Note: These bits can be written only when TIMOUTEN = 0.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S33.3.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "33",
+      "chapter_title": "Digital temperature sensor (DTS)",
+      "section": "33.3.7",
+      "section_title": "Temperature sensor configuration",
+      "level": 3,
+      "parent_section": "33.3",
+      "page": 1590,
+      "page_end": 1592,
+      "semantic_type": "generic",
+      "features": [
+        "configuration",
+        "sensor",
+        "temperature"
+      ],
+      "chars": 2067,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1590",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 33.3.7 \"Temperature sensor configuration\" in chapter 33 (Digital temperature sensor (DTS)), RM0486 Rev 4, page 1590.",
+      "section_content": "The temperature sensor can be configured through the internal register SDA TS\nconfiguration register (SDATS_CFGR).\nSelecting the conversion mode\nThe sensor operates only in a single mode to read the temperature value. This mode is\nselected by setting SDATS_CFGR[3:0] bits to 0b0001.\nThe temperature value is obtained using the formula provided in Calculating the\ntemperature. It does not require any calibration.\nConfiguring the output options\nThe conversion time can be configures through SDATS_CFGR[7:5] bits. It can be shortened\nto reduce the counter output value with the drawback of degrading the temperature\nmeasurement accuracy (see Table264).\nThe output data are available in the TS_DATA[15:0] bitfield of the SDATS_DR register.\nData can be output in parallel or serial mode depending on the setting of SDATS_CFGR[4]\nbit:\n• 0: parallel output\nAll the data bits are sent simultaneously through TS_DATA[11:0].\n• 1: serial output (default mode)\nThe data are sent serially on bit 11 of the TS_DATA bitfield.\nSerial data are always 12-bit wide whatever the output options. Using a lower\nresolution (such as 10 bits) results in similar output values with trailing zeroes.\n[Table 264. Output resolution configuration]\nCalculating the temperature\nThe digital output is converted to an uncalibrated temperature value by using the following\nformula:\nTemp (°C) = G+H× Eqbs+J× Fclk_ts\nWhere:\nTemp=Temperature in degrees Celsius\nEqbs=Nbs/Cal5–0.5, Nbs being the digital output, TS_DATA[11:0], latched after\nconversion\nFclk_ts= Temperature sensor SDA clock frequency (in MHz)\nFor G, H, J and Cal5 values, please refer to device datasheet\"\nConfiguring the triggers\nTriggers can be configured through bits 18 to 16 (TRIG[2:0]) of the SDATS_CFGR register:\nTRIG[2:0]=0b001: dts_trg[0] is selected.\nTRIG[2:0]=0b010: dts_trg[1] is selected.\nTRIG[2:0]=0b011: dts_trg[2] is selected.\nTRIG[2:0]=0b100: dts_trg[3] is selected.\nDisabling the clock\nThe TS clock can be disabled by setting the CLKDIS of the SDATS_CFGR, when the TS is\nnot used and it does not operate in automatic mode.",
+      "semantic": {}
+    }
+  ]
+}

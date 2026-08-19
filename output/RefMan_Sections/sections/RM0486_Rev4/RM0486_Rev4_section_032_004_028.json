@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.4.28",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.4.28",
+      "section_title": "Dynamic low-power features",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1505,
+      "page_end": 1508,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "power"
+      ],
+      "chars": 4406,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1505",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.28 \"Dynamic low-power features\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1505.",
+      "section_content": "Autodelayed conversion mode (AUTDLY)\nThe ADC implements an autodelayed conversion mode controlled by the AUTDLY\nconfiguration bit in ADC_CFGR1. Autodelayed conversions are useful to simplify the\nsoftware as well as to optimize performance of an application clocked at low frequency\nwhere there must be risk of encountering an ADC overrun.\nRegular conversion mode\nWhen AUTDLY is set, a new conversion can start if the following conditions are met:\n• The ADC_DR register is read or the EOC bit is cleared (see Figure283).\nThis is a way to automatically adapt the speed of the ADC to the speed of the system that\nreads the data and prevent overrun errors.\nThe delay is inserted after each regular conversion.\nInjected conversion mode\nWhen AUTDLY is set, a new conversion can start only if the JEOS bit has been cleared (see\nFigure284). Since there are four ADC_JDRy registers, the autodelay is performed at the\nend on the injected conversion sequence.\nThere is no delay inserted between each conversion of the injected sequence, except after\nthe last one.\nA hardware trigger event occurring during this delay is ignored.\nNo delay is inserted between regular and injected conversions. The autodelay for regular\nand injected modes is managed separately.\nCaution: The behavior is slightly different in autoinjection mode (JAUTO=1) where a new regular\nconversion can start only when the automatic delay of the previous injected sequence of\nconversion has ended (when JEOS has been cleared). This is to ensure that the software\ncan read all the data of a given sequence before starting a new sequence (see Figure287).\nIn autoinjection mode, there is no delay between the last regular conversion and the first\ninjected conversion. The user must clear the last EOC flag before clearing the JEOS flag,\notherwise the next sequence might start before EOC flag is cleared.\nIn autodelay mode, a hardware regular trigger event is ignored if it occurs during an already\nongoing regular sequence or during the delay that follows the last regular conversion of the\nsequence. It is however considered pending if it occurs after this delay, even if it occurs\nduring an injected sequence of the delay that follows it. The conversion then starts at the\nend of the delay of the injected sequence.\nIn autodelay mode with JAUTO = 0, a hardware injected trigger event is ignored if it occurs\nduring an already ongoing injected sequence or during the delay that follows the last\ninjected conversion of the sequence.\nNote: AUTDLY mode is not supported with SMPTRIG or BULB mode.\n[Figure 283. AUTDLY=1, regular conversion in continuous mode, software trigger]\n1. AUTDLY=1, JAUTO = 0.\n2. Regular configuration: EXTEN[1:0]=00 (software trigger), CONT=1, CHANNELS = 1, 2, 3.\n3. Injected configuration DISABLED.\n[Figure 284. AUTDLY=1, regular hardware conversions interrupted by injected conversions]\n(DISCEN=0; JDISCEN=0)\nNot ignored\nRegular Ignored (occurs during injected sequence)\ntrigger\nADC state RDY CH1 DLY CH2 DLY CH5 CH6 CH3 DLY CH1 DLY CH2\nEOC\nEOS\nADC_DR\nread access\nInjected Ignored\ntrigger\nDLY (inj)\nJEOS\nADC_JDR1 D5\nADC_JDR2 D6\nby s/w by h/w Indicative timings\n1. AUTDLY=1, JAUTO = 0.\n2. Regular configuration: EXTEN[1:0]=01 (hardware trigger), CONT=0, DISCEN=0, CHANNELS = 1, 2, 3.\n3. Injected configuration: JEXTEN[1:0]=01 (hardware trigger), JDISCEN=0, CHANNELS = 5, 6.\n[Figure 285. AUTDLY=1, regular hardware conversions interrupted by injected conversions]\n1. AUTDLY=1, JAUTO = 0.\n2. Regular configuration: EXTEN[1:0]=01 (hardware trigger), CONT=0, DISCEN=1, DISCNUM=1, CHANNELS = 1, 2, 3.\n3. Injected configuration: JEXTEN[1:0]=01 (hardware trigger), JDISCEN=1, CHANNELS = 5, 6.\n[Figure 286. AUTDLY=1, regular continuous conversions interrupted by injected conversions]\ns A t D at C e RDY re C g H ul 1 ar DLY re C g H ul 2 ar DLY in C je H c 5 tedinj C e H ct 6 ed DLY re C g H ul 3 ar DLY CH1\nEOC\nEOS\nADC_DR read\naccess\nInjected\nJEOS\nADC_JDR1 D5\nADC_JDR2 D6\nby s/w by h/w Indicative timings\n1. AUTDLY=1, JAUTO = 0.\n2. Regular configuration: EXTEN[1:0]=00 (software trigger), CONT=1, DISCEN=0, CHANNELS = 1, 2, 3.\n3. Injected configuration: JEXTEN[1:0]=01 (hardware trigger), JDISCEN=0, CHANNELS = 5, 6.\n[Figure 287. AUTDLY=1 in autoinjection mode (JAUTO=1)]\n1. AUTDLY=1.\n2. Regular configuration: EXTEN[1:0]=00 (software trigger), CONT=1, DISCEN=0, CHANNELS = 1, 2.\n3. Injected configuration: JAUTO=1, CHANNELS = 5, 6.",
+      "semantic": {}
+    }
+  ]
+}

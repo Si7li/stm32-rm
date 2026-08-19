@@ -1,0 +1,100 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S61.6.20",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "61",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "61.6.20",
+      "section_title": "RTC status register (RTC_SR)",
+      "level": 3,
+      "parent_section": "61.6",
+      "page": 3049,
+      "page_end": 3050,
+      "semantic_type": "register_description",
+      "features": [
+        "alraf",
+        "alrbf",
+        "clock",
+        "itsf",
+        "rtc",
+        "rtc-sr",
+        "ssruf",
+        "tsf",
+        "tsovf",
+        "wutf"
+      ],
+      "chars": 2484,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3049",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 61.6.20 \"RTC status register (RTC_SR)\" in chapter 61 (Real-time clock (RTC)), RM0486 Rev 4, page 3049.",
+      "section_content": "This register can be globally protected, or each bit of this register can be individually\nprotected against nonsecure access. Refer to Section61.3.4: RTC secure protection\nmodes.\nThis register can be globally protected, or each bit of this register can be individually\nprotected against unprivileged access. Refer to Section61.3.5: RTC privilege protection\nmodes.\nAddress offset: 0x50\nBackup domain reset value: 0x0000 0000\nSystem reset: not affected\nBits 31:7 Reserved, must be kept at reset value.\nBit 6 SSRUF: SSR underflow flag\nThis flag is set by hardware when the SSR is reloaded with 0xFFFFFFFF after reaching 0.\nSSRUF is not set when SSCLR=1.\nNote: SSRUF is not an error event as SSR counter is a free-running down-counter with\nautomatic reload. SSRUF is set only in binary and mixed modes. It is not set in BCD\nmode.\nBit 5 ITSF: Internal timestamp flag\nThis flag is set by hardware when a timestamp on the internal event occurs.\nBit 4 TSOVF: Timestamp overflow flag\nThis flag is set by hardware when a timestamp event occurs while TSF is already set.\nIt is recommended to check and then clear TSOVF only after clearing the TSF bit. Otherwise,\nan overflow might not be noticed if a timestamp event occurs immediately before the TSF bit\nis cleared.\nBit 3 TSF: Timestamp flag\nThis flag is set by hardware when a timestamp event occurs.\nIf ITSF flag is set, TSF must be cleared together with ITSF.\nNote: TSF is not set if TAMPTS=1 and the tamper flag is read during the 3 ck_apre cycles\nfollowing tamper event. Refer to Timestamp on tamper event for more details.\nBit 2 WUTF: Wake-up timer flag\nThis flag is set by hardware when the wake-up auto-reload counter reaches 0.\nIf WUTOCLR[15:0] is different from 0x0000, WUTF is cleared by hardware when the wake-\nup auto-reload counter reaches WUTOCLR value.\nIf WUTOCLR[15:0] is 0x0000, WUTF must be cleared by software.\nThis flag must be cleared by software at least 1.5 RTCCLK periods before WUTF is set to 1\nagain.\nBit 1 ALRBF: Alarm B flag\nThis flag is set by hardware when the time/date registers (RTC_TR and RTC_DR) match the\nalarm B register (RTC_ALRMBR).\nBit 0 ALRAF: Alarm A flag\nThis flag is set by hardware when the time/date registers (RTC_TR and RTC_DR) match the\nalarm A register (RTC_ALRMAR).\nNote: The bits of this register are cleared few APB clock cycles after setting their corresponding\nclear bit in the RTC_SCR register. After clearing the flag, read it until it is read at 0 before\nleaving the interrupt routine.",
+      "semantic": {
+        "register": "RTC_SR",
+        "address_offset": "0x50",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "SSRUF",
+            "description": "SSR underflow flag This flag is set by hardware when the SSR is reloaded with 0xFFFFFFFF after reaching 0. SSRUF is not set when SSCLR=1. Note: SSRUF is not an error event as SSR counter is a free-running down-counter with automatic reload. SSRUF is set only in binary and mixed modes. It is not set in BCD mode.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "ITSF",
+            "description": "Internal timestamp flag This flag is set by hardware when a timestamp on the internal event occurs.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "TSOVF",
+            "description": "Timestamp overflow flag This flag is set by hardware when a timestamp event occurs while TSF is already set. It is recommended to check and then clear TSOVF only after clearing the TSF bit. Otherwise, an overflow might not be noticed if a timestamp event occurs immediately before the TSF bit is cleared.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "TSF",
+            "description": "Timestamp flag This flag is set by hardware when a timestamp event occurs. If ITSF flag is set, TSF must be cleared together with ITSF. Note: TSF is not set if TAMPTS=1 and the tamper flag is read during the 3 ck_apre cycles following tamper event. Refer to Timestamp on tamper event for more details.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "WUTF",
+            "description": "Wake-up timer flag This flag is set by hardware when the wake-up auto-reload counter reaches 0. If WUTOCLR[15:0] is different from 0x0000, WUTF is cleared by hardware when the wake- up auto-reload counter reaches WUTOCLR value. If WUTOCLR[15:0] is 0x0000, WUTF must be cleared by software. This flag must be cleared by software at least 1.5 RTCCLK periods before WUTF is set to 1 again.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "ALRBF",
+            "description": "Alarm B flag This flag is set by hardware when the time/date registers (RTC_TR and RTC_DR) match the alarm B register (RTC_ALRMBR).",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "ALRAF",
+            "description": "Alarm A flag This flag is set by hardware when the time/date registers (RTC_TR and RTC_DR) match the alarm A register (RTC_ALRMAR). Note: The bits of this register are cleared few APB clock cycles after setting their corresponding clear bit in the RTC_SCR register. After clearing the flag, read it until it is read at 0 before leaving the interrupt routine.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

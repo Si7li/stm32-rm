@@ -1,0 +1,39 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S6.2.8",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "6",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "6.2.8",
+      "section_title": "Clock security system for LSE clock (LSECSS)",
+      "level": 3,
+      "parent_section": "6.2",
+      "page": 127,
+      "page_end": 128,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "lse",
+        "lsecss",
+        "rcc"
+      ],
+      "chars": 1580,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=127",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.2.8 \"Clock security system for LSE clock (LSECSS)\" in chapter 6 (Reset and clock control (RCC)), RM0490 Rev 6, page 127.",
+      "section_content": "A clock security system on LSE can be activated by setting the LSECSSON bit in RCC\ncontrol/status register 1 (RCC_CSR1). This bit can be cleared only by a hardware reset or\nRTC software reset, or after LSE clock failure detection. LSECSSON must be written after\nLSE and LSI are enabled (LSEON and LSION enabled) and ready (LSERDY and LSIRDY\nflags set by hardware), and after selecting the RTC clock by RTCSEL.\nThe LSECSS works in all modes except Standby and Shutdown. It keeps working also\nunder system reset (excluding power-on reset). If a failure is detected on the LSE oscillator,\nthe LSE clock is no longer supplied to the RTC but its registers are not impacted.\nNote: If the LSECSS is enabled and the LSE clock fails, the LSECSSI occurs and an NMI is\nautomatically generated. The NMI is executed infinitely unless the LSECSS interrupt\npending bit is cleared. It is therefore necessary that the NMI ISR clears the LSECSSI by\nsetting the LSECSSC bit in the RCC clock interrupt clear register (RCC_CICR).\nIf LSE is used as system clock, and a failure of LSE clock is detected, the system clock\nswitches automatically to LSI. In low-power modes, an LSE clock failure generates a wake-\nup. The interrupt flag must then be cleared within the RCC registers.\nThe software must then disable the LSECSSON bit, stop the defective 32kHz oscillator (by\nclearing LSEON), and change the RTC clock source (no clock, LSI or HSE, with RTCSEL),\nor take any appropriate action to secure the application.\nThe frequency of the LSE oscillator must exceed 30kHz to avoid false positive detections.",
+      "semantic": {}
+    }
+  ]
+}

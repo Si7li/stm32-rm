@@ -1,0 +1,428 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S41.9.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "41",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "41.9.1",
+      "section_title": "I2C control register 1 (I2C_CR1)",
+      "level": 3,
+      "parent_section": "41.9",
+      "page": 1673,
+      "page_end": 1675,
+      "semantic_type": "register_description",
+      "features": [
+        "addraclr",
+        "addrie",
+        "alerten",
+        "anfoff",
+        "dma",
+        "dnf",
+        "errie",
+        "fmp",
+        "gcen",
+        "i2c",
+        "i2c-cr1",
+        "nackie",
+        "nostretch",
+        "pecen",
+        "rxdmaen",
+        "rxie",
+        "sbc",
+        "smbden",
+        "smbhen",
+        "stopfaclr",
+        "stopie",
+        "tcie",
+        "txdmaen",
+        "txie",
+        "wupen"
+      ],
+      "chars": 5459,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1673",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 41.9.1 \"I2C control register 1 (I2C_CR1)\" in chapter 41 (Inter-integrated circuit interface (I2C)), RM0522 Rev 1, page 1673.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000 0000\nAccess: no wait states, except if a write access occurs while a write access is ongoing. In\nthis case, wait states are inserted in the second write access, until the previous one is\ncompleted. The latency of the second write access can be up to\n2xi2c_pclk+6xi2c_ker_ck.\nBit 31 STOPFACLR: STOP detection flag (STOPF) automatic clear\n0: STOPF flag is set by hardware, cleared by software by setting STOPCF bit.\n1: STOPF flag remains cleared by hardware. This mode can be used in NOSTRETCH target\nmode, to avoid the overrun error if the STOPF flag is not cleared before next data\ntransmission. This allows a target data management by DMA only, without any interrupt from\nperipheral.\nBit 30 ADDRACLR: Address match flag (ADDR) automatic clear\n0: ADDR flag is set by hardware, cleared by software by setting ADDRCF bit.\n1: ADDR flag remains cleared by hardware. This mode can be used in target mode, to avoid\nthe ADDR clock stretching if the I2C enables only one target address. This allows a target\ndata management by DMA only, without any interrupt from peripheral.\nBits 29:25 Reserved, must be kept at reset value.\nBit 24 FMP: Fast-mode Plus drive enable\n0: FMP I/O drive disabled\n1: FMP I/O drive enabled\nBit 23 PECEN: PEC enable\n0: PEC calculation disabled\n1: PEC calculation enabled\nBit 22 ALERTEN: SMBus alert enable\n0: The SMBALERT# signal on SMBA pin is not supported in host mode (SMBHEN = 1). In\ndevice mode (SMBHEN = 0), the SMBA pin is released and the alert response address\nheader is disabled (0001100x followed by NACK).\n1: The SMBALERT# signal on SMBA pin is supported in host mode (SMBHEN = 1). In\ndevice mode (SMBHEN = 0), the SMBA pin is driven low and the alert response address\nheader is enabled (0001100x followed by ACK).\nNote: When ALERTEN = 0, the SMBA pin can be used as a standard GPIO.\nBit 21 SMBDEN: SMBus device default address enable\n0: Device default address disabled. Address 0b1100001x is NACKed.\n1: Device default address enabled. Address 0b1100001x is ACKed.\nBit 20 SMBHEN: SMBus host address enable\n0: Host address disabled. Address 0b0001000x is NACKed.\n1: Host address enabled. Address 0b0001000x is ACKed.\nBit 19 GCEN: General call enable\n0: General call disabled. Address 0b00000000 is NACKed.\n1: General call enabled. Address 0b00000000 is ACKed.\nBit 18 WUPEN: Wake-up from Stop mode enable\n0: Wake-up from Stop mode disabled.\n1: Wake-up from Stop mode enabled.\nNote: WUPEN can be set only when DNF[3:0] = 0000.\nBit 17 NOSTRETCH: Clock stretching disable\nThis bit is used to disable clock stretching in target mode. It must be kept cleared in\ncontroller mode.\n0: Clock stretching enabled\n1: Clock stretching disabled\nNote: This bit can be programmed only when the I2C peripheral is disabled (PE = 0).\nBit 16 SBC: Target byte control\nThis bit is used to enable hardware byte control in target mode.\n0: Target byte control disabled\n1: Target byte control enabled\nBit 15 RXDMAEN: DMA reception requests enable\n0: DMA mode disabled for reception\n1: DMA mode enabled for reception\nBit 14 TXDMAEN: DMA transmission requests enable\n0: DMA mode disabled for transmission\n1: DMA mode enabled for transmission\nBit 13 Reserved, must be kept at reset value.\nBit 12 ANFOFF: Analog noise filter OFF\n0: Analog noise filter enabled\n1: Analog noise filter disabled\nNote: This bit can be programmed only when the I2C peripheral is disabled (PE = 0).\nBits 11:8 DNF[3:0]: Digital noise filter\nThese bits are used to configure the digital noise filter on SDA and SCL input. The digital\nfilter, filters spikes with a length of up to DNF[3:0] * tI2CCLK\n0000: Digital filter disabled\n0001: Digital filter enabled and filtering capability up to one tI2CCLK\n...\n1111: digital filter enabled and filtering capability up to fifteen tI2CCLK\nNote: If the analog filter is enabled, the digital filter is added to it. This filter can be\nprogrammed only when the I2C peripheral is disabled (PE = 0).\nBit 7 ERRIE: Error interrupts enable\n0: Error detection interrupts disabled\n1: Error detection interrupts enabled\nNote: Any of these errors generates an interrupt:\n- arbitration loss (ARLO)\n- bus error detection (BERR)\n- overrun/underrun (OVR)\n- timeout detection (TIMEOUT)\n- PEC error detection (PECERR)\n- alert pin event detection (ALERT)\nBit 6 TCIE: Transfer complete interrupt enable\n0: Transfer complete interrupt disabled\n1: Transfer complete interrupt enabled\nNote: Any of these events generates an interrupt:\nTransfer complete (TC)\nTransfer complete reload (TCR)\nBit 5 STOPIE: STOP detection interrupt enable\n0: STOP detection (STOPF) interrupt disabled\n1: STOP detection (STOPF) interrupt enabled\nBit 4 NACKIE: Not acknowledge received interrupt enable\n0: Not acknowledge (NACKF) received interrupts disabled\n1: Not acknowledge (NACKF) received interrupts enabled\nBit 3 ADDRIE: Address match interrupt enable (target only)\n0: Address match (ADDR) interrupts disabled\n1: Address match (ADDR) interrupts enabled\nBit 2 RXIE: RX interrupt enable\n0: Receive (RXNE) interrupt disabled\n1: Receive (RXNE) interrupt enabled\nBit 1 TXIE: TX interrupt enable\n0: Transmit (TXIS) interrupt disabled\n1: Transmit (TXIS) interrupt enabled\nBit 0 PE: Peripheral enable\n0: Peripheral disabled\n1: Peripheral enabled\nNote: When PE = 0, the I2C SCL and SDA lines are released. Internal state machines and\nstatus bits are put back to their reset value. When cleared, PE must be kept low for at\nleast three APB clock cycles.",
+      "semantic": {
+        "register": "I2C_CR1",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "STOPFACLR",
+            "description": "STOP detection flag (STOPF) automatic clear mode, to avoid the overrun error if the STOPF flag is not cleared before next data transmission. This allows a target data management by DMA only, without any interrupt from peripheral.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "STOPF flag is set by hardware, cleared by software by setting STOPCF bit."
+              },
+              {
+                "value": "1",
+                "meaning": "STOPF flag remains cleared by hardware. This mode can be used in NOSTRETCH target"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "ADDRACLR",
+            "description": "Address match flag (ADDR) automatic clear the ADDR clock stretching if the I2C enables only one target address. This allows a target data management by DMA only, without any interrupt from peripheral.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "ADDR flag is set by hardware, cleared by software by setting ADDRCF bit."
+              },
+              {
+                "value": "1",
+                "meaning": "ADDR flag remains cleared by hardware. This mode can be used in target mode, to avoid"
+              }
+            ]
+          },
+          {
+            "bits": "29:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "FMP",
+            "description": "Fast-mode Plus drive enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "FMP I/O drive disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "FMP I/O drive enabled"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "PECEN",
+            "description": "PEC enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PEC calculation disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "PEC calculation enabled"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "ALERTEN",
+            "description": "SMBus alert enable device mode (SMBHEN = 0), the SMBA pin is released and the alert response address header is disabled (0001100x followed by NACK). device mode (SMBHEN = 0), the SMBA pin is driven low and the alert response address header is enabled (0001100x followed by ACK). Note: When ALERTEN = 0, the SMBA pin can be used as a standard GPIO.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The SMBALERT# signal on SMBA pin is not supported in host mode (SMBHEN = 1). In"
+              },
+              {
+                "value": "1",
+                "meaning": "The SMBALERT# signal on SMBA pin is supported in host mode (SMBHEN = 1). In"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "SMBDEN",
+            "description": "SMBus device default address enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Device default address disabled. Address 0b1100001x is NACKed."
+              },
+              {
+                "value": "1",
+                "meaning": "Device default address enabled. Address 0b1100001x is ACKed."
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "SMBHEN",
+            "description": "SMBus host address enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Host address disabled. Address 0b0001000x is NACKed."
+              },
+              {
+                "value": "1",
+                "meaning": "Host address enabled. Address 0b0001000x is ACKed."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "GCEN",
+            "description": "General call enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "General call disabled. Address 0b00000000 is NACKed."
+              },
+              {
+                "value": "1",
+                "meaning": "General call enabled. Address 0b00000000 is ACKed."
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "WUPEN",
+            "description": "Wake-up from Stop mode enable Note: WUPEN can be set only when DNF[3:0] = 0000.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Wake-up from Stop mode disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "Wake-up from Stop mode enabled."
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "NOSTRETCH",
+            "description": "Clock stretching disable This bit is used to disable clock stretching in target mode. It must be kept cleared in controller mode. Note: This bit can be programmed only when the I2C peripheral is disabled (PE = 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Clock stretching enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Clock stretching disabled"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "SBC",
+            "description": "Target byte control This bit is used to enable hardware byte control in target mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Target byte control disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Target byte control enabled"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "RXDMAEN",
+            "description": "DMA reception requests enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA mode disabled for reception"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA mode enabled for reception"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "TXDMAEN",
+            "description": "DMA transmission requests enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA mode disabled for transmission"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA mode enabled for transmission"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "ANFOFF",
+            "description": "Analog noise filter OFF Note: This bit can be programmed only when the I2C peripheral is disabled (PE = 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Analog noise filter enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog noise filter disabled"
+              }
+            ]
+          },
+          {
+            "bits": "11:8",
+            "name": "DNF[3:0]",
+            "description": "Digital noise filter These bits are used to configure the digital noise filter on SDA and SCL input. The digital filter, filters spikes with a length of up to DNF[3:0] * tI2CCLK ... Note: If the analog filter is enabled, the digital filter is added to it. This filter can be programmed only when the I2C peripheral is disabled (PE = 0).",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Digital filter disabled"
+              },
+              {
+                "value": "0001",
+                "meaning": "Digital filter enabled and filtering capability up to one tI2CCLK"
+              },
+              {
+                "value": "1111",
+                "meaning": "digital filter enabled and filtering capability up to fifteen tI2CCLK"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "ERRIE",
+            "description": "Error interrupts enable Note: Any of these errors generates an interrupt: - arbitration loss (ARLO) - bus error detection (BERR) - overrun/underrun (OVR) - timeout detection (TIMEOUT) - PEC error detection (PECERR) - alert pin event detection (ALERT)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Error detection interrupts disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Error detection interrupts enabled"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "TCIE",
+            "description": "Transfer complete interrupt enable Note: Any of these events generates an interrupt: Transfer complete (TC) Transfer complete reload (TCR)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Transfer complete interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Transfer complete interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "STOPIE",
+            "description": "STOP detection interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "STOP detection (STOPF) interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "STOP detection (STOPF) interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "NACKIE",
+            "description": "Not acknowledge received interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not acknowledge (NACKF) received interrupts disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Not acknowledge (NACKF) received interrupts enabled"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "ADDRIE",
+            "description": "Address match interrupt enable (target only)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Address match (ADDR) interrupts disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Address match (ADDR) interrupts enabled"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "RXIE",
+            "description": "RX interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Receive (RXNE) interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Receive (RXNE) interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "TXIE",
+            "description": "TX interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Transmit (TXIS) interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmit (TXIS) interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "PE",
+            "description": "Peripheral enable Note: When PE = 0, the I2C SCL and SDA lines are released. Internal state machines and status bits are put back to their reset value. When cleared, PE must be kept low for at least three APB clock cycles.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Peripheral disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Peripheral enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

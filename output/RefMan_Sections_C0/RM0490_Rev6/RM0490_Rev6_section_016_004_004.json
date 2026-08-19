@@ -1,0 +1,39 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.4.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.4.4",
+      "section_title": "ADC on-off control (ADEN, ADDIS, ADRDY)",
+      "level": 3,
+      "parent_section": "16.4",
+      "page": 294,
+      "page_end": 295,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "addis",
+        "aden",
+        "adrdy"
+      ],
+      "chars": 2144,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=294",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.4.4 \"ADC on-off control (ADEN, ADDIS, ADRDY)\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 294.",
+      "section_content": "At power-up, the ADC is disabled and put in power-down mode (ADEN = 0).\nAs shown in Figure 33, the ADC needs a stabilization time of tSTAB before it starts\nconverting accurately.\nTwo control bits are used to enable or disable the ADC:\n• Set ADEN = 1 to enable the ADC. The ADRDY flag is set as soon as the ADC is ready\nfor operation.\n• Set ADDIS = 1 to disable the ADC and put the ADC in power down mode. The ADEN\nand ADDIS bits are then automatically cleared by hardware as soon as the ADC is fully\ndisabled.\nConversion can then start either by setting ADSTART to 1 (refer to Section 16.5: Conversion\non external trigger and trigger polarity (EXTSEL, EXTEN)) or when an external trigger event\noccurs if triggers are enabled.\nFollow this procedure to enable the ADC:\n1. Clear the ADRDY bit in ADC_ISR register by programming this bit to 1.\n2. Set ADEN = 1 in the ADC_CR register.\n3. Wait until ADRDY = 1 in the ADC_ISR register (ADRDY is set after the ADC startup\ntime). This can be handled by interrupt if the interrupt is enabled by setting the\nADRDYIE bit in the ADC_IER register.\nFollow this procedure to disable the ADC:\n1. Check that ADSTART = 0 in the ADC_CR register to ensure that no conversion is\nongoing. If required, stop any ongoing conversion by writing 1 to the ADSTP bit in the\nADC_CR register and waiting until this bit is read at 0.\n2. Set ADDIS = 1 in the ADC_CR register.\n3. If required by the application, wait until ADEN = 0 in the ADC_CR register, indicating\nthat the ADC is fully disabled (ADDIS is automatically reset once ADEN = 0).\n4. Clear the ADRDY bit in ADC_ISR register by programming this bit to 1 (optional).\n[Figure 33. Enabling/disabling the ADC]\nNote: In Auto-off mode (AUTOFF = 1) the power-on/off phases are performed automatically, by\nhardware and the ADRDY flag is not set.\nWhen the bus clock is much faster than the analog ADC clock (fADC), a minimum delay of\nten fADC clock cycles must be respected between ADEN and ADDIS bit settings.\nCaution: The ADEN bit cannot be set while the ADCAL bit is set, and during four ADC clock cycles\nafter the ADCAL bit is cleared by the hardware (end of calibration).",
+      "semantic": {}
+    }
+  ]
+}

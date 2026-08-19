@@ -1,0 +1,128 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "table_count": 178,
+  "tables": [
+    {
+      "table_id": "RM0490-T045",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "table_number": "45",
+      "title": "Programmable data width and endian behavior (when PINC = MINC = 1)",
+      "page": 230,
+      "section": "11.4.6",
+      "section_title": "DMA data width, alignment, and endianness",
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "minc",
+        "pinc"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=230",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Source port width (MSIZE if DIR = 1, else PSIZE)",
+        "Destinat ion port width (PSIZE if DIR=1, else MSIZE)",
+        "Number of data items to transfer (NDT)",
+        "Source content: address / data (DMA_CMARx if DIR = 1, else DMA_CPARx)",
+        "DMA transfers",
+        "Destination content: address / data (DMA_CPARx if DIR=1, else DMA_CMARx)"
+      ],
+      "text_helper": "Table 45, \"Programmable data width and endian behavior (when PINC = MINC = 1)\", in section 11.4.6 (DMA data width, alignment, and endianness) on page 230. Columns: Source port width (MSIZE if DIR = 1, else PSIZE), Destinat ion port width (PSIZE if DIR=1, else MSIZE), Number of data items to transfer (NDT), Source content: address / data (DMA_CMARx if DIR = 1, else DMA_CPARx), DMA transfers, Destination content: address / data (DMA_CPARx if DIR=1, else DMA_CMARx). 9 data row(s).",
+      "table_content": {
+        "headers": [
+          "Source port width (MSIZE if DIR = 1, else PSIZE)",
+          "Destinat ion port width (PSIZE if DIR=1, else MSIZE)",
+          "Number of data items to transfer (NDT)",
+          "Source content: address / data (DMA_CMARx if DIR = 1, else DMA_CPARx)",
+          "DMA transfers",
+          "Destination content: address / data (DMA_CPARx if DIR=1, else DMA_CMARx)"
+        ],
+        "rows": [
+          [
+            "8",
+            "8",
+            "4",
+            "@0x0 / B0\n@0x1 / B1\n@0x2 / B2\n@0x3 / B3",
+            "1: read B0[7:0] @0x0 then write B0[7:0] @0x0\n2: read B1[7:0] @0x1 then write B1[7:0] @0x1\n3: read B2[7:0] @0x2 then write B2[7:0] @0x2\n4: read B3[7:0] @0x3 then write B3[7:0] @0x3",
+            "@0x0 / B0\n@0x1 / B1\n@0x2 / B2\n@0x3 / B3"
+          ],
+          [
+            "8",
+            "16",
+            "4",
+            "@0x0 / B0\n@0x1 / B1\n@0x2 / B2\n@0x3 / B3",
+            "1: read B0[7:0] @0x0 then write 00B0[15:0] @0x0\n2: read B1[7:0] @0x1 then write 00B1[15:0] @0x2\n3: read B2[7:0] @0x2 then write 00B2[15:0] @0x4\n4: read B3[7:0] @0x3 then write 00B3[15:0] @0x6",
+            "@0x0 / 00B0\n@0x2 / 00B1\n@0x4 / 00B2\n@0x6 / 00B3"
+          ],
+          [
+            "8",
+            "32",
+            "4",
+            "@0x0 / B0\n@0x1 / B1\n@0x2 / B2\n@0x3 / B3",
+            "1: read B0[7:0] @0x0 then write 000000B0[31:0] @0x0\n2: read B1[7:0] @0x1 then write 000000B1[31:0] @0x4\n3: read B2[7:0] @0x2 then write 000000B2[31:0] @0x8\n4: read B3[7:0] @0x3 then write 000000B3[31:0] @0xC",
+            "@0x0 / 000000B0\n@0x4 / 000000B1\n@0x8 / 000000B2\n@0xC / 000000B3"
+          ],
+          [
+            "16",
+            "8",
+            "4",
+            "@0x0 / B1B0\n@0x2 / B3B2\n@0x4 / B5B4\n@0x6 / B7B6",
+            "1: read B1B0[15:0] @0x0 then write B0[7:0] @0x0\n2: read B3B2[15:0] @0x2 then write B2[7:0] @0x1\n3: read B5B4[15:0] @0x4 then write B4[7:0] @0x2\n4: read B7B6[15:0] @0x6 then write B6[7:0] @0x3",
+            "@0x0 / B0\n@0x1 / B2\n@0x2 / B4\n@0x3 / B6"
+          ],
+          [
+            "16",
+            "16",
+            "4",
+            "@0x0 / B1B0\n@0x2 / B3B2\n@0x4 / B5B4\n@0x6 / B7B6",
+            "1: read B1B0[15:0] @0x0 then write B1B0[15:0] @0x0\n2: read B3B2[15:0] @0x2 then write B3B2[15:0] @0x2\n3: read B5B4[15:0] @0x4 then write B5B4[15:0] @0x4\n4: read B7B6[15:0] @0x6 then write B7B6[15:0] @0x6",
+            "@0x0 / B1B0\n@0x2 / B3B2\n@0x4 / B5B4\n@0x6 / B7B6"
+          ],
+          [
+            "16",
+            "32",
+            "4",
+            "@0x0 / B1B0\n@0x2 / B3B2\n@0x4 / B5B4\n@0x6 / B7B6",
+            "1: read B1B0[15:0] @0x0 then write 0000B1B0[31:0] @0x0\n2: read B3B2[15:0] @0x2 then write 0000B3B2[31:0] @0x4\n3: read B5B4[15:0] @0x4 then write 0000B5B4[31:0] @0x8\n4: read B7B6[15:0] @0x6 then write 0000B7B6[31:0] @0xC",
+            "@0x0 / 0000B1B0\n@0x4 / 0000B3B2\n@0x8 / 0000B5B4\n@0xC / 0000B7B6"
+          ],
+          [
+            "32",
+            "8",
+            "4",
+            "@0x0 / B3B2B1B0\n@0x4 / B7B6B5B4\n@0x8 / BBBAB9B8\n@0xC / BFBEBDBC",
+            "1: read B3B2B1B0[31:0] @0x0 then write B0[7:0] @0x0\n2: read B7B6B5B4[31:0] @0x4 then write B4[7:0] @0x1\n3: read BBBAB9B8[31:0] @0x8 then write B8[7:0] @0x2\n4: read BFBEBDBC[31:0] @0xC then write BC[7:0] @0x3",
+            "@0x0 / B0\n@0x1 / B4\n@0x2 / B8\n@0x3 / BC"
+          ],
+          [
+            "32",
+            "16",
+            "4",
+            "@0x0 / B3B2B1B0\n@0x4 / B7B6B5B4\n@0x8 / BBBAB9B8\n@0xC / BFBEBDBC",
+            "1: read B3B2B1B0[31:0] @0x0 then write B1B0[15:0] @0x0\n2: read B7B6B5B4[31:0] @0x4 then write B5B4[15:0] @0x2\n3: read BBBAB9B8[31:0] @0x8 then write B9B8[15:0] @0x4\n4: read BFBEBDBC[31:0] @0xC then write BDBC[15:0] @0x6",
+            "@0x0 / B1B0\n@0x2 / B5B4\n@0x4 / B9B8\n@0x6 / BDBC"
+          ],
+          [
+            "32",
+            "32",
+            "4",
+            "@0x0 / B3B2B1B0\n@0x4 / B7B6B5B4\n@0x8 / BBBAB9B8\n@0xC / BFBEBDBC",
+            "1: read B3B2B1B0[31:0] @0x0 then write B3B2B1B0[31:0] @0x0 \n2: read B7B6B5B4[31:0] @0x4 then write B7B6B5B4[31:0] @0x4\n3: read BBBAB9B8[31:0] @0x8 then write BBBAB9B8[31:0] @0x8\n4: read BFBEBDBC[31:0] @0xC then write BFBEBDBC[31:0] @0xC",
+            "@0x0 / B3B2B1B0\n@0x4 / B7B6B5B4\n@0x8 / BBBAB9B8\n@0xC / BFBEBDBC"
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

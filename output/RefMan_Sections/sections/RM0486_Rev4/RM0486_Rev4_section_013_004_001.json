@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S13.4.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "13",
+      "chapter_title": "Power control (PWR)",
+      "section": "13.4.1",
+      "section_title": "System supply startup",
+      "level": 3,
+      "parent_section": "13.4",
+      "page": 353,
+      "page_end": 355,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2203,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=353",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.4.1 \"System supply startup\" in chapter 13 (Power control (PWR)), RM0486 Rev 4, page 353.",
+      "section_content": "The system startup sequence from power-on in different supply configurations is the\nfollowing (see Figure17 for direct SMPS supply and external supply, respectively):\nVCORE directly supplied from the SMPS step-down converter\n1. When the system is powered on, the POR monitors VDD and VDDA18AON supplies.\nOnce the supplies are above the POR threshold level, the external voltage regulator\nproviding VDDA18PMU and VDDSMPS supplies is enabled via the PWR_ON signal.\n2. The SMPS step-down converter is kept in reset as long as VDDA18PMU and VDDSMPS\nare not stable.\n3. Once VDDA18PMU and VDDSMPS supplies are above the Vdda18pmu_ok threshold level,\nthe SMPS step-down converter is taken out of reset, and the output level is set by\ndefault at 0.8 V (VOS low). The system is kept in reset mode as long as VDDCORE is\nstable.\n4. Once VDDCORE supply is above the Vddcore_ok threshold level, the system is taken\nout of reset, and the HSI oscillator is enabled.\n5. Once the oscillator is stable, the system is initialized: option bytes are loaded, and the\nCPU starts in Run mode.\n[Figure 18. Device startup (VCORE supplied directly from SMPS step-down converter)]\nWhen exiting Standby mode, the supply configuration is known by the system, as the\nPWR_CR1 content is retained.\nVCORE supplied in bypass mode (SMPS off)\nThe devices that feature the SMPS can be used in bypass mode.\n1. When the system is powered on, the POR monitors VDD and VDDA18AON supplies.\nOnce the supplies are above the POR threshold level, the external voltage regulator\nproviding the VDDCORE supply is enabled via the PWR_ON signal.\n2. The system is kept in reset mode as long as VDDCORE is not stable.\n3. Once VDDCORE supply is above the Vddcore_ok threshold level, the system is taken\nout of reset, and the HSI oscillator is enabled.\n4. Once the oscillator is stable, the system is initialized: option bytes are loaded, and the\nCPU starts in Run mode. The software must disable SMPS bit clearing SDEN in\nPWR_CR1.\nNote: In SMPS off mode or bypass mode, reading SDEN returns 0. The SW must write 0 to SDEN\nin PWR_CR1 register for the low power features to work properly.\n[Figure 19. Device startup (VCORE supplied from an external regulator)]",
+      "semantic": {}
+    }
+  ]
+}

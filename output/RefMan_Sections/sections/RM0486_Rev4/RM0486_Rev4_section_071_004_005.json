@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.4.5",
+      "section_title": "Bit timing",
+      "level": 3,
+      "parent_section": "71.4",
+      "page": 3643,
+      "page_end": 3644,
+      "semantic_type": "generic",
+      "features": [
+        "timing"
+      ],
+      "chars": 2673,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3643",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.4.5 \"Bit timing\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3643.",
+      "section_content": "The bit timing logic monitors the serial bus-line and performs sampling and adjustment of\nthe sample point by synchronizing on the start-bit edge and resynchronizing on the following\nedges. As shown in Figure966, its operation may be explained simply by splitting the bit\ntime in three segments:\n• Synchronization segment (SYNC_SEG): a bit change is expected to occur within this\ntime segment, which has a fixed length of one time quantum (1 x tq).\n• Bit segment 1 (BS1): defines the location of the sample point. It includes the\nPROP_SEG and PHASE_SEG1 of the CAN standard, its duration is programmable\nbetween 1 and 16 time quanta, but may be automatically lengthened to compensate for\npositive phase drifts due to differences in the frequency of the various nodes of the\nnetwork.\n• Bit segment 2 (BS2): defines the location of the transmit point. It represents the\nPHASE_SEG2 of the CAN standard, its duration is programmable between one and\neight time quanta, but may also be automatically shortened to compensate for negative\nphase drifts.\n[Figure 966. Bit timing]\nSample Transmit\npoint point\nThe baudrate is the inverse of bit time (baudrate = 1 / bit time), which, in turn, is the sum of\nthree components. Figure966 indicates that bit time = tSyncSeg + tBS1 + tBS2, where:\n• for the nominal bit time\n– tq = (FDCAN_NBTP.NBRP[8:0] + 1) * tfdcan_tq_ck\n– tSyncSeg = 1 tq\n– tBS1 = tq * (FDCAN_NBTP.NTSEG1[7:0] + 1)\n– tBS2 = tq * (FDCAN_NBTP.NTSEG2[6:0] + 1)\n• for the data bit time\n– tq = (FDCAN_DBTP.DBRP[4:0] + 1) * tfdcan_tq_ck\n– tSyncSeg = 1 tq\n– tBS1 = tq * (FDCAN_DBTP.DTSEG1[4:0] + 1)\n– tBS2 = tq * (FDCAN_DBTP.DTSEG2[3:0] + 1)\nThe (re)synchronization jump width (SJW) defines an upper bound for the amount of\nlengthening or shortening of the bit segments. It is programmable between one and four\ntime quanta.\nA valid edge is defined as the first transition in a bit time from dominant to recessive bus\nlevel, provided the controller itself does not send a recessive bit.\nIf a valid edge is detected in BS1 instead of SYNC_SEG, BS1 is extended by up to SJW so\nthat the sample point is delayed.\nConversely, if a valid edge is detected in BS2 instead of SYNC_SEG, BS2 is shortened by\nup to SJW so that the transmit point is moved earlier.\nAs a safeguard against programming errors, the configuration of the bit timing register is\nonly possible while the device is in Standby mode. Registers FDCAN_DBTP and\nFDCAN_NBTP (dedicated, respectively, to data and nominal bit timing) are only accessible\nwhen FDCAN_CCCR.CCE and FDCAN_CCCR.INIT are set.\nNote: For a detailed description of the CAN bit timing and resynchronization mechanism, refer to\nthe ISO 11898-1 standard.",
+      "semantic": {}
+    }
+  ]
+}

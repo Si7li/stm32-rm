@@ -1,0 +1,121 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.8.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.8.8",
+      "section_title": "HPDMA channel x semaphore control register (HPDMA_CxSEMCR)",
+      "level": 3,
+      "parent_section": "18.8",
+      "page": 899,
+      "page_end": 900,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory",
+        "sem-ccid",
+        "sem-mutex"
+      ],
+      "chars": 2559,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=899",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.8.8 \"HPDMA channel x semaphore control register (HPDMA_CxSEMCR)\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 899.",
+      "section_content": "Address offset: 0x058+ 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0000\nWhen the secure, privileged and trusted domain has set up the channel x in semaphore\nmode (HPDMA_CxCIDCFGR.SEM_EN = 1), this register is used during run-time by an\nauthorized white-listed CID agent, in order to take and after possibly release the control of\nthe channel x.\nA read access may be privileged or unprivileged, secure or nonsecure, and with any CID.\nBits 31:7 Reserved, must be kept at reset value.\nBits 6:4 SEM_CCID[2:0]: Current CID allocated to the channel x (in semaphore mode)\nThis read-only bitfield is internally updated when a white-listed CID took the control of\nthe channel x, in semaphore mode. If SEM_MUTEX = 0, this same CID also released it.\n000: CID0 is the last white-listed CID that took the control of the channel x.\n001: CID1 is the last white-listed CID that took the control of the channel x.\n010: CID2 is the last white-listed CID that took the control of the channel x.\n011: CID3 is the last white-listed CID that took the control of the channel x.\n100: CID4 is the last white-listed CID that took the control of the channel x.\n101: CID5 is the last white-listed CID that took the control of the channel x.\n110: CID6 is the last white-listed CID that took the control of the channel x.\n111: Reserved\nBits 3:1 Reserved, must be kept at reset value.\nBit 0 SEM_MUTEX: Mutual exclusion semaphore for the CID allocation of the channel x\n(in semaphore mode)\nIf the channel x is in secure state (HPDMA_SECCFGR.SECx = 1), this bit can only be written\nby a secure agent. If the channel x is in privileged state (HPDMA_PRIVCFGR.PRIVx = 1),\nthis bit can only be written by a privileged agent.\nIf the channel x is CID-filtered (HPDMA_CxCIDCFGR.CFEN = 1) and in semaphore mode\n(HPDMA_CIDCFGR.SEM_EN = 1), this bit can only be written either by an authorized\n(white-listed) CID agent to take the control, or by the same (white-listed) CID agent to\nrelease the control.\nCondition: write\n0: Release the control of the channel x (in semaphore mode) to any white-listed CID.\n1: Take the control of the channel x (in semaphore mode), from one of the white-listed\nCID pool.\nCondition: read\n0: Channel x CID-free (not currently under the control of any white-listed CID)\n1: Channel x CID-allocated (currently taken and under the control of one white-listed CID)\nNote: This bit must be written when HPDMA_CxCR.EN = 0. This bit is read-only when\nHPDMA_CxCR.EN = 1.\nWhen SEM_EN or CFEN bit is cleared in HPDMA_CxSEMCR, the HPDMA hardware\nautomatically clears this SEM_MUTEX bit.",
+      "semantic": {
+        "register": "HPDMA_CxSEMCR",
+        "address_offset": "0x058+ 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6:4",
+            "name": "SEM_CCID[2:0]",
+            "description": "Current CID allocated to the channel x (in semaphore mode) This read-only bitfield is internally updated when a white-listed CID took the control of the channel x, in semaphore mode. If SEM_MUTEX = 0, this same CID also released it.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "CID0 is the last white-listed CID that took the control of the channel x."
+              },
+              {
+                "value": "001",
+                "meaning": "CID1 is the last white-listed CID that took the control of the channel x."
+              },
+              {
+                "value": "010",
+                "meaning": "CID2 is the last white-listed CID that took the control of the channel x."
+              },
+              {
+                "value": "011",
+                "meaning": "CID3 is the last white-listed CID that took the control of the channel x."
+              },
+              {
+                "value": "100",
+                "meaning": "CID4 is the last white-listed CID that took the control of the channel x."
+              },
+              {
+                "value": "101",
+                "meaning": "CID5 is the last white-listed CID that took the control of the channel x."
+              },
+              {
+                "value": "110",
+                "meaning": "CID6 is the last white-listed CID that took the control of the channel x."
+              },
+              {
+                "value": "111",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "SEM_MUTEX",
+            "description": "Mutual exclusion semaphore for the CID allocation of the channel x (in semaphore mode) If the channel x is in secure state (HPDMA_SECCFGR.SECx = 1), this bit can only be written by a secure agent. If the channel x is in privileged state (HPDMA_PRIVCFGR.PRIVx = 1), this bit can only be written by a privileged agent. If the channel x is CID-filtered (HPDMA_CxCIDCFGR.CFEN = 1) and in semaphore mode (HPDMA_CIDCFGR.SEM_EN = 1), this bit can only be written either by an authorized (white-listed) CID agent to take the control, or by the same (white-listed) CID agent to release the control. Condition: write CID pool. Condition: read Note: This bit must be written when HPDMA_CxCR.EN = 0. This bit is read-only when HPDMA_CxCR.EN = 1. When SEM_EN or CFEN bit is cleared in HPDMA_CxSEMCR, the HPDMA hardware automatically clears this SEM_MUTEX bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Release the control of the channel x (in semaphore mode) to any white-listed CID."
+              },
+              {
+                "value": "1",
+                "meaning": "Take the control of the channel x (in semaphore mode), from one of the white-listed"
+              },
+              {
+                "value": "0",
+                "meaning": "Channel x CID-free (not currently under the control of any white-listed CID)"
+              },
+              {
+                "value": "1",
+                "meaning": "Channel x CID-allocated (currently taken and under the control of one white-listed CID)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.3.10",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.3.10",
+      "section_title": "FLASH data area",
+      "level": 3,
+      "parent_section": "6.3",
+      "page": 141,
+      "page_end": 142,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory"
+      ],
+      "chars": 1751,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=141",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.3.10 \"FLASH data area\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 141.",
+      "section_content": "The FLASH offers 64Kbytes to store extra code, data or emulate EEPROM in 16 EDATA\npages per bank. Based on value of EDATA_EN option bit this area is one of the following:\n• Protected by a robust 6-bit ECC, which allows a write granularity of 16or 32 bits at the\nexpense of having page size shrunk to 1.5Kbytes. This area is the FLASH data area\nand the memory can be accessed through the AHB system port from address\n0x09000000 to 0x0900BFFF.\n• Page size of 2 Kbytes with write granularity of 128 bits protected by a robust 9-bit ECC.\nThis area is part of user main flash memory and instructions can be fetched from\naddresses 0x08400000 to 0x0840FFFF (see Figure13).\nCaution: This area cannot be used as a boot location in BOOTADD.\nFor greater efficiency, it is always recommended to use page on the other bank for the\nFLASH data area, so that the application benefits from RWW capability of the dual-bank\narrangement.\nWhen SWAP_BANK feature is enabled, the banks are swapped: the flash data area in\nbank2 are accessible from 0x0900000 to 0x09005FFF, and the data in bank1 are\naccessible from 0x09006000 to 0x0900BFFF.\nA bus error is generated on:\n• Attempt to access one of the following address\n– Between 0x09000000 to 0x0900BFFF, and this address is not a data FLASH\nvalid page.\n– Between 0x08400000 to 0x0840FFFF, and this address is not a user memory\nvalid page.\n• Attempt to fetch instructions from data FLASH area (fetch from 0x09000000 to\n0x0900BFFF result in HardFault).\nErasing these EDATA pages is possible by setting the EDATASEL bit and following a page\nerase request. The EDATA page erasure is not taking account EDATA_EN bit.\nProtections and security of data FLASH area are detailed in Section6.5.\n[Figure 12. FLASH data area memory map]",
+      "semantic": {}
+    }
+  ]
+}

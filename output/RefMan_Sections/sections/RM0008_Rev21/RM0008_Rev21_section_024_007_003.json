@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S24.7.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "24",
+      "chapter_title": "Controller area network (bxCAN)",
+      "section": "24.7.3",
+      "section_title": "Reception handling",
+      "level": 3,
+      "parent_section": "24.7",
+      "page": 662,
+      "page_end": 664,
+      "semantic_type": "generic",
+      "features": [
+        "handling",
+        "reception"
+      ],
+      "chars": 2916,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=662",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.7.3 \"Reception handling\" in chapter 24 (Controller area network (bxCAN)), RM0008 Rev 21, page 662.",
+      "section_content": "For the reception of CAN messages, three mailboxes organized as a FIFO are provided. In\norder to save CPU load, simplify the software and guarantee data consistency, the FIFO is\nmanaged completely by hardware. The application accesses the messages stored in the\nFIFO through the FIFO output mailbox.\nValid message\nA received message is considered as valid when it has been received correctly according to\nthe CAN protocol (no error until the last but one bit of the EOF field) and It passed through\nthe identifier filtering successfully, see Section24.7.4.\n[Figure 229. Receive FIFO states]\nFIFO management\nStarting from the empty state, the first valid message received is stored in the FIFO which\nbecomes pending_1. The hardware signals the event setting the FMP[1:0] bits in the\nCAN_RFR register to the value 01b. The message is available in the FIFO output mailbox.\nThe software reads out the mailbox content and releases it by setting the RFOM bit in the\nCAN_RFR register. The FIFO becomes empty again. If a new valid message has been\nreceived in the meantime, the FIFO stays in pending_1 state and the new message is\navailable in the output mailbox.\nIf the application does not release the mailbox, the next valid message will be stored in the\nFIFO which enters pending_2 state (FMP[1:0] = 10b). The storage process is repeated for\nthe next valid message putting the FIFO into pending_3 state (FMP[1:0] = 11b). At this\npoint, the software must release the output mailbox by setting the RFOM bit, so that a\nmailbox is free to store the next valid message. Otherwise the next valid message received\nwill cause a loss of message.\nRefer also to Section24.7.5\nOverrun\nOnce the FIFO is in pending_3 state (i.e. the three mailboxes are full) the next valid\nmessage reception will lead to an overrun and a message will be lost. The hardware\nsignals the overrun condition by setting the FOVR bit in the CAN_RFR register. Which\nmessage is lost depends on the configuration of the FIFO:\n• If the FIFO lock function is disabled (RFLM bit in the CAN_MCR register cleared) the\nlast message stored in the FIFO will be overwritten by the new incoming message. In\nthis case the latest messages will be always available to the application.\n• If the FIFO lock function is enabled (RFLM bit in the CAN_MCR register set) the most\nrecent message will be discarded and the software will have the three oldest messages\nin the FIFO available.\nReception related interrupts\nOnce a message has been stored in the FIFO, the FMP[1:0] bits are updated and an\ninterrupt request is generated if the FMPIE bit in the CAN_IER register is set.\nWhen the FIFO becomes full (i.e. a third message is stored) the FULL bit in the CAN_RFR\nregister is set and an interrupt is generated if the FFIE bit in the CAN_IER register is set.\nOn overrun condition, the FOVR bit is set and an interrupt is generated if the FOVIE bit in\nthe CAN_IER register is set.",
+      "semantic": {}
+    }
+  ]
+}

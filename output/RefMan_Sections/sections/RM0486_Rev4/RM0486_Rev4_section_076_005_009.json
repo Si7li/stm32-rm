@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.5.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.5.9",
+      "section_title": "IPv4 ARP offload",
+      "level": 3,
+      "parent_section": "76.5",
+      "page": 4086,
+      "page_end": 4087,
+      "semantic_type": "generic",
+      "features": [
+        "arp",
+        "dma"
+      ],
+      "chars": 2480,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4086",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.5.9 \"IPv4 ARP offload\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4086.",
+      "section_content": "The MAC supports the Address Recognition Protocol (ARP) Offload for IPv4 packets. This\nfeature allows to process the IPv4 ARP request packet in the receive path and to generate\nthe corresponding ARP response packet in the transmit path.\nThe MAC generates the ARP reply packets for appropriate ARP request packets. ARP\npackets for IPv4 are L2 layer packets with Length/Type of 0x0806.\nThe ARP offloading sequence is as follows:\n1. The MAC receiver gets an ARP request if the request Target Protocol Address matches\nthe IPv4 address programmed in the MAC L3 register.\n2. The MAC generates an ARP reply packet.\n3. The MAC copies the Sender Hardware Address field in the ARP request to the\nfollowing fields:\n– DA field of the Ethernet packet header\n– Target Hardware Address field of the ARP reply packet\n4. The MAC copies the Sender Protocol Address field in the ARP request to the Target\nProtocol Address field in the ARP reply packet.\n5. The MAC places its MAC address in the following fields:\n– SA field of the Ethernet packet header\n– Sender Hardware Address field of the ARP reply packet\n6. The MAC copies the Target Protocol Address field in the ARP request to the Sender\nProtocol Address field in the ARP reply packet.\n7. The MAC sets the opcode field in ARP reply packet to 2 indicating ARP reply.\n8. The MAC recalculates the CRC and performs padding for the generated ARP reply\npacket.\n9. The MAC transmitter sends the ARP reply\nThe MAC processes only one ARP request at a time. It does not store the fields of multiple\nARP requests. If the MAC receives an ARP request when it is already processing an earlier\nARP request, the MAC does not generate the ARP reply for new ARP request. The MAC\nforwards the new ARP request packet to the application with ARP Reply Not Generated\nstatus bit set (bit 34). However, in power-down mode, if the MAC receives an ARP request\nwhen it is already processing an earlier ARP request, the MAC drops the new ARP request.\nIf the Disable CRC check (DCRCC) bit of the Extended operating mode configuration\nregister (ETH_MACECR) is set, then the MAC does not check for valid CRC of a ARP\nrequest packet. It can generate an ARP response packet if the other conditions are valid.\nThe ARP request packet must always have a valid CRC.\nNote: When the received ARP request is less than the 64-byte packet length, the MAC does not\nsend an ARP response. It is treated as a normal packet and forwarded to the application\nbased on the MAC filter settings.",
+      "semantic": {}
+    }
+  ]
+}

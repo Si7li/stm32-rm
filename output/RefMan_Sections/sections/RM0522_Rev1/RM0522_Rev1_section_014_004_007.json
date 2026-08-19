@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.4.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.4.7",
+      "section_title": "LPDMA channel state and linked-list programming",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 395,
+      "page_end": 399,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 4760,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=395",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.7 \"LPDMA channel state and linked-list programming\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 395.",
+      "section_content": "in run-to-completion mode\nWhen LPDMA_CxCR.LSM=0, a LPDMA channel x is initially programmed, started by\nwriting 1 to LPDMA_CxCR.EN, and after (possibly) completed at channel level. The channel\ntransfer is:\n• configured with at least the following:\n– the first LLI0, internal linked-list register file: LPDMA_CxTR1, LPDMA_CxTR2,\nLPDMA_CxBR1, LPDMA_CxSAR, LPDMA_CxDAR and LPDMA_CxLLR\n– the last LLIN, described by the linked-list data structure in memory, as defined by\nthe LPDMA_CxLLR reflecting the before last LLIN-1\n• completed when LPDMA_CxLLR[31:0]=0 and LPDMA_CxBR1.BNDT[15:0]=0, at\nthe end of the last LLIN-1 transfer\nLPDMA_CxLLR[31:0]=0 is the condition of a linked-list based channel completion and\nmeans the following:\n• The 16 low significant bits LPDMA_CxLLR.LA[15:0] of the next link address are null.\n• All the update bits Uxx of LPDMA_CxLLR are null (UT1, UT2, UB1, USA, UDA, ULL).\nThe channel may never be completed when LPDMA_CxLLR.LSM=0:\n• If the last LLIN is recursive, pointing to itself as a next LLI:\n– either LPDMA_CxLLR.ULL=1 and LPDMA_CxLLR.LA[15:2] is updated with the\nsame value\n– or LPDMA_CxLLR.ULL=0\n• If LLIN is pointing to a previous LLI.\nIn the regular data transfer completion at a block level, LPDMA_CxBR1.BNDT[15:0] = 0.\nAlternatively, a block transfer may be early completed by a peripheral (such as an I3C in Rx\nmode), and then BNDT[15:0] is not null (see Section14.4.14 for more details).\nIn the typical run-to-completion mode, the allocation of a LPDMA channel, including its fine\nprogramming, is done once during the LPDMA initialization. In order to have a reserved data\ncommunication link and LPDMA service during run-time, for continuously repeated transfers\n(from/to a peripheral respectively to/from memory or for memory-to-memory transfers). This\nreserved data communication link can consist of a channel, or the channel can be shared\nand a repeated transfer consists of a sequence of LLIs.\nFigure46 depicts the LPDMA channel execution and its registers programming in run-to-\ncompletion mode.\nNote: Figure46 is not intended to illustrate how often a TCEF can be raised, depending on the\nprogrammed value of TCEM[1:0] in LPDMA_CxTR2. It can be raised at (each) block\ncompletion, at (each) 2D block completion, at (each) LLI completion, or only at channel\ncompletion. In run-to-completion mode, whatever is the value of TCEM[1:0], at the channel\ncompletion, the hardware always set TCEF=1 and disables the channel.\nIn Figure46, BNDT?0 is the typical condition for starting the first data transfer. This\ncondition becomes (BNDT?0 and PFREQ = 1) if the peripheral requests a data transfer\nwith early termination (see Section14.3.6).\n[Figure 46. LPDMA channel execution and linked-list programming]\nin run-to-completion mode (LPDMA_CxCR.LSM=0)\nChannel state = Idle\nReconfigure DMA channel\nEnable DMA channel\nChannel state = Active\nValid user\nsetting ? N\nSetting USEF = 1\nBNDT(cid:143)(cid:3)0 ? N Disabling DMA channel\nExecuting once the data\ntransfer from the register file\nNo transfer\nerror ? N\nSetting DTEF = 1\nDisabling DMA channel\nN LLR (cid:143)(cid:3)0 ?\nLoading next LLI\ninto the register file\nNo transfer\nerror ? N\nY Setting ULEF = 1\nDisabling DMA channel\nValid user\nsetting ? N\nSetting USEF = 1\nSetting TCF = 1 Disabling DMA channel\nDisabling DMA channel\nEnd\nRun-time inserting a LLIn via an auxiliary channel, in run-to-completion mode\nThe start of the link transfer of the LLIn-1 (start of the LLIn loading) can be conditioned by the\noccurrence of a trigger, when programming the following fields of the LPDMA_CxTR2 in the\ndata structure of the LLIn-1:\n• TRIGM[1:0]=10 (link transfer triggering mode)\n• TRIGPOL[1:0]=01 or 10 (rising or falling edge)\n• TRIGSEL[5:0] (see Section14.3.7 for the trigger selection details)\nAnother auxiliary channel y can be used to store the channel x LLIn in the memory and to\ngenerate a transfer complete event lpdma_chy_tc. By selecting this event as the input\ntrigger of the link transfer of the LLIn-1 of the channel x, the software can pause the primary\nchannel x after its LLIn-1 data transfer, until it is indeed written the LLIn.\nFigure47 depicts such a dynamic elaboration of a linked-list of a primary channel x, via\nanother auxiliary channel y.\nCaution: This use case is restricted to an application with a LLIn-1 data transfer that does not need a\ntrigger. The triggering mode of this LLIn-1 is used to load the next LLIn.\n[Figure 47. Inserting a LLIn with an auxiliary LPDMA channel y]\nDMA auxiliary channel y\nDMA primary channel x CPU\nExecuting LLIn-2 data transfer\nLoading LLIn-1\n(with DMA_CxTR2: TRIGM[1:0] = 10\nTRIGPOL[1:0] = 01\nTRIGSEL= dma_chy_tc\nand TCEM[1:0] = 01)\nExecuting LLIn-1 data transfer\nLoading new LLIn\nExecuting LLIn data transfer\nLoading LLIn+1",
+      "semantic": {}
+    }
+  ]
+}

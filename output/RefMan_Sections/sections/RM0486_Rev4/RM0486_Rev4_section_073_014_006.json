@@ -1,0 +1,262 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.6",
+      "section_title": "OTG core interrupt register [alternate] (OTG_GINTSTS)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3796,
+      "page_end": 3800,
+      "semantic_type": "register_description",
+      "features": [
+        "cidschg",
+        "cmod",
+        "datafsusp",
+        "discint",
+        "enumdne",
+        "eopf",
+        "esusp",
+        "ginakeff",
+        "gonakeff",
+        "hcint",
+        "hprtint",
+        "iepint",
+        "iisoixfr",
+        "interrupt",
+        "ipxfr",
+        "isoodrp",
+        "lpmint",
+        "mmis",
+        "nptxfe",
+        "oepint",
+        "otg",
+        "otg-gintsts",
+        "otgint",
+        "ptxfe",
+        "rstdet",
+        "rxflvl",
+        "sof",
+        "srqint",
+        "usbrst",
+        "usbsusp",
+        "wkupint"
+      ],
+      "chars": 11315,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3796",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.6 \"OTG core interrupt register [alternate] (OTG_GINTSTS)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3796.",
+      "section_content": "Valid for Host mode, see next section for Device mode.\nThis register also indicates the current mode. To clear the interrupt status bits of the rc_w1\ntype, the application must write 1 into the bit.\nThis register interrupts the application for system-level events in the current mode (device\nmode or host mode).\nThe FIFO status interrupts are read-only; once software reads from or writes to the FIFO\nwhile servicing these interrupts, FIFO interrupt conditions are cleared automatically.\nThe application must clear the OTG_GINTSTS register at initialization before unmasking\nthe interrupt bit to avoid any interrupts generated prior to initialization.\nAddress offset: 0x014\nReset value: 0x04000020\nBit 31 WKUPINT: Resume/remote wake-up detected interrupt\nWake-up interrupt during suspend(L2) or LPM(L1) state.\n– During suspend(L2):\nIn device mode, this interrupt is asserted when a resume is detected on the USB. In host\nmode, this interrupt is asserted when a remote wake-up is detected on the USB.\n– During LPM(L1):\nThis interrupt is asserted for either host initiated resume or device initiated remote wake-up\non USB.\nNote: Accessible in both device and host modes.\nBit 30 SRQINT: Session request/new session detected interrupt\nIn host mode, this interrupt is asserted when a session request is detected from the device.\nIn device mode, this interrupt is asserted when VBUS is in the valid range for a B-peripheral\ndevice. Accessible in both device and host modes.\nBit 29 DISCINT: Disconnect detected interrupt\nAsserted when a device disconnect is detected.\nNote: Only accessible in host mode.\nBit 28 CIDSCHG: Connector ID status change\nThe core sets this bit when there is a change in connector ID status.\nNote: Accessible in both device and host modes.\nBit 27 LPMINT: LPM interrupt\nIn device mode, this interrupt is asserted when the device receives an LPM transaction and\nresponds with a non-ERRORed response.\nIn host mode, this interrupt is asserted when the device responds to an LPM transaction with\na non-ERRORed response or when the host core has completed LPM transactions for the\nprogrammed number of times (RETRYCNT bit in OTG_GLPMCFG).\nThis field is valid only if the LPMEN bit in OTG_GLPMCFG is set to 1.\nBit 26 PTXFE: Periodic Tx FIFO empty\nAsserted when the periodic transmit FIFO is either half or completely empty and there is\nspace for at least one entry to be written in the periodic request queue. The half or completely\nempty status is determined by the periodic Tx FIFO empty level bit in the OTG_GAHBCFG\nregister (PTXFELVL bit in OTG_GAHBCFG).\nNote: Only accessible in host mode.\nBit 25 HCINT: Host channels interrupt\nThe core sets this bit to indicate that an interrupt is pending on one of the channels of the\ncore (in host mode). The application must read the OTG_HAINT register to determine the\nexact number of the channel on which the interrupt occurred, and then read the\ncorresponding OTG_HCINTx register to determine the exact cause of the interrupt. The\napplication must clear the appropriate status bit in the OTG_HCINTx register to clear this bit.\nNote: Only accessible in host mode.\nBit 24 HPRTINT: Host port interrupt\nThe core sets this bit to indicate a change in port status of one of the OTG controller ports in\nhost mode. The application must read the OTG_HPRT register to determine the exact event\nthat caused this interrupt. The application must clear the appropriate status bit in the\nOTG_HPRT register to clear this bit.\nNote: Only accessible in host mode.\nBit 23 RSTDET: Reset detected interrupt\nIn device mode, this interrupt is asserted when a reset is detected on the USB in partial\npower-down mode when the device is in suspend.\nNote: Only accessible in device mode.\nBit 22 DATAFSUSP: Data fetch suspended\nThis interrupt is valid only in DMA mode. This interrupt indicates that the core has stopped\nfetching data for IN endpoints due to the unavailability of TxFIFO space or request queue\nspace. This interrupt is used by the application for an endpoint mismatch algorithm. For\nexample, after detecting an endpoint mismatch, the application:\n– Sets a global nonperiodic IN NAK handshake\n– Disables IN endpoints\n– Flushes the FIFO\n– Determines the token sequence from the IN token sequence learning queue\n– Re-enables the endpoints\nClears the global nonperiodic IN NAK handshake If the global nonperiodic IN NAK is cleared,\nthe core has not yet fetched data for the IN endpoint, and the IN token is received: the core\ngenerates an “IN token received when FIFO empty” interrupt. The OTG then sends a NAK\nresponse to the host. To avoid this scenario, the application can check the FetSusp interrupt\nin OTG_GINTSTS, which ensures that the FIFO is full before clearing a global NAK\nhandshake. Alternatively, the application can mask the “IN token received when FIFO empty”\ninterrupt when clearing a global IN NAK handshake.\nBit 21 IPXFR: Incomplete periodic transfer\nIn host mode, the core sets this interrupt bit when there are incomplete periodic transactions\nstill pending, which are scheduled for the current frame.\nBit 20 IISOIXFR: Incomplete isochronous IN transfer\nThe core sets this interrupt to indicate that there is at least one isochronous IN endpoint on\nwhich the transfer is not completed in the current frame. This interrupt is asserted along with\nthe End of periodic frame interrupt (EOPF) bit in this register.\nNote: Only accessible in device mode.\nBit 19 OEPINT: OUT endpoint interrupt\nThe core sets this bit to indicate that an interrupt is pending on one of the OUT endpoints of\nthe core (in device mode). The application must read the OTG_DAINT register to determine\nthe exact number of the OUT endpoint on which the interrupt occurred, and then read the\ncorresponding OTG_DOEPINTx register to determine the exact cause of the interrupt. The\napplication must clear the appropriate status bit in the corresponding OTG_DOEPINTx\nregister to clear this bit.\nNote: Only accessible in device mode.\nBit 18 IEPINT: IN endpoint interrupt\nThe core sets this bit to indicate that an interrupt is pending on one of the IN endpoints of the\ncore (in device mode). The application must read the OTG_DAINT register to determine the\nexact number of the IN endpoint on which the interrupt occurred, and then read the\ncorresponding OTG_DIEPINTx register to determine the exact cause of the interrupt. The\napplication must clear the appropriate status bit in the corresponding OTG_DIEPINTx\nregister to clear this bit.\nNote: Only accessible in device mode.\nBits 17:16 Reserved, must be kept at reset value.\nBit 15 EOPF: End of periodic frame interrupt\nIndicates that the period specified in the periodic frame interval field of the OTG_DCFG\nregister (PFIVL bit in OTG_DCFG) has been reached in the current frame.\nNote: Only accessible in device mode.\nBit 14 ISOODRP: Isochronous OUT packet dropped interrupt\nThe core sets this bit when it fails to write an isochronous OUT packet into the Rx FIFO\nbecause the Rx FIFO does not have enough space to accommodate a maximum size packet\nfor the isochronous OUT endpoint.\nNote: Only accessible in device mode.\nBit 13 ENUMDNE: Enumeration done\nThe core sets this bit to indicate that speed enumeration is complete. The application must\nread the OTG_DSTS register to obtain the enumerated speed.\nNote: Only accessible in device mode.\nBit 12 USBRST: USB reset\nThe core sets this bit to indicate that a reset is detected on the USB.\nNote: Only accessible in device mode.\nBit 11 USBSUSP: USB suspend\nThe core sets this bit to indicate that a suspend was detected on the USB. The core enters\nthe suspended state when there is no activity on the data lines for an extended period of\ntime.\nNote: Only accessible in device mode.\nBit 10 ESUSP: Early suspend\nThe core sets this bit to indicate that an Idle state has been detected on the USB for 3 ms.\nNote: Only accessible in device mode.\nBits 9:8 Reserved, must be kept at reset value.\nBit 7 GONAKEFF: Global OUT NAK effective\nIndicates that the Set global OUT NAK bit in the OTG_DCTL register (SGONAK bit in\nOTG_DCTL), set by the application, has taken effect in the core. This bit can be cleared by\nwriting the Clear global OUT NAK bit in the OTG_DCTL register (CGONAK bit in\nOTG_DCTL).\nNote: Only accessible in device mode.\nBit 6 GINAKEFF: Global IN non-periodic NAK effective\nIndicates that the Set global non-periodic IN NAK bit in the OTG_DCTL register (SGINAK bit\nin OTG_DCTL), set by the application, has taken effect in the core. That is, the core has\nsampled the Global IN NAK bit set by the application. This bit can be cleared by clearing the\nClear global non-periodic IN NAK bit in the OTG_DCTL register (CGINAK bit in OTG_DCTL).\nThis interrupt does not necessarily mean that a NAK handshake is sent out on the USB. The\nSTALL bit takes precedence over the NAK bit.\nNote: Only accessible in device mode.\nBit 5 NPTXFE: Non-periodic Tx FIFO empty\nThis interrupt is asserted when the non-periodic Tx FIFO is either half or completely empty,\nand there is space for at least one entry to be written to the non-periodic transmit request\nqueue. The half or completely empty status is determined by the non-periodic Tx FIFO empty\nlevel bit in the OTG_GAHBCFG register (TXFELVL bit in OTG_GAHBCFG).\nNote: Accessible in host mode only.\nBit 4 RXFLVL: Rx FIFO non-empty\nIndicates that there is at least one packet pending to be read from the Rx FIFO.\nNote: Accessible in both host and device modes.\nBit 3 SOF: Start of frame\nIn host mode, the core sets this bit to indicate that an SOF (FS), or Keep-Alive (LS) is\ntransmitted on the USB. The application must write a 1 to this bit to clear the interrupt.\nIn device mode, in the core sets this bit to indicate that an SOF token has been received on\nthe USB. The application can read the OTG_DSTS register to get the current frame number.\nThis interrupt is seen only when the core is operating in FS.\nNote: This register may return '1' if read immediately after power on reset. If the register bit\nreads '1' immediately after power on reset it does not indicate that an SOF has been\nsent (in case of host mode) or SOF has been received (in case of device mode). The\nread value of this interrupt is valid only after a valid connection between host and device\nis established. If the bit is set after power on reset the application can clear the bit.\nNote: Accessible in both host and device modes.\nBit 2 OTGINT: OTG interrupt\nThe core sets this bit to indicate an OTG protocol event. The application must read the OTG\ninterrupt status (OTG_GOTGINT) register to determine the exact event that caused this\ninterrupt. The application must clear the appropriate status bit in the OTG_GOTGINT register\nto clear this bit.\nNote: Accessible in both host and device modes.\nBit 1 MMIS: Mode mismatch interrupt\nThe core sets this bit when the application is trying to access:\n– A host mode register, when the core is operating in device mode\n– A device mode register, when the core is operating in host mode\nThe register access is completed on the AHB with an OKAY response, but is ignored by the\ncore internally and does not affect the operation of the core.\nNote: Accessible in both host and device modes.\nBit 0 CMOD: Current mode of operation\nIndicates the current mode.\n0: Device mode\n1: Host mode\nNote: Accessible in both host and device modes.",
+      "semantic": {
+        "register": "OTG_GINTSTS",
+        "address_offset": "0x014",
+        "reset_value": "0x04000020",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "WKUPINT",
+            "description": "Resume/remote wake-up detected interrupt Wake-up interrupt during suspend(L2) or LPM(L1) state. – During suspend(L2): In device mode, this interrupt is asserted when a resume is detected on the USB. In host mode, this interrupt is asserted when a remote wake-up is detected on the USB. – During LPM(L1): This interrupt is asserted for either host initiated resume or device initiated remote wake-up on USB. Note: Accessible in both device and host modes.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "SRQINT",
+            "description": "Session request/new session detected interrupt In host mode, this interrupt is asserted when a session request is detected from the device. In device mode, this interrupt is asserted when VBUS is in the valid range for a B-peripheral device. Accessible in both device and host modes.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "DISCINT",
+            "description": "Disconnect detected interrupt Asserted when a device disconnect is detected. Note: Only accessible in host mode.",
+            "values": []
+          },
+          {
+            "bits": "28",
+            "name": "CIDSCHG",
+            "description": "Connector ID status change The core sets this bit when there is a change in connector ID status. Note: Accessible in both device and host modes.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "LPMINT",
+            "description": "LPM interrupt In device mode, this interrupt is asserted when the device receives an LPM transaction and responds with a non-ERRORed response. In host mode, this interrupt is asserted when the device responds to an LPM transaction with a non-ERRORed response or when the host core has completed LPM transactions for the programmed number of times (RETRYCNT bit in OTG_GLPMCFG). This field is valid only if the LPMEN bit in OTG_GLPMCFG is set to 1.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "PTXFE",
+            "description": "Periodic Tx FIFO empty Asserted when the periodic transmit FIFO is either half or completely empty and there is space for at least one entry to be written in the periodic request queue. The half or completely empty status is determined by the periodic Tx FIFO empty level bit in the OTG_GAHBCFG register (PTXFELVL bit in OTG_GAHBCFG). Note: Only accessible in host mode.",
+            "values": []
+          },
+          {
+            "bits": "25",
+            "name": "HCINT",
+            "description": "Host channels interrupt The core sets this bit to indicate that an interrupt is pending on one of the channels of the core (in host mode). The application must read the OTG_HAINT register to determine the exact number of the channel on which the interrupt occurred, and then read the corresponding OTG_HCINTx register to determine the exact cause of the interrupt. The application must clear the appropriate status bit in the OTG_HCINTx register to clear this bit. Note: Only accessible in host mode.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "HPRTINT",
+            "description": "Host port interrupt The core sets this bit to indicate a change in port status of one of the OTG controller ports in host mode. The application must read the OTG_HPRT register to determine the exact event that caused this interrupt. The application must clear the appropriate status bit in the OTG_HPRT register to clear this bit. Note: Only accessible in host mode.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "RSTDET",
+            "description": "Reset detected interrupt In device mode, this interrupt is asserted when a reset is detected on the USB in partial power-down mode when the device is in suspend. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "DATAFSUSP",
+            "description": "Data fetch suspended This interrupt is valid only in DMA mode. This interrupt indicates that the core has stopped fetching data for IN endpoints due to the unavailability of TxFIFO space or request queue space. This interrupt is used by the application for an endpoint mismatch algorithm. For example, after detecting an endpoint mismatch, the application: – Sets a global nonperiodic IN NAK handshake – Disables IN endpoints – Flushes the FIFO – Determines the token sequence from the IN token sequence learning queue – Re-enables the endpoints Clears the global nonperiodic IN NAK handshake If the global nonperiodic IN NAK is cleared, the core has not yet fetched data for the IN endpoint, and the IN token is received: the core generates an “IN token received when FIFO empty” interrupt. The OTG then sends a NAK response to the host. To avoid this scenario, the application can check the FetSusp interrupt in OTG_GINTSTS, which ensures that the FIFO is full before clearing a global NAK handshake. Alternatively, the application can mask the “IN token received when FIFO empty” interrupt when clearing a global IN NAK handshake.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "IPXFR",
+            "description": "Incomplete periodic transfer In host mode, the core sets this interrupt bit when there are incomplete periodic transactions still pending, which are scheduled for the current frame.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "IISOIXFR",
+            "description": "Incomplete isochronous IN transfer The core sets this interrupt to indicate that there is at least one isochronous IN endpoint on which the transfer is not completed in the current frame. This interrupt is asserted along with the End of periodic frame interrupt (EOPF) bit in this register. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "OEPINT",
+            "description": "OUT endpoint interrupt The core sets this bit to indicate that an interrupt is pending on one of the OUT endpoints of the core (in device mode). The application must read the OTG_DAINT register to determine the exact number of the OUT endpoint on which the interrupt occurred, and then read the corresponding OTG_DOEPINTx register to determine the exact cause of the interrupt. The application must clear the appropriate status bit in the corresponding OTG_DOEPINTx register to clear this bit. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "IEPINT",
+            "description": "IN endpoint interrupt The core sets this bit to indicate that an interrupt is pending on one of the IN endpoints of the core (in device mode). The application must read the OTG_DAINT register to determine the exact number of the IN endpoint on which the interrupt occurred, and then read the corresponding OTG_DIEPINTx register to determine the exact cause of the interrupt. The application must clear the appropriate status bit in the corresponding OTG_DIEPINTx register to clear this bit. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "17:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "EOPF",
+            "description": "End of periodic frame interrupt Indicates that the period specified in the periodic frame interval field of the OTG_DCFG register (PFIVL bit in OTG_DCFG) has been reached in the current frame. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "ISOODRP",
+            "description": "Isochronous OUT packet dropped interrupt The core sets this bit when it fails to write an isochronous OUT packet into the Rx FIFO because the Rx FIFO does not have enough space to accommodate a maximum size packet for the isochronous OUT endpoint. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "ENUMDNE",
+            "description": "Enumeration done The core sets this bit to indicate that speed enumeration is complete. The application must read the OTG_DSTS register to obtain the enumerated speed. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "USBRST",
+            "description": "USB reset The core sets this bit to indicate that a reset is detected on the USB. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "USBSUSP",
+            "description": "USB suspend The core sets this bit to indicate that a suspend was detected on the USB. The core enters the suspended state when there is no activity on the data lines for an extended period of time. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "ESUSP",
+            "description": "Early suspend The core sets this bit to indicate that an Idle state has been detected on the USB for 3 ms. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "GONAKEFF",
+            "description": "Global OUT NAK effective Indicates that the Set global OUT NAK bit in the OTG_DCTL register (SGONAK bit in OTG_DCTL), set by the application, has taken effect in the core. This bit can be cleared by writing the Clear global OUT NAK bit in the OTG_DCTL register (CGONAK bit in OTG_DCTL). Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "GINAKEFF",
+            "description": "Global IN non-periodic NAK effective Indicates that the Set global non-periodic IN NAK bit in the OTG_DCTL register (SGINAK bit in OTG_DCTL), set by the application, has taken effect in the core. That is, the core has sampled the Global IN NAK bit set by the application. This bit can be cleared by clearing the Clear global non-periodic IN NAK bit in the OTG_DCTL register (CGINAK bit in OTG_DCTL). This interrupt does not necessarily mean that a NAK handshake is sent out on the USB. The STALL bit takes precedence over the NAK bit. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "NPTXFE",
+            "description": "Non-periodic Tx FIFO empty This interrupt is asserted when the non-periodic Tx FIFO is either half or completely empty, and there is space for at least one entry to be written to the non-periodic transmit request queue. The half or completely empty status is determined by the non-periodic Tx FIFO empty level bit in the OTG_GAHBCFG register (TXFELVL bit in OTG_GAHBCFG). Note: Accessible in host mode only.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "RXFLVL",
+            "description": "Rx FIFO non-empty Indicates that there is at least one packet pending to be read from the Rx FIFO. Note: Accessible in both host and device modes.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "SOF",
+            "description": "Start of frame In host mode, the core sets this bit to indicate that an SOF (FS), or Keep-Alive (LS) is transmitted on the USB. The application must write a 1 to this bit to clear the interrupt. In device mode, in the core sets this bit to indicate that an SOF token has been received on the USB. The application can read the OTG_DSTS register to get the current frame number. This interrupt is seen only when the core is operating in FS. Note: This register may return '1' if read immediately after power on reset. If the register bit reads '1' immediately after power on reset it does not indicate that an SOF has been sent (in case of host mode) or SOF has been received (in case of device mode). The read value of this interrupt is valid only after a valid connection between host and device is established. If the bit is set after power on reset the application can clear the bit. Note: Accessible in both host and device modes.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "OTGINT",
+            "description": "OTG interrupt The core sets this bit to indicate an OTG protocol event. The application must read the OTG interrupt status (OTG_GOTGINT) register to determine the exact event that caused this interrupt. The application must clear the appropriate status bit in the OTG_GOTGINT register to clear this bit. Note: Accessible in both host and device modes.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "MMIS",
+            "description": "Mode mismatch interrupt The core sets this bit when the application is trying to access: – A host mode register, when the core is operating in device mode – A device mode register, when the core is operating in host mode The register access is completed on the AHB with an OKAY response, but is ignored by the core internally and does not affect the operation of the core. Note: Accessible in both host and device modes.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "CMOD",
+            "description": "Current mode of operation Indicates the current mode. Note: Accessible in both host and device modes.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Device mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Host mode"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

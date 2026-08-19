@@ -1,0 +1,71 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.8.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.8.16",
+      "section_title": "GPDMA channel x transfer register 3 (GPDMA_CxTR3)",
+      "level": 3,
+      "parent_section": "19.8",
+      "page": 1003,
+      "page_end": 1003,
+      "semantic_type": "register_description",
+      "features": [
+        "dao",
+        "dma",
+        "gpdma",
+        "memory",
+        "sao"
+      ],
+      "chars": 2362,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1003",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.8.16 \"GPDMA channel x transfer register 3 (GPDMA_CxTR3)\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 1003.",
+      "section_content": "Address offset: 0xA4 + 0x80 * x (x = 12 to 15)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of channel x (GPDMA_PRIVCFGR.PRIVx).\nThis register controls the transfer of a channel x.\nThis register must be written when GPDMA_CxCR.EN = 0.\nThis register is read-only when GPDMA_CxCR.EN = 1.\nThis register must be written when the channel is completed (then the hardware has\ndeasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block or LLI or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by the\nGPDMA from the memory if GPDMA_CxLLR.UT3 = 1.\nBits 31:29 Reserved, must be kept at reset value.\nBits 28:16 DAO[12:0]: destination address offset increment\nThe destination address, pointed by GPDMA_CxDAR, is incremented or decremented\n(depending on GPDMA_CxBR1.DDEC) by this offset DAO[12:0] for each programmed\ndestination burst. This offset is not including and is added to the programmed burst size\nwhen the completed burst is addressed in incremented mode (GPDMA_CxTR1.DINC = 1).\nNote: A destination address offset must be aligned with the programmed data width of a\ndestination burst (DAO[2:0] versus GPDMA_CxTR1.DDW_LOG2[1:0]). Else, a user\nsetting error is reported and no transfer is issued.\nBits 15:13 Reserved, must be kept at reset value.\nBits 12:0 SAO[12:0]: source address offset increment\nThe source address, pointed by GPDMA_CxSAR, is incremented or decremented\n(depending on GPDMA_CxBR1.SDEC) by this offset SAO[12:0] for each programmed\nsource burst. This offset is not including and is added to the programmed burst size when the\ncompleted burst is addressed in incremented mode (GPDMA_CxTR1.SINC = 1).\nNote: A source address offset must be aligned with the programmed data width of a source\nburst (SAO[2:0] versus GPDMA_CxTR1.SDW_LOG2[1:0]). Else a user setting error is\nreported and none transfer is issued.\nWhen the source block size is not a multiple of the destination burst size, and\nis a multiple of the source data width, then the last programmed source burst is not\ncompleted and is internally shorten to match the block size. In this case, the additional\nGPDMA_CxTR3.SAO[12:0] is not applied.",
+      "semantic": {
+        "register": "GPDMA_CxTR3",
+        "address_offset": "0xA4 + 0x80 * x (x = 12 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:29",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "28:16",
+            "name": "DAO[12:0]",
+            "description": "destination address offset increment The destination address, pointed by GPDMA_CxDAR, is incremented or decremented (depending on GPDMA_CxBR1.DDEC) by this offset DAO[12:0] for each programmed destination burst. This offset is not including and is added to the programmed burst size when the completed burst is addressed in incremented mode (GPDMA_CxTR1.DINC = 1). Note: A destination address offset must be aligned with the programmed data width of a destination burst (DAO[2:0] versus GPDMA_CxTR1.DDW_LOG2[1:0]). Else, a user setting error is reported and no transfer is issued.",
+            "values": []
+          },
+          {
+            "bits": "15:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12:0",
+            "name": "SAO[12:0]",
+            "description": "source address offset increment The source address, pointed by GPDMA_CxSAR, is incremented or decremented (depending on GPDMA_CxBR1.SDEC) by this offset SAO[12:0] for each programmed source burst. This offset is not including and is added to the programmed burst size when the completed burst is addressed in incremented mode (GPDMA_CxTR1.SINC = 1). Note: A source address offset must be aligned with the programmed data width of a source burst (SAO[2:0] versus GPDMA_CxTR1.SDW_LOG2[1:0]). Else a user setting error is reported and none transfer is issued. When the source block size is not a multiple of the destination burst size, and is a multiple of the source data width, then the last programmed source burst is not completed and is internally shorten to match the block size. In this case, the additional GPDMA_CxTR3.SAO[12:0] is not applied.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

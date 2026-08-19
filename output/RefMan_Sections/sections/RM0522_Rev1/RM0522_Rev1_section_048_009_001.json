@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S48.9.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "48",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "48.9.1",
+      "section_title": "DMA initialization",
+      "level": 3,
+      "parent_section": "48.9",
+      "page": 2234,
+      "page_end": 2234,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 2291,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2234",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.9.1 \"DMA initialization\" in chapter 48 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0522 Rev 1, page 2234.",
+      "section_content": "Complete the following steps to initialize the DMA:\n1. Provide a software reset to reset all MAC internal registers and logic (bit 0 of DMA\nmode register (ETH_DMAMR)).\n2. Wait for the completion of the reset process (poll bit 0 of the DMA mode register\n(ETH_DMAMR), which is cleared when the reset operation is completed).\n3. Program the following fields to initialize the System bus mode register\n(ETH_DMASBMR):\na) AAL\nb) Fixed burst or undefined burst\nc) Burst mode values in case of AHB bus interface.\n4. Create a transmit and a receive descriptor list. In addition, ensure that the receive\ndescriptors are owned by the DMA (set bit 31 of TDES3/RDES3 descriptor). For more\ninformation on descriptors, refer to Section48.10: Descriptors.\nNote: Descriptor address from start to end of the ring should not cross the 4GB boundary.\n5. Program ETH_DMAC0TXRLR and ETH_DMAC0RXRLR registers (see Channel 0 Tx\ndescriptor ring length register (ETH_DMAC0TXRLR) and Channel 0 Rx descriptor ring\nlength register (ETH_DMAC0RXRLR)). The programmed ring length must be at least\n4.\n6. Initialize receive and transmit descriptor list address with the base address of transmit\nand receive descriptor (Channel 0 Tx descriptor list address register\n(ETH_DMAC0TXDLAR), Channel 0 Rx descriptor list address register\n(ETH_DMAC0RXDLAR)). In addition, program the transmit and receive tail pointer\nregisters that inform the DMA about the available descriptors (see Channel 0 Tx\ndescriptor tail pointer register (ETH_DMAC0TXDTPR) and Channel 0 Rx descriptor tail\npointer register (ETH_DMAC0RXDTPR)).\n7. Program ETH_DMAC0CR, ETH_DMAC0TXCR and ETH_DMAC0RXCR registers (see\nChannel 0 control register (ETH_DMAC0CR), Channel 0 transmit control register\n(ETH_DMAC0TXCR) and Channel 0 receive control register (ETH_DMAC0RXCR)) to\nconfigure the parameters such as the maximum burst-length (PBL) initiated by the\nDMA, descriptor skip lengths, OSP for TxDMA, RBSZ[13:0] for RxDMA, and so on.\n8. Enable the interrupts by programming the ETH_DMAC0IER register (see Channel 0\ninterrupt enable register (ETH_DMAC0IER)).\n9. Start the receive and transmit DMAs by setting SR (bit 0) of Channel 0 receive control\nregister (ETH_DMAC0RXCR) and ST (bit 0) of the ETH_DMAC0TXCR (see Channel 0\ntransmit control register (ETH_DMAC0TXCR)).",
+      "semantic": {}
+    }
+  ]
+}

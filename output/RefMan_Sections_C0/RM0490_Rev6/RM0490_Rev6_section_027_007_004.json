@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.7.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.7.4",
+      "section_title": "Clock generator",
+      "level": 3,
+      "parent_section": "27.7",
+      "page": 867,
+      "page_end": 869,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "spi"
+      ],
+      "chars": 3051,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=867",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.7.4 \"Clock generator\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 867.",
+      "section_content": "The I2S bit rate determines the data flow on the I2S data line and the I2S clock signal\nfrequency.\nI2S bit rate = number of bits per channel × number of channels × sampling audio frequency\nFor a 16-bit audio, left and right channel, the I2S bit rate is calculated as follows:\nI2S bit rate = 16 × 2 × fS\nIt is: I2S bit rate = 32 x 2 x fS if the packet length is 32-bit wide.\n[Figure 314. Audio sampling frequency definition]\nWhen the master mode is configured, a specific action needs to be taken to properly\nprogram the linear divider in order to communicate with the desired audio frequency.\n[Figure 315. I2S clock generator architecture]\n1. Where x can be 2 or 3.\nFigure315 presents the communication clock architecture. The I2SxCLK clock is provided\nby the reset and clock controller (RCC) of the product. The I2SxCLK clock can be\nasynchronous with respect to the SPI/I2S APB clock.\nWarning: In addition, it is mandatory to keep the I2SxCLK frequency\nhigher or equal to the APB clock used by the SPI/I2S block. If\nthis condition is not respected the SPI/I2S does not work\nproperly.\nThe audio sampling frequency may be 192kHz, 96 kHz, 48 kHz, 44.1 kHz, 32 kHz,\n22.05kHz, 16kHz, 11.025 kHz or 8 kHz (or any other value within this range).\nIn order to reach the desired frequency, the linear divider needs to be programmed\naccording to the formulas below:\nFor I2S modes:\nWhen the master clock is generated (MCKOE in the SPIx_I2SPR register is set):\n--------×- F ----- I -\n- 2 --\n-- S ---\n- x --- C --\n--- L ---\n- K --\nFs=\n-----\n----\n-------×--------(---(---\n------)-----\n------\n-------\n------\n-------)--\n2\n5\n6\n2\n2\nWhen the master clock is disabled (MCKOE bit cleared):\n------) F -----× I -- 2 ---- S -(--- x -(--- C\n----- L ---× K -------\nFs=\n-----\n------×--------(---\n-------\n------\n-----\n------\n-------\n-------\n---\n-----\n------\n------\n---\n------)-----\n------\n-------\n------\n-------)--\n3\n2\n1\n2\n2\nCHLEN = 0 when the channel frame is 16-bit wide and,\nCHLEN = 1 when the channel frame is 32-bit wide.\nFor PCM modes:\nWhen the master clock is generated (MCKOE in the SPIx_I2SPR register is set):\n--------×- F ----- I -\n- 2 --\n-- S ---\n- x --- C --\n--- L ---\n- K --\nFs=\n-----\n----\n-------×--------(---(---\n------)-----\n------\n-------\n------\n-------)--\n1\n2\n8\n2\n2\nWhen the master clock is disabled (MCKOE bit cleared):\n------) F -----× I -- 2 ---- S -(--- x -(--- C\n----- L ---× K -------\nFs=\n-----\n------×--------(---\n-------\n------\n-----\n------\n-------\n-------\n---\n-----\n------\n------\n---\n------)-----\n------\n-------\n------\n-------)--\n1\n6\n1\n2\n2\nCHLEN = 0 when the channel frame is 16-bit wide and,\nCHLEN = 1 when the channel frame is 32-bit wide.\nWhere FS is the audio sampling frequency, and FI2SxCLKis the frequency of the kernel clock\nprovided to the SPI/I2S block.\nNote: I2SDIV must be strictly higher than 1.\nThe following table provides example precision values for different clock configurations.\nNote: Other configurations are possible that allow optimum clock precision.\n[Table 137. Audio-frequency precision using 48MHz clock derived from HSE(1)]",
+      "semantic": {}
+    }
+  ]
+}

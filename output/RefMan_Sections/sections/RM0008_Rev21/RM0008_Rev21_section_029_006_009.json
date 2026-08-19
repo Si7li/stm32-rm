@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S29.6.9",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "29",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "29.6.9",
+      "section_title": "DMA interrupts",
+      "level": 3,
+      "parent_section": "29.6",
+      "page": 1030,
+      "page_end": 1031,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "interrupt"
+      ],
+      "chars": 1706,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1030",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.6.9 \"DMA interrupts\" in chapter 29 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0008 Rev 21, page 1030.",
+      "section_content": "Interrupts can be generated as a result of various events. The ETH_DMASR register\ncontains all the bits that might cause an interrupt. The ETH_DMAIER register contains an\nenable bit for each of the events that can cause an interrupt.\nThere are two groups of interrupts, Normal and Abnormal, as described in the ETH_DMASR\nregister. Interrupts are cleared by writing a 1 to the corresponding bit position. When all the\nenabled interrupts within a group are cleared, the corresponding summary bit is cleared. If\nthe MAC core is the cause for assertion of the interrupt, then any of the TSTS or PMTS bits\nin the ETH_DMASR register is set high.\nInterrupts are not queued and if the interrupt event occurs before the driver has responded\nto it, no additional interrupts are generated. For example, the Receive Interrupt bit\n(ETH_DMASR register [6]) indicates that one or more frames were transferred to the\nSTM32F107xx buffer. The driver must scan all descriptors, from the last recorded position to\nthe first one owned by the DMA.\nAn interrupt is generated only once for simultaneous, multiple events. The driver must scan\nthe ETH_DMASR register for the cause of the interrupt. The interrupt is not generated again\nunless a new interrupting event occurs, after the driver has cleared the appropriate bit in the\nETH_DMASR register. For example, the controller generates a Receive interrupt\n(ETH_DMASR register[6]) and the driver begins reading the ETH_DMASR register. Next,\nreceive buffer unavailable (ETH_DMASR register[7]) occurs. The driver clears the Receive\ninterrupt. Even then, a new interrupt is generated, due to the active or pending Receive\nbuffer unavailable interrupt.\n[Figure 359. Interrupt scheme]",
+      "semantic": {}
+    }
+  ]
+}

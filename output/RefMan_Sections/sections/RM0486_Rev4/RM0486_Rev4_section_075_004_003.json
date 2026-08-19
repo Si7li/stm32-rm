@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S75.4.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "75",
+      "chapter_title": "USB Type-C®/USB Power Delivery interface (UCPD)",
+      "section": "75.4.3",
+      "section_title": "Physical layer protocol",
+      "level": 3,
+      "parent_section": "75.4",
+      "page": 3939,
+      "page_end": 3946,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 5634,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3939",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 75.4.3 \"Physical layer protocol\" in chapter 75 (USB Type-C®/USB Power Delivery interface (UCPD)), RM0486 Rev 4, page 3939.",
+      "section_content": "The physical layer covers the signaling underlying the USB Power Delivery specification.\nOn the transmitter side its main function is to form packets according to the defined packet\nformat including generally:\n• preamble\n• start of packet (SOP, ordered set)\n• payload header\n• payload data\n• cyclic redundancy check (CRC) information\n• end of packet (EOP)\nBefore going on the CC line, the data stream is BMC-encoded, respecting specified timing\nrestrictions.\nOn the receive side, the principle task is to:\n• extract start of packet (SOP, ordered set) information\n• extract payload header\n• extract payload data\n• receive and check CRC\n• receive end of packet (EOP)\nThe receive is basically a reverse of the transmit process, thus starting with BMC data\nstream decoding.\nSymbol encoding\nApart from the preamble all symbols are encoded with a 4b5b scheme according to the\nspecification shown in the following table.\n[Table 753. 4b5b symbol encoding table]\nOrdered sets\nAn ordered set consists of four K-codes as shown in the following figure.\n[Figure 1011. K-code transmission]\nTransmit last Transmit first\nK-code 4 K-code 3 K-code 2 K-code 1\nb4 b0\nBit 4 Bit 3 Bit 2 Bit 1 Bit 0\nTransmit last Transmit first\nThe following table lists the defined ordered sets, including all possible SOP* sequences.\nAt the physical layer, the Hard Reset has higher priority than the other ordered sets so it can\ninterrupt an ongoing Tx message.\n[Table 754. Ordered sets]\nOn reception, the physical layer must accept ordered sets with any combination of three\ncorrect K-codes out of four, as shown in the following table:\n[Table 755. Validation of ordered sets]\nBit ordering at transmission\nAllowed transmission data units / data sizes are in the following table.\n[Table 756. Data size]\nThe bit transmission order is shown in the following figure.\n[Figure 1012. Transmit order for various sizes of data]\nPacket format\nMessages other than Hard Reset and Cable Reset\nThe packet format is shown in the following figure, with information on 4b5b encode and\ndata source.\n[Figure 1013. Packet format]\nHard Reset\nThe physical layer handles the Hard Reset signaling differently than the other types of\nmessage as it has higher priority to be able to interrupt an ongoing transfer.\nThe physical layer specification implies the following sequence in the case of an ongoing Tx\nmessage:\n1. Terminate the message by sending an EOP K-code and discard the rest of the\nmessage.\n2. Wait for tInterFrameGap time.\n3. If the CC line is not idle, wait until it goes idle.\n4. Send the preamble followed by the four K-codes of Hard Reset signaling.\n5. Disable the CC channel (stop sending and receiving), reset the physical layer and\ninform the protocol layer that the physical layer is reset.\n6. Re-enable the channel when requested by the protocol layer.\n[Figure 1014. Line format of Hard Reset]\nCable Reset\nCable Reset shown in the following figure is similar in format to Hard Reset, but unlike Hard\nReset it does not require a specific high-priority treatment.\n[Figure 1015. Line format of Cable Reset]\nCollision avoidance\nThe physical layer respects the tInterFrameGap delay between end of last-transmitted bit of\na Tx message, and the first bit of a following message.\nIt also checks the idle state of the CC line before starting transmission. The CC line is\nconsidered idle if it shows less than three (nTransitionCount) transitions within\ntTransitionWindow (12 to 20 μs). The Power Delivery specification revision 3.1 also requires\nto manage the Rp value (source) and monitor Type-C voltage level for these Rp\nmodifications (at the sink).\nPhysical layer signaling schemes\nThe bit are signaled with bi-phase mark coding (BMC).\nBIST\nDepending on the BIST action required by the protocol layer, either of the following can be\nrun:\n• a Tx BIST pattern test, achieved by writing TXMODE and TXSEND\n• an Rx BIST pattern test, achieved by writing RXMODE to the correct value for RXBIST.\nThe two possible patterns supported in UCPD (corresponding to “BMC” mode) are:\n• BIST Test Data (192 bit pattern), applies to Tx and Rx. In the case of Rx, the message\nis received (but discarded rather than passing to the protocol layer, which must\nnevertheless still generate a GoodCRC Tx message in acknowledgment).\n• BIST Carrier Mode 2 (single pattern, infinite length message), applies to Tx only. As\nopposed to Tx, the receiver in this mode simply ignores the CC line during this state.\nBIST test data pattern\nThe test data pattern is not viewed as a special case in UCPD.\nThe BIST test data packet frame format is shown in the following figure.\n[Figure 1016. BIST test data frame]\nThis is a fixed length test data pattern. In reality the only aspect that marks its difference\nfrom the general packet format already shown in Figure1013: Packet format is the contents\nof the Header. As UCPD receives the Tx Header contents via programming (it is simply\nviewed as part of the payload), it is only this programming (and not the block’s behavior) that\ndifferentiates the general packet from the BIST Test Data packet.\nBIST Carrier Mode 2\nWhen required, this BIST test mode sends an alternating pattern of 1010 that is continually\nrepeated. As this mode is intended for signal analysis it is stable condition with (in V1.0 of\nthe USB PD specification) no defined length. Starting from V1.1 of the USB PD\nspecification, the protocol layer defines a counter that indicates when to exit this mode.\nThe way to quit the infinite 1010 sequence (according to requirements of the USB PD\nspecification) is to disable the UCPD peripheral via the UCPDEN bit.\n[Figure 1017. BIST Carrier Mode 2 frame]",
+      "semantic": {}
+    }
+  ]
+}

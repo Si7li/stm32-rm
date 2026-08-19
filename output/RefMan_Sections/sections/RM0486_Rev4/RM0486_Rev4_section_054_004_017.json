@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S54.4.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "54",
+      "chapter_title": "General-purpose timers (TIM2/TIM3/TIM4/TIM5)",
+      "section": "54.4.17",
+      "section_title": "Pulse on compare mode",
+      "level": 3,
+      "parent_section": "54.4",
+      "page": 2669,
+      "page_end": 2671,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 1663,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2669",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 54.4.17 \"Pulse on compare mode\" in chapter 54 (General-purpose timers (TIM2/TIM3/TIM4/TIM5)), RM0486 Rev 4, page 2669.",
+      "section_content": "A pulse can be generated upon compare match event. A signal with a programmable pulse\nwidth generated when the counter value equals a given compare value, for debugging or\nsynchronization purposes.\nThis mode is available for any slave mode selection, including encoder modes, in edge and\ncenter aligned counting modes. It is solely available for channel 3 and channel 4. The pulse\ngenerator is unique and is shared by the two channels, as shown on Figure634.\n[Figure 634. Pulse generator circuitry]\nFigure635 shows how the pulse is generated for edge-aligned and encoder operating\nmodes.\n[Figure 635. Pulse generation on compare event, for edge-aligned and encoder modes]\nThis output compare mode is selected using the OC3M[3:0] and OC4M[3:0] bitfields in\nTIMx_CCMR2 register.\nThe pulse width is programmed using the PW[7:0] bitfield in the register, using a specific\nclock prescaled according to PWPRSC[2:0] bits, as follows:\ntPW = PW[7:0] x tPWG\nwhere tPWG = (2(PWPRSC[2:0])) x ttim_ker_ck.\ngives the resolution and maximum values depending on the prescaler value.\nThe pulse is retriggerable: a new trigger while the pulse is ongoing, causes the pulse to be\nextended.\nNote: If the two channels are enabled simultaneously, the pulses are issued independently as long\nas the trigger on one channel is not overlapping the pulse generated on the concurrent\noutput. On the opposite, if the two triggers are overlapping, the pulse width related to the\nfirst arriving trigger is extended (because of the retrigger), while the pulse width of the last\narriving trigger is correct (as shown on Figure636).\n[Figure 636. Extended pulse width in case of concurrent triggers]",
+      "semantic": {}
+    }
+  ]
+}

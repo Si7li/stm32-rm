@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S27.3.8",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "27",
+      "chapter_title": "Universal synchronous asynchronous receiver transmitter (USART)",
+      "section": "27.3.8",
+      "section_title": "LIN (local interconnection network) mode",
+      "level": 3,
+      "parent_section": "27.3",
+      "page": 803,
+      "page_end": 805,
+      "semantic_type": "generic",
+      "features": [
+        "lin",
+        "usart"
+      ],
+      "chars": 2593,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=803",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.3.8 \"LIN (local interconnection network) mode\" in chapter 27 (Universal synchronous asynchronous receiver transmitter (USART)), RM0008 Rev 21, page 803.",
+      "section_content": "The LIN mode is selected by setting the LINEN bit in the USART_CR2 register. In LIN\nmode, the following bits must be kept cleared:\n• STOP[1:0], CLKEN in the USART_CR2 register\n• SCEN, HDSEL and IREN in the USART_CR3 register.\nLIN transmission\nThe same procedure explained in Section27.3.2 has to be applied for LIN Master\ntransmission than for normal USART transmission with the following differences:\n• Clear the M bit to configure 8-bit word length.\n• Set the LINEN bit to enter LIN mode. In this case, setting the SBK bit sends 13 ‘0’ bits\nas a break character. Then a bit of value ‘1’ is sent to allow the next start detection.\nLIN reception\nA break detection circuit is implemented in the USART. The detection is totally independent\nfrom the normal USART receiver. A break can be detected whenever it occurs, during idle\nstate or during a frame.\nWhen the receiver is enabled (RE=1 in USART_CR1), the circuit looks at the RX input for a\nstart signal. The method for detecting start bits is the same when searching break\ncharacters or data. After a start bit has been detected, the circuit samples the next bits\nexactly like for the data (on the 8th, 9th and 10th samples). If 10 (when the LBDL = 0 in\nUSART_CR2) or 11 (when LBDL=1 in USART_CR2) consecutive bits are detected as ‘0’,\nand are followed by a delimiter character, the LBD flag is set in USART_SR. If the LBDIE\nbit=1, an interrupt is generated. Before validating the break, the delimiter is checked for as it\nsignifies that the RX line has returned to a high level.\nIf a ‘1’ is sampled before the 10 or 11 have occurred, the break detection circuit cancels the\ncurrent detection and searches for a start bit again.\nIf the LIN mode is disabled (LINEN=0), the receiver continues working as normal USART,\nwithout taking into account the break detection.\nIf the LIN mode is enabled (LINEN=1), as soon as a framing error occurs (i.e. stop bit\ndetected at ‘0’, which will be the case for any break frame), the receiver stops until the break\ndetection circuit receives either a ‘1’, if the break word was not complete, or a delimiter\ncharacter if a break has been detected.\nThe behavior of the break detector state machine and the break flag is shown on the\n[Figure 287. Examples of break frames are given on Figure288]\n[Figure 287. Break detection in LIN mode (11-bit break length - LBDL bit is set)]\n[Figure 288. Break detection in LIN mode vs. Framing error detection]\nRXNE / FE\nLBD\nCase 1: break occurring while a data is being received\nRX line data 1 data 2 BREAK data2 (0x55) data 3 (header)\n1 data time 1 data time\nRXNE / FE\nLBD",
+      "semantic": {}
+    }
+  ]
+}

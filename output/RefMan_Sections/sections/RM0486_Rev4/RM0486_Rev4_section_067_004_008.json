@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.4.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.4.8",
+      "section_title": "Ready pin (RDY) management",
+      "level": 3,
+      "parent_section": "67.4",
+      "page": 3441,
+      "page_end": 3441,
+      "semantic_type": "generic",
+      "features": [
+        "rdy",
+        "spi"
+      ],
+      "chars": 2322,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3441",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.4.8 \"Ready pin (RDY) management\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3441.",
+      "section_content": "The status of the slave capability to handle data can be checked on the RDY pin. By default,\na low level indicates that the slave is not ready for transfer. The reason can be that the slave\nTxFIFO is empty, RxFIFO full or the SPI is disabled. An active level of the signal can be\nselected by the RDIOP bit. If the master continues or starts to communicate with the slave\nwhen it indicates a not ready status, it is highly probable that the transfer fails.\nThe logic to control the RDY output is rather complex, tied closely with the TSIZE and\nDSIZE settings. The RDY reaction is more pessimistic and sensitive to TxFIFO becoming\nnearly empty and/or RxFIFO nearly full during a frame transfer. This pessimistic logic is\nsuppressed at the end of a transfer only when RDY stays active, despite TxFIFO becomes\nfully empty and/or RxFIFO becomes fully occupied. The target is to prevent any data\ncorruption and inform the master in time that it is necessary to suspend the transfer\ntemporarily until the next transferred data can be processed safely again. When the RDY\nsignal input is enabled at master side, the master suspends the communication once the\nslave indicates not ready status. This prevents the master to complete the transfer of an\nongoing frame, which just empties the slave TxFIFO or full fills its RxFIFO until a next data is\nwritten and/or read there (despite the frame still can be completed without any constraint). It\ncan make a problem if the TSIZE=0 configuration is applied at slave because slave then\nnever evaluates the end of the transfer (which suppresses the not ready status just when\nthe last data is sent). Then the user has to release the RxFIFO and/or write additional (even\ndummy) data to TxFIFO by software at slave side to release the not RDY signal, unblock ST\nmaster and so enable it to continue at the communication suspended at middle of a frame\noccasionally.\nWhen RDY is not used by the master, it must be disabled (RDIOM = 0). Then an internal\nlogic of the master simulates the slave status always ready. In this case, the RDIOP bit\nsetting has no meaning.\nDue to synchronization between clock domains and evaluation of the RDY logic on both\nmaster and slave sides, the RDY pin feature is not reliable and cannot be used when the\nsize of data frames is configured shorter than 8 bits.",
+      "semantic": {}
+    }
+  ]
+}

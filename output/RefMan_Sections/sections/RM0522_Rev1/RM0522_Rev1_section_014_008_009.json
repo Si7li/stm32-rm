@@ -1,0 +1,210 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.8.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.8.9",
+      "section_title": "LPDMA channel x transfer register 2 (LPDMA_CxTR2)",
+      "level": 3,
+      "parent_section": "14.8",
+      "page": 431,
+      "page_end": 433,
+      "semantic_type": "register_description",
+      "features": [
+        "breq",
+        "dma",
+        "lpdma",
+        "memory",
+        "pfreq",
+        "power",
+        "reqsel",
+        "swreq",
+        "tcem",
+        "trigm",
+        "trigpol",
+        "trigsel"
+      ],
+      "chars": 7010,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=431",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.8.9 \"LPDMA channel x transfer register 2 (LPDMA_CxTR2)\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 431.",
+      "section_content": "Address offset: 0x094 + 0x80 * x (x = 0 to 7)\nReset value: 0x0000 0000\nThis register is privileged or unprivileged, depending on the privileged state of channel x\n(LPDMA_PRIVCFGR.PRIVx).\nThis register controls the transfer of a channel x.\nThis register must be written when LPDMA_CxCR.EN=0.\nThis register is read-only when LPDMA_CxCR.EN=1.\nThis register must be written when the channel is completed (the hardware de-asserted\nLPDMA_CxCR.EN). A channel transfer can be completed and programmed at different\nlevels: block or LLI or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by LPDMA\nfrom the memory, if LPDMA_CxLLR.UT2=1.\nBits 31:30 TCEM[1:0]: transfer complete event mode\nThese bits define the transfer granularity for the transfer complete and half-transfer complete\nevents generation.\n00: at block level (when LPDMA_CxBR1.BNDT[15:0]=0): the complete (and the half)\ntransfer event is generated at the (respectively half of the) end of a block.\nNote: If the initial LLI0 data transfer is null/void (directly programmed by the internal register\nfile with LPDMA_CxBR1.BNDT[15:0]=0), then neither the complete transfer event nor\nthe half-transfer event is generated.\n01: same as 00\n10: at LLI level: the complete transfer event is generated at the end of the LLI transfer,\nincluding the update of the LLI if any. The half-transfer event is generated at the half of the\nLLI data transfer (the LLI data transfer being a block transfer), if any data transfer.\nNote: If the initial LLI0 data transfer is null/void (i.e. directly programmed by the internal\nregister file with LPDMA_CxBR1.BNDT[15:0]= 0), then the half-transfer event is not\ngenerated, and the transfer complete event is generated when is completed the loading\nof the LLI1.\n11: at channel level: the complete transfer event is generated at the end of the last LLI\ntransfer. The half-transfer event is generated at the half of the data transfer of the last LLI.\nThe last LLI updates the link address LPDMA_CxLLR.LA[15:2] to zero and clears all the\nLPDMA_CxLLR update bits (UT1, UT2, UB1, USA, UDA and ULL). If the channel transfer is\ncontinuous/infinite, no event is generated.\nBits 29:26 Reserved, must be kept at reset value.\nBits 25:24 TRIGPOL[1:0]: trigger event polarity\nThese bits define the polarity of the selected trigger event input defined by TRIGSEL[5:0].\n00: no trigger (masked trigger event)\n01: trigger on the rising edge\n10: trigger on the falling edge\n11: same as 00\nBits 23:22 Reserved, must be kept at reset value.\nBits 21:16 TRIGSEL[5:0]: trigger event input selection\nThese bits select the trigger event input of the LPDMA transfer (as perSection14.3.7), with\nan active trigger event if TRIGPOL[1:0]=00.\nBits 15:14 TRIGM[1:0]: trigger mode\nThese bits define the transfer granularity for its conditioning by the trigger.\nIf the channel x is enabled (LPDMA_CxCR.EN asserted) with TRIGPOL[1:0]=0b00 or 0b11,\nthese TRIGM[1:0] bits are ignored.\nElse, a DMA transfer is conditioned by at least one trigger hit:\n00: at block level: the first single read of each block transfer is conditioned by one hit trigger.\n01: same as 00\n10: at link level: a LLI link transfer is conditioned by one hit trigger. The LLI data transfer (if\nany) is not conditioned.\n11: at programmed single level: each programmed single read is conditioned by one hit\ntrigger.\nThe LPDMA monitoring of a trigger for channel x is started when the channel is\nenabled/loaded with a new active trigger configuration: rising or falling edge on a selected\ntrigger (TRIGPOL[1:0]=0b01 or respectively TRIGPOL[1:0]=0b10).\nThe monitoring of this trigger is kept active during the triggered and uncompleted (data or\nlink) transfer; and if a new trigger is detected then, this hit is internally memorized to grant the\nnext transfer, as long as the defined rising or falling edge is not modified, and the\nTRIGSEL[5:0] is not modified, and the channel is enabled.\nTransferring a next LLIn+1 that updates the LPDMA_CxTR2 with a new value for any of\nTRIGSEL[5:0] or TRIGPOL[1:0], resets the monitoring, trashing the memorized hit of the\nformerly defined LLIn trigger.\nAfter a first new trigger hitn+1 is memorized, if another second trigger hitn+2 is detected and if\nthe hitn triggered transfer is still not completed, hitn+2 is lost and not memorized, and a trigger\noverrun flag is reported (LPDMA_CxSR.TOF=1), an interrupt is generated if enabled\n(LPDMA_CxCR.TOIE=1). The channel is not automatically disabled by hardware due to a\ntrigger overrun.\nBit 13 Reserved, must be kept at reset value.\nBit 12 PFREQ: Hardware request in peripheral flow control mode\nImportant: If a given channel x is not implemented with this feature, this bit is reserved and\nPFREQ is not present (see Section14.3.6 for the list of the implemented channels with this\nfeature.\nIf the channel x is activated (LPDMA_CxCR.EN asserted) with SWREQ=1 (software\nrequest for a memory-to-memory transfer), this bit is ignored. Else:\n0: the selected hardware request is driven by a peripheral with a hardware\nrequest/acknowledge protocol in LPDMA control mode. The LPDMA is programmed with\nLPDMA_CxCBR1.BNDT[15:0] and this is internally used by the hardware for the block\ntransfer completion.\n1: the selected hardware request is driven by a peripheral with a hardware\nrequest/acknowledge protocol in peripheral control mode. The LPDMA block transfer can be\nearly completed by the peripheral itself (see Section14.3.6 for more details).\nBit 11 BREQ: block hardware request\nIf the channel x is activated (LPDMA_CxCR.EN asserted) with SWREQ = 1 (software request\nfor a memory-to-memory transfer), this bit is ignored. Else:\n0: the selected hardware request is driven by a peripheral with a hardware\nrequest/acknowledge protocol at a single level.\n1: the selected hardware request is driven by a peripheral with a hardware\nrequest/acknowledge protocol at a block level (seeSection14.3.5).\nBit 10 Reserved, must be kept at reset value.\nBit 9 SWREQ: software request\nThis bit is internally taken into account when LPDMA_CxCR.EN is asserted.\n0: no software request. The selected hardware request REQSEL[6:0] is taken into account.\n1: software request for a memory-to-memory transfer. The default selected hardware request\nas per REQSEL[6:0] is ignored.\nBits 8:7 Reserved, must be kept at reset value.\nBits 6:0 REQSEL[6:0]: DMA hardware request selection\nThese bits are ignored if channel x is activated (LPDMA_CxCR.EN asserted) with\nSWREQ=1 (software request for a memory-to-memory transfer). Else, the selected\nhardware request is internally taken into account as per Section14.3.4.\nCaution: The user must not assign a same input hardware request (same REQSEL[6:0]\nvalue) to different active DMA channels (LPDMA_CxCR.EN=1 and\nLPDMA_CxTR2.SWREQ=0 for these channels). DMA is not intended to hardware\nsupport the case of simultaneous enabled channels incorrectly configured with a\nsame hardware peripheral request signal, and there is no user setting error\nreporting.",
+      "semantic": {
+        "register": "LPDMA_CxTR2",
+        "address_offset": "0x094 + 0x80 * x (x = 0 to 7)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "TCEM[1:0]",
+            "description": "transfer complete event mode These bits define the transfer granularity for the transfer complete and half-transfer complete events generation. transfer event is generated at the (respectively half of the) end of a block. Note: If the initial LLI0 data transfer is null/void (directly programmed by the internal register file with LPDMA_CxBR1.BNDT[15:0]=0), then neither the complete transfer event nor the half-transfer event is generated. including the update of the LLI if any. The half-transfer event is generated at the half of the LLI data transfer (the LLI data transfer being a block transfer), if any data transfer. Note: If the initial LLI0 data transfer is null/void (i.e. directly programmed by the internal register file with LPDMA_CxBR1.BNDT[15:0]= 0), then the half-transfer event is not generated, and the transfer complete event is generated when is completed the loading of the LLI1. transfer. The half-transfer event is generated at the half of the data transfer of the last LLI. The last LLI updates the link address LPDMA_CxLLR.LA[15:2] to zero and clears all the LPDMA_CxLLR update bits (UT1, UT2, UB1, USA, UDA and ULL). If the channel transfer is continuous/infinite, no event is generated.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "at block level (when LPDMA_CxBR1.BNDT[15:0]=0): the complete (and the half)"
+              },
+              {
+                "value": "01",
+                "meaning": "same as 00"
+              },
+              {
+                "value": "10",
+                "meaning": "at LLI level: the complete transfer event is generated at the end of the LLI transfer,"
+              },
+              {
+                "value": "11",
+                "meaning": "at channel level: the complete transfer event is generated at the end of the last LLI"
+              }
+            ]
+          },
+          {
+            "bits": "29:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25:24",
+            "name": "TRIGPOL[1:0]",
+            "description": "trigger event polarity These bits define the polarity of the selected trigger event input defined by TRIGSEL[5:0].",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "no trigger (masked trigger event)"
+              },
+              {
+                "value": "01",
+                "meaning": "trigger on the rising edge"
+              },
+              {
+                "value": "10",
+                "meaning": "trigger on the falling edge"
+              },
+              {
+                "value": "11",
+                "meaning": "same as 00"
+              }
+            ]
+          },
+          {
+            "bits": "23:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21:16",
+            "name": "TRIGSEL[5:0]",
+            "description": "trigger event input selection These bits select the trigger event input of the LPDMA transfer (as perSection14.3.7), with an active trigger event if TRIGPOL[1:0]=00.",
+            "values": []
+          },
+          {
+            "bits": "15:14",
+            "name": "TRIGM[1:0]",
+            "description": "trigger mode These bits define the transfer granularity for its conditioning by the trigger. If the channel x is enabled (LPDMA_CxCR.EN asserted) with TRIGPOL[1:0]=0b00 or 0b11, these TRIGM[1:0] bits are ignored. Else, a DMA transfer is conditioned by at least one trigger hit: any) is not conditioned. trigger. The LPDMA monitoring of a trigger for channel x is started when the channel is enabled/loaded with a new active trigger configuration: rising or falling edge on a selected trigger (TRIGPOL[1:0]=0b01 or respectively TRIGPOL[1:0]=0b10). The monitoring of this trigger is kept active during the triggered and uncompleted (data or link) transfer; and if a new trigger is detected then, this hit is internally memorized to grant the next transfer, as long as the defined rising or falling edge is not modified, and the TRIGSEL[5:0] is not modified, and the channel is enabled. Transferring a next LLIn+1 that updates the LPDMA_CxTR2 with a new value for any of TRIGSEL[5:0] or TRIGPOL[1:0], resets the monitoring, trashing the memorized hit of the formerly defined LLIn trigger. After a first new trigger hitn+1 is memorized, if another second trigger hitn+2 is detected and if the hitn triggered transfer is still not completed, hitn+2 is lost and not memorized, and a trigger overrun flag is reported (LPDMA_CxSR.TOF=1), an interrupt is generated if enabled (LPDMA_CxCR.TOIE=1). The channel is not automatically disabled by hardware due to a trigger overrun.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "at block level: the first single read of each block transfer is conditioned by one hit trigger."
+              },
+              {
+                "value": "01",
+                "meaning": "same as 00"
+              },
+              {
+                "value": "10",
+                "meaning": "at link level: a LLI link transfer is conditioned by one hit trigger. The LLI data transfer (if"
+              },
+              {
+                "value": "11",
+                "meaning": "at programmed single level: each programmed single read is conditioned by one hit"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "PFREQ",
+            "description": "Hardware request in peripheral flow control mode Important: If a given channel x is not implemented with this feature, this bit is reserved and PFREQ is not present (see Section14.3.6 for the list of the implemented channels with this feature. If the channel x is activated (LPDMA_CxCR.EN asserted) with SWREQ=1 (software request for a memory-to-memory transfer), this bit is ignored. Else: request/acknowledge protocol in LPDMA control mode. The LPDMA is programmed with LPDMA_CxCBR1.BNDT[15:0] and this is internally used by the hardware for the block transfer completion. request/acknowledge protocol in peripheral control mode. The LPDMA block transfer can be early completed by the peripheral itself (see Section14.3.6 for more details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "the selected hardware request is driven by a peripheral with a hardware"
+              },
+              {
+                "value": "1",
+                "meaning": "the selected hardware request is driven by a peripheral with a hardware"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "BREQ",
+            "description": "block hardware request If the channel x is activated (LPDMA_CxCR.EN asserted) with SWREQ = 1 (software request for a memory-to-memory transfer), this bit is ignored. Else: request/acknowledge protocol at a single level. request/acknowledge protocol at a block level (seeSection14.3.5).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "the selected hardware request is driven by a peripheral with a hardware"
+              },
+              {
+                "value": "1",
+                "meaning": "the selected hardware request is driven by a peripheral with a hardware"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "SWREQ",
+            "description": "software request This bit is internally taken into account when LPDMA_CxCR.EN is asserted. as per REQSEL[6:0] is ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no software request. The selected hardware request REQSEL[6:0] is taken into account."
+              },
+              {
+                "value": "1",
+                "meaning": "software request for a memory-to-memory transfer. The default selected hardware request"
+              }
+            ]
+          },
+          {
+            "bits": "8:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6:0",
+            "name": "REQSEL[6:0]",
+            "description": "DMA hardware request selection These bits are ignored if channel x is activated (LPDMA_CxCR.EN asserted) with SWREQ=1 (software request for a memory-to-memory transfer). Else, the selected hardware request is internally taken into account as per Section14.3.4. Caution: The user must not assign a same input hardware request (same REQSEL[6:0] value) to different active DMA channels (LPDMA_CxCR.EN=1 and LPDMA_CxTR2.SWREQ=0 for these channels). DMA is not intended to hardware support the case of simultaneous enabled channels incorrectly configured with a same hardware peripheral request signal, and there is no user setting error reporting.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

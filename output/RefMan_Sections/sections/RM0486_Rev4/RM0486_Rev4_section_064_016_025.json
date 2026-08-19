@@ -1,0 +1,72 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.25",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.25",
+      "section_title": "I3C get capability register (I3C_GETCAPR)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3271,
+      "page_end": 3271,
+      "semantic_type": "register_description",
+      "features": [
+        "cappend",
+        "i3c",
+        "i3c-getcapr"
+      ],
+      "chars": 1783,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3271",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.25 \"I3C get capability register (I3C_GETCAPR)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3271.",
+      "section_content": "Address offset: 0x0C8\nReset value: 0x00000000\nWhen the I3C acts as target, this register is used to set the IBI MDB support for pending\nread notification support, and is used by hardware to return the GETCAP3 byte on reception\nof GETCAPS CCC, format 1.\nThe returned byte GETCAP1[7:0] on the I3C bus is then as follows:\n• GETCAP1[7:0] = 0 (no HDR)\nThe returned byte GETCAP2[7:0] on the I3C bus is then as follows:\n• GETCAP2[7:6] = 00 (no HDR)\n• GETCAP2[5:4] = 00 (no group addressing)\n• GETCAP2[3:0] = 0001 (compliant with MIPI specification v1.1)\nThe returned byte GETCAP3[7:0] on the I3C bus is then as follows:\n• GETCAP3[7] = 0 (reserved)\n• GETCAP3[6] = CAPPEND in the I3C_GETCAPR register (IBI MDB support for pending\nread notification)\n• GETCAP3[5] = 0 (no HDR)\n• GETCAP3[4] = 1 (defining byte support in GETSTATUS)\n• GETCAP3[3] = 1 (defining byte support in GETCAPS)\n• GETCAP3[2] = 0 (no device-to-device transfer)\n• GETCAP3[1] = 0 (no device-to-device transfer)\n• GETCAP3[0] = 0 (no multi-lane data transfer)\nThis register can be written by software only when EN = 0 in the I3C_CFGR register.\nBits 31:15 Reserved, must be kept at reset value.\nBit 14 CAPPEND: IBI MDB support for pending read notification\nThis bit is written by software during bus initialization (EN = 0), and indicates the support (or\nnot) of the pending read notification via the IBI MDB[7:0] value.\nThis bit is used to return the GETCAP3 byte in response to the GETCAPS CCC format 1.\n0: this I3C when acting as target sends an IBI request without a mandatory data byte value\nindicating a pending read notification\n1: this I3C when acting as target sends an IBI request with a mandatory data byte value\n(MDB[7:5] = 101), indicating a pending read notification\nBits 13:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "I3C_GETCAPR",
+        "address_offset": "0x0C8",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "CAPPEND",
+            "description": "IBI MDB support for pending read notification This bit is written by software during bus initialization (EN = 0), and indicates the support (or not) of the pending read notification via the IBI MDB[7:0] value. This bit is used to return the GETCAP3 byte in response to the GETCAPS CCC format 1. indicating a pending read notification (MDB[7:5] = 101), indicating a pending read notification",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "this I3C when acting as target sends an IBI request without a mandatory data byte value"
+              },
+              {
+                "value": "1",
+                "meaning": "this I3C when acting as target sends an IBI request with a mandatory data byte value"
+              }
+            ]
+          },
+          {
+            "bits": "13:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

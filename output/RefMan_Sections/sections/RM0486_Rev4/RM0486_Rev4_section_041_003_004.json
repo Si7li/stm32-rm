@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S41.3.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "41",
+      "chapter_title": "Parallel synchronous slave interface (PSSI)",
+      "section": "41.3.4",
+      "section_title": "PSSI data management",
+      "level": 3,
+      "parent_section": "41.3",
+      "page": 2075,
+      "page_end": 2077,
+      "semantic_type": "generic",
+      "features": [
+        "pssi"
+      ],
+      "chars": 4086,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2075",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 41.3.4 \"PSSI data management\" in chapter 41 (Parallel synchronous slave interface (PSSI)), RM0486 Rev 4, page 2075.",
+      "section_content": "Data direction\nThe direction of data transfers is configured through the OUTEN control bit (bit 31 of\nPSSI_CR):\n• When OUTEN is cleared to 0 (default setting), the PSSI operates in receive mode and\nthe data is input on the data pins.\n• When OUTEN is set to 1, the peripheral operates in transmit mode and the data is\noutput on the data pins.\nOUTEN can be modified only when the ENABLE bit is cleared to 0.\nData register and DMA\nData are transferred from/to the FIFO using the PSSI_DR data register:\n• In receive mode, data must be read from the FIFO by reading PSSI_DR.\n• In transmit mode, data must be written to the FIFO by writing into PSSI_DR.\nWord (32-bit) accesses to PSSI_DR and half-word (16-bit) accesses to PSSI_DR[15:0] are\npermitted in all modes. Byte (8-bit) accesses to PSSI_DR[7:0] are permitted only when the\nPSSI is configured to transfer 8 bits at a time (EDM=00 in the PSSI_CR register).\nTo reduce the load on the CPU, it is recommended to use the DMA to transfer data from/to\nthe PSSI FIFO. When it is used, the DMA must be configured to transfer data via the\nPSSI_DR register. Using 32-bit transfers optimizes bandwidth and reduces the bus load.\nHowever, 8-bit and 16-bit transfers are also permitted.\nTo use the DMA, set the PSSI DMA enable bit (DMAEN in PSSI_CR) to 1 (default setting).\nWhen DMAEN is set to 1, a DMA transfer is initiated when the FIFO is ready for a 32-bit\ntransfer (four valid bytes in receive mode or four empty bytes in transmit mode). As a result,\nin receive mode, no DMA transfers are initiated if there are three bytes or fewer in the FIFO,\neven if the DMA is configured to perform 8-bit transfers.\nThe RTT4B and RTT1B status bits (PSSI_SR) are useful when the CPU directly perform\ntransfers to and from the FIFO. RTT4B set to 1 indicates that the FIFO is ready to transfer\nfour bytes: at least four valid bytes in the FIFO in receive mode or at least four free bytes in\ntransmit mode. RTT1B set to 1 indicates that the FIFO is ready to transfer one byte: at least\none valid byte in the FIFO in receive mode or at least one free byte in transmit mode.\n8-bit data\nThe PSSI parallel interface can transfer either 8-bit (using D[7:0]) or 16-bit data (using\nD[15:0]) depending on the EDM[1:0] control bits (bits 11:10 of PSSI_CR). If the 8-bit\nconfiguration is selected (EDM[1:0] set to 00), the unused D[15:0] pins can be used for\nGPIO or other functions.\nWhen EDM[1:0] in PSSI_CR are programmed to 00, the interface transfers 8 bits using the\nD[7:0] pins. In this case, D[15:8] are not used and four PSSI_PDCK cycles are required to\ntransfer a 32-bit word.\nThe least-significant byte (bits 7:0) correspond to the first byte transferred, and the most-\nsignificant byte (bits 31:28) corresponds to the forth byte transferred. Table375 illustrates\nthe positioning of the data bytes in two 32-bit words.\n[Table 375. Positioning of captured data bytes in 32-bit words (8-bit width)]\n16-bit data\nWhen EDM[1:0] in PSSI_CR are programmed to 11, the interface transfers 16 bits using the\nD[15:0] pins. In this case, two PSSI_PDCK cycles are required to transfer a 32-bit word.\nThe least-significant half word (bits 15:0) correspond to the first half word transferred, and\nthe most-significant half-word (bits 31:16) corresponds to the second half word transferred.\nTable376 illustrates the positioning of the data in two 32-bit words.\n[Table 376. Positioning of captured data bytes in 32-bit words (16-bit width)]\nFIFO data buffer and error conditions\nAn eight-word FIFO helps improving performance and avoids overruns and underruns.\nIf the ready signal (PSSI_RDY) is disabled in receive mode, an overrun error is generated\nwhen a clock active edge occurs when the FIFO is full. In this case, the input data is lost.\nIf the data enable signal (PSSI_DE) is disabled in transmit mode, an underrun error is\ngenerated when a clock active edge occurs when the FIFO is empty. In this case,\nunpredictable data are output.\nThe OVR_RIS status bit indicates that either an overrun or an underrun occurred. An\ninterrupt can be generated when these events occur.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S4.3.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "4",
+      "chapter_title": "Boot and security control (BSEC)",
+      "section": "4.3.17",
+      "section_title": "BSEC tamper response mechanisms",
+      "level": 3,
+      "parent_section": "4.3",
+      "page": 213,
+      "page_end": 213,
+      "semantic_type": "generic",
+      "features": [
+        "boot",
+        "bsec"
+      ],
+      "chars": 1461,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=213",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.3.17 \"BSEC tamper response mechanisms\" in chapter 4 (Boot and security control (BSEC)), RM0486 Rev 4, page 213.",
+      "section_content": "This device uses tamper-detection and response mechanisms that can make it immediately\ninoperable, resulting in the automatic and immediate erasure of any sensitive data that may\nbe stored in the device. The device also supports the concept of potential tamper event,\nwhere the device secrets are blocked while application software verifies that such tamper\nevent is confirmed or not.\nBSEC manages above mechanisms in the following way:\n• When a tamper source triggers a potential tamper event in TAMP peripheral\n(NOERASE=1), BSEC masks the RHUK value to SAES, and upper fuses read as 0\n(unless BSEC_UNMAP=0xA1C0DE0D, meaning that the boot CPU is executing).\n• When a tamper source triggers a confirmed tamper event in TAMP peripheral\n(NOERASE=0), or a potential tamper becomes a confirmed tamper, fuses cannot be\nblown or reloaded, upper fuses read as 0, BSEC_DBGCR and BSEC_AP_UNLOCK\nregisters are cleared, RHUK information is physically cleared to 0 & invalidated, and\nNVSTATE is set to 0x23 in BSEC_SR register. These limitations are deactivated after\ndevice secrets have been erased, and a SoC reset has been applied.\nAbove limitations are deactivated when the application clears the active tamper source(s) in\nTAMP peripheral.See Section62: Tamper and backup registers (TAMP) for details.\nNote: While tamper events are active the boot CPU can always execute the application firmware\nfollowing an application reset or an exit from Standby for the boot CPU.",
+      "semantic": {}
+    }
+  ]
+}

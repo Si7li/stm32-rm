@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S40.3.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "40",
+      "chapter_title": "Tamper and backup registers (TAMP)",
+      "section": "40.3.9",
+      "section_title": "Tamper detection configuration and initialization",
+      "level": 3,
+      "parent_section": "40.3",
+      "page": 1603,
+      "page_end": 1605,
+      "semantic_type": "generic",
+      "features": [
+        "configuration",
+        "detection",
+        "initialization",
+        "tamper"
+      ],
+      "chars": 4220,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1603",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 40.3.9 \"Tamper detection configuration and initialization\" in chapter 40 (Tamper and backup registers (TAMP)), RM0522 Rev 1, page 1603.",
+      "section_content": "Each input can be enabled by setting the corresponding TAMPxE bits to 1 in the TAMP_CR\nregister.\nEach TAMP_INx tamper detection input is associated with a flag TAMPxF in the TAMP_SR\nregister.\nBy setting the TAMPxIE bit in the TAMP_IER register, an interrupt is generated when a\ntamper detection event occurs (when TAMPxF is set). Setting TAMPxIE is not allowed when\nthe corresponding TAMPxMSK is set.\nTrigger output generation on tamper event\nThe tamper event detection can be used as trigger input by the low-power timers.\nWhen TAMPxMSK bit is cleared in TAMP_CR register, the TAMPxF flag must be cleared by\nsoftware in order to allow a new tamper detection on the same pin.\nWhen TAMPxMSK bit is set, the TAMPxF flag is masked, and kept cleared in TAMP_SR\nregister. This configuration permits the low-power timers to be triggered automatically in\nStop mode, without requiring the system wake-up to perform the TAMPxF clearing. In this\ncase, the backup registers are not cleared.\nThis feature is available only when the tamper is configured in level detection with filtering\nmode (TAMPFLT≠00). Refer to Section: Level detection with filtering on tamper inputs\n(passive mode).\nTimestamp on tamper event\nWith TAMPTS set to 1 in the RTC_CR, any internal or external tamper event causes a\ntimestamp to occur. In case a timestamp occurs due to tamper event, either the TSF bit or\nthe TSOVF bit is set in RTC_SR, in the same manner as if a normal timestamp event\noccurs.\nNote: TSF is set up to 3 ck_apre cycles after TAMPxF flags. TSF is not set if RTCCLK is stopped\n(it is set when RTCCLK restarts).\nNote: If TAMPxF is cleared before the expected rise of TSF, TSF is not set. Consequently, in case\nTAMPTS=1, the software should either wait for timestamp flag before clearing the tamper\nflag, or should read the RTC counters values in the TAMP interrupt routine.\nEdge detection on tamper inputs (passive mode)\nIf the TAMPFLT bits are 00, the TAMP_INx pins generate tamper detection events when\neither a rising edge or a falling edge is observed depending on the corresponding\nTAMPxTRG bit. The internal pull-up resistors on the TAMP_INx inputs are deactivated when\nedge detection is selected.\nCaution: When TAMPFLT = 00 and TAMPxTRG = 0 (rising edge detection), a tamper event may be\ndetected by hardware if the tamper input is already at high level before enabling the tamper\ndetection.\nAfter a tamper event has been detected and cleared, the TAMP_INx should be disabled and\nthen re-enabled (TAMPxE set to 1) before re-programming the backup registers\n(TAMP_BKPxR). This prevents the application from writing to the backup registers while the\nTAMP_INx input value still indicates a tamper detection. This is equivalent to a level\ndetection on the TAMP_INx input.\nLevel detection with filtering on tamper inputs (passive mode)\nLevel detection with filtering is performed by setting TAMPFLT to a non-zero value. A tamper\ndetection event is generated when either 2, 4, or 8 (depending on TAMPFLT) consecutive\nsamples are observed at the level designated by the TAMPxTRG bits.\nThe TAMP_INx inputs are precharged through the I/O internal pull-up resistance before its\nstate is sampled, unless disabled by setting TAMPPUDIS to 1. The duration of the\nprecharge is determined by the TAMPPRCH bits, allowing for larger capacitances on the\nTAMP_INx inputs.\nThe trade-off between tamper detection latency and power consumption through the pull-up\ncan be optimized by using TAMPFREQ to determine the frequency of the sampling for level\ndetection. The TAMP_IN I/O schmitt trigger is enabled only during the precharge duration to\navoid any extra consumption if the tamper switch is open (floating state).\n[Figure 564. Tamper sampling with precharge pulse]\n[Figure 565. Low level detection with precharge and filtering]\nTAMPPRCH\nTAMPFREQ\nTAMPFREQ TAMPFREQ\nTAMP_INx floating TAMP_INx floating TAMP_INx tied to 0 TAMP_INx tied to 0\nConfiguration:\nTAMPxTRG=0: Low level detection\nTAMPPRCH=1: 1 RTCCLK cycle pre-charge duration (internal pull-up is applied)\nTAMPFLT=1: Tamper event is activated after 2 consecutive samples at active level\nNote: Refer to the microcontroller datasheet for the electrical characteristics of the pull-up\nresistors.",
+      "semantic": {}
+    }
+  ]
+}

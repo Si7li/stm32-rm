@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.6.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.6.10",
+      "section_title": "Contrast enhancement",
+      "level": 3,
+      "parent_section": "39.6",
+      "page": 1856,
+      "page_end": 1857,
+      "semantic_type": "generic",
+      "features": [
+        "contrast",
+        "enhancement"
+      ],
+      "chars": 2449,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1856",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.6.10 \"Contrast enhancement\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1856.",
+      "section_content": "This module ends the image processing pipe. It makes possible to enhance the contrast of\nthe frame, by non-linear emphasis of the luminance of the pixels, and to provide more\nluminance quantification steps at highly used luminances (usually central grays), by\nreducing the amount of quantification steps less used by the picture (usually the few very\ndark and very light pixels).\nFunctionality\n• Inputs RGB from the pipe\n• Computes the luminance of the local pixel\n• Extracts the desired luminance increase/decrease factor, in function of the input\nluminance, non-linearly (using a look-up table)\n• Multiplies the input RGB with the amplification factor\n• Outputs the clamped RGB components on 8 bits\nSoftware configuration\n[Table 350. DCMIPP_P1CTCR1,2,3 bit function]\nConfiguration example\nThere are multiple approaches to handle contrasts.\nIt is possible to flatten the spectrum of luminance density (that is, to try have a similar\namount of pixel per each segment of luminance), which is to fill each of the eight segments\nof luminance with 12.5% of the pixels of the frame.\nAn intermediate approach is to proceed with only the upper and lower half pixels: half of\npixels must have a luminance below and another half above the mid-dynamic (128 for\n8-bit components).\nIt is advised to use the statistics extraction module, sample the luminance after the\nexposure control (to avoid an impact on the exposure compensation), and sort it in the 12\navailable bins (refer to Section39.6.11). From the extracted bins the user must linearly\nextrapolate the luminance of the median of the amount of pixels. The luminance of median\npixel must be increased/decreased to be moved to the targeted output median luminance,\nwhich is recommended to be the median dynamic (128).\nFor instance, a 400 kpixels VGA picture can have 200 kpixels below a luminance of 64, and\nthe other 200 kpixels above that value. The ideal luminance amplification factor can be set\nto 128/64 = 2x:\n• pixels darker than 64 are lightened by a factor 2x\n• pixels lighter than 64 are lightened a bit less, decreasingly\n• pixel of luminance of 255 get an idle, 1x, factor.\nThe above assertions can be used to compute the LUMx values to configure:\n• Ratio 2x from lum = 0 to 64:\n– LUM0 = LUM1 = LUM2 = 32.\n• Decreasing ratio from 32 to 256, best exponentially decreasing:\n– LUM3 = 27\n– LUM4 = 23\n– LUM5 = 20\n– LUM6 = 18\n– LUM7 = 17\n– LUM8 = 16 (the maximum luminance, 256, must remain idle).",
+      "semantic": {}
+    }
+  ]
+}

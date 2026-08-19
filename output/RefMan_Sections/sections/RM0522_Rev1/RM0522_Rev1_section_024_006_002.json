@@ -1,0 +1,277 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S24.6.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "24",
+      "chapter_title": "Operational amplifier (OPAMP)",
+      "section": "24.6.2",
+      "section_title": "OPAMP timer-controlled mode register (OPAMP_TCMR)",
+      "level": 3,
+      "parent_section": "24.6",
+      "page": 743,
+      "page_end": 745,
+      "semantic_type": "register_description",
+      "features": [
+        "lock",
+        "opamp",
+        "opamp-tcmr",
+        "pgas-gain",
+        "timcm-sel",
+        "timer",
+        "timpga-sel",
+        "vms-sel",
+        "vps-sel"
+      ],
+      "chars": 3771,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=743",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.6.2 \"OPAMP timer-controlled mode register (OPAMP_TCMR)\" in chapter 24 (Operational amplifier (OPAMP)), RM0522 Rev 1, page 743.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0000 0000\nBit 31 LOCK: OPAMP_TCMR register lock\nThis bit is write-once. It is set by software. It can only be cleared by a system reset.\nThis bit determines whether the OPAMP_TCMR register is read-write or read-only.\n0: Read-write\n1: Read-only (OPAMP_TCMR locked)\nBits 30:16 Reserved, must be kept at reset value.\nBits 15:13 TIMPGA_SEL[2:0]: Timer toggle signal selection for programmable gain control\nThis bitfield is set and cleared by software. It selects the signal (coming from timer to OPAMP\nmultiplexers) that toggles the programmable gain control bitfields between the primary\n(PGA_GAIN[4:0], signal at low level) and secondary (PGAS_GAIN[4:0], signal at high level).\n000: None (gain permanently controlled through PGA_GAIN[4:0] and VM_SEL[1:0])\n001: opamp_tp1\n010: opamp_tp2\n011: opamp_tp3\n100: opamp_tp4\n101: opamp_tp5\n110: opamp_tp6\n111: opamp_tp7\nBits 12:8 PGAS_GAIN[4:0]: Operational amplifier programmable gain and PGA flavor secondary control\nThis bitfield selects the programmable gain (bits [2:1]) and the PGA flavor ([bits 4:3]) when\nthe timer signal selected through TIMPGA_SEL[2:0] is high. Positive numbers represent\npositive gain (noninverting PGA), negative numbers negative gain (inverting PGA).\n00000: gain 2\n00001: gain 4\n00010: gain 8\n00011: gain 16\n01000: gain -1 / gain 2 with bias on OPAMP_VINM0\n01001: gain -3 / gain 4 with bias on OPAMP_VINM0\n01010: gain -7 / gain 8 with bias on OPAMP_VINM0\n01011: gain -15 / gain 16 with bias on OPAMP_VINM0\n10000: gain 2 with filtering on OPAMP_VINM0\n10001: gain 4 with filtering on OPAMP_VINM0\n10010: gain 8 with filtering on OPAMP_VINM0\n10011: gain 16 with filtering on OPAMP_VINM0\n11000: gain -1 / gain 2 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1\n11001: gain -3 / gain 4 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1\n11010: gain -7 / gain 8 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1\n11011: gain -15 / gain of 16 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1\nOther: Not used\nBits 7:6 Reserved, must be kept at reset value.\nBits 5:3 TIMCM_SEL[2:0]: Timer toggle signal selection for operational amplifier input control\nThis bitfield is set and cleared by software. It selects the signal (coming from timer to OPAMP\nmultiplexers) that toggles the operational amplifier input configuration control bitfields\nbetween the primary (VP_SEL[1:0] / VM_SEL, signal at low level) and secondary\n(VPS_SEL[1:0] / VMS_SEL, signal at high level).\n000: None (input configuration permanently controlled through VP_SEL[1:0] and VM_SEL)\n001: opamp_tc1\n010: opamp_tc2\n011: opamp_tc3\n100: opamp_tc4\n101: opamp_tc5\n110: opamp_tc6\n111: opamp_tc7\nBits 2:1 VPS_SEL[1:0]: OPAMP noninverting input secondary selection.\nThis bitfield is set and cleared by software. It selects the signal to connect to the operational\namplifier noninverting input as long as the level of the timer signal selected through the\nTIMCM_SEL[2:0] bitfield is high.\n00: OPAMP_VINP0\n01: OPAMP_VINP1\n10: OPAMP_VINP2\n11: OPAMP_VINP3 pin or DAC output channel\nRefer to Section24.3: OPAMP implementation for OPAMP instance-dependent information.\nBit 0 VMS_SEL: OPAMP inverting input secondary selection\nThis bitfield is set and cleared by software. It selects the signal to connect to the operational\namplifier inverting input as long as the level of the timer signal selected through the\nTIMCM_SEL[2:0] bitfield is high. The effect also depends on the VM_SEL[1:0] bitfield.\nCondition: VM_SEL[1:0]=00 or 01\n0: OPAMP_VINM0 (operation as stand-alone operational amplifier)\n1: OPAMP_VINM1 (operation as stand-alone operational amplifier)\nCondition: VM_SEL[1:0]=10 or 11\n0: Internal resistor divider middle point (operation as PGA)\n1: Operational amplifier output (operation as follower)",
+      "semantic": {
+        "register": "OPAMP_TCMR",
+        "address_offset": "0x04",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "LOCK",
+            "description": "OPAMP_TCMR register lock This bit is write-once. It is set by software. It can only be cleared by a system reset. This bit determines whether the OPAMP_TCMR register is read-write or read-only.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Read-write"
+              },
+              {
+                "value": "1",
+                "meaning": "Read-only (OPAMP_TCMR locked)"
+              }
+            ]
+          },
+          {
+            "bits": "30:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:13",
+            "name": "TIMPGA_SEL[2:0]",
+            "description": "Timer toggle signal selection for programmable gain control This bitfield is set and cleared by software. It selects the signal (coming from timer to OPAMP multiplexers) that toggles the programmable gain control bitfields between the primary (PGA_GAIN[4:0], signal at low level) and secondary (PGAS_GAIN[4:0], signal at high level).",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "None (gain permanently controlled through PGA_GAIN[4:0] and VM_SEL[1:0])"
+              },
+              {
+                "value": "001",
+                "meaning": "opamp_tp1"
+              },
+              {
+                "value": "010",
+                "meaning": "opamp_tp2"
+              },
+              {
+                "value": "011",
+                "meaning": "opamp_tp3"
+              },
+              {
+                "value": "100",
+                "meaning": "opamp_tp4"
+              },
+              {
+                "value": "101",
+                "meaning": "opamp_tp5"
+              },
+              {
+                "value": "110",
+                "meaning": "opamp_tp6"
+              },
+              {
+                "value": "111",
+                "meaning": "opamp_tp7"
+              }
+            ]
+          },
+          {
+            "bits": "12:8",
+            "name": "PGAS_GAIN[4:0]",
+            "description": "Operational amplifier programmable gain and PGA flavor secondary control This bitfield selects the programmable gain (bits [2:1]) and the PGA flavor ([bits 4:3]) when the timer signal selected through TIMPGA_SEL[2:0] is high. Positive numbers represent positive gain (noninverting PGA), negative numbers negative gain (inverting PGA).",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "gain 2"
+              },
+              {
+                "value": "00001",
+                "meaning": "gain 4"
+              },
+              {
+                "value": "00010",
+                "meaning": "gain 8"
+              },
+              {
+                "value": "00011",
+                "meaning": "gain 16"
+              },
+              {
+                "value": "01000",
+                "meaning": "gain -1 / gain 2 with bias on OPAMP_VINM0"
+              },
+              {
+                "value": "01001",
+                "meaning": "gain -3 / gain 4 with bias on OPAMP_VINM0"
+              },
+              {
+                "value": "01010",
+                "meaning": "gain -7 / gain 8 with bias on OPAMP_VINM0"
+              },
+              {
+                "value": "01011",
+                "meaning": "gain -15 / gain 16 with bias on OPAMP_VINM0"
+              },
+              {
+                "value": "10000",
+                "meaning": "gain 2 with filtering on OPAMP_VINM0"
+              },
+              {
+                "value": "10001",
+                "meaning": "gain 4 with filtering on OPAMP_VINM0"
+              },
+              {
+                "value": "10010",
+                "meaning": "gain 8 with filtering on OPAMP_VINM0"
+              },
+              {
+                "value": "10011",
+                "meaning": "gain 16 with filtering on OPAMP_VINM0"
+              },
+              {
+                "value": "11000",
+                "meaning": "gain -1 / gain 2 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1"
+              },
+              {
+                "value": "11001",
+                "meaning": "gain -3 / gain 4 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1"
+              },
+              {
+                "value": "11010",
+                "meaning": "gain -7 / gain 8 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1"
+              },
+              {
+                "value": "11011",
+                "meaning": "gain -15 / gain of 16 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1"
+              },
+              {
+                "value": "Other",
+                "meaning": "Not used"
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5:3",
+            "name": "TIMCM_SEL[2:0]",
+            "description": "Timer toggle signal selection for operational amplifier input control This bitfield is set and cleared by software. It selects the signal (coming from timer to OPAMP multiplexers) that toggles the operational amplifier input configuration control bitfields between the primary (VP_SEL[1:0] / VM_SEL, signal at low level) and secondary (VPS_SEL[1:0] / VMS_SEL, signal at high level).",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "None (input configuration permanently controlled through VP_SEL[1:0] and VM_SEL)"
+              },
+              {
+                "value": "001",
+                "meaning": "opamp_tc1"
+              },
+              {
+                "value": "010",
+                "meaning": "opamp_tc2"
+              },
+              {
+                "value": "011",
+                "meaning": "opamp_tc3"
+              },
+              {
+                "value": "100",
+                "meaning": "opamp_tc4"
+              },
+              {
+                "value": "101",
+                "meaning": "opamp_tc5"
+              },
+              {
+                "value": "110",
+                "meaning": "opamp_tc6"
+              },
+              {
+                "value": "111",
+                "meaning": "opamp_tc7"
+              }
+            ]
+          },
+          {
+            "bits": "2:1",
+            "name": "VPS_SEL[1:0]",
+            "description": "OPAMP noninverting input secondary selection. This bitfield is set and cleared by software. It selects the signal to connect to the operational amplifier noninverting input as long as the level of the timer signal selected through the TIMCM_SEL[2:0] bitfield is high. Refer to Section24.3: OPAMP implementation for OPAMP instance-dependent information.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "OPAMP_VINP0"
+              },
+              {
+                "value": "01",
+                "meaning": "OPAMP_VINP1"
+              },
+              {
+                "value": "10",
+                "meaning": "OPAMP_VINP2"
+              },
+              {
+                "value": "11",
+                "meaning": "OPAMP_VINP3 pin or DAC output channel"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "VMS_SEL",
+            "description": "OPAMP inverting input secondary selection This bitfield is set and cleared by software. It selects the signal to connect to the operational amplifier inverting input as long as the level of the timer signal selected through the TIMCM_SEL[2:0] bitfield is high. The effect also depends on the VM_SEL[1:0] bitfield. Condition: VM_SEL[1:0]=00 or 01 Condition: VM_SEL[1:0]=10 or 11",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OPAMP_VINM0 (operation as stand-alone operational amplifier)"
+              },
+              {
+                "value": "1",
+                "meaning": "OPAMP_VINM1 (operation as stand-alone operational amplifier)"
+              },
+              {
+                "value": "0",
+                "meaning": "Internal resistor divider middle point (operation as PGA)"
+              },
+              {
+                "value": "1",
+                "meaning": "Operational amplifier output (operation as follower)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

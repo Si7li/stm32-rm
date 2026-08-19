@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S63.4.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "63",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "63.4.7",
+      "section_title": "I2C data transfer",
+      "level": 3,
+      "parent_section": "63.4",
+      "page": 3113,
+      "page_end": 3115,
+      "semantic_type": "generic",
+      "features": [
+        "i2c"
+      ],
+      "chars": 3062,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3113",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 63.4.7 \"I2C data transfer\" in chapter 63 (Inter-integrated circuit interface (I2C)), RM0486 Rev 4, page 3113.",
+      "section_content": "The data transfer is managed through transmit and receive data registers and a shift\nregister.\nReception\nThe SDA input fills the shift register. After the eighth SCL pulse (when the complete data\nbyte is received), the shift register is copied into the I2C_RXDR register if it is empty\n(RXNE=0). If RXNE = 1, which means that the previous received data byte has not yet\nbeen read, the SCL line is stretched low until I2C_RXDR is read. The stretch occurs\nbetween the eighth and the ninth SCL pulse (before the acknowledge pulse).\n[Figure 791. Data reception]\nSCL SCL\nstretch\nRXNE\nrd data0rd data1\nTransmission\nIf the I2C_TXDR register is not empty (TXE = 0), its content is copied into the shift register\nafter the ninth SCL pulse (the acknowledge pulse). Then the shift register content is shifted\nout on the SDA line. If TXE = 1, which means that no data is written yet in I2C_TXDR, the\nSCL line is stretched low until I2C_TXDR is written. The stretch starts after the ninth SCL\npulse.\n[Figure 792. Data transmission]\nHardware transfer management\nThe I2C features an embedded byte counter to manage byte transfer and to close the\ncommunication in various modes, such as:\n– NACK, STOP and ReSTART generation in controller mode\n– ACK control in target receiver mode\n– PEC generation/checking\nIn controller mode, the byte counter is always used. By default, it is disabled in target mode.\nIt can be enabled by software, by setting the SBC (target byte control) bit of the I2C_CR1\nregister.\nThe number of bytes to transfer is programmed in the NBYTES[7:0] bitfield of the I2C_CR2\nregister. If this number is greater than 255, or if a receiver wants to control the acknowledge\nvalue of a received data byte, the reload mode must be selected, by setting the RELOAD bit\nof the I2C_CR2 register. In this mode, the TCR flag is set when the number of bytes\nprogrammed in NBYTES[7:0] is transferred (when the associated counter reaches zero),\nand an interrupt is generated if TCIE is set. SCL is stretched as long as the TCR flag is set.\nTCR is cleared by software when NBYTES[7:0] is written to a non-zero value.\nWhen NBYTES[7:0] is reloaded with the last number of bytes to transfer, the RELOAD bit\nmust be cleared.\nWhen RELOAD = 0 in controller mode, the counter can be used in two modes:\n• Automatic end (AUTOEND = 1 in the I2C_CR2 register). In this mode, the controller\nautomatically sends a STOP condition once the number of bytes programmed in the\nNBYTES[7:0] bitfield is transferred.\n• Software end (AUTOEND = 0 in the I2C_CR2 register). In this mode, a software action\nis expected once the number of bytes programmed in the NBYTES[7:0] bitfield is\ntransferred; the TC flag is set and an interrupt is generated if the TCIE bit is set. The\nSCL signal is stretched as long as the TC flag is set. The TC flag is cleared by software\nwhen the START or STOP bit of the I2C_CR2 register is set. This mode must be used\nwhen the controller wants to send a RESTART condition.\nCaution: The AUTOEND bit has no effect when the RELOAD bit is set.\n[Table 608. I2C configuration]",
+      "semantic": {}
+    }
+  ]
+}

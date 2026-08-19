@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S13.7.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "13",
+      "chapter_title": "Power control (PWR)",
+      "section": "13.7.7",
+      "section_title": "Standby mode",
+      "level": 3,
+      "parent_section": "13.7",
+      "page": 381,
+      "page_end": 383,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2943,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=381",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.7.7 \"Standby mode\" in chapter 13 (Power control (PWR)), RM0486 Rev 4, page 381.",
+      "section_content": "The Standby mode is used to achieve the lowest power consumption. Like Stop mode, it is\nbased on CPU subsystem Stop mode. However, the VCORE supply regulator is poweredoff.\nWhen the system enters Standby mode, the voltage regulator is disabled. The complete\nVCORE domain is consequently powered off. PLLs, HSI oscillator, MSI oscillator, and HSE\noscillator are also switched off. SRAM and register contents are lost except for backup\ndomain registers (RTC registers, RTC backup register, and backup RAM), and the retention\ndomain (see Section13.4.4 and Section13.4.5).\nIn system Standby mode, the following features can be selected by programming individual\ncontrol bits:\n• independent watchdog (IWDG)\nThe IWDG is started by programming its key register or by hardware option.\nOncestarted, it cannot be stopped except by a reset (see Section59.3: IWDG\nimplementation).\n• real-time clock (RTC) that is configured via RTCEN in RCC_BDCR\n• internal RC oscillator (LSI RC) that is configured by LSION in RCC_CSR\n• External 32.768 kHz oscillator (LSE OSC) that is configured by LSEON in RCC_CSR\nEntering Standby mode\nThe Standby mode is entered according to Section13.7.3, when PDDS is set to one\ninPWR_CPUCR.\nThe low-power mode security filter must be disabled by system option bytes\n(nRST_STDBY) to enter in Standby mode. Refer to Section14.5.4: Low-power mode\nsecurity reset (lpwr_rst) for details.\nRefer to Table60 for more details on how to enter Standby mode.\nExiting Standby mode\nThe Standby mode is exited according to Section13.7.4.\nThe system exits Standby mode when an external reset (NRST pin), an IWDG reset, a\nWKUP pin event, an RTC alarm, a tamper event, or a timestamp event is detected.\nAllregisters are reset after waking up from Standby except for power control and status\nregisters:\n• PWR_CR1, PWR_CR4, PWR_BDCR1, PWR_BDCR2\n• SBF and PDDS in PWR_CPUCR\n• VDDIO4VRSTBY and VDDIO4VRSEL in PWR_SVMCR1\n• VDDIO5VRSTBY and VDDIO5VRSEL in PWR_SVMCR2\n• VDDIOxVRSEL in PWR_SVMCR3\n• PWR_WKUPCR, PWR_WKUPSR, PWR_WKUPEPR\nA pad or watchdog reset during Standby mode causes the program execution to start as\nafter an application reset (rerun the boot ROM).\nAn enabled WKUP pin or an RTC event during Standby mode causes the program\nexecution to start as after a system reset (fetch from SYSCFG_INITSVTORCR)\nThe default boot address can be changed to allow a fast restart on TCM whenexiting a low\npower mode.\nRefer to Table60 for more details on how to exit Standby mode.\nSBF in PWR_CPUCR indicates that the system has exited Standby mode.\n[Table 59. Standby and Stop flags]\n[Table 60. Standby mode]\nI/O states in Standby mode\nIn Standby mode, all I/O pins are high impedance without pull, except for:\n• RESET and PWR_ON pins (still available)\n• RTC_AF1 pin if configured for tamper, time stamp, RTC alarm out, or RTC clock\ncalibration out\n• WKUP pins (if enabled): WKUP pin pull configuration can be defined through\nWKUPPUPD bits in PWR_WKUPEPR",
+      "semantic": {}
+    }
+  ]
+}

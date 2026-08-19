@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.12.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.12.2",
+      "section_title": "Global timestamp generator (TSGEN)",
+      "level": 3,
+      "parent_section": "78.12",
+      "page": 4501,
+      "page_end": 4502,
+      "semantic_type": "generic",
+      "features": [
+        "tsgen"
+      ],
+      "chars": 1811,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4501",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.12.2 \"Global timestamp generator (TSGEN)\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4501.",
+      "section_content": "The CoreSight TSGEN contains a 64-bit counter that provides a common timing reference\nfor all the trace sources in the system, namely the ETM, ITM, and STM. These components\ninsert timestamps in the trace streams that allow the trace analyzer torecover the\nchronological order of trace packets, which can be lost when multiple trace sources are\nmultiplexed into one stream at the funnel.\nThe TSGEN registers are accessible over the EPPB, and allow the debugger or debug\nsoftware to perform the following:\n• to start and stop the timestamp incrementing.\n• to cause the timestamp counter to stop when the Cortex-M55 has entered in debug\nstate (when hltdbg input goes active).\n• to read the current timestamp value.\n• to change the current timestamp value. The timestamp counter must be halted while\nitis changed. When the timestamp value is changed, the timestamp generator\nresynchronizes all the trace sources.\n• to change the reported timestamp increment.\nThe TSGEN has its own clock domain ck_ker_tsgen. The timestamp is distributed to the\nCortex-M55 to provide time information for the trace macrocell, and to the STM to provide\ntime information for stamping its messages. To simplify the timestamp distribution over clock\ndomain boundaries, the 64-bit timestamp is encoded in 7 bits, then decoded in the\ndestination domain. The timestamp distribution is shown in Figure1083.\nWhenever the frequency of the TSGEN or Cortex-M55 changes, the ETM of the Cortex-M55\nprocessor receives a pulse on its tsclkchange input, to insert a marker in the trace stream as\na hint that there is discontinuity in time represented by timestamps.\nFor more information on the CoreSight timestamp generator component, refer to the Arm\nCoreSight SoC-400 Technical Reference Manual [2].\n[Figure 1083. CoreSight timestamp distribution]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "table_id": "RM0522-T027",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "27",
+      "title": "Recommended reactions to FLASH_OPSR contents",
+      "page": 148,
+      "section": "6.3.12",
+      "section_title": "FLASH reset and clocks",
+      "semantic_type": "generic",
+      "features": [
+        "bk-op",
+        "clock",
+        "code-op",
+        "data-op",
+        "flash",
+        "flash-opsr",
+        "interrupt",
+        "memory",
+        "otp-op"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=148",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "CODE_OP",
+        "Operation interrupted",
+        "OTP_OP",
+        "BK_OP",
+        "DATA_OP",
+        "Flash memory area",
+        "ADDR_OP min",
+        "ADDR_OP max",
+        "Recommended action"
+      ],
+      "text_helper": "Table 27, \"Recommended reactions to FLASH_OPSR contents\", in section 6.3.12 (FLASH reset and clocks) on page 148. Columns: CODE_OP, Operation interrupted, OTP_OP, BK_OP, DATA_OP, Flash memory area, ADDR_OP min, ADDR_OP max, Recommended action. 9 data row(s). Notes: 1. ‘-’ = does not matter.; 2. ADDR_OP maximum depends on the flash memory size of the device.; 3. OTP are organized per column, refer to Section6.3.9.; 4. Depends on EDATA setting in the OB.; 5. Addre.",
+      "table_content": {
+        "headers": [
+          "CODE_OP",
+          "Operation interrupted",
+          "OTP_OP",
+          "BK_OP",
+          "DATA_OP",
+          "Flash memory area",
+          "ADDR_OP min",
+          "ADDR_OP max",
+          "Recommended action"
+        ],
+        "rows": [
+          [
+            "0b000",
+            "No operation \nongoing while reset",
+            "0",
+            "0",
+            "0",
+            "-(1)",
+            "-",
+            "-",
+            "No extra action"
+          ],
+          [
+            "0b001",
+            "Write operation",
+            "0",
+            "0/1",
+            "0",
+            "User flash",
+            "0x0000 ",
+            "0x7FFF(2)",
+            "Erase page and rewrite"
+          ],
+          [
+            "0b001",
+            "Write operation",
+            "1",
+            "1",
+            "0",
+            "OTP(3)",
+            "0x0200",
+            "0x037F",
+            "Erase page and rewrite"
+          ],
+          [
+            "0b001",
+            "Write operation",
+            "0",
+            "0/1",
+            "1",
+            "EDATA Page(4)",
+            "0x0000",
+            "0x07FF(2)",
+            "Erase page and rewrite"
+          ],
+          [
+            "0b011",
+            "Page erase(5)",
+            "0",
+            "0/1",
+            "0",
+            "User flash",
+            "0x0000 ",
+            "0x7FFF",
+            "Relaunch page erase"
+          ],
+          [
+            "0b011",
+            "Page erase(5)",
+            "0",
+            "0/1",
+            "1",
+            "EDATA Page",
+            "0x0000",
+            "0x07FF",
+            "Relaunch page erase"
+          ],
+          [
+            "0b100",
+            "Bank erase",
+            "0",
+            "0/1",
+            "0",
+            "User flash",
+            "-",
+            "-",
+            "Relaunch bank erase"
+          ],
+          [
+            "0b101",
+            "Mass erase",
+            "0",
+            "0",
+            "0",
+            "User flash",
+            "-",
+            "-",
+            "Relaunch mass erase"
+          ],
+          [
+            "0b110",
+            "Option change",
+            "0",
+            "0",
+            "0",
+            "User \nconfiguration",
+            "-",
+            "-",
+            "New attempt on option \nchange"
+          ]
+        ],
+        "notes": [
+          "1. ‘-’ = does not matter.",
+          "2. ADDR_OP maximum depends on the flash memory size of the device.",
+          "3. OTP are organized per column, refer to Section6.3.9.",
+          "4. Depends on EDATA setting in the OB.",
+          "5. Addresses indicated are aligned to page start, data area pages are erased by erase request to corresponding user flash memory page."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

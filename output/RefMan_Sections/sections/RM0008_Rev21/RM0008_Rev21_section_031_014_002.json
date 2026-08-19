@@ -1,0 +1,40 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S31.14.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "31",
+      "chapter_title": "Debug support (DBG)",
+      "section": "31.14.2",
+      "section_title": "Time stamp packets, synchronization and overflow packets",
+      "level": 3,
+      "parent_section": "31.14",
+      "page": 1097,
+      "page_end": 1099,
+      "semantic_type": "generic",
+      "features": [
+        "overflow",
+        "packets",
+        "stamp",
+        "synchronization",
+        "time"
+      ],
+      "chars": 1712,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1097",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.14.2 \"Time stamp packets, synchronization and overflow packets\" in chapter 31 (Debug support (DBG)), RM0008 Rev 21, page 1097.",
+      "section_content": "Time stamp packets encode time stamp information, generic control and synchronization. It\nuses a 21-bit timestamp counter (with possible prescalers) which is reset at each time\nstamp packet emission. This counter can be either clocked by the CPU clock or the SWV\nclock.\nA synchronization packet consists of 6 bytes equal to 0x80_00_00_00_00_00 which is\nemitted to the TPIU as 00 00 00 00 00 80 (LSB emitted first).\nA synchronization packet is a timestamp packet control. It is emitted at each DWT trigger.\nFor this, the DWT must be configured to trigger the ITM: the bit CYCCNTENA (bit0) of the\nDWT Control register must be set. In addition, the bit2 (SYNCENA) of the ITM Trace Control\nregister must be set.\nNote: If the SYNENA bit is not set, the DWT generates Synchronization triggers to the TPIU which\nwill send only TPIU synchronization packets and not ITM synchronization packets.\nAn overflow packet consists is a special timestamp packets which indicates that data has\nbeen written but the FIFO was full.\n[Table 229. Main ITM registers]\nExample of configuration\nTo output a simple value to the TPIU:\n• Configure the TPIU and assign TRACE I/Os by configuring the DBGMCU_CR (refer to\nSection31.17.2 and Section31.16.3)\n• Write 0xC5ACCE55 to the ITM Lock Access register to unlock the write access to the\nITM registers\n• Write 0x00010005 to the ITM Trace Control register to enable the ITM with Sync\nenabled and an ATB ID different from 0x00\n• Write 0x1 to the ITM Trace Enable register to enable the Stimulus Port 0\n• Write 0x1 to the ITM Trace Privilege register to unmask stimulus ports 7:0\n• Write the value to output in the Stimulus Port register 0: this can be done by software\n(using a printf function)",
+      "semantic": {}
+    }
+  ]
+}

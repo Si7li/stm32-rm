@@ -1,0 +1,290 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.11.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.11.6",
+      "section_title": "SPI/I2S status register (SPI_SR)",
+      "level": 3,
+      "parent_section": "45.11",
+      "page": 2010,
+      "page_end": 2013,
+      "semantic_type": "register_description",
+      "features": [
+        "crce",
+        "ctsize",
+        "dxp",
+        "eot",
+        "i2s",
+        "modf",
+        "ovr",
+        "rxp",
+        "rxplvl",
+        "rxwne",
+        "spi",
+        "spi-sr",
+        "susp",
+        "tifre",
+        "txc",
+        "txp",
+        "txtf",
+        "udr"
+      ],
+      "chars": 6729,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2010",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.11.6 \"SPI/I2S status register (SPI_SR)\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 2010.",
+      "section_content": "Address offset: 0x014\nReset value: 0x0000 1002\nAll the flags of this register are not cleared automatically when the SPI is reenabled. They\nrequire specific clearing access exclusively via the flag clearing register as noted in the bits\ndescriptions below.\nBits 31:16 CTSIZE[15:0]: number of data frames remaining in current TSIZE session\nThe value is not quite reliable when traffic is ongoing on bus .\nNote: CTSIZE[15:0] bits are not available in instances with limited set of features.\nBit 15 RXWNE: RxFIFO word not empty\n0: less than four bytes of RxFIFO space is occupied by data\n1: at least four bytes of RxFIFO space is occupied by data\nNote: This bit value does not depend on DSIZE setting and keeps together with RXPLVL[1:0]\ninformation about RxFIFO occupancy by residual data.\nBits 14:13 RXPLVL[1:0]: RxFIFO packing level\nWhen RXWNE = 0 and data size is set up to 16 bits, the value gives number of remaining\ndata frames persisting at RxFIFO.\nWhen data size is greater than 16 bits, these bits are always read as 00. As a result, the\nsingle data frame received in the FIFO cannot be detected neither by RWNE nor by RXPLVL\nbits if the data size is set from 17 to 24 bits. The user must then apply other methods to\ndetect the number of data received, such as monitor the EOT event when TSIZE>0 or RXP\nevents when FTHLV=0.\n00: no next frame is available at RxFIFO\n01: 1 frame is available\n10: 2 frames are available*\n11: 3 frames are available*\nNote: (*): Possible value when data size is set up to 8 bits only.\nBit 12 TXC: TxFIFO transmission complete\nThe flag behavior depends on TSIZE setting.\nWhen TSIZE=0, the TXC is changed by hardware exclusively and it raises each time the\nTxFIFO becomes empty and there is no activity on the bus.\nIf TSIZE≠0 there is no specific reason to monitor TXC as it just copies the EOT flag value\nincluding its software clearing. The TXC generates an interrupt when EOTIE is set.\nThis flag is set when SPI is reset or disabled.\n0: current data transfer is still ongoing, data is available in TxFIFO or last frame transmission\nis on going.\n1: last TxFIFO frame transmission complete\nBit 11 SUSP: suspension status\nIn master mode, SUSP is set by hardware either as soon as the current frame is complete\nafter CSUSP request is done or at master automatic suspend receive mode (the MASRX bit\nis set in the SPI_CR1 register) on RxFIFO full condition.\nSUSP generates an interrupt when EOTIE is set.\nThis bit must be cleared prior to disabling the SPI. This is done by setting the SUSPC bit of\nSPI_IFCR exclusively.\n0: SPI not suspended (master mode active or other mode).\n1: master mode is suspended (current frame completed).\nBit 10 Reserved, must be kept at reset value.\nBit 9 MODF: mode fault\nWhen MODF is set, SPE and IOLOCK bits of the SPI_CR1 register are reset and setting\nSPE again is blocked until MODF is cleared.\nThis bit is cleared by writing 1 to the MODFC bit of the SPI_IFCR exclusively.\n0: no mode fault\n1: mode fault detected.\nBit 8 TIFRE: TI frame format error\nThis bit is cleared by writing 1 to the TIFREC bit of the SPI_IFCR exclusively.\n0: no TI Frame Error\n1: TI frame error detected\nBit 7 CRCE: CRC error\nThis bit is cleared when SPI is re-enabled or by writing 1 to the CRCEC bit of the SPI_IFCR\noptionally.\n0: no CRC error\n1: CRC error detected\nBit 6 OVR: overrun\nThis bit is cleared when SPI is re-enabled or by writing 1 to the OVRC bit of the SPI_IFCR\noptionally.\n0: no overrun\n1: overrun detected\nBit 5 UDR: underrun\nThis bit is cleared when SPI is re-enabled or by writing 1 to the UDRC bit of the SPI_IFCR\noptionally.\n0: no underrun\n1: underrun detected\nNote: In SPI mode, the UDR flag applies to slave mode only. In I2S/PCM mode, (when\navailable) this flag applies to master and slave mode.\nBit 4 TXTF: transmission transfer filled\nTXTF is set by hardware as soon as all of the data packets in a transfer have been submitted\nfor transmission by application software or DMA, that is when TSIZE number of data have\nbeen pushed into the TxFIFO.\nThis bit is cleared by software write 1 to the TXTFC bit of the SPI_IFCR exclusively.\nThe TXTF flag triggers an interrupt if the TXTFIE bit is set.\nTXTF setting clears the TXPIE and DXPIE masks so to off-load application software from\ncalculating when to disable TXP and DXP interrupts.\n0: upload of TxFIFO is ongoing or not started\n1: TxFIFO upload is finished\nBit 3 EOT: end of transfer\nEOT is set by hardware as soon as a full transfer is complete, that is when SPI is re-enabled\nor when TSIZE number of data have been transmitted and/or received on the SPI. EOT is\ncleared when SPI is re-enabled or by writing 1 to the EOTC bit of the SPI_IFCR register\noptionally.\nEOT flag triggers an interrupt if the EOTIE bit is set.\nIf DXP flag is used until TXTF flag is set and DXPIE is cleared, EOT can be used to\ndownload the last packets contained into RxFIFO in one-shot.\nIn master, EOT event terminates the data transfer and handles NSS output optionally. When\nCRC is applied, the EOT event is extended over the CRC frame transfer.\nTo restart the internal state machine properly, SPI is strongly suggested to be disabled and\nre-enabled before next transfer starts despite its setting is not changed.\n0: transfer is ongoing or not started\n1: transfer complete\nBit 2 DXP: duplex packet\nDXP flag is set whenever both TXP and RXP flags are set regardless SPI mode.\n0: TxFIFO is Full and/or RxFIFO is Empty\n1: both TxFIFO has space for write and RxFIFO contains for read a single packet at least\nBit 1 TXP: Tx-packet space available\nTXP flag can be changed only by hardware. Its value depends on the physical size of the\nFIFO and its threshold (FTHLV[3:0]), data frame size (DSIZE[4:0] in SPI mode and\nrespective DATLEN[1:0] in I2S/PCM mode), and actual communication flow. If the data\npacket is stored by performing consecutive write operations to SPI_TXDR, TXP flag must be\nchecked again once a complete data packet is stored at TxFIFO. TXP is set despite SPI\nTxFIFO becomes inaccessible when SPI is reset or disabled.\n0: not enough free space at TxFIFO to host next data packet\n1: enough free space at TxFIFO to host at least one data packet\nBit 0 RXP: Rx-packet available\nThe flag is changed by hardware. It monitors the total number of data currently available at\nRxFIFO if SPI is enabled. RXP value depends on the FIFO threshold (FTHLV[3:0]), data\nframe size (DSIZE[4:0] in SPI mode and DATLEN[1:0] in I2S/PCM mode), and actual\ncommunication flow. If the data packet is read by performing consecutive read operations\nfrom SPI_RXDR, RXP flag must be checked again once a complete data packet is read out\nfrom RxFIFO.\n0: RxFIFO is empty or an incomplete data packet is received\n1: RxFIFO contains at least one data packet",
+      "semantic": {
+        "register": "SPI_SR",
+        "address_offset": "0x014",
+        "reset_value": "0x0000 1002",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "CTSIZE[15:0]",
+            "description": "number of data frames remaining in current TSIZE session The value is not quite reliable when traffic is ongoing on bus . Note: CTSIZE[15:0] bits are not available in instances with limited set of features.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "RXWNE",
+            "description": "RxFIFO word not empty Note: This bit value does not depend on DSIZE setting and keeps together with RXPLVL[1:0] information about RxFIFO occupancy by residual data.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "less than four bytes of RxFIFO space is occupied by data"
+              },
+              {
+                "value": "1",
+                "meaning": "at least four bytes of RxFIFO space is occupied by data"
+              }
+            ]
+          },
+          {
+            "bits": "14:13",
+            "name": "RXPLVL[1:0]",
+            "description": "RxFIFO packing level When RXWNE = 0 and data size is set up to 16 bits, the value gives number of remaining data frames persisting at RxFIFO. When data size is greater than 16 bits, these bits are always read as 00. As a result, the single data frame received in the FIFO cannot be detected neither by RWNE nor by RXPLVL bits if the data size is set from 17 to 24 bits. The user must then apply other methods to detect the number of data received, such as monitor the EOT event when TSIZE>0 or RXP events when FTHLV=0. Note: (*): Possible value when data size is set up to 8 bits only.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "no next frame is available at RxFIFO"
+              },
+              {
+                "value": "01",
+                "meaning": "1 frame is available"
+              },
+              {
+                "value": "10",
+                "meaning": "2 frames are available*"
+              },
+              {
+                "value": "11",
+                "meaning": "3 frames are available*"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "TXC",
+            "description": "TxFIFO transmission complete The flag behavior depends on TSIZE setting. When TSIZE=0, the TXC is changed by hardware exclusively and it raises each time the TxFIFO becomes empty and there is no activity on the bus. If TSIZE≠0 there is no specific reason to monitor TXC as it just copies the EOT flag value including its software clearing. The TXC generates an interrupt when EOTIE is set. This flag is set when SPI is reset or disabled. is on going.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "current data transfer is still ongoing, data is available in TxFIFO or last frame transmission"
+              },
+              {
+                "value": "1",
+                "meaning": "last TxFIFO frame transmission complete"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "SUSP",
+            "description": "suspension status In master mode, SUSP is set by hardware either as soon as the current frame is complete after CSUSP request is done or at master automatic suspend receive mode (the MASRX bit is set in the SPI_CR1 register) on RxFIFO full condition. SUSP generates an interrupt when EOTIE is set. This bit must be cleared prior to disabling the SPI. This is done by setting the SUSPC bit of SPI_IFCR exclusively.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SPI not suspended (master mode active or other mode)."
+              },
+              {
+                "value": "1",
+                "meaning": "master mode is suspended (current frame completed)."
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "MODF",
+            "description": "mode fault When MODF is set, SPE and IOLOCK bits of the SPI_CR1 register are reset and setting SPE again is blocked until MODF is cleared. This bit is cleared by writing 1 to the MODFC bit of the SPI_IFCR exclusively.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no mode fault"
+              },
+              {
+                "value": "1",
+                "meaning": "mode fault detected."
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "TIFRE",
+            "description": "TI frame format error This bit is cleared by writing 1 to the TIFREC bit of the SPI_IFCR exclusively.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no TI Frame Error"
+              },
+              {
+                "value": "1",
+                "meaning": "TI frame error detected"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "CRCE",
+            "description": "CRC error This bit is cleared when SPI is re-enabled or by writing 1 to the CRCEC bit of the SPI_IFCR optionally.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no CRC error"
+              },
+              {
+                "value": "1",
+                "meaning": "CRC error detected"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "OVR",
+            "description": "overrun This bit is cleared when SPI is re-enabled or by writing 1 to the OVRC bit of the SPI_IFCR optionally.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no overrun"
+              },
+              {
+                "value": "1",
+                "meaning": "overrun detected"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "UDR",
+            "description": "underrun This bit is cleared when SPI is re-enabled or by writing 1 to the UDRC bit of the SPI_IFCR optionally. Note: In SPI mode, the UDR flag applies to slave mode only. In I2S/PCM mode, (when available) this flag applies to master and slave mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no underrun"
+              },
+              {
+                "value": "1",
+                "meaning": "underrun detected"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "TXTF",
+            "description": "transmission transfer filled TXTF is set by hardware as soon as all of the data packets in a transfer have been submitted for transmission by application software or DMA, that is when TSIZE number of data have been pushed into the TxFIFO. This bit is cleared by software write 1 to the TXTFC bit of the SPI_IFCR exclusively. The TXTF flag triggers an interrupt if the TXTFIE bit is set. TXTF setting clears the TXPIE and DXPIE masks so to off-load application software from calculating when to disable TXP and DXP interrupts.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "upload of TxFIFO is ongoing or not started"
+              },
+              {
+                "value": "1",
+                "meaning": "TxFIFO upload is finished"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "EOT",
+            "description": "end of transfer EOT is set by hardware as soon as a full transfer is complete, that is when SPI is re-enabled or when TSIZE number of data have been transmitted and/or received on the SPI. EOT is cleared when SPI is re-enabled or by writing 1 to the EOTC bit of the SPI_IFCR register optionally. EOT flag triggers an interrupt if the EOTIE bit is set. If DXP flag is used until TXTF flag is set and DXPIE is cleared, EOT can be used to download the last packets contained into RxFIFO in one-shot. In master, EOT event terminates the data transfer and handles NSS output optionally. When CRC is applied, the EOT event is extended over the CRC frame transfer. To restart the internal state machine properly, SPI is strongly suggested to be disabled and re-enabled before next transfer starts despite its setting is not changed.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "transfer is ongoing or not started"
+              },
+              {
+                "value": "1",
+                "meaning": "transfer complete"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "DXP",
+            "description": "duplex packet DXP flag is set whenever both TXP and RXP flags are set regardless SPI mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "TxFIFO is Full and/or RxFIFO is Empty"
+              },
+              {
+                "value": "1",
+                "meaning": "both TxFIFO has space for write and RxFIFO contains for read a single packet at least"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "TXP",
+            "description": "Tx-packet space available TXP flag can be changed only by hardware. Its value depends on the physical size of the FIFO and its threshold (FTHLV[3:0]), data frame size (DSIZE[4:0] in SPI mode and respective DATLEN[1:0] in I2S/PCM mode), and actual communication flow. If the data packet is stored by performing consecutive write operations to SPI_TXDR, TXP flag must be checked again once a complete data packet is stored at TxFIFO. TXP is set despite SPI TxFIFO becomes inaccessible when SPI is reset or disabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "not enough free space at TxFIFO to host next data packet"
+              },
+              {
+                "value": "1",
+                "meaning": "enough free space at TxFIFO to host at least one data packet"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "RXP",
+            "description": "Rx-packet available The flag is changed by hardware. It monitors the total number of data currently available at RxFIFO if SPI is enabled. RXP value depends on the FIFO threshold (FTHLV[3:0]), data frame size (DSIZE[4:0] in SPI mode and DATLEN[1:0] in I2S/PCM mode), and actual communication flow. If the data packet is read by performing consecutive read operations from SPI_RXDR, RXP flag must be checked again once a complete data packet is read out from RxFIFO.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RxFIFO is empty or an incomplete data packet is received"
+              },
+              {
+                "value": "1",
+                "meaning": "RxFIFO contains at least one data packet"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

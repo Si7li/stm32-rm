@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.4.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.4.7",
+      "section_title": "HPDMA channel state and linked-list programming",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 851,
+      "page_end": 855,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 5030,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=851",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.7 \"HPDMA channel state and linked-list programming\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 851.",
+      "section_content": "in run-to-completion mode\nWhen HPDMA_CxCR.LSM=0 (in full-list execution mode, execution of the full sequence of\nLLIs, named run-to-completion mode), an HPDMA channel x is initially programmed, started\nby writing 1 to HPDMA_CxCR.EN, and after completed at channel level.\nThechanneltransfer is:\n• Configured with at least the following:\n– The first LLI0, internal linked-list register file: HPDMA_CxTR1, HPDMA_CxTR2,\nHPDMA_CxBR1, HPDMA_CxSAR, HPDMA_CxDAR, and HPDMA_CxLLR, plus\nHPDMA_CxTR3 and HPDMA_CxBR2 when present\n– The last LLIN described by the linked-list data structure in memory, as defined\nbyHPDMA_CxLLR reflecting the before last LLIN-1\n• Completed when HPDMA_CxLLR[31:0]=0 and HPDMA_CxBR1.BRC[10:0] = 0,\nifBRC[10:0] is present and HPDMA_CxBR1.BNDT[15:0]=0, at the end of the last\nLLIN-1 transfer\nHPDMA_CxLLR[31:0]=0 is the condition of a linked-list based channel completion, and\nmeans the following:\n• The 16 low significant bits HPDMA_CxLLR.LA[15:0] of the next link address are null.\n• All bits HPDMA_CxLLR.Uxx are null (UT1, UT2, UB1, USA, UDA, and ULL, plus UB2\nand UT3 when present).\nThe channel may never be completed when HPDMA_CxLLR.LSM=0:\n• If the last LLIN is recursive, pointing to itself as a next LLI, in one of the following:\n– HPDMA_CxLLR.ULL=1 and HPDMA_CxLLR.LA[15:2] is updated with the same\nvalue.\n– HPDMA_CxLLR.ULL=0\n• If LLIN points to a previous LLI\nAt the regular data transfer completion at a block level, HPDMA_CxBR1.BNDT[15:0]=0\nand HPDMA_CxBR1.BRC[10:0]=0 (if present). Alternatively, a block transfer may be early\ncompleted by a peripheral (such as an I3C in Rx mode), and then BNDT[15:0] is not null\n(see Section18.4.14 for more details).\nIn typical run-to-completion mode, allocation of an HPDMA channel, including detailed\nprogramming, occurs once during HPDMA initialization. This process reserves a data\ncommunication link and HPDMA service during run-time for repeated transfers, such as\ntransfers from a peripheral to memory, from memory to a peripheral, or memory-to-memory\ntransfers. The reserved data communication link may consist of a dedicated channel, or the\nchannel may be shared. A repeated transfer consists of a sequence of linked list items\n(LLIs).\nFigure80 depicts the HPDMA channel execution and its registers programming in run-to-\ncompletion mode.\nNote: Figure80 is not intended to illustrate how often a TCEF can be raised, depending on the\nprogrammed value of TCEM[1:0] in HPDMA_CxTR2. It can be raised at (each) block\ncompletion, at (each) 2D block completion, at (each) LLI completion, or only at channel\ncompletion. In run-to-completion mode, whatever is the value of TCEM[1:0], at the channel\ncompletion, the hardware always set TCEF=1 and disables the channel.\nIn Figure80, BNDT≠0 is the typical condition for starting the first data transfer. This\ncondition becomes (BNDT≠0 and PFREQ=1) if the peripheral requests a data transfer\nwith early termination (see Section18.3.6).\n[Figure 80. HPDMA channel execution and linked-list programming]\nin run-to-completion mode (HPDMA_CxCR.LSM=0)\nChannel state = Idle\nReconfigure DMA channel\nEnable DMA channel\nChannel state = Active\nValid user\nsetting ? N\nSetting USEF = 1\nBNDT(cid:143)(cid:3)0 ? N Disabling DMA channel\nExecuting once the data\ntransfer from the register file\nNo transfer\nerror ? N\nSetting DTEF = 1\nDisabling DMA channel\nN LLR (cid:143)(cid:3)0 ?\nLoading next LLI\ninto the register file\nNo transfer\nerror ? N\nY Setting ULEF = 1\nDisabling DMA channel\nValid user\nsetting ? N\nSetting USEF = 1\nSetting TCF = 1 Disabling DMA channel\nDisabling DMA channel\nEnd\nRun-time inserting a LLIn via an auxiliary channel, in run-to-completion mode\nThe start of the link transfer of the LLIn-1 (start of the LLIn loading) can be conditioned by the\noccurrence of a trigger, when programming the following bitfields of HPDMA_CxTR2 in the\ndata structure of the LLIn-1:\n• TRIGM[1:0]=10 (link transfer triggering mode)\n• TRIGPOL[1:0]=01 or 10 (rising or falling edge)\n• TRIGSEL[6:0] (see Section18.3.7 for the trigger selection details)\nAnother auxiliary channel y can be used to store the channel x LLIn in the memory, and to\ngenerate a transfer complete event hpdma_chy_tc. By selecting this event as the input\ntrigger of the link transfer of the LLIn-1 of the channel x, the software can pause the primary\nchannel x after its LLIn-1 data transfer, until it is indeed written the LLIn.\nFigure81 depicts such a dynamic elaboration of a linked-list of a primary channel x,\nviaanother auxiliary channel y.\nCaution: This use case is restricted to an application with an LLIn-1 data transfer that does not need\natrigger. The triggering mode of this LLIn-1 is used to load the next LLIn.\n[Figure 81. Inserting a LLIn with an auxiliary HPDMA channel y]\nDMA auxiliary channel y\nDMA primary channel x CPU\nExecuting LLIn-2 data transfer\nLoading LLIn-1\n(with DMA_CxTR2: TRIGM[1:0] = 10\nTRIGPOL[1:0] = 01\nTRIGSEL= dma_chy_tc\nand TCEM[1:0] = 01)\nExecuting LLIn-1 data transfer\nLoading new LLIn\nExecuting LLIn data transfer\nLoading LLIn+1",
+      "semantic": {}
+    }
+  ]
+}

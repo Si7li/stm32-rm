@@ -1,0 +1,285 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.8.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.8.9",
+      "section_title": "GPDMA channel x control register (GPDMA_CxCR)",
+      "level": 3,
+      "parent_section": "19.8",
+      "page": 986,
+      "page_end": 988,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "dteie",
+        "gpdma",
+        "htie",
+        "lap",
+        "lsm",
+        "memory",
+        "prio",
+        "reset",
+        "spi",
+        "susp",
+        "suspie",
+        "tcie",
+        "toie",
+        "uleie",
+        "useie"
+      ],
+      "chars": 4442,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=986",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.8.9 \"GPDMA channel x control register (GPDMA_CxCR)\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 986.",
+      "section_content": "Address offset: 0x64 + 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of the channel x (GPDMA_PRIVCFGR.PRIVx).\nThis register is used to control a channel (activate, suspend, abort or disable it).\nBits 31:24 Reserved, must be kept at reset value.\nBits 23:22 PRIO[1:0]: priority level of the channel x GPDMA transfer versus others\n00: low priority, low weight\n01: low priority, mid weight\n10: low priority, high weight\n11: high priority\nNote: This bit must be written when EN = 0. This bit is read-only when EN = 1.\nBits 21:18 Reserved, must be kept at reset value.\nBit 17 LAP: linked-list allocated port\nThis bit is used to allocate the master port for the update of the GPDMA linked-list registers\nfrom the memory.\n0: port 0 (AHB) allocated\n1: port 1 (AHB) allocated\nNote: This bit must be written when EN = 0. This bit is read-only when EN = 1.\nBit 16 LSM: Link step mode\n0: channel executed for the full linked-list and completed at the end of the last LLI\n(GPDMA_CxLLR = 0). The 16 low-significant bits of the link address are null (LA[15:0] = 0)\nand all the update bits are null (UT1 = UB1 = UT2 = USA = UDA = ULL = 0 and\nUT3 = UB2 = 0). Then GPDMA_CxBR1.BNDT[15:0] = 0 and GPDMA_CxBR1.BRC[10:0] = 0.\n1: channel executed once for the current LLI\nFirst the (possible 1D/repeated) block transfer is executed as defined by the current internal\nregister file until GPDMA_CxBR1.BNDT[15:0] = 0 and GPDMA_CxBR1.BRC[10:0] = 0.\nSecondly the next linked-list data structure is conditionally uploaded from memory as defined\nby GPDMA_CxLLR. Then channel execution is completed.\nNote: This bit must be written when EN = 0. This bit is read-only when EN = 1.\nBit 15 Reserved, must be kept at reset value.\nBit 14 TOIE: trigger overrun interrupt enable\n0: interrupt disabled\n1: interrupt enabled\nBit 13 SUSPIE: completed suspension interrupt enable\n0: interrupt disabled\n1: interrupt enabled\nBit 12 USEIE: user setting error interrupt enable\n0: interrupt disabled\n1: interrupt enabled\nBit 11 ULEIE: update link transfer error interrupt enable\n0: interrupt disabled\n1: interrupt enabled\nBit 10 DTEIE: data transfer error interrupt enable\n0: interrupt disabled\n1: interrupt enabled\nBit 9 HTIE: half-transfer complete interrupt enable\n0: interrupt disabled\n1: interrupt enabled\nBit 8 TCIE: transfer complete interrupt enable\n0: interrupt disabled\n1: interrupt enabled\nBits 7:3 Reserved, must be kept at reset value.\nBit 2 SUSP: suspend\nWriting 1 into the field RESET (bit 1) causes the hardware to de-assert this bit, whatever is\nwritten into this bit 2. Else:\nSoftware must write 1 in order to suspend an active channel (channel with an ongoing\nGPDMA transfer over its master ports).\nThe software must write 0 in order to resume a suspended channel, following the\nprogramming sequence detailed in Figure95.\n0: write: resume channel, read: channel not suspended\n1: write: suspend channel, read: channel suspended.\nBit 1 RESET: reset\nThis bit is write only. Writing 0 has no impact. Writing 1 implies the reset of the following: the\nFIFO, the channel internal state, SUSP and EN bits (whatever is written receptively in bit 2\nand bit 0).\nThe reset is effective when the channel is in steady state, meaning one of the following:\n- active channel in suspended state (GPDMA_CxSR.SUSPF = 1 and\nGPDMA_CxSR.IDLEF = GPDMA_CxCR.EN = 1)\n- channel in disabled state (GPDMA_CxSR.IDLEF = 1 and GPDMA_CxCR.EN = 0).\nAfter writing a RESET, to continue using this channel, the user must explicitly reconfigure the\nchannel including the hardware-modified configuration registers (GPDMA_CxBR1,\nGPDMA_CxSAR, and GPDMA_CxDAR) before enabling again the channel\n(see the programming sequence in Figure96).\n0: no channel reset\n1: channel reset\nBit 0 EN: enable\nWriting 1 into the field RESET (bit 1) causes the hardware to de-assert this bit, whatever is\nwritten into this bit 0. Else:\nthis bit is deasserted by hardware when there is a transfer error (master bus error or user\nsetting error) or when there is a channel transfer complete (channel ready to be configured,\nfor example if LSM = 1 at the end of a single execution of the LLI).\nElse, this bit can be asserted by software.\nWriting 0 into this EN bit is ignored.\n0: write: ignored, read: channel disabled\n1: write: enable channel, read: channel enabled",
+      "semantic": {
+        "register": "GPDMA_CxCR",
+        "address_offset": "0x64 + 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:22",
+            "name": "PRIO[1:0]",
+            "description": "priority level of the channel x GPDMA transfer versus others Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "low priority, low weight"
+              },
+              {
+                "value": "01",
+                "meaning": "low priority, mid weight"
+              },
+              {
+                "value": "10",
+                "meaning": "low priority, high weight"
+              },
+              {
+                "value": "11",
+                "meaning": "high priority"
+              }
+            ]
+          },
+          {
+            "bits": "21:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "LAP",
+            "description": "linked-list allocated port This bit is used to allocate the master port for the update of the GPDMA linked-list registers from the memory. Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "port 0 (AHB) allocated"
+              },
+              {
+                "value": "1",
+                "meaning": "port 1 (AHB) allocated"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "LSM",
+            "description": "Link step mode (GPDMA_CxLLR = 0). The 16 low-significant bits of the link address are null (LA[15:0] = 0) and all the update bits are null (UT1 = UB1 = UT2 = USA = UDA = ULL = 0 and UT3 = UB2 = 0). Then GPDMA_CxBR1.BNDT[15:0] = 0 and GPDMA_CxBR1.BRC[10:0] = 0. First the (possible 1D/repeated) block transfer is executed as defined by the current internal register file until GPDMA_CxBR1.BNDT[15:0] = 0 and GPDMA_CxBR1.BRC[10:0] = 0. Secondly the next linked-list data structure is conditionally uploaded from memory as defined by GPDMA_CxLLR. Then channel execution is completed. Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "channel executed for the full linked-list and completed at the end of the last LLI"
+              },
+              {
+                "value": "1",
+                "meaning": "channel executed once for the current LLI"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "TOIE",
+            "description": "trigger overrun interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "SUSPIE",
+            "description": "completed suspension interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "USEIE",
+            "description": "user setting error interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "ULEIE",
+            "description": "update link transfer error interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "DTEIE",
+            "description": "data transfer error interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "HTIE",
+            "description": "half-transfer complete interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "TCIE",
+            "description": "transfer complete interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "7:3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "SUSP",
+            "description": "suspend Writing 1 into the field RESET (bit 1) causes the hardware to de-assert this bit, whatever is written into this bit 2. Else: Software must write 1 in order to suspend an active channel (channel with an ongoing GPDMA transfer over its master ports). The software must write 0 in order to resume a suspended channel, following the programming sequence detailed in Figure95.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "write: resume channel, read: channel not suspended"
+              },
+              {
+                "value": "1",
+                "meaning": "write: suspend channel, read: channel suspended."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "RESET",
+            "description": "reset This bit is write only. Writing 0 has no impact. Writing 1 implies the reset of the following: the FIFO, the channel internal state, SUSP and EN bits (whatever is written receptively in bit 2 and bit 0). The reset is effective when the channel is in steady state, meaning one of the following: - active channel in suspended state (GPDMA_CxSR.SUSPF = 1 and GPDMA_CxSR.IDLEF = GPDMA_CxCR.EN = 1) - channel in disabled state (GPDMA_CxSR.IDLEF = 1 and GPDMA_CxCR.EN = 0). After writing a RESET, to continue using this channel, the user must explicitly reconfigure the channel including the hardware-modified configuration registers (GPDMA_CxBR1, GPDMA_CxSAR, and GPDMA_CxDAR) before enabling again the channel (see the programming sequence in Figure96).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no channel reset"
+              },
+              {
+                "value": "1",
+                "meaning": "channel reset"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EN",
+            "description": "enable Writing 1 into the field RESET (bit 1) causes the hardware to de-assert this bit, whatever is written into this bit 0. Else: this bit is deasserted by hardware when there is a transfer error (master bus error or user setting error) or when there is a channel transfer complete (channel ready to be configured, for example if LSM = 1 at the end of a single execution of the LLI). Else, this bit can be asserted by software. Writing 0 into this EN bit is ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "write: ignored, read: channel disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "write: enable channel, read: channel enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

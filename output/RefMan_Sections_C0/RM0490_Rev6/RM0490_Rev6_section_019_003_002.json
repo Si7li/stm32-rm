@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S19.3.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "19",
+      "chapter_title": "General-purpose timers (TIM14)",
+      "section": "19.3.2",
+      "section_title": "Counter modes",
+      "level": 3,
+      "parent_section": "19.3",
+      "page": 522,
+      "page_end": 525,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 1946,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=522",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.3.2 \"Counter modes\" in chapter 19 (General-purpose timers (TIM14)), RM0490 Rev 6, page 522.",
+      "section_content": "Upcounting mode\nIn upcounting mode, the counter counts from 0 to the auto-reload value (content of the\nTIMx_ARR register), then restarts from 0 and generates a counter overflow event.\nSetting the UG bit in the TIMx_EGR register (by software) also generates an update event.\nThe UEV event can be disabled by software by setting the UDIS bit in the TIMx_CR1\nregister. This is to avoid updating the shadow registers while writing new values in the\npreload registers. Then no update event occurs until the UDIS bit has been written to 0.\nHowever, the counter restarts from 0, as well as the counter of the prescaler (but the\nprescale rate does not change). In addition, if the URS bit (update request selection) in\nTIMx_CR1 register is set, setting the UG bit generates an update event UEV but without\nsetting the UIF flag (thus no interrupt is sent). This is to avoid generating both update and\ncapture interrupts when clearing the counter on the capture event.\nWhen an update event occurs, all the registers are updated and the update flag (UIF bit in\nTIMx_SR register) is set (depending on the URS bit):\n• The auto-reload shadow register is updated with the preload value (TIMx_ARR),\n• The buffer of the prescaler is reloaded with the preload value (content of the TIMx_PSC\nregister).\nThe following figures show some examples of the counter behavior for different clock\nfrequencies when TIMx_ARR=0x36.\n[Figure 170. Counter timing diagram, internal clock divided by 1]\n[Figure 171. Counter timing diagram, internal clock divided by 2]\n[Figure 172. Counter timing diagram, internal clock divided by 4]\nCounter register 0035 0036 0000 0001\nCounter overflow\n[Figure 173. Counter timing diagram, internal clock divided by N]\nCounter register 1F 20 00\n[Figure 174. Counter timing diagram, update event when ARPE=0 (TIMx_ARR not]\npreloaded)\n[Figure 175. Counter timing diagram, update event when ARPE=1 (TIMx_ARR]\npreloaded)\nWrite a new value in TIMx_ARR",
+      "semantic": {}
+    }
+  ]
+}

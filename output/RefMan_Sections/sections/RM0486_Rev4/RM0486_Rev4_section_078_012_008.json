@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.12.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.12.8",
+      "section_title": "Embedded trace FIFO (ETF)",
+      "level": 3,
+      "parent_section": "78.12",
+      "page": 4538,
+      "page_end": 4539,
+      "semantic_type": "generic",
+      "features": [
+        "etf",
+        "fifo"
+      ],
+      "chars": 3369,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4538",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.12.8 \"Embedded trace FIFO (ETF)\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4538.",
+      "section_content": "The ETF is a 4-Kbyte memory, which captures trace data from three trace sources:\ntheETM/ITM of the Cortex-M55, and the STM. The ETF is a configuration of the CoreSight\ntrace memory controller component.\nThe ETF can be used in three modes (selected in ETF_MODE register):\n• hardware-FIFO mode\nThe trace memory is used as a FIFO that is drained through the ATB master interface.\nTrace data are captured into the trace RAM, and when full, the incoming trace stream is\nstalled. When the trace buffer is not empty, trace data are drained out through the ATB\nmaster interface to the TPIU.\nIn this mode, the FIFO role is to smooth the flow of trace information arriving at the\ntrace port. Since trace data can be very bursty in nature, the peak data rate can easily\nexceed the port capability, resulting in an overflow. The ETF allows a steady data rate\nat the trace port, which can then be sized according to the average rate rather than the\npeak. The trace is stored off-chip in real time by the trace port analyzer tool, and so the\ntrace log can be very large.\n• software-FIFO mode\nThe trace memory is used as a FIFO that can be read through ETF_RRD while the\ntrace is being captured. Trace data are captured into the trace RAM, and when full,\ntheincoming trace stream is stalled.\nThis mode allows the trace to be transferred by DMA into a system memory, or to a\nhigh-speed interface (such as SPI or USB), or monitored by software running on the\ncore.\nNote: Unlike the hardware-FIFO mode, this mode is invasive, since it uses system resources\nshared by the processors.\n• circular-buffer mode (embedded trace buffer)\nThe trace memory is used as a circular buffer. Trace data are captured into the trace\nmemory starting from the location pointed to by ETF_RWP. Even when the trace\nmemory is full, incoming trace data continue to be overwritten in the trace memory until\na stop condition occurs.\nIn this mode, the ETF stores trace data on-chip: the trace log size is limited to the ETF\nSRAM size (64 kbytes in this case). Being a circular buffer, if the FIFO becomes full,\nincoming trace data overwrite oldest stored data (which are lost). The trace buffer\ncontents represent then the most recent activity of the processor: up to the point when\nthe buffer was stopped, rather than all the activity since the trace was started.\nThere are four possible methods to read out the buffer contents once the trace has\nstopped:\n– via the trace port: with the TPIU enabled, the contents of the buffer are output over\nthe trace port. This can be done by setting DRAINBUF in ETF_FFCR.\n– via the ETR: the buffer can be sent out to memory such as SRAM. With the ETR\nenabled, this can be done by setting DRAINBUF in ETF_FFCR.\n– via the debug port: the debugger can read the buffer via ETF_RRD register, which\nis accessible over the debug APB.\n– by software: the processor can read the buffer via ETF_RRD, as the debug APB is\naccessible from the system bus. This can also be performed by software triggered\nDMA transfers. No hardware DMA request is available so FULL in ETF_STS can\nbe used to trigger an interrupt to the Cortex-M55 via the cross trigger. The\nsoftware can then read ETF_CBUFLVL to find out the number of data to be read.\nFor more information on the trace memory controller CoreSight component, refer to the Arm\nCoreSight Trace Memory Controller Technical Reference Manual [3].",
+      "semantic": {}
+    }
+  ]
+}

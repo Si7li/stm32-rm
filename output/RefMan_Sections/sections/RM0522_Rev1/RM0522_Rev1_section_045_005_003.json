@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.5.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.5.3",
+      "section_title": "CRC computation",
+      "level": 3,
+      "parent_section": "45.5",
+      "page": 1975,
+      "page_end": 1976,
+      "semantic_type": "generic",
+      "features": [
+        "crc",
+        "spi"
+      ],
+      "chars": 4329,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1975",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.5.3 \"CRC computation\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1975.",
+      "section_content": "Two separate CRC calculators are implemented to check the reliability of transmitted and\nreceived data. The CRC polynomial configuration depends on the instance. Refer to\nSection45.3: SPI implementation for more information.\nThe length of the polynomial is defined by the most significant bit of the value stored in the\nSPI_CRCPOLY register. It must be greater than the data frame size (in bits) defined in the\nDSIZE[4:0] bitfield of the SPI_CFG1 register. To obtain a full-size polynomial, the polynomial\nlength must exceed the maximum data size of the peripheral instance, and the CRC33_17\nbit of the SPI_CR1 register must be set to select the most significant bit of the polynomial\nstring.\nFor example, to select the standard CRC16-CCITT (XMODEM) polynomial x^16 + x^12 +\nx^5 + 1:\n• For a 32-bit instance: write 0x11021 to the SPI_CRCPOLY register and clear the\nCRC33_17 bit.\n• For a 16-bit instance: to obtain the full size, write 0x1021, and set the CRC33_17 bit.\nThe CRCSIZE field of the SPI_CFG1 register then defines how many most significant bits\nfrom the CRC calculation registers are transferred and compared as CRC frame. It is\ndefined independently from the data frame length, but it must be either equal or an integer\nmultiple of the data frame size. Its size cannot exceed the maximum data size of the\ninstance.\nTo fully benefit from the CRC calculation capability, the polynomial length setting must\ncorrespond to the CRC frame size, else the bits unused at the calculation are transferred\nand expected all zero at the end of the CRC frame if its size is set greater than the\npolynomial length.\nCRC principle\nThe CRC calculation is enabled by setting the CRCEN bit of the SPI_CFG1 register before\nthe SPI is enabled (SPE = 1). The CRC value is then calculated using the CRC polynomial\ndefined by the CRCPOLY register and CRC33_17 bit. When SPI is enabled, the CRC\npolynomial can be changed but only in the case when there is no traffic on the bus.\nThe CRC computation is done, bit by bit, on the sampling clock edge defined by the CPHA\nand CPOL bits of the SPI_CR1 register. The calculated CRC value is checked automatically\nat the end of the data block defined by the SPI_CR2 register exclusively.\nWhen a mismatch is detected between the CRC calculated internally on the received data\nand the CRC received from the transmitter, a CRCE flag is set to indicate a data corruption\nerror. The right procedure for handling the CRC depends on the SPI configuration and the\nchosen transfer management.\nCRC transfer management\nCommunication starts and continues normally until the last data frame has been sent or\nreceived in the SPI_DR register.\nThe length of the transfer must be defined by TSIZE. When the desired number of data is\ntransferred, the TXCRC is transmitted and the data received on the line are compared to the\nRXCRC value.\nWhatever the CRCSIZE configuration, TSIZE cannot be set to 0xFFFF for a full-featured\ninstance, and to 0x3FF for a limited-featured instance, if CRC is enabled.\nIn transmission, the CRC computation is frozen during the CRC transfer and the TXCRC is\ntransmitted, in a frame of length equal to the CRCSIZE field value.\nIn reception, the RXCRC is also frozen when the desired number of data is transferred.\nInformation to be compared with the RXCRC register content is then received in a frame of\nlength equal to the CRCSIZE value.\nOnce the CRC frame is complete, an automatic check is performed comparing the received\nCRC value and the value calculated in the SPI_RXCRC register. The software has to check\nthe CRCE flag of the SPI_SR register to determine if the data transfers were corrupted or\nnot. Software clears the CRCE flag by writing 1 to the CRCEC.\nThe user takes no care about any flushing redundant CRC information, it is done\nautomatically.\nResetting the SPI_TXCRC and SPI_RXCRC values\nThe SPI_TXCRC and SPI_RXCRC values are initialized automatically when new data is\nsampled after a CRC phase. This allows the use of DMA circular mode to transfer data\nwithout any interruption (several data blocks covered by intermediate CRC checking\nphases). Initialization patterns for receiver and transmitter can be configured either to zero\nor to all ones in dependency on setting bits TCRCINI and RCRCINI of the SPI_CR1 register.\nThe CRC values are reset when the SPI is disabled.",
+      "semantic": {}
+    }
+  ]
+}

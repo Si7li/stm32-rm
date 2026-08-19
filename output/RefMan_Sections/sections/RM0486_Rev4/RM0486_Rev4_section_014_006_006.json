@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S14.6.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "14",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "14.6.6",
+      "section_title": "System clocks",
+      "level": 3,
+      "parent_section": "14.6",
+      "page": 440,
+      "page_end": 442,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "chars": 2159,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=440",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.6.6 \"System clocks\" in chapter 14 (Reset and clock control (RCC)), RM0486 Rev 4, page 440.",
+      "section_content": "System clock selection\nAfter a system reset, the HSI is selected as system clock (sys[a,b,c,d]_ck), and all PLLs are\nswitched off.\nThe system clock can be stopped by hardware when the system enters Stop or\nStandbymode.\nWhen the system runs, the user can select system clocks (sys[a,b,c,d]_ck) from the four\nfollowing sources:\n• HSE\n• HSI\n• MSI\n• ic[1,2,6,11]_ck\nThis function is controlled by programming RCC_CFGR1. A switch from one clock source\ntoanother occurs only if the target clock source is ready (clock stable after startup delay or\nPLL locked). If a clock source that is not yet ready is selected, the switch occurs when\ntheclock source is ready.\nThe SYSSW only selects the ic[2,6,11]_ck if all three IC dividers are enabled.\nSWS bits in RCC_CFGR1 indicate which clock sources are currently selected. Other status\nbits in RCC_CR indicate which clock(s) is (are) ready.\nSystem clock generation\nFigure46 shows a simplified view of the clock distribution for the CPU and buses. All the\ndividers shown in the block diagram can be changed on-the-fly, without generating timing\nviolations. This feature is a very simple solution to adapt bus frequencies toapplication\nneeds, thus optimizing the power consumption.\nThe AXI sys_bus_ck is divided by HPRE to generate the AHB clock. HPRE is controlled\nbyRCC_CFGR2.\nIn addition to the divide values shown, PPRE1, PPRE2, PPRE4, and PPRE5 can divide\nby32, 64, and 128.\nThere is almost no clock protection, so the software must avoid configurations that can\nblock the system.\nNote: The application must respect the maximum allowed frequencies: FCPUmax and FBUsmax.\nFBUS represents the maximum allowed frequency for AHB and AXI buses (refer to the\ndatasheet for the maximum values).\nThe trace clock (ck_cpu_tpiu) is generated from sys_cpu_ck clock, divided by eight. For\nadditional information, refer to Clock distribution for trace and debug.\n[Figure 46. Core and bus clock generation]\nx Represents the selected value after a system reset.\nCT Represents a cLock tree balancing, with an alignment of the downstream synchronous logic.\n1. Dividers values can be changed on-the-fly. All dividers have 50% duty-cycles.",
+      "semantic": {}
+    }
+  ]
+}

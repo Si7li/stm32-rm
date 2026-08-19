@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.6.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.6.4",
+      "section_title": "Interrupt mode (Wait-IRQ)",
+      "level": 3,
+      "parent_section": "30.6",
+      "page": 1418,
+      "page_end": 1419,
+      "semantic_type": "generic",
+      "features": [
+        "interrupt",
+        "irq"
+      ],
+      "chars": 3204,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1418",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.6.4 \"Interrupt mode (Wait-IRQ)\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1418.",
+      "section_content": "The host and card enter and exit interrupt mode (Wait-IRQ) simultaneously. In interrupt\nmode there is no data transfer. The only message allowed is an interrupt service request\nresponse from the card or the host. For the interrupt mode to work correctly the\nSDMMC_CK frequency must be set in accordance with the achievable SDMMC_CMD data\nrate in Open Drain mode, which depend on the capacitive load and pull-up resistor. The\nCLKDIV must be set >1, and the SETCLKRX must select either the sdmmc_io_in_ck or\nSDMMC_CLKin source.\nThe host must ensure that the card is in Standby state before issuing the CMD40\n(GO_IRQ_STATE). While waiting for an interrupt response the SDMMC_CK clock signal\nmust be kept active.\nA card in interrupt mode (IRQ state):\n• is waiting for an internal card interrupt event. Once the event occurs, the card starts to\nsend the interrupt service request response. The response is sent in open-drain mode.\n• while waiting for the internal card interrupt event, the card also monitors the\nSDMMC_CMD line for a start bit. Upon detection of a start bit the card aborts the\ninterrupt mode and switch to Standby state.\nThe host in interrupt mode (CPSM Wait state waiting for interrupt):\n• is waiting for a card interrupt service request response (start bit).\n• while waiting for a card interrupt service request response the host may abort the\ninterrupt mode (by clearing the WAITINT register bit), which causes the host to send a\ninterrupt service request response R5 with RCA = 0x0000 in open-drain mode.\nWhen sending the interrupt service request response, the sender bit-wise monitors the\nSDMMC_CMD bit stream. The sender whose interrupt service request response bit does\nnot correspond to the bit on the SDMMC_CMD line stops sending. In the case of multiple\nsenders only one successfully sends its full interrupt service request response. If the host\nsends simultaneously, it loses sending after the transmission bit.\nTo handle the interrupt mode, the following procedure applies:\n1. Set the SDMMC_CK frequency in accordance with the achievable SDMMC_CMD data\nrate in Open-drain mode, CLKDIV must be set >1, and SETCLKRX must select the\nsdmmc_io_in_ck.\n2. Load CMD40 (GO_IRQ_STATE) in the command registers.\n3. Enable wait for interrupt by setting WAITINT register bit.\n4. Configure the CPSM to send a command immediately.\n– This causes the CMD40 to be sent and the CPSM to be halted in the Wait state,\nwaiting for a interrupt service request response.\n5. To exit the wait for interrupt state (CPSM Wait state):\n– Upon the detection of an interrupt service request response start bit the CPSM\nmoves to the Receive state where the response is received. The complete\nreception of the response is indicated by the CMDREND or the command CRC\nerror flags.\n– To abort the interrupt mode the host clears the WAITINT register bit, which causes\nthe host to send an interrupt service request response by itself. This moves the\nCPSM to the Receive state. The complete reception of the response is indicated\nby the CMDREND or the command CRC error flags.\nNote: On a simultaneous send interrupt service request response start bit collision the host loses\nthe bus access after the transmission bit.",
+      "semantic": {}
+    }
+  ]
+}

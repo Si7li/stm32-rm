@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.4.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.4.5",
+      "section_title": "Description of user and system option bytes",
+      "level": 3,
+      "parent_section": "6.4",
+      "page": 152,
+      "page_end": 153,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "option-byte"
+      ],
+      "chars": 2570,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=152",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.4.5 \"Description of user and system option bytes\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 152.",
+      "section_content": "The general-purpose option bytes that can be used by the application are listed below:\n• Bank management\n– SWAP_BANK: bank swapping option, set to 1 to swap user FLASH banks after\nboot (see Section6.3.11).\n– SINGLE_BANK: this bit is applicable for:\n- STM32C53x/542 with 128 Kbytes of flash\n- STM32C55x/562 with 256 Kbytes of flash\n- STM32C59x/5A3 with 512 Kbytes of flash\nIf SINGLE_BANK = 1, the available user memory is located in a single bank.\nOtherwise, the device works in dual-bank mode. In any case, the address range is\nkept linear.\n• Watchdog management\n– IWDG_STOP: independent watchdog IWDG counter active in Stop mode if 1 (stop\ncounting or freeze if 0)\n– IWDG_STDBY: independent watchdog IWDG counter active in Standby mode if 1\n(stop counting or freeze if 0)\n– IWDG_SW and WWDG_SW: hardware (0) or software (1) IWDG watchdog control\nselection\nNote: If the hardware watchdog “control selection” feature is enabled (set to 0), the watchdog is\nautomatically enabled at power-on, thus generating a reset unless the watchdog key\nregister is written to or the down-counter is reloaded before the end-of-count is reached.\nDepending on the configuration of IWDG_STOP and IWDG_STDBY options, the IWDG can\ncontinue counting (1) or not (0) when the device is in Stop or Standby mode, respectively.\nWhen the IWDG is kept running during Stop or Standby mode, it can wake up the device\nfrom these modes.\n• Reset management\n– NRST_STDBY: generates a reset when entering Standby mode if cleared to 0.\n– NRST_STOP: generates a reset when entering Stop mode if cleared to 0.\nNote: Whenever a Standby (respectively Stop) mode entry sequence is successfully executed, the\ndevice is reset instead of entering Standby (respectively Stop) mode if NRST_STDBY\n(respectively NRST_STOP) is cleared to 0.\n• Bootloader configuration\nAfter reset, if the STMicroelectronics bootloader is selected as boot location, it reads\nthe contents of BL_COM_CFG, and only attempts to establish communication on\nselected interfaces. This setting allows using the bootloader safely in applications\nwhere it otherwise may cause trouble by reconfiguring some GPIOs.\nWhen STMicroelectronics delivers the device, the values programmed in the\ngeneral-purpose option bytes are the following:\n• Watchdog management\n– IWDG active in Standby and Stop modes (option value = 0x1)\n– IWDG not automatically enabled at power-on (option byte value = 0x1)\n• Reset management:\n– A reset is not generated when the device enters Standby or Stop low-power mode\n(option byte value = 0x1)\nRefer to Section6.10 for details.",
+      "semantic": {}
+    }
+  ]
+}

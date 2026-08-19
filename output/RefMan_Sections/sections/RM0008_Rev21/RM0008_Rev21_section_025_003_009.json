@@ -1,0 +1,38 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.3.9",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.3.9",
+      "section_title": "SPI communication using DMA (direct memory addressing)",
+      "level": 3,
+      "parent_section": "25.3",
+      "page": 719,
+      "page_end": 721,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "memory",
+        "spi"
+      ],
+      "chars": 2114,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=719",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.3.9 \"SPI communication using DMA (direct memory addressing)\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 719.",
+      "section_content": "To operate at its maximum speed, the SPI needs to be fed with the data for transmission\nand the data received on the Rx buffer should be read to avoid overrun. To facilitate the\ntransfers, the SPI features a DMA capability implementing a simple request/acknowledge\nprotocol.\nA DMA access is requested when the enable bit in the SPI_CR2 register is enabled.\nSeparate requests must be issued to the Tx and Rx buffers (see Figure247 and\nFigure248):\n• In transmission, a DMA request is issued each time TXE is set to 1. The DMA then\nwrites to the SPI_DR register (this clears the TXE flag).\n• In reception, a DMA request is issued each time RXNE is set to 1. The DMA then reads\nthe SPI_DR register (this clears the RXNE flag).\nWhen the SPI is used only to transmit data, it is possible to enable only the SPI Tx DMA\nchannel. In this case, the OVR flag is set because the data received are not read.\nWhen the SPI is used only to receive data, it is possible to enable only the SPI Rx DMA\nchannel.\nIn transmission mode, when the DMA has written all the data to be transmitted (flag TCIF is\nset in the DMA_ISR register), the BSY flag can be monitored to ensure that the SPI\ncommunication is complete. This is required to avoid corrupting the last transmission before\ndisabling the SPI or entering the Stop mode. The software must first wait until TXE=1 and\nthen until BSY=0.\nNote: During discontinuous communications, there is a 2 APB clock period delay between the\nwrite operation to SPI_DR and the BSY bit setting. As a consequence, it is mandatory to\nwait first until TXE=1 and then until BSY=0 after writing the last data.\n[Figure 247. Transmission using DMA]\n[Figure 248. Reception using DMA]\nDMA capability with CRC\nWhen SPI communication is enabled with CRC communication and DMA mode, the\ntransmission and reception of the CRC at the end of communication are automatic that is\nwithout using the bit CRCNEXT. After the CRC reception, the CRC must be read in the\nSPI_DR register to clear the RXNE flag.\nAt the end of data and CRC transfers, the CRCERR flag in SPI_SR is set if corruption\noccurs during the transfer.",
+      "semantic": {}
+    }
+  ]
+}

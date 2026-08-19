@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S41.4.16",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "41",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "41.4.16",
+      "section_title": "Wake-up from Stop mode on address match",
+      "level": 3,
+      "parent_section": "41.4",
+      "page": 1668,
+      "page_end": 1669,
+      "semantic_type": "generic",
+      "features": [
+        "i2c"
+      ],
+      "chars": 1895,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1668",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 41.4.16 \"Wake-up from Stop mode on address match\" in chapter 41 (Inter-integrated circuit interface (I2C)), RM0522 Rev 1, page 1668.",
+      "section_content": "The I2C peripheral is able to wake up the device from Stop mode (APB clock is off), when\nthe device is addressed. All addressing modes are supported.\nThe wake-up from Stop mode is enabled by setting the WUPEN bit of the I2C_CR1 register.\nThe HSI oscillator must be selected as the clock source for i2c_ker_ck to allow the wake-up\nfrom Stop mode.\nIn Stop mode, the HSI oscillator is stopped. Upon detecting START condition, the I2C\ninterface starts the HSI oscillator and stretches SCL low until the oscillator wakes up.\nHSI is then used for the address reception.\nIf the received address matches the device own address, I2C stretches SCL low until the\ndevice wakes up. The stretch is released when the ADDR flag is cleared by software. Then\nthe transfer goes on normally.\nIf the address does not match, the HSI oscillator is stopped again and the device does not\nwake up.\nNote: When the system clock is used as I2C clock, or when WUPEN=0, the HSI oscillator does\nnot start upon receiving START condition.\nOnly an ADDR interrupt can wake the device up. Therefore, do not enter Stop mode when\nI2C is performing a transfer, either as a controller or as an addressed target after the ADDR\nflag is set. This can be managed by clearing the SLEEPDEEP bit in the ADDR interrupt\nroutine and setting it again only after the STOPF flag is set.\nCaution: The digital filter is not compatible with the wake-up from Stop mode feature. Before entering\nStop mode with the WUPEN bit set, deactivate the digital filter, by writing zero to the\nDNF[3:0] bitfield.\nCaution: The feature is only available when the HSI oscillator is selected as the I2C clock.\nCaution: Clock stretching must be enabled (NOSTRETCH = 0) to ensure proper operation of the\nwake-up from Stop mode feature.\nCaution: If the wake-up from Stop mode is disabled (WUPEN = 0), the I2C peripheral must be\ndisabled before entering Stop mode (PE = 0).",
+      "semantic": {}
+    }
+  ]
+}

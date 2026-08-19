@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S2.1.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "2",
+      "chapter_title": "Memory and bus architecture",
+      "section": "2.1.2",
+      "section_title": "Bus architecture",
+      "level": 3,
+      "parent_section": "2.1",
+      "page": 158,
+      "page_end": 161,
+      "semantic_type": "generic",
+      "features": [
+        "memory"
+      ],
+      "chars": 2302,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=158",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 2.1.2 \"Bus architecture\" in chapter 2 (Memory and bus architecture), RM0486 Rev 4, page 158.",
+      "section_content": "The bus architecture is divided in two domains, high- and low-performance (see Figure1\nand Figure2).\nHigh-speed, multi-frequency domain, AXI compliant interconnect\nThis high-performance interconnect is mainly used by the CPU, the NPU (STM32N6x7\ndevices only), and by the high-bandwidth masters (GPU, DMA2D, GFXMMU, VENC,\nDCMIPP, LTDC, ETH1, OTG1/2, SDMMC1/2, HPDMA1 AXI port).\nThis domain manages accesses to:\n• external flash memories and SRAMs (through the FMC and the XSPI manager)\n• main system internal memories AXISRAM1/2/3/4/5/6, boot ROM, VENCRAM (when\nthe VENC is off), and CACHEAXI RAM (STM32N6x7 devices when NPU is off) or\nSRAM7 (STM32N6x5 devices)\n• the CPU internal memory (TCM) when accessed by the HPDMA1 AXI and the NPU\nNote: The CPU has internally access to the TCM.\n• the GFXMMU\n• the STM (system trace macrocell)\nThe CPU uses its M-AXI master port to access the above-described targets.\nThe NPU uses a local interconnect (NPU_NIC) to have a direct access to AXISRAM3/4/5/6\nand to the CPU TCM. This results in a high-performance and low-latency bus when\naccessing these targets.\nIn addition, data interleaving can be enabled on AXISRAM3/4/5/6 to balance the traffic and\nto improve access performance.\nThe CPU and high-bandwidth masters use another local interconnect called CPU_NOC to\nhave high-performance access on AXISRAM1/2 and external flash memories.\nNote: The boot ROM is accessible only by the CPU through an intermediate interconnect called\nCPU_NIC.\nMulti-layer AHB interconnect\nThis interconnect is used to access AHBSRAM1/2, BKPSRAM, and peripherals.\nThe CPU can reach peripherals mapped in the peripheral region (address range from\n0x40000000 to 0x5FFFFFFF), using the following masters ports:\n• the CPU P-AHB master port for data accesses\n• the CPU M-AXI master port for instruction accesses\nWhen P-AHB is disabled, data accesses are performed on M-AXI.\nThe CPU accesses AHBSRAM1/2 and BKPSRAM through its M-AXI master port. The CPU\nmemory accesses start on the high-performance interconnect before reaching the AHB\ninterconnect.\nGPDMA1 and HPDMA1 AHB ports are the other masters on this interconnect.\nThe GPDMA1_P has a dedicated access to APB1/2/4 peripherals.\n[Figure 1. Interconnect top view - STM32N6x7 devices]\n[Figure 2. Interconnect top view - STM32N6x5 devices]",
+      "semantic": {}
+    }
+  ]
+}

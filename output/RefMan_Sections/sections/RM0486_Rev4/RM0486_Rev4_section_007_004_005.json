@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S7.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "7",
+      "chapter_title": "Resource isolation slave unit for address space protection (full version) (RISAF)",
+      "section": "7.4.5",
+      "section_title": "RISAF programming",
+      "level": 3,
+      "parent_section": "7.4",
+      "page": 262,
+      "page_end": 263,
+      "semantic_type": "generic",
+      "features": [
+        "risaf"
+      ],
+      "chars": 3853,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=262",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 7.4.5 \"RISAF programming\" in chapter 7 (Resource isolation slave unit for address space protection (full version) (RISAF)), RM0486 Rev 4, page 262.",
+      "section_content": "Only the secure privileged software can set up the access configuration to base region x\nthrough RISAF_REGx_CFGR, RISAF_REGx_CIDCFGR, RISAF_REGx_STARTR, and\nRISAF_REGx_ENDR.\nThe secure privileged software, or the application to which the subregion z configuration has\nbeen delegated in RISAF_REGx_zNESTR, can set up the access configuration to\nsubregion z of base region x through RISAF_REGx_zCFGR, RISAF_REGx_zSTARTR, and\nRISAF_REGx_zENDR (z=A or B).\nAs shown in Table26, subregion right options depend upon the base region privileged and\nsecurity rights.\n[Table 26. RISAF subregion security setup matrix]\nConfiguring base regions in RISAF\nThe number of regions, the region watermark granularity, and the address space size\ndepend upon the RISAF instance (see Section7.3).\nIf the secure privileged software must use a base region x (for example at boot time), the\nfollowing steps are recommended.\n1. The secure privileged software sets start and end addresses for each of the required\nbase regionx, using RISAF_REGx_STARTR and RISAF_REGx_ENDR:\n– These registers are initialized with 32-bit physical addresses when the protected\naddress space size is 4 Gbytes. For different sizes, refer to the register\ndescription.\n– Base regions must be defined within their primary region. The hardware enforces\nthis rule if the application does not follow it.\n2. For each of the above region x, the secure privileged software programs\nRISAF_REGx_CIDCFGR, granting read and/or write access to any compartment.\n3. For each of the above region x, the secure privileged software finalizes the\nprogramming by configuring RISAF_REGx_CFGR, setting up security parameters.\n4. After a final check on the above configuration, the secure privileged software enables\neach required base region x, setting the BREN bit in RISAF_REGx_CFGR.\nAt any time the secure privileged software can lock the RISAF configuration until the next\nreset, by setting the GLOCK bit in RISAF_CR. Subregion registers are the exception to this\nrule, as explained in Configuring subregions in RISAF.\nConfiguring subregions in RISAF\nNote: The number of subregions, the subregion watermark granularity, and the primary region\naddress space size depend on the RISAF resource described in Section7.3.\nImportant notes on access control programming and delegation are in Section7.3.\nWhen an application needs to use the subregion z defined in the base region x, there are\ntwo configuration options in RISAF_REGx_zNESTR:\n• The secure privileged software programs the RIF configuration for this subregion.\nInthis case DCEN is cleared.\n• The secure privileged software delegates the RIF configuration to a single CID, defined\nwith DCCID. In this case DCEN must also be set.\nConfiguring a subregion z consists in the following steps.\n1. Define the start and end address of the subregion using RISAF_REGx_zSTARTR and\nRISAF_REGx_zENDR registers.\n– When programming subregion watermarks, use similar rules as for base regions\n(see Configuring base regions in RISAF).\n– Subregions must be defined within their base region. The RISAF enforces this rule\nif the application does not follow it.\n2. Modify WREN and RDEN in RISAF_REGx_zCFGR to modify the access right of\nallowed compartment (defined with SCID bits).\n3. In the same registers, modify the security and privileged access rights for the allowed\ncompartment, if needed (see Table26 for applicable restrictions).\n4. After a final check on the above configuration, the subregion must be enabled by\nsetting SREN bit in RISAF_REGx_zCFGR.\nAfter a secure privileged software has locked all base regions (using GLOCK bit), subregion\nowners can lock their configuration using the RLOCK bit in RISAF_REGx_zCFGR.\nNote: Only a secure application can change SEC in RISAF_REGx_zCFGR. If the base region is\nsecure, only a secure application can configure subregion registers.",
+      "semantic": {}
+    }
+  ]
+}

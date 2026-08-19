@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S4.3.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "4",
+      "chapter_title": "Boot and security control (BSEC)",
+      "section": "4.3.10",
+      "section_title": "Temporal isolation in BSEC",
+      "level": 3,
+      "parent_section": "4.3",
+      "page": 210,
+      "page_end": 211,
+      "semantic_type": "generic",
+      "features": [
+        "boot",
+        "bsec"
+      ],
+      "chars": 2261,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=210",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.3.10 \"Temporal isolation in BSEC\" in chapter 4 (Boot and security control (BSEC)), RM0486 Rev 4, page 210.",
+      "section_content": "In order to enforce isolation between boot stages the running application in each boot level\nmust hide the secrets it was using before proceeding to the next level of code in the boot\nchain. Such protections must remain until the next boot sequence.\nFour boot levels, with its corresponding hide protection level (HDPL), are defined:\n• Level 0 (HDPL0) corresponds to hardware state machine or ROM code execution.\n• Level 1 (HDPL1) corresponds to the execution of STMicroelectronics signed code or\nROMed code. This code is the first stage of the secure boot.\n• Level 2 (HDPL2) corresponds to the execution of the OEM signed code, stored in\nembedded SRAM. This code is the second stage of the secure boot.\n• Level 3 (HDPL3) corresponds to the application run-time.\nTo help enforcing such isolation between boot stages, the ROM code and the application\nsecure boot can use the following temporal isolation hardware capabilities of BSEC:\n• When BSEC is in a closed state, ROM partially hides itself at the end of its execution in\nlevel 0 or level 1, writing 0xB9D8FF1F to BSEC_UNMAPR register.\n• When BSEC is in a closed state, fuse words 364 to 375 are reloadable only when\nBSEC_UNMAP=0xA1C0DE0D\n• Any 32-bit OTP word can be made non-readable and/or non-writable until next cold or\nwarm reset. It can also be made non-programmable, permanently. See Fuse word\nlocking features and Permanent program lock (PPLOCK) methods in Section4.3.5.\nNote: Details on fuse usage are described in Section5: OTP mapping (OTP).\nThe register BSEC_HDPLSR determines the current hide protection level of the device. The\nencoding offers physical robustness.\n[Table 13. Current HDPL coding]\nThe register is reset to 0xB4 by bsec_hrst. The register is not directly writable. If less than 3,\nthe current level can be incremented by writing a value of 0x60B166E7 to BSEC_HDPLCR.\nThe 2-bit INCR field of the BSEC_NEXTHDPLCR register is added to the level given by\nBSEC_HDPLSR (but clamped at a ceiling of 3), and the result is output on obk_hdpl[7:0] as\nfollows.\n[Table 14. BSEC Next HDPL register usage]\nThe obk_hdpl output goes to the SAES where it influences the generation of DHUK, derived\nfrom the RHUK. This mechanism allows keys for a later temporal level to be generated in\nadvance.",
+      "semantic": {}
+    }
+  ]
+}

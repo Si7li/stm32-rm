@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S43.5.10",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "43",
+      "chapter_title": "Universal synchronous/asynchronous receiver transmitter (USART/UART)",
+      "section": "43.5.10",
+      "section_title": "USART auto baud rate detection",
+      "level": 3,
+      "parent_section": "43.5",
+      "page": 1819,
+      "page_end": 1820,
+      "semantic_type": "generic",
+      "features": [
+        "uart",
+        "usart"
+      ],
+      "chars": 3987,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1819",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.5.10 \"USART auto baud rate detection\" in chapter 43 (Universal synchronous/asynchronous receiver transmitter (USART/UART)), RM0522 Rev 1, page 1819.",
+      "section_content": "The USART can detect and automatically set the USART_BRR register value based on the\nreception of one character. Automatic baud rate detection is useful under two\ncircumstances:\n• The communication speed of the system is not known in advance.\n• The system is using a relatively low accuracy clock source and this mechanism\nenables the correct baud rate to be obtained without measuring the clock deviation.\nThe clock source frequency must be compatible with the expected communication speed.\n• When oversampling by 16, the baud rate ranges from usart_ker_ck_pres/65535 and\nusart_ker_ck_pres/16.\n• When oversampling by 8, the baud rate ranges from usart_ker_ck_pres/32763 and\nusart_ker_ck_pres/8.\nBefore activating the auto baud rate detection, the auto baud rate detection mode must be\nselected through the ABRMOD[1:0] field in the USART_CR2 register. There are four modes\nbased on different character patterns. In these auto baud rate modes, the baud rate is\nmeasured several times during the synchronization data reception and each measurement\nis compared to the previous one.\nThese modes are the following:\n• Mode 0: Any character starting with a bit at 1.\nIn this case the USART measures the duration of the start bit (falling edge to rising\nedge).\n• Mode 1: Any character starting with a 10xx bit pattern.\nIn this case, the USART measures the duration of the Start and of the 1st data bit. The\nmeasurement is done falling edge to falling edge, to ensure a better accuracy in the\ncase of slow signal slopes.\n• Mode 2: A 0x7F character frame (it may be a 0x7F character in LSB first mode or a\n0xFE in MSB first mode).\nIn this case, the baud rate is updated first at the end of the start bit (BRs), then at the\nend of bit 6 (based on the measurement done from falling edge to falling edge: BR6).\nBit0 to bit6 are sampled at BRs while further bits of the character are sampled at BR6.\n• Mode 3: A 0x55 character frame.\nIn this case, the baud rate is updated first at the end of the start bit (BRs), then at the\nend of bit0 (based on the measurement done from falling edge to falling edge: BR0),\nand finally at the end of bit6 (BR6). Bit 0 is sampled at BRs, bit 1 to bit 6 are sampled at\nBR0, and further bits of the character are sampled at BR6. In parallel, another check is\nperformed for each intermediate RX line transition. An error is generated if the\ntransitions on RX are not sufficiently synchronized with the receiver (the receiver being\nbased on the baud rate calculated on bit 0).\nPrior to activating the auto baud rate detection, the USART_BRR register must be initialized\nby writing a non-zero baud rate value.\nThe automatic baud rate detection is activated by setting the ABREN bit in the USART_CR2\nregister. The USART then waits for the first character on the RX line. The auto baud rate\noperation completion is indicated by the setting of the ABRF flag in the USART_ISR\nregister. If the line is noisy, the correct baud rate detection cannot be guaranteed. In this\ncase the BRR value may be corrupted and the ABRE error flag is set. This also happens if\nthe communication speed is not compatible with the automatic baud rate detection range\n(bit duration not between 16 and 65536 clock periods (oversampling by 16) and not between\n8 and 65536 clock periods (oversampling by 8)).\nThe auto baud rate detection can be re-launched later by resetting the ABRF flag (by writing\na 0).\nWhen FIFO management is disabled and an auto baud rate error occurs, the ABRE flag is\nset through RXNE and FE bits.\nWhen FIFO management is enabled and an auto baud rate error occurs, the ABRE flag is\nset through RXFNE and FE bits.\nIf the FIFO mode is enabled, the auto baud rate detection must be made using the data on\nthe first RXFIFO location. So, prior to launching the auto baud rate detection, make sure\nthat the RXFIFO is empty by checking the RXFNE flag in USART_ISR register.\nNote: The BRR value might be corrupted if the USART is disabled (UE=0) during an auto baud\nrate operation.",
+      "semantic": {}
+    }
+  ]
+}

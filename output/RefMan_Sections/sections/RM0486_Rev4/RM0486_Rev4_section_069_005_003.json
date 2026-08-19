@@ -1,0 +1,207 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.5.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.5.3",
+      "section_title": "SPDIFRX status register (SPDIFRX_SR)",
+      "level": 3,
+      "parent_section": "69.5",
+      "page": 3596,
+      "page_end": 3598,
+      "semantic_type": "register_description",
+      "features": [
+        "csrne",
+        "ferr",
+        "ovr",
+        "perr",
+        "rxne",
+        "sbd",
+        "serr",
+        "spdifrx",
+        "spdifrx-sr",
+        "syncd",
+        "terr",
+        "width5"
+      ],
+      "chars": 4136,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3596",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.5.3 \"SPDIFRX status register (SPDIFRX_SR)\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3596.",
+      "section_content": "Address offset: 0x08\nReset value: 0x00000000\nBit 31 Reserved, must be kept at reset value.\nBits 30:16 WIDTH5[14:0]: duration of 5 symbols counted with spdifrx_ker_ck\nThis value represents the amount of spdifrx_ker_ck clock periods contained on a length of 5\nconsecutive symbols. This value can be used to estimate the S/PDIF symbol rate. Its accuracy is\nlimited by the frequency of spdifrx_ker_ck.\nFor example if the spdifrx_ker_ck is fixed to 84 MHz, and WIDTH5 = 147d. The estimated sampling\nrate of the S/PDIF stream is:\nFs = 5 x Fspdifrx_ker_ck / (WIDTH5 x 64) ~ 44.6 kHz, so the closest standard sampling rate is\n44.1kHz.\nNote that WIDTH5 is updated by the hardware when SYNCD goes high, and then every frame.\nBits 15:9 Reserved, must be kept at reset value.\nBit 8 TERR: Time-out error\nThis bit is set by hardware when the counter TRCNT reaches its max value. It indicates that the time\ninterval between two transitions is too long. It generally indicates that there is no valid signal on\nSPDIFRX_IN input.\nThis flag is cleared by writing SPDIFRXEN to 0.\nAn interrupt is generated if IFEIE=1 in the SPDIFRX_IMR register.\n0: No sequence error is detected.\n1: Sequence error is detected.\nBit 7 SERR: Synchronization error\nThis bit is set by hardware when the synchronization fails due to amount of re-tries for NBTR.\nThis flag is cleared by writing SPDIFRXEN to 0.\nAn interrupt is generated if IFEIE = 1 in the SPDIFRX_IMR register.\n0: No synchronization error is detected.\n1: Synchronization error is detected.\nBit 6 FERR: Framing error\nThis bit is set by hardware when an error occurs during data reception: such as preamble not at the\nexpected place, short transition not grouped by pairs.\nThis is set by the hardware only if the synchronization is completed (SYNCD = 1).\nThis flag is cleared by writing SPDIFRXEN to 0.\nAn interrupt is generated if IFEIE=1 in the SPDIFRX_IMR register.\n0: No Manchester violation detected\n1: Manchester violation detected\nBit 5 SYNCD: Synchronization done\nThis bit is set by hardware when the initial synchronization phase is properly completed.\nThis flag is cleared by writing a 1 to its corresponding bit on SPDIFRX_IFCR register.\nAn interrupt is generated if SYNCDIE = 1 in the SPDIFRX_IMR register.\n0: Synchronization is pending.\n1: Synchronization is completed.\nBit 4 SBD: Synchronization block detected\nThis bit is set by hardware when a “B” preamble is detected.\nThis flag is cleared by writing a 1 to its corresponding bit on SPDIFRX_IFCR register.\nAn interrupt is generated if SBLKIE = 1 in the SPDIFRX_IMR register.\n0: No “B” preamble is detected.\n1: “B” preamble is detected.\nBit 3 OVR: Overrun error\nThis bit is set by hardware when a received data is ready to be transferred in the\nSPDIFRX_FMTx_DR register while RXNE = 1 and both SPDIFRX_FMTx_DR and RX_BUF are full.\nThis flag is cleared by writing a 1 to its corresponding bit on SPDIFRX_IFCR register.\nAn interrupt is generated if OVRIE=1 in the SPDIFRX_IMR register.\n0: No overrun error\n1: Overrun error is detected.\nNote: When this bit is set, the SPDIFRX_FMTx_DR register content is not lost but the last data\nreceived are.\nBit 2 PERR: Parity error\nThis bit is set by hardware when the data and status bits of the sub-frame received contain an odd\nnumber of 0 and 1.\nThis flag is cleared by writing a 1 to its corresponding bit on SPDIFRX_IFCR register.\nAn interrupt is generated if PIE=1 in the SPDIFRX_IMR register.\n0: No parity error\n1: Parity error\nBit 1 CSRNE: Control buffer register not empty\nThis bit is set by hardware when a valid control information is ready.\nThis flag is cleared when reading SPDIFRX_CSR register.\nAn interrupt is generated if CBRDYIE = 1 in the SPDIFRX_IMR register.\n0: No control word available on SPDIFRX_CSR register\n1: A control word is available on SPDIFRX_CSR register.\nBit 0 RXNE: Read data register not empty\nThis bit is set by hardware when a valid data is available into SPDIFRX_FMTx_DR register.\nThis flag is cleared by reading the SPDIFRX_FMTx_DR register.\nAn interrupt is generated if RXNEIE=1 in the SPDIFRX_IMR register.\n0: Data is not received.\n1: Received data is ready to be read.",
+      "semantic": {
+        "register": "SPDIFRX_SR",
+        "address_offset": "0x08",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30:16",
+            "name": "WIDTH5[14:0]",
+            "description": "duration of 5 symbols counted with spdifrx_ker_ck This value represents the amount of spdifrx_ker_ck clock periods contained on a length of 5 consecutive symbols. This value can be used to estimate the S/PDIF symbol rate. Its accuracy is limited by the frequency of spdifrx_ker_ck. For example if the spdifrx_ker_ck is fixed to 84 MHz, and WIDTH5 = 147d. The estimated sampling rate of the S/PDIF stream is: Fs = 5 x Fspdifrx_ker_ck / (WIDTH5 x 64) ~ 44.6 kHz, so the closest standard sampling rate is 44.1kHz. Note that WIDTH5 is updated by the hardware when SYNCD goes high, and then every frame.",
+            "values": []
+          },
+          {
+            "bits": "15:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "TERR",
+            "description": "Time-out error This bit is set by hardware when the counter TRCNT reaches its max value. It indicates that the time interval between two transitions is too long. It generally indicates that there is no valid signal on SPDIFRX_IN input. This flag is cleared by writing SPDIFRXEN to 0. An interrupt is generated if IFEIE=1 in the SPDIFRX_IMR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No sequence error is detected."
+              },
+              {
+                "value": "1",
+                "meaning": "Sequence error is detected."
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "SERR",
+            "description": "Synchronization error This bit is set by hardware when the synchronization fails due to amount of re-tries for NBTR. This flag is cleared by writing SPDIFRXEN to 0. An interrupt is generated if IFEIE = 1 in the SPDIFRX_IMR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No synchronization error is detected."
+              },
+              {
+                "value": "1",
+                "meaning": "Synchronization error is detected."
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "FERR",
+            "description": "Framing error This bit is set by hardware when an error occurs during data reception: such as preamble not at the expected place, short transition not grouped by pairs. This is set by the hardware only if the synchronization is completed (SYNCD = 1). This flag is cleared by writing SPDIFRXEN to 0. An interrupt is generated if IFEIE=1 in the SPDIFRX_IMR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Manchester violation detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Manchester violation detected"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "SYNCD",
+            "description": "Synchronization done This bit is set by hardware when the initial synchronization phase is properly completed. This flag is cleared by writing a 1 to its corresponding bit on SPDIFRX_IFCR register. An interrupt is generated if SYNCDIE = 1 in the SPDIFRX_IMR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Synchronization is pending."
+              },
+              {
+                "value": "1",
+                "meaning": "Synchronization is completed."
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "SBD",
+            "description": "Synchronization block detected This bit is set by hardware when a “B” preamble is detected. This flag is cleared by writing a 1 to its corresponding bit on SPDIFRX_IFCR register. An interrupt is generated if SBLKIE = 1 in the SPDIFRX_IMR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No “B” preamble is detected."
+              },
+              {
+                "value": "1",
+                "meaning": "“B” preamble is detected."
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "OVR",
+            "description": "Overrun error This bit is set by hardware when a received data is ready to be transferred in the SPDIFRX_FMTx_DR register while RXNE = 1 and both SPDIFRX_FMTx_DR and RX_BUF are full. This flag is cleared by writing a 1 to its corresponding bit on SPDIFRX_IFCR register. An interrupt is generated if OVRIE=1 in the SPDIFRX_IMR register. Note: When this bit is set, the SPDIFRX_FMTx_DR register content is not lost but the last data received are.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No overrun error"
+              },
+              {
+                "value": "1",
+                "meaning": "Overrun error is detected."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "PERR",
+            "description": "Parity error This bit is set by hardware when the data and status bits of the sub-frame received contain an odd number of 0 and 1. This flag is cleared by writing a 1 to its corresponding bit on SPDIFRX_IFCR register. An interrupt is generated if PIE=1 in the SPDIFRX_IMR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No parity error"
+              },
+              {
+                "value": "1",
+                "meaning": "Parity error"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CSRNE",
+            "description": "Control buffer register not empty This bit is set by hardware when a valid control information is ready. This flag is cleared when reading SPDIFRX_CSR register. An interrupt is generated if CBRDYIE = 1 in the SPDIFRX_IMR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No control word available on SPDIFRX_CSR register"
+              },
+              {
+                "value": "1",
+                "meaning": "A control word is available on SPDIFRX_CSR register."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "RXNE",
+            "description": "Read data register not empty This bit is set by hardware when a valid data is available into SPDIFRX_FMTx_DR register. This flag is cleared by reading the SPDIFRX_FMTx_DR register. An interrupt is generated if RXNEIE=1 in the SPDIFRX_IMR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data is not received."
+              },
+              {
+                "value": "1",
+                "meaning": "Received data is ready to be read."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

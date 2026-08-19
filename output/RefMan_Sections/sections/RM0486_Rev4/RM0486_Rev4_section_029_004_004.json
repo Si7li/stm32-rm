@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S29.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "29",
+      "chapter_title": "XSPI I/O manager (XSPIM)",
+      "section": "29.4.4",
+      "section_title": "XSPIM multiplexed mode",
+      "level": 3,
+      "parent_section": "29.4",
+      "page": 1359,
+      "page_end": 1359,
+      "semantic_type": "generic",
+      "features": [
+        "spi",
+        "xspim"
+      ],
+      "chars": 1546,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1359",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.4.4 \"XSPIM multiplexed mode\" in chapter 29 (XSPI I/O manager (XSPIM)), RM0486 Rev 4, page 1359.",
+      "section_content": "When this mode is set, the XSPIs are time-multiplexed over the same bus. They get the\nownership of the bus (in turn) through a request/acknowledge protocol with REQ/ACK\nsignals.\nThe time-multiplexing is enabled by setting the MUXEN bit in the configuration register\nXSPIM_CR.\nThe fairness counter (MAXTRAN) of each XSPI can be used to manage the maximum\nduration for which a given XSPI takes the bus: this feature ensures the maximum bus\naccess latency for the other XSPI(s). When one XSPI releases the bus, a round-robin\narbitration phase occurs: when another XSPI requests the bus, it gets it.\nWhen the multiplexed mode is enabled, either the fairness counter or the refresh timeout\ncounter of both XSPI interfaces must be activated.\nEach XSPI delivers two NCS signals (NCS1, NCS2). In multiplexed modes, the active NCS\nsignal is the one of the XSPI owning the bus. Only XSPIn_IOs, XSPIn_DQS and\nXSPIn_CLK / XSPIn_NCLK are multiplexed.\nWhen the multiplexed mode is used, only clock mode 0 is supported on the XSPIs.\nDue to arbitration and bus sharing, the auto polling interval time of the XSPI, when used,\ncan be increased.\nMinimum switching duration\nThe minimum number of cycles needed to switch from an XSPI to another can be\nconfigured. This guarantees a latency between the falling edge of the REQ signal of the\nactive XSPI (the active one releases the bus), and the rising edge of the ACK signal to the\nrequesting XSPI (the bus is granted to the requesting one).\nThe duration is defined by the REQ2ACK_TIME field in the XSPIM_CR register.",
+      "semantic": {}
+    }
+  ]
+}

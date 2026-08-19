@@ -1,0 +1,181 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.7.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.7.2",
+      "section_title": "XSPI device configuration register 1 (XSPI_DCR1)",
+      "level": 3,
+      "parent_section": "28.7",
+      "page": 1331,
+      "page_end": 1332,
+      "semantic_type": "register_description",
+      "features": [
+        "ckmode",
+        "csht",
+        "devsize",
+        "extendmem",
+        "frck",
+        "mtyp",
+        "spi",
+        "xspi",
+        "xspi-dcr1"
+      ],
+      "chars": 4111,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1331",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.7.2 \"XSPI device configuration register 1 (XSPI_DCR1)\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1331.",
+      "section_content": "Address offset: 0x008\nReset value: 0x0000 0000\nThis register can be modified only when BUSY = 0.\nBits 31:27 Reserved, must be kept at reset value.\nBits 26:24 MTYP[2:0]: Memory type\nThis bitfield indicates the type of memory to be supported.\n000: Micron mode, D0/D1 ordering in DTR 8-data-bit mode. Regular-command protocol\nin single-, dual-, quad-, and octal-SPI modes. In this mode, DQS signal polarity is inverted\nwith respect to the memory clock signal. This is the default value and care must be taken to\nchange MTYP[2:0] for memories different from Micron.\n001: Macronix mode, D1/D0 ordering in DTR 8-data-bit mode. Regular-command protocol\nin single-, dual-, quad-, and octal-SPI modes.\n010: Standard mode. D0/D1 ordering with DQS and CLK having the same polarity during\nread operation. This is the mode to use when the targeted memory does not fit with any\nothers MTYP configuration values. This mode is typically the one targeting the APmemory\n8-bit memories for instance.\n011: Macronix RAM mode, D1/D0 ordering in DTR 8-data-bit mode. Regular-command\nprotocol in single-, dual-, quad-, and octal-SPI modes with dedicated address mapping\n(address is built with row and column to fit with Macronix requirements).\n100: HyperBus memory mode, the protocol follows the HyperBus specification.\n101: HyperBus register mode, addressing register space. The memory-mapped accesses\nin this mode must be noncacheable, or indirect read/write modes must be used.\n110: APmemory mode. If DMODE = 101, there is a special hardware operation on address\nword from the bit 10 and above to fit the provider requirement (shift operation on the left from\nthe address bit 10, keeping this last at 0).\nOthers: Reserved\nBits 23:22 Reserved, must be kept at reset value.\nBit 21 EXTENDMEM: Extended memory support\nThis bit is only relevant when one XSPI drives two same size external memories located\nin contiguous places in the memory map. In this case, DEVSIZE[4:0] represents the size of\neach external memory.\nWhen this bit is set, the XSPI automatically controls which of NCS1 or NCS2 is active.\n0: NCS1 and NCS2 values depend from CSSEL bit in XSPI_CR (software controlled).\n1: NCS1 and NCS2 values depend from the address of transfer (hardware controlled).\nNote: It is recommended to keep EXTENDMEM = 0 for write operations targeting flash\nmemories (such as NOR Flash and HyperFlash).\nBits 20:16 DEVSIZE[4:0]: Device size\nThis bitfield defines the size of the external device using the following formula:\nNumber of bytes in device = 2[DEVSIZE+1].\nDEVSIZE + 1 is effectively the number of address bits required to address the external\ndevice. The device capacity can be up to 4Gbytes (addressed using 32-bits) in indirect\nmode, but the addressable space in memory-mapped mode is limited to 256 Mbytes.\nIn regular-command protocol, if DMM = 1 or EXTENDMEM = 1, DEVSIZE[4:0] must reflect\nthe total capacity of the two devices together considering the above formula (DEVSIZE[4:0]\nvalue is so equal to one of the two memory capacities).\nBits 15:14 Reserved, must be kept at reset value.\nBits 13:8 CSHT[5:0]: Chip-select high time\nCSHT + 1 defines the minimum number of CLK cycles where the chip-select (NCS) must\nremain high between commands issued to the external device.\n0x0: NCS stays high for at least 1 cycle between external device commands.\n0x1: NCS stays high for at least 2 cycles between external device commands.\n...\n0x3F: NCS stays high for at least 64 cycles between external device commands.\nBits 7:4 Reserved, must be kept at reset value.\nBits 3:2 Reserved, must be kept at reset value.\nBit 1 FRCK: Free running clock\nThis bit configures the free running clock.\n0: CLK is not free running.\n1: CLK is free running (always provided).\nNote: Once the bit has been set to 1, the BSY bit is set, the NCS signal remains set to 1 and\nthe clock is sent. The only way to stop the clock is to perform an abort (which clears the\nBSY bit). Then, the FRCK bit must be cleared by software to allow controller\ntransactions to take place with the external memory.\nBit 0 CKMODE: Clock mode 0\nThis bit is read-only and is read as zero.",
+      "semantic": {
+        "register": "XSPI_DCR1",
+        "address_offset": "0x008",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:27",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "26:24",
+            "name": "MTYP[2:0]",
+            "description": "Memory type This bitfield indicates the type of memory to be supported. in single-, dual-, quad-, and octal-SPI modes. In this mode, DQS signal polarity is inverted with respect to the memory clock signal. This is the default value and care must be taken to change MTYP[2:0] for memories different from Micron. in single-, dual-, quad-, and octal-SPI modes. read operation. This is the mode to use when the targeted memory does not fit with any others MTYP configuration values. This mode is typically the one targeting the APmemory 8-bit memories for instance. protocol in single-, dual-, quad-, and octal-SPI modes with dedicated address mapping (address is built with row and column to fit with Macronix requirements). in this mode must be noncacheable, or indirect read/write modes must be used. word from the bit 10 and above to fit the provider requirement (shift operation on the left from the address bit 10, keeping this last at 0).",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Micron mode, D0/D1 ordering in DTR 8-data-bit mode. Regular-command protocol"
+              },
+              {
+                "value": "001",
+                "meaning": "Macronix mode, D1/D0 ordering in DTR 8-data-bit mode. Regular-command protocol"
+              },
+              {
+                "value": "010",
+                "meaning": "Standard mode. D0/D1 ordering with DQS and CLK having the same polarity during"
+              },
+              {
+                "value": "011",
+                "meaning": "Macronix RAM mode, D1/D0 ordering in DTR 8-data-bit mode. Regular-command"
+              },
+              {
+                "value": "100",
+                "meaning": "HyperBus memory mode, the protocol follows the HyperBus specification."
+              },
+              {
+                "value": "101",
+                "meaning": "HyperBus register mode, addressing register space. The memory-mapped accesses"
+              },
+              {
+                "value": "110",
+                "meaning": "APmemory mode. If DMODE = 101, there is a special hardware operation on address"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "23:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "EXTENDMEM",
+            "description": "Extended memory support This bit is only relevant when one XSPI drives two same size external memories located in contiguous places in the memory map. In this case, DEVSIZE[4:0] represents the size of each external memory. When this bit is set, the XSPI automatically controls which of NCS1 or NCS2 is active. Note: It is recommended to keep EXTENDMEM = 0 for write operations targeting flash memories (such as NOR Flash and HyperFlash).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "NCS1 and NCS2 values depend from CSSEL bit in XSPI_CR (software controlled)."
+              },
+              {
+                "value": "1",
+                "meaning": "NCS1 and NCS2 values depend from the address of transfer (hardware controlled)."
+              }
+            ]
+          },
+          {
+            "bits": "20:16",
+            "name": "DEVSIZE[4:0]",
+            "description": "Device size This bitfield defines the size of the external device using the following formula: Number of bytes in device = 2[DEVSIZE+1]. DEVSIZE + 1 is effectively the number of address bits required to address the external device. The device capacity can be up to 4Gbytes (addressed using 32-bits) in indirect mode, but the addressable space in memory-mapped mode is limited to 256 Mbytes. In regular-command protocol, if DMM = 1 or EXTENDMEM = 1, DEVSIZE[4:0] must reflect the total capacity of the two devices together considering the above formula (DEVSIZE[4:0] value is so equal to one of the two memory capacities).",
+            "values": []
+          },
+          {
+            "bits": "15:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:8",
+            "name": "CSHT[5:0]",
+            "description": "Chip-select high time CSHT + 1 defines the minimum number of CLK cycles where the chip-select (NCS) must remain high between commands issued to the external device. ...",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "NCS stays high for at least 1 cycle between external device commands."
+              },
+              {
+                "value": "0x1",
+                "meaning": "NCS stays high for at least 2 cycles between external device commands."
+              },
+              {
+                "value": "0x3F",
+                "meaning": "NCS stays high for at least 64 cycles between external device commands."
+              }
+            ]
+          },
+          {
+            "bits": "7:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "FRCK",
+            "description": "Free running clock This bit configures the free running clock. Note: Once the bit has been set to 1, the BSY bit is set, the NCS signal remains set to 1 and the clock is sent. The only way to stop the clock is to perform an abort (which clears the BSY bit). Then, the FRCK bit must be cleared by software to allow controller transactions to take place with the external memory.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CLK is not free running."
+              },
+              {
+                "value": "1",
+                "meaning": "CLK is free running (always provided)."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CKMODE",
+            "description": "Clock mode 0 This bit is read-only and is read as zero.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

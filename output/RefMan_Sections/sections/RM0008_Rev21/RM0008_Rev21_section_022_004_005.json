@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.4.5",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.4.5",
+      "section_title": "Block write",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 583,
+      "page_end": 584,
+      "semantic_type": "generic",
+      "features": [
+        "block",
+        "write"
+      ],
+      "chars": 2214,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=583",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.5 \"Block write\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 583.",
+      "section_content": "During block write (CMD24 - 27) one or more blocks of data are transferred from the host to\nthe card with a CRC appended to the end of each block by the host. A card supporting block\nwrite is always able to accept a block of data defined by WRITE_BL_LEN. If the CRC fails,\nthe card indicates the failure on the SDIO_D line and the transferred data are discarded and\nnot written, and all further transmitted blocks (in multiple block write mode) are ignored.\nIf the host uses partial blocks whose accumulated length is not block aligned and, block\nmisalignment is not allowed (CSD parameter WRITE_BLK_MISALIGN is not set), the card\nwill detect the block misalignment error before the beginning of the first misaligned block.\n(ADDRESS_ERROR error bit is set in the status register). The write operation will also be\naborted if the host tries to write over a write-protected area. In this case, however, the card\nwill set the WP_VIOLATION bit.\nProgramming of the CID and CSD registers does not require a previous block length setting.\nThe transferred data is also CRC protected. If a part of the CSD or CID register is stored in\nROM, then this unchangeable part must match the corresponding part of the receive buffer.\nIf this match fails, then the card reports an error and does not change any register contents.\nSome cards may require long and unpredictable times to write a block of data. After\nreceiving a block of data and completing the CRC check, the card begins writing and holds\nthe SDIO_D line low if its write buffer is full and unable to accept new data from a new\nWRITE_BLOCK command. The host may poll the status of the card with a SEND_STATUS\ncommand (CMD13) at any time, and the card will respond with its status. The\nREADY_FOR_DATA status bit indicates whether the card can accept new data or whether\nthe write process is still in progress. The host may deselect the card by issuing CMD7 (to\nselect a different card), which will place the card in the Disconnect state and release the\nSDIO_D line(s) without interrupting the write operation. When reselecting the card, it will\nreactivate busy indication by pulling SDIO_D to low if programming is still in progress and\nthe write buffer is unavailable.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S36.4.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "36",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "36.4.8",
+      "section_title": "Operating mode",
+      "level": 3,
+      "parent_section": "36.4",
+      "page": 1490,
+      "page_end": 1492,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "timer"
+      ],
+      "chars": 2704,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1490",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.4.8 \"Operating mode\" in chapter 36 (Low-power timer (LPTIM)), RM0522 Rev 1, page 1490.",
+      "section_content": "The LPTIM features two operating modes:\n• Continuous mode: the timer is free running, the timer is started from a trigger event and\nnever stops until the timer is disabled\n• One-shot mode: the timer is started from a trigger event and stops when an LPTIM\nupdate event is generated.\nOne-shot mode\nTo enable the one-shot counting, the SNGSTRT bit must be set.\nA new trigger event re-starts the timer. Any trigger event occurring after the counter starts\nand before the next LPTIM update event, is discarded.\nIn case an external trigger is selected, each external trigger event arriving after the\nSNGSTRT bit is set, and after the repetition counter has stopped (after the update event),\nand if the repetition register content is different from zero, the repetition counter gets\nreloaded with the value already contained by the repetition register and a new one-shot\ncounting cycle is started as shown in Figure541.\n[Figure 541. LPTIM output waveform, single-counting mode configuration]\nwhen repetition register content is different than zero (with PRELOAD = 1)\nLPTIM_RCR 2\nLPTIM_ARR\nCompare\n0\nPWM\nExternal trigger event\nIgnored external trigger event\n- Set-once mode activated:\nNote that when the WAVE bitfield in the LPTIM_CFGR register is set, the Set-once mode is\nactivated. In this case, the counter is only started once following the first trigger, and any\nsubsequent trigger event is discarded as shown in Figure542.\n[Figure 542. LPTIM output waveform, single-counting mode configuration]\nand Set-once mode activated (WAVE bit is set)\nLPTIM_ARR\nCompare\nDiscarded trigger\n0\nPWM\nExternal trigger event\nIn case of software start (TRIGEN[1:0] = 00), the SNGSTRT setting starts the counter for\none-shot counting.\nContinuous mode\nTo enable the continuous counting, the CNTSTRT bit must be set.\nIn case an external trigger is selected, an external trigger event arriving after CNTSTRT is\nset, starts the counter for continuous counting. Any subsequent external trigger event is\ndiscarded as shown in Figure543.\nIn case of software start (TRIGEN[1:0] = 00), setting CNTSTRT starts the counter for\ncontinuous counting.\n[Figure 543. LPTIM output waveform, Continuous counting mode configuration]\nSNGSTRT and CNTSTRT bits can only be set when the timer is enabled (ENABLE bit set to\n1). It is possible to change “on the fly” from One-shot mode to Continuous mode.\nIf the Continuous mode was previously selected, setting SNGSTRT switches the LPTIM to\nthe One-shot mode. The counter (if active) stops as soon as an LPTIM update event is\ngenerated.\nIf the One-shot mode was previously selected, setting CNTSTRT switches the LPTIM to the\nContinuous mode. The counter (if active) restarts as soon as it reaches ARR.",
+      "semantic": {}
+    }
+  ]
+}

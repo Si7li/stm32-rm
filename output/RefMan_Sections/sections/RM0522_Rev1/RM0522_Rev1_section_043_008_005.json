@@ -1,0 +1,388 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S43.8.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "43",
+      "chapter_title": "Universal synchronous/asynchronous receiver transmitter (USART/UART)",
+      "section": "43.8.5",
+      "section_title": "USART control register 3 [alternate] (USART_CR3)",
+      "level": 3,
+      "parent_section": "43.8",
+      "page": 1865,
+      "page_end": 1868,
+      "semantic_type": "register_description",
+      "features": [
+        "ctse",
+        "ctsie",
+        "ddre",
+        "dem",
+        "dep",
+        "dma",
+        "dmar",
+        "dmat",
+        "eie",
+        "hdsel",
+        "iren",
+        "irlp",
+        "nack",
+        "onebit",
+        "ovrdis",
+        "rtse",
+        "scarcnt",
+        "scen",
+        "tcbgtie",
+        "uart",
+        "usart",
+        "usart-cr3",
+        "wufie",
+        "wus"
+      ],
+      "chars": 8677,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1865",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.8.5 \"USART control register 3 [alternate] (USART_CR3)\" in chapter 43 (Universal synchronous/asynchronous receiver transmitter (USART/UART)), RM0522 Rev 1, page 1865.",
+      "section_content": "Address offset: 0x08\nReset value: 0x00000000\nFIFO mode disabled, FIFOEN=0\nBits 31:25 Reserved, must be kept at reset value.\nBit 24 TCBGTIE: Transmission Complete before guard time, interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated whenever TCBGT=1 in the USART_ISR register\nNote: If the USART does not support the smartcard mode, this bit is reserved and must be\nkept at reset value. Refer to Section43.4: USART implementation.\nBit 23 Reserved, must be kept at reset value.\nBit 22 WUFIE: Wake-up from low-power mode interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated whenever WUF=1 in the USART_ISR register\nNote: WUFIE must be set before entering in low-power mode.\nIf the USART does not support the wake-up from Stop feature, this bit is reserved and\nmust be kept at reset value. Refer to Section43.4: USART implementation.\nBits 21:20 WUS[1:0]: Wake-up from low-power mode interrupt flag selection\nThis bitfield specifies the event which activates the WUF (wake-up from low-power mode\nflag).\n00: WUF active on address match (as defined by ADD[7:0] and ADDM7)\n01: Reserved.\n10: WUF active on start bit detection\n11: WUF active on RXNE/RXFNE.\nThis bitfield can only be written when the USART is disabled (UE=0).\nNote: If the USART does not support the wake-up from Stop feature, this bit is reserved and\nmust be kept at reset value. Refer to Section43.4: USART implementation.\nBits 19:17 SCARCNT[2:0]: Smartcard auto-retry count\nThis bitfield specifies the number of retries for transmission and reception in smartcard\nmode.\nIn transmission mode, it specifies the number of automatic retransmission retries, before\ngenerating a transmission error (FE bit set).\nIn reception mode, it specifies the number or erroneous reception trials, before generating a\nreception error (RXNE/RXFNE and PE bits set).\nThis bitfield must be programmed only when the USART is disabled (UE=0).\nWhen the USART is enabled (UE=1), this bitfield may only be written to 0x0, in order to\nstop retransmission.\n0x0: retransmission disabled - No automatic retransmission in transmission mode.\n0x1 to 0x7: number of automatic retransmission attempts (before signaling error)\nNote: If smartcard mode is not supported, this bit is reserved and must be kept at reset\nvalue. Refer to Section43.4: USART implementation.\nBit 16 Reserved, must be kept at reset value.\nBit 15 DEP: Driver enable polarity selection\n0: DE signal is active high.\n1: DE signal is active low.\nThis bit can only be written when the USART is disabled (UE=0).\nNote: If the Driver Enable feature is not supported, this bit is reserved and must be kept at\nreset value. Refer to Section43.4: USART implementation.\nBit 14 DEM: Driver enable mode\nThis bit enables the user to activate the external transceiver control, through the DE signal.\n0: DE function is disabled.\n1: DE function is enabled. The DE signal is output on the RTS pin.\nThis bit can only be written when the USART is disabled (UE=0).\nNote: If the Driver Enable feature is not supported, this bit is reserved and must be kept at\nreset value. Section43.4: USART implementation.\nBit 13 DDRE: DMA Disable on reception Error\n0: DMA is not disabled in case of reception error. The corresponding error flag is set but\nRXNE is kept 0 preventing from overrun. As a consequence, the DMA request is not\nasserted, so the erroneous data is not transferred (no DMA request), but next correct\nreceived data is transferred. (used for smartcard mode)\n1: DMA is disabled following a reception error. The corresponding error flag is set, as well\nas RXNE. The DMA request is masked until the error flag is cleared. This means that the\nsoftware must first disable the DMA request (DMAR = 0) or clear RXNE(RXFNE is case\nFIFO mode is enabled) before clearing the error flag.\nThis bit can only be written when the USART is disabled (UE=0).\nNote: The reception errors are: parity error, framing error or noise error.\nBit 12 OVRDIS: Overrun Disable\nThis bit is used to disable the receive overrun detection.\n0: Overrun Error Flag, ORE, is set when received data is not read before receiving new\ndata.\n1: Overrun functionality is disabled. If new data is received while the RXNE flag is still set\nthe ORE flag is not set and the new received data overwrites the previous content of the\nUSART_RDR register. When FIFO mode is enabled, the RXFIFO is bypassed and data are\nwritten directly in USART_RDR register. Even when FIFO management is enabled, the\nRXNE flag is to be used.\nThis bit can only be written when the USART is disabled (UE=0).\nNote: This control bit enables checking the communication flow w/o reading the data\nBit 11 ONEBIT: One sample bit method enable\nThis bit enables the user to select the sample method. When the one sample bit method is\nselected the noise detection flag (NE) is disabled.\n0: Three sample bit method\n1: One sample bit method\nThis bit can only be written when the USART is disabled (UE=0).\nBit 10 CTSIE: CTS interrupt enable\n0: Interrupt is inhibited\n1: An interrupt is generated whenever CTSIF = 1 in the USART_ISR register\nNote: If the hardware flow control feature is not supported, this bit is reserved and must be\nkept at reset value. Refer to Section43.4: USART implementation.\nBit 9 CTSE: CTS enable\n0: CTS hardware flow control disabled\n1: CTS mode enabled, data is only transmitted when the CTS input is deasserted (tied to 0).\nIf the CTS input is asserted while data is being transmitted, then the transmission completes\nbefore stopping. If data is written into the data register while CTS is asserted, the\ntransmission is postponed until CTS is deasserted.\nThis bit can only be written when the USART is disabled (UE=0)\nNote: If the hardware flow control feature is not supported, this bit is reserved and must be\nkept at reset value. Refer to Section43.4: USART implementation.\nBit 8 RTSE: RTS enable\n0: RTS hardware flow control disabled\n1: RTS output enabled, data is only requested when there is space in the receive buffer. The\ntransmission of data is expected to cease after the current character has been transmitted.\nThe RTS output is deasserted (pulled to 0) when data can be received.\nThis bit can only be written when the USART is disabled (UE=0).\nNote: If the hardware flow control feature is not supported, this bit is reserved and must be\nkept at reset value. Refer to Section43.4: USART implementation.\nBit 7 DMAT: DMA enable transmitter\nThis bit is set/reset by software\n1: DMA mode is enabled for transmission\n0: DMA mode is disabled for transmission\nBit 6 DMAR: DMA enable receiver\nThis bit is set/reset by software\n1: DMA mode is enabled for reception\n0: DMA mode is disabled for reception\nBit 5 SCEN: Smartcard mode enable\nThis bit is used for enabling smartcard mode.\n0: Smartcard mode disabled\n1: Smartcard mode enabled\nThis bitfield can only be written when the USART is disabled (UE=0).\nNote: If the USART does not support smartcard mode, this bit is reserved and must be kept\nat reset value. Refer to Section43.4: USART implementation.\nBit 4 NACK: Smartcard NACK enable\n0: NACK transmission in case of parity error is disabled\n1: NACK transmission during parity error is enabled\nThis bitfield can only be written when the USART is disabled (UE=0).\nNote: If the USART does not support smartcard mode, this bit is reserved and must be kept\nat reset value. Refer to Section43.4: USART implementation.\nBit 3 HDSEL: Half-duplex selection\nSelection of single-wire half-duplex mode\n0: Half-duplex mode is not selected\n1: Half-duplex mode is selected\nThis bit can only be written when the USART is disabled (UE=0).\nBit 2 IRLP: IrDA low-power\nThis bit is used for selecting between normal and low-power IrDA modes\n0: Normal mode\n1: Low-power mode\nThis bit can only be written when the USART is disabled (UE=0).\nNote: If IrDA mode is not supported, this bit is reserved and must be kept at reset value.\nRefer to Section43.4: USART implementation.\nBit 1 IREN: IrDA mode enable\nThis bit is set and cleared by software.\n0: IrDA disabled\n1: IrDA enabled\nThis bit can only be written when the USART is disabled (UE=0).\nNote: If IrDA mode is not supported, this bit is reserved and must be kept at reset value.\nRefer to Section43.4: USART implementation.\nBit 0 EIE: Error interrupt enable\nError Interrupt Enable Bit is required to enable interrupt generation in case of a framing\nerror, overrun error noise flag or SPI slave underrun error (FE=1 or ORE=1 or NE=1or\nUDR = 1 in the USART_ISR register).\n0: Interrupt inhibited\n1: interrupt generated when FE=1 or ORE=1 or NE=1 or UDR = 1 (in SPI slave mode) in\nthe USART_ISR register.",
+      "semantic": {
+        "register": "USART_CR3",
+        "address_offset": "0x08",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "TCBGTIE",
+            "description": "Transmission Complete before guard time, interrupt enable This bit is set and cleared by software. Note: If the USART does not support the smartcard mode, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated whenever TCBGT=1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "WUFIE",
+            "description": "Wake-up from low-power mode interrupt enable This bit is set and cleared by software. Note: WUFIE must be set before entering in low-power mode. If the USART does not support the wake-up from Stop feature, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated whenever WUF=1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "21:20",
+            "name": "WUS[1:0]",
+            "description": "Wake-up from low-power mode interrupt flag selection This bitfield specifies the event which activates the WUF (wake-up from low-power mode flag). This bitfield can only be written when the USART is disabled (UE=0). Note: If the USART does not support the wake-up from Stop feature, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "WUF active on address match (as defined by ADD[7:0] and ADDM7)"
+              },
+              {
+                "value": "01",
+                "meaning": "Reserved."
+              },
+              {
+                "value": "10",
+                "meaning": "WUF active on start bit detection"
+              },
+              {
+                "value": "11",
+                "meaning": "WUF active on RXNE/RXFNE."
+              }
+            ]
+          },
+          {
+            "bits": "19:17",
+            "name": "SCARCNT[2:0]",
+            "description": "Smartcard auto-retry count This bitfield specifies the number of retries for transmission and reception in smartcard mode. In transmission mode, it specifies the number of automatic retransmission retries, before generating a transmission error (FE bit set). In reception mode, it specifies the number or erroneous reception trials, before generating a reception error (RXNE/RXFNE and PE bits set). This bitfield must be programmed only when the USART is disabled (UE=0). When the USART is enabled (UE=1), this bitfield may only be written to 0x0, in order to stop retransmission. 0x1 to 0x7: number of automatic retransmission attempts (before signaling error) Note: If smartcard mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "retransmission disabled - No automatic retransmission in transmission mode."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "DEP",
+            "description": "Driver enable polarity selection This bit can only be written when the USART is disabled (UE=0). Note: If the Driver Enable feature is not supported, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DE signal is active high."
+              },
+              {
+                "value": "1",
+                "meaning": "DE signal is active low."
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "DEM",
+            "description": "Driver enable mode This bit enables the user to activate the external transceiver control, through the DE signal. This bit can only be written when the USART is disabled (UE=0). Note: If the Driver Enable feature is not supported, this bit is reserved and must be kept at reset value. Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DE function is disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "DE function is enabled. The DE signal is output on the RTS pin."
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "DDRE",
+            "description": "DMA Disable on reception Error RXNE is kept 0 preventing from overrun. As a consequence, the DMA request is not asserted, so the erroneous data is not transferred (no DMA request), but next correct received data is transferred. (used for smartcard mode) as RXNE. The DMA request is masked until the error flag is cleared. This means that the software must first disable the DMA request (DMAR = 0) or clear RXNE(RXFNE is case FIFO mode is enabled) before clearing the error flag. This bit can only be written when the USART is disabled (UE=0). Note: The reception errors are: parity error, framing error or noise error.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA is not disabled in case of reception error. The corresponding error flag is set but"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA is disabled following a reception error. The corresponding error flag is set, as well"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "OVRDIS",
+            "description": "Overrun Disable This bit is used to disable the receive overrun detection. data. the ORE flag is not set and the new received data overwrites the previous content of the USART_RDR register. When FIFO mode is enabled, the RXFIFO is bypassed and data are written directly in USART_RDR register. Even when FIFO management is enabled, the RXNE flag is to be used. This bit can only be written when the USART is disabled (UE=0). Note: This control bit enables checking the communication flow w/o reading the data",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Overrun Error Flag, ORE, is set when received data is not read before receiving new"
+              },
+              {
+                "value": "1",
+                "meaning": "Overrun functionality is disabled. If new data is received while the RXNE flag is still set"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "ONEBIT",
+            "description": "One sample bit method enable This bit enables the user to select the sample method. When the one sample bit method is selected the noise detection flag (NE) is disabled. This bit can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Three sample bit method"
+              },
+              {
+                "value": "1",
+                "meaning": "One sample bit method"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "CTSIE",
+            "description": "CTS interrupt enable Note: If the hardware flow control feature is not supported, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt is inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt is generated whenever CTSIF = 1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "CTSE",
+            "description": "CTS enable If the CTS input is asserted while data is being transmitted, then the transmission completes before stopping. If data is written into the data register while CTS is asserted, the transmission is postponed until CTS is deasserted. This bit can only be written when the USART is disabled (UE=0) Note: If the hardware flow control feature is not supported, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CTS hardware flow control disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "CTS mode enabled, data is only transmitted when the CTS input is deasserted (tied to 0)."
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "RTSE",
+            "description": "RTS enable transmission of data is expected to cease after the current character has been transmitted. The RTS output is deasserted (pulled to 0) when data can be received. This bit can only be written when the USART is disabled (UE=0). Note: If the hardware flow control feature is not supported, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RTS hardware flow control disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "RTS output enabled, data is only requested when there is space in the receive buffer. The"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "DMAT",
+            "description": "DMA enable transmitter This bit is set/reset by software",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for transmission"
+              },
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for transmission"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "DMAR",
+            "description": "DMA enable receiver This bit is set/reset by software",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for reception"
+              },
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for reception"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "SCEN",
+            "description": "Smartcard mode enable This bit is used for enabling smartcard mode. This bitfield can only be written when the USART is disabled (UE=0). Note: If the USART does not support smartcard mode, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Smartcard mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Smartcard mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "NACK",
+            "description": "Smartcard NACK enable This bitfield can only be written when the USART is disabled (UE=0). Note: If the USART does not support smartcard mode, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "NACK transmission in case of parity error is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "NACK transmission during parity error is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "HDSEL",
+            "description": "Half-duplex selection Selection of single-wire half-duplex mode This bit can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Half-duplex mode is not selected"
+              },
+              {
+                "value": "1",
+                "meaning": "Half-duplex mode is selected"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "IRLP",
+            "description": "IrDA low-power This bit is used for selecting between normal and low-power IrDA modes This bit can only be written when the USART is disabled (UE=0). Note: If IrDA mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Low-power mode"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "IREN",
+            "description": "IrDA mode enable This bit is set and cleared by software. This bit can only be written when the USART is disabled (UE=0). Note: If IrDA mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "IrDA disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "IrDA enabled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EIE",
+            "description": "Error interrupt enable Error Interrupt Enable Bit is required to enable interrupt generation in case of a framing error, overrun error noise flag or SPI slave underrun error (FE=1 or ORE=1 or NE=1or UDR = 1 in the USART_ISR register). the USART_ISR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "interrupt generated when FE=1 or ORE=1 or NE=1 or UDR = 1 (in SPI slave mode) in"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

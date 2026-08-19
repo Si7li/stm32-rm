@@ -1,0 +1,326 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S35.8.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "35",
+      "chapter_title": "General purpose timers (TIM15/TIM16/TIM17)",
+      "section": "35.8.3",
+      "section_title": "TIM slave mode control register (TIM_SMCR)",
+      "level": 3,
+      "parent_section": "35.8",
+      "page": 1417,
+      "page_end": 1419,
+      "semantic_type": "register_description",
+      "features": [
+        "msm",
+        "sms",
+        "smspe",
+        "tim",
+        "tim-smcr",
+        "timer"
+      ],
+      "chars": 5276,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1417",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.8.3 \"TIM slave mode control register (TIM_SMCR)\" in chapter 35 (General purpose timers (TIM15/TIM16/TIM17)), RM0522 Rev 1, page 1417.",
+      "section_content": "Address offset: 0x08\nReset value: 0x00000000\nBits 31:25 Reserved, must be kept at reset value.\nBit 24 SMSPE: SMS preload enable\nThis bit selects whether the SMS[4:0] bitfield is preloaded.\n0: SMS[4:0] bitfield is not preloaded\n1: SMS[4:0] preload is enabled\nBits 23:22 Reserved, must be kept at reset value.\nBits 19:18 Reserved, must be kept at reset value.\nBits 15:8 Reserved, must be kept at reset value.\nBit 7 MSM: Master/slave mode\n0:No action\n1:The effect of an event on the trigger input (tim_trgi) is delayed to allow a perfect\nsynchronization between the current timer and its slaves (through tim_trgo). It is useful if\nthe user wants to synchronize several timers on a single external event.\nBits 21, 20, 6, 5, 4 TS[4:0]: Trigger selection\nThis bitfield selects the trigger input to be used to synchronize the counter.\n00000: Internal Trigger 0 (tim_itr0)\n00001: Internal Trigger 1 (tim_itr1)\n00010: Internal Trigger 2 (tim_itr2)\n00011: Internal Trigger 3 (tim_itr3)\n00100: tim_ti1 Edge Detector (tim_ti1f_ed)\n00101: Filtered Timer Input 1 (tim_ti1fp1)\n00110: Filtered Timer Input 2 (tim_ti2fp2)\n00111: Reserved\n01000: Internal Trigger 4 (tim_itr4)\n01001: Internal Trigger 5 (tim_itr5)\n01010: Internal Trigger 6 (tim_itr6)\n01011: Internal Trigger 7 (tim_itr7)\n01100: Internal Trigger 8 (tim_itr8)\n01101: Internal Trigger 9 (tim_itr9)\n01110: Internal Trigger 10 (tim_itr10)\n10000: Internal trigger 12 (tim_itr12)\n10001: Internal trigger 13 (tim_itr13)\n10010: Internal trigger 14 (tim_itr14)\n10011: Internal trigger 15 (tim_itr15)\n10100: Internal trigger 16 (tim_itr16)\n10101: Internal trigger 17 (tim_itr17)\n10110: Internal trigger 18 (tim_itr18)\n10111: Internal trigger 19 (tim_itr19)\n11000: Internal trigger 20 (tim_itr20)\n11001: Internal trigger 21 (tim_itr21)\n11010: Internal trigger 22 (tim_itr22)\n11011: Internal trigger 23 (tim_itr23)\n11100: Internal trigger 24 (tim_itr24)\n11101: Internal trigger 25 (tim_itr25)\n11110: Internal trigger 26 (tim_itr26)\n11111: Internal trigger 27 (tim_itr27)\nOthers: Reserved\nSee Section35.5.2: TIM15/TIM16/TIM17 pins and internalsignals for more details on\ntim_itrx meaning for each timer.\nNote: These bits must be changed only when they are not used (for example when\nSMS=000) to avoid wrong edge detections at the transition.\nBit 3 Reserved, must be kept at reset value.\nBits 17:16, 2:0 SMS[4:0]: Slave mode selection\nWhen external signals are selected the active edge of the trigger signal (tim_trgi) is linked to\nthe polarity selected on the external input (refer to ETP bit in TIM_SMCR for tim_etr_in and\nCCxP/CCxNP bits in TIM_CCER register for tim_ti1fp1 and tim_ti2fp2).\n00000:Slave mode disabled - if CEN = 1 then the prescaler is clocked directly by the internal\nclock.\n00001: Quadrature encoder mode 1, x2 mode- Counter counts up/down on tim_ti1fp1 edge\ndepending on tim_ti2fp2 level.\n00010:Quadrature encoder mode 2, x2 mode - Counter counts up/down on tim_ti2fp2 edge\ndepending on tim_ti1fp1 level.\n00011:Quadrature encoder mode 3, x4 mode - Counter counts up/down on both tim_ti1fp1\nand tim_ti2fp2 edges depending on the level of the other input.\n00100:Reset mode - Rising edge of the selected trigger input (tim_trgi) reinitializes the\ncounter and generates an update of the registers.\n00101:Gated mode - The counter clock is enabled when the trigger input (tim_trgi) is high.\nThe counter stops (but is not reset) as soon as the trigger becomes low. Both start\nand stop of the counter are controlled.\n00110:Trigger mode - The counter starts at a rising edge of the trigger tim_trgi (but it is not\nreset). Only the start of the counter is controlled.\n00111:External Clock mode 1 - Rising edges of the selected trigger (tim_trgi) clock the\ncounter.\n01000:Combined reset + trigger mode - Rising edge of the selected trigger input (tim_trgi)\nreinitializes the counter, generates an update of the registers and starts the counter.\n01001:Combined gated + reset mode - The counter clock is enabled when the trigger input\n(tim_trgi) is high. The counter stops and is reset) as soon as the trigger becomes low.\nBoth start and stop of the counter are controlled.\n01010:Encoder mode: Clock plus direction, x2 mode.\n01011:Encoder mode: Clock plus direction, x1 mode, tim_ti2fp2 edge sensitivity is set by\nCC2P\n01100:Encoder mode: Directional Clock, x2 mode.\n01101:Encoder mode: Directional Clock, x1 mode, tim_ti1fp1 and tim_ti2fp2 edge sensitivity\nis set by CC1P and CC2P.\n01110:Quadrature encoder mode: x1 mode, counting on tim_ti1fp1 edges only, edge\nsensitivity is set by CC1P.\n01111:Quadrature encoder mode: x1 mode, counting on tim_ti2fp2 edges only, edge\nsensitivity is set by CC2P.\n10000:Quadrature encoder with built-in debouncer: x2 mode.\n10001:Quadrature encoder with built-in debouncer: x4 mode.\nOthers: Reserved.\nNote: The gated mode must not be used if tim_ti1f_ed is selected as the trigger input\n(TS=00100). Indeed, tim_ti1f_ed outputs 1 pulse for each transition on tim_ti1f,\nwhereas the gated mode checks the level of the trigger signal.\nThe clock of the slave peripherals (such as timer and ADC) receiving the tim_trgo\nsignal must be enabled prior to receive events from the master timer, and the clock\nfrequency (prescaler) must not be changed on-the-fly while triggers are received from\nthe master timer.",
+      "semantic": {
+        "register": "TIM_SMCR",
+        "address_offset": "0x08",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "SMSPE",
+            "description": "SMS preload enable This bit selects whether the SMS[4:0] bitfield is preloaded.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SMS[4:0] bitfield is not preloaded"
+              },
+              {
+                "value": "1",
+                "meaning": "SMS[4:0] preload is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "23:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "MSM",
+            "description": "Master/slave mode synchronization between the current timer and its slaves (through tim_trgo). It is useful if the user wants to synchronize several timers on a single external event.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No action"
+              },
+              {
+                "value": "1",
+                "meaning": "The effect of an event on the trigger input (tim_trgi) is delayed to allow a perfect"
+              }
+            ]
+          },
+          {
+            "bits": "21, 20, 6, 5, 4",
+            "name": "TS[4:0]",
+            "description": "Trigger selection This bitfield selects the trigger input to be used to synchronize the counter. See Section35.5.2: TIM15/TIM16/TIM17 pins and internalsignals for more details on tim_itrx meaning for each timer. Note: These bits must be changed only when they are not used (for example when SMS=000) to avoid wrong edge detections at the transition.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "Internal Trigger 0 (tim_itr0)"
+              },
+              {
+                "value": "00001",
+                "meaning": "Internal Trigger 1 (tim_itr1)"
+              },
+              {
+                "value": "00010",
+                "meaning": "Internal Trigger 2 (tim_itr2)"
+              },
+              {
+                "value": "00011",
+                "meaning": "Internal Trigger 3 (tim_itr3)"
+              },
+              {
+                "value": "00100",
+                "meaning": "tim_ti1 Edge Detector (tim_ti1f_ed)"
+              },
+              {
+                "value": "00101",
+                "meaning": "Filtered Timer Input 1 (tim_ti1fp1)"
+              },
+              {
+                "value": "00110",
+                "meaning": "Filtered Timer Input 2 (tim_ti2fp2)"
+              },
+              {
+                "value": "00111",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "01000",
+                "meaning": "Internal Trigger 4 (tim_itr4)"
+              },
+              {
+                "value": "01001",
+                "meaning": "Internal Trigger 5 (tim_itr5)"
+              },
+              {
+                "value": "01010",
+                "meaning": "Internal Trigger 6 (tim_itr6)"
+              },
+              {
+                "value": "01011",
+                "meaning": "Internal Trigger 7 (tim_itr7)"
+              },
+              {
+                "value": "01100",
+                "meaning": "Internal Trigger 8 (tim_itr8)"
+              },
+              {
+                "value": "01101",
+                "meaning": "Internal Trigger 9 (tim_itr9)"
+              },
+              {
+                "value": "01110",
+                "meaning": "Internal Trigger 10 (tim_itr10)"
+              },
+              {
+                "value": "10000",
+                "meaning": "Internal trigger 12 (tim_itr12)"
+              },
+              {
+                "value": "10001",
+                "meaning": "Internal trigger 13 (tim_itr13)"
+              },
+              {
+                "value": "10010",
+                "meaning": "Internal trigger 14 (tim_itr14)"
+              },
+              {
+                "value": "10011",
+                "meaning": "Internal trigger 15 (tim_itr15)"
+              },
+              {
+                "value": "10100",
+                "meaning": "Internal trigger 16 (tim_itr16)"
+              },
+              {
+                "value": "10101",
+                "meaning": "Internal trigger 17 (tim_itr17)"
+              },
+              {
+                "value": "10110",
+                "meaning": "Internal trigger 18 (tim_itr18)"
+              },
+              {
+                "value": "10111",
+                "meaning": "Internal trigger 19 (tim_itr19)"
+              },
+              {
+                "value": "11000",
+                "meaning": "Internal trigger 20 (tim_itr20)"
+              },
+              {
+                "value": "11001",
+                "meaning": "Internal trigger 21 (tim_itr21)"
+              },
+              {
+                "value": "11010",
+                "meaning": "Internal trigger 22 (tim_itr22)"
+              },
+              {
+                "value": "11011",
+                "meaning": "Internal trigger 23 (tim_itr23)"
+              },
+              {
+                "value": "11100",
+                "meaning": "Internal trigger 24 (tim_itr24)"
+              },
+              {
+                "value": "11101",
+                "meaning": "Internal trigger 25 (tim_itr25)"
+              },
+              {
+                "value": "11110",
+                "meaning": "Internal trigger 26 (tim_itr26)"
+              },
+              {
+                "value": "11111",
+                "meaning": "Internal trigger 27 (tim_itr27)"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17:16, 2:0",
+            "name": "SMS[4:0]",
+            "description": "Slave mode selection When external signals are selected the active edge of the trigger signal (tim_trgi) is linked to the polarity selected on the external input (refer to ETP bit in TIM_SMCR for tim_etr_in and CCxP/CCxNP bits in TIM_CCER register for tim_ti1fp1 and tim_ti2fp2). clock. depending on tim_ti2fp2 level. depending on tim_ti1fp1 level. and tim_ti2fp2 edges depending on the level of the other input. counter and generates an update of the registers. The counter stops (but is not reset) as soon as the trigger becomes low. Both start and stop of the counter are controlled. reset). Only the start of the counter is controlled. counter. reinitializes the counter, generates an update of the registers and starts the counter. (tim_trgi) is high. The counter stops and is reset) as soon as the trigger becomes low. Both start and stop of the counter are controlled. CC2P is set by CC1P and CC2P. sensitivity is set by CC1P. sensitivity is set by CC2P. Note: The gated mode must not be used if tim_ti1f_ed is selected as the trigger input (TS=00100). Indeed, tim_ti1f_ed outputs 1 pulse for each transition on tim_ti1f, whereas the gated mode checks the level of the trigger signal. The clock of the slave peripherals (such as timer and ADC) receiving the tim_trgo signal must be enabled prior to receive events from the master timer, and the clock frequency (prescaler) must not be changed on-the-fly while triggers are received from the master timer.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "Slave mode disabled - if CEN = 1 then the prescaler is clocked directly by the internal"
+              },
+              {
+                "value": "00001",
+                "meaning": "Quadrature encoder mode 1, x2 mode- Counter counts up/down on tim_ti1fp1 edge"
+              },
+              {
+                "value": "00010",
+                "meaning": "Quadrature encoder mode 2, x2 mode - Counter counts up/down on tim_ti2fp2 edge"
+              },
+              {
+                "value": "00011",
+                "meaning": "Quadrature encoder mode 3, x4 mode - Counter counts up/down on both tim_ti1fp1"
+              },
+              {
+                "value": "00100",
+                "meaning": "Reset mode - Rising edge of the selected trigger input (tim_trgi) reinitializes the"
+              },
+              {
+                "value": "00101",
+                "meaning": "Gated mode - The counter clock is enabled when the trigger input (tim_trgi) is high."
+              },
+              {
+                "value": "00110",
+                "meaning": "Trigger mode - The counter starts at a rising edge of the trigger tim_trgi (but it is not"
+              },
+              {
+                "value": "00111",
+                "meaning": "External Clock mode 1 - Rising edges of the selected trigger (tim_trgi) clock the"
+              },
+              {
+                "value": "01000",
+                "meaning": "Combined reset + trigger mode - Rising edge of the selected trigger input (tim_trgi)"
+              },
+              {
+                "value": "01001",
+                "meaning": "Combined gated + reset mode - The counter clock is enabled when the trigger input"
+              },
+              {
+                "value": "01010",
+                "meaning": "Encoder mode: Clock plus direction, x2 mode."
+              },
+              {
+                "value": "01011",
+                "meaning": "Encoder mode: Clock plus direction, x1 mode, tim_ti2fp2 edge sensitivity is set by"
+              },
+              {
+                "value": "01100",
+                "meaning": "Encoder mode: Directional Clock, x2 mode."
+              },
+              {
+                "value": "01101",
+                "meaning": "Encoder mode: Directional Clock, x1 mode, tim_ti1fp1 and tim_ti2fp2 edge sensitivity"
+              },
+              {
+                "value": "01110",
+                "meaning": "Quadrature encoder mode: x1 mode, counting on tim_ti1fp1 edges only, edge"
+              },
+              {
+                "value": "01111",
+                "meaning": "Quadrature encoder mode: x1 mode, counting on tim_ti2fp2 edges only, edge"
+              },
+              {
+                "value": "10000",
+                "meaning": "Quadrature encoder with built-in debouncer: x2 mode."
+              },
+              {
+                "value": "10001",
+                "meaning": "Quadrature encoder with built-in debouncer: x4 mode."
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

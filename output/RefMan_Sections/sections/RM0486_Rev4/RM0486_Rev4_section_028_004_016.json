@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.4.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.4.16",
+      "section_title": "XSPI regular-command mode configuration",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 1318,
+      "page_end": 1320,
+      "semantic_type": "generic",
+      "features": [
+        "spi",
+        "xspi"
+      ],
+      "chars": 5928,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1318",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.16 \"XSPI regular-command mode configuration\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1318.",
+      "section_content": "Indirect mode configuration\nWhen FMODE[1:0]=00, the indirect-write mode is selected and data can be sent to the\nexternal device. When FMODE[1:0]=01, the indirect-read mode is selected and data can\nbe read from the external device.\nWhen the XSPI is used in indirect mode, the frames are constructed in the following way:\n1. Specify a number of data bytes to read or write in XSPI_DLR.\n2. Specify the frame timing in XSPI_TCR.\n3. Specify the frame format in XSPI_CCR.\n4. Specify the instruction in XSPI_IR.\n5. Specify the optional alternate byte to be sent right after the address phase in\nXSPI_ABR.\n6. Specify the targeted address in XSPI_AR.\n7. Enable the DMA channel if needed.\n8. Read/write the data from/to the FIFO through XSPI_DR (if no DMA usage).\nIf neither the address register (XSPI_AR) nor the data register (XSPI_DR) need to be\nupdated for a particular command, then the command sequence starts as soon as XSPI_IR\nis written. This is the case when both ADMODE[2:0] and DMODE[2:0] equal 000, or if just\nADMODE[2:0]=000 when in indirect-read mode (FMODE[1:0]=01).\nWhen an address is required (ADMODE[2:0]≠000) and the data register does not need to\nbe written (FMODE[1:0]=01 or DMODE[2:0]=000), the command sequence starts as\nsoon as the address is updated with a write to XSPI_AR.\nIn case of data transmission (FMODE[1:0]=00 and DMODE[2:0]≠000), the\ncommunication start is triggered by a write in the FIFO through XSPI_DR.\nAutomatic status-polling mode configuration\nThe automatic status-polling mode is enabled by setting FMODE[1:0]=10. In this mode, the\nprogrammed frame is sent and the data is retrieved periodically.\nThe maximum amount of data read in each frame is 4 bytes. If more data is requested in\nXSPI_DLR, it is ignored, and only 4 bytes are read.The periodicity is specified in XSPI_PIR.\nOnce the status data has been retrieved, the following can be processed:\n• Set SMF (an interrupt is generated if enabled).\n• Stop automatically the periodic retrieving of the status bytes.\nThe received value can be masked with the value stored in XSPI_PSMKR, and can be\nORed or ANDed with the value stored in XSPI_PSMAR.\nIn case of a match, SMF is set and an interrupt is generated if enabled. The XSPI can be\nautomatically stopped if AMPS is set. In any case, the latest retrieved value is available in\nXSPI_DR.\nWhen the XSPI is used in automatic status-polling mode, the frames are constructed in the\nfollowing way:\n1. Specify the input mask in XSPI_PSMKR.\n2. Specify the comparison value in XSPI_PSMAR.\n3. Specify the read period in XSPI_PIR.\n4. Specify a number of data bytes to read in XSPI_DLR.\n5. Specify the frame timing in XSPI_TCR.\n6. Specify the frame format in XSPI_CCR.\n7. Specify the instruction in XSPI_IR.\n8. Specify the optional alternate byte to be sent right after the address phase in\nXSPI_ABR.\n9. Specify the optional targeted address in XSPI_AR.\nIf the address register (XSPI_AR) does not need to be updated for a particular command,\nthen the command sequence starts as soon as XSPI_CCR is written. This is the case when\nADMODE[2:0]=000.\nWhen an address is required (ADMODE[2:0]≠000), the command sequence starts as soon\nas the address is updated with a write to XSPI_AR.\nMemory-mapped mode configuration\nIn memory-mapped mode, the external device is seen as an internal memory but with some\nlatency during accesses. Read and write operations are allowed to the external device in\nthis mode.\nIt is not recommended to program the flash memory using memory-mapped writes, as the\ninternal flags for erase or programming status have to be polled. The indirect-write mode\nfulfills this operation, possibly in conjunction with the automatic status-polling mode.\nMemory-mapped mode is entered by setting FMODE[1:0]=11 in XSPI_CR.\nThe programmed instruction and frame are sent when an AXI master accesses the memory\nmapped space.\nThe FIFO is used as a prefetch buffer to anticipate any linear reads. Any access to\nXSPI_DR in this mode returns zero.\nThe data length register (XSPI_DLR) has no meaning in memory-mapped mode.\nWhen the XSPI is used in memory-mapped mode, the frames are constructed in the\nfollowing way:\n1. Specify the frame timing in XSPI_TCR for read operation.\n2. Specify the frame format in XSPI_CCR for read operation.\n3. Specify the instruction in XSPI_IR.\n4. Specify the optional alternate byte to be sent right after the address phase in\nXSPI_ABR for read operation.\n5. Specify the frame timing in XSPI_WTCR for write operation.\n6. Specify the frame format in XSPI_WCCR for write operation.\n7. Specify the instruction in XSPI_WIR.\n8. Specify the optional alternate byte to be sent right after the address phase in\nXSPI_WABR for write operation.\nAll the configuration operations must be completed (ensured by checking BUSY = 0) before\nthe first access to the memory area: any register write operation when BUSY = 1 have no\neffect and is not signaled with an error response. On the first access, the XSPI becomes\nbusy, and no further configuration is allowed. Then, the only way to get BUSY low is to clear\nthe ENABLE bit or to abort by setting the ABORT bit.\nMemory-mapped write operations are not supported without write strobe.\nXSPI delayed data sampling when no DQS is used\nBy default, when no DQS is used, the XSPI samples the data driven by the external device\none half of a CLK cycle after the external device drives the signal.\nIn case of any external signal delays, it may be useful to sample the data later. Using\nSSHIFT in XSPI_TCR, the sampling of the data can be shifted by half of a CLK cycle.\nThe firmware must clear SSHIFT when the data phase is configured in DTR mode\n(DDTR=1).\nXSPI delayed data sampling when DQS is used\nWhen external DQS is used as a sampling clock, it is shifted precisely by one quarter of the\nSPI clock cycle, for all frequencies above freq_min, to compensate the data propagation\ndelay in the “high-speed interface” when the product embeds one.",
+      "semantic": {}
+    }
+  ]
+}

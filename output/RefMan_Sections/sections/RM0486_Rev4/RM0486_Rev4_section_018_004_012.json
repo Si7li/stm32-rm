@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.4.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.4.12",
+      "section_title": "HPDMA triggered transfer",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 884,
+      "page_end": 885,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 2223,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=884",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.12 \"HPDMA triggered transfer\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 884.",
+      "section_content": "A programmed HPDMA transfer can be triggered by a rising/falling edge of a selected input\ntrigger event, as defined by HPDMA_CxTR2.TRIGPOL[1:0] and\nHPDMA_CxTR2.TRIGSEL[6:0] (seeSection18.3.7 for the trigger selection).\nThe triggered transfer, as defined by the trigger mode in HPDMA_CxTR2.TRIGM[1:0], can\nbe at LLI data transfer level, to condition the first burst read of a block, the first burst read of\na 2D/repeated block (for channel x=12to15), or each programmed burst read/write.\nThetrigger mode can also be programmed to condition the LLI link transfer\n(seeTRIGM[1:0] in HPDMA channel x transfer register 2 (HPDMA_CxTR2) for more\ndetails).\nTrigger hit memorization and trigger overrun flag generation\nThe HPDMA monitoring of a trigger for a channel x is started when the channel is\nenabled/loaded with a new active trigger configuration: rising or falling edge on a selected\ntrigger (respectively TRIGPOL[1:0]=01 or TRIGPOL[1:0]=10).\nThe monitoring of this trigger is kept active during the triggered and uncompleted (data or\nlink) transfer. If a new trigger is detected, this hit is internally memorized to grant the next\ntransfer, as long as the defined rising/falling edge and TRIGSEL[6:0] are not modified, and\nthe channel is enabled.\nTransferring a next LLIn+1, that updates HPDMA_CxTR2 with a new value for any of\nTRIGSEL[6:0] or TRIGPOL[1:0], resets the monitoring, trashing the possible memorized hit\nof the formerly defined LLIn trigger.\nCaution: After a first new trigger, hitn+1 is memorized. If another trigger hitn+2 is detected, and if\nthehitn triggered transfer is still not completed, hitn+2 is lost and not memorized. A trigger\noverrun flag is reported (HPDMA_CxSR.TOF=1) and an interrupt is generated if enabled\n(ifHPDMA_CxCR.TOIE=1). The channel is not automatically disabled by hardware due to\na trigger overrun.\nThe figure below illustrates the trigger hit, memorization, and overrun in the configuration\nexample with a block-level trigger mode and a rising edge trigger polarity.\n[Figure 90. Trigger hit, memorization and overrun waveform]\nNote: The user can assign the same input trigger event to different channels. This can be used\ntotrigger different channels on a broadcast trigger event.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S22.4.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "22",
+      "chapter_title": "Digital-to-analog converter (DAC)",
+      "section": "22.4.6",
+      "section_title": "DAC conversion",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 678,
+      "page_end": 679,
+      "semantic_type": "generic",
+      "features": [
+        "dac"
+      ],
+      "chars": 1539,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=678",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.6 \"DAC conversion\" in chapter 22 (Digital-to-analog converter (DAC)), RM0522 Rev 1, page 678.",
+      "section_content": "The DAC_DORx cannot be written directly and any data transfer to the DAC channelx must\nbe performed by loading the DAC_DHRx register (write operation to DAC_DHR8Rx,\nDAC_DHR12Lx, DAC_DHR12Rx, DAC_DHR8RD, DAC_DHR12RD or DAC_DHR12LD).\nData stored in the DAC_DHRx register are automatically transferred to the DAC_DORx\nregister after one dac_hclk clock cycle, if no hardware trigger is selected (TENx bit in\nDAC_CR register is reset). However, when a hardware trigger is selected (TENx bit in\nDAC_CR register is set) and a trigger occurs, the transfer is performed three dac_hclk clock\ncycles after the trigger signal.\nWhen DAC_DORx is loaded with the DAC_DHRx contents, the analog output voltage\nbecomes available after a time tSETTLING that depends on the power supply voltage and the\nanalog output load.\nTo synchronize DAC and ADC, the same clock source can be used for both peripherals.\nThis is done by selecting the dac_ker_ck clock instead of the dac_hclk clock (AHB clock) in\nthe RCC.\nHFSEL bits of DAC_MCR must be set when dac_ker_ck clock speed is faster than 80MHz.\nRefer to Table HFSEL description below for the limitation of the DAC_DORx update rate\ndepending on HFSEL bits and dac_hclk or dac_ker_ck clock frequency.\nIf the data is updated or a software/hardware trigger event occurs during the non-allowed\nperiod, the peripheral behavior is unpredictable.\nThe above timing is only related to the limitation of the DAC interface. Refer also to the\ntSETTLING parameter value in the product datasheet.\n[Table 160. HFSEL description]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S11.3.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "11",
+      "chapter_title": "General-purpose I/Os (GPIO)",
+      "section": "11.3.2",
+      "section_title": "I/O pin alternate function multiplexer and mapping",
+      "level": 3,
+      "parent_section": "11.3",
+      "page": 342,
+      "page_end": 342,
+      "semantic_type": "generic",
+      "features": [
+        "gpio"
+      ],
+      "chars": 2410,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=342",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.3.2 \"I/O pin alternate function multiplexer and mapping\" in chapter 11 (General-purpose I/Os (GPIO)), RM0522 Rev 1, page 342.",
+      "section_content": "The device I/O pins are connected to on-board peripherals/modules through a multiplexer\nthat allows only one peripheral alternate function (AF) connected to an I/O pin at a time. In\nthis way, there is no conflict between peripherals available on the same I/O pin.\nEach I/O pin has a multiplexer with up to 16 alternate function inputs (AF0 to AF15) that can\nbe configured through the GPIOx_AFRL (for pin 0 to 7) and GPIOx_AFRH (for pin 8 to 15)\nregisters:\n• After reset, the multiplexer selection is alternate function 0 (AF0). The I/Os are\nconfigured in alternate function mode through the GPIOx_MODER register.\n• The specific alternate function assignments for each pin are detailed in the device\ndatasheet.\nIn addition to this flexible I/O multiplexing architecture, each peripheral has alternate\nfunctions mapped onto different I/O pins to optimize the number of peripherals available in\nsmaller packages.\nTo use an I/O in a given configuration, the user must proceed as follows:\n• Debug function: after each device reset these pins are assigned as alternate function\npins immediately usable by the debugger host.\n• GPIO: configure the desired I/O as output, input, or analog in the GPIOx_MODER\nregister.\n• Alternate function:\n– Connect the I/O to the desired AFx in one of the GPIOx_AFRL or GPIOx_AFRH\nregister.\n– Select the type, pull-up/pull-down, and output speed via the GPIOx_OTYPER,\nGPIOx_PUPDR and GPIOx_OSPEEDR registers respectively.\n– Configure the desired I/O as an alternate function in the GPIOx_MODER register.\n– The Cortex-M33 output EVENTOUT signal can be output as alternate function on\nseveral I/Os. An event can be indicated through the configured pin after executing\nSEV instruction.\n– The EVENTOUT signal can be used internally as a trigger for some peripherals\n(see Section13: Peripherals interconnect matrix)\n• Additional functions:\n– For the ADC, DAC, COMP, and OPAMP configure the desired I/O in analog mode\nin the GPIOx_MODER register and configure the required function in the ADC,\nDAC, COMP, and OPAMP registers.\n– For the additional functions like RTC, WKUPx, LSCO, and oscillators, configure\nthe required function in the related RTC, PWR, and RCC registers. These\nfunctions have priority over the configuration in the standard GPIO registers.\nRefer to the “Alternate function mapping” table in the device datasheet for the detailed\nmapping of the alternate function I/O pins.",
+      "semantic": {}
+    }
+  ]
+}

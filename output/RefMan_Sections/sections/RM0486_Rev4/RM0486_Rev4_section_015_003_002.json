@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S15.3.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "15",
+      "chapter_title": "General-purpose I/Os (GPIO)",
+      "section": "15.3.2",
+      "section_title": "I/O pin AF multiplexer and mapping",
+      "level": 3,
+      "parent_section": "15.3",
+      "page": 786,
+      "page_end": 786,
+      "semantic_type": "generic",
+      "features": [
+        "gpio"
+      ],
+      "chars": 2209,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=786",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 15.3.2 \"I/O pin AF multiplexer and mapping\" in chapter 15 (General-purpose I/Os (GPIO)), RM0486 Rev 4, page 786.",
+      "section_content": "The device I/O pins are connected to on-board peripherals/modules through a multiplexer\nused to connect only one peripheral AF to an I/O pin at a time. There is no conflict between\nperipherals available on the same I/O pin.\nEach I/O pin has a multiplexer with up to 16 AF inputs (AF0 to AF15), which can be\nconfigured through GPIOx_AFRL (for pins 0 to 7) and GPIOx_AFRH (for pins 8 to 15):\n• During and just after reset, AFs are not active and most of the I/O ports are configured\nin analog mode, as defined through GPIOx_MODER. When one AF is active, AF0 is\nselected by default.\n• Specific AF assignments for each I/O pin are detailed in the device datasheet.\nThis flexible I/O multiplexing architecture is used to optimize the number of peripherals\navailable in smaller packages.\nTo use an I/O in a given configuration, the user must proceed as follows:\n• Debug function: after each device reset, these pins are assigned as AF pins\nimmediately usable by the debugger host.\n• GPIO modes: the desired I/O is configured as output, input, or analog\ninGPIOx_MODER.\n• Peripheral AF:\n– For a given peripheral function, the ‘Alternate functions’ table in the datasheet\nhelps to identify the AF to use with a given I/O. One of GPIOx_AFRL or\nGPIOx_AFRH must be used.\n– Configure the desired I/O as an AF in GPIOx_MODER. Select the type,\npull-up/pull-down, and output speed via GPIOx_OTYPER, GPIOx_PUPDR, and\nGPIOx_OSPEEDR respectively.\n• Cortex®-M55 alternate function (EVENTOUT)\n– The output EVENTOUT signal can be used by configuring the I/O pin to output at\nAF15. An event can be signaled through the configured pin after executing SEV\ninstruction.\n– EVENTOUT signal can be used internally as a trigger for some peripherals (see\nSection17: Peripherals interconnect matrix)\n• Additional functions:\n– The additional functions listed in the datasheet give the peripheral functions that\ndirectly select/enable its allocated I/O port(s). Typical peripherals are RTC/TAMP,\nPWR (WKUPx pins), or RCC (oscillator pins). These functions have priority over\nthe configuration in standard GPIO registers.\n– For ADCs, configure the desired I/O in analog mode in GPIOx_MODER, and\nconfigure the required function in ADC registers.",
+      "semantic": {}
+    }
+  ]
+}

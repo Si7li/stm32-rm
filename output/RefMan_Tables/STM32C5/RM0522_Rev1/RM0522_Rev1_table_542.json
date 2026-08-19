@@ -1,0 +1,103 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "table_id": "RM0522-T542",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "542",
+      "title": "TDES3 normal descriptor (read format)",
+      "page": 2257,
+      "section": "48.10.3",
+      "section_title": "Transmit descriptor",
+      "semantic_type": "generic",
+      "features": [
+        "tdes3"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2257",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Bits",
+        "Name",
+        "Description"
+      ],
+      "text_helper": "Table 542, \"TDES3 normal descriptor (read format)\", in section 48.10.3 (Transmit descriptor) on page 2257. Columns: Bits, Name, Description. 11 data row(s).",
+      "table_content": {
+        "headers": [
+          "Bits",
+          "Name",
+          "Description"
+        ],
+        "rows": [
+          [
+            "31",
+            "OWN",
+            "Own bit\n1: the DMA owns the descriptor. \n0: the application owns the descriptor. \nThe DMA clears this bit after it completes the transfer of data given in the \nassociated buffer(s)."
+          ],
+          [
+            "30",
+            "CTXT",
+            "Context Type\nThis bit should be set to 0 for normal descriptor."
+          ],
+          [
+            "29",
+            "FD",
+            "First Descriptor\nWhen this bit is set, it indicates that the buffer contains the first segment of \na packet."
+          ],
+          [
+            "28",
+            "LD",
+            "Last Descriptor\nWhen this bit is set, it indicates that the buffer contains the last segment of \nthe packet. B1L or B2L field should have a non-zero value."
+          ],
+          [
+            "27:26",
+            "CPC",
+            "CRC pad control\nThis field controls the CRC and Pad Insertion for Tx packet. It is valid only \nwhen the first descriptor bit (TDES3[29]) is set. The values of bits[27:26] \nare the following:\n00: CRC and pad insertion\nThe MAC appends the cyclic redundancy check (CRC) at the end of the \ntransmitted packets whose length greater than or equal to 60 bytes. The \nMAC automatically appends padding and CRC to a packet with length less \nthan 60 bytes.\n01: CRC insertion (disable pad insertion)\nThe MAC appends the CRC at the end of the transmitted packet but it does \nnot append padding. The application should ensure that the padding bytes \nare present in the packet being transferred from the Transmit buffer, that is, \nthe packet being transferred from the Transmit Buffer is of length greater \nthan or equal to 60 bytes.\n10: Disable CRC insertion\nThe MAC does not append the CRC at the end of the transmitted packet. \nThe application should ensure that the padding and CRC bytes are present \nin the packet being transferred from the Transmit Buffer.\n11: CRC replacement\nThe MAC replaces the last four bytes of the transmitted packet with \nrecalculated CRC bytes. The application should ensure that the padding \nand CRC bytes are present in the packet being transferred from the \ntransmit buffer.\nWhen the TSE bit is set, the MAC ignores this field because the CRC and \npad insertion is always done for segmentation."
+          ],
+          [
+            "25:23",
+            "SAIC",
+            "SA insertion control\nThese bits request the MAC to add or replace the Source Address field in \nthe Ethernet packet with the value given in the MAC Address 0 register. \nThe application must appropriately set the CRC Pad Control bits when SA \nInsertion Control is enabled for the packet.\nBit 25 specifies the MAC address register (1 or 0) value that is used for \nsource address insertion or replacement. \nThe following list describes the values of Bits[24:23]:\n00: Do not include the source address\n01: Include or insert the source address. For reliable transmission, the \napplication must provide frames without source addresses.\n10: Replace the source address. For reliable transmission, the application \nmust provide frames with source addresses.\n11: Reserved\nThese bits are valid when the First Segment control bit (TDES3 [29]) is set."
+          ],
+          [
+            "22:19",
+            "THL",
+            "TCP header length (in words)\nIf the TSE bit is set, this field contains the length of the TCP/UDP header. \nThe minimum value of this field must be 5 for TCP header. THL value must \nbe equal to 2 for UDP header. This field is valid only for the first descriptor."
+          ],
+          [
+            "18",
+            "TSE",
+            "TCP segmentation enable\nWhen this bit is set, the DMA performs the TCP/UDP segmentation for a \npacket. This bit is valid only if the FD bit is set. "
+          ],
+          [
+            "17:16",
+            "CIC/TPL",
+            "Checksum insertion control or TCP payload length\nThese bits control the checksum calculation and insertion. They can take \nthe following values:\n00: Checksum insertion disabled.\n01: Only IP header checksum calculation and insertion are enabled.\n10: IP header checksum and payload checksum calculation and insertion \nare enabled, but pseudo-header checksum is not calculated in hardware.\n11: IP header checksum and payload checksum calculation and insertion \nare enabled, and pseudo-header checksum is calculated in hardware. \nThis field is valid when the TSE bit is reset.When the TSE bit is set, it \ncontains the upper bits [17:16] of the TCP Payload length. This allows the \nTCP packet length field to be spanned across TDES3[17:0] to provide \n256 Kbyte packet length support."
+          ],
+          [
+            "15",
+            "TPL ",
+            "Reserved or TCP payload length\nWhen the TSE bit is reset, this bit is reserved. When the TSE bit is set, this \nis bit 15 of the TCP payload length [17:0]. "
+          ],
+          [
+            "14:0",
+            "FL/TPL",
+            "Reserved or TCP payload length\nWhen the TSE bit is set, this field is equal to the lower 15 bits of the TCP \npayload length. This length does not include Ethernet header or \nTCP/UDP/IP header length. \nWhen the TSE bit is reset, this bit is reserved."
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

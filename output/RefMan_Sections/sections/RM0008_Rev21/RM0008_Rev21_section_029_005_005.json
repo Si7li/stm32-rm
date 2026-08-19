@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S29.5.5",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "29",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "29.5.5",
+      "section_title": "MAC filtering",
+      "level": 3,
+      "parent_section": "29.5",
+      "page": 997,
+      "page_end": 1000,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "mac"
+      ],
+      "chars": 5220,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=997",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.5.5 \"MAC filtering\" in chapter 29 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0008 Rev 21, page 997.",
+      "section_content": "Address filtering\nAddress filtering checks the destination and source addresses on all received frames and\nthe address filtering status is reported accordingly. Address checking is based on different\nparameters (Frame filter register) chosen by the application. The filtered frame can also be\nidentified: multicast or broadcast frame.\nAddress filtering uses the station's physical (MAC) address and the Multicast Hash table for\naddress checking purposes.\nUnicast destination address filter\nThe MAC supports up to 4 MAC addresses for unicast perfect filtering. If perfect filtering is\nselected (HU bit in the Frame filter register is reset), the MAC compares all 48 bits of the\nreceived unicast address with the programmed MAC address for any match. Default\nMacAddr0 is always enabled, other addresses MacAddr1–MacAddr3 are selected with an\nindividual enable bit. Each byte of these other addresses (MacAddr1–MacAddr3) can be\nmasked during comparison with the corresponding received DA byte by setting the\ncorresponding Mask Byte Control bit in the register. This helps group address filtering for the\nDA. In Hash filtering mode (when HU bit is set), the MAC performs imperfect filtering for\nunicast addresses using a 64-bit Hash table. For hash filtering, the MAC uses the 6 upper\nCRC (see note 1 below) bits of the received destination address to index the content of the\nHash table. A value of 000000 selects bit 0 in the selected register, and a value of 111111\nselects bit 63 in the Hash Table register. If the corresponding bit (indicated by the 6-bit CRC)\nis set to 1, the unicast frame is said to have passed the Hash filter; otherwise, the frame has\nfailed the Hash filter.\nNote: This CRC is a 32-bit value coded by the following polynomial (for more details refer to\nSection29.5.3):\nG(x) = x32+x26+x23+x22+x16+x12+x11+x10+x8+x7+x5+x4+x2+x+1\nMulticast destination address filter\nThe MAC can be programmed to pass all multicast frames by setting the PAM bit in the\nFrame filter register. If the PAM bit is reset, the MAC performs the filtering for multicast\naddresses based on the HM bit in the Frame filter register. In Perfect filtering mode, the\nmulticast address is compared with the programmed MAC destination address registers\n(1–3). Group address filtering is also supported. In Hash filtering mode, the MAC performs\nimperfect filtering using a 64-bit Hash table. For hash filtering, the MAC uses the 6 upper\nCRC (see note 1 below) bits of the received multicast address to index the content of the\nHash table. A value of 000000 selects bit 0 in the selected register and a value of 111111\nselects bit 63 in the Hash Table register. If the corresponding bit is set to 1, then the\nmulticast frame is said to have passed the Hash filter; otherwise, the frame has failed the\nHash filter.\nNote: This CRC is a 32-bit value coded by the following polynomial (for more details refer to\nSection29.5.3):\nG(x) = x32+x26+x23+x22+x16+x12+x11+x10+x8+x7+x5+x4+x2+x+1\nHash or perfect address filter\nThe DA filter can be configured to pass a frame when its DA matches either the Hash filter\nor the Perfect filter by setting the HPF bit in the Frame filter register and setting the\ncorresponding HU or HM bits. This configuration applies to both unicast and multicast\nframes. If the HPF bit is reset, only one of the filters (Hash or Perfect) is applied to the\nreceived frame.\nBroadcast address filter\nThe MAC does not filter any broadcast frames in the default mode. However, if the MAC is\nprogrammed to reject all broadcast frames by setting the BFD bit in the Frame filter register,\nany broadcast frames are dropped.\nUnicast source address filter\nThe MAC can also perform perfect filtering based on the source address field of the\nreceived frames. By default, the MAC compares the SA field with the values programmed in\nthe SA registers. The MAC address registers [1:3] can be configured to contain SA instead\nof DA for comparison, by setting bit 30 in the corresponding register. Group filtering with SA\nis also supported. The frames that fail the SA filter are dropped by the MAC if the SAF bit in\nthe Frame filter register is set. Otherwise, the result of the SA filter is given as a status bit in\nthe Receive Status word (see RDES0: Receive descriptor Word0).\nWhen the SAF bit is set, the result of the SA and DA filters is AND’ed to decide whether the\nframe needs to be forwarded. This means that either of the filter fail result will drop the\nframe. Both filters have to pass the frame for the frame to be forwarded to the application.\nInverse filtering operation\nFor both destination and source address filtering, there is an option to invert the filter-match\nresult at the final output. These are controlled by the DAIF and SAIF bits in the Frame filter\nregister, respectively. The DAIF bit is applicable for both Unicast and Multicast DA frames.\nThe result of the unicast/multicast destination address filter is inverted in this mode.\nSimilarly, when the SAIF bit is set, the result of the unicast SA filter is inverted. Table215\nand Table216 summarize destination and source address filtering based on the type of\nframe received.\n[Table 215. Destination address filtering]\n[Table 216. Source address filtering]",
+      "semantic": {}
+    }
+  ]
+}

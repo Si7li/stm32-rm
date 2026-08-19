@@ -1,0 +1,38 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.3.5",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.3.5",
+      "section_title": "FLASH main memory erase sequences",
+      "level": 3,
+      "parent_section": "4.3",
+      "page": 61,
+      "page_end": 62,
+      "semantic_type": "generic",
+      "features": [
+        "erase",
+        "flash",
+        "memory"
+      ],
+      "chars": 2206,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=61",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.3.5 \"FLASH main memory erase sequences\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 61.",
+      "section_content": "The flash memory erase operation can be performed at page level (page erase), or on the\nwhole memory (mass erase). Mass erase does not affect the information block (system\nflash memory, OTP and option bytes).\nFlash memory page erase\nWhen a page is protected by PCROP or WRP, it is not erased and the WRPERR bit is set.\n[Table 15. Page erase overview]\nTo erase a page (2 Kbytes), follow the procedure below:\n1. Check that no flash memory operation is ongoing by checking the BSY1 bit of the\nFLASH status register (FLASH_SR).\n2. Check and clear all error programming flags due to a previous programming. If not,\nPGSERR is set.\n3. Check that the CFGBSY bit of the FLASH status register (FLASH_SR) is cleared.\n4. Set the PER bit and select the page to erase (PNB) in the FLASH control register\n(FLASH_CR).\n5. Set the STRT bit of the FLASH control register (FLASH_CR).\n6. Wait until the CFGBSY bit of the FLASH status register (FLASH_SR) is cleared.\nNote: The HSI48 internal oscillator (with a divide by three to provide 16 MHz) is automatically\nenabled when the STRT bit is set. It is automatically disabled when the STRT bit is cleared,\nexcept if previously enabled with the HSION bit of the RCC_CR register.\nFlash memory bank or mass erase\nWhen PCROP or WRP is enabled, the flash memory mass erase is aborted, no erase starts,\nand the WRPERR bit is set.\n[Table 16. Mass erase overview]\nTo perform a mass erase, respect the following procedure:\n1. Check that no flash memory operation is ongoing by checking the BSY1 bit of the\nFLASH status register (FLASH_SR).\n2. Check and clear all error programming flags due to a previous programming. If not,\nPGSERR is set.\n3. Check that the CFGBSY bit of the FLASH status register (FLASH_SR) is cleared.\n4. Set the MER1 bit of the FLASH control register (FLASH_CR).\n5. Set the STRT bit of the FLASH control register (FLASH_CR).\n6. Wait until the CFGBSY bit of the FLASH status register (FLASH_SR) is cleared.\nNote: The HSI48 internal oscillator (with a divide by three to provide 16 MHz) is automatically\nenabled when the STRT bit is set. It is automatically disabled when the STRT bit is cleared,\nexcept if previously enabled with the HSION bit of the RCC_CR register.",
+      "semantic": {}
+    }
+  ]
+}

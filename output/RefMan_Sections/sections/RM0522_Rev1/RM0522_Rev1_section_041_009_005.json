@@ -1,0 +1,85 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S41.9.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "41",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "41.9.5",
+      "section_title": "I2C timing register (I2C_TIMINGR)",
+      "level": 3,
+      "parent_section": "41.9",
+      "page": 1679,
+      "page_end": 1680,
+      "semantic_type": "register_description",
+      "features": [
+        "i2c",
+        "i2c-timingr",
+        "presc",
+        "scldel",
+        "sclh",
+        "scll",
+        "sdadel"
+      ],
+      "chars": 1651,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1679",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 41.9.5 \"I2C timing register (I2C_TIMINGR)\" in chapter 41 (Inter-integrated circuit interface (I2C)), RM0522 Rev 1, page 1679.",
+      "section_content": "Address offset: 0x10\nReset value: 0x0000 0000\nAccess: no wait states\nBits 31:28 PRESC[3:0]: Timing prescaler\nThis field is used to prescale i2c_ker_ck to generate the clock period tPRESC used for data\nsetup and hold counters (refer to section I2C timings), and for SCL high and low level\ncounters (refer to section I2C controller initialization).\ntPRESC = (PRESC + 1) x tI2CCLK\nBits 27:24 Reserved, must be kept at reset value.\nBits 23:20 SCLDEL[3:0]: Data setup time\nThis field is used to generate a delay tSCLDEL = (SCLDEL + 1) x tPRESC between SDA edge\nand SCL rising edge. In controller and in target modes with NOSTRETCH = 0, the SCL line is\nstretched low during tSCLDEL.\nNote: tSCLDEL is used to generate tSU:DAT timing.\nBits 19:16 SDADEL[3:0]: Data hold time\nThis field is used to generate the delay tSDADEL between SCL falling edge and SDA edge. In\ncontroller and in target modes with NOSTRETCH = 0, the SCL line is stretched low during\ntSDADEL.\ntSDADEL= SDADEL x tPRESC\nNote: SDADEL is used to generate tHD:DAT timing.\nBits 15:8 SCLH[7:0]: SCL high period (controller mode)\nThis field is used to generate the SCL high period in controller mode.\ntSCLH = (SCLH + 1) x tPRESC\nNote: SCLH is also used to generate tSU:STO and tHD:STA timing.\nBits 7:0 SCLL[7:0]: SCL low period (controller mode)\nThis field is used to generate the SCL low period in controller mode.\ntSCLL = (SCLL + 1) x tPRESC\nNote: SCLL is also used to generate tBUF and tSU:STA timings.\nNote: This register must be configured when the I2C peripheral is disabled (PE = 0).\nNote: The STM32CubeMX tool calculates and provides the I2C_TIMINGR content in the I2C\nConfiguration window.",
+      "semantic": {
+        "register": "I2C_TIMINGR",
+        "address_offset": "0x10",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:28",
+            "name": "PRESC[3:0]",
+            "description": "Timing prescaler This field is used to prescale i2c_ker_ck to generate the clock period tPRESC used for data setup and hold counters (refer to section I2C timings), and for SCL high and low level counters (refer to section I2C controller initialization). tPRESC = (PRESC + 1) x tI2CCLK",
+            "values": []
+          },
+          {
+            "bits": "27:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:20",
+            "name": "SCLDEL[3:0]",
+            "description": "Data setup time This field is used to generate a delay tSCLDEL = (SCLDEL + 1) x tPRESC between SDA edge and SCL rising edge. In controller and in target modes with NOSTRETCH = 0, the SCL line is stretched low during tSCLDEL. Note: tSCLDEL is used to generate tSU:DAT timing.",
+            "values": []
+          },
+          {
+            "bits": "19:16",
+            "name": "SDADEL[3:0]",
+            "description": "Data hold time This field is used to generate the delay tSDADEL between SCL falling edge and SDA edge. In controller and in target modes with NOSTRETCH = 0, the SCL line is stretched low during tSDADEL. tSDADEL= SDADEL x tPRESC Note: SDADEL is used to generate tHD:DAT timing.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "SCLH[7:0]",
+            "description": "SCL high period (controller mode) This field is used to generate the SCL high period in controller mode. tSCLH = (SCLH + 1) x tPRESC Note: SCLH is also used to generate tSU:STO and tHD:STA timing.",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "SCLL[7:0]",
+            "description": "SCL low period (controller mode) This field is used to generate the SCL low period in controller mode. tSCLL = (SCLL + 1) x tPRESC Note: SCLL is also used to generate tBUF and tSU:STA timings. Note: This register must be configured when the I2C peripheral is disabled (PE = 0). Note: The STM32CubeMX tool calculates and provides the I2C_TIMINGR content in the I2C Configuration window.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S10.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "10",
+      "chapter_title": "SRAM configuration controller (RAMCFG)",
+      "section": "10.4",
+      "section_title": "RAMCFG low-power modes",
+      "level": 2,
+      "parent_section": null,
+      "page": 293,
+      "page_end": 294,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "ramcfg"
+      ],
+      "chars": 1847,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=293",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 10.4 \"RAMCFG low-power modes\" in chapter 10 (SRAM configuration controller (RAMCFG)), RM0486 Rev 4, page 293.",
+      "section_content": "After a reset, by default, the RAM is controlled by the RAM clock through the RCC\nembedded memories enable register (RCC_MEMENR). The following configurations apply:\n• AXISRAM1 and AXISRAM2 are enabled.\n• AXISRAM3 to AXISRAM6 are in power-down (shutdown) mode.\n• AXISRAM7 operates as internal RAM at system level, and AXISRAM8 is in\npower-down (shutdown) mode.\n• BKPSRAM is enabled.\nWhen RAMs are in shutdown mode, their content is not retained. The following controls and\nbehaviors apply:\n• SRAMSD in AXISRAMx_CR (x = 2, 3, 4, 5, or 6) determines whether the RAM is in\nshutdown mode.\n• When a RAM is in shutdown mode:\n– Writing to it has no effect.\n– Reading from it returns 0.\n– Upon exiting the shutdown state, the memory is not immediately accessible. A\nsafe period of 40 ns must elapse before the memory becomes functional.\nSequences to safely enter or exit shutdown mode:\n• To enter shutdown:\na) Disable the RAM clock through the RCC (RCC_MEMENR)\nb) Shut the RAM down by writing 1 to SRAMSD in RAMCFG_AXISRAMxCR\n• To exit shutdown:\na) Power the RAM up by writing 0 to SRAMSD in RAMCFG_AXISRAMxCR\nb) Read back the value from the RAMCFG (alternatively, wait 40 ns)\nc) Enable the RAM clock through the RCC. (RCC_MEMENR)\nd) The RAM is now ready for use.\nNote: AXISRAM3 to AXISRAM6 are interleaved at the system level under software control\nthrough SYSCFG_NPU_ICNCR. Interleaving must be deactivated before shutting down\nthese memories, especially if only part of them is set to shutdown.\nLow power mode:\n• Run mode: AXISRAM2 to AXISRAM6 can be set to power down (shutdown) under\nsoftware control, AXISRAM7 and AXISRAM8 cannot\n• Stop mode: all RAMs are set to low-power mode under the control of PWR control\nregister\n• Standby mode: all RAMs are off except BKPSRAM, BKPSRAM and 80 Kbytes of the\nFLEXRAM are set to retention under software control",
+      "semantic": {}
+    }
+  ]
+}

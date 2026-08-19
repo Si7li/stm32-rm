@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S14.6.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "14",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "14.6.7",
+      "section_title": "Clock generation in Stop and Standby modes",
+      "level": 3,
+      "parent_section": "14.6",
+      "page": 443,
+      "page_end": 444,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "chars": 2920,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=443",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.6.7 \"Clock generation in Stop and Standby modes\" in chapter 14 (Reset and clock control (RCC)), RM0486 Rev 4, page 443.",
+      "section_content": "When the system enters Stop mode, all clocks (system and kernel) are stopped, and\nthefollowing clock sources are disabled as well:\n• MSI, HSI\n• HSE\n• PLL1, PLL2, PLL3, PLL4\nNote: The MSI and HSI stay active based on xxxSTOPEN bits in RCC_STOPCR.\nHSIS is also disabled.\nThe content of the RCC registers is not altered, except CPUSW and SYSSW, forced to HSI\nor MSI (depending on STOPWUCK value), and PLLxON and HSEON, setto0.\nHSION and MSION are also modified, depending on STOPWUCK (see Table70).\nWhen the CPU requests to go in Stop mode, the RCC first stops all requested clocks, and\ninforms the PWR that all clocks have been properly stopped. As shown in Figure47,\nthreemain signals are used to control power transitions:\n• rcc_pwrds: used to indicate to the PWR that the RCC stopped all clocks. The PWR can\nthen go to Stop or Standby mode.\n• pwr_wkup is used to indicate to the RCC to re-enable the clocks.\n• The exti_wkup is used to indicate to the PWR that an event requests to exit the system\nfrom Stop mode.\n[Figure 47. Key signals controlling low-power modes]\nExiting Stop mode\nWhen the device exits system Stop mode via a wake-up event, HSIS is started\nautomatically.\nNote: sys_rst is only deasserted after HSIS has successfully started.\nThe application can select which other oscillator (HSI and/or MSI) is used to restart the\nsystem. STOPWUCK in RCC_CFGR1 selects the oscillator used as system clock. Table70\ndescribes their behavior.\n[Table 70. STOPWUCK description]\nDuring Stop mode\nThere are two specific cases where the HSI or MSI can be enabled during system Stop\nmode:\n• When a dedicated peripheral requests the kernel clock, the peripheral receives the HSI\nor MSI according to the kernel clock source selected for this peripheral (via PERxSEL).\n• When HSISTOPEN or MSISTOPEN are set in RCC_STOPCR, the HSI and MSI are\nkept running during Stop mode but the outputs are gated. The clock is then available\nimmediately when the system exits Stop mode, or when a peripheral requests\nthekernel clock (see Table71 for details).\nCaution: HSI and MSI are always off in Stop mode when the PWR is set to SVOS low.\n[Table 71. HSISTOPEN and MSISTOPEN behavior]\nWhen the microcontroller exits Standby mode, the HSI is selected as system and kernel\nclock. RCC registers are reset to their initial values except for the backup domain\nconfigurations (LSE in RCC_CR/RCC_LSECFGR, RTC in RCC_CCIPR7, RCC_BDCR),\nand the reset cause (RCC_RSR, RCC_HWRSR).\nCaution: When leaving Stop mode without reset (but not from Standby mode), the RCC returns in the\nsame state as before, except for the software that has been forced to select the\nSTOPWUCK source. When leaving Standby mode, the application can restore previous\nCPU clock settings, if needed.\nCaution: If the system clock switch selection (SYSSW) is HSI or MSI oscillator, STOPWUCK (system\nclock selection after a wake-up from system Stop) must select the same oscillator.",
+      "semantic": {}
+    }
+  ]
+}

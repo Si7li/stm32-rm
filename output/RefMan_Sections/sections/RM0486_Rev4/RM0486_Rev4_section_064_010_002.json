@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.10.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.10.2",
+      "section_title": "TX-FIFO management, as controller",
+      "level": 3,
+      "parent_section": "64.10",
+      "page": 3213,
+      "page_end": 3216,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 5372,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3213",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.10.2 \"TX-FIFO management, as controller\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3213.",
+      "section_content": "When controller, as shown in figures of Section64.9, TX-FIFO can be used during any of\nthe following transfers:\n• broadcast or direct CCC (including ENTDAA and RSTACT), if a defining/sub-command\nbyte or if data byte(s) are present (Figure820, Figure821, Figure822)\n• private write (Figure827)\n• legacy I2C write (Figure829)\nFigure834 illustrates the management of the TX-FIFO for queuing data bytes or word(s) to\nbe transmitted on the I3C bus, when the I3C peripheral acts as controller.\n[Figure 834. TX-FIFO management, as controller]\nFirst, the software must initialize the TX-FIFO management via the following fields in the\nI3C_CFGR register:\n• TXDMAEN: enable/disable DMA mode for TX-FIFO\n• TXTHRES: push-on data byte(s) or word(s) into TX-FIFO\n• TMODE: enable/disable TX-FIFO and C-FIFO preload\nThen, depending upon bit TXDMAEN in the I3C_CFGR register, the TX-FIFO is written\neither:\n• directly by the software (if TXDMAEN = 0) at the byte/word level:\n– via polling mode (TXFNFIE = 0 in the I3C_IER register): waiting for a next data\nbyte/word is requested by the hardware (TXFNFF = 1 in the I3C_IER register)\nbefore an explicit write to the I3C_TDR or I3C_TDWR register, depending upon bit\nTXTHRES in the I3C_CGFR register\n– via enabled interrupt notification if TXFNFIE = 1\n• by the allocated DMA channel (if TXDMAEN = 1) to the corresponding DMA request\nfrom the I3C peripheral (i3c_tx_dma):\n– as configured at DMA block level, the DMA is automatically pushing-on/writing\ndata bytes/words to the I3C_TDR or I3C_TDWR register (depending upon bit\nTXTHRES in the I3C_CGFR. register) from its memory source buffer, until the\nframe completion (a stop is emitted on the I3C bus after the last message of the\nframe), unless a transfer error occurs.\nAn I3C message begins from a start or a repeated start, and ends with a stop or a repeated\nstart. At message level, the last data byte/word to be transmitted is flagged by TXLASTF = 1\nin the I3C_EVR register. When an I3C frame is described with multiple messages\n(separated by a repeated start), this event can be used by the software to update the pointer\nto the buffer where the byte(s)/word(s) of the next message is/are stored.\nWhen frame completion is reported (FCF = 1 in the I3C_EVR register, and the\ncorresponding interrupt is enabled), the TX-FIFO is empty.\nIf the TX-FIFO is empty and a data byte must be transmitted on the I3C bus, a TX-FIFO\nunderrun is reported (ERRF = 1 in the I3C_EVR register and DOVR = 1 in the I3C_SER\nregister). If enabled by ERRIE = 1 in the I3C_IER register, an interrupt is generated.\nThe configuration for the TX-FIFO management can be modified when the I3C peripheral is\nnot in active state.\nWhen controller, if a transfer error occurs (ERRF = 1), the TX-FIFO is automatically flushed\nby the hardware.\nNo C-FIFO/TX-FIFO preload\nAs defined in Table622, C-FIFO size is two words, TX-FIFO size is 8 bytes.\nWhen no C-FIFO/TX-FIFO preload is configured (TMODE = 0 in the I3C_CFGR register),\nthe I3C peripheral emits a start on the I3C bus as soon as the first control word is written into\nthe C-FIFO. Then, it decodes the I3C_CR register, and requires a next data byte/word to be\nwritten, if needed within this message. As soon as a next control word is detected as\nrequired by the hardware to be transmitted on the I3C bus (if a repeated start must be\nemitted on the I3C bus or if the C-FIFO gets available room), this control word is requested\nto be written into the C-FIFO until the last message (MEND = 1 in the I3C_CR register).\nSimilarly, as soon as another data byte/word is detected as required by the hardware to be\ntransmitted on the I3C bus (if a repeated start must be emitted on the I3C bus, and if\nTX-FIFO is not full, and if data byte(s)/word(s) must be transmitted during this I3C\nmessage), this data byte/word must be written in the TX-FIFO.\nC-FIFO and TX-FIFO preload\nWhen C-FIFO/TX-FIFO preload is configured (TMODE = 1 in the I3C_CFGR register),\nbefore emitting a start on the bus, the I3C peripheral waits for loading as much as possible\nboth the C-FIFO and the TX-FIFO, as follows:\n1. Wait for a first control word to be written into the C-FIFO.\n2. Wait for data byte(s)/word(s) to be written in the TX-FIFO, if any, as defined by the first\ncontrol word (if RNW = 0 and DCNT[15:0] = 0 in the I3C_CR register), and up to the\nTX-FIFO size.\n3. If TX-FIFO is not full and if the first control word is not the last of the frame (MEND =0\nin the I3C_CR register):\na) Wait for a second control word to be written into the C-FIFO, then C-FIFO is full.\nb) If TX-FIFO is not full, wait for data byte(s)/word(s) to be written in the TX-FIFO, if\nany, as defined by the second control word (RNW = 0 and DCNT[15:0] = 0 in the\nI3C_CR register), and up to the TX-FIFO size.\nThen, as soon as a next control word is detected as required by the hardware to be\ntransmitted on the I3C bus (if a repeated start must be emitted on the I3C bus), this control\nword is requested to be written into the C-FIFO until the last message (MEND = 1 in the\nI3C_CR register).\nSimilarly, as soon as a next data byte/word is detected as required by the hardware to be\ntransmitted on the I3C bus (if a repeated start must be emitted on the I3C bus and if TX-\nFIFO is not full and if data byte(s)/word(s) are to be transmitted during this I3C message),\nthis data byte/word must be written in the TX-FIFO.",
+      "semantic": {}
+    }
+  ]
+}

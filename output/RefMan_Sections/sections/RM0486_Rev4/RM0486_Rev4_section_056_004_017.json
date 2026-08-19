@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S56.4.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "56",
+      "chapter_title": "General-purpose timers (TIM9/TIM10/TIM11/TIM12/TIM13/TIM14)",
+      "section": "56.4.17",
+      "section_title": "TIM9/TIM12 external trigger synchronization",
+      "level": 3,
+      "parent_section": "56.4",
+      "page": 2786,
+      "page_end": 2788,
+      "semantic_type": "generic",
+      "features": [
+        "tim12",
+        "tim9",
+        "timer"
+      ],
+      "chars": 4306,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2786",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 56.4.17 \"TIM9/TIM12 external trigger synchronization\" in chapter 56 (General-purpose timers (TIM9/TIM10/TIM11/TIM12/TIM13/TIM14)), RM0486 Rev 4, page 2786.",
+      "section_content": "The TIM9/TIM12 timers can be synchronized with an external trigger in several modes:\nReset mode, Gated mode, Trigger mode, Reset + trigger, and Gated + reset mode.\nSlave mode: Reset mode\nThe counter and its prescaler can be reinitialized in response to an event on a trigger input.\nMoreover, if the URS bit from the TIMx_CR1 register is low, an update event UEV is\ngenerated. Then all the preloaded registers (TIMx_ARR, TIMx_CCRx) are updated.\nIn the following example, the upcounter is cleared in response to a rising edge on tim_ti1\ninput:\n1. Configure the channel 1 to detect rising edges on tim_ti1. Configure the input filter\nduration (in this example, the user does not need any filter, so the user keeps\nIC1F=0000). The capture prescaler is not used for triggering, so it does not need to be\nconfigured. The CC1S bits select the input capture source only, CC1S = 01 in the\nTIMx_CCMR1 register. Program CC1P and CC1NP to 00 in TIMx_CCER register to\nvalidate the polarity (and detect rising edges only).\n2. Configure the timer in reset mode by writing SMS = 100 in TIMx_SMCR register. Select\ntim_ti1 as the input source by writing TS = 00101 in TIMx_SMCR register.\n3. Start the counter by writing CEN = 1 in the TIMx_CR1 register.\nThe counter starts counting on the internal clock, then behaves normally until tim_ti1 rising\nedge. When tim_ti1 rises, the counter is cleared and restarts from 0. In the meantime, the\ntrigger flag is set (TIF bit in the TIMx_SR register) and an interrupt request can be sent if\nenabled (depending on the TIE bit in TIMx_DIER register).\nThe following figure shows this behavior when the autoreload register TIMx_ARR = 0x36.\nThe delay between the rising edge on tim_ti1 and the actual reset of the counter is due to\nthe resynchronization circuit on tim_ti1 input.\n[Figure 714. Control circuit in reset mode]\nSlave mode: Gated mode\nThe counter can be enabled depending on the level of a selected input.\nIn the following example, the upcounter counts only when tim_ti1 input is low:\n1. Configure the channel 1 to detect low levels on tim_ti1. Configure the input filter\nduration (in this example, the user does not need any filter, so the user keeps\nIC1F=0000). The capture prescaler is not used for triggering, so it does not need to be\nconfigured. The CC1S bits select the input capture source only, CC1S = 01 in\nTIMx_CCMR1 register. Program CC1P = 1 and CC1NP = 0 in TIMx_CCER register to\nvalidate the polarity (and detect low level only).\n2. Configure the timer in gated mode by writing SMS = 101 in TIMx_SMCR register.\nSelect tim_ti1 as the input source by writing TS = 00101 in TIMx_SMCR register.\n3. Enable the counter by writing CEN = 1 in the TIMx_CR1 register (in gated mode, the\ncounter does not start if CEN = 0, whatever is the trigger input level).\nThe counter starts counting on the internal clock as long as tim_ti1 is low and stops as soon\nas tim_ti1 becomes high. The TIF flag in the TIMx_SR register is set both when the counter\nstarts or stops.\nThe delay between the rising edge on tim_ti1 and the actual stop of the counter is due to the\nresynchronization circuit on tim_ti1 input.\n[Figure 715. Control circuit in gated mode]\nSlave mode: Trigger mode\nThe counter can start in response to an event on a selected input.\nIn the following example, the upcounter starts in response to a rising edge on tim_ti2 input:\n1. Configure the channel 2 to detect rising edges on tim_ti2. Configure the input filter\nduration (in this example, the user does not need any filter, so the user keeps\nIC2F=0000). The capture prescaler is not used for triggering, so it does not need to be\nconfigured. The CC2S bits are configured to select the input capture source only,\nCC2S = 01 in TIMx_CCMR1 register. Program CC2P = 1 and CC2NP = 0 in\nTIMx_CCER register to validate the polarity (and detect low level only).\n2. Configure the timer in trigger mode by writing SMS = 110 in TIMx_SMCR register.\nSelect tim_ti2 as the input source by writing TS = 00110 in TIMx_SMCR register.\nWhen a rising edge occurs on tim_ti2, the counter starts counting on the internal clock and\nthe TIF flag is set.\nThe delay between the rising edge on tim_ti2 and the actual start of the counter is due to the\nresynchronization circuit on tim_ti2 input.\n[Figure 716. Control circuit in trigger mode]",
+      "semantic": {}
+    }
+  ]
+}

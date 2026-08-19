@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S40.8.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "40",
+      "chapter_title": "CSI-2 Host (CSI)",
+      "section": "40.8.2",
+      "section_title": "Interrupt handling",
+      "level": 3,
+      "parent_section": "40.8",
+      "page": 2038,
+      "page_end": 2039,
+      "semantic_type": "generic",
+      "features": [
+        "interrupt"
+      ],
+      "chars": 3214,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2038",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 40.8.2 \"Interrupt handling\" in chapter 40 (CSI-2 Host (CSI)), RM0486 Rev 4, page 2038.",
+      "section_content": "The CSI-2 Host controller offers many interrupt sources that can be activated\niftheassociated enable bit is set. Some interrupt sources are linked to an error detection\nfrom the D-PHY physical layer or the CSI-2 Host controller (refer to Section40.8.1).\nShort packet interrupt\nThis interrupt notifies the software that a generic short packet has been received.\nThesoftware can retrieve the associated data in CSI_SPDFR. This register value is\noverwritten with each new generic short packet.\nSOF and EOF interrupts\nThe CSI-2 Host controller generates an SOF interrupt for each SOF short packet received.\nItalso generates an EOF interrupt for each EOF short packet, independently for all four\nvirtual channels. These interrupts are generated even if the virtual channel is disabled.\nThesoftware must mask or ignore these interrupts if they are not needed.\nLine/byte programmable interrupts\nThe CSI-2 Host controller provides four interrupts that can be programmed to be triggered\natany point during the active data of a frame. In order to set a programmable line/byte\ninterrupt, the software must follow these steps:\n1. Select a virtual channel by setting LBxVC[1:0] in CSI_PRGITR.\n2. Select the frame location at which the interrupt is triggered by setting LINECNT and\nBYTECNT in CSI_LBxCFGRy.\n3. Enable the line/byte counting by setting LBxEN in the CSI_PGRITR register. This bit\nmust be set only when the CSI-2 is enabled.\n4. Enable the interrupt by setting LBxIE in CSI_IER0.\n5. The interrupt is generated starting from the next frame on the selected virtual channel.\nIn order to stop a programmable interrupt, the software must reset the LBxIE bit in the\nCSI_IER0 register. It immediately stops the interrupt.\nNote: All four line/byte programmable interrupts are independent.\nTimer-based programmable interrupts\nThe CSI-2 Host controller provides four interrupts that can be programmed to be triggered\nbased on a timer. In order to set a programmable timer based interrupt, the software must\nselect a virtual channel by setting TIMxVC[1:0] in CSI_PRGITR. The following steps must\nbe followed, while the CSI-2 is disabled:\n1. Select the starting event of the timer with TIMxEOF in CSI_PRGITR.\n2. Select the timer duration by setting COUNT[24:0] in CSI_TIMxCFGR.\n3. Select and enable counting by setting TIMxEN in CSI_PRGITR.\n4. Enable the interrupt by setting TIMxIE in CSI_IER0.\n5. The interrupt is generated starting from the next frame on the selected virtual channel.\nIn order to stop a programmable interrupt, the software must reset the TIMxIE bit in the\nCSI_IER0 register. It immediately stops the interrupt.\nNote: All four timer-based programmable interrupts are independent.\nIf the timer is set to a value longer than the frame period, the interrupt may not be generated\nfor all frames.\nClock-changer FIFO full interrupt\nThe clock changer is also built around a FIFO which is never full in normal conditions.\nIftheoverall system works very slowly (for example due to the CSI-2 and DCMIPP\nprocessing clock frequency being set to an inadequate frequency, system-bus bandwidth\navailability, and so on), the clock-changer FIFO may become full. In this case, an interrupt is\nset if CCFIFOFIE = 1 in CSI_IER0.",
+      "semantic": {}
+    }
+  ]
+}

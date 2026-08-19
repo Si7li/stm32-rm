@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.4.4",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.4.4",
+      "section_title": "Communications between one master and one slave",
+      "level": 3,
+      "parent_section": "45.4",
+      "page": 1949,
+      "page_end": 1952,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 4484,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1949",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.4.4 \"Communications between one master and one slave\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1949.",
+      "section_content": "The communication flow can use one of three possible modes: the full-duplex (three wires)\nmode, half-duplex (two wires) mode, or the simplex (two wires) mode. The NSS signal is\noptional in single master-slave configuration and is often not connected between the two\ncommunication nodes. Nevertheless, the NSS signal can be helpful in this configuration to\nsynchronize the data flow and it is used by default for some specific SPI modes (for example\nthe TI mode).\n1. The NSS pin interconnection is optional. The slave can be configured to be permanently selected to\noperate in a single master-slave pair (see Section45.4.7).\n2. The RDY signal provided by the slave can be read by the master optionally.\nHalf-duplex communication\nThe SPI can communicate in half-duplex mode by setting COMM[1:0] = 11 in the SPI_CFG2\nregister. In this configuration, one single cross-connection line is used to link the shift\nregisters of the master and slave together. During this communication, the data are\nsynchronously shifted between the shift registers on the SCK clock edge in the transfer\ndirection selected reciprocally by both master and slave with the HDDIR bit in their SPI_CR1\nregisters. Note that the SPI must be disabled when changing the direction of the\ncommunication. In this configuration, the MISO pin at master and the MOSI pin at slave are\nfree for other application uses and act as GPIOs.\n1. The NSS pin interconnection is optional. The slave can be configured to be permanently selected to\noperate in a single master-slave pair (see Section45.4.7).\n2. In this configuration, the MISO pin at master and MOSI pin at slave can be used as GPIOs\n3. A critical situation can happen when the communication direction is not changed synchronously between\ntwo nodes working in bidirectional mode. The new transmitter accesses the common data line while the\nformer transmitter still keeps an opposite value on the line (the value depends on the SPI configuration and\ncommunicated data). The nodes can conflict temporarily with opposite output levels on the line until the\nformer transmitter changes its data direction setting. It is suggested to insert a serial resistance between\nMISO and MOSI pins in this mode to protect the conflicting outputs and limit the current flow between them.\n4. The RDY signal provided by the slave can be read by the master optionally.\nSimplex communications\nThe SPI can communicate in simplex mode by setting the SPI in transmit-only or in receive-\nonly using the COMM[1:0] field in the SPI_CFG2 register. In this configuration, only one line\nis used for the transfer between the shift registers of the master and slave. The remaining\nMISO or MOSI pin pair is not used for communication and can be used as standard GPIOs.\n• Transmit-only mode: COMM[1:0] = 01\nThe master in transmit-only mode generates the clock as long as there are data\navailable in the TxFIFO and the master transfer is ongoing.\nThe slave in transmit-only mode sends data as long as it receives a clock on the SCK\npin and the NSS pin (or software managed internal signal) is active (see\nSection45.4.7).\n• Receive-only mode: COMM[1:0] = 10\nIn master mode, the MOSI output is disabled and can be used as a GPIO. The clock\nsignal is generated continuously as long as the SPI is enabled and the CSTART bit in\nthe SPI_CR1 register is set. The clock is stopped either by software explicitly\nrequesting this by setting the CSUSP bit in the SPI_CR1 register or automatically when\nthe RxFIFO is full, when the MASRX bit in the SPI_CR1 is set.\nIn slave configuration, the MISO output is disabled and the pin can be used as a GPIO.\nThe slave continues to receive data from the MOSI pin while its slave select signal is\nactive (see Section45.4.7).\nNote: In whatever master and slave modes, the data pin dedicated for transmission can be\nreplaced by the data pin dedicated for reception and vice versa by changing the IOSWP bit\nvalue in the SPI_CFG2 register (this bit can only be modified when the SPI is disabled).\nAny simplex communication can be replaced by a variant of the half-duplex communication\nwith a constant setting of the transfer direction (bidirectional mode is enabled, while the\n1. The NSS pin interconnection is optional. The slave can be configured to be permanently selected to\noperate in a single master-slave pair (see Section45.4.7).\n2. In this configuration, both the MISO pins can be used as GPIOs.\n3. The RDY signal provided by the slave can be read by the master optionally.",
+      "semantic": {}
+    }
+  ]
+}

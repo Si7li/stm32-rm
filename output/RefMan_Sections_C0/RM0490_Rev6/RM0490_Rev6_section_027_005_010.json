@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.5.10",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.5.10",
+      "section_title": "SPI status flags",
+      "level": 3,
+      "parent_section": "27.5",
+      "page": 851,
+      "page_end": 851,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2369,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=851",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.5.10 \"SPI status flags\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 851.",
+      "section_content": "Three status flags are provided for the application to completely monitor the state of the SPI\nbus.\nTx buffer empty flag (TXE)\nThe TXE flag is set when transmission TXFIFO has enough space to store data to send.\nTXE flag is linked to the TXFIFO level. The flag goes high and stays high until the TXFIFO\nlevel is lower or equal to 1/2 of the FIFO depth. An interrupt can be generated if the TXEIE\nbit in the SPIx_CR2 register is set. The bit is cleared automatically when the TXFIFO level\nbecomes greater than 1/2.\nRx buffer not empty (RXNE)\nThe RXNE flag is set depending on the FRXTH bit value in the SPIx_CR2 register:\n• If FRXTH is set, RXNE goes high and stays high until the RXFIFO level is greater or\nequal to 1/4 (8-bit).\n• If FRXTH is cleared, RXNE goes high and stays high until the RXFIFO level is greater\nthan or equal to 1/2 (16-bit).\nAn interrupt can be generated if the RXNEIE bit in the SPIx_CR2 register is set.\nThe RXNE is cleared by hardware automatically when the above conditions are no longer\ntrue.\nBusy flag (BSY)\nThe BSY flag is set and cleared by hardware (writing to this flag has no effect).\nWhen BSY is set, it indicates that a data transfer is in progress on the SPI (the SPI bus is\nbusy).\nThe BSY flag can be used in certain modes to detect the end of a transfer so that the\nsoftware can disable the SPI or its peripheral clock before entering a low-power mode which\ndoes not provide a clock for the peripheral. This avoids corrupting the last transfer.\nThe BSY flag is also useful for preventing write collisions in a multimaster system.\nThe BSY flag is cleared under any one of the following conditions:\n• When the SPI is correctly disabled\n• When a fault is detected in Master mode (MODF bit set to 1)\n• In Master mode, when it finishes a data transmission and no new data is ready to be\nsent\n• In Slave mode, when the BSY flag is set to '0' for at least one SPI clock cycle between\neach data transfer.\nNote: When the next transmission can be handled immediately by the master (e.g. if the master is\nin Receive-only mode or its Transmit FIFO is not empty), communication is continuous and\nthe BSY flag remains set to '1' between transfers on the master side. Although this is not the\ncase with a slave, it is recommended to use always the TXE and RXNE flags (instead of the\nBSY flags) to handle data transmission or reception operations.",
+      "semantic": {}
+    }
+  ]
+}

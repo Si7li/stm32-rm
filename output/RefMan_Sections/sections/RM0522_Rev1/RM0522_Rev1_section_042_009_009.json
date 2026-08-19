@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.9.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.9.9",
+      "section_title": "I3C direct GETSTATUS CCC response, as target",
+      "level": 3,
+      "parent_section": "42.9",
+      "page": 1724,
+      "page_end": 1724,
+      "semantic_type": "generic",
+      "features": [
+        "ccc",
+        "getstatus",
+        "i3c"
+      ],
+      "chars": 2262,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1724",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.9.9 \"I3C direct GETSTATUS CCC response, as target\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1724.",
+      "section_content": "When the I3C acts as target, the hardware returns two data bytes on reception of\nGETSTATUS CCC, with format 1 (without defining byte or with defining byte\nTGTSTAT=0x00), or format 2 (with defining byte PRECR = 0x91).\nThe returned 2-byte STATUS[15:0] with format 1 on the I3C bus is then as follows:\n• STATUS[15:14] = 00 (unused)\n• STATUS[13] = 1 if a missed start was detected since the former GETSTATUS CCC,\nelse 0\n• STATUS[12] = 1 if an overrun/underrun error was detected since the former\nGETSTATUS CCC, else 0\n• STATUS[11] = 1 if an SCL stable for more than 125 µs was detected during an SDR\nread since the former GETSTATUS CCC, else 0\n• STATUS[10:8] = 000 to 110: encoded value x = 0 to 6, corresponding to a target error\nTEx if a protocol error was detected since the former GETSTATUS CCC (if\nSTATUS[5]=1), else 000\n• STATUS[7:6] = 00 (ready to prepare for hand-off procedure)\n• STATUS[5] = 1 if a protocol error was detected since the former GETSTATUS CCC,\nelse 0\n• STATUS[4] = 0 (reserved)\n• STATUS[3:1] = 000 (unused)\n• STATUS[0] = 1 if there is a pending interrupt (if an IBI is configured in the I3C_CR\nregister, and IBIEN = 1 and DAVAL = 1 in the I3C_DEVR0.register, and the IBI is not\nyet acknowledged by the controller neither disabled via DISEC), else 0\nThe returned 2-byte STATUS[15:0] with format 2 on the I3C bus is then as follows:\n• STATUS[15:8] = 0000 0000 (unused)\n• STATUS[7:2] = 00000 (unused)\n• STATUS[1] = 1 if a received DEFTGTS or a received DEFGRPA CCC is still under\nsoftware processing, and the related event is not yet cleared by software (DEFF = 1 or\nGRPF = 1 in the I3C_EVR register); the controller must wait before issuing a\nGETACCR CCC (else it is not acknowledged)\n• STATUS[0] = 1 if a DEFTGTS or DEFGRPA CCC may have been missed. This bit is\nasserted if a missed start is detected (WKPF = 1 in the I3C_EVR register), de-asserted\nif DEFF=1 or GRPF = 1 in the I3C_EVR register.\nCompletion of a GETSTATUS CCC of format 1 is reported by STAF = 1 in the I3C_EVR\nregister, and the corresponding interrupt if enabled (if STAIE = 1 in the I3C_IER register).\nCompletion of a GETSTATUS CCC of format 2 is reported by GETF = 1 in the I3C_EVR\nregister, and the corresponding interrupt if enabled (if GETIE = 1 in the I3C_IER register).",
+      "semantic": {}
+    }
+  ]
+}

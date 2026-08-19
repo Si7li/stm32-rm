@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S25.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "25",
+      "chapter_title": "Coupling and chaining bridge (CCB)",
+      "section": "25.5",
+      "section_title": "CCB coupling and chaining operations",
+      "level": 2,
+      "parent_section": null,
+      "page": 752,
+      "page_end": 754,
+      "semantic_type": "generic",
+      "features": [
+        "ccb"
+      ],
+      "chars": 4903,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=752",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.5 \"CCB coupling and chaining operations\" in chapter 25 (Coupling and chaining bridge (CCB)), RM0522 Rev 1, page 752.",
+      "section_content": "When an application must enforce private key confidentiality by wrapping them with a\n256-bit hardware unique key, the following steps are needed:\n1. Select the protected operation in the PKA that uses this private key (ECDSA signature,\nscalar multiplication, modular exponentiation). Then, choose the CCOP value in the\nCCB that corresponds to the selected operation, as defined in this section. Then, as\nmultiple cryptographic peripherals are used, make sure to follow the guidelines\ndescribed in Section25.5.1\n2. When CCB is active (OPSTEP=0x1), select in the SAES the DHUK (with optional XOR\nwith BHK), or unwrap in the SAES anexisting blob encryption key that has been\nencrypted (in wrapped-key mo.de) using the DHUK. A 256-bit KEYSIZE must be\nselected.\nAs the DHUK value is different when CCB is active or inactive, the operation of\nwrapping or unwrapping blob encryption key in SAES (with KMOD[1:0]=0x1) must be\ndone when OPSTEP=0x1. Refer to operation with wrapped keys in Section28: Secure\nAES coprocessor (SAES) for details.\n3. When the application uses this protected operation in the PKA, it must load the related\nblob information in the PKA RAM and in SAES_DINR.\n– If the information exactly matches the conditions of the blob generation (choice\nand order of the writes of protected parameters in the PKA RAM, selection of blob\nencryption key, use of original encrypted secrets), the CCB allows the application\nto set START bit in PKA_CR.\n– If the blob information does not match the conditions of the blob generation, the\napplication can only reset the sequence by setting IPRST bit in CCB_CR. CCB,\nPKA, and SAES become available when CCB_BUSY is cleared in CCB_SR.\n4. At any time, the application can abort the executing protected operation by using the\nIPRST bit in CCB_CR.\n5. When creating a blob, always use it once before trusting it to be stored in non-volatile\nmemory or given to a less trusted code (see Figure172). More specifically, each time a\nblob is created:\n– For ECDSA signature blob: use it to compute the public key, and use this key to\nverify the signature computed during the blob creation.\n– For ECC key blob: use it to compute the public key, and verify key coordinates\nmatch those of the key computed during the blob creation.\n– For RSA key blob: use it to compute a reference modular exponentiation and\nverify it matches the one computed during the blob creation.\n[Figure 172. Blob creation scenarios]\nECDSA signature ECC scalar mult RSA modular exp\n(1) ECD c S r A e a s t i i g o n n blob D si i g g n it a a t l u re (1) EC c C r e k a e t y io b n lob P ke u y blic (1) RS c A r e k a e t y io b n lob\nReference\n(2) us E a C g c D e o S m fo A p r u s p t ig a u n t b io li b c n l o k b e y (2) ECC f c o o k r e m p y u p b b u l l t i o a c b t k i o u e n s y a ge Match? (2) R fo S r A b k lo e b y v b e lo ri b fi c u a s t a io g n e Mat K ch e ? mod n\nPublic key Match OK Match OK\n(3) ECD ve S r A if ic s a ig t n io a n ture (3) ECC key blob usage kP (3) RSA key blob usage Ae\nSign OK\n(4) ECDS u A s a s g ig e n blob D si i g g n it a a t l u re Legend:\nProtected operation\nThis section describes how to do the above steps, for all available protected operations\ninthe PKA. Note that:\n• Bold elements in the following tables are key inputs that the application must save in\nnon-volatile memory after the newly created blob has been confirmed by its first usage.\n• The CCB automatically goes to the next step, updating the OPSTEP value, when the\napplication clears or performs the end-step event described in tables of Section25.5.2\nto Section25.5.4.\n• When an incremental read or write is mentioned, the application must write four bytes\ninthe PKA memory, with an incremental memory address (modulo 0x8). Otherwise,\ntheCMF error flag is triggered, and the process must be restarted.\n• When writing to SAES_CR register the application must write the configuration\nexpected by the CCB, otherwise an OPERR might be raised. Refer to the OPSTEP\n“CPU action” instructions in the application tables (Table189 through Table195).\n• When the CCB uses the RNG, the application must check in RNG_SR that no error\noccurred (SEIS = CEIS = 0), and that a random number is ready (DRDY = 1). In case of\nissue, RNGOKF is not set, and the application must ensure that the RNG is functional\nbefore running again the OPSTEP sequence that uses the RNG.\n• For each OPSTEP>0, the application must manage the error flags that could occur in\nthe RNG, SAES or PKA blocks. During a normal protected operation, no error flags are\nexpected. Refer to Section25.4.5: CCB error management for details on CCB error\nmanagement.\n• When CCB draws random number to compute ECC private keys, it implements the\ntesting candidates method defined by NIST in FIPS PUB 186-4 section B.4.\nNote: It is not possible to generate RSA key pairs with the CCB, they must be generated outside\nthe device.",
+      "semantic": {}
+    }
+  ]
+}

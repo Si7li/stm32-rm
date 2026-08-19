@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.5.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.5.1",
+      "section_title": "Trustzone filtering using IDAU/SAU",
+      "level": 3,
+      "parent_section": "3.5",
+      "page": 185,
+      "page_end": 186,
+      "semantic_type": "generic",
+      "features": [
+        "idau",
+        "sau"
+      ],
+      "chars": 2520,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=185",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.5.1 \"Trustzone filtering using IDAU/SAU\" in chapter 3 (System security), RM0486 Rev 4, page 185.",
+      "section_content": "The 256-Mbyte address ranges starting at the even addresses 0x00000000, 0x20000000,\nand 0x40000000, are physically aliased at ranges starting at the odd addresses\n0x10000000, 0x30000000, and 0x50000000, respectively.\nThe intention is that the secure world accesses resources via the odd aliases, and the\nnon-secure world accesses resources via the even aliases.\nThe address security (S for secure, NSC for nonsecure callable, or NS for non-secure, in\ndescending security order) is determined bythe device IDAU (implementation defined\nattribution unit), and the SAU (security attribution unit). Each of these two units proposes a\nsecurity level for each address, the resulting level is the higher of the two proposals. The\naccesses to addresses determined to be S or NSC travel out on the bus marked as secure,\nthose determined to be NS travel out on the bus marked as nonsecure.\nThe secure OS can define up to eight SAU regions, each of which can be configured as NS\nor NSC. Any address falling outside a defined SAU region remains secure, hence, at reset,\nthe SAU unilaterally determines that the entire memory is secure.\nThe SAU is typically configured to open up NS regions for nonsecure code, data, and\nperipherals in the even address aliases. Locations from 0x10000000 to 0x1FFFFFFF (that\ncontain SG instructions) must be covered by explicit SAU regions configured as NSC.\nThe IDAU determination of the security of each address is hardwired fixed.\nTable4 shows aliased targets, and the IDAU security assignment.\n[Table 4. Aliasing]\nIf the SAU is configured sensibly, the IDAU is normally irrelevant. The only potential effect of\nthe IDAU is to prevent any attempt via the SAU to demote any of the three “odd” NSC\nregions listed above to be nonsecure.\nA secure software configures the firewalls in front of physical resources (aliased in ranges\nlisted in Table4) to determine in which world the access destination resides. This blocks\naccesses that arrive marked with a mismatching security attribute. A nonsecure code\ncannot access destinations that reside in the secure world (as designated by the firewall).\nDestinations are then dedicated for use by the secure world.\nExternal memories are mapped at addresses from 0x60000000 upwards (not aliased).\nTheSAU can be configured to allocate portions of these memories to the non-secure world.\nThese memories have RISAF firewalls in front of them, that can be configured to mirror SAU\nsettings, and to ensure that DMAs are subject to the same restrictions as CPU code.",
+      "semantic": {}
+    }
+  ]
+}

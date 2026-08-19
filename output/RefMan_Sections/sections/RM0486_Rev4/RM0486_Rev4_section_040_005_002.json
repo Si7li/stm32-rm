@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S40.5.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "40",
+      "chapter_title": "CSI-2 Host (CSI)",
+      "section": "40.5.2",
+      "section_title": "System level architecture",
+      "level": 3,
+      "parent_section": "40.5",
+      "page": 2018,
+      "page_end": 2019,
+      "semantic_type": "generic",
+      "features": [
+        "architecture",
+        "level",
+        "system"
+      ],
+      "chars": 3004,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2018",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 40.5.2 \"System level architecture\" in chapter 40 (CSI-2 Host (CSI)), RM0486 Rev 4, page 2018.",
+      "section_content": "The figure below shows the CSI-2 Host architecture.\n[Figure 418. CSI-2 Host architecture]\nCSI-2 Host\nISB-Byte\nPPI Low-level header\nD D L L 1 1 N P m L e a r n g e e r ch C a lo n c g k e r d p e r ( o L c t L o o P d c ) e o r l DCMIPP\nDL0P D-PHY\nDL0N receiver\n(D-PHY_RX)\nRegister bank\nCLKP D-PHY Error management\nCLKN interface\nProgrammable interrupt controller\nThe blocks shown have the following functions:\n• D-PHY_RX is a slave receiver device that connects external serial cameras to the\nCSI-2 Host controller. It is based on unidirectional slave data lanes and clock lanes to\nhandle data transmission from the CSI-2 protocol-based camera devices to\nsubsystems for data processing (handled by the DCMIPP).\n• The D-PHY interface manages D-PHY_RX register accesses. It also allows the block\nto be configured to raise interrupts on the detection of some errors during reception.\nIthighlights the status of the physical lines up to the software layers.\n• The lane merger module packs the data coming from the two D-PHY_RX data lanes,\nifrequired to do so for increased data rates. It generates a data flow based on an\nISB-Byte protocol, which is not linked to any protocol at this point. The data is only\nidentified as a control or a data packet for the clock changer module.\n• The clock changer module manages data crossing from the D-PHY_RX clock domain\nto the clk_proc clock domain.\n• The LLP handles data filtering to serve the data-interleaving capability of the DCMIPP.\nIt can filter data from external devices depending on virtual channel identifiers, or on\ndata-type format selection. It also executes, depending on the input pixel format, data\nreordering in order to optimize the data storage, for instance in memories.\n• The CSI-2 Host manages also various errors coming (not exclusively) from the\nD-PHY_RX physical layer. It can detect error conditions in the received header or a\nshort packet in a frame. ECC is implemented to correct one bit error in the header.\nACRC checksum is also implemented to detect any data corruption during the data\npayload reception. The 16-bit CRC value is located into the packet footer.\nTheCSI-2Host also ensures that specific timings within the data reception are properly\nin line with the CSI-2 specification. All error conditions and associated interrupts are\ndetailed in Section40.8.\n• A specific module generates interrupts following the detection of selected events in a\nframe. For a given virtual channel, these events may be triggers based on line- and\nbyte-number detection within the frame, or counters from dedicated timers reaching a\nnumber of cycles (clk_proc) from an SOF or an EOF.\n• Data is filtered out by the LLP, and sent to the DCMIPP in a format that is quite similar\nto the CSI-2 protocol, but without CRC (packet footer) and ECC information inside the\npacket header. The data type and the virtual channel are also sent to the DCMIPP\ntohandle the interleaved transmission of different image data formats within the same\nvideo data stream.",
+      "semantic": {}
+    }
+  ]
+}

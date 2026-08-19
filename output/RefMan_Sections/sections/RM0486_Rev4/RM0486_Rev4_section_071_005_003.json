@@ -1,0 +1,106 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.5.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.5.3",
+      "section_title": "FDCAN data bit timing and prescaler register (FDCAN_DBTP)",
+      "level": 3,
+      "parent_section": "71.5",
+      "page": 3681,
+      "page_end": 3682,
+      "semantic_type": "register_description",
+      "features": [
+        "dbrp",
+        "dsjw",
+        "dtseg1",
+        "dtseg2",
+        "fdcan",
+        "fdcan-dbtp",
+        "tdc"
+      ],
+      "chars": 2021,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3681",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.5.3 \"FDCAN data bit timing and prescaler register (FDCAN_DBTP)\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3681.",
+      "section_content": "Address offset: 0x000C\nReset value: 0x0000 0A33\nThis register is dedicated to data bit timing phase and only writable if bits\nFDCAN_CCCR.CCE and FDCAN_CCCR.INIT are set. The CAN time quantum may be\nprogrammed in the range from 1 to 32 FDCAN clock periods. tq = (DBRP + 1) FDCAN clock\nperiods.\nDTSEG1 is the sum of Prop_Seg and Phase_Seg1. DTSEG2 is Phase_Seg2. Therefore the\nlength of the bit time is (DTSEG1 + DTSEG2 + 3) tq for programmed values, or\n(Sync_Seg+Prop_Seg+Phase_Seg1+Phase_Seg2) tq for functional values.\nThe information processing time (IPT) is zero, meaning the data for the next bit is available\nat the first clock edge after the sample point.\nBits 31:24 Reserved, must be kept at reset value.\nBit 23 TDC: Transceiver delay compensation\n0: Transceiver delay compensation disabled\n1: Transceiver delay compensation enabled\nBits 22:21 Reserved, must be kept at reset value.\nBits 20:16 DBRP[4:0]: Data bitrate prescaler\nThe value by which the oscillator frequency is divided to generate the bit time quanta. The bit time is\nbuilt up from a multiple of these quanta. Valid values for the baudrate prescaler are 0 to 31. The\nhardware interpreters this value as the programmed value plus 1.\nBits 15:13 Reserved, must be kept at reset value.\nBits 12:8 DTSEG1[4:0]: Data time segment before sample point\nValid values are 0 to 31. The value used by the hardware is the one programmed, incremented by 1,\nthat is, tBS1 = (DTSEG1 + 1) x tq.\nBits 7:4 DTSEG2[3:0]: Data time segment after sample point\nValid values are 0 to 15. The value used by the hardware is the one programmed, incremented by 1,\nthat is, tBS2 = (DTSEG2 + 1) x tq.\nBits 3:0 DSJW[3:0]: Synchronization jump width\nValid values are 0 to 15. The value used by the hardware is the one programmed, incremented by 1,\nthat is, tSJW = (DSJW + 1) x tq.\nNote: With a CAN kernel clock of 8 MHz, the reset value of 0x00000A33 configures the FDCAN\nfor a bit rate of 500 kbit/s.\nNote: The data phase bit rate must be higher than or equal to the nominal bit rate.",
+      "semantic": {
+        "register": "FDCAN_DBTP",
+        "address_offset": "0x000C",
+        "reset_value": "0x0000 0A33",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "TDC",
+            "description": "Transceiver delay compensation",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Transceiver delay compensation disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Transceiver delay compensation enabled"
+              }
+            ]
+          },
+          {
+            "bits": "22:21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20:16",
+            "name": "DBRP[4:0]",
+            "description": "Data bitrate prescaler The value by which the oscillator frequency is divided to generate the bit time quanta. The bit time is built up from a multiple of these quanta. Valid values for the baudrate prescaler are 0 to 31. The hardware interpreters this value as the programmed value plus 1.",
+            "values": []
+          },
+          {
+            "bits": "15:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12:8",
+            "name": "DTSEG1[4:0]",
+            "description": "Data time segment before sample point Valid values are 0 to 31. The value used by the hardware is the one programmed, incremented by 1, that is, tBS1 = (DTSEG1 + 1) x tq.",
+            "values": []
+          },
+          {
+            "bits": "7:4",
+            "name": "DTSEG2[3:0]",
+            "description": "Data time segment after sample point Valid values are 0 to 15. The value used by the hardware is the one programmed, incremented by 1, that is, tBS2 = (DTSEG2 + 1) x tq.",
+            "values": []
+          },
+          {
+            "bits": "3:0",
+            "name": "DSJW[3:0]",
+            "description": "Synchronization jump width Valid values are 0 to 15. The value used by the hardware is the one programmed, incremented by 1, that is, tSJW = (DSJW + 1) x tq. Note: With a CAN kernel clock of 8 MHz, the reset value of 0x00000A33 configures the FDCAN for a bit rate of 500 kbit/s. Note: The data phase bit rate must be higher than or equal to the nominal bit rate.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

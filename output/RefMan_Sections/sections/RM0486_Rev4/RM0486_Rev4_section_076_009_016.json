@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.16",
+      "section_title": "Programming guidelines for TSO",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4142,
+      "page_end": 4142,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "tso"
+      ],
+      "chars": 1359,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4142",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.16 \"Programming guidelines for TSO\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4142.",
+      "section_content": "The TCP segmentation offload (TSO) engine is used to offload the TCP segmentation\nfunctions to the hardware. To program the TSO, set the TSE bit to enable TCP packet\nsegmentation, and program descriptor fields to enable TSO for the current packet.\nFollow the steps below to program TSO:\n1. Program TSE bit of the corresponding Channel x transmit control register\n(ETH_DMACxTXCR) to enable TCP packet segmentation in that DMA.\n2. In addition to the normal transfer descriptor setting, the following descriptor fields must\nbe programmed to enable TSO for the current packet:\na) Enable TSE of TDES3 (bit 18).\nb) Program the length of the unsegmented TCP/IP packet payload in bits 17 to 0 of\nTDES3, and the TCP header in bits 22 to 19 of TDES3.\nc) Program the maximum size of the segment in:\n– MSS[13:0] of Channel x control register (ETH_DMACxCR)\n– or MSS in the context descriptor\nIf MSS[13:0] field is programmed in both Channel x control register\n(ETH_DMACxCR) and in the context descriptor, the latest software programmed\nsequence is considered.\n3. The unsegmented TCP/IP packet header should be stored in Buffer 1 of the first\ndescriptor. This buffer must not hold any payload bytes. The payload is allocated to\nBuffer 2 and the buffers of the subsequent descriptors.\nCaution: If TSE is enabled in TDES3 for a non-TCP-IP packet, the result is unpredictable.",
+      "semantic": {}
+    }
+  ]
+}

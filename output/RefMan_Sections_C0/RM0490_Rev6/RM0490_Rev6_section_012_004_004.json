@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S12.4.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "12",
+      "chapter_title": "DMA request multiplexer (DMAMUX)",
+      "section": "12.4.4",
+      "section_title": "DMAMUX request line multiplexer",
+      "level": 3,
+      "parent_section": "12.4",
+      "page": 248,
+      "page_end": 251,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "dmamux"
+      ],
+      "chars": 4731,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=248",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.4.4 \"DMAMUX request line multiplexer\" in chapter 12 (DMA request multiplexer (DMAMUX)), RM0490 Rev 6, page 248.",
+      "section_content": "The DMAMUX request multiplexer with its multiple channels ensures the actual routing of\nDMA request/acknowledge control signals, named DMA request lines.\nEach DMA request line is connected in parallel to all the channels of the DMAMUX request\nline multiplexer.\nA DMA request is sourced either from the peripherals, or from the DMAMUX request\ngenerator.\nThe DMAMUX request line multiplexer channel x selects the DMA request line number as\nconfigured by the DMAREQ_ID field in the DMAMUX_CxCR register.\nNote: The null value in the field DMAREQ_ID corresponds to no DMA request line selected.\nCaution: A same non-null DMAREQ_ID cannot be programmed to different x and y DMAMUX\nrequest multiplexer channels (via DMAMUX_CxCR and DMAMUX_CyCR), except when the\napplication guarantees that the two connected DMA channels are not simultaneously active.\nOn top of the DMA request selection, the synchronization mode and/or the event generation\nmay be configured and enabled, if required.\nSynchronization mode and channel event generation\nEach DMAMUX request line multiplexer channel x can be individually synchronized by\nsetting the synchronization enable (SE) bit in the DMAMUX_CxCR register.\nDMAMUX has multiple synchronization inputs. The synchronization inputs are connected in\nparallel to all the channels of the request multiplexer.\nThe synchronization input is selected via the SYNC_ID field in the DMAMUX_CxCR register\nof a given channel x.\nWhen a channel is in this synchronization mode, the selected input DMA request line is\npropagated to the multiplexer channel output, once a programmable rising/falling edge is\ndetected on the selected input synchronization signal, via the SPOL[1:0] field of the\nDMAMUX_CxCR register.\nAdditionally, internally to the DMAMUX request multiplexer, there is a programmable DMA\nrequest counter, which can be used for the channel request output generation, and for an\nevent generation. An event generation on the channel x output is enabled through the EGE\nbit (event generation enable) of the DMAMUX_CxCR register.\nAs shown in Figure24, upon the detected edge of the synchronization input, the pending\nselected input DMA request line is connected to the DMAMUX multiplexer channel x output.\nNote: If a synchronization event occurs while there is no pending selected input DMA request line,\nit is discarded. The following asserted input request lines is not connected to the DMAMUX\nmultiplexer channel output until a synchronization event occurs again.\nFrom this point on, each time the connected DMAMUX request is served by the DMA\ncontroller (a served request is deasserted), the DMAMUX request counter is decremented.\nAt its underrun, the DMA request counter is automatically loaded with the value in the\nNBREQ field of the DMAMUX_CxCR register and the input DMA request line is\ndisconnected from the multiplexer channel x output.\nThus, the number of DMA requests transferred to the multiplexer channel x output following\na detected synchronization event, is equal to the value in the NBREQ field, plus one.\nNote: The NBREQ field value can be written by software only when both synchronization enable\nbit (SE) and event generation enable bit (EGE) of the corresponding multiplexer channel x\nare disabled.\nIf EGE is enabled, the multiplexer channel generates a channel event, as a pulse of one\nAHB clock cycle, when its DMA request counter is automatically reloaded with the value of\nthe programmed NBREQ field, as shown in Figure23 and Figure24.\nNote: If EGE is enabled and NBREQ = 0, an event is generated after each served DMA request.\nNote: A synchronization event (edge) is detected if the state following the edge remains stable for\nmore than two AHB clock cycles.\nUpon writing into DMAMUX_CxCR register, the synchronization events are masked during\nthree AHB clock cycles.\nSynchronization overrun and interrupt\nIf a new synchronization event occurs before the request counter underrun (the internal\nrequest counter programmed via the NBREQ field of the DMAMUX_CxCR register), the\nsynchronization overrun flag bit SOFx is set in the DMAMUX_CSR register.\nNote: The request multiplexer channel x synchronization must be disabled\n(DMAMUX_CxCR.SE=0) when the use of the related channel of the DMA controller is\ncompleted. Else, upon a new detected synchronization event, there is a synchronization\noverrun due to the absence of a DMA acknowledge (that is, no served request) received\nfrom the DMA controller.\nThe overrun flag SOFx is reset by setting the associated clear synchronization overrun flag\nbit CSOFx in the DMAMUX_CFR register.\nSetting the synchronization overrun flag generates an interrupt if the synchronization\noverrun interrupt enable bit SOIE is set in the DMAMUX_CxCR register.",
+      "semantic": {}
+    }
+  ]
+}

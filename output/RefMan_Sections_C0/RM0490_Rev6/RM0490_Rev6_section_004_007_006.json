@@ -1,0 +1,401 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.7.6",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.7.6",
+      "section_title": "FLASH option register (FLASH_OPTR)",
+      "level": 3,
+      "parent_section": "4.7",
+      "page": 83,
+      "page_end": 85,
+      "semantic_type": "register_description",
+      "features": [
+        "boot",
+        "bor-en",
+        "borf-lev",
+        "borr-lev",
+        "fdcan-bl-ck",
+        "flash",
+        "flash-optr",
+        "hse-not-remapped",
+        "irhen",
+        "iwdg-stdby",
+        "iwdg-stop",
+        "iwdg-sw",
+        "memory",
+        "nboot-sel",
+        "nboot0",
+        "nboot1",
+        "nrst-mode",
+        "nrst-shdw",
+        "nrst-stdby",
+        "nrst-stop",
+        "ram-parity-check",
+        "rdp",
+        "readout-protection",
+        "secure-muxing-en",
+        "security",
+        "wwdg-sw"
+      ],
+      "chars": 4861,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=83",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.7.6 \"FLASH option register (FLASH_OPTR)\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 83.",
+      "section_content": "Address offset: 0x020\nReset value: 0xXXXX XXXX (The option bits are loaded with values from flash memory at\npower-on reset release.)\nAccess: no wait state when no flash memory operation is on going, word, half-word and byte\naccess\nBits 31:30 FDCAN_BL_CK[1:0]: FDCAN bootloader clock source\n00: HSI48\n01: HSE crystal - 12 MHz\n10: HSE crystal - 24 MHz\n11: HSE crystal - 48 MHz\nNote: Only available on STM32C092xx devices, reserved on the other products.\nBit 29 IRHEN: Internal reset holder enable bit\n0: Internal resets are propagated as simple pulse on NRST pin\n1: Internal resets drives NRST pin low until it is seen as low level\nBits 28:27 NRST_MODE[1:0]: PF2-NRST pin configuration\n00: Reserved\n01: Reset input only: a low level on the NRST pin generates system reset; internal RESET\nis not propagated to the NRST pin.\n10: PF2 GPIO: only internal RESET is possible\n11: Bidirectional reset: the NRST pin is configured in reset input/output (legacy) mode\nBit 26 NBOOT0: NBOOT0 option bit\n0: NBOOT0 = 0\n1: NBOOT0 = 1\nBit 25 NBOOT1: NBOOT1 boot configuration\nTogether with the BOOT0 pin or NBOOT0 option bit (depending on NBOOT_SEL option bit\nconfiguration), this bit selects boot mode from the main flash memory, SRAM, or the system\nmemory. Refer to Section 3: Boot modes.\nBit 24 NBOOT_SEL: BOOT0 signal source selection\nThis bit defines the source of the BOOT0 signal.\n0: BOOT0 pin (legacy mode)\n1: NBOOT0 option bit\nBit 23 SECURE_MUXING_EN: Multiple-bonding security\nThe bit allows enabling automatic I/O configuration to prevent conflicts on I/Os connected\n(bonded) onto the same pin.\n0: Disable\n1: Enable\nIf the software sets one of the I/Os connected to the same pin as active by configuring the\nSYSCFG_CFGR3 register, enabling this bit automatically forces the other I/Os in digital\ninput mode, regardless of their software configuration.\nWhen the bit is disabled, the SYSCFG_CFGR3 register setting is ignored, all GPIOs linked\nto a given pin are active and can be set in the mode specified by the corresponding\nGPIOx_MODER register. The user software must ensure that there is no conflict between\nGPIOs.\nBit 22 RAM_PARITY_CHECK: SRAM parity check control enable/disable\n0: Enable\n1: Disable\nBit 21 HSE_NOT_REMAPPED: HSE remapping enable/disable\nWhen cleared, the bit remaps the HSE clock source from PF0-OSC_IN/PF1-OSC_OUT\npins to PC14-OSCX_IN/PC15-OSCX_OUT. Thus PC14-OSCX_IN/PC15-OSCX_OUT are\nshared by both LSE and HSE and the two clock sources cannot be use simultaneously.\n0: Enable\n1: Disable\nOn packages with less than 48 pins, the remapping is always enabled (PF0-OSC_IN/PF1-\nOSC_OUT are not available), regardless of this bit. As all STM32C011xx packages have\nless than 48 pins, this bit is only applicable to STM32C031xx.\nNote: On 48 pins packages, when HSE_NOT_REMAPPED is reset, HSE cannot be used in\nbypass mode. Refer to product errata sheet for more details.\nBit 20 Reserved, must be kept at reset value.\nBit 19 WWDG_SW: Window watchdog selection\n0: Hardware window watchdog\n1: Software window watchdog\nBit 18 IWDG_STDBY: Independent watchdog counter freeze in Standby mode\n0: Independent watchdog counter is frozen in Standby mode\n1: Independent watchdog counter is running in Standby mode\nBit 17 IWDG_STOP: Independent watchdog counter freeze in Stop mode\n0: Independent watchdog counter is frozen in Stop mode\n1: Independent watchdog counter is running in Stop mode\nBit 16 IWDG_SW: Independent watchdog selection\n0: Hardware independent watchdog\n1: Software independent watchdog\nBit 15 NRST_SHDW: Reset generation upon entering Shutdown mode\n0: Reset generated\n1: Reset not generated\nBit 14 NRST_STDBY: Reset generation upon entering Standby mode\n0: Reset generated\n1: Reset not generated\nBit 13 NRST_STOP: Reset generation upon entering Stop mode\n0: Reset generated\n1: Reset not generated\nBits 12:11 BORF_LEV[1:0]: BOR threshold at falling VDD supply\nFalling VDD crossings this threshold activates the reset signal.\n00: BOR falling level 1 with threshold around 2.0 V\n01: BOR falling level 2 with threshold around 2.2 V\n10: BOR falling level 3 with threshold around 2.5 V\n11: BOR falling level 4 with threshold around 2.8 V\nBits 10:9 BORR_LEV[1:0]: BOR threshold at rising VDD supply\nRising VDD crossings this threshold releases the reset signal.\n00: BOR rising level 1 with threshold around 2.1 V\n01: BOR rising level 2 with threshold around 2.3 V\n10: BOR rising level 3 with threshold around 2.6 V\n11: BOR rising level 4 with threshold around 2.9 V\nBit 8 BOR_EN: Brown out reset enable\n0: Configurable brown out reset disabled, power-on reset defined by POR/PDR levels\n1: Configurable brown out reset enabled, values of BORR_LEV and BORF_LEV taken into\naccount\nBits 7:0 RDP[7:0]: Read protection level\n0xAA: Level 0, read protection not active\n0xCC: Level 2, chip read protection active\nOther: Level 1, memories read protection active",
+      "semantic": {
+        "register": "FLASH_OPTR",
+        "address_offset": "0x020",
+        "reset_value": "0xXXXX XXXX",
+        "reset_note": "The option bits are loaded with values from flash memory at power-on reset release.",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "FDCAN_BL_CK[1:0]",
+            "description": "FDCAN bootloader clock source Note: Only available on STM32C092xx devices, reserved on the other products.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "HSI48"
+              },
+              {
+                "value": "01",
+                "meaning": "HSE crystal - 12 MHz"
+              },
+              {
+                "value": "10",
+                "meaning": "HSE crystal - 24 MHz"
+              },
+              {
+                "value": "11",
+                "meaning": "HSE crystal - 48 MHz"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "IRHEN",
+            "description": "Internal reset holder enable bit",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Internal resets are propagated as simple pulse on NRST pin"
+              },
+              {
+                "value": "1",
+                "meaning": "Internal resets drives NRST pin low until it is seen as low level"
+              }
+            ]
+          },
+          {
+            "bits": "28:27",
+            "name": "NRST_MODE[1:0]",
+            "description": "PF2-NRST pin configuration is not propagated to the NRST pin.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "01",
+                "meaning": "Reset input only: a low level on the NRST pin generates system reset; internal RESET"
+              },
+              {
+                "value": "10",
+                "meaning": "PF2 GPIO: only internal RESET is possible"
+              },
+              {
+                "value": "11",
+                "meaning": "Bidirectional reset: the NRST pin is configured in reset input/output (legacy) mode"
+              }
+            ]
+          },
+          {
+            "bits": "26",
+            "name": "NBOOT0",
+            "description": "NBOOT0 option bit",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "NBOOT0 = 0"
+              },
+              {
+                "value": "1",
+                "meaning": "NBOOT0 = 1"
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "NBOOT1",
+            "description": "NBOOT1 boot configuration Together with the BOOT0 pin or NBOOT0 option bit (depending on NBOOT_SEL option bit configuration), this bit selects boot mode from the main flash memory, SRAM, or the system memory. Refer to Section 3: Boot modes.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "NBOOT_SEL",
+            "description": "BOOT0 signal source selection This bit defines the source of the BOOT0 signal.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "BOOT0 pin (legacy mode)"
+              },
+              {
+                "value": "1",
+                "meaning": "NBOOT0 option bit"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "SECURE_MUXING_EN",
+            "description": "Multiple-bonding security The bit allows enabling automatic I/O configuration to prevent conflicts on I/Os connected (bonded) onto the same pin. If the software sets one of the I/Os connected to the same pin as active by configuring the SYSCFG_CFGR3 register, enabling this bit automatically forces the other I/Os in digital input mode, regardless of their software configuration. When the bit is disabled, the SYSCFG_CFGR3 register setting is ignored, all GPIOs linked to a given pin are active and can be set in the mode specified by the corresponding GPIOx_MODER register. The user software must ensure that there is no conflict between GPIOs.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "RAM_PARITY_CHECK",
+            "description": "SRAM parity check control enable/disable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Enable"
+              },
+              {
+                "value": "1",
+                "meaning": "Disable"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "HSE_NOT_REMAPPED",
+            "description": "HSE remapping enable/disable When cleared, the bit remaps the HSE clock source from PF0-OSC_IN/PF1-OSC_OUT pins to PC14-OSCX_IN/PC15-OSCX_OUT. Thus PC14-OSCX_IN/PC15-OSCX_OUT are shared by both LSE and HSE and the two clock sources cannot be use simultaneously. On packages with less than 48 pins, the remapping is always enabled (PF0-OSC_IN/PF1- OSC_OUT are not available), regardless of this bit. As all STM32C011xx packages have less than 48 pins, this bit is only applicable to STM32C031xx. Note: On 48 pins packages, when HSE_NOT_REMAPPED is reset, HSE cannot be used in bypass mode. Refer to product errata sheet for more details.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Enable"
+              },
+              {
+                "value": "1",
+                "meaning": "Disable"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "WWDG_SW",
+            "description": "Window watchdog selection",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Hardware window watchdog"
+              },
+              {
+                "value": "1",
+                "meaning": "Software window watchdog"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "IWDG_STDBY",
+            "description": "Independent watchdog counter freeze in Standby mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Independent watchdog counter is frozen in Standby mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Independent watchdog counter is running in Standby mode"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "IWDG_STOP",
+            "description": "Independent watchdog counter freeze in Stop mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Independent watchdog counter is frozen in Stop mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Independent watchdog counter is running in Stop mode"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "IWDG_SW",
+            "description": "Independent watchdog selection",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Hardware independent watchdog"
+              },
+              {
+                "value": "1",
+                "meaning": "Software independent watchdog"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "NRST_SHDW",
+            "description": "Reset generation upon entering Shutdown mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Reset generated"
+              },
+              {
+                "value": "1",
+                "meaning": "Reset not generated"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "NRST_STDBY",
+            "description": "Reset generation upon entering Standby mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Reset generated"
+              },
+              {
+                "value": "1",
+                "meaning": "Reset not generated"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "NRST_STOP",
+            "description": "Reset generation upon entering Stop mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Reset generated"
+              },
+              {
+                "value": "1",
+                "meaning": "Reset not generated"
+              }
+            ]
+          },
+          {
+            "bits": "12:11",
+            "name": "BORF_LEV[1:0]",
+            "description": "BOR threshold at falling VDD supply Falling VDD crossings this threshold activates the reset signal.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "BOR falling level 1 with threshold around 2.0 V"
+              },
+              {
+                "value": "01",
+                "meaning": "BOR falling level 2 with threshold around 2.2 V"
+              },
+              {
+                "value": "10",
+                "meaning": "BOR falling level 3 with threshold around 2.5 V"
+              },
+              {
+                "value": "11",
+                "meaning": "BOR falling level 4 with threshold around 2.8 V"
+              }
+            ]
+          },
+          {
+            "bits": "10:9",
+            "name": "BORR_LEV[1:0]",
+            "description": "BOR threshold at rising VDD supply Rising VDD crossings this threshold releases the reset signal.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "BOR rising level 1 with threshold around 2.1 V"
+              },
+              {
+                "value": "01",
+                "meaning": "BOR rising level 2 with threshold around 2.3 V"
+              },
+              {
+                "value": "10",
+                "meaning": "BOR rising level 3 with threshold around 2.6 V"
+              },
+              {
+                "value": "11",
+                "meaning": "BOR rising level 4 with threshold around 2.9 V"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "BOR_EN",
+            "description": "Brown out reset enable account",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Configurable brown out reset disabled, power-on reset defined by POR/PDR levels"
+              },
+              {
+                "value": "1",
+                "meaning": "Configurable brown out reset enabled, values of BORR_LEV and BORF_LEV taken into"
+              }
+            ]
+          },
+          {
+            "bits": "7:0",
+            "name": "RDP[7:0]",
+            "description": "Read protection level",
+            "values": [
+              {
+                "value": "0xAA",
+                "meaning": "Level 0, read protection not active"
+              },
+              {
+                "value": "0xCC",
+                "meaning": "Level 2, chip read protection active"
+              },
+              {
+                "value": "Other",
+                "meaning": "Level 1, memories read protection active"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

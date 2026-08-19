@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S29.4.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "29",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "29.4.2",
+      "section_title": "Media-independent interface: MII",
+      "level": 3,
+      "parent_section": "29.4",
+      "page": 975,
+      "page_end": 977,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "mii"
+      ],
+      "chars": 3762,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=975",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.4.2 \"Media-independent interface: MII\" in chapter 29 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0008 Rev 21, page 975.",
+      "section_content": "The media-independent interface (MII) defines the interconnection between the MAC\nsublayer and the PHY for data transfer at 10 Mbit/s and 100 Mbit/s.\n[Figure 331. Media independent interface signals]\n[Table 211. Clock range]\nTX _CLK\nMDC\nMDIO\n• MII_TX_CLK: continuous clock that provides the timing reference for the TX data\ntransfer. The nominal frequency is: 2.5 MHz at 10 Mbit/s speed; 25 MHz at 100 Mbit/s\nspeed.\n• MII_RX_CLK: continuous clock that provides the timing reference for the RX data\ntransfer. The nominal frequency is: 2.5 MHz at 10 Mbit/s speed; 25 MHz at 100 Mbit/s\nspeed.\n• MII_TX_EN: transmission enable indicates that the MAC is presenting nibbles on the\nMII for transmission. It must be asserted synchronously (MII_TX_CLK) with the first\nnibble of the preamble and must remain asserted while all nibbles to be transmitted are\npresented to the MII.\n• MII_TXD[3:0]: transmit data is a bundle of 4 data signals driven synchronously by the\nMAC sublayer and qualified (valid data) on the assertion of the MII_TX_EN signal.\nMII_TXD[0] is the least significant bit, MII_TXD[3] is the most significant bit. While\nMII_TX_EN is deasserted the transmit data must have no effect upon the PHY.\n• MII_CRS: carrier sense is asserted by the PHY when either the transmit or receive\nmedium is non idle. It shall be deasserted by the PHY when both the transmit and\nreceive media are idle. The PHY must ensure that the MII_CS signal remains asserted\nthroughout the duration of a collision condition. This signal is not required to transition\nsynchronously with respect to the TX and RX clocks. In full duplex mode the state of\nthis signal is don’t care for the MAC sublayer.\n• MII_COL: collision detection must be asserted by the PHY upon detection of a collision\non the medium and must remain asserted while the collision condition persists. This\nsignal is not required to transition synchronously with respect to the TX and RX clocks.\nIn full duplex mode the state of this signal is don’t care for the MAC sublayer.\n• MII_RXD[3:0]: reception data is a bundle of 4 data signals driven synchronously by the\nPHY and qualified (valid data) on the assertion of the MII_RX_DV signal. MII_RXD[0] is\nthe least significant bit, MII_RXD[3] is the most significant bit. While MII_RX_EN is\ndeasserted and MII_RX_ER is asserted, a specific MII_RXD[3:0] value is used to\ntransfer specific information from the PHY (see Table213).\n• MII_RX_DV: receive data valid indicates that the PHY is presenting recovered and\ndecoded nibbles on the MII for reception. It must be asserted synchronously\n(MII_RX_CLK) with the first recovered nibble of the frame and must remain asserted\nthrough the final recovered nibble. It must be deasserted prior to the first clock cycle\nthat follows the final nibble. In order to receive the frame correctly, the MII_RX_DV\nsignal must encompass the frame, starting no later than the SFD field.\n• MII_RX_ER: receive error must be asserted for one or more clock periods\n(MII_RX_CLK) to indicate to the MAC sublayer that an error was detected somewhere\nin the frame. This error condition must be qualified by MII_RX_DV assertion as\ndescribed in Table213.\n[Table 212. TX interface signal encoding]\n[Table 213. RX interface signal encoding]\nMII clock sources\nTo generate both TX_CLK and RX_CLK clock signals, the external PHY must be clocked\nwith an external 25MHz as shown in Figure332. Instead of using an external 25 MHz\nquartz to provide this clock, the STM32F10xxx microcontroller can output this signal on its\nMCO pin. In this case, the PLL multiplier has to be configured so as to get the desired\nfrequency on the MCO pin, from the 25MHz external quartz.\n[Figure 332. MII clock sources]\nExternal\nTX _CLK\nPHY\n25 MHz\nRX _CLK\n25 MHz For 10/100 Mbit/s",
+      "semantic": {}
+    }
+  ]
+}

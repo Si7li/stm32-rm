@@ -1,0 +1,161 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.7.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.7.4",
+      "section_title": "FLASH status register (FLASH_SR)",
+      "level": 3,
+      "parent_section": "4.7",
+      "page": 79,
+      "page_end": 80,
+      "semantic_type": "register_description",
+      "features": [
+        "bsy1",
+        "cfgbsy",
+        "eop",
+        "fasterr",
+        "flash",
+        "flash-sr",
+        "memory",
+        "misserr",
+        "operr",
+        "optverr",
+        "pgaerr",
+        "pgserr",
+        "progerr",
+        "rderr",
+        "sizerr",
+        "write-protection",
+        "wrperr"
+      ],
+      "chars": 4518,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=79",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.7.4 \"FLASH status register (FLASH_SR)\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 79.",
+      "section_content": "Address offset: 0x010\nReset value: 0x000X 0000\nBits 31:19 Reserved, must be kept at reset value.\nBit 18 CFGBSY: Programming or erase configuration busy.\nThis flag is set and reset by hardware.\nFor flash program operation, it is set when the first word is sent, and cleared after the second\nword is sent when the operation completes or ends with an error.\nFor flash erase operation, it is set when setting the STRT bit of the FLASH_CR register and\ncleared when the operation completes or ends with an error.\nWhen set, a programming or erase operation is ongoing and the corresponding settings in\nthe FLASH control register (FLASH_CR) are used (busy) and cannot be changed. Any other\nflash operation launch must be postponed.\nWhen cleared, the programming and erase settings in the FLASH control register\n(FLASH_CR) can be modified.\nNote: The CFGBSY bit is also set when attempting to write locked flash memory (with the first\nbyte sent). When the CFGBSY bit is set, writing into the FLASH_CR register causes\nHardFault.To clear the CFGBSY bit, send a double word to the flash memory and wait\nuntil the access is finished (otherwise the CFGBSY bit remains set).\nBit 17 Reserved, must be kept at reset value.\nBit 16 BSY1: Busy\nThis flag indicates that a flash memory operation requested by FLASH control register\n(FLASH_CR) is in progress. This bit is set at the beginning of the flash memory operation,\nand cleared when the operation finishes or when an error occurs.\nBit 15 OPTVERR: Option and Engineering bits loading validity error\nSet by hardware when the options and engineering bits read may not be the one configured\nby the user or production. If options and engineering bits haven’t been properly loaded,\nOPTVERR is set again after each system reset. Option bytes that fail loading are forced to a\nsafe value, see Section 4.4.2: FLASH option byte programming.\nCleared by writing 1.\nBit 14 RDERR: PCROP read error\nSet by hardware when an address to be read belongs to a read protected area of the flash\nmemory (PCROP protection). An interrupt is generated if RDERRIE is set in FLASH_CR.\nCleared by writing 1.\nBits 13:10 Reserved, must be kept at reset value.\nBit 9 FASTERR: Fast programming error\nSet by hardware when a fast programming sequence (activated by FSTPG) is interrupted\ndue to an error (alignment, size, write protection or data miss). The corresponding status bit\n(PGAERR, SIZERR, WRPERR or MISSERR) is set at the same time.\nCleared by writing 1.\nBit 8 MISSERR: Fast programming data miss error\nIn Fast programming mode, 32 double words (256 bytes) must be sent to flash memory\nsuccessively, and the new data must be sent to the logic control before the current data is\nfully programmed. MISSERR is set by hardware when the new data is not present in time.\nCleared by writing 1.\nBit 7 PGSERR: Programming sequence error\nSet by hardware when a write access to the flash memory is performed by the code while\nPG or FSTPG have not been set previously. Set also by hardware when PROGERR,\nSIZERR, PGAERR, WRPERR, MISSERR or FASTERR is set due to a previous\nprogramming error.\nCleared by writing 1.\nBit 6 SIZERR: Size error\nSet by hardware when the size of the access is a byte or half-word during a program or a fast\nprogram sequence. Only double word programming is allowed (consequently: word access).\nCleared by writing 1.\nBit 5 PGAERR: Programming alignment error\nSet by hardware when the data to program cannot be contained in the same double word\n(64-bit) flash memory in case of standard programming, or if there is a change of page\nduring fast programming.\nCleared by writing 1.\nBit 4 WRPERR: Write protection error\nSet by hardware when an address to be erased/programmed belongs to a write-protected\npart (by WRP, PCROP or RDP level 1) of the flash memory.\nCleared by writing 1.\nBit 3 PROGERR: Programming error\nSet by hardware when a double-word address to be programmed contains a value different\nfrom '0xFFFF FFFF' before programming, except if the data to write is '0x0000 0000'.\nCleared by writing 1.\nBit 2 Reserved, must be kept at reset value.\nBit 1 OPERR: Operation error\nSet by hardware when a flash memory operation (program / erase) completes\nunsuccessfully.\nThis bit is set only if error interrupts are enabled (ERRIE=1).\nCleared by writing ‘1’.\nBit 0 EOP: End of operation\nSet by hardware when one or more flash memory operation (programming / erase) has been\ncompleted successfully.\nThis bit is set only if the end of operation interrupts are enabled (EOPIE=1).\nCleared by writing 1.",
+      "semantic": {
+        "register": "FLASH_SR",
+        "address_offset": "0x010",
+        "reset_value": "0x000X 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "CFGBSY",
+            "description": "Programming or erase configuration busy. This flag is set and reset by hardware. For flash program operation, it is set when the first word is sent, and cleared after the second word is sent when the operation completes or ends with an error. For flash erase operation, it is set when setting the STRT bit of the FLASH_CR register and cleared when the operation completes or ends with an error. When set, a programming or erase operation is ongoing and the corresponding settings in the FLASH control register (FLASH_CR) are used (busy) and cannot be changed. Any other flash operation launch must be postponed. When cleared, the programming and erase settings in the FLASH control register (FLASH_CR) can be modified. Note: The CFGBSY bit is also set when attempting to write locked flash memory (with the first byte sent). When the CFGBSY bit is set, writing into the FLASH_CR register causes HardFault.To clear the CFGBSY bit, send a double word to the flash memory and wait until the access is finished (otherwise the CFGBSY bit remains set).",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "BSY1",
+            "description": "Busy This flag indicates that a flash memory operation requested by FLASH control register (FLASH_CR) is in progress. This bit is set at the beginning of the flash memory operation, and cleared when the operation finishes or when an error occurs.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "OPTVERR",
+            "description": "Option and Engineering bits loading validity error Set by hardware when the options and engineering bits read may not be the one configured by the user or production. If options and engineering bits haven’t been properly loaded, OPTVERR is set again after each system reset. Option bytes that fail loading are forced to a safe value, see Section 4.4.2: FLASH option byte programming. Cleared by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "RDERR",
+            "description": "PCROP read error Set by hardware when an address to be read belongs to a read protected area of the flash memory (PCROP protection). An interrupt is generated if RDERRIE is set in FLASH_CR. Cleared by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "13:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "FASTERR",
+            "description": "Fast programming error Set by hardware when a fast programming sequence (activated by FSTPG) is interrupted due to an error (alignment, size, write protection or data miss). The corresponding status bit (PGAERR, SIZERR, WRPERR or MISSERR) is set at the same time. Cleared by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "MISSERR",
+            "description": "Fast programming data miss error In Fast programming mode, 32 double words (256 bytes) must be sent to flash memory successively, and the new data must be sent to the logic control before the current data is fully programmed. MISSERR is set by hardware when the new data is not present in time. Cleared by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "PGSERR",
+            "description": "Programming sequence error Set by hardware when a write access to the flash memory is performed by the code while PG or FSTPG have not been set previously. Set also by hardware when PROGERR, SIZERR, PGAERR, WRPERR, MISSERR or FASTERR is set due to a previous programming error. Cleared by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "SIZERR",
+            "description": "Size error Set by hardware when the size of the access is a byte or half-word during a program or a fast program sequence. Only double word programming is allowed (consequently: word access). Cleared by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "PGAERR",
+            "description": "Programming alignment error Set by hardware when the data to program cannot be contained in the same double word (64-bit) flash memory in case of standard programming, or if there is a change of page during fast programming. Cleared by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "WRPERR",
+            "description": "Write protection error Set by hardware when an address to be erased/programmed belongs to a write-protected part (by WRP, PCROP or RDP level 1) of the flash memory. Cleared by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "PROGERR",
+            "description": "Programming error Set by hardware when a double-word address to be programmed contains a value different from '0xFFFF FFFF' before programming, except if the data to write is '0x0000 0000'. Cleared by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "OPERR",
+            "description": "Operation error Set by hardware when a flash memory operation (program / erase) completes unsuccessfully. This bit is set only if error interrupts are enabled (ERRIE=1). Cleared by writing ‘1’.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "EOP",
+            "description": "End of operation Set by hardware when one or more flash memory operation (programming / erase) has been completed successfully. This bit is set only if the end of operation interrupts are enabled (EOPIE=1). Cleared by writing 1.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

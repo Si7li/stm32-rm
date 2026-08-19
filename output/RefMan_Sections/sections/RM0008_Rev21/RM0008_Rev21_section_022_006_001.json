@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.6.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.6.1",
+      "section_title": "SDIO I/O read wait operation by SDIO_D2 signalling",
+      "level": 3,
+      "parent_section": "22.6",
+      "page": 604,
+      "page_end": 605,
+      "semantic_type": "generic",
+      "features": [
+        "sdio",
+        "sdio-d2"
+      ],
+      "chars": 1019,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=604",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.6.1 \"SDIO I/O read wait operation by SDIO_D2 signalling\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 604.",
+      "section_content": "It is possible to start the readwait interval before the first block is received: when the data\npath is enabled (SDIO_DCTRL[0] bit set), the SDIO-specific operation is enabled\n(SDIO_DCTRL[11] bit set), read wait starts (SDI0_DCTRL[10] =0 and SDI_DCTRL[8] =1)\nand data direction is from card to SDIO (SDIO_DCTRL[1] = 1), the DPSM directly moves\nfrom Idle to Readwait. In Readwait the DPSM drives SDIO_D2 to 0 after 2 SDIO_CK clock\ncycles. In this state, when you set the RWSTOP bit (SDIO_DCTRL[9]), the DPSM remains\nin Wait for two more SDIO_CK clock cycles to drive SDIO_D2 to 1 for one clock cycle (in\naccordance with SDIO specification). The DPSM then starts waiting again until it receives\ndata from the card. The DPSM will not start a readwait interval while receiving a block even\nif read wait start is set: the readwait interval will start after the CRC is received. The\nRWSTOP bit has to be cleared to start a new read wait operation. During the readwait\ninterval, the SDIO can detect SDIO interrupts on SDIO_D1.",
+      "semantic": {}
+    }
+  ]
+}

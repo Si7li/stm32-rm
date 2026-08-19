@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S47.3.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "47",
+      "chapter_title": "True random number generator (RNG)",
+      "section": "47.3.4",
+      "section_title": "RNG initialization",
+      "level": 3,
+      "parent_section": "47.3",
+      "page": 2290,
+      "page_end": 2291,
+      "semantic_type": "generic",
+      "features": [
+        "rng"
+      ],
+      "chars": 1510,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2290",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 47.3.4 \"RNG initialization\" in chapter 47 (True random number generator (RNG)), RM0486 Rev 4, page 2290.",
+      "section_content": "The RNG simplified state machine is pictured on Figure454.\nAfter enabling the RNG (RNGEN=1 in RNG_CR), the following chain of events occurs:\n1. The analog noise source is enabled, and by default the RNG waits 16 cycles of RNG\nclock cycles (before divider) before starting to sample the analog output and filling the\n128-bit conditioning shift register.\n2. The conditioning hardware initializes, automatically triggering startup behavior test on\nthe raw data samples and known-answer tests.\n3. Start-up health tests are completed, with the conditioning stage being ready to use.\n4. The conditioning stage internal input data buffer is filled again with 128-bit and a\nnumber of conditioning rounds defined by the RNG configuration (NIST or non-NIST) is\nperformed. The output buffer is then filled with the post processing result.\n5. The output buffer is refilled automatically according to the RNG usage.\nThe associated initialization time can be found in Section47.5.\nFigure454 also highlights a possible software reset sequence, implemented by:\n1. Writing bits RNGEN=0 and CONDRST=1 in the RNG_CR register with the same\nRNG configuration and a new CLKDIV if needed.\n2. Then writing RNGEN=1 and CONDRST=0 in the RNG_CR register.\n3. Wait for random number to be ready, after initialization completes.\nNote: When the RNG peripheral is reset through RCC (hardware reset), the RNG configuration for\noptimal randomness is lost in the RNG registers. Software reset with CONFIGLOCK set\npreserves the RNG configuration.",
+      "semantic": {}
+    }
+  ]
+}

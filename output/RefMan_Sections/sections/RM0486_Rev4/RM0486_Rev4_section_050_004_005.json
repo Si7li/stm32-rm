@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S50.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "50",
+      "chapter_title": "Hash processor (HASH)",
+      "section": "50.4.5",
+      "section_title": "Message digest computing",
+      "level": 3,
+      "parent_section": "50.4",
+      "page": 2411,
+      "page_end": 2413,
+      "semantic_type": "generic",
+      "features": [
+        "computing",
+        "digest",
+        "message"
+      ],
+      "chars": 4573,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2411",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 50.4.5 \"Message digest computing\" in chapter 50 (Hash processor (HASH)), RM0486 Rev 4, page 2411.",
+      "section_content": "The hash processor sequentially processes several blocks when computing the message\ndigest. Block sizes can be found in Table430: Information on supported hash algorithms.\nEach time the DMA or the CPU writes a block to the hash processor, the HASH\nautomatically starts computing the message digest. This operation is known as partial digest\ncomputation.\nAs described in Section50.4.4: Message data feeding, the message to be processed is\nentered into the HASH 32-bit word at a time, writing to the HASH_DIN register to fill the\ninput FIFO. In order to perform the hash computation on this data the application must follow\nbelow sequence.\n1. Initialize the hash processor using the HASH_CR register:\n– Write to the HASH_CR register to select the right algorithm using the ALGO\nbitfield, and set the INIT bit (other bits are kept at zero). Then read the NBWE\nbitfield from the HASH_SR register to deduce the algorithm block size, which\nequals (NBWE-1) * 4. This step is not required if the block size is already known\n(see Table430 for details).\n– Select the right algorithm using the ALGO[3:0] field. If needed, program the\ncorrect swapping operation on the message input words using the DATATYPE[1:0]\nbitfield.\n– When HMAC mode is required, set the MODE bit as well as the LKEY bit if the\nHMAC key size is greater than the known block size of the algorithm (otherwise\nkeep LKEY cleared). Refer to Section50.4.7: HMAC operation for details.\n– Update NBLW[4:0] in the HASH_STR register to define the number of valid bits in\nthe last word of the message if it is different from 32 bits. NBLW information is\nused to correctly perform the automatic message padding before the final\nmessage digest computation.\n2. Complete the initialization by setting the INIT bit in HASH_CR register. Also set the\nDMAE bit if data are transferred via DMA.\nCaution: When programming step 2, it is important that the correct configuration values (ALGO,\nDATATYPE, HMAC mode, key length, NBLW) are set up before or at the same time.\n3. Start filling data by writing to the HASH_DIN register, unless data are automatically\ntransferred via DMA. Note that the processing of a block can start only once the last\nvalue of the block has entered the input FIFO. The way the partial or final digest\ncomputation is managed depends on the way data are fed into the processor:\n– Data are filled by software:\nPartial digest computations are triggered each time the application writes the first\nword of the next block, the block size being defined by NBWE bits in HASH_SR.\nOnce the processor is ready again (DINIS=1 in HASH_SR), the software can\nwrite new data to HASH_DIN. This mechanism avoids the introduction of wait\nstates by the HASH.\nThe final digest computation is triggered when the last block is entered and the\nsoftware sets the DCAL bit. If the message length is not an exact multiple of the\nblock size, the NBLW field in HASH_STR register must be written prior to writing\nDCAL bit (see Section50.4.6 for details).\n– Data are filled as a single DMA transfer (MDMAT=0):\nPartial digest computations are triggered automatically each time the FIFO is full.\nThe final digest computation is triggered automatically when the last block has\nbeen transferred to the HASH_DIN register by DMA (DCAL bit is set by hardware).\nIf the message length is not an exact multiple of the block size, the NBLW field in\nHASH_STR register must be written prior to enabling the DMA (see\nSection50.4.6 for details).\n– Data are filled using multiple DMA transfers (MDMAT=1):\nPartial digest computations are triggered as for single DMA transfers (refer to the\nabove description). However, the final digest computation is not triggered\nautomatically when the last block has been transferred by DMA to the HASH_DIN\nregister (DCAL bit is not set by hardware). It enables the hash processor to\nreceive a new DMA transfer as part of this digest computation. To launch the final\ndigest computation, the software must clear MDMAT bit before the last DMA\ntransfer in order to trigger the final digest computation as it is done for single DMA\ntransfers.\n4. Once the digest calculation is completed (DCIS=1), the resulting digest can be read\nfrom the output registers, as described in Table431. When set, the DMAEN bit is\nautomatically cleared by hardware.\n[Table 431. Hash processor outputs]\nFor more information about HMAC detailed instructions, refer to Section50.4.7: HMAC\noperation.\nAborting HASH operation\nHASH can be disabled at any time by writing 0x4 to HASH_CR, after stopping any running\nDMA transfer to HASH (if applicable).",
+      "semantic": {}
+    }
+  ]
+}

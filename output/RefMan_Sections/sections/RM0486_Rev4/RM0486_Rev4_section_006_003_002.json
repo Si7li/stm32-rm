@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S6.3.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "6",
+      "chapter_title": "Resource isolation framework security controller (RIFSC)",
+      "section": "6.3.2",
+      "section_title": "RISUP",
+      "level": 3,
+      "parent_section": "6.3",
+      "page": 248,
+      "page_end": 249,
+      "semantic_type": "generic",
+      "features": [
+        "risup"
+      ],
+      "chars": 1395,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=248",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.3.2 \"RISUP\" in chapter 6 (Resource isolation framework security controller (RIFSC)), RM0486 Rev 4, page 248.",
+      "section_content": "RISUP blocks are instantiated in front of the AHB configuration port of non-RIF-aware\nperipherals to filter configuration accesses.\nEach non-RIF-aware peripheral is assigned a unique “RISUP index” p < 128. Whenever the\nRISUP in front of peripheral p blocks an illegal access, it sends an “illegal access event”\npulse to the IAC. The IAC records this event in the IAFp bit of the relevant IAC_ISRx\nregister. Thus, the RISUP index is aligned with the IAC index.\nFor x < 4 and i < 32, the filtering is determined as follows.\n• If RIFSC_RISC_SECCFGx[i] = 1, then nonsecure accesses to peripheral p = i+32x\nare blocked. Also, nonsecure world attempts to program RCC registers to turn off the\nclock of (or reset) peripheral p are blocked.\n• If RIFSC_RISC_PRIVCFGRx[i] = 1, then user accesses to peripheral p = i+32x are\nblocked. Also, attempts by a user process to program RCC registers to turn off the\nclock of (or reset) peripheral p are blocked.\nWhenever the RCC detects an illegal attempt to turn off a clock of (or reset) a peripheral,\nitsends an event pulse to the IAC (recorded in the IAF136 bit of the relevant IAC_ISRx\nregister).\nNote: There is no record of which peripheral was the object of this illegal attempt.\nTable20 identifies the RISUP index of each non-RIF-aware peripheral.\n[Table 20. RISUP indexes]\nThe RISUP generates a bus error if an instruction fetch arrives at the peripheral.",
+      "semantic": {}
+    }
+  ]
+}

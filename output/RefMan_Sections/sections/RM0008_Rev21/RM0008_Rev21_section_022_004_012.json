@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.4.12",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.4.12",
+      "section_title": "SD status register",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 592,
+      "page_end": 596,
+      "semantic_type": "generic",
+      "features": [
+        "status"
+      ],
+      "chars": 3299,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=592",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.12 \"SD status register\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 592.",
+      "section_content": "The SD status contains status bits that are related to the SD memory card proprietary\nfeatures and may be used for future application-specific usage. The size of the SD Status is\none data block of 512 bits. The contents of this register are transmitted to the SDIO card\nhost if ACMD13 is sent (CMD55 followed with CMD13). ACMD13 can be sent to a card in\ntransfer state only (card is selected).\nTable146 defines the different entries of the SD status register. The type and clear condition\nfields in the table are abbreviated as follows:\nType:\n• E: error bit\n• S: status bit\n• R: detected and set for the actual command response\n• X: detected and set during command execution. The SDIO card Host must poll the card\nby issuing the status command to read these bits\nClear condition:\n• A: according to the card current state\n• B: always related to the previous command. Reception of a valid command clears it\n(with a delay of one command)\n• C: clear by read\n[Table 146. SD status]\nSIZE_OF_PROTECTED_AREA\nSetting this field differs between standard- and high-capacity cards. In the case of a\nstandard-capacity card, the capacity of protected area is calculated as follows:\nProtected area = SIZE_OF_PROTECTED_AREA_* MULT * BLOCK_LEN.\nSIZE_OF_PROTECTED_AREA is specified by the unit in MULT*BLOCK_LEN.\nIn the case of a high-capacity card, the capacity of protected area is specified in this field:\nProtected area = SIZE_OF_PROTECTED_AREA\nSIZE_OF_PROTECTED_AREA is specified by the unit in bytes.\nSPEED_CLASS\nThis 8-bit field indicates the speed class and the value can be calculated by PW/2 (where\nPW is the write performance).\n[Table 147. Speed class code field]\nPERFORMANCE_MOVE\nThis 8-bit field indicates Pm (performance move) and the value can be set by 1 [MB/sec]\nsteps. If the card does not move used RUs (recording units), Pm should be considered as\ninfinity. Setting the field to FFh means infinity.\n[Table 148. Performance move field]\nAU_SIZE\nThis 4-bit field indicates the AU size and the value can be selected in the power of 2 base\nfrom 16KB.\n[Table 149. AU_SIZE field]\nThe maximum AU size, which depends on the card capacity, is defined in Table150. The\ncard can be set to any AU size between RU size and maximum AU size.\n[Table 150. Maximum AU size]\nERASE_SIZE\nThis 16-bit field indicates NERASE. When NERASE numbers of AUs are erased, the timeout\nvalue is specified by ERASE_TIMEOUT (Refer to ERASE_TIMEOUT). The host should\ndetermine the proper number of AUs to be erased in one operation so that the host can\nshow the progress of the erase operation. If this field is set to 0, the erase timeout\ncalculation is not supported.\n[Table 151. Erase size field]\nERASE_TIMEOUT\nThis 6-bit field indicates TERASE and the value indicates the erase timeout from offset when\nmultiple AUs are being erased as specified by ERASE_SIZE. The range of\nERASE_TIMEOUT can be defined as up to 63 seconds and the card manufacturer can\nchoose any combination of ERASE_SIZE and ERASE_TIMEOUT depending on the\nimplementation. Determining ERASE_TIMEOUT determines the ERASE_SIZE.\n[Table 152. Erase timeout field]\nERASE_OFFSET\nThis 2-bit field indicates TOFFSET and one of four values can be selected. This field is\nmeaningless if the ERASE_SIZE and ERASE_TIMEOUT fields are set to 0.\n[Table 153. Erase offset field]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.13.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.13.2",
+      "section_title": "Interrupts",
+      "level": 3,
+      "parent_section": "39.13",
+      "page": 1897,
+      "page_end": 1899,
+      "semantic_type": "generic",
+      "features": [
+        "interrupt"
+      ],
+      "chars": 4546,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1897",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.13.2 \"Interrupts\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1897.",
+      "section_content": "The DCMIPP handles five interrupts pins, the fifth being the OR of the first four.\nA register set is associated to each interrupt to provide the following functionality:\n• Unmasked events: reports an event that occurred and has not yet been cleared\n• Masks: to mask unwanted events\n• Masked events: not readable, any active unmasked bit triggers the interrupt pin\n• Clear register: write to clear any active event\nThe interrupt pins are active when high: they go high when triggered by an unmasked event,\nand remain high until all the masked events of that interrupt are cleared.\nThe interrupts lines and registers are:\n1. Parallel interface, with the next interrupt events handled:\n– ERR: bad embedded synchronization detected.\n> Unexpected behavior in the parallel interface, usually not triggered if no\nissues.\n> It is due to an unexpected sensor behavior, or to a transmission error.\n2. Pipe0 (dump), with the next interrupt events handled:\n– OVR: data overflow: the memory was too slow vs. received pixels.\n> Unexpected behavior in Pipe0, usually not triggered if no issues.\n> Same recommendation as for above OVR: skip the impacted frame.\n– LIMIT: received volume is larger than the maximum allowed dump volume.\n> Unexpected behavior in Pipe0, usually not triggered if no issues.\n> The transmitted flow is too long. More space must be allocated in memory to\nstore the transmission of a next frame.\n– VSYNC: main interrupt, where most software can sit.\n> Trigger: at VSync (mid blanking), permanent (even if no dump active).\n> Typically to reconfigure slowly the pipes (at least shadow registers) for next\nframe\n> Typically to trigger usage of the previously captured frame.\n– FRAME: secondary interrupt, as backup for fast-software\n> Trigger: after last data dump of this pipe, inactive if no capture has occurred.\n> Typically to quickly reconfigure non-shadow registers (during only vertical\nblanking)\n> Typically to trigger usage of the previously captured frame.\n– LINE: interruption for stripe-based operators trigger: after every\n1/2/4/8/16/32/64/128 dumped lines and last line. It is measured and extracted at\nend of pipe, close to output to memory.\n> Typically to trigger fast/reactive software or hardware stripe-based operators.\nNote: The LINE flag (LINEF bit) is set at the end of frame, to trigger out software event when the\nframe height is not a multiple of the selected number of lines for which the LINEF event is\ntriggered. The last part of the frame can, in such case, have a lower number of lines than the\nselection. The event/interrupt is generated even if the number of lines is incomplete. The\nsoftware must consider that this last event has a lower than expected number of lines when\nreaching the end of frame (FRAME event).\n3. Pipe1 (main pipe)\n– Same events handled as Pipe0: OVR, VSYNC, FRAME, LINE, but no LIMIT as\nonly pixels are captured after a potential crop.\n4. Pipe2 (ancillary pipe)\n– Same events handled as Pipe1: OVR, VSYNC, FRAME, LINE.\n5. Common interrupt: groups the events of the above interrupts in a single register set and\ndrives its own interrupt line.\n– The fifth interrupt is designed for systems where a single driver handles the whole\nDCMIPP: a single access to this interrupt status allows to retrieve the status of the\nwhole DCMIPP.\n– The first four interrupts are designed for systems where a driver handles a pipe\nand (potentially) another one drives the parallel interface. In that case, each driver\nhandles its own individual interrupt register set, without need for semaphores to\narbitrate conflicting accesses.\nThere is also a common interrupt that can be generated if enabled, when a transfer\nerror is detected during an AXI transfer from the IP-Plug to memories. Error flag\nATXERR in the DCMIPP_CMSR2 register is set and an interrupt can be generated to\ninform the software about this error status. There is no specific hardware action linked\nto this error, it is up to software to handle the transfer error situation.\nOn multiple-pipe architecture, the error informs that at least one AXI client has a\ntransfer error, but does not identify from which client.\nThe DCMIPP interrupts are summarized in Table364. An event that generates an interrupt\ndoes it at two locations:\n– once in the common interrupt register set (when driven by a single CPU)\n– once in the local interrupt register set (when driven by multiple CPUs).\nTable364 provides the local (register and bit) and global (bit only, as all bits are in the same\nDCMIPP_CMSR2 register) locations.\n[Table 364. DCMIPP interrupts]",
+      "semantic": {}
+    }
+  ]
+}

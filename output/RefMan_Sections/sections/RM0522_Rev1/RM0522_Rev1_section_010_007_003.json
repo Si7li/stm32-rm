@@ -1,0 +1,193 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S10.7.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "10",
+      "chapter_title": "Clock recovery system (CRS)",
+      "section": "10.7.3",
+      "section_title": "CRS interrupt and status register (CRS_ISR)",
+      "level": 3,
+      "parent_section": "10.7",
+      "page": 335,
+      "page_end": 336,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "crs",
+        "crs-isr",
+        "errf",
+        "esyncf",
+        "fecap",
+        "fedir",
+        "interrupt",
+        "syncerr",
+        "syncmiss",
+        "syncokf",
+        "syncwarnf",
+        "trimovf"
+      ],
+      "chars": 3992,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=335",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 10.7.3 \"CRS interrupt and status register (CRS_ISR)\" in chapter 10 (Clock recovery system (CRS)), RM0522 Rev 1, page 335.",
+      "section_content": "Address offset: 0x08\nReset value: 0x0000 0000\nBits 31:16 FECAP[15:0]: Frequency error capture\nFECAP is the frequency error counter value latched in the time of the last SYNC event.\nRefer to Section10.4.5 for more details about FECAP usage.\nBit 15 FEDIR: Frequency error direction\nFEDIR is the counting direction of the frequency error counter latched in the time of the last\nSYNC event. It shows whether the actual frequency is below or above the target.\n0: Up-counting direction, the actual frequency is above the target\n1: Down-counting direction, the actual frequency is below the target\nBits 14:11 Reserved, must be kept at reset value.\nBit 10 TRIMOVF: Trimming overflow or underflow\nThis flag is set by hardware when the automatic trimming tries to over- or under-flow the\nTRIM value. An interrupt is generated if the ERRIE bit is set in the CRS_CR register. It is\ncleared by software by setting the ERRC bit in the CRS_ICR register.\n0: No trimming error signaled\n1: Trimming error signaled\nBit 9 SYNCMISS: SYNC missed\nThis flag is set by hardware when the frequency error counter reaches value FELIM * 128\nand no SYNC is detected, meaning either that a SYNC pulse was missed, or the frequency\nerror is too big (internal frequency too high) to be compensated by adjusting the TRIM value,\nhence some other action must be taken. At this point, the frequency error counter is stopped\n(waiting for a next SYNC), and an interrupt is generated if the ERRIE bit is set in the\nCRS_CR register. It is cleared by software by setting the ERRC bit in the CRS_ICR register.\n0: No SYNC missed error signaled\n1: SYNC missed error signaled\nBit 8 SYNCERR: SYNC error\nThis flag is set by hardware when the SYNC pulse arrives before the ESYNC event and the\nmeasured frequency error is greater than or equal to FELIM * 128. This means that the\nfrequency error is too big (internal frequency too low) to be compensated by adjusting the\nTRIM value, and that some other action has to be taken. An interrupt is generated if the\nERRIE bit is set in the CRS_CR register. It is cleared by software by setting the ERRC bit in\nthe CRS_ICR register.\n0: No SYNC error signaled\n1: SYNC error signaled\nBits 7:4 Reserved, must be kept at reset value.\nBit 3 ESYNCF: Expected SYNC flag\nThis flag is set by hardware when the frequency error counter reached a zero value. An\ninterrupt is generated if the ESYNCIE bit is set in the CRS_CR register. It is cleared by\nsoftware by setting the ESYNCC bit in the CRS_ICR register.\n0: No expected SYNC signaled\n1: Expected SYNC signaled\nBit 2 ERRF: Error flag\nThis flag is set by hardware in case of any synchronization or trimming error. It is the logical\nOR of the TRIMOVF, SYNCMISS and SYNCERR bits. An interrupt is generated if the ERRIE\nbit is set in the CRS_CR register. It is cleared by software in reaction to setting the ERRC bit\nin the CRS_ICR register, which clears the TRIMOVF, SYNCMISS and SYNCERR bits.\n0: No synchronization or trimming error signaled\n1: Synchronization or trimming error signaled\nBit 1 SYNCWARNF: SYNC warning flag\nThis flag is set by hardware when the measured frequency error is greater than or equal to\nFELIM * 3, but smaller than FELIM * 128. This means that to compensate the frequency\nerror, the TRIM value must be adjusted by two steps or more. An interrupt is generated if the\nSYNCWARNIE bit is set in the CRS_CR register. It is cleared by software by setting the\nSYNCWARNC bit in the CRS_ICR register.\n0: No SYNC warning signaled\n1: SYNC warning signaled\nBit 0 SYNCOKF: SYNC event OK flag\nThis flag is set by hardware when the measured frequency error is smaller than FELIM * 3.\nThis means that either no adjustment of the TRIM value is needed or that an adjustment by\none trimming step is enough to compensate the frequency error. An interrupt is generated if\nthe SYNCOKIE bit is set in the CRS_CR register. It is cleared by software by setting the\nSYNCOKC bit in the CRS_ICR register.\n0: No SYNC event OK signaled\n1: SYNC event OK signaled",
+      "semantic": {
+        "register": "CRS_ISR",
+        "address_offset": "0x08",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "FECAP[15:0]",
+            "description": "Frequency error capture FECAP is the frequency error counter value latched in the time of the last SYNC event. Refer to Section10.4.5 for more details about FECAP usage.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "FEDIR",
+            "description": "Frequency error direction FEDIR is the counting direction of the frequency error counter latched in the time of the last SYNC event. It shows whether the actual frequency is below or above the target.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Up-counting direction, the actual frequency is above the target"
+              },
+              {
+                "value": "1",
+                "meaning": "Down-counting direction, the actual frequency is below the target"
+              }
+            ]
+          },
+          {
+            "bits": "14:11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "TRIMOVF",
+            "description": "Trimming overflow or underflow This flag is set by hardware when the automatic trimming tries to over- or under-flow the TRIM value. An interrupt is generated if the ERRIE bit is set in the CRS_CR register. It is cleared by software by setting the ERRC bit in the CRS_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No trimming error signaled"
+              },
+              {
+                "value": "1",
+                "meaning": "Trimming error signaled"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "SYNCMISS",
+            "description": "SYNC missed This flag is set by hardware when the frequency error counter reaches value FELIM * 128 and no SYNC is detected, meaning either that a SYNC pulse was missed, or the frequency error is too big (internal frequency too high) to be compensated by adjusting the TRIM value, hence some other action must be taken. At this point, the frequency error counter is stopped (waiting for a next SYNC), and an interrupt is generated if the ERRIE bit is set in the CRS_CR register. It is cleared by software by setting the ERRC bit in the CRS_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No SYNC missed error signaled"
+              },
+              {
+                "value": "1",
+                "meaning": "SYNC missed error signaled"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "SYNCERR",
+            "description": "SYNC error This flag is set by hardware when the SYNC pulse arrives before the ESYNC event and the measured frequency error is greater than or equal to FELIM * 128. This means that the frequency error is too big (internal frequency too low) to be compensated by adjusting the TRIM value, and that some other action has to be taken. An interrupt is generated if the ERRIE bit is set in the CRS_CR register. It is cleared by software by setting the ERRC bit in the CRS_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No SYNC error signaled"
+              },
+              {
+                "value": "1",
+                "meaning": "SYNC error signaled"
+              }
+            ]
+          },
+          {
+            "bits": "7:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "ESYNCF",
+            "description": "Expected SYNC flag This flag is set by hardware when the frequency error counter reached a zero value. An interrupt is generated if the ESYNCIE bit is set in the CRS_CR register. It is cleared by software by setting the ESYNCC bit in the CRS_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No expected SYNC signaled"
+              },
+              {
+                "value": "1",
+                "meaning": "Expected SYNC signaled"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "ERRF",
+            "description": "Error flag This flag is set by hardware in case of any synchronization or trimming error. It is the logical OR of the TRIMOVF, SYNCMISS and SYNCERR bits. An interrupt is generated if the ERRIE bit is set in the CRS_CR register. It is cleared by software in reaction to setting the ERRC bit in the CRS_ICR register, which clears the TRIMOVF, SYNCMISS and SYNCERR bits.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No synchronization or trimming error signaled"
+              },
+              {
+                "value": "1",
+                "meaning": "Synchronization or trimming error signaled"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "SYNCWARNF",
+            "description": "SYNC warning flag This flag is set by hardware when the measured frequency error is greater than or equal to FELIM * 3, but smaller than FELIM * 128. This means that to compensate the frequency error, the TRIM value must be adjusted by two steps or more. An interrupt is generated if the SYNCWARNIE bit is set in the CRS_CR register. It is cleared by software by setting the SYNCWARNC bit in the CRS_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No SYNC warning signaled"
+              },
+              {
+                "value": "1",
+                "meaning": "SYNC warning signaled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "SYNCOKF",
+            "description": "SYNC event OK flag This flag is set by hardware when the measured frequency error is smaller than FELIM * 3. This means that either no adjustment of the TRIM value is needed or that an adjustment by one trimming step is enough to compensate the frequency error. An interrupt is generated if the SYNCOKIE bit is set in the CRS_CR register. It is cleared by software by setting the SYNCOKC bit in the CRS_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No SYNC event OK signaled"
+              },
+              {
+                "value": "1",
+                "meaning": "SYNC event OK signaled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

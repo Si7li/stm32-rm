@@ -1,0 +1,284 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S40.6.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "40",
+      "chapter_title": "Tamper and backup registers (TAMP)",
+      "section": "40.6.2",
+      "section_title": "TAMP control register 2 (TAMP_CR2)",
+      "level": 3,
+      "parent_section": "40.6",
+      "page": 1608,
+      "page_end": 1610,
+      "semantic_type": "register_description",
+      "features": [
+        "bkblock",
+        "bkerase",
+        "erase",
+        "tamp",
+        "tamp-cr2",
+        "tamp1msk",
+        "tamp1pom",
+        "tamp1trg",
+        "tamp2msk",
+        "tamp2pom",
+        "tamp2trg",
+        "tamp3msk",
+        "tamp3pom",
+        "tamp3trg"
+      ],
+      "chars": 4053,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1608",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 40.6.2 \"TAMP control register 2 (TAMP_CR2)\" in chapter 40 (Tamper and backup registers (TAMP)), RM0522 Rev 1, page 1608.",
+      "section_content": "This register can be protected against unprivileged access. Refer to Section40.3.6: TAMP\nprivilege protection modes.\nAddress offset: 0x04\nRTC domain reset value: 0x0000 0000\nSystem reset: not affected\nBit 31 Reserved, must be kept at reset value.\nBit 30 Reserved, must be kept at reset value.\nBit 29 Reserved, must be kept at reset value.\nBit 28 Reserved, must be kept at reset value.\nBit 27 Reserved, must be kept at reset value.\nBit 26 TAMP3TRG: Active level for tamper 3 input\n0:If TAMPFLT≠00 tamper 3 input staying low triggers a tamper detection event.\nIf TAMPFLT=00 tamper 3 input rising edge triggers a tamper detection event.\n1:If TAMPFLT≠00 tamper 3 input staying high triggers a tamper detection event.\nIf TAMPFLT=00 tamper 3 input falling edge triggers a tamper detection event.\nBit 25 TAMP2TRG: Active level for tamper 2 input\n0:If TAMPFLT≠00 tamper 2 input staying low triggers a tamper detection event.\nIf TAMPFLT = 00 tamper 2 input rising edge triggers a tamper detection event.\n1:If TAMPFLT≠00 tamper 2 input staying high triggers a tamper detection event.\nIf TAMPFLT=00 tamper 2 input falling edge triggers a tamper detection event.\nBit 24 TAMP1TRG: Active level for tamper 1 input\n0:If TAMPFLT≠00 tamper 1 input staying low triggers a tamper detection event.\nIf TAMPFLT=00 tamper 1 input rising edge triggers a tamper detection event.\n1:If TAMPFLT≠00 tamper 1 input staying high triggers a tamper detection event.\nIf TAMPFLT=00 tamper 1 input falling edge triggers a tamper detection event.\nBit 23 BKERASE: Backup registers and device secrets(1) erase\nWriting ‘1’ to this bit reset the backup registers and device secrets(1). Writing 0 has no effect.\nThis bit is always read as 0.\nBit 22 BKBLOCK: Backup registers and device secrets(1) access blocked\n0: backup registers and device secrets(1) can be accessed if no tamper flag is set\n1: backup registers and device secrets(1) cannot be accessed\nBits 21:19 Reserved, must be kept at reset value.\nBit 18 TAMP3MSK: Tamper 3 mask\n0: Tamper 3 event generates a trigger event and TAMP3F must be cleared by software to\nallow next tamper event detection.\n1: Tamper 3 event generates a trigger event. TAMP3F is masked and internally cleared by\nhardware. The backup registers and device secrets(1) are not erased.\nThe tamper 3 interrupt must not be enabled when TAMP3MSK is set.\nBit 17 TAMP2MSK: Tamper 2 mask\n0: Tamper 2 event generates a trigger event and TAMP2F must be cleared by software to\nallow next tamper event detection.\n1: Tamper 2 event generates a trigger event. TAMP2F is masked and internally cleared by\nhardware. The backup registers and device secrets(1) are not erased.\nThe tamper 2 interrupt must not be enabled when TAMP2MSK is set.\nBit 16 TAMP1MSK: Tamper 1 mask\n0: Tamper 1 event generates a trigger event and TAMP1F must be cleared by software to\nallow next tamper event detection.\n1: Tamper 1 event generates a trigger event. TAMP1F is masked and internally cleared by\nhardware. The backup registers and device secrets(1) are not erased.\nThe tamper 1 interrupt must not be enabled when TAMP1MSK is set.\nBits 15:8 Reserved, must be kept at reset value.\nBit 7 Reserved, must be kept at reset value.\nBit 6 Reserved, must be kept at reset value.\nBit 5 Reserved, must be kept at reset value.\nBit 4 Reserved, must be kept at reset value.\nBit 3 Reserved, must be kept at reset value.\nBit 2 TAMP3POM: Tamper 3 potential mode\n0: Tamper 3 event detection is in confirmed mode(1).\n1: Tamper 3 event detection is in potential mode(2).\nBit 1 TAMP2POM: Tamper 2 potential mode\n0: Tamper 2 event detection is in confirmed mode(1).\n1: Tamper 2 event detection is in potential mode(2).\nBit 0 TAMP1POM: Tamper 1 potential mode\n0: Tamper 1 event detection is in confirmed mode(1).\n1: Tamper 1 event detection is in potential mode(2).\n1. The effects of tamper detection in confirmed mode is described with tamp_confirmed signal in Table401: TAMP\ninterconnection.\n2. The effects of tamper detection in potential mode is described with tamp_potential signal in Table401: TAMP\ninterconnection.",
+      "semantic": {
+        "register": "TAMP_CR2",
+        "address_offset": "0x04",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "TAMP3TRG",
+            "description": "Active level for tamper 3 input If TAMPFLT=00 tamper 3 input rising edge triggers a tamper detection event. If TAMPFLT=00 tamper 3 input falling edge triggers a tamper detection event.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "If TAMPFLT≠00 tamper 3 input staying low triggers a tamper detection event."
+              },
+              {
+                "value": "1",
+                "meaning": "If TAMPFLT≠00 tamper 3 input staying high triggers a tamper detection event."
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "TAMP2TRG",
+            "description": "Active level for tamper 2 input If TAMPFLT = 00 tamper 2 input rising edge triggers a tamper detection event. If TAMPFLT=00 tamper 2 input falling edge triggers a tamper detection event.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "If TAMPFLT≠00 tamper 2 input staying low triggers a tamper detection event."
+              },
+              {
+                "value": "1",
+                "meaning": "If TAMPFLT≠00 tamper 2 input staying high triggers a tamper detection event."
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "TAMP1TRG",
+            "description": "Active level for tamper 1 input If TAMPFLT=00 tamper 1 input rising edge triggers a tamper detection event. If TAMPFLT=00 tamper 1 input falling edge triggers a tamper detection event.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "If TAMPFLT≠00 tamper 1 input staying low triggers a tamper detection event."
+              },
+              {
+                "value": "1",
+                "meaning": "If TAMPFLT≠00 tamper 1 input staying high triggers a tamper detection event."
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "BKERASE",
+            "description": "Backup registers and device secrets(1) erase Writing ‘1’ to this bit reset the backup registers and device secrets(1). Writing 0 has no effect. This bit is always read as 0.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "BKBLOCK",
+            "description": "Backup registers and device secrets(1) access blocked",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "backup registers and device secrets(1) can be accessed if no tamper flag is set"
+              },
+              {
+                "value": "1",
+                "meaning": "backup registers and device secrets(1) cannot be accessed"
+              }
+            ]
+          },
+          {
+            "bits": "21:19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "TAMP3MSK",
+            "description": "Tamper 3 mask allow next tamper event detection. hardware. The backup registers and device secrets(1) are not erased. The tamper 3 interrupt must not be enabled when TAMP3MSK is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tamper 3 event generates a trigger event and TAMP3F must be cleared by software to"
+              },
+              {
+                "value": "1",
+                "meaning": "Tamper 3 event generates a trigger event. TAMP3F is masked and internally cleared by"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "TAMP2MSK",
+            "description": "Tamper 2 mask allow next tamper event detection. hardware. The backup registers and device secrets(1) are not erased. The tamper 2 interrupt must not be enabled when TAMP2MSK is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tamper 2 event generates a trigger event and TAMP2F must be cleared by software to"
+              },
+              {
+                "value": "1",
+                "meaning": "Tamper 2 event generates a trigger event. TAMP2F is masked and internally cleared by"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "TAMP1MSK",
+            "description": "Tamper 1 mask allow next tamper event detection. hardware. The backup registers and device secrets(1) are not erased. The tamper 1 interrupt must not be enabled when TAMP1MSK is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tamper 1 event generates a trigger event and TAMP1F must be cleared by software to"
+              },
+              {
+                "value": "1",
+                "meaning": "Tamper 1 event generates a trigger event. TAMP1F is masked and internally cleared by"
+              }
+            ]
+          },
+          {
+            "bits": "15:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "TAMP3POM",
+            "description": "Tamper 3 potential mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tamper 3 event detection is in confirmed mode(1)."
+              },
+              {
+                "value": "1",
+                "meaning": "Tamper 3 event detection is in potential mode(2)."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "TAMP2POM",
+            "description": "Tamper 2 potential mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tamper 2 event detection is in confirmed mode(1)."
+              },
+              {
+                "value": "1",
+                "meaning": "Tamper 2 event detection is in potential mode(2)."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "TAMP1POM",
+            "description": "Tamper 1 potential mode 1. The effects of tamper detection in confirmed mode is described with tamp_confirmed signal in Table401: TAMP interconnection. 2. The effects of tamper detection in potential mode is described with tamp_potential signal in Table401: TAMP interconnection.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tamper 1 event detection is in confirmed mode(1)."
+              },
+              {
+                "value": "1",
+                "meaning": "Tamper 1 event detection is in potential mode(2)."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

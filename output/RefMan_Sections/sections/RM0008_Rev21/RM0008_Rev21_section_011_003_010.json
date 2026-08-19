@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S11.3.10",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "11",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "11.3.10",
+      "section_title": "Discontinuous mode",
+      "level": 3,
+      "parent_section": "11.3",
+      "page": 222,
+      "page_end": 223,
+      "semantic_type": "generic",
+      "features": [
+        "adc"
+      ],
+      "chars": 2372,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=222",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.3.10 \"Discontinuous mode\" in chapter 11 (Analog-to-digital converter (ADC)), RM0008 Rev 21, page 222.",
+      "section_content": "Regular group\nThis mode is enabled by setting the DISCEN bit in the ADC_CR1 register. It can be used to\nconvert a short sequence of n conversions (n <=8) which is a part of the sequence of\nconversions selected in the ADC_SQRx registers. The value of n is specified by writing to\nthe DISCNUM[2:0] bits in the ADC_CR1 register.\nWhen an external trigger occurs, it starts the next n conversions selected in the ADC_SQRx\nregisters until all the conversions in the sequence are done. The total sequence length is\ndefined by the L[3:0] bits in the ADC_SQR1 register.\nExample:\nn = 3, channels to be converted = 0, 1, 2, 3, 6, 7, 9, 10\nfirst trigger: sequence converted 0, 1, 2. An EOC event is generated at each\nconversion\nsecond trigger: sequence converted 3, 6, 7. An EOC event is generated at each\nconversion\nthird trigger: sequence converted 9, 10. An EOC event is generated at each conversion\nfourth trigger: sequence converted 0, 1, 2. An EOC event is generated at each\nconversion\nNote: When a regular group is converted in discontinuous mode, no rollover will occur. When all\nsub groups are converted, the next trigger starts conversion of the first sub-group.\nIn the example above, the fourth trigger reconverts the first sub-group channels 0, 1 and 2.\nInjected group\nThis mode is enabled by setting the JDISCEN bit in the ADC_CR1 register. It can be used to\nconvert the sequence selected in the ADC_JSQR register, channel by channel, after an\nexternal trigger event.\nWhen an external trigger occurs, it starts the next channel conversions selected in the\nADC_JSQR registers until all the conversions in the sequence are done. The total sequence\nlength is defined by the JL[1:0] bits in the ADC_JSQR register.\nExample:\nn = 1, channels to be converted = 1, 2, 3\nfirst trigger: channel 1 converted\nsecond trigger: channel 2 converted\nthird trigger: channel 3 converted and EOC and JEOC events generated\nfourth trigger: channel 1\nNote: When all injected channels are converted, the next trigger starts the conversion of the first\ninjected channel. In the example above, the fourth trigger reconverts the first injected\nchannel 1.\nIt is not possible to use both auto-injected and discontinuous modes simultaneously.\nThe user must avoid setting discontinuous mode for both regular and injected groups\ntogether. Discontinuous mode must be enabled only for one group conversion.",
+      "semantic": {}
+    }
+  ]
+}

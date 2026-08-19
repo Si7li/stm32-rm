@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.22",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.22",
+      "section_title": "Enabling the frame preemption function",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4146,
+      "page_end": 4147,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 2369,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4146",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.22 \"Enabling the frame preemption function\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4146.",
+      "section_content": "Receive-side programming\n1. Enable at least two Rx queues by programming the appropriate values in the Rx queue\ncontrol 0 register (ETH_MACRXQC0R); one queue for express and the other for\npreemption when preemption receive traffic is expected.\n2. Program the Rx queue control 1 register (ETH_MACRXQC1R), Rx queue control 2\nregister (ETH_MACRXQC2R) and Rx Queue control register (ETH_MACRXQCR) to\nroute the received packets to MTL Rx queues. Ensure that the preemptable traffic and\nexpress traffic are not routed to the same Rx queue.\nAs the queue mapping for tagged packets is based on VLAN user-priority field, the\npriority of preemptable and express packets must be exclusive to each other. In other\nwords, packets of a certain priority (traffic class) are either express or preemptable but\ncannot be both.\n3. Program the preemption residue queue (FPRQ[2:0] bitfield of the Rx queue control 1\nregister (ETH_MACRXQC1R)) to route all non-classified received preemptive packets,\nso that these packets are not routed to the default or residue queue for express\npackets, which is Rx Queue 0.\nTransmit-side programming\n1. Enable at least two Tx queues by programming appropriate values in the TXQEN[1:0]\nbitfield of the Tx queue x operating mode register (ETH_MTLTXQxOMR), one for\nexpress and the other for preemption (by setting the corresponding bit in the PEC\nbitfield of FPE Frame Preemption Control Status register (ETH_MTLFPECSR)) when\npreemption receive traffic is expected.\n2. Set the EFPE bit of the FPE control and status register (ETH_MACFPECSR) to enable\nthe preemption function in the transmitter.\n3. Program the AFSZ[1:0] bitfield of the FPE Frame Preemption Control Status register\n(ETH_MTLFPECSR) to set the minimum size of the non-final fragments.\n4. When 802.1Qbv/EST (Enhancement to Scheduled Traffic) is also enabled, follow the\nprogramming guidelines for EST and GCL.\n5. Program the Hold Advance (HADV[15:0]) and Release Advance (RADV[15:0]) bitfields\nof FPE Frame Preemption Advance register (ETH_MTLFPEAR) with how much early\nthe hold and release, respectively, must be initiated, so that the hold and release\nhappen at exactly the boundaries of GCL rows. The value of HADV[15:0] must be\nequal to the time required to transmit minimum_fragment_size+IPG/EIPG+Preamble\n(in nanosecond), so that the packet can be preempted before the hold window starts.",
+      "semantic": {}
+    }
+  ]
+}

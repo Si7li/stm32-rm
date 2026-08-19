@@ -1,0 +1,60 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.5.37",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.5.37",
+      "section_title": "FDCAN Tx buffer request pending register (FDCAN_TXBRP)",
+      "level": 3,
+      "parent_section": "71.5",
+      "page": 3712,
+      "page_end": 3712,
+      "semantic_type": "register_description",
+      "features": [
+        "fdcan",
+        "fdcan-txbrp",
+        "trp"
+      ],
+      "chars": 1820,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3712",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.5.37 \"FDCAN Tx buffer request pending register (FDCAN_TXBRP)\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3712.",
+      "section_content": "Address offset: 0x00CC\nReset value: 0x0000 0000\nBits 31:0 TRP[31:0]:Transmission request pending\nEach Tx buffer has its own transmission request pending bit. The bits are set via register\nFDCAN_TXBAR. The bits are reset after a requested transmission has completed or has been\ncanceled via register FDCAN_TXBCR.\nFDCAN_TXBRP bits are set only for those Tx buffers configured via FDCAN_TXBC. After an\nFDCAN_TXBRP bit has been set, a Tx scan (see Filtering for Debug messages) is started to check\nfor the pending Tx request with the highest priority (Tx buffer with lowest message ID).\nA cancellation request resets the corresponding transmission request pending bit of register\nFDCAN_TXBRP. In case a transmission has already been started when a cancellation is requested,\nthis is done at the end of the transmission, regardless whether the transmission was successful or\nnot. The cancellation request bits are reset directly after the corresponding FDCAN_TXBRP bit has\nbeen reset.\nAfter a cancellation has been requested, a finished cancellation is signaled via FDCAN_TXBCF\nafter successful transmission together with the corresponding FDCAN_TXBTO bit\nwhen the transmission has not yet been started at the point of cancellation\nwhen the transmission has been aborted due to lost arbitration\nwhen an error occurred during frame transmission\nIn DAR mode all transmissions are automatically canceled if they are not successful. The\ncorresponding FDCAN_TXBCF bit is set for all unsuccessful transmissions.\n0: No transmission request pending\n1: Transmission request pending\nNote: FDCAN_TXBRP bits set while a Tx scan is in progress are not considered during this\nparticular Tx scan. In case a cancellation is requested for such a Tx buffer, this add request\nis canceled immediately, the corresponding FDCAN_TXBRP bit is reset.",
+      "semantic": {
+        "register": "FDCAN_TXBRP",
+        "address_offset": "0x00CC",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:0",
+            "name": "TRP[31:0]",
+            "description": "Transmission request pending Each Tx buffer has its own transmission request pending bit. The bits are set via register FDCAN_TXBAR. The bits are reset after a requested transmission has completed or has been canceled via register FDCAN_TXBCR. FDCAN_TXBRP bits are set only for those Tx buffers configured via FDCAN_TXBC. After an FDCAN_TXBRP bit has been set, a Tx scan (see Filtering for Debug messages) is started to check for the pending Tx request with the highest priority (Tx buffer with lowest message ID). A cancellation request resets the corresponding transmission request pending bit of register FDCAN_TXBRP. In case a transmission has already been started when a cancellation is requested, this is done at the end of the transmission, regardless whether the transmission was successful or not. The cancellation request bits are reset directly after the corresponding FDCAN_TXBRP bit has been reset. After a cancellation has been requested, a finished cancellation is signaled via FDCAN_TXBCF after successful transmission together with the corresponding FDCAN_TXBTO bit when the transmission has not yet been started at the point of cancellation when the transmission has been aborted due to lost arbitration when an error occurred during frame transmission In DAR mode all transmissions are automatically canceled if they are not successful. The corresponding FDCAN_TXBCF bit is set for all unsuccessful transmissions. Note: FDCAN_TXBRP bits set while a Tx scan is in progress are not considered during this particular Tx scan. In case a cancellation is requested for such a Tx buffer, this add request is canceled immediately, the corresponding FDCAN_TXBRP bit is reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No transmission request pending"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmission request pending"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

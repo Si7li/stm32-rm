@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.4.11",
+      "section_title": "Channel selection (ADC_SQRy, ADC_JSQR)",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1481,
+      "page_end": 1481,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "adc-jsqr"
+      ],
+      "chars": 1928,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1481",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.11 \"Channel selection (ADC_SQRy, ADC_JSQR)\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1481.",
+      "section_content": "The ADC features up to 20 multiplexed channels per ADC, out of which:\n• Up to 17 analog inputs coming from GPIO pads (ADCx_INN/INP[i]). Depending on the\ndevice, not all of them are available on GPIO pads.\n• The ADC is connected to up to 4 internal analog inputs:\n– internal reference voltage (VREFINT)\n– VBAT monitoring channel (VBAT/4)\n– VREF+ positive reference voltage\n– VDDCORE voltage\nTo convert one of the internal analog channels, the corresponding analog sources must\nfirst be enabled by programming VREFEN, VBATEN in the ADCC_CCR registers, or by\nenabling the corresponding bit in the ADC option register (ADC_OR).\nRefer to ADC interconnection tables in Section32.4.2: ADC pins and internal signals for the\nconnection of the above internal analog inputs to ADC pins.\nThe conversions can be organized in two groups: regular and injected. A group consists of a\nsequence of conversions that can be done on any channel and in any order. For instance, it\nis possible to implement the conversion sequence in the following order: ADCx_INN/INP3,\nADCx_INN/INP8, ADCx_INN/INP2, ADCx_INN/INP2, ADCx_INN/INP0, ADCx_INN/INP2,\nand ADCx_INN/INP2.\n• A regular group is composed of up to 16 conversions. The regular channels and their\norder in the conversion sequence must be selected in the ADC_SQRy registers. The\ntotal number of conversions in the regular group must be written in the LEN[3:0] bits in\nthe ADC_SQR1 register.\n• An injected group is composed of up to four conversions. The injected channels and\ntheir order in the conversion sequence must be selected in the ADC_JSQR register.\nThe total number of conversions in the injected group must be written in the JLEN[1:0]\nbits in the ADC_JSQR register.\nADC_SQRy registers must not be modified while a regular conversion is ongoing. ADC\nregular conversions must consequently be stopped by setting ADSTP (refer to\nSection32.4.19: Stopping an ongoing conversion (ADSTP, JADSTP)).",
+      "semantic": {}
+    }
+  ]
+}

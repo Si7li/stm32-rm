@@ -1,0 +1,121 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S13.9.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "13",
+      "chapter_title": "Power control (PWR)",
+      "section": "13.9.5",
+      "section_title": "PWR voltage scaling control register (PWR_VOSCR)",
+      "level": 3,
+      "parent_section": "13.9",
+      "page": 388,
+      "page_end": 389,
+      "semantic_type": "register_description",
+      "features": [
+        "actvos",
+        "actvosrdy",
+        "power",
+        "pwr",
+        "pwr-voscr",
+        "vos",
+        "vosrdy"
+      ],
+      "chars": 1955,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=388",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.9.5 \"PWR voltage scaling control register (PWR_VOSCR)\" in chapter 13 (Power control (PWR)), RM0486 Rev 4, page 388.",
+      "section_content": "Address offset: 0x020\nReset value: 0x0002 0002\nReset on any system reset.\nSecure restriction is defined by SEC4 bit in PWR_SECCFGR. Privilege restriction is defined\nby PRIV4 bit in PWR_PRIVCFGR.\nBits 31:18 Reserved, must be kept at reset value.\nBit 17 ACTVOSRDY: Voltage level ready bit for currently used ACTVOS\nThis bit is set to 1 by hardware when the SMPS step-down converter is disabled\ninPWR_CR1.\n0: Voltage level invalid, above or below current ACTVOS\n1: Voltage level valid, at current ACTVOS\nBit 16 ACTVOS: VOS currently applied for VCORE voltage scaling selection\nWhen the SMPS step-down converter is disabled, this bit is tied to 0, when the converter is\nenabled, this bit reflects the last VOS value applied to the PMU.\n0: VOS low\n1: VOS high\nBits 15:2 Reserved, must be kept at reset value.\nBit 1 VOSRDY: VOS ready bit for VCORE voltage scaling output selection\nWhen the internal SMPS step-down converter is used, this bit indicates that all features\nallowed by the selected VOS can be used.\nThis bit is set to 1 by hardware when the SMPS step-down converter is disabled\ninPWR_CR1.\n0: Not ready, voltage level below VOS selected level\n1: Ready, voltage level at or above VOS selected level\nBit 0 VOS: Voltage scaling selection according to performance\nWhen the SMPS step-down converter is disabled, this bit has no impact on the external\nsupply voltage. It can be read/written to keep track of the external supply voltage setting.\nWhen the SMPS step-down converter is enabled this bit controls the VCORE voltage level,\nand is used to obtain the best trade-off between power consumption and performance:\n– When increasing the performance, the voltage scaling must be changed before increasing\nthe system frequency.\n– When decreasing performance, the system frequency must be decreased before changing\nthe voltage scaling.\n0: VOS low level (default)\n1: VOS high level\nNote: Refer to electrical characteristics in the datasheet for more details.",
+      "semantic": {
+        "register": "PWR_VOSCR",
+        "address_offset": "0x020",
+        "reset_value": "0x0002 0002",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "ACTVOSRDY",
+            "description": "Voltage level ready bit for currently used ACTVOS This bit is set to 1 by hardware when the SMPS step-down converter is disabled inPWR_CR1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Voltage level invalid, above or below current ACTVOS"
+              },
+              {
+                "value": "1",
+                "meaning": "Voltage level valid, at current ACTVOS"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "ACTVOS",
+            "description": "VOS currently applied for VCORE voltage scaling selection When the SMPS step-down converter is disabled, this bit is tied to 0, when the converter is enabled, this bit reflects the last VOS value applied to the PMU.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VOS low"
+              },
+              {
+                "value": "1",
+                "meaning": "VOS high"
+              }
+            ]
+          },
+          {
+            "bits": "15:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "VOSRDY",
+            "description": "VOS ready bit for VCORE voltage scaling output selection When the internal SMPS step-down converter is used, this bit indicates that all features allowed by the selected VOS can be used. This bit is set to 1 by hardware when the SMPS step-down converter is disabled inPWR_CR1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not ready, voltage level below VOS selected level"
+              },
+              {
+                "value": "1",
+                "meaning": "Ready, voltage level at or above VOS selected level"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "VOS",
+            "description": "Voltage scaling selection according to performance When the SMPS step-down converter is disabled, this bit has no impact on the external supply voltage. It can be read/written to keep track of the external supply voltage setting. When the SMPS step-down converter is enabled this bit controls the VCORE voltage level, and is used to obtain the best trade-off between power consumption and performance: – When increasing the performance, the voltage scaling must be changed before increasing the system frequency. – When decreasing performance, the system frequency must be decreased before changing the voltage scaling. Note: Refer to electrical characteristics in the datasheet for more details.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VOS low level (default)"
+              },
+              {
+                "value": "1",
+                "meaning": "VOS high level"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

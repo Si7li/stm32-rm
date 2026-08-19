@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.5.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.5.5",
+      "section_title": "NPU timeslicing",
+      "level": 3,
+      "parent_section": "3.5",
+      "page": 188,
+      "page_end": 189,
+      "semantic_type": "generic",
+      "features": [
+        "npu"
+      ],
+      "chars": 1285,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=188",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.5.5 \"NPU timeslicing\" in chapter 3 (System security), RM0486 Rev 4, page 188.",
+      "section_content": "If two AI networks come from different tenants who expect their data to be isolated from\neach other, a privileged software (trusted by both networks and running at a higher privilege\nor security level) must decide which tenant has exclusive use of the NPU at any given time.\nTheOS only opens the RISUP on the NPU configuration port to user accesses while this\nparticular tenant user process is running.\nBefore allocating exclusive NPU use to a tenant network, the secure OS arranges\nforthefollowing:\n• Reprogram all keys in the NPU.\n• Clean the internal NPU state (registers and internal RAM).\n• Program the NPU RIMC with a CID used in the RISAFs to protect the tenant data.\nThe RIMUs on the NPU initiator ports ensure that NPU accesses made on behalf of the\ntenant are made with the appropriate CID.\nNote: Any software that accesses the NPU configuration port thereby accesses any data that\ntheNPU accessed to. Each tenant trusts the secure OS to ensure that, while the NPU\noperates with a tenant CID, only the tenant software driver process accesses the NPU\nconfiguration port via the RISUP. When the secure OS switches to another tenant driver\nprocess, it must close the NPU RISUP: other processes cannot take control of the NPU\nwhile it is still processing the current tenant data.",
+      "semantic": {}
+    }
+  ]
+}

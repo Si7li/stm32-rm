@@ -1,0 +1,186 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.8.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.8.8",
+      "section_title": "LPDMA channel x transfer register 1 (LPDMA_CxTR1)",
+      "level": 3,
+      "parent_section": "14.8",
+      "page": 429,
+      "page_end": 430,
+      "semantic_type": "register_description",
+      "features": [
+        "ddw-log2",
+        "dinc",
+        "dma",
+        "lpdma",
+        "memory",
+        "pam",
+        "power",
+        "sdw-log2",
+        "sinc"
+      ],
+      "chars": 3567,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=429",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.8.8 \"LPDMA channel x transfer register 1 (LPDMA_CxTR1)\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 429.",
+      "section_content": "Address offset: 0x090 + 0x80 * x (x = 0 to 7)\nReset value: 0x0000 0000\nThis register is privileged or unprivileged, depending on the privileged state of the channel x\nin LPDMA_PRIVCFGR.PRIVx.\nThis register controls the transfer of a channel x.\nThis register must be written when LPDMA_CxCR.EN=0.\nThis register is read-only when LPDMA_CxCR.EN=1.\nThis register must be written when the channel is completed. Then the hardware has\ndeasserted LPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block or LLI or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by LPDMA\nfrom the memory if LPDMA_CxLLR.UT1=1.\nBit 31 Reserved, must be kept at reset value.\nBits 30:20 Reserved, must be kept at reset value.\nBit 19 DINC: destination incrementing single\n0: fixed single\n1: contiguously incremented single\nThe destination address, pointed by LPDMA_CxDAR, is kept constant after a single transfer,\nor is incremented by the offset value corresponding to a contiguous data after a single\ntransfer.\nBit 18 Reserved, must be kept at reset value.\nBits 17:16 DDW_LOG2[1:0]: binary logarithm of the destination data width of a single in bytes\n00: byte\n01: half-word (2 bytes)\n10: word (4 bytes)\n11: user setting error reported and no transfer issued\nNote: Setting a 8-byte data width causes a user setting error to be reported and none transfer\nis issued.\nA destination single transfer must have an aligned address with its data width (start\naddress LPDMA_CxDAR[2:0] versus DDW_LOG2[1:0]). Otherwise a user setting error\nis reported and none transfer is issued.\nBits 15:12 Reserved, must be kept at reset value.\nBit 11 PAM: padding/alignment mode\nIf DDW_LOG2[1:0] = SDW_LOG2[1:0]: if the data width of a single destination transfer is\nequal to the data width of a single source transfer, this bit is ignored.\nElse, in the following enumerated values, the condition PAM_1 is when destination data width\nis higher that source data width, and the condition PAM_2 is when destination data width is\nhigher than source data width.\nCondition: PAM_1\n0: source data is transferred as right aligned, padded with 0s up to the destination data width\n1: source data is transferred as right aligned, sign extended up to the destination data width\nCondition: PAM_2\n0: source data is transferred as right aligned, left-truncated down to the destination data width\n1: source data is transferred as left-aligned, right-truncated down to the destination data\nwidth\nBits 10:4 Reserved, must be kept at reset value.\nBit 3 SINC: source incrementing single\n0: fixed single\n1: contiguously incremented single\nThe source address, pointed by LPDMA_CxSAR, is kept constant after a single transfer or is\nincremented by the offset value corresponding to a contiguous data after a single transfer.\nBit 2 Reserved, must be kept at reset value.\nBits 1:0 SDW_LOG2[1:0]: binary logarithm of the source data width of a single in bytes\n00: byte\n01: half-word (2 bytes)\n10: word (4 bytes)\n11: user setting error reported and no transfer issued\nNote: Setting a 8-byte data width causes a user setting error to be reported and none transfer\nis issued.\na source block size must be a multiple of the source data width\n(LPDMA_CxBR1.BNDT[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is\nreported and no transfer is issued.\nA source single transfer must have an aligned address with its data width (start address\nLPDMA_CxSAR[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is\nreported and none transfer is issued.",
+      "semantic": {
+        "register": "LPDMA_CxTR1",
+        "address_offset": "0x090 + 0x80 * x (x = 0 to 7)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "DINC",
+            "description": "destination incrementing single The destination address, pointed by LPDMA_CxDAR, is kept constant after a single transfer, or is incremented by the offset value corresponding to a contiguous data after a single transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "fixed single"
+              },
+              {
+                "value": "1",
+                "meaning": "contiguously incremented single"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17:16",
+            "name": "DDW_LOG2[1:0]",
+            "description": "binary logarithm of the destination data width of a single in bytes Note: Setting a 8-byte data width causes a user setting error to be reported and none transfer is issued. A destination single transfer must have an aligned address with its data width (start address LPDMA_CxDAR[2:0] versus DDW_LOG2[1:0]). Otherwise a user setting error is reported and none transfer is issued.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "byte"
+              },
+              {
+                "value": "01",
+                "meaning": "half-word (2 bytes)"
+              },
+              {
+                "value": "10",
+                "meaning": "word (4 bytes)"
+              },
+              {
+                "value": "11",
+                "meaning": "user setting error reported and no transfer issued"
+              }
+            ]
+          },
+          {
+            "bits": "15:12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "PAM",
+            "description": "padding/alignment mode If DDW_LOG2[1:0] = SDW_LOG2[1:0]: if the data width of a single destination transfer is equal to the data width of a single source transfer, this bit is ignored. Else, in the following enumerated values, the condition PAM_1 is when destination data width is higher that source data width, and the condition PAM_2 is when destination data width is higher than source data width. Condition: PAM_1 Condition: PAM_2 width",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "source data is transferred as right aligned, padded with 0s up to the destination data width"
+              },
+              {
+                "value": "1",
+                "meaning": "source data is transferred as right aligned, sign extended up to the destination data width"
+              },
+              {
+                "value": "0",
+                "meaning": "source data is transferred as right aligned, left-truncated down to the destination data width"
+              },
+              {
+                "value": "1",
+                "meaning": "source data is transferred as left-aligned, right-truncated down to the destination data"
+              }
+            ]
+          },
+          {
+            "bits": "10:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "SINC",
+            "description": "source incrementing single The source address, pointed by LPDMA_CxSAR, is kept constant after a single transfer or is incremented by the offset value corresponding to a contiguous data after a single transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "fixed single"
+              },
+              {
+                "value": "1",
+                "meaning": "contiguously incremented single"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1:0",
+            "name": "SDW_LOG2[1:0]",
+            "description": "binary logarithm of the source data width of a single in bytes Note: Setting a 8-byte data width causes a user setting error to be reported and none transfer is issued. a source block size must be a multiple of the source data width (LPDMA_CxBR1.BNDT[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is reported and no transfer is issued. A source single transfer must have an aligned address with its data width (start address LPDMA_CxSAR[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is reported and none transfer is issued.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "byte"
+              },
+              {
+                "value": "01",
+                "meaning": "half-word (2 bytes)"
+              },
+              {
+                "value": "10",
+                "meaning": "word (4 bytes)"
+              },
+              {
+                "value": "11",
+                "meaning": "user setting error reported and no transfer issued"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

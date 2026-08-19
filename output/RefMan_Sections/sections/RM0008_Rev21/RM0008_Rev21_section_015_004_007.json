@@ -1,0 +1,367 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S15.4.7",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "15",
+      "chapter_title": "General-purpose timers (TIM2 to TIM5)",
+      "section": "15.4.7",
+      "section_title": "TIMx capture/compare mode register 1 (TIMx_CCMR1)",
+      "level": 3,
+      "parent_section": "15.4",
+      "page": 413,
+      "page_end": 415,
+      "semantic_type": "register_description",
+      "features": [
+        "cc1s",
+        "cc2s",
+        "ic1f",
+        "ic1psc",
+        "ic2f",
+        "ic2psc",
+        "oc1ce",
+        "oc1fe",
+        "oc1m",
+        "oc1pe",
+        "oc2ce",
+        "oc2fe",
+        "oc2m",
+        "oc2pe",
+        "timer"
+      ],
+      "chars": 7144,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=413",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 15.4.7 \"TIMx capture/compare mode register 1 (TIMx_CCMR1)\" in chapter 15 (General-purpose timers (TIM2 to TIM5)), RM0008 Rev 21, page 413.",
+      "section_content": "Address offset: 0x18\nReset value: 0x0000\nThe channels can be used in input (capture mode) or in output (compare mode). The\ndirection of a channel is defined by configuring the corresponding CCxS bits. All the other\nbits of this register have a different function in input and in output mode. For a given bit,\nOCxx describes its function when the channel is configured in output, ICxx describes its\nfunction when the channel is configured in input. Take care that the same bit can have a\ndifferent meaning for the input stage and for the output stage.\nOutput compare mode\nBit 15 OC2CE: Output compare 2 clear enable\nBits 14:12 OC2M[2:0]: Output compare 2 mode\nBit 11 OC2PE: Output compare 2 preload enable\nBit 10 OC2FE: Output compare 2 fast enable\nBits 9:8 CC2S[1:0]: Capture/Compare 2 selection\nThis bit-field defines the direction of the channel (input/output) as well as the used input.\n00: CC2 channel is configured as output\n01: CC2 channel is configured as input, IC2 is mapped on TI2\n10: CC2 channel is configured as input, IC2 is mapped on TI1\n11: CC2 channel is configured as input, IC2 is mapped on TRC. This mode is working only if\nan internal trigger input is selected through the TS bit (TIMx_SMCR register)\nNote: CC2S bits are writable only when the channel is OFF (CC2E = 0 in TIMx_CCER).\nBit 7 OC1CE: Output compare 1 clear enable\nOC1CE: Output compare 1 Clear Enable\n0: OC1Ref is not affected by the ETRF input\n1: OC1Ref is cleared as soon as a High level is detected on ETRF input\nBits 6:4 OC1M: Output compare 1 mode\nThese bits define the behavior of the output reference signal OC1REF from which OC1 and\nOC1N are derived. OC1REF is active high whereas OC1 and OC1N active level depends\non CC1P and CC1NP bits.\n000: Frozen - The comparison between the output compare register TIMx_CCR1 and the\ncounter TIMx_CNT has no effect on the outputs.(this mode is used to generate a timing\nbase).\n001: Set channel 1 to active level on match. OC1REF signal is forced high when the counter\nTIMx_CNT matches the capture/compare register 1 (TIMx_CCR1).\n010: Set channel 1 to inactive level on match. OC1REF signal is forced low when the\ncounter TIMx_CNT matches the capture/compare register 1 (TIMx_CCR1).\n011: Toggle - OC1REF toggles when TIMx_CNT=TIMx_CCR1.\n100: Force inactive level - OC1REF is forced low.\n101: Force active level - OC1REF is forced high.\n110: PWM mode 1 - In upcounting, channel 1 is active as long as TIMx_CNT<TIMx_CCR1\nelse inactive. In downcounting, channel 1 is inactive (OC1REF=‘0) as long as\nTIMx_CNT>TIMx_CCR1 else active (OC1REF=1).\n111: PWM mode 2 - In upcounting, channel 1 is inactive as long as TIMx_CNT<TIMx_CCR1\nelse active. In downcounting, channel 1 is active as long as TIMx_CNT>TIMx_CCR1 else\ninactive.\nNote: In PWM mode 1 or 2, the OCREF level changes only when the result of the\ncomparison changes or when the output compare mode switches from “frozen” mode\nto “PWM” mode.\nBit 3 OC1PE: Output compare 1 preload enable\n0: Preload register on TIMx_CCR1 disabled. TIMx_CCR1 can be written at anytime, the\nnew value is taken in account immediately.\n1: Preload register on TIMx_CCR1 enabled. Read/Write operations access the preload\nregister. TIMx_CCR1 preload value is loaded in the active register at each update event.\nNote: 1: These bits can not be modified as long as LOCK level 3 has been programmed\n(LOCK bits in TIMx_BDTR register) and CC1S=00 (the channel is configured in\noutput).\n2: The PWM mode can be used without validating the preload register only in one-\npulse mode (OPM bit set in TIMx_CR1 register). Else the behavior is not guaranteed.\nBit 2 OC1FE: Output compare 1 fast enable\nThis bit is used to accelerate the effect of an event on the trigger in input on the CC output.\n0: CC1 behaves normally depending on counter and CCR1 values even when the trigger is\nON. The minimum delay to activate CC1 output when an edge occurs on the trigger input is\n5 clock cycles.\n1: An active edge on the trigger input acts like a compare match on CC1 output. Then, OC\nis set to the compare level independently from the result of the comparison. Delay to sample\nthe trigger input and to activate CC1 output is reduced to 3 clock cycles. OCFE acts only if\nthe channel is configured in PWM1 or PWM2 mode.\nBits 1:0 CC1S: Capture/Compare 1 selection\nThis bit-field defines the direction of the channel (input/output) as well as the used input.\n00: CC1 channel is configured as output.\n01: CC1 channel is configured as input, IC1 is mapped on TI1.\n10: CC1 channel is configured as input, IC1 is mapped on TI2.\n11: CC1 channel is configured as input, IC1 is mapped on TRC. This mode is working only if\nan internal trigger input is selected through TS bit (TIMx_SMCR register)\nNote: CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIMx_CCER).\nInput capture mode\nBits 15:12 IC2F: Input capture 2 filter\nBits 11:10 IC2PSC[1:0]: Input capture 2 prescaler\nBits 9:8 CC2S: Capture/compare 2 selection\nThis bit-field defines the direction of the channel (input/output) as well as the used input.\n00: CC2 channel is configured as output.\n01: CC2 channel is configured as input, IC2 is mapped on TI2.\n10: CC2 channel is configured as input, IC2 is mapped on TI1.\n11: CC2 channel is configured as input, IC2 is mapped on TRC. This mode is working only if\nan internal trigger input is selected through TS bit (TIMx_SMCR register)\nNote: CC2S bits are writable only when the channel is OFF (CC2E = 0 in TIMx_CCER).\nBits 7:4 IC1F: Input capture 1 filter\nThis bit-field defines the frequency used to sample TI1 input and the length of the digital filter\napplied to TI1. The digital filter is made of an event counter in which N consecutive events\nare needed to validate a transition on the output:\n0000: No filter, sampling is done at fDTS\n0001: fSAMPLING=fCK_INT, N=2\n0010: fSAMPLING=fCK_INT, N=4\n0011: fSAMPLING=fCK_INT, N=8\n0100: fSAMPLING=fDTS/2, N=6\n0101: fSAMPLING=fDTS/2, N=8\n0110: fSAMPLING=fDTS/4, N=6\n0111: fSAMPLING=fDTS/4, N=8\n1000: fSAMPLING=fDTS/8, N=6\n1001: fSAMPLING=fDTS/8, N=8\n1010: fSAMPLING=fDTS/16, N=5\n1011: fSAMPLING=fDTS/16, N=6\n1100: fSAMPLING=fDTS/16, N=8\n1101: fSAMPLING=fDTS/32, N=5\n1110: fSAMPLING=fDTS/32, N=6\n1111: fSAMPLING=fDTS/32, N=8\nBits 3:2 IC1PSC: Input capture 1 prescaler\nThis bit-field defines the ratio of the prescaler acting on CC1 input (IC1).\nThe prescaler is reset as soon as CC1E=0 (TIMx_CCER register).\n00: no prescaler, capture is done each time an edge is detected on the capture input\n01: capture is done once every 2 events\n10: capture is done once every 4 events\n11: capture is done once every 8 events\nBits 1:0 CC1S: Capture/Compare 1 selection\nThis bit-field defines the direction of the channel (input/output) as well as the used input.\n00: CC1 channel is configured as output\n01: CC1 channel is configured as input, IC1 is mapped on TI1\n10: CC1 channel is configured as input, IC1 is mapped on TI2\n11: CC1 channel is configured as input, IC1 is mapped on TRC. This mode is working only if\nan internal trigger input is selected through TS bit (TIMx_SMCR register)\nNote: CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIMx_CCER).",
+      "semantic": {
+        "register": "TIMx_CCMR1",
+        "address_offset": "0x18",
+        "reset_value": "0x0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "15",
+            "name": "OC2CE",
+            "description": "Output compare 2 clear enable",
+            "values": []
+          },
+          {
+            "bits": "14:12",
+            "name": "OC2M[2:0]",
+            "description": "Output compare 2 mode",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "OC2PE",
+            "description": "Output compare 2 preload enable",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "OC2FE",
+            "description": "Output compare 2 fast enable",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "CC2S[1:0]",
+            "description": "Capture/Compare 2 selection This bit-field defines the direction of the channel (input/output) as well as the used input. an internal trigger input is selected through the TS bit (TIMx_SMCR register) Note: CC2S bits are writable only when the channel is OFF (CC2E = 0 in TIMx_CCER).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CC2 channel is configured as output"
+              },
+              {
+                "value": "01",
+                "meaning": "CC2 channel is configured as input, IC2 is mapped on TI2"
+              },
+              {
+                "value": "10",
+                "meaning": "CC2 channel is configured as input, IC2 is mapped on TI1"
+              },
+              {
+                "value": "11",
+                "meaning": "CC2 channel is configured as input, IC2 is mapped on TRC. This mode is working only if"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "OC1CE",
+            "description": "Output compare 1 clear enable OC1CE: Output compare 1 Clear Enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OC1Ref is not affected by the ETRF input"
+              },
+              {
+                "value": "1",
+                "meaning": "OC1Ref is cleared as soon as a High level is detected on ETRF input"
+              }
+            ]
+          },
+          {
+            "bits": "6:4",
+            "name": "OC1M",
+            "description": "Output compare 1 mode These bits define the behavior of the output reference signal OC1REF from which OC1 and OC1N are derived. OC1REF is active high whereas OC1 and OC1N active level depends on CC1P and CC1NP bits. counter TIMx_CNT has no effect on the outputs.(this mode is used to generate a timing base). TIMx_CNT matches the capture/compare register 1 (TIMx_CCR1). counter TIMx_CNT matches the capture/compare register 1 (TIMx_CCR1). else inactive. In downcounting, channel 1 is inactive (OC1REF=‘0) as long as TIMx_CNT>TIMx_CCR1 else active (OC1REF=1). else active. In downcounting, channel 1 is active as long as TIMx_CNT>TIMx_CCR1 else inactive. Note: In PWM mode 1 or 2, the OCREF level changes only when the result of the comparison changes or when the output compare mode switches from “frozen” mode to “PWM” mode.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Frozen - The comparison between the output compare register TIMx_CCR1 and the"
+              },
+              {
+                "value": "001",
+                "meaning": "Set channel 1 to active level on match. OC1REF signal is forced high when the counter"
+              },
+              {
+                "value": "010",
+                "meaning": "Set channel 1 to inactive level on match. OC1REF signal is forced low when the"
+              },
+              {
+                "value": "011",
+                "meaning": "Toggle - OC1REF toggles when TIMx_CNT=TIMx_CCR1."
+              },
+              {
+                "value": "100",
+                "meaning": "Force inactive level - OC1REF is forced low."
+              },
+              {
+                "value": "101",
+                "meaning": "Force active level - OC1REF is forced high."
+              },
+              {
+                "value": "110",
+                "meaning": "PWM mode 1 - In upcounting, channel 1 is active as long as TIMx_CNT<TIMx_CCR1"
+              },
+              {
+                "value": "111",
+                "meaning": "PWM mode 2 - In upcounting, channel 1 is inactive as long as TIMx_CNT<TIMx_CCR1"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "OC1PE",
+            "description": "Output compare 1 preload enable new value is taken in account immediately. register. TIMx_CCR1 preload value is loaded in the active register at each update event. Note: 1: These bits can not be modified as long as LOCK level 3 has been programmed (LOCK bits in TIMx_BDTR register) and CC1S=00 (the channel is configured in output). pulse mode (OPM bit set in TIMx_CR1 register). Else the behavior is not guaranteed.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Preload register on TIMx_CCR1 disabled. TIMx_CCR1 can be written at anytime, the"
+              },
+              {
+                "value": "1",
+                "meaning": "Preload register on TIMx_CCR1 enabled. Read/Write operations access the preload"
+              },
+              {
+                "value": "2",
+                "meaning": "The PWM mode can be used without validating the preload register only in one-"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "OC1FE",
+            "description": "Output compare 1 fast enable This bit is used to accelerate the effect of an event on the trigger in input on the CC output. ON. The minimum delay to activate CC1 output when an edge occurs on the trigger input is 5 clock cycles. is set to the compare level independently from the result of the comparison. Delay to sample the trigger input and to activate CC1 output is reduced to 3 clock cycles. OCFE acts only if the channel is configured in PWM1 or PWM2 mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CC1 behaves normally depending on counter and CCR1 values even when the trigger is"
+              },
+              {
+                "value": "1",
+                "meaning": "An active edge on the trigger input acts like a compare match on CC1 output. Then, OC"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "CC1S",
+            "description": "Capture/Compare 1 selection This bit-field defines the direction of the channel (input/output) as well as the used input. an internal trigger input is selected through TS bit (TIMx_SMCR register) Note: CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIMx_CCER). Input capture mode",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CC1 channel is configured as output."
+              },
+              {
+                "value": "01",
+                "meaning": "CC1 channel is configured as input, IC1 is mapped on TI1."
+              },
+              {
+                "value": "10",
+                "meaning": "CC1 channel is configured as input, IC1 is mapped on TI2."
+              },
+              {
+                "value": "11",
+                "meaning": "CC1 channel is configured as input, IC1 is mapped on TRC. This mode is working only if"
+              }
+            ]
+          },
+          {
+            "bits": "15:12",
+            "name": "IC2F",
+            "description": "Input capture 2 filter",
+            "values": []
+          },
+          {
+            "bits": "11:10",
+            "name": "IC2PSC[1:0]",
+            "description": "Input capture 2 prescaler",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "CC2S",
+            "description": "Capture/compare 2 selection This bit-field defines the direction of the channel (input/output) as well as the used input. an internal trigger input is selected through TS bit (TIMx_SMCR register) Note: CC2S bits are writable only when the channel is OFF (CC2E = 0 in TIMx_CCER).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CC2 channel is configured as output."
+              },
+              {
+                "value": "01",
+                "meaning": "CC2 channel is configured as input, IC2 is mapped on TI2."
+              },
+              {
+                "value": "10",
+                "meaning": "CC2 channel is configured as input, IC2 is mapped on TI1."
+              },
+              {
+                "value": "11",
+                "meaning": "CC2 channel is configured as input, IC2 is mapped on TRC. This mode is working only if"
+              }
+            ]
+          },
+          {
+            "bits": "7:4",
+            "name": "IC1F",
+            "description": "Input capture 1 filter This bit-field defines the frequency used to sample TI1 input and the length of the digital filter applied to TI1. The digital filter is made of an event counter in which N consecutive events are needed to validate a transition on the output:",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "No filter, sampling is done at fDTS"
+              },
+              {
+                "value": "0001",
+                "meaning": "fSAMPLING=fCK_INT, N=2"
+              },
+              {
+                "value": "0010",
+                "meaning": "fSAMPLING=fCK_INT, N=4"
+              },
+              {
+                "value": "0011",
+                "meaning": "fSAMPLING=fCK_INT, N=8"
+              },
+              {
+                "value": "0100",
+                "meaning": "fSAMPLING=fDTS/2, N=6"
+              },
+              {
+                "value": "0101",
+                "meaning": "fSAMPLING=fDTS/2, N=8"
+              },
+              {
+                "value": "0110",
+                "meaning": "fSAMPLING=fDTS/4, N=6"
+              },
+              {
+                "value": "0111",
+                "meaning": "fSAMPLING=fDTS/4, N=8"
+              },
+              {
+                "value": "1000",
+                "meaning": "fSAMPLING=fDTS/8, N=6"
+              },
+              {
+                "value": "1001",
+                "meaning": "fSAMPLING=fDTS/8, N=8"
+              },
+              {
+                "value": "1010",
+                "meaning": "fSAMPLING=fDTS/16, N=5"
+              },
+              {
+                "value": "1011",
+                "meaning": "fSAMPLING=fDTS/16, N=6"
+              },
+              {
+                "value": "1100",
+                "meaning": "fSAMPLING=fDTS/16, N=8"
+              },
+              {
+                "value": "1101",
+                "meaning": "fSAMPLING=fDTS/32, N=5"
+              },
+              {
+                "value": "1110",
+                "meaning": "fSAMPLING=fDTS/32, N=6"
+              },
+              {
+                "value": "1111",
+                "meaning": "fSAMPLING=fDTS/32, N=8"
+              }
+            ]
+          },
+          {
+            "bits": "3:2",
+            "name": "IC1PSC",
+            "description": "Input capture 1 prescaler This bit-field defines the ratio of the prescaler acting on CC1 input (IC1). The prescaler is reset as soon as CC1E=0 (TIMx_CCER register).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "no prescaler, capture is done each time an edge is detected on the capture input"
+              },
+              {
+                "value": "01",
+                "meaning": "capture is done once every 2 events"
+              },
+              {
+                "value": "10",
+                "meaning": "capture is done once every 4 events"
+              },
+              {
+                "value": "11",
+                "meaning": "capture is done once every 8 events"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "CC1S",
+            "description": "Capture/Compare 1 selection This bit-field defines the direction of the channel (input/output) as well as the used input. an internal trigger input is selected through TS bit (TIMx_SMCR register) Note: CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIMx_CCER).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CC1 channel is configured as output"
+              },
+              {
+                "value": "01",
+                "meaning": "CC1 channel is configured as input, IC1 is mapped on TI1"
+              },
+              {
+                "value": "10",
+                "meaning": "CC1 channel is configured as input, IC1 is mapped on TI2"
+              },
+              {
+                "value": "11",
+                "meaning": "CC1 channel is configured as input, IC1 is mapped on TRC. This mode is working only if"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

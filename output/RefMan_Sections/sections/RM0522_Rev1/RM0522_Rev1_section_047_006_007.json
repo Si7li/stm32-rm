@@ -1,0 +1,210 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S47.6.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "47",
+      "chapter_title": "Universal serial bus full-speed host/device interface (USB)",
+      "section": "47.6.7",
+      "section_title": "USB endpoint/channel n register (USB_CHEPnR)",
+      "level": 3,
+      "parent_section": "47.6",
+      "page": 2118,
+      "page_end": 2125,
+      "semantic_type": "register_description",
+      "features": [
+        "devaddr",
+        "dtogrx",
+        "dtogtx",
+        "epkind",
+        "err-rx",
+        "err-tx",
+        "ls-ep",
+        "nak",
+        "setup",
+        "statrx",
+        "stattx",
+        "three-err-rx",
+        "three-err-tx",
+        "usb",
+        "utype",
+        "vtrx",
+        "vttx"
+      ],
+      "chars": 18700,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2118",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 47.6.7 \"USB endpoint/channel n register (USB_CHEPnR)\" in chapter 47 (Universal serial bus full-speed host/device interface (USB)), RM0522 Rev 1, page 2118.",
+      "section_content": "Address offset: 0x00 + 0x4 * n, (n = 0 to 7)\nReset value: 0x00000000\nThe USB peripheral supports up to 8 bidirectional endpoints or host channels. Each USB\nDevice must support a control endpoint/channel whose address (EA bits) must be set to 0.\nThe USB peripheral behaves in an undefined way if multiple endpoints are enabled having\nthe same endpoint/channel number value. For each endpoint, an USB_CHEPnR register is\navailable to store the endpoint/channel specific information.\nThey are also reset when an USB reset is received from the USB bus or forced through bit\nUSBRST in the CTLR register, except the VTRX and VTTX bits, which are kept unchanged\nto avoid missing a correct packet notification immediately followed by an USB reset event.\nEach endpoint/channel has its USB_CHEPnR register where n is the endpoint/channel\nidentifier.\nRead-modify-write cycles on these registers must be avoided because between the read\nand the write operations some bits can be set by the hardware and the next write would\nmodify them before the CPU has the time to detect the change. For this purpose, all bits\naffected by this problem have an ‘invariant’ value that must be used whenever their\nmodification is not required. It is recommended to modify these registers with a load\ninstruction where all the bits, which can be modified only by the hardware, are written with\ntheir ‘invariant’ value.\nBit 31 Reserved, must be kept at reset value.\nBits 30:29 THREE_ERR_RX[1:0]: Three errors for an IN transaction\n– Host mode\nThis bit is set by the hardware when 3 consecutive transaction errors occurred on the USB\nbus for an IN transaction. THREE_ERR_RX is not generated for isochronous transactions.\nThe software can only clear this bit.\nCoding of the received error:\n00:Less than 3 errors received.\n01:More than 3 errors received, last error is timeout error.\n10:More than 3 errors received, last error is data error (CRC error).\n11:More than 3 errors received, last error is protocol error (invalid PID, false EOP, bitstuffing\nerror, SYNC error).\nBits 28:27 THREE_ERR_TX[1:0]: Three errors for an OUT or SETUP transaction\n– Host mode\nThis bit is set by the hardware when 3 consecutive transaction errors occurred on the USB\nbus for an OUT transaction. THREE_ERR_TX is not generated for isochronous\ntransactions. The software can only clear this bit.\nCoding of the received error:\n00:Less than 3 errors received.\n01:More than 3 errors received, last error is timeout error.\n10:More than 3 errors received, last error is data error (CRC error).\n11:More than 3 errors received, last error is protocol error (invalid PID, false EOP, bitstuffing\nerror, SYNC error).\nBit 26 ERR_RX: Received error for an IN transaction\n– Host mode\nThis bit is set by the hardware when an error (for example no answer by the device, CRC\nerror, bit stuffing error, framing format violation, etc.) has occurred during an IN transaction\non this channel. The software can only clear this bit. If the ERRM bit in USB_CNTR register\nis set, a generic interrupt condition is generated together with the channel related flag, which\nis always activated.\nBit 25 ERR_TX: Received error for an OUT/SETUP transaction\n– Host mode\nThis bit is set by the hardware when an error (for example no answer by the device, CRC\nerror, bit stuffing error, framing format violation, etc.) has occurred during an OUT or SETUP\ntransaction on this channel. The software can only clear this bit. If the ERRM bit in\nUSB_CNTR register is set, a generic interrupt condition is generated together with the\nchannel related flag, which is always activated.\nBit 24 LS_EP: Low speed endpoint – host with HUB only\n– Host mode\nThis bit is set by the software to send an LS transaction to the corresponding endpoint.\n0: Full speed endpoint\n1: Low speed endpoint\nBit 23 NAK:\n– Host mode\nThis bit is set by the hardware when a device responds with a NAK. Software can use this bit\nto monitor the number of NAKs received from a device.\nBits 22:16 DEVADDR[6:0]:\n– Host mode\nDevice address assigned to the endpoint during the enumeration process.\nBit 15 VTRX: USB valid transaction received\n– Device mode\nThis bit is set by the hardware when an OUT/SETUP transaction is successfully completed\non this endpoint; the software can only clear this bit. If the CTRM bit in USB_CNTR register\nis set accordingly, a generic interrupt condition is generated together with the endpoint\nrelated interrupt condition, which is always activated. The type of occurred transaction, OUT\nor SETUP, can be determined from the SETUP bit described below.\nA transaction ended with a NAK or STALL handshake does not set this bit, since no data is\nactually transferred, as in the case of protocol errors or data toggle mismatches.\nThis bit is read/write but only 0 can be written, writing 1 has no effect.\n– Host mode\nThis bit is set by the hardware when an IN transaction is successfully completed on this\nchannel. The software can only clear this bit. If the CTRM bit in USB_CNTR register is set a\ngeneric interrupt condition is generated together with the channel related flag, which is\nalways activated.\n- A transaction ended with a NAK sets this bit and NAK answer is reported to application\nreading the NAK state from the STATRX field of this register. One NAKed transaction keeps\npending and is automatically retried by the host at the next frame, or the host can\nimmediately retry by resetting STATRX state to VALID.\n- A transaction ended by STALL handshake sets this bit and the STALL answer is reported\nto application reading the STALL state from the STATRX field of this register. Host\napplication must consequently disable the channel and re-enumerate.\n- A transaction ended with ACK handshake sets this bit\nIf double buffering is disabled, ACK answer is reported by application reading the DISABLE\nstate from the STATRX field of this register. Host application must read received data from\nUSBRAM and re-arm the channel by writing VALID to the STATRX field of this register.\nIf double buffering is enabled, ACK answer is reported by application reading VALID state\nfrom the STATRX field of this register. Host application must read received data from\nUSBRAM and toggle the DTOGTX bit of this register.\n- A transaction ended with error sets this bit.\nErrors can be seen via the bits ERR_RX (host mode only).\nThis bit is read/write but only 0 can be written, writing 1 has no effect.\nBit 14 DTOGRX: Data Toggle, for reception transfers\nIf the endpoint/channel is not isochronous, this bit contains the expected value of the data\ntoggle bit (0=DATA0, 1=DATA1) for the next data packet to be received. Hardware toggles\nthis bit, when the ACK handshake is sent following a data packet reception having a\nmatching data PID value; if the endpoint is defined as a control one, hardware clears this bit\nat the reception of a SETUP PID received from host (in device mode), while it sets this bit to\n1 when SETUP transaction is acknowledged by device (in host mode).\nIf the endpoint/channel is using the double-buffering feature this bit is used to support packet\nbuffer swapping too (Refer to Section47.5.3: Double-buffered endpoints and usage in\nDevice mode).\nIf the endpoint/channel is isochronous, this bit is used only to support packet buffer\nswapping for data transmission since no data toggling is used for this kind of\nchannels/endpoints and only DATA0 packet are transmitted (Refer to Section47.5.5:\nIsochronous transfers in Device mode). Hardware toggles this bit just after the end of data\npacket reception, since no handshake is used for isochronous transfers.\nThis bit can also be toggled by the software to initialize its value (mandatory when the\nendpoint is not a control one) or to force specific data toggle/packet buffer usage. When the\napplication software writes 0, the value of DTOGRX remains unchanged, while writing 1\nmakes the bit value toggle. This bit is read/write but it can be only toggled by writing 1.\nBits 13:12 STATRX[1:0]: Status bits, for reception transfers\n– Device mode\nThese bits contain information about the endpoint status, which are listed in Table495:\nReception status encoding on page2125. These bits can be toggled by software to initialize\ntheir value. When the application software writes 0, the value remains unchanged, while\nwriting 1 makes the bit value to toggle. Hardware sets the STATRX bits to NAK when a\ncorrect transfer has occurred (VTRX=1) corresponding to a OUT or SETUP (control only)\ntransaction addressed to this endpoint, so the software has the time to elaborate the\nreceived data before it acknowledges a new transaction.\nDouble-buffered bulk endpoints implement a special transaction flow control, which control\nthe status based upon buffer availability condition (Refer to Section47.5.3: Double-buffered\nendpoints and usage in Device mode).\nIf the endpoint is defined as isochronous, its status can be only “VALID” or “DISABLED”, so\nthat the hardware cannot change the status of the endpoint after a successful transaction. If\nthe software sets the STATRX bits to ‘STALL’ or ‘NAK’ for an isochronous endpoint, the USB\nperipheral behavior is not defined. These bits are read/write but they can be only toggled by\nwriting 1.\n– Host mode\nThese bits are the host application controls to start, retry, or abort host transactions driven\nby the channel.\nThese bits also contain information about the device answer to the last IN channel\ntransaction and report the current status of the channel according to the following STATRX\ntable of states:\n-DISABLE\nDISABLE value is reported in case of ACK acknowledge is received on a single-buffer\nchannel. When in DISABLE state the channel is unused or not active waiting for application\nto restart it by writing VALID. Application can reset a VALID channel to DISABLE to abort a\ntransaction. In this case the transaction is immediately removed from the host execution\nlist. If the aborted transaction was already under execution it is regularly terminated on the\nUSB but the relative VTRX interrupt is not generated.\n-VALID\nA host channel is actively trying to submit USB transaction to device only when in VALID\nstate.VALID state can be set by software or automatically by hardware on a NAKED\nchannel at the start of a new frame. When set to VALID, an host channel enters the host\nexecution queue and waits permission from the host frame scheduler to submit its\nconfigured transaction.\nVALID value is also reported in case of ACK acknowledge is received on a double-buffered\nchannel. In this case the channel remains active on the alternate buffer while application\nneeds to read the current buffer and toggle DTOGTX. In case software is late in reading\nand the alternate buffer is not ready, the host channel is automatically suspended\ntransparently to the application. The suspended double buffered channel is re-activated as\nsoon as delay is recovered and DTOGTX is toggled.\n- NAK\nNAK value is reported in case of NAK acknowledge received. When in NAK state the\nchannel is suspended and does not try to transmit. NAK state is moved to VALID by\nhardware at the start of the next frame, or software can change it to immediately retry\ntransmission by writing it to VALID, or can disable it and abort the transaction by writing\nDISABLE\n- STALL\nSTALL value is reported in case of STALL acknowledge received. When in STALL state the\nchannel behaves as disabled. Application must not retry transmission but reset the USB\nand re-enumerate.\nBit 11 SETUP: Setup transaction completed\n– Device mode\nThis bit is read-only and it is set by the hardware when the last completed transaction is a\nSETUP. This bit changes its value only for control endpoints. It must be examined, in the\ncase of a successful receive transaction (VTRX event), to determine the type of transaction\noccurred. To protect the interrupt service routine from the changes in SETUP bits due to\nnext incoming tokens, this bit is kept frozen while VTRX bit is at 1; its state changes when\nVTRX is at 0. This bit is read-only.\n– Host mode\nThis bit is set by the software to send a SETUP transaction on a control endpoint. This bit\nchanges its value only for control endpoints. It is cleared by hardware when the SETUP\ntransaction is acknowledged and VTTX interrupt generated.\nBits 10:9 UTYPE[1:0]: USB type of transaction\nThese bits configure the behavior of this endpoint/channel as described in Table496:\nEndpoint/channel type encoding. Channel0/Endpoint0 must always be a control\nendpoint/channel and each USB function must have at least one control endpoint/channel\nwhich has address 0, but there can be other control channels/endpoints if required. Only\ncontrol channels/endpoints handle SETUP transactions, which are ignored by endpoints of\nother kinds. SETUP transactions cannot be answered with NAK or STALL. If a control\nendpoint/channel is defined as NAK, the USB peripheral does not answer, simulating a\nreceive error, in the receive direction when a SETUP transaction is received. If the control\nendpoint/channel is defined as STALL in the receive direction, then the SETUP packet is\naccepted anyway, transferring data and issuing the CTR interrupt. The reception of OUT\ntransactions is handled in the normal way, even if the endpoint/channel is a control one.\nBulk and interrupt endpoints have very similar behavior and they differ only in the special\nfeature available using the EPKIND configuration bit.\nThe usage of isochronous channels/endpoints is explained in Section47.5.5: Isochronous\ntransfers in Device mode\nBit 8 EPKIND: endpoint/channel kind\nThe meaning of this bit depends on the endpoint/channel type configured by the UTYPE\nbits. Table497 summarizes the different meanings.\nDBL_BUF: This bit is set by the software to enable the double-buffering feature for this bulk\nendpoint. The usage of double-buffered bulk endpoints is explained in Section47.5.3:\nDouble-buffered endpoints and usage in Device mode.\nSTATUS_OUT: This bit is set by the software to indicate that a status out transaction is\nexpected: in this case all OUT transactions containing more than zero data bytes are\nanswered ‘STALL’ instead of ‘ACK’. This bit can be used to improve the robustness of the\napplication to protocol errors during control transfers and its usage is intended for control\nendpoints only. When STATUS_OUT is reset, OUT transactions can have any number of\nbytes, as required.\nBit 7 VTTX: Valid USB transaction transmitted\n– Device mode\nThis bit is set by the hardware when an IN transaction is successfully completed on this\nendpoint; the software can only clear this bit. If the CTRM bit in the USB_CNTR register is\nset accordingly, a generic interrupt condition is generated together with the endpoint related\ninterrupt condition, which is always activated.\nA transaction ended with a NAK or STALL handshake does not set this bit, since no data is\nactually transferred, as in the case of protocol errors or data toggle mismatches.\nThis bit is read/write but only 0 can be written.\n– Host mode\nSame as VTRX behavior but for USB OUT and SETUP transactions.\nBit 6 DTOGTX: Data toggle, for transmission transfers\nIf the endpoint/channel is non-isochronous, this bit contains the required value of the data\ntoggle bit (0=DATA0, 1=DATA1) for the next data packet to be transmitted. Hardware\ntoggles this bit when the ACK handshake is received from the USB host, following a data\npacket transmission. If the endpoint/channel is defined as a control one, hardware sets this\nbit to 1 at the reception of a SETUP PID addressed to this endpoint (in device mode) or\nwhen a SETUP transaction is acknowledged by the device (in host mode).\nIf the endpoint/channel is using the double buffer feature, this bit is used to support packet\nbuffer swapping too (Refer to Section47.5.3: Double-buffered endpoints and usage in\nDevice mode).\nIf the endpoint/channel is isochronous, this bit is used to support packet buffer swapping\nsince no data toggling is used for this sort of endpoints and only DATA0 packet are\ntransmitted (refer to Section47.5.5: Isochronous transfers in Device mode). Hardware\ntoggles this bit just after the end of data packet transmission, since no handshake is used for\nisochronous transfers.\nThis bit can also be toggled by the software to initialize its value (mandatory when the\nendpoint/channel is not a control one) or to force a specific data toggle/packet buffer usage.\nWhen the application software writes 0, the value of DTOGTX remains unchanged, while\nwriting 1 makes the bit value to toggle. This bit is read/write but it can only be toggled by\nwriting 1.\nBits 5:4 STATTX[1:0]: Status bits, for transmission transfers\n– Device mode\nThese bits contain the information about the endpoint status, listed in Table498. These bits\ncan be toggled by the software to initialize their value. When the application software writes\n0, the value remains unchanged, while writing 1 makes the bit value to toggle. Hardware\nsets the STATTX bits to NAK, when a correct transfer has occurred (VTTX=1)\ncorresponding to a IN or SETUP (control only) transaction addressed to this\nchannel/endpoint. It then waits for the software to prepare the next set of data to be\ntransmitted.\nDouble-buffered bulk endpoints implement a special transaction flow control, which controls\nthe status based on buffer availability condition (Refer to Section47.5.3: Double-buffered\nendpoints and usage in Device mode).\nIf the endpoint is defined as isochronous, its status can only be “VALID” or “DISABLED”.\nTherefore, the hardware cannot change the status of the channel/endpoint/channel after a\nsuccessful transaction. If the software sets the STATTX bits to ‘STALL’ or ‘NAK’ for an\nisochronous channel/endpoint, the USB peripheral behavior is not defined. These bits are\nread/write but they can be only toggled by writing 1.\n– Host mode\nThe STATTX bits contain the information about the channel status. Refer to Table498 for the\nfull descriptions (“Host mode” descriptions). Whereas in Device mode, these bits contain the\nstatus that are given out on the following transaction, in Host mode they capture the status\nlast received from the device. If a NAK is received, STATTX contains the value indicating\nNAK.\nBits 3:0 EA[3:0]: endpoint/channel address\n– Device mode\nSoftware must write in this field the 4-bit address used to identify the transactions directed to\nthis endpoint. A value must be written before enabling the corresponding endpoint.\n– Host mode\nSoftware must write in this field the 4-bit address used to identify the channel addressed by\nthe host transaction.\n[Table 495. Reception status encoding]\n[Table 496. Endpoint/channel type encoding]\n[Table 497. Endpoint/channel kind meaning]\n[Table 498. Transmission status encoding]",
+      "semantic": {
+        "register": "USB_CHEPnR",
+        "address_offset": "0x00 + 0x4 * n, (n = 0 to 7)",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30:29",
+            "name": "THREE_ERR_RX[1:0]",
+            "description": "Three errors for an IN transaction – Host mode This bit is set by the hardware when 3 consecutive transaction errors occurred on the USB bus for an IN transaction. THREE_ERR_RX is not generated for isochronous transactions. The software can only clear this bit. Coding of the received error: error, SYNC error).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Less than 3 errors received."
+              },
+              {
+                "value": "01",
+                "meaning": "More than 3 errors received, last error is timeout error."
+              },
+              {
+                "value": "10",
+                "meaning": "More than 3 errors received, last error is data error (CRC error)."
+              },
+              {
+                "value": "11",
+                "meaning": "More than 3 errors received, last error is protocol error (invalid PID, false EOP, bitstuffing"
+              }
+            ]
+          },
+          {
+            "bits": "28:27",
+            "name": "THREE_ERR_TX[1:0]",
+            "description": "Three errors for an OUT or SETUP transaction – Host mode This bit is set by the hardware when 3 consecutive transaction errors occurred on the USB bus for an OUT transaction. THREE_ERR_TX is not generated for isochronous transactions. The software can only clear this bit. Coding of the received error: error, SYNC error).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Less than 3 errors received."
+              },
+              {
+                "value": "01",
+                "meaning": "More than 3 errors received, last error is timeout error."
+              },
+              {
+                "value": "10",
+                "meaning": "More than 3 errors received, last error is data error (CRC error)."
+              },
+              {
+                "value": "11",
+                "meaning": "More than 3 errors received, last error is protocol error (invalid PID, false EOP, bitstuffing"
+              }
+            ]
+          },
+          {
+            "bits": "26",
+            "name": "ERR_RX",
+            "description": "Received error for an IN transaction – Host mode This bit is set by the hardware when an error (for example no answer by the device, CRC error, bit stuffing error, framing format violation, etc.) has occurred during an IN transaction on this channel. The software can only clear this bit. If the ERRM bit in USB_CNTR register is set, a generic interrupt condition is generated together with the channel related flag, which is always activated.",
+            "values": []
+          },
+          {
+            "bits": "25",
+            "name": "ERR_TX",
+            "description": "Received error for an OUT/SETUP transaction – Host mode This bit is set by the hardware when an error (for example no answer by the device, CRC error, bit stuffing error, framing format violation, etc.) has occurred during an OUT or SETUP transaction on this channel. The software can only clear this bit. If the ERRM bit in USB_CNTR register is set, a generic interrupt condition is generated together with the channel related flag, which is always activated.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "LS_EP",
+            "description": "Low speed endpoint – host with HUB only – Host mode This bit is set by the software to send an LS transaction to the corresponding endpoint.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Full speed endpoint"
+              },
+              {
+                "value": "1",
+                "meaning": "Low speed endpoint"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "NAK",
+            "description": "– Host mode This bit is set by the hardware when a device responds with a NAK. Software can use this bit to monitor the number of NAKs received from a device.",
+            "values": []
+          },
+          {
+            "bits": "22:16",
+            "name": "DEVADDR[6:0]",
+            "description": "– Host mode Device address assigned to the endpoint during the enumeration process.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "VTRX",
+            "description": "USB valid transaction received – Device mode This bit is set by the hardware when an OUT/SETUP transaction is successfully completed on this endpoint; the software can only clear this bit. If the CTRM bit in USB_CNTR register is set accordingly, a generic interrupt condition is generated together with the endpoint related interrupt condition, which is always activated. The type of occurred transaction, OUT or SETUP, can be determined from the SETUP bit described below. A transaction ended with a NAK or STALL handshake does not set this bit, since no data is actually transferred, as in the case of protocol errors or data toggle mismatches. This bit is read/write but only 0 can be written, writing 1 has no effect. – Host mode This bit is set by the hardware when an IN transaction is successfully completed on this channel. The software can only clear this bit. If the CTRM bit in USB_CNTR register is set a generic interrupt condition is generated together with the channel related flag, which is always activated. - A transaction ended with a NAK sets this bit and NAK answer is reported to application reading the NAK state from the STATRX field of this register. One NAKed transaction keeps pending and is automatically retried by the host at the next frame, or the host can immediately retry by resetting STATRX state to VALID. - A transaction ended by STALL handshake sets this bit and the STALL answer is reported to application reading the STALL state from the STATRX field of this register. Host application must consequently disable the channel and re-enumerate. - A transaction ended with ACK handshake sets this bit If double buffering is disabled, ACK answer is reported by application reading the DISABLE state from the STATRX field of this register. Host application must read received data from USBRAM and re-arm the channel by writing VALID to the STATRX field of this register. If double buffering is enabled, ACK answer is reported by application reading VALID state from the STATRX field of this register. Host application must read received data from USBRAM and toggle the DTOGTX bit of this register. - A transaction ended with error sets this bit. Errors can be seen via the bits ERR_RX (host mode only). This bit is read/write but only 0 can be written, writing 1 has no effect.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "DTOGRX",
+            "description": "Data Toggle, for reception transfers If the endpoint/channel is not isochronous, this bit contains the expected value of the data toggle bit (0=DATA0, 1=DATA1) for the next data packet to be received. Hardware toggles this bit, when the ACK handshake is sent following a data packet reception having a matching data PID value; if the endpoint is defined as a control one, hardware clears this bit at the reception of a SETUP PID received from host (in device mode), while it sets this bit to 1 when SETUP transaction is acknowledged by device (in host mode). If the endpoint/channel is using the double-buffering feature this bit is used to support packet buffer swapping too (Refer to Section47.5.3: Double-buffered endpoints and usage in Device mode). If the endpoint/channel is isochronous, this bit is used only to support packet buffer swapping for data transmission since no data toggling is used for this kind of channels/endpoints and only DATA0 packet are transmitted (Refer to Section47.5.5: Isochronous transfers in Device mode). Hardware toggles this bit just after the end of data packet reception, since no handshake is used for isochronous transfers. This bit can also be toggled by the software to initialize its value (mandatory when the endpoint is not a control one) or to force specific data toggle/packet buffer usage. When the application software writes 0, the value of DTOGRX remains unchanged, while writing 1 makes the bit value toggle. This bit is read/write but it can be only toggled by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "13:12",
+            "name": "STATRX[1:0]",
+            "description": "Status bits, for reception transfers – Device mode These bits contain information about the endpoint status, which are listed in Table495: Reception status encoding on page2125. These bits can be toggled by software to initialize their value. When the application software writes 0, the value remains unchanged, while writing 1 makes the bit value to toggle. Hardware sets the STATRX bits to NAK when a correct transfer has occurred (VTRX=1) corresponding to a OUT or SETUP (control only) transaction addressed to this endpoint, so the software has the time to elaborate the received data before it acknowledges a new transaction. Double-buffered bulk endpoints implement a special transaction flow control, which control the status based upon buffer availability condition (Refer to Section47.5.3: Double-buffered endpoints and usage in Device mode). If the endpoint is defined as isochronous, its status can be only “VALID” or “DISABLED”, so that the hardware cannot change the status of the endpoint after a successful transaction. If the software sets the STATRX bits to ‘STALL’ or ‘NAK’ for an isochronous endpoint, the USB peripheral behavior is not defined. These bits are read/write but they can be only toggled by writing 1. – Host mode These bits are the host application controls to start, retry, or abort host transactions driven by the channel. These bits also contain information about the device answer to the last IN channel transaction and report the current status of the channel according to the following STATRX table of states: -DISABLE DISABLE value is reported in case of ACK acknowledge is received on a single-buffer channel. When in DISABLE state the channel is unused or not active waiting for application to restart it by writing VALID. Application can reset a VALID channel to DISABLE to abort a transaction. In this case the transaction is immediately removed from the host execution list. If the aborted transaction was already under execution it is regularly terminated on the USB but the relative VTRX interrupt is not generated. -VALID A host channel is actively trying to submit USB transaction to device only when in VALID state.VALID state can be set by software or automatically by hardware on a NAKED channel at the start of a new frame. When set to VALID, an host channel enters the host execution queue and waits permission from the host frame scheduler to submit its configured transaction. VALID value is also reported in case of ACK acknowledge is received on a double-buffered channel. In this case the channel remains active on the alternate buffer while application needs to read the current buffer and toggle DTOGTX. In case software is late in reading and the alternate buffer is not ready, the host channel is automatically suspended transparently to the application. The suspended double buffered channel is re-activated as soon as delay is recovered and DTOGTX is toggled. - NAK NAK value is reported in case of NAK acknowledge received. When in NAK state the channel is suspended and does not try to transmit. NAK state is moved to VALID by hardware at the start of the next frame, or software can change it to immediately retry transmission by writing it to VALID, or can disable it and abort the transaction by writing DISABLE - STALL STALL value is reported in case of STALL acknowledge received. When in STALL state the channel behaves as disabled. Application must not retry transmission but reset the USB and re-enumerate.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "SETUP",
+            "description": "Setup transaction completed – Device mode This bit is read-only and it is set by the hardware when the last completed transaction is a SETUP. This bit changes its value only for control endpoints. It must be examined, in the case of a successful receive transaction (VTRX event), to determine the type of transaction occurred. To protect the interrupt service routine from the changes in SETUP bits due to next incoming tokens, this bit is kept frozen while VTRX bit is at 1; its state changes when VTRX is at 0. This bit is read-only. – Host mode This bit is set by the software to send a SETUP transaction on a control endpoint. This bit changes its value only for control endpoints. It is cleared by hardware when the SETUP transaction is acknowledged and VTTX interrupt generated.",
+            "values": []
+          },
+          {
+            "bits": "10:9",
+            "name": "UTYPE[1:0]",
+            "description": "USB type of transaction These bits configure the behavior of this endpoint/channel as described in Table496: Endpoint/channel type encoding. Channel0/Endpoint0 must always be a control endpoint/channel and each USB function must have at least one control endpoint/channel which has address 0, but there can be other control channels/endpoints if required. Only control channels/endpoints handle SETUP transactions, which are ignored by endpoints of other kinds. SETUP transactions cannot be answered with NAK or STALL. If a control endpoint/channel is defined as NAK, the USB peripheral does not answer, simulating a receive error, in the receive direction when a SETUP transaction is received. If the control endpoint/channel is defined as STALL in the receive direction, then the SETUP packet is accepted anyway, transferring data and issuing the CTR interrupt. The reception of OUT transactions is handled in the normal way, even if the endpoint/channel is a control one. Bulk and interrupt endpoints have very similar behavior and they differ only in the special feature available using the EPKIND configuration bit. The usage of isochronous channels/endpoints is explained in Section47.5.5: Isochronous transfers in Device mode",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "EPKIND",
+            "description": "endpoint/channel kind The meaning of this bit depends on the endpoint/channel type configured by the UTYPE bits. Table497 summarizes the different meanings. DBL_BUF: This bit is set by the software to enable the double-buffering feature for this bulk endpoint. The usage of double-buffered bulk endpoints is explained in Section47.5.3: Double-buffered endpoints and usage in Device mode. STATUS_OUT: This bit is set by the software to indicate that a status out transaction is expected: in this case all OUT transactions containing more than zero data bytes are answered ‘STALL’ instead of ‘ACK’. This bit can be used to improve the robustness of the application to protocol errors during control transfers and its usage is intended for control endpoints only. When STATUS_OUT is reset, OUT transactions can have any number of bytes, as required.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "VTTX",
+            "description": "Valid USB transaction transmitted – Device mode This bit is set by the hardware when an IN transaction is successfully completed on this endpoint; the software can only clear this bit. If the CTRM bit in the USB_CNTR register is set accordingly, a generic interrupt condition is generated together with the endpoint related interrupt condition, which is always activated. A transaction ended with a NAK or STALL handshake does not set this bit, since no data is actually transferred, as in the case of protocol errors or data toggle mismatches. This bit is read/write but only 0 can be written. – Host mode Same as VTRX behavior but for USB OUT and SETUP transactions.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "DTOGTX",
+            "description": "Data toggle, for transmission transfers If the endpoint/channel is non-isochronous, this bit contains the required value of the data toggle bit (0=DATA0, 1=DATA1) for the next data packet to be transmitted. Hardware toggles this bit when the ACK handshake is received from the USB host, following a data packet transmission. If the endpoint/channel is defined as a control one, hardware sets this bit to 1 at the reception of a SETUP PID addressed to this endpoint (in device mode) or when a SETUP transaction is acknowledged by the device (in host mode). If the endpoint/channel is using the double buffer feature, this bit is used to support packet buffer swapping too (Refer to Section47.5.3: Double-buffered endpoints and usage in Device mode). If the endpoint/channel is isochronous, this bit is used to support packet buffer swapping since no data toggling is used for this sort of endpoints and only DATA0 packet are transmitted (refer to Section47.5.5: Isochronous transfers in Device mode). Hardware toggles this bit just after the end of data packet transmission, since no handshake is used for isochronous transfers. This bit can also be toggled by the software to initialize its value (mandatory when the endpoint/channel is not a control one) or to force a specific data toggle/packet buffer usage. When the application software writes 0, the value of DTOGTX remains unchanged, while writing 1 makes the bit value to toggle. This bit is read/write but it can only be toggled by writing 1.",
+            "values": []
+          },
+          {
+            "bits": "5:4",
+            "name": "STATTX[1:0]",
+            "description": "Status bits, for transmission transfers – Device mode These bits contain the information about the endpoint status, listed in Table498. These bits can be toggled by the software to initialize their value. When the application software writes 0, the value remains unchanged, while writing 1 makes the bit value to toggle. Hardware sets the STATTX bits to NAK, when a correct transfer has occurred (VTTX=1) corresponding to a IN or SETUP (control only) transaction addressed to this channel/endpoint. It then waits for the software to prepare the next set of data to be transmitted. Double-buffered bulk endpoints implement a special transaction flow control, which controls the status based on buffer availability condition (Refer to Section47.5.3: Double-buffered endpoints and usage in Device mode). If the endpoint is defined as isochronous, its status can only be “VALID” or “DISABLED”. Therefore, the hardware cannot change the status of the channel/endpoint/channel after a successful transaction. If the software sets the STATTX bits to ‘STALL’ or ‘NAK’ for an isochronous channel/endpoint, the USB peripheral behavior is not defined. These bits are read/write but they can be only toggled by writing 1. – Host mode The STATTX bits contain the information about the channel status. Refer to Table498 for the full descriptions (“Host mode” descriptions). Whereas in Device mode, these bits contain the status that are given out on the following transaction, in Host mode they capture the status last received from the device. If a NAK is received, STATTX contains the value indicating NAK.",
+            "values": []
+          },
+          {
+            "bits": "3:0",
+            "name": "EA[3:0]",
+            "description": "endpoint/channel address – Device mode Software must write in this field the 4-bit address used to identify the transactions directed to this endpoint. A value must be written before enabling the corresponding endpoint. – Host mode Software must write in this field the 4-bit address used to identify the channel addressed by the host transaction.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

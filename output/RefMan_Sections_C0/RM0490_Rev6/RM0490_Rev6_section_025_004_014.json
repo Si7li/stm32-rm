@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S25.4.14",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "25",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "25.4.14",
+      "section_title": "SMBus target mode",
+      "level": 3,
+      "parent_section": "25.4",
+      "page": 717,
+      "page_end": 720,
+      "semantic_type": "generic",
+      "features": [
+        "i2c"
+      ],
+      "chars": 2529,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=717",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.4.14 \"SMBus target mode\" in chapter 25 (Inter-integrated circuit interface (I2C)), RM0490 Rev 6, page 717.",
+      "section_content": "T his section pertains to the instances of the I2C peripheral supporting SMBus. Refer to\nSection 25.3: I2C implementation.\nIn addition to I2C target transfer management (refer to Section 25.4.8: I2C target mode), this\nsection provides extra software flowcharts to support SMBus.\nSMBus target transmitter\nWhen using the I2C peripheral in SMBus mode, set the SBC bit to enable the PEC\ntransmission at the end of the programmed number of data bytes. When the PECBYTE bit\nis set, the number of bytes programmed in NBYTES[7:0] includes the PEC transmission. In\nthat case, the total number of TXIS interrupts is NBYTES[7:0] - 1, and the content of the\nI2C_PECR register is automatically transmitted if the controller requests an extra byte after\nthe transfer of the NBYTES[7:0] - 1 data bytes.\nCaution: The PECBYTE bit has no effect when the RELOAD bit is set.\n[Figure 246. Transfer sequence flow for SMBus target transmitter N bytes + PEC]\n[Figure 247. Transfer bus diagram for SMBus target transmitter (SBC = 1)]\nExampleSMBustarget transmitter2bytes+PEC legend:\nSMBus target receiver\nWhen using the I2C peripheral in SMBus mode, set the SBC bit to enable the PEC checking\nat the end of the programmed number of data bytes. To allow the ACK control of each byte,\nthe reload mode must be selected (RELOAD = 1). Refer to Target byte control mode for\nmore details.\nTo check the PEC byte, the RELOAD bit must be cleared and the PECBYTE bit must be set.\nIn this case, after the receipt of NBYTES[7:0] - 1 data bytes, the next received byte is\ncompared with the internal I2C_PECR register content. A NACK is automatically generated\nif the comparison does not match, and an ACK is automatically generated if the comparison\nmatches, whatever the ACK bit value. Once the PEC byte is received, it is copied into the\nI2C_RXDR register like any other data, and the RXNE flag is set.\nUpon a PEC mismatch, the PECERR flag is set and an interrupt is generated if the ERRIE\nbit of the I2C_CR1 register is set.\nIf no ACK software control is required, the user can set the PECBYTE bit and, in the same\nwrite operation, load NBYTES[7:0] with the number of bytes to receive in a continuous flow.\nAfter the receipt of NBYTES[7:0] - 1 bytes, the next received byte is checked as being the\nPEC.\nCaution: The PECBYTE bit has no effect when the RELOAD bit is set.\n[Figure 248. Transfer sequence flow for SMBus target receiver N bytes + PEC]\n[Figure 249. Bus transfer diagrams for SMBus target receiver (SBC = 1)]\nExampleSMBus target receiver2bytes+PEC legend:",
+      "semantic": {}
+    }
+  ]
+}

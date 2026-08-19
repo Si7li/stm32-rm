@@ -1,0 +1,289 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S27.8.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "27",
+      "chapter_title": "AES hardware accelerator (AES)",
+      "section": "27.8.1",
+      "section_title": "AES control register (AES_CR)",
+      "level": 3,
+      "parent_section": "27.8",
+      "page": 825,
+      "page_end": 827,
+      "semantic_type": "register_description",
+      "features": [
+        "aes",
+        "aes-cr",
+        "chmod",
+        "cphase",
+        "datatype",
+        "dma",
+        "dmainen",
+        "dmaouten",
+        "iprst",
+        "keysize",
+        "kmod",
+        "mode",
+        "npblb"
+      ],
+      "chars": 4645,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=825",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.8.1 \"AES control register (AES_CR)\" in chapter 27 (AES hardware accelerator (AES)), RM0522 Rev 1, page 825.",
+      "section_content": "Address offset: 0x000\nReset value: 0x0000 0000\nBit 31 IPRST: AES peripheral software reset\nSetting the bit resets the AES peripheral, putting all registers to their default values, except the\nIPRST bit itself. Hence, any key-relative data are lost. For this reason, it is recommended to set the\nbit before handing over the AES to a less secure application.\nThe bit must be kept low while writing any configuration registers.\nBits 30:26 Reserved, must be kept at reset value.\nBits 25:24 KMOD[1:0]: Key mode selection\nThe bitfield defines how the AES key can be used by the application. KEYSIZE must be correctly\ninitialized when setting KMOD[1:0] different from zero.\n0x0: Normal key mode. Key registers are freely usable.\n0x2: Shared key mode. If shared key mode is properly initialized in SAES peripheral, the AES\nperipheral automatically loads its key registers with the data stored in the SAES key registers. The\nkey value is available in AES key registers when BUSY bit is cleared and KEYVALID is set in the\nAES_SR register. Key error flag KEIF is set otherwise in the AES_ISR register.\nOthers: Reserved\nAttempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the\nwrite access and it is not cleared by that write access.\nBits 23:20 NPBLB[3:0]: Number of padding bytes in last block\nThis padding information must be filled by software before processing the last block of GCM payload\nencryption or CCM payload decryption, otherwise authentication tag computation is incorrect.\n0x0: All bytes are valid (no padding)\n0x1: Padding for the last LSB byte\n...\n0xF: Padding for the 15 LSB bytes of last block.\nBit 19 Reserved, must be kept at reset value.\nBit 18 KEYSIZE: Key size selection\nThis bitfield defines the key length in bits of the key used by AES.\n0: 128-bit\n1: 256-bit\nAttempts to write the bit are ignored when BUSY is set, as well as when the EN is set before the\nwrite access and it is not cleared by that write access.\nBit 17 Reserved, must be kept at reset value.\nBit 15 Reserved, must be kept at reset value.\nBits 14:13 CPHASE[1:0]: Chaining phase selection\nThis bitfield selects the phase, applicable only with GCM, GMAC or CCM chaining modes.\n0x0: Initialization phase\n0x1: Header phase\n0x2: Payload phase\n0x3: Final phase\nBit 12 DMAOUTEN: DMA output enable\nThis bit enables automatic generation of DMA requests during the data phase, for outgoing data\ntransfers from AES via DMA.\n0: Disable\n1: Enable\nSetting this bit is ignored when MODE[1:0] is at 0x1 (key derivation).\nBit 11 DMAINEN: DMA input enable\nThis bit enables automatic generation of DMA requests during the data phase, for incoming data\ntransfers to AES via DMA.\n0: Disable\n1: Enable\nSetting this bit is ignored when MODE[1:0] is at 0x1 (key derivation).\nBits 10:7 Reserved, must be kept at reset value.\nBits 16, 6:5 CHMOD[2:0]: Chaining mode\nThis bitfield selects the AES chaining mode:\n0x0: Electronic codebook (ECB)\n0x1: Cipher-block chaining (CBC)\n0x2: Counter mode (CTR)\n0x3: Galois counter mode (GCM) and Galois message authentication code (GMAC)\n0x4: Counter with CBC-MAC (CCM)\nothers: Reserved\nAttempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the\nwrite access and it is not cleared by that write access.\nBits 4:3 MODE[1:0]: Operating mode\nThis bitfield selects the AES operating mode:\n0x0: Encryption\n0x1: Key derivation (or key preparation), for ECB/CBC decryption only\n0x2: Decryption\n0x3: Reserved\nAttempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the\nwrite access and it is not cleared by that write access.\nBits 2:1 DATATYPE[1:0]: Data type\nThis bitfield defines the format of data written in the AES_DINR register or read from the\nAES_DOUTR register, through selecting the mode of data swapping. This swapping is defined in\nSection27.4.15: AES data registers and data swapping.\n0x0: No swapping (32-bit data).\n0x1: Half-word swapping (16-bit data)\n0x2: Byte swapping (8-bit data)\n0x3: Bit-level swapping\nAttempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the\nwrite access and it is not cleared by that write access.\nBit 0 EN: Enable\nThis bit enables/disables the AES peripheral.\n0: Disable\n1: Enable\nAt any moment, clearing then setting the bit re-initializes the AES peripheral. When KMOD[1:0] is\ndifferent from 0x0, using IPRST bit is recommended instead.\nThis bit is automatically cleared by hardware upon the completion of the key preparation\n(MODE[1:0] at 0x1) and upon the completion of GCM/GMAC/CCM initialization phase.\n– The bit cannot be set as long as KEYVALIDis cleared",
+      "semantic": {
+        "register": "AES_CR",
+        "address_offset": "0x000",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "IPRST",
+            "description": "AES peripheral software reset Setting the bit resets the AES peripheral, putting all registers to their default values, except the IPRST bit itself. Hence, any key-relative data are lost. For this reason, it is recommended to set the bit before handing over the AES to a less secure application. The bit must be kept low while writing any configuration registers.",
+            "values": []
+          },
+          {
+            "bits": "30:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25:24",
+            "name": "KMOD[1:0]",
+            "description": "Key mode selection The bitfield defines how the AES key can be used by the application. KEYSIZE must be correctly initialized when setting KMOD[1:0] different from zero. peripheral automatically loads its key registers with the data stored in the SAES key registers. The key value is available in AES key registers when BUSY bit is cleared and KEYVALID is set in the AES_SR register. Key error flag KEIF is set otherwise in the AES_ISR register. Attempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Normal key mode. Key registers are freely usable."
+              },
+              {
+                "value": "0x2",
+                "meaning": "Shared key mode. If shared key mode is properly initialized in SAES peripheral, the AES"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "23:20",
+            "name": "NPBLB[3:0]",
+            "description": "Number of padding bytes in last block This padding information must be filled by software before processing the last block of GCM payload encryption or CCM payload decryption, otherwise authentication tag computation is incorrect. ...",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "All bytes are valid (no padding)"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Padding for the last LSB byte"
+              },
+              {
+                "value": "0xF",
+                "meaning": "Padding for the 15 LSB bytes of last block."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "KEYSIZE",
+            "description": "Key size selection This bitfield defines the key length in bits of the key used by AES. Attempts to write the bit are ignored when BUSY is set, as well as when the EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "128-bit"
+              },
+              {
+                "value": "1",
+                "meaning": "256-bit"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14:13",
+            "name": "CPHASE[1:0]",
+            "description": "Chaining phase selection This bitfield selects the phase, applicable only with GCM, GMAC or CCM chaining modes.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Initialization phase"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Header phase"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Payload phase"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Final phase"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "DMAOUTEN",
+            "description": "DMA output enable This bit enables automatic generation of DMA requests during the data phase, for outgoing data transfers from AES via DMA. Setting this bit is ignored when MODE[1:0] is at 0x1 (key derivation).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "DMAINEN",
+            "description": "DMA input enable This bit enables automatic generation of DMA requests during the data phase, for incoming data transfers to AES via DMA. Setting this bit is ignored when MODE[1:0] is at 0x1 (key derivation).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "10:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16, 6:5",
+            "name": "CHMOD[2:0]",
+            "description": "Chaining mode This bitfield selects the AES chaining mode: Attempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Electronic codebook (ECB)"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Cipher-block chaining (CBC)"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Counter mode (CTR)"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Galois counter mode (GCM) and Galois message authentication code (GMAC)"
+              },
+              {
+                "value": "0x4",
+                "meaning": "Counter with CBC-MAC (CCM)"
+              },
+              {
+                "value": "others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "4:3",
+            "name": "MODE[1:0]",
+            "description": "Operating mode This bitfield selects the AES operating mode: Attempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Encryption"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Key derivation (or key preparation), for ECB/CBC decryption only"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Decryption"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "2:1",
+            "name": "DATATYPE[1:0]",
+            "description": "Data type This bitfield defines the format of data written in the AES_DINR register or read from the AES_DOUTR register, through selecting the mode of data swapping. This swapping is defined in Section27.4.15: AES data registers and data swapping. Attempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "No swapping (32-bit data)."
+              },
+              {
+                "value": "0x1",
+                "meaning": "Half-word swapping (16-bit data)"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Byte swapping (8-bit data)"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Bit-level swapping"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EN",
+            "description": "Enable This bit enables/disables the AES peripheral. At any moment, clearing then setting the bit re-initializes the AES peripheral. When KMOD[1:0] is different from 0x0, using IPRST bit is recommended instead. This bit is automatically cleared by hardware upon the completion of the key preparation (MODE[1:0] at 0x1) and upon the completion of GCM/GMAC/CCM initialization phase. – The bit cannot be set as long as KEYVALIDis cleared",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

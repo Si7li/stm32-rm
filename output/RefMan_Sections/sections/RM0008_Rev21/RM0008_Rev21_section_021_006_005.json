@@ -1,0 +1,38 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S21.6.5",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "21",
+      "chapter_title": "Flexible static memory controller (FSMC)",
+      "section": "21.6.5",
+      "section_title": "NAND Flash prewait functionality",
+      "level": 3,
+      "parent_section": "21.6",
+      "page": 553,
+      "page_end": 554,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "nand"
+      ],
+      "chars": 1533,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=553",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.6.5 \"NAND Flash prewait functionality\" in chapter 21 (Flexible static memory controller (FSMC)), RM0008 Rev 21, page 553.",
+      "section_content": "Some NAND Flash devices require that, after writing the last part of the address, the\ncontroller wait for the R/NB signal to go low as shown in Figure206.\n[Figure 206. Access to non ‘CE don’t care’ NAND-Flash]\n1. CPU wrote byte 0x00 at address 0x7001 0000.\n2. CPU wrote byte A7-A0 at address 0x7002 0000.\n3. CPU wrote byte A15-A8 at address 0x7002 0000.\n4. CPU wrote byte A23-A16 at address 0x7002 0000.\n5. CPU wrote byte A25-A24 at address 0x7802 0000: FSMC performs a write access using FSMC_PATT2\nt t i h m a i t n N g C d E ef i r n e i m tio a n in , s w l h o e w re u A nt T il T R H /N O B LD g o ≥ e 7 s ( l p o r w o v a i n d d in g h ig th h a a t ( g 7 a + in 1 ) ( o × n H ly C r L e K qu = e s 1 t 1 e 2 d n fo s r > N t AWNBD m F a l x a ) s . h T h m is e m gu o a ri r e a s n tees\nwhere NCE is not don’t care).\nWhen this functionality is needed, it can be guaranteed by programming the MEMHOLD\nvalue to meet the tWB timing. However CPU read accesses to the NAND Flash memory has\na hold delay of (MEMHOLD + 2) x HCLK cycles, while CPU write accesses have a hold\ndelay of (MEMHOLD) x HCLK cycles.\nTo overcome this timing constraint, the attribute memory space can be used by\nprogramming its timing register with an ATTHOLD value that meets the tWB timing, and\nleaving the MEMHOLD value at its minimum. Then, the CPU must use the common memory\nspace for all NAND Flash read and write accesses, except when writing the last address\nbyte to the NAND Flash device, where the CPU must write to the attribute memory space.",
+      "semantic": {}
+    }
+  ]
+}

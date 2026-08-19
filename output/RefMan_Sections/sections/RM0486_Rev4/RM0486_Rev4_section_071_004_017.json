@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.4.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.4.17",
+      "section_title": "Level 0",
+      "level": 3,
+      "parent_section": "71.4",
+      "page": 3668,
+      "page_end": 3670,
+      "semantic_type": "generic",
+      "features": [
+        "level"
+      ],
+      "chars": 5578,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3668",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.4.17 \"Level 0\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3668.",
+      "section_content": "TTCAN level 0 is not part of ISO11898-4. This operation mode makes the hardware, that in\nTTCAN level 2 maintains the calibrated global time base, also available for event-driven\nCAN according to ISO11898-1.\nLevel 0 operation is configured via FDCAN_TTOCF.OM = 11. In this mode the FDCAN\noperates in event driven CAN communication, there is no fixed schedule, the configuration\nof FDCAN_TTOCF.GEN is ignored. External event-synchronized operation is not available\nin level 0. A synchronized time base is maintained by the transmission of reference\nmessages.\nIn level 0 the trigger memory is not active and therefore needs not to be configured. The\ntime mark interrupt flag (FDCAN_TTIR.TTMI) is set when the cycle time has reached\nFDCAN_TTOCF.IRTO ´ 0x200, it reminds the user to set a transmission request for\nmessage buffer 0. The Watch_Trigger interrupt flag (FDCAN_TTIR.WT) is set when the\ncycle time has reached 0xFF00. These values were chosen to have enough margin for a\nstable clock calibration. There are no further TT-error-checks.\nRegister time mark interrupts (FDCAN_TTIR.RTMI) are also possible.\nThe reference message is configured as for level 2 operation. Received reference\nmessages are recognized by the identifier configured in register FDCAN_TTRMC. For the\ntransmission of reference messages only message buffer 0 may be used. The node\ntransmits reference messages any time the user sets a transmission request for message\nbuffer 0, there is no reference trigger offset.\nLevel 0 operation is configured via:\n• FDCAN_TTRMC\n• FDCAN_TTOCF except EVTP, AWL, GEN\n• FDCAN_TTMLM except ENTT, TXEW\n• FDCAN_TURCF\nLevel 0 operation is controlled via:\n• FDCAN_TTOCN except NIG, TMG, FGP, GCS, TTMIE\n• FDCAN_TTGTP\n• FDCAN_TTTMK\n• FDCAN_TTIR excluding bits CER, AW, IWT SE2, SE1, TXO, TXU, SOG (no function)\n• FDCAN_TTIR the following bits have changed function\n– TTMI not defined by trigger memory - activated at cycle time\nFDCAN_TTOCF.IRTO 0x200\n– WT not defined by trigger memory - activated at cycle time 0xFF00\nLevel 0 operation is signaled via:\n• TTOST excluding bits AWE, WFE, GSI, GFI, RTO (no function)\nSynchronizing\nFigure971 describes the states and the state transitions in TTCAN level 0 operation. level 0\nhas no In_Gap state.\n[Figure 971. Level 0 schedule synchronization state machine]\nHW reset,\nT0\nor Init state, Sync_Off\nor Error state S3\nT1\nSynchronizing\nT2\nIn_Schedule\nT0: Transition condition always taking prevalence\nT1: Init state left, cycle time is 0\nT2: At least two consecutive reference messages observed\n(last reference message didn’t contain a set Disc_Bit or Next_is_Gap bit\nHandling of error levels\nDuring level 0 operation only the following error conditions may occur:\n• Watch_Trigger_Reached (S3), reached cycle time 0xFF00\n• CAN_Bus_Off (S3)\nSince no S1 and S2 errors are possible, the error level can only switch between S0 (No\nerror) and S3 (Severe error). In TTCAN level 0 an S3 error is handled differently. When error\nlevel S3 is reached, both FDCAN_TTOST.SYS and FDCAN_TTOST.MS are reset, and\ninterrupt flags FDCAN_TTIR.GTE and FDCAN_TTIR.GTD are set.\nWhen error level S3 (FDCAN_TTOST.EL = 11) is entered, bus monitoring mode is (contrary\nto TTCAN level 1 and level 2) not entered. S3 error level is left automatically after\ntransmission (time master) or reception (time slave) of the next reference message.\nMaster slave relation\nFigure972 describes the master slave relation in TTCAN level 0. In case of an S3 error the\nFDCAN returns to state Master_Off.\n[Figure 972. Level 0 master to slave relation]\nHW reset, or Init state, T0\nor Error state S3\nT8 Master_Off\nT1 T6\nSlave T3 T2\nT7\nT4\nCurrent_Master Backup_Master\nT5\nT0: Transition condition, always taking prevalence\nT1: Reference message observed when not potential time master\n(cid:55)(cid:21)(cid:29)(cid:3)(cid:53)(cid:72)(cid:73)(cid:72)(cid:85)(cid:72)(cid:81)(cid:70)(cid:72)(cid:3)(cid:80)(cid:72)(cid:86)(cid:86)(cid:68)(cid:74)(cid:72)(cid:3)(cid:82)(cid:69)(cid:86)(cid:72)(cid:85)(cid:89)(cid:72)(cid:71)(cid:3)(cid:90)(cid:76)(cid:87)(cid:75)(cid:3)(cid:80)(cid:68)(cid:86)(cid:87)(cid:72)(cid:85)(cid:3)(cid:83)(cid:85)(cid:76)(cid:82)(cid:85)(cid:76)(cid:87)(cid:92)(cid:3)(cid:71)(cid:76)(cid:73)(cid:73)(cid:72)(cid:85)(cid:72)(cid:81)(cid:87)(cid:3)(cid:73)(cid:85)(cid:82)(cid:80)(cid:3)(cid:82)(cid:90)(cid:81)(cid:3)(cid:80)(cid:68)(cid:86)(cid:87)(cid:72)(cid:85)(cid:3)(cid:83)(cid:85)(cid:76)(cid:82)(cid:85)(cid:76)(cid:87)(cid:92)(cid:15)(cid:3)(cid:40)(cid:85)(cid:85)(cid:82)(cid:85)(cid:3)(cid:86)(cid:87)(cid:68)(cid:87)(cid:72)(cid:3)(cid:143)(cid:3)(cid:54)(cid:22)(cid:3)(cid:3)\n(cid:55)(cid:22)(cid:29)(cid:3)(cid:53)(cid:72)(cid:73)(cid:72)(cid:85)(cid:72)(cid:81)(cid:70)(cid:72)(cid:3)(cid:80)(cid:72)(cid:86)(cid:86)(cid:68)(cid:74)(cid:72)(cid:3)(cid:82)(cid:69)(cid:86)(cid:72)(cid:85)(cid:89)(cid:72)(cid:71)(cid:3)(cid:90)(cid:76)(cid:87)(cid:75)(cid:3)(cid:80)(cid:68)(cid:86)(cid:87)(cid:72)(cid:85)(cid:3)(cid:83)(cid:85)(cid:76)(cid:82)(cid:85)(cid:76)(cid:87)(cid:92)(cid:3)(cid:72)(cid:84)(cid:88)(cid:68)(cid:79)(cid:3)(cid:87)(cid:82)(cid:3)(cid:82)(cid:90)(cid:81)(cid:3)(cid:80)(cid:68)(cid:86)(cid:87)(cid:72)(cid:85)(cid:3)(cid:83)(cid:85)(cid:76)(cid:82)(cid:85)(cid:76)(cid:87)(cid:92)(cid:15)(cid:3)(cid:40)(cid:85)(cid:85)(cid:82)(cid:85)(cid:3)(cid:86)(cid:87)(cid:68)(cid:87)(cid:72)(cid:3)(cid:143)(cid:3)(cid:54)(cid:22)\nT4: Reference message observed with own master priority\nT5: Reference message observed with master priority higher than own master priority\nT6: Error state S3\nT7: Error state S3\nT8: Error state S3",
+      "semantic": {}
+    }
+  ]
+}

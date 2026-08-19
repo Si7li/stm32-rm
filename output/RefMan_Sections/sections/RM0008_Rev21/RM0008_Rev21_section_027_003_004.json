@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S27.3.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "27",
+      "chapter_title": "Universal synchronous asynchronous receiver transmitter (USART)",
+      "section": "27.3.4",
+      "section_title": "Fractional baud rate generation",
+      "level": 3,
+      "parent_section": "27.3",
+      "page": 798,
+      "page_end": 799,
+      "semantic_type": "generic",
+      "features": [
+        "usart"
+      ],
+      "chars": 1627,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=798",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.3.4 \"Fractional baud rate generation\" in chapter 27 (Universal synchronous asynchronous receiver transmitter (USART)), RM0008 Rev 21, page 798.",
+      "section_content": "The baud rate for the receiver and transmitter (Rx and Tx) are both set to the same value as\nprogrammed in the Mantissa and Fraction values of USARTDIV.\nfCK\nTx/ Rx baud =\n(16*USARTDIV)\nlegend: fCK - Input clock to the peripheral (PCLK1 for USART2, 3, 4, 5 or PCLK2 for USART1)\nUSARTDIV is an unsigned fixed point number that is coded on the USART_BRR register.\nNote: The baud counters are updated with the new value of the Baud registers after a write to\nUSART_BRR. Hence the Baud rate register value should not be changed during\ncommunication.\nHow to derive USARTDIV from USART_BRR register values\nExample 1:\nIf DIV_Mantissa = 0d27 and DIV_Fraction = 0d12 (USART_BRR = 0x1BC), then\nMantissa (USARTDIV) = 0d27\nFraction (USARTDIV) = 12/16 = 0d0.75\nTherefore USARTDIV = 0d27.75\nExample 2:\nTo program USARTDIV = 0d25.62\nThis leads to:\nDIV_Fraction = 16*0d0.62 = 0d9.92\nThe nearest real number is 0d10 = 0xA\nDIV_Mantissa = mantissa (0d25.620) = 0d25 = 0x19\nThen, USART_BRR = 0x19A hence USARTDIV = 0d25.625\nExample 3:\nTo program USARTDIV = 0d50.99\nThis leads to:\nDIV_Fraction = 16*0d0.99 = 0d15.84\nThe nearest real number is 0d16 = 0x10 => overflow of DIV_frac[3:0] => carry must be\nadded up to the mantissa\nDIV_Mantissa = mantissa (0d50.990 + carry) = 0d51 = 0x33\nThen, USART_BRR = 0x330 hence USARTDIV = 0d51.000\n[Table 192. Error calculation for programmed baud rates]\nNote: The lower the CPU clock the lower will be the accuracy for a particular Baud rate. The upper\nlimit of the achievable baud rate can be fixed with this data.\nOnly USART1 is clocked with PCLK2 (72 MHz max). Other USARTs are clocked with\nPCLK1 (36 MHz max).",
+      "semantic": {}
+    }
+  ]
+}

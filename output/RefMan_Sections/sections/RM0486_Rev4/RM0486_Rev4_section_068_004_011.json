@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.4.11",
+      "section_title": "AC’97 link controller",
+      "level": 3,
+      "parent_section": "68.4",
+      "page": 3525,
+      "page_end": 3526,
+      "semantic_type": "generic",
+      "features": [
+        "controller",
+        "link"
+      ],
+      "chars": 2698,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3525",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.4.11 \"AC’97 link controller\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3525.",
+      "section_content": "The SAI is able to work as an AC’97 link controller. In this protocol:\n• The slot number and the slot size are fixed.\n• The frame synchronization signal is perfectly defined and has a fixed shape.\nTo select this protocol, set the PRTCFG[1:0] bits in the SAI_xCR1 register to 10. When\nAC’97 mode is selected, only data sizes of 16 or 20 bits can be used, otherwise the SAI\nbehavior is not guaranteed.\n• The NBSLOT[3:0] and SLOTSZ[1:0] bits are consequently ignored.\n• The number of slots is fixed at 13 slots. The first one is 16 bits wide and all the others\nare 20 bits wide (data slots).\n• The FBOFF[4:0] bits in the SAI_xSLOTR register are ignored.\n• The SAI_xFRCR register is ignored.\n• The MCLK is not used.\nThe FS signal from the block defined as asynchronous is configured automatically as an\noutput, since the AC’97 controller link drives the FS signal whatever the master or slave\nconfiguration.\nFigure927 shows an AC’97 audio frame structure.\n[Figure 927. AC’97 audio frame]\nNote: In the AC’97 protocol, bit 2 of the tag is reserved (always 0), so bit 2 of the TAG is forced to\n0 level whatever the value written in the SAI FIFO.\nFor more details about tag representation, refer to the AC’97 protocol standard.\nOne SAI can be used to target an AC’97 point-to-point communication.\nUsing two SAIs (for devices featuring two embedded SAIs) enables the control of three\nexternal AC’97 decoders as illustrated in Figure928.\nIn SAI1, the audio block A must be declared as asynchronous master transmitter, whereas\nthe audio block B is defined to be slave receiver and internally synchronous to the audio\nblock A.\nThe SAI2 is configured for audio block A and B both synchronous with the external SAI1 in\nslave receiver mode.\n[Figure 928. Example of typical AC’97 configuration on devices featuring at least]\ntwo embedded SAIs (three external AC’97 decoders)\nAC’97 Link Controller\n(Bit clock provider)\nAudio block A Primary codec 1\nSDA\nFIFO Transmitter F S S C A LKA S S d yn a c ta_out\nBit_clk\nSecondary codec 1\nSAI1 Sdata_out\nSync\nSdata_out\nFIFO Receiver FSB Sync\nSCLKB Bit_clk\nSdata_in\nSAI2\nIn receiver mode, the SAI acting as an AC’97 link controller requires no FIFO request and so\nno data storage in the FIFO when the codec-ready bit in slot 0 is decoded low. If bit\nCNRDYIE is enabled in the SAI_xIM register, flag CNRDY is set in the SAI_xSR register\nand an interrupt is generated. This flag is dedicated to the AC’97 protocol.\nClock generator programming in AC’97 mode\nIn AC’97 mode, the frame length is fixed at 256 bits, and its frequency must be set to\n48kHz. The formulas given in Section68.4.8: SAI clock generator must be used with\nFRL=255, to generate the proper frame rate (FFS_x).",
+      "semantic": {}
+    }
+  ]
+}

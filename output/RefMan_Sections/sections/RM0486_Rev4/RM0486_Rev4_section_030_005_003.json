@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.5.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.5.3",
+      "section_title": "General description",
+      "level": 3,
+      "parent_section": "30.5",
+      "page": 1376,
+      "page_end": 1378,
+      "semantic_type": "generic",
+      "features": [
+        "general"
+      ],
+      "chars": 2604,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1376",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.5.3 \"General description\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1376.",
+      "section_content": "The SDMMC_D[7:0] lines have different operating modes:\n• By default, SDMMC_D0 line is used for data transfer. After initialization, the host can\nchange the databus width.\n• For an e•MMC, 1-bit (SDMMC_D0), 4-bit (SDMMC_D[3:0]) or 8-bit (SDMMC_D[7:0])\ndata bus widths can be used.\n• For an SD or an SDIO card, 1-bit (SDMMC_D0) or 4-bit (SDMMC_D[3:0]) can be used.\nAll data lines operate in push-pull mode.\nTo allow the connection of an external driver (a voltage switch transceiver), the direction of\ndata flow on the data lines is indicated with I/O direction signals. The SDMMC_D0DIR signal\nindicates the I/O direction for the SDMMC_D0 data line, the SDMMC_D123DIR for the\nSDMMC_D[3:1] data lines.\nSDMMC_CMD only operates in push-pull mode:\nTo allow the connection of an external driver (a voltage switch transceiver), the direction of\ndata flow on the SDMMC_CMD line is indicated with the I/O direction signal SDMMC_CDIR.\nSDMMC_CK clock to the card originates from sdmmc_ker_ck:\n• When the sdmmc_ker_ck clock has 50% duty cycle, it can be used even in bypass\nmode (CLKDIV = 0).\n• When the sdmmc_ker_ck duty cycle is not 50%, the CLKDIV must be used to divide it\nby 2 or more (CLKDIV > 0).\n• The phase relation between the SDMMC_CMD / SDMMC_D[7:0] outputs and the\nSDMMC_CK can be selected through the NEGEDGE bit. The phase relation depends\non the CLKDIV, NEGEDGE, and DDR settings. See Figure232.\n[Figure 232. SDMMC Command and data phase relation]\n[Table 211. SDMMC Command and data phase selection]\nBy default, the sdmmc_io_in_ck feedback clock input is selected for sampling incoming\ndata in the SDMMC receive path. It is derived from the SDMMC_CK pin.\nFor tuning the phase of the sampling clock to accommodate the receive data timing, the\nDLYB delay block available on the device can be connected between sdmmc_io_in_ck\nsignal (DLYB input dlyb_in_ck) and sdmmc_fb_ck clock input of SDMMC (DLYB output\ndlyb_out_ck). Selecting the sdmmc_fb_ck clock input in the receive path then enables\nusing the phase-tuned sampling clock for the incoming data. This is required for SDMMC to\nsupport the SDR104 and HS200 operating mode and optional for SDR50 and DDR50\nmodes.\nWhen using an external driver (a voltage switch transceiver), the SDMMC_CKIN feedback\nclock input can be selected to sample the receive data.\nFor an SD/SDIO/e•MMC card, the clock frequency can vary between 0 and 208MHz\n(limited by maximum I/O speed).\nDepending on the selected bus mode (SDR or DDR), one bit or two bits are transferred on\nSDMMC_D[7:0] lines with each clock cycle. The SDMMC_CMD line transfers only one bit\nper clock cycle.",
+      "semantic": {}
+    }
+  ]
+}

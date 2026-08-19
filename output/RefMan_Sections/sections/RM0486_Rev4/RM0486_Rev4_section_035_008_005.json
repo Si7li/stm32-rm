@@ -1,0 +1,270 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.8.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.8.5",
+      "section_title": "MDF digital filter control register x (MDF_DFLTxCR)",
+      "level": 3,
+      "parent_section": "35.8",
+      "page": 1689,
+      "page_end": 1691,
+      "semantic_type": "register_description",
+      "features": [
+        "acqmod",
+        "dfltactive",
+        "dflten",
+        "dfltrun",
+        "dma",
+        "dmaen",
+        "fth",
+        "mdf",
+        "nbdis",
+        "snpsfmt",
+        "trgsens",
+        "trgsrc"
+      ],
+      "chars": 4491,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1689",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.8.5 \"MDF digital filter control register x (MDF_DFLTxCR)\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1689.",
+      "section_content": "Address offset: 0x088 + 0x80 * x, (x = 0 to 5)\nReset value: 0x0000 0000\nThe number of registers is equal to the amount of filters. Refer to Section35.3 for details.\nBit 31 DFLTACTIVE: Digital filter active flag\nThis bit is set and cleared by hardware. It indicates if the digital filter is active: can be running\nor waiting for events.\n0: Digital filter not active (can be re-enabled again, via DFLTEN, if needed)\n1: Digital filter active\nBit 30 DFLTRUN: Digital filter run status flag\nThis bit is set and cleared by hardware. It indicates if the digital filter is running or not.\n0: Digital filter not running and ready to accept a new trigger event\n1: Digital filter running\nBits 29:28 Reserved, must be kept at reset value.\nBits 27:20 NBDIS[7:0]: Number of samples to be discarded\nThis bitfield is set and cleared by software. it is used to define the number of samples to be\ndiscarded every time the DFLTx is re-started.\n0: No sample discarded\n1: 1 sample discarded\n2: 2 samples discarded\n...\n255: 255 samples discarded\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 19:17 Reserved, must be kept at reset value.\nBit 16 SNPSFMT: Snapshot data format\nThis bit is set and cleared by software. It is used to select the data format for the snapshot\nmode.\n0: Integrator counter (INT_CNT) not inserted into MDF_SNPSxDR, leaving a data resolution\nof 23 bits\n1: Integrator counter (INT_CNT) inserted at position [15:9] of MDF_SNPSxDR, leaving a data\nresolution of 16 bits.\nNote: This bit can be write-protected (refer to Section35.4.15 for details).\nBits 15:12 TRGSRC[3:0]: Digital filter trigger signal selection\nThis bitfield is set and cleared by software. It is used to select which external signals trigger\nthe corresponding filter.\n0000: TRGO selected\n0001: OLDx event selected\n0010: mdf_trg[0] selected\n...\n1111: mdf_trg[13] selected\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 11:9 Reserved, must be kept at reset value.\nBit 8 TRGSENS: Digital filter trigger sensitivity selection\nthis bit is set and cleared by software. It is used to select the trigger sensitivity of the external\nsignals\n0: A rising edge event triggers the acquisition.\n1: A falling edge even triggers the acquisition.\nNote: When the trigger source is TRGO or OLDx event, TRGSENS value is not taken into\naccount. When TRGO is selected, the sensitivity is forced to falling edge, when OLDx\nevent is selected, the sensitivity is forced to rising edge.\nThis bit can be write-protected (refer to Section35.4.15 for details).\nBit 7 Reserved, must be kept at reset value.\nBits 6:4 ACQMOD[2:0]: Digital filter trigger mode\nThis bitfield is set and cleared by software. It is used to select the filter trigger mode.\n000: Asynchronous continuous acquisition mode\n001: Asynchronous single-shot acquisition mode\n010: Synchronous continuous acquisition mode\n011: Synchronous, single-shot acquisition mode\n100: Window continuous acquisition mode\n101: Synchronous snapshot mode\nOthers: same a 000\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBit 3 Reserved, must be kept at reset value.\nBit 2 FTH: RXFIFO threshold selection\nThis bit is set and cleared by software. It is used to select the RXFIFO threshold. This bit is\nnot significant for RXFIFOs working in interleaved-transfer mode (see Interleaved-transfer\nmode for details).\n0: RXFIFO threshold event generated when the RXFIFO is not empty\n1: RXFIFO threshold event generated when the RXFIFO is half-full\nNote: This bit can be write-protected (refer to Section35.4.15 for details).\nBit 1 DMAEN: DMA requests enable\nThis bit is set and cleared by software. It is used to control the generation of DMA request to\ntransfer the processed samples into the memory.\n0: DMA interface for the corresponding digital filter disabled\n1: DMA interface for the corresponding digital filter enabled\nNote: This bit can be write-protected (refer to Section35.4.15 for details).\nBit 0 DFLTEN: Digital filter enable\nThis bit is set and cleared by software. It is used to control the start of acquisition of the\ncorresponding digital filter path. This bit behavior depends on ACQMOD[2:0]and external\nevents. The serial or parallel interface delivering the samples must be enabled as well.\n0: Acquisition immediately stopped\n1: Acquisition immediately started if ACQMOD[2:0] = 00x or 101, or acquisition started when\nthe proper trigger event occurs if ACQMOD[2:0] = 01x or 100.",
+      "semantic": {
+        "register": "MDF_DFLTxCR",
+        "address_offset": "0x088 + 0x80 * x, (x = 0 to 5)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "DFLTACTIVE",
+            "description": "Digital filter active flag This bit is set and cleared by hardware. It indicates if the digital filter is active: can be running or waiting for events.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Digital filter not active (can be re-enabled again, via DFLTEN, if needed)"
+              },
+              {
+                "value": "1",
+                "meaning": "Digital filter active"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "DFLTRUN",
+            "description": "Digital filter run status flag This bit is set and cleared by hardware. It indicates if the digital filter is running or not.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Digital filter not running and ready to accept a new trigger event"
+              },
+              {
+                "value": "1",
+                "meaning": "Digital filter running"
+              }
+            ]
+          },
+          {
+            "bits": "29:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27:20",
+            "name": "NBDIS[7:0]",
+            "description": "Number of samples to be discarded This bitfield is set and cleared by software. it is used to define the number of samples to be discarded every time the DFLTx is re-started. ... Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No sample discarded"
+              },
+              {
+                "value": "1",
+                "meaning": "1 sample discarded"
+              },
+              {
+                "value": "2",
+                "meaning": "2 samples discarded"
+              },
+              {
+                "value": "255",
+                "meaning": "255 samples discarded"
+              }
+            ]
+          },
+          {
+            "bits": "19:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "SNPSFMT",
+            "description": "Snapshot data format This bit is set and cleared by software. It is used to select the data format for the snapshot mode. of 23 bits resolution of 16 bits. Note: This bit can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Integrator counter (INT_CNT) not inserted into MDF_SNPSxDR, leaving a data resolution"
+              },
+              {
+                "value": "1",
+                "meaning": "Integrator counter (INT_CNT) inserted at position [15:9] of MDF_SNPSxDR, leaving a data"
+              }
+            ]
+          },
+          {
+            "bits": "15:12",
+            "name": "TRGSRC[3:0]",
+            "description": "Digital filter trigger signal selection This bitfield is set and cleared by software. It is used to select which external signals trigger the corresponding filter. ... Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "TRGO selected"
+              },
+              {
+                "value": "0001",
+                "meaning": "OLDx event selected"
+              },
+              {
+                "value": "0010",
+                "meaning": "mdf_trg[0] selected"
+              },
+              {
+                "value": "1111",
+                "meaning": "mdf_trg[13] selected"
+              }
+            ]
+          },
+          {
+            "bits": "11:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "TRGSENS",
+            "description": "Digital filter trigger sensitivity selection this bit is set and cleared by software. It is used to select the trigger sensitivity of the external signals Note: When the trigger source is TRGO or OLDx event, TRGSENS value is not taken into account. When TRGO is selected, the sensitivity is forced to falling edge, when OLDx event is selected, the sensitivity is forced to rising edge. This bit can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "A rising edge event triggers the acquisition."
+              },
+              {
+                "value": "1",
+                "meaning": "A falling edge even triggers the acquisition."
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6:4",
+            "name": "ACQMOD[2:0]",
+            "description": "Digital filter trigger mode This bitfield is set and cleared by software. It is used to select the filter trigger mode. Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Asynchronous continuous acquisition mode"
+              },
+              {
+                "value": "001",
+                "meaning": "Asynchronous single-shot acquisition mode"
+              },
+              {
+                "value": "010",
+                "meaning": "Synchronous continuous acquisition mode"
+              },
+              {
+                "value": "011",
+                "meaning": "Synchronous, single-shot acquisition mode"
+              },
+              {
+                "value": "100",
+                "meaning": "Window continuous acquisition mode"
+              },
+              {
+                "value": "101",
+                "meaning": "Synchronous snapshot mode"
+              },
+              {
+                "value": "Others",
+                "meaning": "same a 000"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "FTH",
+            "description": "RXFIFO threshold selection This bit is set and cleared by software. It is used to select the RXFIFO threshold. This bit is not significant for RXFIFOs working in interleaved-transfer mode (see Interleaved-transfer mode for details). Note: This bit can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RXFIFO threshold event generated when the RXFIFO is not empty"
+              },
+              {
+                "value": "1",
+                "meaning": "RXFIFO threshold event generated when the RXFIFO is half-full"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "DMAEN",
+            "description": "DMA requests enable This bit is set and cleared by software. It is used to control the generation of DMA request to transfer the processed samples into the memory. Note: This bit can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA interface for the corresponding digital filter disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA interface for the corresponding digital filter enabled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "DFLTEN",
+            "description": "Digital filter enable This bit is set and cleared by software. It is used to control the start of acquisition of the corresponding digital filter path. This bit behavior depends on ACQMOD[2:0]and external events. The serial or parallel interface delivering the samples must be enabled as well. the proper trigger event occurs if ACQMOD[2:0] = 01x or 100.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Acquisition immediately stopped"
+              },
+              {
+                "value": "1",
+                "meaning": "Acquisition immediately started if ACQMOD[2:0] = 00x or 101, or acquisition started when"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

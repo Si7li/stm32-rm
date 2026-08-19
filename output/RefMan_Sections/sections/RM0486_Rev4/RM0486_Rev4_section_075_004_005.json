@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S75.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "75",
+      "chapter_title": "USB Type-C®/USB Power Delivery interface (UCPD)",
+      "section": "75.4.5",
+      "section_title": "UCPD BMC receiver",
+      "level": 3,
+      "parent_section": "75.4",
+      "page": 3947,
+      "page_end": 3949,
+      "semantic_type": "generic",
+      "features": [
+        "bmc",
+        "power",
+        "ucpd"
+      ],
+      "chars": 3330,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3947",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 75.4.5 \"UCPD BMC receiver\" in chapter 75 (USB Type-C®/USB Power Delivery interface (UCPD)), RM0486 Rev 4, page 3947.",
+      "section_content": "The UCPD BMC receiver performs:\n• Clock recovery\n• Preamble detection / timing derivation\n• BMC decoding\n• 4b5b decoding\n• K-code ordered set recognition\n• CRC checking\n• SOP detection\n• EOP detection\nThe receiver is activated as soon as the UCPD peripheral is enabled (via UCPDEN), but it\nwaits for an idle CC line state before attempting to receive a message.\nThe following figure shows the UCPD BMC receiver high-level architecture.\n[Figure 1019. UCPD BMC receiver architecture]\nCRC checker\nThe received bits are fed into a CRC checker which evolves a 32-bit state during the\nreceived the payload bitstream. At the end the 32 bits of the CRC also fed into the logic\nThe EOP detection (5 bits) halts the process and a check is performed for the fixed residual\nstate which confirms correct reception of the payload (in fact the residual is 0xC704DD78).\nAt this point the UCPD raises interrupt RXMSGEND. If the CRC was not correct then RXERR\nis set true and the receive data must be discarded.\nUnder normal operation, this interrupt would previously have been acknowledged and thus\ncleared. If this is not the case, a different interrupt RXOVR is generated in place of\nRXMSGEND.\nOrdered set detection\nThis function detects the different ordered sets each consisting of four 5-bit K-codes.\nOnce we are in the preamble we opens a sliding window detection of the ordered set (4\nwords of 5 bits).\nThe ordered sets detected include all SOP* codes (SOP, SOP’, and SOP’’), but also Hard\nReset, Cable Reset, SOP’_Debug, SOP’’_Debug, and two extensions defined by registers\nUCPD_RX_ORDEXT1 and UCPD_RX_ORDEXT2.\nEOP detection and Hard Reset exception handling\nEOP is a fixed 5-bit K-code marking the end of a message.\nThe way in which a transmitter is required to send a Hard Reset (if a previous message\ntransmit is still in progress) is that this previous message is truncated early with an EOP.\nIf Hard Reset were ignored, then the EOP detection can be done only at the expected time.\nHowever, due to the Hard Reset issue, the EOP detector must be active while an Rx\nmessage is arriving. When an “early EOP” is detected, the truncated Rx message is\nimmediately discarded.\nTruncated or corrupted message exception\nOnce the ordered set has been detected, depending on the message, there may be data\nbytes to be received which is completed with a CRC and EOP. If at any point during these\nphases an error condition happens:\n• the line becomes static for a time significantly longer than one “UI” period (the exact\nthreshold for this condition is not critical but the exception must occur before three UIs),\n• the message goes to the end but it is not recognized (for example EOP is corrupted).\nIn both cases, the receiver quits the current message, raising RXMSGEND and RXERR\nflags.\nShort preamble or incomplete ordered set exception\nIn the exceptional case of the receiver seeing less that half of the expected preamble, the\nfrequency estimation allowing correct BMC-decode becomes impossible. Even if the full\npreamble is seen, allowing frequency estimation, but the ordered set is not fully received\nbefore the line becomes static, the receiver state machine does not start.\nIn both of these cases, the clock-recovery/BMC decoder re-starts, checking initially for an\nIDLE condition, followed by a preamble, and then estimating frequency.",
+      "semantic": {}
+    }
+  ]
+}

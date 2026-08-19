@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S14.3.10",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "14",
+      "chapter_title": "Advanced-control timers (TIM1 and TIM8)",
+      "section": "14.3.10",
+      "section_title": "PWM mode",
+      "level": 3,
+      "parent_section": "14.3",
+      "page": 317,
+      "page_end": 320,
+      "semantic_type": "generic",
+      "features": [
+        "pwm",
+        "timer"
+      ],
+      "chars": 4208,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=317",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.3.10 \"PWM mode\" in chapter 14 (Advanced-control timers (TIM1 and TIM8)), RM0008 Rev 21, page 317.",
+      "section_content": "Pulse Width Modulation mode allows generating a signal with a frequency determined by\nthe value of the TIMx_ARR register and a duty cycle determined by the value of the\nTIMx_CCRx register.\nThe PWM mode can be selected independently on each channel (one PWM per OCx\noutput) by writing ‘110’ (PWM mode 1) or ‘111’ (PWM mode 2) in the OCxM bits in the\nTIMx_CCMRx register. The corresponding preload register must be enabled by setting the\nOCxPE bit in the TIMx_CCMRx register, and eventually the auto-reload preload register (in\nupcounting or center-aligned modes) by setting the ARPE bit in the TIMx_CR1 register.\nAs the preload registers are transferred to the shadow registers only when an update event\noccurs, before starting the counter, the user must initialize all the registers by setting the UG\nbit in the TIMx_EGR register.\nOCx polarity is software programmable using the CCxP bit in the TIMx_CCER register. It\ncan be programmed as active high or active low. OCx output is enabled by a combination of\nthe CCxE, CCxNE, MOE, OSSI and OSSR bits (TIMx_CCER and TIMx_BDTR registers).\nRefer to the TIMx_CCER register description for more details.\nIn PWM mode (1 or 2), TIMx_CNT and TIMx_CCRx are always compared to determine\nwhether TIMx_CCRx≤TIMx_CNT or TIMx_CNT≤TIMx_CCRx (depending on the direction\nof the counter).\nThe timer is able to generate PWM in edge-aligned mode or center-aligned mode\ndepending on the CMS bits in the TIMx_CR1 register.\nPWM edge-aligned mode\n• Upcounting configuration\nUpcounting is active when the DIR bit in the TIMx_CR1 register is low. Refer to\nUpcounting mode.\nIn the following example, we consider PWM mode 1. The reference PWM signal\nOCxREF is high as long as TIMx_CNT < TIMx_CCRx else it becomes low. If the\ncompare value in TIMx_CCRx is greater than the auto-reload value (in TIMx_ARR)\nthen OCxREF is held at ‘1’. If the compare value is 0 then OCxRef is held at ‘0’.\nFigure84 shows some edge-aligned PWM waveforms in an example where\nTIMx_ARR=8.\n[Figure 84. Edge-aligned PWM waveforms (ARR=8)]\n• Downcounting configuration\nDowncounting is active when DIR bit in TIMx_CR1 register is high. Refer to\nDowncounting mode\nIn PWM mode 1, the reference signal OCxRef is low as long as\nTIMx_CNT>TIMx_CCRx else it becomes high. If the compare value in TIMx_CCRx is\ngreater than the auto-reload value in TIMx_ARR, then OCxREF is held at ‘1’. 0% PWM\nis not possible in this mode.\nPWM center-aligned mode\nCenter-aligned mode is active when the CMS bits in TIMx_CR1 register are different from\n‘00’ (all the remaining configurations having the same effect on the OCxRef/OCx signals).\nThe compare flag is set when the counter counts up, when it counts down or both when it\ncounts up and down depending on the CMS bits configuration. The direction bit (DIR) in the\nTIMx_CR1 register is updated by hardware and must not be changed by software. Refer to\nCenter-aligned mode (up/down counting).\nFigure85 shows some center-aligned PWM waveforms in an example where:\n• TIMx_ARR=8,\n• PWM mode is the PWM mode 1,\n• The flag is set when the counter counts down corresponding to the center-aligned\nmode 1 selected for CMS=01 in TIMx_CR1 register.\n[Figure 85. Center-aligned PWM waveforms (ARR=8)]\nHints on using center-aligned mode:\n• When starting in center-aligned mode, the current up-down configuration is used. It\nmeans that the counter counts up or down depending on the value written in the DIR bit\nin the TIMx_CR1 register. Moreover, the DIR and CMS bits must not be changed at the\nsame time by the software.\n• Writing to the counter while running in center-aligned mode is not recommended as it\ncan lead to unexpected results. In particular:\n– The direction is not updated if the user writes a value in the counter greater than\nthe auto-reload value (TIMx_CNT>TIMx_ARR). For example, if the counter was\ncounting up, it will continue to count up.\n– The direction is updated if the user writes 0 or write the TIMx_ARR value in the\ncounter but no Update Event UEV is generated.\n• The safest way to use center-aligned mode is to generate an update by software\n(setting the UG bit in the TIMx_EGR register) just before starting the counter and not to\nwrite the counter while it is running.",
+      "semantic": {}
+    }
+  ]
+}

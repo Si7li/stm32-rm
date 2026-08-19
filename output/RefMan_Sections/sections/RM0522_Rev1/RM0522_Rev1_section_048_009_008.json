@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S48.9.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "48",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "48.9.8",
+      "section_title": "Programming guidelines for MII link state transitions",
+      "level": 3,
+      "parent_section": "48.9",
+      "page": 2238,
+      "page_end": 2239,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "mii"
+      ],
+      "chars": 2118,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2238",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.9.8 \"Programming guidelines for MII link state transitions\" in chapter 48 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0522 Rev 1, page 2238.",
+      "section_content": "Transmit and receive clocks are running when the link is down\nComplete the following steps when the link is down while the transmit and receive clocks\nare running:\n1. Disable the Transmit DMA (if applicable) by clearing bit 0 (ST) of Channel 0 control\nregister (ETH_DMAC0CR).\n2. Disable the MAC receiver by clearing RE bit of Operating mode configuration register\n(ETH_MACCR).\n3. Wait for any previous frame transmissions to complete. You can check this by reading\nthe appropriate bits of Tx queue 0 debug register (ETH_MTLTXQ0DR) (TRCSTS[1:0]\nis not 01).\nFlush the Tx FIFO for faster empty operation.\n4. Disable the MAC transmitter by clearing TE bit of the Operating mode configuration\nregister (ETH_MACCR) Register.\n5. Make sure that both Tx and Rx queues are empty (TXQSTS is set to 0 in Tx queue 0\ndebug register (ETH_MTLTXQ0DR) and RXQSTS[1:0] to 00 in Rx queue 0 debug\nregister (ETH_MTLRXQ0DR)).\n6. After the link is up, read the PHY registers to identify the latest configuration and\nprogram the MAC registers accordingly.\n7. Restart the operation by starting the Tx DMA. Then enable the MAC transmitter and\nreceiver.\nThe Rx DMA does not need to be enabled: since the receiver is disabled, there are no\ndata in the Rx FIFO.\nTransmit and receive clocks are stopped when the link is down\nComplete the following steps when the link is down and the transmit and receive clocks are\nstopped:\n1. Disable the MAC transmitter and receiver by clearing RE and TE bits in the Operating\nmode configuration register (ETH_MACCR). This does not take immediate effect as the\nclocks are absent.\n2. Wait till the link is up and the clocks are restored.\n3. Wait until the transfer of any partial frame is complete if any was ongoing when the\nTransmit/Receive clock is stopped. This can be checked by reading the Debug register\n(ETH_MACDR) (all bits should be set to 0). Some old packets may still remain in the\nTXFIFO as the MAC transmitter is stopped.\n4. Read the PHY registers to identify the latest operating mode and program the MAC\nregisters accordingly.\n5. Restart the MAC transmitter and receiver by setting RE and TE bits.",
+      "semantic": {}
+    }
+  ]
+}

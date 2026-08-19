@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.11",
+      "section_title": "Shadow registers",
+      "level": 2,
+      "parent_section": null,
+      "page": 1894,
+      "page_end": 1896,
+      "semantic_type": "generic",
+      "features": [
+        "shadow"
+      ],
+      "chars": 1934,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1894",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.11 \"Shadow registers\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1894.",
+      "section_content": "A dump and/or pixel pipe must have the capability to be reconfigured without stopping it.\nSome registers can be written in the middle of a frame without impacting the actual frame\nacquisition. The values are stored into some shadow registers before being written in their\ncorresponding physical registers, based on a trigger event like described in Table362.\nEach physical register in the register map has its address increased by 0x200 respect to its\nown shadow register address.\n[Table 362. Shadow and physical registers]\nIt is mandatory to refresh the shadow registers within a frame to prepare the context to be\nready for the next start of frame, to avoid any unpredictable behavior during the acquisition.\nThe software must then react to the following interrupt sources to launch the shadow\nregisters accesses:\n• At VSYNC interrupt (FrameStart at start of pipe) an interrupt is generated, and the\nsoftware can update the shadow registers loaded into the physical registers at the end\nof the current frame (so active for the next frame). The software has an entire frame\nperiod to complete the update.\n• At LINE interrupt line selection can be used also to trigger the software to update the\nphysical registers with the new frame context to consider. The application code must\nensure that the update takes place before the end of frame event (current frame). If not,\nthe context can be partially considered from the next frame, dealing with inconsistent\nsettings.\nIn any case, the software must ensure that the shadow registers are updated before the end\nof the current frame, to be active from the next frame. Updates started and not completed\nbefore the end of current frame result in inconsistent frame acquisition for the next frame\n(mixing old and new configurations).\nIt is recommended to change non-shadowed registers when the corresponding pipe is\ndisabled and in an idle state (refer to Section39.4.8: Pipe deactivation).",
+      "semantic": {}
+    }
+  ]
+}

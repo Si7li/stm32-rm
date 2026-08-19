@@ -1,0 +1,72 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.5",
+      "section_title": "I3C receive data word register (I3C_RDWR)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1760,
+      "page_end": 1760,
+      "semantic_type": "register_description",
+      "features": [
+        "i3c",
+        "i3c-rdwr",
+        "rdb0",
+        "rdb1",
+        "rdb2",
+        "rdb3"
+      ],
+      "chars": 1514,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1760",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.5 \"I3C receive data word register (I3C_RDWR)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1760.",
+      "section_content": "Address offset: 0x014\nReset value: 0x00000000\nThis register is used to read received data bytes from the I3C bus if the RX-FIFO is\nconfigured with a 32-bit word-based read access (RXTHRES = 1 in the I3C_CFGR register).\nThen:\n• When RXDMAEN = 1 in the I3C_CFGR register: programmed I3C and DMA\nautomatically manage by hardware the relevant and successive reads.\n• When RXDMAEN = 0: before a read, the software must first wait to be notified that\nmust be read a next received data word via the RX-FIFO non empty flag (RXFNEF = 1\nin the I3C_EVR register) or via the corresponding interrupt if enabled. Last received\nword/byte(s) of a given message to be read is also marked with RXLASTF = 1 in the\nI3C_EVR register when acting as controller.\n• If the RX-FIFO holds less than four bytes, a read on I3C_RDWR returns a data word\npadded with null byte(s): the available byte(s) in LSB position(s) is (are) padded with\nzero byte(s) in MSB position(s).\n• If the RX-FIFO is full and a new byte is received and cannot be pushed into the\nRX-FIFO without waiting anymore, the software is notified by an error flag ERRF=1 in\nthe I3C_EVR register and a data overrun DOVR = 1 in the I3C_SER register (and\ncorresponding interrupt if enabled).\nBits 31:24 RDB3[7:0]: 8-bit received data (latest byte on I3C bus).\nBits 23:16 RDB2[7:0]: 8-bit received data (next byte after RDB1 on I3C bus).\nBits 15:8 RDB1[7:0]: 8-bit received data (next byte after RDB0 on I3C bus).\nBits 7:0 RDB0[7:0]: 8-bit received data (earliest byte on I3C bus).",
+      "semantic": {
+        "register": "I3C_RDWR",
+        "address_offset": "0x014",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "RDB3[7:0]",
+            "description": "8-bit received data (latest byte on I3C bus).",
+            "values": []
+          },
+          {
+            "bits": "23:16",
+            "name": "RDB2[7:0]",
+            "description": "8-bit received data (next byte after RDB1 on I3C bus).",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "RDB1[7:0]",
+            "description": "8-bit received data (next byte after RDB0 on I3C bus).",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "RDB0[7:0]",
+            "description": "8-bit received data (earliest byte on I3C bus).",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

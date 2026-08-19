@@ -1,0 +1,50 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S7.5.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "7",
+      "chapter_title": "Resource isolation slave unit for address space protection (full version) (RISAF)",
+      "section": "7.5.16",
+      "section_title": "RISAF region x subregion B end-address register (RISAF_REGx_BENDR)",
+      "level": 3,
+      "parent_section": "7.5",
+      "page": 276,
+      "page_end": 277,
+      "semantic_type": "register_description",
+      "features": [
+        "risaf",
+        "saddend"
+      ],
+      "chars": 1436,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=276",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 7.5.16 \"RISAF region x subregion B end-address register (RISAF_REGx_BENDR)\" in chapter 7 (Resource isolation slave unit for address space protection (full version) (RISAF)), RM0486 Rev 4, page 276.",
+      "section_content": "Address offset: 0x068 + 0x40 * (x - 1) (x = 1 to 15)\nReset value: 0x0000 0FFF\nThis reset value applies when the granularity is 4 Kbytes. More in general, if the granularity\nis 2n, the reset value is 2n - 1.\nUnprivileged writes are ignored. Nonsecure writes are ignored if SEC = 1 in\nRISAF_REGx_CFGR, or if DCEN = 0 in RISAF_REGx_BNESTR. Any read access is\nallowed to this register. Writes are ignored if RLOCK = 1 or SREN = 1 in\nRISAF_REGx_BCFGR.\nWhen the delegated configuration is enabled (DCEN = 1 in RISAF_REGx_BNESTR), only\nthe compartment DCCID defined in RISAF_REGx_BNESTR can write to this register. When\nthe delegation is disabled (DCEN = 0), only the secure privileged software can program this\nregister.\nRefer to Section7.3 to verify the number of base regions and subregions supported by this\nRISAF instance, and for details on protected address space size and watermark granularity.\nBits 31:0 SADDEND[31:0]: Subregion address end\nThis bitfield defines the byte-address offset (relative to the base address of the protected\naddress space) of the highest byte-address of subregion B in base region x.\nAddress bits less than the granularity cannot be modified, and remain 1.\nAddress bits greater than the protected address space size cannot be written, and remain 0.\nThe effective subregion is the intersection of the subregion and its base region (there is no\npoint in programming SADDEND higher than the associated BADDEND).",
+      "semantic": {
+        "register": "RISAF_REGx_BENDR",
+        "address_offset": "0x068 + 0x40 * (x - 1) (x = 1 to 15)",
+        "reset_value": "0x0000 0FFF",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:0",
+            "name": "SADDEND[31:0]",
+            "description": "Subregion address end This bitfield defines the byte-address offset (relative to the base address of the protected address space) of the highest byte-address of subregion B in base region x. Address bits less than the granularity cannot be modified, and remain 1. Address bits greater than the protected address space size cannot be written, and remain 0. The effective subregion is the intersection of the subregion and its base region (there is no point in programming SADDEND higher than the associated BADDEND).",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

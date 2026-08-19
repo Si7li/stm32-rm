@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S21.4.13",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "21",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "21.4.13",
+      "section_title": "Single conversion mode",
+      "level": 3,
+      "parent_section": "21.4",
+      "page": 578,
+      "page_end": 579,
+      "semantic_type": "generic",
+      "features": [
+        "adc"
+      ],
+      "chars": 1555,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=578",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.4.13 \"Single conversion mode\" in chapter 21 (Analog-to-digital converters (ADC)), RM0522 Rev 1, page 578.",
+      "section_content": "To enable the single conversion mode for regular channels, clear both CONT and DISCEN\nbits in ADC_CFGR1 register. To enable it on injected channel, clear JDISCEN bit.\nIn single conversion mode, the ADC performs once all the regular conversions of the\nprogrammed channels. This mode is started by one of the following events:\n• ADSTART bit set in the ADC_CR register (for a regular channel)\n• JADSTART bit set in the ADC_CR register (for an injected channel)\n• An external hardware trigger event (for a regular or injected channel)\nInside the regular sequence, after each conversion is complete:\n• The converted data are stored into the 32-bit 8-level FIFO accessible through the\nADC_DR register,\n• The EOC (end of regular conversion) flag is set, and\n• An interrupt is generated if the EOCIE bit is set.\nInside the injected sequence, after each conversion is complete:\n• The converted data are stored into one of the four 32-bit ADC_JDRy registers,\n• The JEOC (end of injected conversion) flag is set, and\n• An interrupt is generated if the JEOCIE bit is set.\nAfter the regular sequence is complete:\n• The EOS (end of regular sequence) flag is set, and\n• An interrupt is generated if the EOSIE bit is set.\nAfter the injected sequence is complete:\n• The JEOS (end of injected sequence) flag is set, and\n• An interrupt is generated if the JEOSIE bit is set.\nThe ADC then stops until a new external regular or injected trigger occurs or until the\nADSTART or JADSTART bit is set again.\nNote: To convert a single channel, program a sequence with a length of 1.",
+      "semantic": {}
+    }
+  ]
+}

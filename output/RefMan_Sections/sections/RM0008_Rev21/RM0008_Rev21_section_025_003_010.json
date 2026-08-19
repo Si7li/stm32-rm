@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.3.10",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.3.10",
+      "section_title": "Error flags",
+      "level": 3,
+      "parent_section": "25.3",
+      "page": 721,
+      "page_end": 722,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2298,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=721",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.3.10 \"Error flags\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 721.",
+      "section_content": "Master mode fault (MODF)\nMaster mode fault occurs when the master device has its NSS pin pulled low (in NSS\nhardware mode) or SSI bit low (in NSS software mode), this automatically sets the MODF\nbit. Master mode fault affects the SPI peripheral in the following ways:\n• The MODF bit is set and an SPI interrupt is generated if the ERRIE bit is set.\n• The SPE bit is cleared. This blocks all output from the device and disables the SPI\ninterface.\n• The MSTR bit is cleared, thus forcing the device into slave mode.\nUse the following software sequence to clear the MODF bit:\n1. Make a read or write access to the SPI_SR register while the MODF bit is set.\n2. Then write to the SPI_CR1 register.\nTo avoid any multiple slave conflicts in a system comprising several MCUs, the NSS pin\nmust be pulled high during the MODF bit clearing sequence. The SPE and MSTR bits can\nbe restored to their original state after this clearing sequence.\nAs a security, hardware does not allow the setting of the SPE and MSTR bits while the\nMODF bit is set.\nIn a slave device the MODF bit cannot be set. However, in a multimaster configuration, the\ndevice can be in slave mode with this MODF bit set. In this case, the MODF bit indicates\nthat there might have been a multimaster conflict for system control. An interrupt routine can\nbe used to recover cleanly from this state by performing a reset or returning to a default\nstate.\nOverrun condition\nAn overrun condition occurs when the master device has sent data bytes and the slave\ndevice has not cleared the RXNE bit resulting from the previous data byte transmitted.\nWhen an overrun condition occurs:\n• the OVR bit is set and an interrupt is generated if the ERRIE bit is set.\nIn this case, the receiver buffer contents will not be updated with the newly received data\nfrom the master device. A read from the SPI_DR register returns this byte. All other\nsubsequently transmitted bytes are lost.\nClearing the OVR bit is done by a read from the SPI_DR register followed by a read access\nto the SPI_SR register.\nCRC error\nThis flag is used to verify the validity of the value received when the CRCEN bit in the\nSPI_CR1 register is set. The CRCERR flag in the SPI_SR register is set if the value\nreceived in the shift register does not match the receiver SPI_RXCRCR value.",
+      "semantic": {}
+    }
+  ]
+}

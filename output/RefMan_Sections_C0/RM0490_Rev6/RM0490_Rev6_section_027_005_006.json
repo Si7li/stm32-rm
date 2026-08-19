@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.5.6",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.5.6",
+      "section_title": "Communication formats",
+      "level": 3,
+      "parent_section": "27.5",
+      "page": 838,
+      "page_end": 840,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2686,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=838",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.5.6 \"Communication formats\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 838.",
+      "section_content": "During SPI communication, receive and transmit operations are performed simultaneously.\nThe serial clock (SCK) synchronizes the shifting and sampling of the information on the data\nlines. The communication format depends on the clock phase, the clock polarity and the\ndata frame format. To be able to communicate together, the master and slaves devices must\nfollow the same communication format.\nClock phase and polarity controls\nFour possible timing relationships may be chosen by software, using the CPOL and CPHA\nbits in the SPIx_CR1 register. The CPOL (clock polarity) bit controls the idle state value of\nthe clock when no data is being transferred. This bit affects both master and slave modes. If\nCPOL is reset, the SCK pin has a low-level idle state. If CPOL is set, the SCK pin has a\nhigh-level idle state.\nIf the CPHA bit is set, the second edge on the SCK pin captures the first data bit transacted\n(falling edge if the CPOL bit is reset, rising edge if the CPOL bit is set). Data are latched on\neach occurrence of this clock transition type. If the CPHA bit is reset, the first edge on the\nSCK pin captures the first data bit transacted (falling edge if the CPOL bit is set, rising edge\nif the CPOL bit is reset). Data are latched on each occurrence of this clock transition type.\nThe combination of CPOL (clock polarity) and CPHA (clock phase) bits selects the data\ncapture clock edge.\nFigure286, shows an SPI full-duplex transfer with the four combinations of the CPHA and\nCPOL bits.\nNote: Prior to changing the CPOL/CPHA bits the SPI must be disabled by resetting the SPE bit.\nThe idle state of SCK must correspond to the polarity selected in the SPIx_CR1 register (by\npulling up SCK if CPOL=1 or pulling down SCK if CPOL=0).\n[Figure 286. Data clock timing diagram]\n1. The order of data bits depends on LSBFIRST bit setting.\nData frame format\nThe SPI shift register can be set up to shift out MSB-first or LSB-first, depending on the\nvalue of the LSBFIRST bit. The data frame size is chosen by using the DS bits. It can be set\nfrom 4-bit up to 16-bit length and the setting applies for both transmission and reception.\nWhatever the selected data frame size, read access to the FIFO must be aligned with the\nFRXTH level. When the SPIx_DR register is accessed, data frames are always right-aligned\ninto either a byte (if the data fits into a byte) or a half-word (see Figure287). During\ncommunication, only bits within the data frame are clocked and transferred.\n[Figure 287. Data alignment when data length is not equal to 8-bit or 16-bit]\nNote: The minimum data length is 4 bits. If a data length of less than 4 bits is selected, it is forced\nto an 8-bit data frame size.",
+      "semantic": {}
+    }
+  ]
+}

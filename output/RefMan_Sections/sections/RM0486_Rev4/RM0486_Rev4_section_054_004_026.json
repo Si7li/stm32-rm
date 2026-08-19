@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S54.4.26",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "54",
+      "chapter_title": "General-purpose timers (TIM2/TIM3/TIM4/TIM5)",
+      "section": "54.4.26",
+      "section_title": "DMA burst mode",
+      "level": 3,
+      "parent_section": "54.4",
+      "page": 2701,
+      "page_end": 2702,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "timer"
+      ],
+      "chars": 2730,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2701",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 54.4.26 \"DMA burst mode\" in chapter 54 (General-purpose timers (TIM2/TIM3/TIM4/TIM5)), RM0486 Rev 4, page 2701.",
+      "section_content": "The TIMx timers have the capability to generate multiple DMA requests upon a single event.\nThe main purpose is to be able to reprogram part of the timer multiple times without\nsoftware overhead, but it can also be used to read several registers in a row, at regular\nintervals.\nThe DMA controller destination is unique and must point to the virtual register TIMx_DMAR.\nOn a given timer event, the timer launches a sequence of DMA requests (burst). Each write\ninto the TIMx_DMAR register is actually redirected to one of the timer registers.\nThe DBL[4:0] bits in the TIMx_DCR register set the DMA burst length. The timer recognizes\na burst transfer when a read or a write access is done to the TIMx_DMAR address), i.e. the\nnumber of transfers (either in half-words or in bytes).\nThe DBA[4:0] bits in the TIMx_DCR registers define the DMA base address for DMA\ntransfers (when read/write accesses are done through the TIMx_DMAR address). DBA is\ndefined as an offset starting from the address of the TIMx_CR1 register:\nExample:\n00000: TIMx_CR1\n00001: TIMx_CR2\n00010: TIMx_SMCR\nThe DBSS[3:0] bits in the TIMx_DCR register defines the interrupt source that triggers the\nDMA burst transfers (see Section54.5.23: TIMx DMA control register (TIMx_DCR)(x = 2 to\n5) for details).\nAs an example, the timer DMA burst feature is used to update the contents of the CCRx\nregisters (x = 2, 3, 4) upon an update event, with the DMA transferring half words into the\nCCRx registers.\nThis is done in the following steps:\n1. Configure the corresponding DMA channel as follows:\n– DMA channel peripheral address is the DMAR register address.\n– DMA channel memory address is the address of the buffer in the RAM containing\nthe data to be transferred by DMA into CCRx registers.\n– Number of data to transfer = 3 (See note below).\n– Circular mode disabled.\n2. Configure the DCR register by configuring the DBA and DBL bitfields as follows:\nDBL = 3 transfers, DBA = 0xE and DBSS = 1.\n3. Enable the TIMx update DMA request (set the UDE bit in the DIER register).\n4. Enable TIMx.\n5. Enable the DMA channel.\nThis example is for the case where every CCRx register has to be updated once. If every\nCCRx register is to be updated twice for example, the number of data to transfer must be 6.\nLet's take the example of a buffer in the RAM containing data1, data2, data3, data4, data5,\nand data6. The data is transferred to the CCRx registers as follows: on the first update DMA\nrequest, data1 is transferred to CCR2, data2 is transferred to CCR3, data3 is transferred to\nCCR4 and on the second update DMA request, data4 is transferred to CCR2, data5 is\ntransferred to CCR3, and data6 is transferred to CCR4.\nNote: A null value can be written to the reserved registers.",
+      "semantic": {}
+    }
+  ]
+}

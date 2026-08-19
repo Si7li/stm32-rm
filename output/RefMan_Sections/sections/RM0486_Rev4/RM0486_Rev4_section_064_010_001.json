@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.10.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.10.1",
+      "section_title": "C-FIFO management, as controller",
+      "level": 3,
+      "parent_section": "64.10",
+      "page": 3212,
+      "page_end": 3213,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 2065,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3212",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.10.1 \"C-FIFO management, as controller\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3212.",
+      "section_content": "When controller, as illustrated in figures of Section64.9, C-FIFO can be used during any of\nthe following transfers:\n• broadcast CCC (Figure820, Figure821, Figure822)\n• direct read/write CCC (Figure822)\n– command part, first message\n– data part, next message(s)\n• private read/write (Figure827)\n• legacy I2C read/write (Figure829)\n• software-initiated error recovery (SCL forced to be stopped until next header message\nfollowed by HDR exit pattern)\nFigure833 illustrates the management of the C-FIFO for queuing control word(s) on the I3C\nbus, when the I3C peripheral acts as controller.\n[Figure 833. C-FIFO management, as controller]\n1. This feature is implementation-dependent and can be unavailable. Refer to Section64.3.4.\nFirst, the software must initialize the C-FIFO management via CDMAEN in the I3C_CFGR\nregister, to be written either:\n• directly by the software (if CDMAEN = 0) at the control word level:\n– via polling mode (CFNFIE = 0 in the I3C_IER register): waiting for a next control\nword is requested by the hardware (CFNFF = 1 in the I3C_IER register) before an\nexplicit write to the I3C_CR register\n– via enabled interrupt notification if CFNFIE = 1\n• by the allocated DMA channel (if CDMAEN = 1) to the corresponding DMA request\nfrom the I3C peripheral (i3c_tc_dma):\n– as configured at block level, the DMA is automatically pushing-on/writing control\nword(s) into the I3C_CR register from its memory source buffer, until the frame\ncompletion (a stop is emitted on the I3C bus after the last message of the frame),\nunless a transfer error occurs.\nIn any case, if C-FIFO is empty and a restart must be emitted with a new control word, a\nC-FIFO underrun is reported (ERRF = 1 in the I3C_EVR register and COVR = 1 in the\nI3C_SER register). If enabled by ERRIE = 1 in the I3C_IER register, an interrupt is\ngenerated.\nThe DMA mode for the C-FIFO management can be modified when the I3C peripheral is not\nin active state.\nWhen controller, if a transfer error occurs (ERRF = 1 in the I3C_EVR register), the C-FIFO is\nflushed automatically by the hardware.",
+      "semantic": {}
+    }
+  ]
+}

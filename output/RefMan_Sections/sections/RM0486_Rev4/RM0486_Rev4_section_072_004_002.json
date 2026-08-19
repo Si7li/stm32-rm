@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S72.4.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "72",
+      "chapter_title": "USB subsystem (USBSS)",
+      "section": "72.4.2",
+      "section_title": "USB Type-C and power delivery interface implementation",
+      "level": 3,
+      "parent_section": "72.4",
+      "page": 3755,
+      "page_end": 3756,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "usb"
+      ],
+      "chars": 1854,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3755",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 72.4.2 \"USB Type-C and power delivery interface implementation\" in chapter 72 (USB subsystem (USBSS)), RM0486 Rev 4, page 3755.",
+      "section_content": "Figure978 gives an overview of how OTG HS Port 1 connects to a Type-C receptacle.\n[Figure 978. USB Type-C implementation: OTG HS Port 1 example]\nSTM32N6 device GPIOs I2C VBUS source USB\nreceptacle\nOTGPHY1 OTG1_HSDP/DM\nEXTI1 VBUS connect\nRX1+/RX1-\nRX2+/RX2-\nTX1+/TX1-\nTX2+/TX2-\nThe CC IOs (UCPDPHY) integrate the Rp and Rd resistors, and the voltage threshold\ncomparators needed to define the local port attributes and detect the attributes of the\nremote port being attached.\nThe UCPD digital controller handles Type-C level detection with de-bounce, CRC\ngeneration/checking, 4b5b encode/decode, BMC encode/decode.\nIf needed, VBUS detection must be managed by an ADC channel or an external\ncomparator. It cannot be managed by OTGPHY1 since it is forced in external comparator\nmode and not connected to VBUS.\nVBUS comparison with Vsafe0v and Vsafe5v thresholds is performed by an ADC. An\nexternal resistor bridge is required to scale down VBUS to the 1V8 range of the ADC\nchannel input.\nAn external component is required to protect the CC lines from overvoltage condition and\nVBUS line from overvoltage and overcurrent conditions. TCPP02/03 is well suited for this\npurpose and also implements Vconn switches, Dead battery support, the control for VBUS\nswitch and VBUS discharge.\nA VBUS source is required in source (SRC) and DRP platforms.\nIn a SRC or DRP platform, the device can be woken up from Stop mode by the UCPD digital\ncontroller upon asynchronous detection of events on the CC lines. In a sink (SNK) platform,\nthe device can be woken up from Stdby mode by the detection of VBUS connection\nperformed in TCPP02/03 and routed to a GPIO (FLG_n signal in the figure above).\nNote: The Type-C interface can be associated either to OTG HS Port 1 or to OTG HS Port 2. If an\napplication requires two Type-C ports, an external Type-C controller is required.",
+      "semantic": {}
+    }
+  ]
+}

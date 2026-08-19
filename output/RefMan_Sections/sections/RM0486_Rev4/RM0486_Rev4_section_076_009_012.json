@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.12",
+      "section_title": "Programming guidelines for AV feature",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4136,
+      "page_end": 4137,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 5119,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4136",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.12 \"Programming guidelines for AV feature\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4136.",
+      "section_content": "Initializing the DMA\nComplete the following steps to initialize the DMA:\n1. Provide a software reset to reset all registers and logic (bit 0 in ETH_DMAMR).\n2. Wait for the completion of the reset process. Poll bit 0 of the ETH_DMAMR, which is\ncleared only when the reset operation is completed.\n3. Program the fields to initialize the DMA register by setting the values in ETH_DMAMR\nregister.\n4. Create a proper descriptor list for transmit and receive. In addition, ensure that the\nDMA owns the transmit and receive descriptors. When OSF mode is used, at least two\nTX descriptors are required. For more information about descriptors, refer to\nSection76.10: Descriptors.\n5. Make sure that your software creates three or more different transmit or receive\ndescriptors in the list before reusing any of the descriptors.\n6. Program the transmit and receive Ring length registers (Channel x Tx descriptor ring\nlength register (ETH_DMACxTXRLR) and Channel x Rx descriptor ring length register\n(ETH_DMACxRXRLR)). The ring length programmed must be at least 4.\n7. Initialize the receive and transmit descriptor list address with the base address of the\ntransmit and receive descriptor (Channel x Tx descriptor list address register\n(ETH_DMACxTXDLAR), Channel x Rx descriptor list address register\n(ETH_DMACxRXDLAR)). In addition, program the transmit and receive tail pointer\nregisters indicating the available descriptors to the DMA (Channel x Tx descriptor tail\npointer register (ETH_DMACxTXDTPR) and Channel x Rx descriptor tail pointer\nregister (ETH_DMACxRXDTPR)).\n8. Program the following fields to initialize the operating mode in the\nETH_MTLTXQ0OMR:\na) Transmit Store And Forward (TSF)\nb) Transmit Threshold Control (TTC)\nc) Transmit Queue Enable (TXQEN) to value 10 to enable Transmit Queue0\nd) Transmit Queue Size (TQS)\n9. Enable the interrupts by programming the EH_DMAC0IER.\n10. Repeat steps 4 to 9 for all the Tx DMA and RX DMA channels.\n11. Program the CBS control register, idleSlope, sendSlope, hiCredit, and loCredit\nregisters of the AV queues.\n12. Start the Receive and Transmit DMA by setting bit 0 of the ETH_DMAC0TXCR and bit\n0 of the ETH_DMAC0RXCR (see Channel x transmit control register\n(ETH_DMACxTXCR) and Channel x receive control register (ETH_DMACxRXCR)).\nEnabling slot number checking\nYou can use the slot number check feature to specify the intervals at which the DMA chan-\nnels mapped to AV queues fetches the frames from the AHB/AXI system bus. This feature is\nuseful to ensure a uniform and periodic transfer of the AV traffic from the host memory. It is\navailable only when timestamping is enabled and the Subsecond increment register\n(ETH_MACSSIR) is programmed. Complete the following steps to enable the slot number\nchecking:\nNote: The slot number checking steps should be complete after programming the CBS control\nregister, idleSlope, sendSlope, hiCredit, and loCredit registers of the AV queues (step 11 of\nSection: Initializing the DMA). and before starting the Receive and Transmit DMA (step 12).\n1. Enable timestamping by following the steps described in Section: Initializing the\nSystem time generation.\n2. Make sure that the SLOTNUM field (bits 22 to 19) of TDES3 Normal Descriptor (Read\nFormat) contains a valid slot number. To do this, read the current reference slot number\nfrom the Channel x slot function control status register (ETH_DMACxSFCSR).\n3. Set bit 0 (ESC) of Channel x slot function control status register (ETH_DMACxSFCSR)\nto enable the slot number checking.\nEnabling average bits per slot reporting\nThe CBS Status register of the additional AV channels provides information about the aver-\nage bits that are transmitted in a slot. The software can asynchronously read this register to\nretrieve information about the average bits transmitted per slot. Complete the following\nsteps to enable average bits per slot reporting:\n1. Enable timestamping by following the steps described in Section: Initializing the\nSystem time generation.\n2. Program SLC bits of the Tx queue 1 ETS control register (ETH_MTLTXQ1ECR) of a\nchannel with number of slots over which the average transmitted bits per slot need to\nbe computed.\n3. Enable ABPSIE of the Queue x interrupt control status register (ETH_MTLQxICSR) of\na channel to generate the average bits per slot interrupt.\nNote: The frequency of this interrupt depends on the value programmed during previous step. For\nexample, when you program value 0 in the SLC field, the interrupt is generated at every 125\nmicrosecond.\nWhen it is not required, you can disable this interrupt to stop the interrupt flooding.\n4. Read ABS bits from Tx queue x ETS status register (ETH_MTLTXQxESR) of a channel\non each interrupt.\nThe software can read the ABS bits in polling mode even if the ABPSIE bit is not\nenabled. When high, bit 1 (ABPSIS) of Queue x interrupt control status register\n(ETH_MTLQxICSR) indicates that a new value is updated in the ABS field.\nDisabling flow control for AV-enabled queues\nTransmit flow\nProgram the EHFC (Enable Hardware Flow Control) bit of corresponding Rx queue x\noperating mode register (ETH_MTLRXQxOMR) to 0.",
+      "semantic": {}
+    }
+  ]
+}

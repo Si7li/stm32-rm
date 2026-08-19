@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S9.4.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "9",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "9.4.3",
+      "section_title": "PSI oscillator and PSIS clock",
+      "level": 3,
+      "parent_section": "9.4",
+      "page": 258,
+      "page_end": 259,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "psi",
+        "psis",
+        "rcc"
+      ],
+      "chars": 2693,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=258",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.4.3 \"PSI oscillator and PSIS clock\" in chapter 9 (Reset and clock control (RCC)), RM0522 Rev 1, page 258.",
+      "section_content": "The PSI oscillator provides a 100 MHz, 144 MHz, or 160 MHz frequency, selected thanks to\nPSIFREQ[1:0] bitfield, to the product on condition that an adequate reference clock is\navailable. This programmable speed internal oscillator can be used as a system clock or\nperipheral clock. The PSI oscillator can produce three output clocks; PSIS, PSIDIV3, and\nPSIK.\nThe PSI is only operational when receiving a reference clock of 32.768 kHz, 8MHz, or\n8.33MHz (25 MHz divided by 3) as input. The PSIREF[2:0] bitfield helps you get the\nrequired input frequency depending on your chosen external clock. This external clock is\nselected thanks to PSIREFSRC[1:0] multiplexer between LSE, HSE, or HSI divided by 18.\nDetails of possible settings are listed in the table below.\n[Table 66. PSI frequency settings]\nNote: If LSE is used as reference, an intrinsic error must be anticipated on the output frequency\n(100.016 MHz, 144.015 MHz, and 160.006 MHz)\nTwo output dividers can be used to extent the available frequencies for the device. One\nconfigurable divider by 1.5, 2, 2.5, 3, 3.5, ... , 7.5, or 8, configured thanks to PSIKDIV[3:0]\ngenerating PSIK clock and a second dividing by 3 generating PSIDIV3 clock, intended for\nUSB.\nThe PSI advantages are the following:\n• Programmable high-speed clock source based on a reference clock\n• Configurable output frequencies (100 MHz, 144 MHz, 160 MHz)\nThe PSI frequency accuracy is directly related to the accuracy of its reference clock (for\nmore details regarding the specification of this oscillator, refer to product datasheet).\nPSI oscillator can be switched on and off using the PSISON bit, the PSIDIV3ON bit, or the\nPSIKON bit. Only the enabled clock output is generated.\nNote: The PSI cannot be switched off if used (via SW mux) as a system clock. In that case, the\nhardware does not allow programming the PSISON bit to 0.\nThe PSISRDY, PSIKRDY, and PSIDIV3RDY flags indicate if the oscillator is stable or not.\nIn addition, the PSI clocks can be driven to the MCO1 or MCO2 outputs, and used as clock\nsource for other application components.\nCare must be taken when the PSI is used as a kernel clock for communication peripherals;\nthe application must take into account the following parameters:\n• the time interval between the moment where the peripheral generates a kernel clock\nrequest and the moment where the clock is really available\nNote: The PSI can remain enabled when the system is in Stop 0 mode thanks to PSIKERON bit.\nIn this case the PSI and its clock outputs PSIK, PSIKDIV3, or PSIS are kept enabled if their\nrespective PSIKON, PSIDIV3ON, and PSISON are set. The states of those bits are\nmaintained exiting Stop 0 if the HSIKERON bit is set.",
+      "semantic": {}
+    }
+  ]
+}

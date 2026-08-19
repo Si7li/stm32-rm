@@ -1,0 +1,254 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S25.7.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "25",
+      "chapter_title": "Coupling and chaining bridge (CCB)",
+      "section": "25.7.2",
+      "section_title": "CCB status register (CCB_SR)",
+      "level": 3,
+      "parent_section": "25.7",
+      "page": 769,
+      "page_end": 771,
+      "semantic_type": "register_description",
+      "features": [
+        "ccb",
+        "ccb-busy",
+        "ccb-sr",
+        "operr",
+        "opstep"
+      ],
+      "chars": 4670,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=769",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.7.2 \"CCB status register (CCB_SR)\" in chapter 25 (Coupling and chaining bridge (CCB)), RM0522 Rev 1, page 769.",
+      "section_content": "Address offset: 0x004\nReset value: 0x00000000\nThis register is reset by a system reset, or after clearing IPRST in CCB_CR. The CCB reset\ninput from the RCC has no effect on this register.\nBits 31:30 Reserved, must be kept at reset value.\nBits 29:24 TAMP_EVTi: Tamper i flag (i = 5 to 0)\n0: No event\n1: Tamper event i has been raised. Global tamper event is raised. See Section25.3for\ndetails on the events.\nThis bit is cleared by writing 0 to IPRST bit in CCR_CR. When at least one TAMP_EVT bit is\nset, CCB sets IPRST bit.\nBits 23:17 Reserved, must be kept at reset value.\nBit 16 CCB_BUSY: CCB busy\nThis flag is set when CCB is busy, or when OPSTEP[4:0] ≠ 0 following a CCB reset\n(hardware reset or use of IPRST in CCB_CR).\n0: CCB idle\n1: CCB busy or PKA RAM is being cleared following a peripheral reset.\nWhen IPRST and CCB_BUSY are set, the SAES registers are not accessible (write ignored,\nread returns 0), and writes to EN or START bits in PKA_CR are ignored.\nBits 15:14 Reserved, must be kept at reset value.\nBits 13:8 OPERR[5:0]: Operation error\nWhen an error is detected during a protected PKA operation, the CCB raises IPRST in\nCCB_CR, and OPSTEP[4:0] is set to 0x1F. The bitfield is cleared by setting IPRST to 0.\n0x0: No error detected during protected PKA operation (if applicable)\n0x1: CCB RCC reset has been detected when OPSTEP > 0x0\n0x2: SAES RCC reset has been detected when OPSTEP > 0x0\n0x3: PKA RCC reset has been detected when OPSTEP > 0x0\n0x4: RNG RCC reset has been detected when OPSTEP > 0x0\n0x5: The RCC has gated the CCB clock when OPSTEP > 0x0.\n0x6: The RCC has gated the SAES clock when OPSTEP > 0x0.\n0x7: The RCC has gated the PKA clock when OPSTEP > 0x0.\n0x8: The RCC has gated the RNG clock when OPSTEP > 0x0.\n0x9: Random in SAES_IV1 is trivial (all 0s or all 1s) when OPSTEP = 0x2\n0xA: Random in SAES_IV2 is trivial (all 0s or all 1s) when OPSTEP = 0x2\n0xB: Random in SAES_IV3 is trivial (all 0s or all 1s) when OPSTEP = 0x2\n0xC: When OPSTEP = 0x17 SAES GCM TAG comparison with CCB_REFTAG failed, or a\nregister different from SAES_DOUT was read in the SAES.\n0xD: KEYSIZE ≠ 256 bits in SAES_CR when the SAES is enabled, and OPSTEP > 0x0.\n0xE: CHMOD ≠ GCM in SAES_CR when 0x1 < OPSTEP < 0x18, or the SAES is not\nenabled, or KEYVALID is cleared when GCMPH > 0x0.\n0xF: KMOD different from wrapped key mode in SAES_CR when the SAES is enabled, and\nOPSTEP = 0x1, or 0x1A.\n0x10: KEYSEL ≠ 0x1 or 0x4 in SAES_CR when the SAES is enabled, KEYVALID is set, and\nOPSTEP=0x1.\n0x11: GCMPH not correct (not incremented) in SAES_CR when OPSTEP > 0x1.\n0x12: MODE in SAES_CR does not match the expected value (selected by CCOP in\nCCB_CR) when OPSTEP > 0x1.\n0x13: BUSY = 1 in SAES_SR when OPSTEP= 0x18 or 0x19. SAES must not be used when\nPKA is computing a protected operation.\n0x14: EN = 0 in PKA_CR when OPSTEP > 0x2 (except 0x12). In other words, PKA must be\nenabled in any OPSTEP except 0x1, 0x2, or 0x12.\n0x15: INITOK = 0 in PKA_SR when OPSTEP > 0x2 (except 0x12).\n0x16: Authorized by local firewall, but unexpected AHB error detected when OPSTEP > 0x0.\n0x17: LMF = 1 in PKA_SR (only ECDSA verification available) when OPSTEP > 0x0.\n0x18: CCB_REFTAGRx registers are equal to 0 when OPSTEP > 0x12.\n0x1A: Security, privilege protections inconsistent (seeSection5: Global TrustZone® controller\n(GTZC) for the peripherals SAES, PKA, RNG, and CCB when OPSTEP > 0x0. This error is\nalso triggered when the protections change while OPSTEP > 0x0,\n0x1B: MODE in PKA_CR does not match the expected value (selected by CCOP in\nCCB_CR) when OPSTEP > 0x0.\n0x1C: OPSTEP end-step event not found at OPSTEP= 0x0 (SAES KEYVALID is set). Use\nCCB IPRST before starting a coupling and chaining operation.\n0x1D: OPSTEP end-step event not found at OPSTEP = 0x1.\n0x1E: OPSTEP end-step event not found at OPSTEP = 0x2.\n0x1F: OPSTEP end-step event not found at OPSTEP = 0x3.\n0x20: OPSTEP end-step event not found at OPSTEP = 0xA.\n0x21: OPSTEP end-step event not found at OPSTEP = 0x12.\n0x22: OPSTEP end-step event not found at OPSTEP = 0x13.\n0x23: OPSTEP end-step event not found at OPSTEP = 0x17.\nFor error codes 0x1C to 0x23, details on end-step events are found in Section25.5. Those\nerrors are also triggered when values written in SAES_CR register do not correspond to the\nselected CCOP and the expectations in the current OPSTEP.\nBits 7:5 Reserved, must be kept at reset value.\nBits 4:0 OPSTEP[4:0]: Operation step\nThis read-only information indicates the current step of the coupling and chaining operation\n(indicated by CCOP). See Section25.5 for details. .\nThis bitfield can be cleared only using IPRST in CCB_CR. OPSTEP[4:0] = 0x1F when the\nIPRST procedure is in progress.",
+      "semantic": {
+        "register": "CCB_SR",
+        "address_offset": "0x004",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29:24",
+            "name": "TAMP_EVTi",
+            "description": "Tamper i flag (i = 5 to 0) details on the events. This bit is cleared by writing 0 to IPRST bit in CCR_CR. When at least one TAMP_EVT bit is set, CCB sets IPRST bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No event"
+              },
+              {
+                "value": "1",
+                "meaning": "Tamper event i has been raised. Global tamper event is raised. See Section25.3for"
+              }
+            ]
+          },
+          {
+            "bits": "23:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "CCB_BUSY",
+            "description": "CCB busy This flag is set when CCB is busy, or when OPSTEP[4:0] ≠ 0 following a CCB reset (hardware reset or use of IPRST in CCB_CR). When IPRST and CCB_BUSY are set, the SAES registers are not accessible (write ignored, read returns 0), and writes to EN or START bits in PKA_CR are ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CCB idle"
+              },
+              {
+                "value": "1",
+                "meaning": "CCB busy or PKA RAM is being cleared following a peripheral reset."
+              }
+            ]
+          },
+          {
+            "bits": "15:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:8",
+            "name": "OPERR[5:0]",
+            "description": "Operation error When an error is detected during a protected PKA operation, the CCB raises IPRST in CCB_CR, and OPSTEP[4:0] is set to 0x1F. The bitfield is cleared by setting IPRST to 0. register different from SAES_DOUT was read in the SAES. enabled, or KEYVALID is cleared when GCMPH > 0x0. OPSTEP = 0x1, or 0x1A. OPSTEP=0x1. CCB_CR) when OPSTEP > 0x1. PKA is computing a protected operation. enabled in any OPSTEP except 0x1, 0x2, or 0x12. (GTZC) for the peripherals SAES, PKA, RNG, and CCB when OPSTEP > 0x0. This error is also triggered when the protections change while OPSTEP > 0x0, CCB_CR) when OPSTEP > 0x0. CCB IPRST before starting a coupling and chaining operation. For error codes 0x1C to 0x23, details on end-step events are found in Section25.5. Those errors are also triggered when values written in SAES_CR register do not correspond to the selected CCOP and the expectations in the current OPSTEP.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "No error detected during protected PKA operation (if applicable)"
+              },
+              {
+                "value": "0x1",
+                "meaning": "CCB RCC reset has been detected when OPSTEP > 0x0"
+              },
+              {
+                "value": "0x2",
+                "meaning": "SAES RCC reset has been detected when OPSTEP > 0x0"
+              },
+              {
+                "value": "0x3",
+                "meaning": "PKA RCC reset has been detected when OPSTEP > 0x0"
+              },
+              {
+                "value": "0x4",
+                "meaning": "RNG RCC reset has been detected when OPSTEP > 0x0"
+              },
+              {
+                "value": "0x5",
+                "meaning": "The RCC has gated the CCB clock when OPSTEP > 0x0."
+              },
+              {
+                "value": "0x6",
+                "meaning": "The RCC has gated the SAES clock when OPSTEP > 0x0."
+              },
+              {
+                "value": "0x7",
+                "meaning": "The RCC has gated the PKA clock when OPSTEP > 0x0."
+              },
+              {
+                "value": "0x8",
+                "meaning": "The RCC has gated the RNG clock when OPSTEP > 0x0."
+              },
+              {
+                "value": "0x9",
+                "meaning": "Random in SAES_IV1 is trivial (all 0s or all 1s) when OPSTEP = 0x2"
+              },
+              {
+                "value": "0xA",
+                "meaning": "Random in SAES_IV2 is trivial (all 0s or all 1s) when OPSTEP = 0x2"
+              },
+              {
+                "value": "0xB",
+                "meaning": "Random in SAES_IV3 is trivial (all 0s or all 1s) when OPSTEP = 0x2"
+              },
+              {
+                "value": "0xC",
+                "meaning": "When OPSTEP = 0x17 SAES GCM TAG comparison with CCB_REFTAG failed, or a"
+              },
+              {
+                "value": "0xD",
+                "meaning": "KEYSIZE ≠ 256 bits in SAES_CR when the SAES is enabled, and OPSTEP > 0x0."
+              },
+              {
+                "value": "0xE",
+                "meaning": "CHMOD ≠ GCM in SAES_CR when 0x1 < OPSTEP < 0x18, or the SAES is not"
+              },
+              {
+                "value": "0xF",
+                "meaning": "KMOD different from wrapped key mode in SAES_CR when the SAES is enabled, and"
+              },
+              {
+                "value": "0x10",
+                "meaning": "KEYSEL ≠ 0x1 or 0x4 in SAES_CR when the SAES is enabled, KEYVALID is set, and"
+              },
+              {
+                "value": "0x11",
+                "meaning": "GCMPH not correct (not incremented) in SAES_CR when OPSTEP > 0x1."
+              },
+              {
+                "value": "0x12",
+                "meaning": "MODE in SAES_CR does not match the expected value (selected by CCOP in"
+              },
+              {
+                "value": "0x13",
+                "meaning": "BUSY = 1 in SAES_SR when OPSTEP= 0x18 or 0x19. SAES must not be used when"
+              },
+              {
+                "value": "0x14",
+                "meaning": "EN = 0 in PKA_CR when OPSTEP > 0x2 (except 0x12). In other words, PKA must be"
+              },
+              {
+                "value": "0x15",
+                "meaning": "INITOK = 0 in PKA_SR when OPSTEP > 0x2 (except 0x12)."
+              },
+              {
+                "value": "0x16",
+                "meaning": "Authorized by local firewall, but unexpected AHB error detected when OPSTEP > 0x0."
+              },
+              {
+                "value": "0x17",
+                "meaning": "LMF = 1 in PKA_SR (only ECDSA verification available) when OPSTEP > 0x0."
+              },
+              {
+                "value": "0x18",
+                "meaning": "CCB_REFTAGRx registers are equal to 0 when OPSTEP > 0x12."
+              },
+              {
+                "value": "0x1A",
+                "meaning": "Security, privilege protections inconsistent (seeSection5: Global TrustZone® controller"
+              },
+              {
+                "value": "0x1B",
+                "meaning": "MODE in PKA_CR does not match the expected value (selected by CCOP in"
+              },
+              {
+                "value": "0x1C",
+                "meaning": "OPSTEP end-step event not found at OPSTEP= 0x0 (SAES KEYVALID is set). Use"
+              },
+              {
+                "value": "0x1D",
+                "meaning": "OPSTEP end-step event not found at OPSTEP = 0x1."
+              },
+              {
+                "value": "0x1E",
+                "meaning": "OPSTEP end-step event not found at OPSTEP = 0x2."
+              },
+              {
+                "value": "0x1F",
+                "meaning": "OPSTEP end-step event not found at OPSTEP = 0x3."
+              },
+              {
+                "value": "0x20",
+                "meaning": "OPSTEP end-step event not found at OPSTEP = 0xA."
+              },
+              {
+                "value": "0x21",
+                "meaning": "OPSTEP end-step event not found at OPSTEP = 0x12."
+              },
+              {
+                "value": "0x22",
+                "meaning": "OPSTEP end-step event not found at OPSTEP = 0x13."
+              },
+              {
+                "value": "0x23",
+                "meaning": "OPSTEP end-step event not found at OPSTEP = 0x17."
+              }
+            ]
+          },
+          {
+            "bits": "7:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4:0",
+            "name": "OPSTEP[4:0]",
+            "description": "Operation step This read-only information indicates the current step of the coupling and chaining operation (indicated by CCOP). See Section25.5 for details. . This bitfield can be cleared only using IPRST in CCB_CR. OPSTEP[4:0] = 0x1F when the IPRST procedure is in progress.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

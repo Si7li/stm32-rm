@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.15.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.15.2",
+      "section_title": "Host initialization",
+      "level": 3,
+      "parent_section": "73.15",
+      "page": 3870,
+      "page_end": 3870,
+      "semantic_type": "generic",
+      "features": [
+        "host",
+        "initialization"
+      ],
+      "chars": 1537,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3870",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.15.2 \"Host initialization\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3870.",
+      "section_content": "To initialize the core as host, the application must perform the following steps:\n1. Program the HPRTINT in the OTG_GINTMSK register to unmask\n2. Program the OTG_HCFG register to select full-speed host\n3. Program the PPWR bit in OTG_HPRT to 1. The port is now considered powered\nhowever this does not actually drive VBUS on the USB, so a further action must be\ntaken to control the external circuitry in the system so as to enable VBUS generation.\n4. Wait for the PCDET interrupt in OTG_HPRT0. This indicates that a device is\nconnecting to the port.\n5. Program the PRST bit in OTG_HPRT to 1. This starts the reset process.\n6. Wait at least 10 ms for the reset process to complete.\n7. Program the PRST bit in OTG_HPRT to 0.\n8. Wait for the PENCHNG interrupt in OTG_HPRT.\n9. Read the PSPD bit in OTG_HPRT to get the enumerated speed.\n10. Program the HFIR register with a value corresponding to the selected PHY clock 1\n11. Program the FSLSPCS field in the OTG_HCFG register following the speed of the\ndevice detected in step 9. If FSLSPCS has been changed a port reset must be\nperformed.\n12. Program the OTG_GRXFSIZ register to select the size of the receive FIFO.\n13. Program the OTG_HNPTXFSIZ register to select the size and the start address of the\nNon-periodic transmit FIFO for non-periodic transactions.\n14. Program the OTG_HPTXFSIZ register to select the size and start address of the\nperiodic transmit FIFO for periodic transactions.\nTo communicate with devices, the system software must initialize and enable at least one\nchannel.",
+      "semantic": {}
+    }
+  ]
+}

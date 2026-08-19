@@ -1,0 +1,177 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.16",
+      "section_title": "I3C own device characteristics register (I3C_DEVR0)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3259,
+      "page_end": 3261,
+      "semantic_type": "register_description",
+      "features": [
+        "cren",
+        "daval",
+        "hjen",
+        "i3c",
+        "i3c-devr0",
+        "ibien",
+        "rstact",
+        "rstval"
+      ],
+      "chars": 4681,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3259",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.16 \"I3C own device characteristics register (I3C_DEVR0)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3259.",
+      "section_content": "Address offset: 0x060\nReset value: 0x00000000\nWhen the I3C peripheral acts as target, this register is used to write or read its own device\ncharacteristics.\nWhen the I3C peripheral acts as controller, the field DA[6:0] is used to write and store its\nown dynamic address.\nBits 31:25 Reserved, must be kept at reset value.\nBit 24 RSTVAL: Reset action is valid (when the I3C acts as target)\nThis bit is asserted by hardware to indicate that the RSTACT[1:0] field has been updated on\nthe reception of a broadcast or direct write RSTACT CCC (target reset action) and is valid.\nThis bit is cleared by hardware when the target receives a frame start.\nWhen the device is not in Stop mode:\n– If RSTVAL = 1: when RSTF in the I3C_EVR register is asserted (and/or the\ncorresponding interrupt if enabled), RSTACT[1:0] in the I3C_DEVR0 register\ndictates the reset action to be performed by the software, if any.\n– If RSTVAL = 0: when RSTF is asserted (and/or the corresponding interrupt if\nenabled), the software must issue an I3C reset after a first detected reset pattern,\nand a system reset on the second one.\nWhen in Stop mode, the corresponding interrupt can be used to wake up the device.\nBits 23:22 RSTACT[1:0]: Reset action/level on received reset pattern (when the I3C acts as target)\nThis read field is used by hardware on the reception of a direct read RSTACT CCC in order to\nreturn the corresponding data byte on the I3C bus.\nThis read field is updated by hardware on the reception of a broadcast or direct write\nRSTACT CCC (target reset action).\nOnly the defining bytes 0x00, 0x01 and 0x02 are mapped, and RSTACT[1:0] = Defining\nByte[1:0].\n00: no reset action\n01: first level of reset: the application software must either:\na) partially reset the I3C peripheral, by a write and clear of the enable bit of the I3C\nconfiguration register (write EN = 0). This resets the I3C bus interface and the I3C kernel\nsub-parts, without modifying the content of the I3C APB registers (except the EN bit).\nb) fully reset the I3C peripheral, including all its registers, via a write and set of the I3C\nreset control bit of the RCC (reset and clock controller) register.\n10: second level of reset: the application software must issue a warm reset, also known as a\nsystem reset:\n– the software writes and sets the SYSRESETREQ control bit of the AIRCR register,\nwhen the device is controlled by a Cortex®-M.\n11: no reset action\nBits 21:20 AS[1:0]: Activity state (when the I3C acts as target)\nThis read field is updated by hardware on the reception of a ENTASx CCC (enter activity\nstate, with x = 0-3):\n00: activity state 0\n01: activity state 1\n10: activity state 2\n11: activity state 3\nBit 19 HJEN: Hot-join request enable (when the I3C acts as target)\nThis bit is initially written by software when EN = 0, and is updated by hardware on the\nreception of DISEC CCC with DISHJ= 1 (cleared) and the reception of ENEC CCC with\nENHJ= 1 (set). This bit can only be written by software when EN = 0 in the I3C_CFGR\nregister.\n0: hot-join request disabled\n1: hot-join request enabled\nBit 18 Reserved, must be kept at reset value.\nBit 17 CREN: Controller-role request enable (when the I3C acts as target)\nThis bit is initially written by software when EN = 0, and is updated by hardware on the\nreception of DISEC CCC with DISCR = 1 (cleared) and the reception of ENEC CCC with\nENCR=1 (set). This bit can only be written by software when EN = 0 in the I3C_CFGR\nregister.\n0: controller-role request disabled\n1: controller-role request enabled\nBit 16 IBIEN: IBI request enable (when the I3C acts as target)\nThis bit is initially written by software when EN = 0, and is updated by hardware on the\nreception of DISEC CCC with DISINT = 1 (cleared) and the reception of ENEC CCC with\nENINT = 1 (set). This bit can only be written by software when EN = 0 in the I3C_CFGR\nregister.\n0: IBI request disabled\n1: IBI request enabled\nBits 15:8 Reserved, must be kept at reset value.\nBits 7:1 DA[6:0]: 7-bit dynamic address\nWhen the I3C acts as controller, this field can be written by software, for defining its own\ndynamic address.\nWhen the I3C acts as target, this field is updated by hardware on the reception of either the\nbroadcast ENTDAA CCC or the direct SETNEWDA CCC.\nBit 0 DAVAL: Dynamic address is valid (when the I3C acts as target)\nWhen the I3C acts as controller, this bit can be written by software, for validating its own\ndynamic address, for example before a controller-role hand-off.\nWhen the I3C acts as target, this bit is asserted by hardware on the acknowledge of the\nbroadcast ENTDAA CCC or the direct SETNEWDA CCC, and this field is cleared by\nhardware on the acknowledge of the broadcast RSTDAA CCC.",
+      "semantic": {
+        "register": "I3C_DEVR0",
+        "address_offset": "0x060",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "RSTVAL",
+            "description": "Reset action is valid (when the I3C acts as target) This bit is asserted by hardware to indicate that the RSTACT[1:0] field has been updated on the reception of a broadcast or direct write RSTACT CCC (target reset action) and is valid. This bit is cleared by hardware when the target receives a frame start. When the device is not in Stop mode: – If RSTVAL = 1: when RSTF in the I3C_EVR register is asserted (and/or the corresponding interrupt if enabled), RSTACT[1:0] in the I3C_DEVR0 register dictates the reset action to be performed by the software, if any. – If RSTVAL = 0: when RSTF is asserted (and/or the corresponding interrupt if enabled), the software must issue an I3C reset after a first detected reset pattern, and a system reset on the second one. When in Stop mode, the corresponding interrupt can be used to wake up the device.",
+            "values": []
+          },
+          {
+            "bits": "23:22",
+            "name": "RSTACT[1:0]",
+            "description": "Reset action/level on received reset pattern (when the I3C acts as target) This read field is used by hardware on the reception of a direct read RSTACT CCC in order to return the corresponding data byte on the I3C bus. This read field is updated by hardware on the reception of a broadcast or direct write RSTACT CCC (target reset action). Only the defining bytes 0x00, 0x01 and 0x02 are mapped, and RSTACT[1:0] = Defining Byte[1:0]. a) partially reset the I3C peripheral, by a write and clear of the enable bit of the I3C configuration register (write EN = 0). This resets the I3C bus interface and the I3C kernel sub-parts, without modifying the content of the I3C APB registers (except the EN bit). b) fully reset the I3C peripheral, including all its registers, via a write and set of the I3C reset control bit of the RCC (reset and clock controller) register. system reset: – the software writes and sets the SYSRESETREQ control bit of the AIRCR register, when the device is controlled by a Cortex®-M.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "no reset action"
+              },
+              {
+                "value": "01",
+                "meaning": "first level of reset: the application software must either:"
+              },
+              {
+                "value": "10",
+                "meaning": "second level of reset: the application software must issue a warm reset, also known as a"
+              },
+              {
+                "value": "11",
+                "meaning": "no reset action"
+              }
+            ]
+          },
+          {
+            "bits": "21:20",
+            "name": "AS[1:0]",
+            "description": "Activity state (when the I3C acts as target) This read field is updated by hardware on the reception of a ENTASx CCC (enter activity state, with x = 0-3):",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "activity state 0"
+              },
+              {
+                "value": "01",
+                "meaning": "activity state 1"
+              },
+              {
+                "value": "10",
+                "meaning": "activity state 2"
+              },
+              {
+                "value": "11",
+                "meaning": "activity state 3"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "HJEN",
+            "description": "Hot-join request enable (when the I3C acts as target) This bit is initially written by software when EN = 0, and is updated by hardware on the reception of DISEC CCC with DISHJ= 1 (cleared) and the reception of ENEC CCC with ENHJ= 1 (set). This bit can only be written by software when EN = 0 in the I3C_CFGR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "hot-join request disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "hot-join request enabled"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "CREN",
+            "description": "Controller-role request enable (when the I3C acts as target) This bit is initially written by software when EN = 0, and is updated by hardware on the reception of DISEC CCC with DISCR = 1 (cleared) and the reception of ENEC CCC with ENCR=1 (set). This bit can only be written by software when EN = 0 in the I3C_CFGR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "controller-role request disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "controller-role request enabled"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "IBIEN",
+            "description": "IBI request enable (when the I3C acts as target) This bit is initially written by software when EN = 0, and is updated by hardware on the reception of DISEC CCC with DISINT = 1 (cleared) and the reception of ENEC CCC with ENINT = 1 (set). This bit can only be written by software when EN = 0 in the I3C_CFGR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "IBI request disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "IBI request enabled"
+              }
+            ]
+          },
+          {
+            "bits": "15:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:1",
+            "name": "DA[6:0]",
+            "description": "7-bit dynamic address When the I3C acts as controller, this field can be written by software, for defining its own dynamic address. When the I3C acts as target, this field is updated by hardware on the reception of either the broadcast ENTDAA CCC or the direct SETNEWDA CCC.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "DAVAL",
+            "description": "Dynamic address is valid (when the I3C acts as target) When the I3C acts as controller, this bit can be written by software, for validating its own dynamic address, for example before a controller-role hand-off. When the I3C acts as target, this bit is asserted by hardware on the acknowledge of the broadcast ENTDAA CCC or the direct SETNEWDA CCC, and this field is cleared by hardware on the acknowledge of the broadcast RSTDAA CCC.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

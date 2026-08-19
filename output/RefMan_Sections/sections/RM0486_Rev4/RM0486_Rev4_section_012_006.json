@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S12.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "12",
+      "chapter_title": "AXI cache (CACHEAXI)",
+      "section": "12.6",
+      "section_title": "CACHEAXI error management and interrupts",
+      "level": 2,
+      "parent_section": null,
+      "page": 335,
+      "page_end": 336,
+      "semantic_type": "generic",
+      "features": [
+        "cacheaxi",
+        "interrupt"
+      ],
+      "chars": 1527,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=335",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.6 \"CACHEAXI error management and interrupts\" in chapter 12 (AXI cache (CACHEAXI)), RM0486 Rev 4, page 335.",
+      "section_content": "A transaction initiated on the CACHEAXI master port may return an error (a write attempt\ninto a read-only memory, a security issue or an address decoding issue, for instance).\nIf the master port request was propagated from a slave cache port request (non-cacheable\nrequest, or cacheable request with allocation that misses), the CACHEAXI propagates the\nAXI bus error from the AXI master cache port back to the corresponding AXI slave cache\nport.\nIf ever the master port request is initiated by the CACHEAXI itself (dirty cache line written-\nback into the main memory because of an eviction or a clean operation), the CACHEAXI\nreceives this functional error, and flags it internally by setting ERRF in CACHEAXI_SR. And\nan interrupt is generated if the corresponding interrupt enable bit is set (ERRIE=1 in\nCACHEAXI_IER).\nAnother case of interrupt generation is at the end of a full invalidate operation: when the\ncache busy state is finished, the CACHEAXI sets BSYENDF in CACHEAXI_SR. An\ninterrupt is then generated if the corresponding interrupt enable bit is set (BSYENDIE=1 in\nCACHEAXI_IER).\nThe last case is at the end of a maintenance range operation (clean/invalidate range): when\nthe command busy state is finished, the CACHEAXI sets CMDENDF in CACHEAXI_SR. An\ninterrupt is generated if the corresponding interrupt enable bit is set (CMDENDIE=1\ninCACHEAXI_IER).\nThe CACHEAXI has a unique interrupt signal, cacheaxi_it (and then use the same interrupt\nvector whatever the interrupt source).\n[Table 48. CACHEAXI interrupts]",
+      "semantic": {}
+    }
+  ]
+}

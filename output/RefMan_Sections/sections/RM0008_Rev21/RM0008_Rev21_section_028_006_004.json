@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S28.6.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "28",
+      "chapter_title": "USB on-the-go full-speed (OTG_FS)",
+      "section": "28.6.4",
+      "section_title": "Host scheduler",
+      "level": 3,
+      "parent_section": "28.6",
+      "page": 842,
+      "page_end": 843,
+      "semantic_type": "generic",
+      "features": [
+        "host",
+        "scheduler"
+      ],
+      "chars": 2402,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=842",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.6.4 \"Host scheduler\" in chapter 28 (USB on-the-go full-speed (OTG_FS)), RM0008 Rev 21, page 842.",
+      "section_content": "The host core features a built-in hardware scheduler which is able to autonomously re-order\nand manage the USB transaction requests posted by the application. At the beginning of\neach frame the host executes the periodic (isochronous and interrupt) transactions first,\nfollowed by the nonperiodic (control and bulk) transactions to achieve the higher level of\npriority granted to the isochronous and interrupt transfer types by the USB specification.\nThe host processes the USB transactions through request queues (one for periodic and one\nfor nonperiodic). Each request queue can hold up to 8 entries. Each entry represents a\npending transaction request from the application, and holds the IN or OUT channel number\nalong with other information to perform a transaction on the USB. The order in which the\nrequests are written to the queue determines the sequence of the transactions on the USB\ninterface.\nAt the beginning of each frame, the host processes the periodic request queue first, followed\nby the nonperiodic request queue. The host issues an incomplete periodic transfer interrupt\n(IPXFR bit in OTG_FS_GINTSTS) if an isochronous or interrupt transaction scheduled for\nthe current frame is still pending at the end of the current frame. The OTG HS core is fully\nresponsible for the management of the periodic and nonperiodic request queues.The\nperiodic transmit FIFO and queue status register (HPTXSTS) and nonperiodic transmit\nFIFO and queue status register (HNPTXSTS) are read-only registers which can be used by\nthe application to read the status of each request queue. They contain:\n• The number of free entries currently available in the periodic (nonperiodic) request\nqueue (8 max)\n• Free space currently available in the periodic (nonperiodic) Tx-FIFO (out-transactions)\n• IN/OUT token, host channel number and other status information.\nAs request queues can hold a maximum of 8 entries each, the application can push to\nschedule host transactions in advance with respect to the moment they physically reach the\nSB for a maximum of 8 pending periodic transactions plus 8 pending nonperiodic\ntransactions.\nTo post a transaction request to the host scheduler (queue) the application must check that\nthere is at least 1 entry available in the periodic (nonperiodic) request queue by reading the\nPTXQSAV bits in the OTG_FS_HNPTXSTS register or NPTQXSAV bits in the\nOTG_FS_HNPTXSTS register.",
+      "semantic": {}
+    }
+  ]
+}

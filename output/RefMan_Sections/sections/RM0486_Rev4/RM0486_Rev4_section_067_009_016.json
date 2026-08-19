@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.9.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.9.16",
+      "section_title": "Programing examples",
+      "level": 3,
+      "parent_section": "67.9",
+      "page": 3479,
+      "page_end": 3481,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 4693,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3479",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.9.16 \"Programing examples\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3479.",
+      "section_content": "Master I2S Philips standard, full-duplex\nThis example shows how to program the interface for supporting the I2S Philips standard\nprotocol in master full-duplex mode, with a sampling rate of 48 kHz, using the master clock.\nThe assumption has been taken that the SPI/I2S is receiving a kernel clock (i2s_clk) of\n61.44 MHz from the clock controller of the circuit. In the example above we took the\nassumption that the external audio codec needs to be programmed, for example via an I2C\ninterface before starting the transfer. In addition, it is supposed that this external audio\ncodec needs the MCK to accept I2C commands.\nProcedure\n1. Via the RCC block, enable the bus interface and the kernel clocks, assert and release\nthe reset signal if needed.\n2. Program the AFMUX in order to select the wanted I/Os. In the current example MCK,\nCK, WS, SDO, SDI are needed.\n3. Program the clock generator to provide the MCK clock, and to have a frame\nsynchronization rate at exactly 48 kHz. Set I2SDIV to 2, ODD to 1, and MCKOE to\n1.\n4. Program the serial interface protocol: CKPOL = 0, WSINV = 0, LSBFRST = 0,\nCHLEN = 1 (32 bits per channel) DATLEN = 1 (24 bits), I2SSTD = 0 (I2S Philips\nstandard), I2SCFG = 5 (master full-duplex), I2SMOD = 1, for I2S/PCM mode.\n5. Adjust the FIFO threshold by setting the wanted value into FTHLV. For example, if a\nthreshold of two audio samples is required, FTHLV = 1.\n6. If the application wishes to perform data transfer via DMA, set the bits TXDMAEN and\nRXDMAEN.\n7. If needed, the application can then configure the external audio codec via an I2C\ninterface.\n8. Clear all interrupt enable fields located in the SPI_IER register.\n9. Clear all status flags, by setting SUSPC, TIFREC, OVRC, UDRC of the SPI_IFCR\nregister.\n10. When the application wants to start the data transfer, set the SPE bit. Then:\n– If the data transfer uses DMA:\na) Program the DMA peripheral: two channels, one for RX and one for TX.\nb) Initialize the memory buffer with valid audio samples for TX path.\nc) Enable the DMA channels.\nd) Enable interrupt events such as UDRIE and OVRIE if needed in order to detect\ntransfer errors.\ne) Enable the DMA channel. If TXDMAEN was set, the TxFIFO is filled up.\n– If the data transfer is done via interrupt:\nEnable the interrupt events UDRIE, OVRIE, TXPIE, and RXPIE (by writing 1). An\ninterrupt request is immediately activated allowing the interrupt handler to fill-up\nthe TxFIFO.\n11. Finally, the SPI/I2S serial interface can be enabled by setting the bit CSTART. CSTART\nbit is located into the SPI_CR1 register.\nStop procedure in master mode\n1. Set the bit CSUSP, in order to stop ongoing transfers\n2. Check the value of the CSTART bit until it goes to 0\n3. Clear the SUSP flag by setting SUSPC\n4. Stop DMA peripheral, bus clock...\n5. Clear bit SPE in order to disable the SPI/I2S block\nSlave I2S Philips standard, receive\nThis example shows how to program the interface for supporting the I2S Philips standard\nprotocol in slave receiver mode, with a sampling rate of 48 kHz. Note that in slave mode the\nSPI/I2S block cannot control the sample rate of the received samples. In this example we\ntook the assumption that the external master device is delivering an I2S frame structure with\na channel length of 24 bits. So, we cannot use the capability offered for frame error\ndetection when FIXCH is set.\nProcedure\n1. Via the RCC block, enable the bus interface and the kernel clocks, assert and release\nthe reset signal if needed,\n2. Program the AFMUX in order to select the wanted I/Os. In the current example CK,\nWS, SDI,\n3. Program the serial interface protocol: CKPOL = 0, WSINV = 0, LSBFRST = 0, FIXCH =\n0 (because channel length is different from 16 and 32 bits), DATLEN = 0 (16 bits),\nI2SSTD = 0 (Philips protocol), I2SCFG = 1 (slave RX), I2SMOD = 1, for I2S mode.\n4. Adjust the FIFO threshold by setting the wanted value into FTHLV. For example if a\nthreshold of two audio samples is required, FTHLV = 1.\n5. Clear all status flag registers.\n6. Enable the flags that generate an interrupt such as OVRIE and TIFRE.\n7. If the data transfer uses DMA:\n– Program the DMA peripheral: one RX channel\n– Enable the DMA channel,\n– In the SPI/I2S block, enable the DMA by setting the RXDMAEN bit.\n8. If the data transfer is done via interrupt, then the user has to enable the interrupt by\nsetting the RXPIE bit.\n9. Set SPE.\n10. Finally, the user can set the bit CSTART in order to enable the serial interface. The\nSPI/I2S starts to store data into the RxFIFO on the next occurrence of left data\ntransmitted by the external master device.\nStop procedure in slave mode\n1. Clear bit SPE in order to disable the SPI/I2S block\n2. Stop DMA peripheral, bus clock...",
+      "semantic": {}
+    }
+  ]
+}

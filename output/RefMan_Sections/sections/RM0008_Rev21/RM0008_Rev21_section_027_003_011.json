@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S27.3.11",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "27",
+      "chapter_title": "Universal synchronous asynchronous receiver transmitter (USART)",
+      "section": "27.3.11",
+      "section_title": "Smartcard",
+      "level": 3,
+      "parent_section": "27.3",
+      "page": 808,
+      "page_end": 810,
+      "semantic_type": "generic",
+      "features": [
+        "usart"
+      ],
+      "chars": 4241,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=808",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.3.11 \"Smartcard\" in chapter 27 (Universal synchronous asynchronous receiver transmitter (USART)), RM0008 Rev 21, page 808.",
+      "section_content": "The Smartcard mode is selected by setting the SCEN bit in the USART_CR3 register. In\nSmartcard mode, the following bits must be kept cleared:\n• LINEN bit in the USART_CR2 register,\n• HDSEL and IREN bits in the USART_CR3 register.\nMoreover, the CLKEN bit may be set in order to provide a clock to the smartcard.\nThe Smartcard interface is designed to support asynchronous protocol Smartcards as\ndefined in the ISO7816-3 standard. The USART should be configured as:\n• 8 bits plus parity: where M=1 and PCE=1 in the USART_CR1 register\n• 1.5 stop bits when transmitting and receiving : where STOP=’11’ in the USART_CR2\nregister.\nNote: It is also possible to choose 0.5 stop bit for receiving but it is recommended to use 1.5 stop\nbits for both transmitting and receiving to avoid switching between the two configurations.\nFigure293 shows examples of what can be seen on the data line with and without parity\nerror.\n[Figure 293. ISO 7816-3 asynchronous protocol]\nWithout Parity error\nGuard time\nStart\nbit\nWith Parity error Guard time\nS bi t t art L b ca i y n s e r e e p c o u e f l i l v p e e a d r r i l t d o y u w e ri r n r g o r stop in\nWhen connected to a smartcard, the USART TX output drives a bidirectional line that is also\ndriven by the smartcard. The TX pin must be configured as open drain.\nSmartcard is a single wire half duplex communication protocol.\n• Transmission of data from the transmit shift register is guaranteed to be delayed by a\nminimum of 1/2 baud clock. In normal operation a full transmit shift register will start\nshifting on the next baud clock edge. In Smartcard mode this transmission is further\ndelayed by a guaranteed 1/2 baud clock.\n• If a parity error is detected during reception of a frame programmed with a 0.5 or 1.5\nstop bit period, the transmit line is pulled low for a baud clock period after the\ncompletion of the receive frame. This is to indicate to the Smartcard that the data\ntransmitted to USART has not been correctly received. This NACK signal (pulling\ntransmit line low for 1 baud clock) will cause a framing error on the transmitter side\n(configured with 1.5 stop bits). The application can handle re-sending of data according\nto the protocol. A parity error is ‘NACK’ed by the receiver if the NACK control bit is set,\notherwise a NACK is not transmitted.\n• The assertion of the TC flag can be delayed by programming the Guard Time register.\nIn normal operation, TC is asserted when the transmit shift register is empty and no\nfurther transmit requests are outstanding. In Smartcard mode an empty transmit shift\nregister triggers the guard time counter to count up to the programmed value in the\nGuard Time register. TC is forced low during this time. When the guard time counter\nreaches the programmed value TC is asserted high.\n• The de-assertion of TC flag is unaffected by Smartcard mode.\n• If a framing error is detected on the transmitter end (due to a NACK from the receiver),\nthe NACK will not be detected as a start bit by the receive block of the transmitter.\nAccording to the ISO protocol, the duration of the received NACK can be 1 or 2 baud\nclock periods.\n• On the receiver side, if a parity error is detected and a NACK is transmitted the receiver\nwill not detect the NACK as a start bit.\nNote: A break character is not significant in Smartcard mode. A 0x00 data with a framing error will\nbe treated as data and not as a break.\nNo IDLE frame is transmitted when toggling the TE bit. The IDLE frame (as defined for the\nother configurations) is not defined by the ISO protocol.\nFigure294 details how the NACK signal is sampled by the USART. In this example, the\nUSART transmits a data and is configured with 1.5 stop bits. The receiver part of the\nUSART is enabled in order to check the integrity of the data and the NACK signal.\n[Figure 294. Parity error detection using the 1.5 stop bits]\nThe USART can provide a clock to the smartcard through the CK output. In Smartcard\nmode, CK is not associated to the communication but is simply derived from the internal\nperipheral input clock through a 5-bit prescaler. The division ratio is configured in the\nprescaler register USART_GTPR. CK frequency can be programmed from fCK/2 to fCK/62,\nwhere fCK is the peripheral input clock.",
+      "semantic": {}
+    }
+  ]
+}

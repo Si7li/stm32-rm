@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S13.6.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "13",
+      "chapter_title": "Power control (PWR)",
+      "section": "13.6.3",
+      "section_title": "Power management examples",
+      "level": 3,
+      "parent_section": "13.6",
+      "page": 374,
+      "page_end": 376,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 3551,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=374",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.6.3 \"Power management examples\" in chapter 13 (Power control (PWR)), RM0486 Rev 4, page 374.",
+      "section_content": "Example of VCORE voltage scaling behavior in Run mode\nFigure31 illustrates the following system operation sequence example:\n1. After reset, the system starts from HSI with VOS low.\n2. The system performance is then increased to a high-speed clock from the PLL\nwithvoltage scaling VOS high. To do this:\na) Program the voltage scaling to VOS high.\nb) Once the VCORE supply has reached the required level indicated by VOSRDY,\nincrease the clock frequency by enabling the PLL.\nc) Once the PLL is locked, switch the system clock.\n3. Reduce the system performance to HSI clock with voltage scaling VOS low. To do this:\na) Switch the clock to HSI.\nb) Disable the PLL.\nc) Decrease the voltage scaling to VOS low.\n4. The system performance can then be increased to high-speed clock from the PLL.\nTodo this:\na) Program the voltage scaling to VOS high.\nb) Once the VCORE supply has reached the required level indicated by VOSRDY,\nincrease the clock frequency by enabling the PLL.\nc) Once the PLL is locked, switch the system clock.\nWhen the system performance (clock frequency) is changed, VOS must be set accordingly.\n[Figure 31. Dynamic voltage scaling in Run mode]\n1. The status of the register bits at each step is shown in blue.\nExample of VCORE voltage scaling behavior in Stop mode\nFigure32 illustrates the following system operation sequence example:\n1. The system runs from the PLL in high-performance mode (VOS high voltage scaling).\n2. The CPU subsystem enters Stop mode, and the system enters Stop mode. The system\nclock is stopped, and the hardware lowers the voltage scaling to the software\npreselected SVOS low.\n3. The CPU subsystem is then woken up. The system exits Stop mode, and the CPU\nsubsystem exits Stop mode. The hardware always sets the same voltage range as\nbefore entering Stop mode, and waits for the requested supply level to be reached\nbefore enabling the HSI clock. Once the HSI clock is stable, the system clock is\nenabled and switch in Run mode under HSI clock.\n4. The clock frequency can be increased by enabling the PLL. Once the PLL is locked,\nthe system clock can be switched.\n[Figure 32. Dynamic voltage scaling behavior in Stop mode]\n1. The status of the register bits at each step is shown in blue.\nExample of VCORE voltage regulator and voltage scaling behavior\nin Standby mode\nFigure33 illustrates the following system operation sequence example:\n1. The system runs from the PLL in high-performance mode (VOS high voltage scaling).\n2. The CPU subsystem deallocates all the peripherals, and the VCORE supply is\nswitchedoff. The system enters Standby mode. The PWR_ON signal request\nVDDA18PMU and VDDSMPS supplies to be powered off. If needed, a guarantee minimum\nPWR_ON pulse low time can be defined by POPL bits in PWR_CR1.\n3. On a wake-up event, the external regulator suppling VDDA18PMU and VDDSMPS is\nrequested, via the PWR_ON signal. The system exits Standby mode. The hardware\nsets the voltage scaling to the default VOS low, and waits for the requested supply level\nto be reached before enabling the default HSI oscillator. Once the HSI clock is stable,\nthe system clock is enabled.\n4. In a next step, increase the system performance with the following:\na) The software first increases the voltage scaling to VOS high.\nb) Before enabling the PLL, the software waits for the requested supply level to be\nreached by monitoring VOSRDY.\nc) Once the PLL is locked, the system clock can be switched.\n[Figure 33. Dynamic Voltage Scaling from Standby mode]\n1. The status of the register bits at each step is shown in blue.",
+      "semantic": {}
+    }
+  ]
+}

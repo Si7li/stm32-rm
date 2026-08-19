@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S49.4.18",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "49",
+      "chapter_title": "Cryptographic processor (CRYP)",
+      "section": "49.4.18",
+      "section_title": "CRYP error management",
+      "level": 3,
+      "parent_section": "49.4",
+      "page": 2390,
+      "page_end": 2390,
+      "semantic_type": "generic",
+      "features": [
+        "cryp"
+      ],
+      "chars": 1024,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2390",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.4.18 \"CRYP error management\" in chapter 49 (Cryptographic processor (CRYP)), RM0486 Rev 4, page 2390.",
+      "section_content": "The CRYP peripheral manages the errors described in this section.\nKey error flag (KERF)\nThere are multiple sources of errors that set the KERF flag and clear the KEYVALID bit of\nthe CRYP_SR register:\n• Key writing sequence error: triggered upon detecting an incorrect sequence of\nwriting key registers. See Section49.4.16: CRYP key registers for details.\n• Key sharing size mismatch error: triggered when KMOD[1:0] is at 0x2 and KEYSIZE\nin CRYP does not match KEYSIZE in SAES peripheral, or KEYSIZE is at 0x1 in\nCRYP_CR (192-bit key).\n• Key sharing error: triggered upon failing transfer of SAES shared key to CRYP. See\nSection49.4.14: AES key sharing with secure AES co-processor for details.\nUpon a key writing sequence error, KERF flag is cleared when a correct key writing\nsequence starts.\nUpon a key sharing error, reset both CRYP and SAES peripherals through the IPRST bit of\ntheir corresponding control register, then restart the key sharing sequence.\nNote: For any key error, clear KERF flag prior to setting CRYPEN.",
+      "semantic": {}
+    }
+  ]
+}

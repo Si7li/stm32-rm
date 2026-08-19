@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S24.3.12",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "24",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "24.3.12",
+      "section_title": "RTC smooth digital calibration",
+      "level": 3,
+      "parent_section": "24.3",
+      "page": 657,
+      "page_end": 658,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rtc"
+      ],
+      "chars": 5779,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=657",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.3.12 \"RTC smooth digital calibration\" in chapter 24 (Real-time clock (RTC)), RM0490 Rev 6, page 657.",
+      "section_content": "The RTC frequency can be digitally calibrated with a resolution of about 0.954ppm with a\nrange from -487.1ppm to +488.5ppm. The correction of the frequency is performed using\nseries of small adjustments (adding and/or subtracting individual RTCCLK pulses). These\nadjustments are fairly well distributed so that the RTC is well calibrated even when observed\nover short durations of time.\nThe smooth digital calibration is performed during a calibration cycle of about 220 RTCCLK\npulses, or 32 seconds when the input frequency is 32768Hz. This cycle is maintained by a\n20-bit counter, cal_cnt[19:0], clocked by RTCCLK.\nThe smooth calibration register (RTC_CALR) specifies the number of RTCCLK clock cycles\nto be masked during the calibration cycle:\n• Setting the bit CALM[0] to 1 causes exactly one pulse to be masked during the\ncalibration cycle.\n• Setting CALM[1] to 1 causes two additional cycles to be masked\n• Setting CALM[2] to 1 causes four additional cycles to be masked\n• and so on up to CALM[8] set to 1 which causes 256 clocks to be masked.\nNote: CALM[8:0] (RTC_CALR) specifies the number of RTCCLK pulses to be masked during the\ncalibration cycle. Setting the bit CALM[0] to 1 causes exactly one pulse to be masked during\nthe calibration cycle at the moment when cal_cnt[19:0] is 0x80000; CALM[1] = 1 causes two\nother cycles to be masked (when cal_cnt is 0x40000 and 0xC0000); CALM[2] = 1 causes\nfour other cycles to be masked (cal_cnt = 0x20000/0x60000/0xA0000/ 0xE0000); and so on\nup to CALM[8] = 1 which causes 256 clocks to be masked (cal_cnt = 0xXX800).\nWhile CALM allows the RTC frequency to be reduced by up to 487.1ppm with fine\nresolution, the bit CALP can be used to increase the frequency by 488.5ppm. Setting CALP\nto 1 effectively inserts an extra RTCCLK pulse every 211 RTCCLK cycles, which means that\n512 clocks are added during every calibration cycle.\nUsing CALM together with CALP, an offset ranging from -511 to +512 RTCCLK cycles can\nbe added during the calibration cycle, which translates to a calibration range of -487.1ppm\nto +488.5ppm with a resolution of about 0.954ppm.\nThe formula to calculate the effective calibrated frequency (FCAL) given the input frequency\n(FRTCCLK) is as follows:\nFCAL = FRTCCLK x [1 + (CALP x 512 - CALM) / (220 + CALM - CALP x 512)]\nCalibration when PREDIV_A < 3\nThe CALP bit can not be set to 1 when the asynchronous prescaler value (PREDIV_A bits in\nRTC_PRER register) is less than 3. If CALP was already set to 1 and PREDIV_A bits are\nset to a value less than 3, CALP is ignored and the calibration operates as if CALP was\nequal to 0.\nTo perform a calibration with PREDIV_A less than 3, the synchronous prescaler value\n(PREDIV_S) should be reduced so that each second is accelerated by 8 RTCCLK clock\ncycles, which is equivalent to adding 256 clock cycles every calibration cycle. As a result,\nbetween 255 and 256 clock pulses (corresponding to a calibration range from 243.3 to\n244.1ppm) can effectively be added during each calibration cycle using only the CALM bits.\nWith a nominal RTCCLK frequency of 32768Hz, when PREDIV_A equals 1 (division factor\nof 2), PREDIV_S should be set to 16379 rather than 16383 (4 less). The only other\ninteresting case is when PREDIV_A equals 0, PREDIV_S should be set to 32759 rather\nthan 32767 (8 less).\nIf PREDIV_S is reduced in this way, the formula given the effective frequency of the\ncalibrated input clock is as follows:\nFCAL = FRTCCLK x [1 + (256 - CALM) / (220 + CALM - 256)]\nIn this case, CALM[7:0] equals 0x100 (the midpoint of the CALM range) is the correct\nsetting if RTCCLK is exactly 32768.00Hz.\nVerifying the RTC calibration\nRTC precision is ensured by measuring the precise frequency of RTCCLK and calculating\nthe correct CALM value and CALP values. An optional 1Hz output is provided to allow\napplications to measure and verify the RTC precision.\nMeasuring the precise frequency of the RTC over a limited interval can result in a\nmeasurement error of up to 2 RTCCLK clock cycles over the measurement period,\ndepending on how the digital calibration cycle is aligned with the measurement period.\nHowever, this measurement error can be eliminated if the measurement period is the same\nlength as the calibration cycle period. In this case, the only error observed is the error due to\nthe resolution of the digital calibration.\n• By default, the calibration cycle period is 32 seconds.\nUsing this mode and measuring the accuracy of the 1Hz output over exactly 32 seconds\nguarantees that the measure is within 0.477ppm (0.5 RTCCLK cycles over 32 seconds,\ndue to the limitation of the calibration resolution).\n• CALW16 bit of the RTC_CALR register can be set to 1 to force a 16- second calibration\ncycle period.\nIn this case, the RTC precision can be measured during 16 seconds with a maximum error\nof 0.954ppm (0.5 RTCCLK cycles over 16 seconds). However, since the calibration\nresolution is reduced, the long term RTC precision is also reduced to 0.954ppm: CALM[0]\nbit is stuck at 0 when CALW16 is set to 1.\n• CALW8 bit of the RTC_CALR register can be set to 1 to force a 8-second calibration\ncycle period.\nIn this case, the RTC precision can be measured during 8 seconds with a maximum error of\n1.907ppm (0.5 RTCCLK cycles over 8s). The long term RTC precision is also reduced to\n1.907ppm: CALM[1:0] bits are stuck at 00 when CALW8 is set to 1.\nRe-calibration on-the-fly\nThe calibration register (RTC_CALR) can be updated on-the-fly while RTC_ICSR/INITF = 0,\nby using the follow process:\n1. Poll the RTC_ICSR/RECALPF (re-calibration pending flag).\n2. If it is set to 0, write a new value to RTC_CALR, if necessary. RECALPF is then\nautomatically set to 1\n3. Within three ck_apre cycles after the write operation to RTC_CALR, the new calibration\nsettings take effect.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.9.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.9.13",
+      "section_title": "Handling of overrun situation",
+      "level": 3,
+      "parent_section": "67.9",
+      "page": 3476,
+      "page_end": 3477,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 1355,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3476",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.9.13 \"Handling of overrun situation\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3476.",
+      "section_content": "In receive mode, an overrun situation is detected when the shift register needs to store a\nnew data into the RxFIFO, while the RxFIFO is full. In such a situation the OVR flag is set,\nand the incoming data is lost.\nIn I2S mode, there is a hardware mechanism in to prevent misalignment situations (left and\nright channel swapped). As shown in the following figure, when an overrun occurs, the\nperipheral stops writing data into the RxFIFO as long as restart conditions are not met.\nThe reception restarts when there is enough room into the RxFIFO. The block starts by\nwriting next the right channel into the RxFIFO if the overrun occurs when a right channel\ndata is received or by writing the next left channel if the overrun occurs when a left channel\ndata is received.\n[Figure 911. Handling of overrun situation]\nWhen the block is configured in PCM mode, after an overrun error, the block stops writing\ndata in the RxFIFO as long as conditions of restart are not met. When there is enough room\nin the RxFIFO, the next received data are written in the RxFIFO.\nAn interrupt can be generated if the OVRIE bit of the SPI_IER register is set. The OVR bit is\ncleared by setting the OVRC bit of the SPI_IFCR register.\nNote: An overrun situation can occur in master or slave mode. In master mode when an overrun\noccurs, the WS, CK, and MCK signals are not gated.",
+      "semantic": {}
+    }
+  ]
+}

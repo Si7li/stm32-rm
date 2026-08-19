@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S75.5.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "75",
+      "chapter_title": "USB Type-C®/USB Power Delivery interface (UCPD)",
+      "section": "75.5.3",
+      "section_title": "USB PD transmit",
+      "level": 3,
+      "parent_section": "75.5",
+      "page": 3952,
+      "page_end": 3953,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "usb"
+      ],
+      "chars": 2030,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3952",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 75.5.3 \"USB PD transmit\" in chapter 75 (USB Type-C®/USB Power Delivery interface (UCPD)), RM0486 Rev 4, page 3952.",
+      "section_content": "On reception of a message from the protocol layer (that is, to be sent), prepare Tx message\ncontents by writing the UCPD_TX_ORDSET and UCPD_TX_PAYSZ registers.\nThe message transmission is triggered by setting the TXSEND bit, with an appropriate\nvalue of the TXMODE bitfield.\nWhen the data byte is transmitted, the TXIS flag is raised to request a new data write to the\nUCPD_TXDR register.\nThis re-iterates until the entire payload of data is transmitted.\nUpon sending the CRC packet, the TXMSGSENT flag is set to indicate the completion of\nthe message transmission.\nHard Reset transmission\nAs soon as it is known that a Hard Reset needs to be transmitted, setting the TXHRST bit of\nthe UCPD_CR register forces the internal state machine to generate the correct sequence.\nThe value of UCPD_TX_ORDSET does not require update in this precise case (the correct\ncode for Hard Reset is sent by UCPD).\nThe USB Power Delivery specification requires that in the case of an ongoing message\ntransmission, the Hard Reset takes precedence. In this case, for example, UCPD truncates\nthe payload of the current message, appending EOP to the end. No notification is available\nvia the registers (for example through the TXMSGSEND flag). This is justified by the fact\nthat the Hard Reset takes precedence over any previous activity (for which it is therefore no\nlonger important to know if it is completed).\nUse of DMA for transmission\nDMA (Direct Memory Access) can be enabled for transmission by setting the TXDMAEN bit\nin the UCPD_CR register.\nFor each message:\n• Prepare the whole message in memory (starting with two header bytes)\n• Program the DMA operation with a length corresponding to the two header bytes plus a\nnumber of data bytes corresponding to the number of data words multiplied by four\n• Write TXSEND to initiate the message transfer\n• If TXMSGDISC then go back to previous line (TXSEND)\n• Wait for DMA transfer complete interrupt (that is, when last Tx byte written to UCPD)\n• Double-check subsequent TXMSGSENT interrupt appears",
+      "semantic": {}
+    }
+  ]
+}

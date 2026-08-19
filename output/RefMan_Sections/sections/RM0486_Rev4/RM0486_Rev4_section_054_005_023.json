@@ -1,0 +1,150 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S54.5.23",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "54",
+      "chapter_title": "General-purpose timers (TIM2/TIM3/TIM4/TIM5)",
+      "section": "54.5.23",
+      "section_title": "TIMx DMA control register (TIMx_DCR)(x = 2 to 5)",
+      "level": 3,
+      "parent_section": "54.5",
+      "page": 2734,
+      "page_end": 2735,
+      "semantic_type": "register_description",
+      "features": [
+        "dba",
+        "dbl",
+        "dbss",
+        "dma",
+        "timer"
+      ],
+      "chars": 2214,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2734",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 54.5.23 \"TIMx DMA control register (TIMx_DCR)(x = 2 to 5)\" in chapter 54 (General-purpose timers (TIM2/TIM3/TIM4/TIM5)), RM0486 Rev 4, page 2734.",
+      "section_content": "Address offset: 0x3DC\nReset value: 0x00000000\nBits 31:20 Reserved, must be kept at reset value.\nBits 19:16 DBSS[3:0]: DMA burst source selection\nThis bitfield defines the interrupt source that triggers the DMA burst transfers (the timer\nrecognizes a burst transfer when a read or a write access is done to the TIMx_DMAR\naddress).\n0000: Reserved\n0001: Update\n0010: CC1\n0011: CC2\n0100: CC3\n0101: CC4\n0110: COM\n0111: Trigger\nOthers: reserved\nBits 15:13 Reserved, must be kept at reset value.\nBits 12:8 DBL[4:0]: DMA burst length\nThis 5-bit vector defines the length of DMA transfers (the timer recognizes a burst transfer\nwhen a read or a write access is done to the TIMx_DMAR address), i.e. the number of\ntransfers. Transfers can be in half-words or in bytes (see example below).\n00000: 1 transfer\n00001: 2 transfers\n00010: 3 transfers\n...\n11010: 26 transfers\nExample: Let us consider the following transfer: DBL = 7 bytes & DBA = TIM2_CR1.\n–If DBL = 7 bytes and DBA = TIM2_CR1 represents the address of the byte to be\ntransferred, the address of the transfer is given by the following equation:\n(TIMx_CR1 address) + DBA + (DMA index), where DMA index = DBL\nIn this example, 7 bytes are added to (TIMx_CR1 address) + DBA, which gives us the\naddress from/to which the data are copied. In this case, the transfer is done to 7 registers\nstarting from the following address: (TIMx_CR1 address) + DBA\nAccording to the configuration of the DMA Data Size, several cases may occur:\n–If the DMA Data Size is configured in half-words, 16-bit data are transferred to each of the 7\nregisters.\n–If the DMA Data Size is configured in bytes, the data are also transferred to 7 registers: the\nfirst register contains the first MSB byte, the second register, the first LSB byte and so on.\nSo with the transfer Timer, one also has to specify the size of data transferred by DMA.\nBits 7:5 Reserved, must be kept at reset value.\nBits 4:0 DBA[4:0]: DMA base address\nThis 5-bits vector defines the base-address for DMA transfers (when read/write access are\ndone through the TIMx_DMAR address). DBA is defined as an offset starting from the\naddress of the TIMx_CR1 register.\nExample:\n00000: TIMx_CR1,\n00001: TIMx_CR2,\n00010: TIMx_SMCR,\n...",
+      "semantic": {
+        "register": "TIMx_DCR",
+        "address_offset": "0x3DC",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:16",
+            "name": "DBSS[3:0]",
+            "description": "DMA burst source selection This bitfield defines the interrupt source that triggers the DMA burst transfers (the timer recognizes a burst transfer when a read or a write access is done to the TIMx_DMAR address).",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0001",
+                "meaning": "Update"
+              },
+              {
+                "value": "0010",
+                "meaning": "CC1"
+              },
+              {
+                "value": "0011",
+                "meaning": "CC2"
+              },
+              {
+                "value": "0100",
+                "meaning": "CC3"
+              },
+              {
+                "value": "0101",
+                "meaning": "CC4"
+              },
+              {
+                "value": "0110",
+                "meaning": "COM"
+              },
+              {
+                "value": "0111",
+                "meaning": "Trigger"
+              },
+              {
+                "value": "Others",
+                "meaning": "reserved"
+              }
+            ]
+          },
+          {
+            "bits": "15:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12:8",
+            "name": "DBL[4:0]",
+            "description": "DMA burst length This 5-bit vector defines the length of DMA transfers (the timer recognizes a burst transfer when a read or a write access is done to the TIMx_DMAR address), i.e. the number of transfers. Transfers can be in half-words or in bytes (see example below). ... Example: Let us consider the following transfer: DBL = 7 bytes & DBA = TIM2_CR1. –If DBL = 7 bytes and DBA = TIM2_CR1 represents the address of the byte to be transferred, the address of the transfer is given by the following equation: (TIMx_CR1 address) + DBA + (DMA index), where DMA index = DBL In this example, 7 bytes are added to (TIMx_CR1 address) + DBA, which gives us the address from/to which the data are copied. In this case, the transfer is done to 7 registers starting from the following address: (TIMx_CR1 address) + DBA According to the configuration of the DMA Data Size, several cases may occur: –If the DMA Data Size is configured in half-words, 16-bit data are transferred to each of the 7 registers. –If the DMA Data Size is configured in bytes, the data are also transferred to 7 registers: the first register contains the first MSB byte, the second register, the first LSB byte and so on. So with the transfer Timer, one also has to specify the size of data transferred by DMA.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "1 transfer"
+              },
+              {
+                "value": "00001",
+                "meaning": "2 transfers"
+              },
+              {
+                "value": "00010",
+                "meaning": "3 transfers"
+              },
+              {
+                "value": "11010",
+                "meaning": "26 transfers"
+              }
+            ]
+          },
+          {
+            "bits": "7:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4:0",
+            "name": "DBA[4:0]",
+            "description": "DMA base address This 5-bits vector defines the base-address for DMA transfers (when read/write access are done through the TIMx_DMAR address). DBA is defined as an offset starting from the address of the TIMx_CR1 register. Example: ...",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "TIMx_CR1,"
+              },
+              {
+                "value": "00001",
+                "meaning": "TIMx_CR2,"
+              },
+              {
+                "value": "00010",
+                "meaning": "TIMx_SMCR,"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

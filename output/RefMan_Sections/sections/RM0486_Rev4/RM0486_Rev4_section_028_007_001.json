@@ -1,0 +1,383 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.7.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.7.1",
+      "section_title": "XSPI control register (XSPI_CR)",
+      "level": 3,
+      "parent_section": "28.7",
+      "page": 1327,
+      "page_end": 1330,
+      "semantic_type": "register_description",
+      "features": [
+        "abort",
+        "apms",
+        "cssel",
+        "dma",
+        "dmaen",
+        "dmm",
+        "fmode",
+        "fthres",
+        "ftie",
+        "msel",
+        "nopref",
+        "nopref-axi",
+        "pmm",
+        "smie",
+        "spi",
+        "tcen",
+        "tcie",
+        "teie",
+        "toie",
+        "xspi",
+        "xspi-cr"
+      ],
+      "chars": 6195,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1327",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.7.1 \"XSPI control register (XSPI_CR)\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1327.",
+      "section_content": "Address offset: 0x000\nReset value: 0x0000 0000\n[Table 200. XSPI interrupt requests]\nBits 31:30 MSEL[1:0]: Flash select\nThese bits select the memory to be addressed in single-, dual-, quad-, or octal-SPI mode\nin single-memory configuration (when DMM = 0).\n- when in quad-SPI mode:\n00: Data exchanged over IO[3:0]\n01: Data exchanged over IO[7:4]\n10: Data exchanged over IO[11:8]\n11: Data exchanged over IO[15:12]\n- when in octal-SPI mode or dual-quad configuration:\n0x: Data exchanged over IO[7:0]\n1x: Data exchanged over IO[15:8]\nThese bits are ignored when in dual-octal configuration (data on 8 bits and DMM = 1) or\n16-bit configuration (data exchanged over IO[15:0]).\nNote: This bitfield can be modified only when BUSY = 0.\nBits 29:28 FMODE[1:0]: Functional mode\nThis bitfield defines the XSPI functional mode of operation.\n00: Indirect-write mode\n01: Indirect-read mode\n10: Automatic status-polling mode (relevant in regular-command protocol only)\n11: Memory-mapped mode\nIf DMAEN = 1 already, then the DMA controller for the corresponding channel must be\ndisabled before changing the FMODE[1:0] value.\nNote: This bitfield can be modified only when BUSY = 0.\nBit 27 Reserved, must be kept at reset value.\nBit 26 NOPREF_AXI: No prefetch for signaled AXI transactions\nThis bit disables the automatic prefetch in the external memory when the corresponding AXI\ntransaction is signaled as not-prefetchable.\n0: Prefetch is enabled, whatever the AXI prefetch transaction request.\n1: Prefetch is disabled when the AXI transaction is signaled as not-prefetchable.\nThis bit has no effect when NOPREF = 1.\nBit 25 NOPREF: No prefetch data\nThis bit disables the automatic prefetch in the external memory.\n0: Automatic prefetch enabled\n1: Automatic prefetch disabled\nBit 24 CSSEL: chip select selection\nThis bit indicates if the XSPI must activate NCS1 or NCS2.\n0: NCS1 active\n1: NCS2 active\nNote: This bit can be modified only when BUSY = 0.\nBit 23 PMM: Polling match mode\nThis bit indicates which method must be used to determine a match during the automatic\nstatus-polling mode.\n0: AND-match mode, SMF is set if all the unmasked bits received from the device match\nthe corresponding bits in the match register.\n1: OR-match mode, SMF is set if any of the unmasked bits received from the device matches\nits corresponding bit in the match register.\nNote: This bit can be modified only when BUSY = 0.\nBit 22 APMS: Automatic status-polling mode stop\nThis bit determines if the automatic status-polling mode is stopped after a match.\n0: Automatic status-polling mode is stopped only by abort or by disabling the XSPI.\n1: Automatic status-polling mode stops as soon as there is a match.\nNote: This bit can be modified only when BUSY = 0.\nBit 21 Reserved, must be kept at reset value.\nBit 20 TOIE: Timeout interrupt enable\nThis bit enables the timeout interrupt.\n0: Interrupt disabled\n1: Interrupt enabled\nBit 19 SMIE: Status match interrupt enable\nThis bit enables the status match interrupt.\n0: Interrupt disabled\n1: Interrupt enabled\nBit 18 FTIE: FIFO threshold interrupt enable\nThis bit enables the FIFO threshold interrupt.\n0: Interrupt disabled\n1: Interrupt enabled\nBit 17 TCIE: Transfer complete interrupt enable\nThis bit enables the transfer complete interrupt.\n0: Interrupt disabled\n1: Interrupt enabled\nBit 16 TEIE: Transfer error interrupt enable\nThis bit enables the transfer error interrupt.\n0: Interrupt disabled\n1: Interrupt enabled\nBits 15:14 Reserved, must be kept at reset value.\nBits 13:8 FTHRES[5:0]: FIFO threshold level\nThis bitfield defines, in indirect mode, the threshold number of bytes in the FIFO that causes\nthe FIFO threshold flag FTF in XSPI_SR, to be set.\n000000: FTF is set if there are one or more free bytes available to be written to in the FIFO\nin indirect-write mode, or if there are one or more valid bytes can be read from the FIFO\nin indirect-read mode.\n000001: FTF is set if there are two or more free bytes available to be written to in the FIFO\nin indirect-write mode, or if there are two or more valid bytes can be read from the FIFO\nin indirect-read mode.\n...\n111111: FTF is set if there are 64 free bytes available to be written to in the FIFO\nin indirect-write mode, or if there are 64 valid bytes can be read from the FIFO\nin indirect-read mode.\nNote: If DMAEN = 1, the DMA controller for the corresponding channel must be disabled\nbefore changing the FTHRES[5:0] value.\nBit 7 Reserved, must be kept at reset value.\nBit 6 DMM: Dual-memory configuration\nThis bit activates the dual-memory configuration, where two external devices are used\nsimultaneously to double the throughput and the capacity.\n0: Dual-memory configuration disabled\n1: Dual-memory configuration enabled\nNote: This bit can be modified only when BUSY = 0.\nBits 5:4 Reserved, must be kept at reset value.\nBit 3 TCEN: Timeout counter enable\nThis bit is valid only when the memory-mapped mode (FMODE[1:0] = 11) is selected. This bit\nenables the timeout counter.\n0: The timeout counter is disabled, and thus the chip-select (NCS) remains active indefinitely\nafter an access in memory-mapped mode.\n1: The timeout counter is enabled, and thus the chip-select is released\nin the memory-mapped mode after TIMEOUT[15:0] cycles of external device inactivity.\nNote: This bit can be modified only when BUSY = 0.\nBit 2 DMAEN: DMA enable\nIn indirect mode, the DMA can be used to input or output data via XSPI_DR. DMA transfers\nare initiated when FTF is set.\n0: DMA disabled for indirect mode\n1: DMA enabled for indirect mode\nNote: Resetting the DMAEN bit while a DMA transfer is ongoing, breaks the handshake\nwith the DMA. Do not write this bit during DMA operation.\nBit 1 ABORT: Abort request\nThis bit aborts the ongoing command sequence. This bit stops the current transfer.\n0: No abort requested\n1: Abort requested\nNote: This bit is always read as 0.\nBit 0 EN: Enable\nThis bit enables the XSPI.\n0: XSPI disabled\n1: XSPI enabled\nNote: The DMA request can be aborted without having received the ACK in case this EN bit is\ncleared during the operation. In case this bit is set to 0 during a DMA transfer, the REQ\nsignal to DMA returns to inactive state without waiting for the ACK signal from DMA to\nbe active.",
+      "semantic": {
+        "register": "XSPI_CR",
+        "address_offset": "0x000",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "MSEL[1:0]",
+            "description": "Flash select These bits select the memory to be addressed in single-, dual-, quad-, or octal-SPI mode in single-memory configuration (when DMM = 0). - when in quad-SPI mode: - when in octal-SPI mode or dual-quad configuration: 0x: Data exchanged over IO[7:0] 1x: Data exchanged over IO[15:8] These bits are ignored when in dual-octal configuration (data on 8 bits and DMM = 1) or 16-bit configuration (data exchanged over IO[15:0]). Note: This bitfield can be modified only when BUSY = 0.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Data exchanged over IO[3:0]"
+              },
+              {
+                "value": "01",
+                "meaning": "Data exchanged over IO[7:4]"
+              },
+              {
+                "value": "10",
+                "meaning": "Data exchanged over IO[11:8]"
+              },
+              {
+                "value": "11",
+                "meaning": "Data exchanged over IO[15:12]"
+              }
+            ]
+          },
+          {
+            "bits": "29:28",
+            "name": "FMODE[1:0]",
+            "description": "Functional mode This bitfield defines the XSPI functional mode of operation. If DMAEN = 1 already, then the DMA controller for the corresponding channel must be disabled before changing the FMODE[1:0] value. Note: This bitfield can be modified only when BUSY = 0.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Indirect-write mode"
+              },
+              {
+                "value": "01",
+                "meaning": "Indirect-read mode"
+              },
+              {
+                "value": "10",
+                "meaning": "Automatic status-polling mode (relevant in regular-command protocol only)"
+              },
+              {
+                "value": "11",
+                "meaning": "Memory-mapped mode"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "NOPREF_AXI",
+            "description": "No prefetch for signaled AXI transactions This bit disables the automatic prefetch in the external memory when the corresponding AXI transaction is signaled as not-prefetchable. This bit has no effect when NOPREF = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Prefetch is enabled, whatever the AXI prefetch transaction request."
+              },
+              {
+                "value": "1",
+                "meaning": "Prefetch is disabled when the AXI transaction is signaled as not-prefetchable."
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "NOPREF",
+            "description": "No prefetch data This bit disables the automatic prefetch in the external memory.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Automatic prefetch enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Automatic prefetch disabled"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "CSSEL",
+            "description": "chip select selection This bit indicates if the XSPI must activate NCS1 or NCS2. Note: This bit can be modified only when BUSY = 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "NCS1 active"
+              },
+              {
+                "value": "1",
+                "meaning": "NCS2 active"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "PMM",
+            "description": "Polling match mode This bit indicates which method must be used to determine a match during the automatic status-polling mode. the corresponding bits in the match register. its corresponding bit in the match register. Note: This bit can be modified only when BUSY = 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "AND-match mode, SMF is set if all the unmasked bits received from the device match"
+              },
+              {
+                "value": "1",
+                "meaning": "OR-match mode, SMF is set if any of the unmasked bits received from the device matches"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "APMS",
+            "description": "Automatic status-polling mode stop This bit determines if the automatic status-polling mode is stopped after a match. Note: This bit can be modified only when BUSY = 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Automatic status-polling mode is stopped only by abort or by disabling the XSPI."
+              },
+              {
+                "value": "1",
+                "meaning": "Automatic status-polling mode stops as soon as there is a match."
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "TOIE",
+            "description": "Timeout interrupt enable This bit enables the timeout interrupt.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "SMIE",
+            "description": "Status match interrupt enable This bit enables the status match interrupt.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "FTIE",
+            "description": "FIFO threshold interrupt enable This bit enables the FIFO threshold interrupt.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "TCIE",
+            "description": "Transfer complete interrupt enable This bit enables the transfer complete interrupt.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "TEIE",
+            "description": "Transfer error interrupt enable This bit enables the transfer error interrupt.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "15:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:8",
+            "name": "FTHRES[5:0]",
+            "description": "FIFO threshold level This bitfield defines, in indirect mode, the threshold number of bytes in the FIFO that causes the FIFO threshold flag FTF in XSPI_SR, to be set. in indirect-write mode, or if there are one or more valid bytes can be read from the FIFO in indirect-read mode. in indirect-write mode, or if there are two or more valid bytes can be read from the FIFO in indirect-read mode. ... in indirect-write mode, or if there are 64 valid bytes can be read from the FIFO in indirect-read mode. Note: If DMAEN = 1, the DMA controller for the corresponding channel must be disabled before changing the FTHRES[5:0] value.",
+            "values": [
+              {
+                "value": "000000",
+                "meaning": "FTF is set if there are one or more free bytes available to be written to in the FIFO"
+              },
+              {
+                "value": "000001",
+                "meaning": "FTF is set if there are two or more free bytes available to be written to in the FIFO"
+              },
+              {
+                "value": "111111",
+                "meaning": "FTF is set if there are 64 free bytes available to be written to in the FIFO"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "DMM",
+            "description": "Dual-memory configuration This bit activates the dual-memory configuration, where two external devices are used simultaneously to double the throughput and the capacity. Note: This bit can be modified only when BUSY = 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Dual-memory configuration disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Dual-memory configuration enabled"
+              }
+            ]
+          },
+          {
+            "bits": "5:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "TCEN",
+            "description": "Timeout counter enable This bit is valid only when the memory-mapped mode (FMODE[1:0] = 11) is selected. This bit enables the timeout counter. after an access in memory-mapped mode. in the memory-mapped mode after TIMEOUT[15:0] cycles of external device inactivity. Note: This bit can be modified only when BUSY = 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The timeout counter is disabled, and thus the chip-select (NCS) remains active indefinitely"
+              },
+              {
+                "value": "1",
+                "meaning": "The timeout counter is enabled, and thus the chip-select is released"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "DMAEN",
+            "description": "DMA enable In indirect mode, the DMA can be used to input or output data via XSPI_DR. DMA transfers are initiated when FTF is set. Note: Resetting the DMAEN bit while a DMA transfer is ongoing, breaks the handshake with the DMA. Do not write this bit during DMA operation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA disabled for indirect mode"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA enabled for indirect mode"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "ABORT",
+            "description": "Abort request This bit aborts the ongoing command sequence. This bit stops the current transfer. Note: This bit is always read as 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No abort requested"
+              },
+              {
+                "value": "1",
+                "meaning": "Abort requested"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EN",
+            "description": "Enable This bit enables the XSPI. Note: The DMA request can be aborted without having received the ACK in case this EN bit is cleared during the operation. In case this bit is set to 0 during a DMA transfer, the REQ signal to DMA returns to inactive state without waiting for the ACK signal from DMA to be active.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "XSPI disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "XSPI enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

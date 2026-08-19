@@ -1,0 +1,38 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S21.6.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "21",
+      "chapter_title": "Flexible static memory controller (FSMC)",
+      "section": "21.6.4",
+      "section_title": "NAND Flash operations",
+      "level": 3,
+      "parent_section": "21.6",
+      "page": 552,
+      "page_end": 553,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "nand"
+      ],
+      "chars": 2603,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=552",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.6.4 \"NAND Flash operations\" in chapter 21 (Flexible static memory controller (FSMC)), RM0008 Rev 21, page 552.",
+      "section_content": "The command latch enable (CLE) and address latch enable (ALE) signals of the NAND\nFlash device are driven by some address signals of the FSMC controller. This means that to\nsend a command or an address to the NAND Flash memory, the CPU has to perform a write\nto a certain address in its memory space.\nA typical page read operation from the NAND Flash device is as follows:\n1. Program and enable the corresponding memory bank by configuring the FSMC_PCRx\nand FSMC_PMEMx (and for some devices, FSMC_PATTx, see Section21.6.5)\nregisters according to the characteristics of the NAND Flash (PWID bits for the databus\nwidth of the NAND Flash, PTYP = 1, PWAITEN = 0 or 1 as needed, see Common\nmemory space timing register 2..4 (FSMC_PMEM2..4) for timing configuration).\n2. The CPU performs a byte write in the common memory space, with data byte equal to\none Flash command byte (for example 0x00 for Samsung NAND Flash devices). The\nCLE input of the NAND Flash is active during the write strobe (low pulse on NWE), thus\nthe written byte is interpreted as a command by the NAND Flash. Once the command\nis latched by the NAND Flash device, it does not need to be written for the following\npage read operations.\n3. The CPU can send the start address (STARTAD) for a read operation by writing the\nrequired bytes (for example four bytes or three for smaller capacity devices),\nSTARTAD[7:0], STARTAD[15:8], STARTAD[23:16] and finally STARTAD[25:24] for\n64Mb x 8 bit NAND Flash) in the common memory or attribute space. The ALE input of\nthe NAND Flash device is active during the write strobe (low pulse on NWE), thus the\nwritten bytes are interpreted as the start address for read operations. Using the\nattribute memory space makes it possible to use a different timing configuration of the\nFSMC, which can be used to implement the prewait functionality needed by some\nNAND Flash memories (see details in Section21.6.5).\n4. The controller waits for the NAND Flash to be ready (R/NB signal high) to become\nactive, before starting a new access (to same or another memory bank). While waiting,\nthe controller maintains the NCE signal active (low).\n5. The CPU can then perform byte read operations in the common memory space to read\nthe NAND Flash page (data field + Spare field) byte by byte.\n6. The next NAND Flash page can be read without any CPU command or address write\noperation, in three different ways:\n– by simply performing the operation described in step 5\n– a new random address can be accessed by restarting the operation at step 3\n– a new command can be sent to the NAND Flash device by restarting at step 2",
+      "semantic": {}
+    }
+  ]
+}

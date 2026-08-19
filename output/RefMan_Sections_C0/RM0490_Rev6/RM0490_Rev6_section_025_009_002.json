@@ -1,0 +1,208 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S25.9.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "25",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "25.9.2",
+      "section_title": "I2C control register 2 (I2C_CR2)",
+      "level": 3,
+      "parent_section": "25.9",
+      "page": 731,
+      "page_end": 733,
+      "semantic_type": "register_description",
+      "features": [
+        "add10",
+        "autoend",
+        "head10r",
+        "i2c",
+        "i2c-cr2",
+        "nack",
+        "nbytes",
+        "pecbyte",
+        "rd-wrn",
+        "reload",
+        "sadd",
+        "start",
+        "stop"
+      ],
+      "chars": 4842,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=731",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.9.2 \"I2C control register 2 (I2C_CR2)\" in chapter 25 (Inter-integrated circuit interface (I2C)), RM0490 Rev 6, page 731.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0000 0000\nAccess: no wait states, except if a write access occurs while a write access is ongoing. In\nthis case, wait states are inserted in the second write access until the previous one is\ncompleted. The latency of the second write access can be up to 2 x PCLK + 6 x I2CCLK.\nBits 31:27 Reserved, must be kept at reset value.\nBit 26 PECBYTE: Packet error checking byte\nThis bit is set by software, and cleared by hardware when the PEC is transferred, or when a\nSTOP condition or an Address matched is received, also when PE = 0.\n0: No PEC transfer\n1: PEC transmission/reception is requested\nOn the instances of the I2C peripheral that do not support the SMBus feature, this bit is\nreserved and forced by hardware to 0. Refer to Section 25.3.\nNote: Writing 0 to this bit has no effect.\nThis bit has no effect when RELOAD is set, and in target mode when SBC = 0.\nBit 25 AUTOEND: Automatic end mode (controller mode)\nThis bit is set and cleared by software.\n0: software end mode: TC flag is set when NBYTES data are transferred, stretching SCL low.\n1: Automatic end mode: a STOP condition is automatically sent when NBYTES data are\ntransferred.\nNote: This bit has no effect in target mode or when the RELOAD bit is set.\nBit 24 RELOAD: NBYTES reload mode\nThis bit is set and cleared by software.\n0: The transfer is completed after the NBYTES data transfer (STOP or RESTART follows).\n1: The transfer is not completed after the NBYTES data transfer (NBYTES is reloaded). TCR\nflag is set when NBYTES data are transferred, stretching SCL low.\nBits 23:16 NBYTES[7:0]: Number of bytes\nThe number of bytes to be transmitted/received is programmed there. This field is don’t care\nin target mode with SBC = 0.\nNote: Changing these bits when the START bit is set is not allowed.\nBit 15 NACK: NACK generation (target mode)\nThe bit is set by software, cleared by hardware when the NACK is sent, or when a STOP\ncondition or an Address matched is received, or when PE = 0.\n0: an ACK is sent after current received byte.\n1: a NACK is sent after current received byte.\nNote: Writing 0 to this bit has no effect.\nThis bit is used only in target mode: in controller receiver mode, NACK is automatically\ngenerated after last byte preceding STOP or RESTART condition, whatever the NACK\nbit value.\nWhen an overrun occurs in target receiver NOSTRETCH mode, a NACK is\nautomatically generated, whatever the NACK bit value.\nWhen hardware PEC checking is enabled (PECBYTE = 1), the PEC acknowledge value\ndoes not depend on the NACK value.\nBit 14 STOP: STOP condition generation\nThis bit only pertains to controller mode. It is set by software and cleared by hardware when\na STOP condition is detected or when PE = 0.\n0: No STOP generation\n1: STOP generation after current byte transfer\nNote: Writing 0 to this bit has no effect.\nBit 13 START: START condition generation\nThis bit is set by software. It is cleared by hardware after the START condition followed by\nthe address sequence is sent, by an arbitration loss, by an address matched in target mode,\nby a timeout error detection, or when PE = 0.\n0: No START generation\n1: RESTART/START generation:\nIf the I2C is already in controller mode with AUTOEND = 0, setting this bit generates a\nrepeated START condition when RELOAD = 0, after the end of the NBYTES transfer.\nOtherwise, setting this bit generates a START condition once the bus is free.\nNote: Writing 0 to this bit has no effect.\nThe START bit can be set even if the bus is BUSY or I2C is in target mode.\nThis bit has no effect when RELOAD is set.\nBit 12 HEAD10R: 10-bit address header only read direction (controller receiver mode)\n0: The controller sends the complete 10-bit target address read sequence: START + 2 bytes\n10-bit address in write direction + RESTART + first seven bits of the 10-bit address in read\ndirection.\n1: The controller sends only the first seven bits of the 10-bit address, followed by read\ndirection.\nNote: Changing this bit when the START bit is set is not allowed.\nBit 11 ADD10: 10-bit addressing mode (controller mode)\n0: The controller operates in 7-bit addressing mode\n1: The controller operates in 10-bit addressing mode\nNote: Changing this bit when the START bit is set is not allowed.\nBit 10 RD_WRN: Transfer direction (controller mode)\n0: Controller requests a write transfer\n1: Controller requests a read transfer\nNote: Changing this bit when the START bit is set is not allowed.\nBits 9:0 SADD[9:0]: Target address (controller mode)\nCondition: In 7-bit addressing mode (ADD10 = 0):\nSADD[7:1] must be written with the 7-bit target address to be sent. Bits SADD[9], SADD[8]\nand SADD[0] are don't care.\nCondition: In 10-bit addressing mode (ADD10 = 1):\nSADD[9:0] must be written with the 10-bit target address to be sent.\nNote: Changing these bits when the START bit is set is not allowed.",
+      "semantic": {
+        "register": "I2C_CR2",
+        "address_offset": "0x04",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:27",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "PECBYTE",
+            "description": "Packet error checking byte This bit is set by software, and cleared by hardware when the PEC is transferred, or when a STOP condition or an Address matched is received, also when PE = 0. On the instances of the I2C peripheral that do not support the SMBus feature, this bit is reserved and forced by hardware to 0. Refer to Section 25.3. Note: Writing 0 to this bit has no effect. This bit has no effect when RELOAD is set, and in target mode when SBC = 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No PEC transfer"
+              },
+              {
+                "value": "1",
+                "meaning": "PEC transmission/reception is requested"
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "AUTOEND",
+            "description": "Automatic end mode (controller mode) This bit is set and cleared by software. transferred. Note: This bit has no effect in target mode or when the RELOAD bit is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "software end mode: TC flag is set when NBYTES data are transferred, stretching SCL low."
+              },
+              {
+                "value": "1",
+                "meaning": "Automatic end mode: a STOP condition is automatically sent when NBYTES data are"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "RELOAD",
+            "description": "NBYTES reload mode This bit is set and cleared by software. flag is set when NBYTES data are transferred, stretching SCL low.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The transfer is completed after the NBYTES data transfer (STOP or RESTART follows)."
+              },
+              {
+                "value": "1",
+                "meaning": "The transfer is not completed after the NBYTES data transfer (NBYTES is reloaded). TCR"
+              }
+            ]
+          },
+          {
+            "bits": "23:16",
+            "name": "NBYTES[7:0]",
+            "description": "Number of bytes The number of bytes to be transmitted/received is programmed there. This field is don’t care in target mode with SBC = 0. Note: Changing these bits when the START bit is set is not allowed.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "NACK",
+            "description": "NACK generation (target mode) The bit is set by software, cleared by hardware when the NACK is sent, or when a STOP condition or an Address matched is received, or when PE = 0. Note: Writing 0 to this bit has no effect. This bit is used only in target mode: in controller receiver mode, NACK is automatically generated after last byte preceding STOP or RESTART condition, whatever the NACK bit value. When an overrun occurs in target receiver NOSTRETCH mode, a NACK is automatically generated, whatever the NACK bit value. When hardware PEC checking is enabled (PECBYTE = 1), the PEC acknowledge value does not depend on the NACK value.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "an ACK is sent after current received byte."
+              },
+              {
+                "value": "1",
+                "meaning": "a NACK is sent after current received byte."
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "STOP",
+            "description": "STOP condition generation This bit only pertains to controller mode. It is set by software and cleared by hardware when a STOP condition is detected or when PE = 0. Note: Writing 0 to this bit has no effect.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No STOP generation"
+              },
+              {
+                "value": "1",
+                "meaning": "STOP generation after current byte transfer"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "START",
+            "description": "START condition generation This bit is set by software. It is cleared by hardware after the START condition followed by the address sequence is sent, by an arbitration loss, by an address matched in target mode, by a timeout error detection, or when PE = 0. If the I2C is already in controller mode with AUTOEND = 0, setting this bit generates a repeated START condition when RELOAD = 0, after the end of the NBYTES transfer. Otherwise, setting this bit generates a START condition once the bus is free. Note: Writing 0 to this bit has no effect. The START bit can be set even if the bus is BUSY or I2C is in target mode. This bit has no effect when RELOAD is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No START generation"
+              },
+              {
+                "value": "1",
+                "meaning": "RESTART/START generation:"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "HEAD10R",
+            "description": "10-bit address header only read direction (controller receiver mode) 10-bit address in write direction + RESTART + first seven bits of the 10-bit address in read direction. direction. Note: Changing this bit when the START bit is set is not allowed.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The controller sends the complete 10-bit target address read sequence: START + 2 bytes"
+              },
+              {
+                "value": "1",
+                "meaning": "The controller sends only the first seven bits of the 10-bit address, followed by read"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "ADD10",
+            "description": "10-bit addressing mode (controller mode) Note: Changing this bit when the START bit is set is not allowed.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The controller operates in 7-bit addressing mode"
+              },
+              {
+                "value": "1",
+                "meaning": "The controller operates in 10-bit addressing mode"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "RD_WRN",
+            "description": "Transfer direction (controller mode) Note: Changing this bit when the START bit is set is not allowed.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Controller requests a write transfer"
+              },
+              {
+                "value": "1",
+                "meaning": "Controller requests a read transfer"
+              }
+            ]
+          },
+          {
+            "bits": "9:0",
+            "name": "SADD[9:0]",
+            "description": "Target address (controller mode) Condition: In 7-bit addressing mode (ADD10 = 0): SADD[7:1] must be written with the 7-bit target address to be sent. Bits SADD[9], SADD[8] and SADD[0] are don't care. Condition: In 10-bit addressing mode (ADD10 = 1): SADD[9:0] must be written with the 10-bit target address to be sent. Note: Changing these bits when the START bit is set is not allowed.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

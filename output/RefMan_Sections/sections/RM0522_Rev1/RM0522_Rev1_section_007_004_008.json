@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S7.4.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "7",
+      "chapter_title": "Instruction cache (ICACHE)",
+      "section": "7.4.8",
+      "section_title": "Cacheable accesses",
+      "level": 3,
+      "parent_section": "7.4",
+      "page": 215,
+      "page_end": 216,
+      "semantic_type": "generic",
+      "features": [
+        "accesses",
+        "cacheable"
+      ],
+      "chars": 2278,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=215",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 7.4.8 \"Cacheable accesses\" in chapter 7 (Instruction cache (ICACHE)), RM0522 Rev 1, page 215.",
+      "section_content": "When the ICACHE receives a cacheable transaction from the Cortex®-M33, it checks if the\naddress requested is present in its TAG memory, and if the corresponding cache line is\nvalid.\nThere are then three alternatives:\n• The address is present inside the TAG memory, the cache line is valid: cache hit, the\ndata is read from the cache and provided to the processor in the same cycle.\n• The address is not present in the TAG memory: cache miss, the data is read from\nthemain memory and provided to the processor, and a cache line refill is performed.\nThe critical-word-first policy ensures minimum wait cycles for the processor, since read\ndata can be provided while the cache still performs a cache line refill (associated\nlatency is the latency of fetching one word from the main memory).\nThe burst generated on the ICACHE master bus is WRAPw (w being the cache line\nwidth, in words) if no address remap occurs. If an address remap occurs, the kind of\nburst depends upon the HBURST programmed in corresponding ICACHE_CRRx.\nThe AHB transaction attributes are also propagated to the main AHBbus matrix on the\nmaster port selected for the line refill (master1 port, or master2 port if available, as for\nSTM32C59x/5A3 devices).\n• The address is not present in TAG memory, but belongs to the refill burst from the main\nmemory currently ongoing: cache hit (hit-under-miss feature).\nThis happens during cache-line refill. The ICACHE can provide the requested data as\nsoon as data are available at its master interface, thus avoiding a miss (fetching data\nfrom the main memory).\nIn the case of cache refill (due to cache miss), the ICACHE selects which cache line is\nwritten with the refill data:\n• In direct map (1-way) mode, only one line can be used to store the refill data: the line\npointed by the index of the input address.\n• In n-way set associative mode, one line among n can be used (the line pointed by the\naddress index, in each of the n ways). The way selection is based on a pLRU-t\nreplacement algorithm that points, for each index, on the way candidate for the next\nrefill.\nIf the cache line where the refill data must be written is already valid, the targeted cache line\nmust be invalidated first. This is true whatever the direct map or n-way set associative cache\nmode.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.10",
+      "section_title": "Programming guidelines for IEEE 1588 timestamping",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4131,
+      "page_end": 4132,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "ieee"
+      ],
+      "chars": 3372,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4131",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.10 \"Programming guidelines for IEEE 1588 timestamping\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4131.",
+      "section_content": "Initializing the System time generation\nThe timestamp feature can be enabled by setting bit 0 of the Timestamp control register\n(ETH_MACTSCR). However, it is essential that the timestamp counter is initialized after this\nbit is set. Complete the following steps to perform the peripheral initialization:\n1. Mask the Timestamp Trigger interrupt by clearing bit 12 of Interrupt enable register\n(ETH_MACIER).\n2. Set bit 0 of Timestamp control register (ETH_MACTSCR) to enable timestamping.\n3. Program Subsecond increment register (ETH_MACSSIR) based on the PTP clock\nfrequency.\n4. If you use the Fine Correction method, program Timestamp addend register\n(ETH_MACTSAR) and set bit 5 of Timestamp control register (ETH_MACTSCR).\n5. Poll the Timestamp control register (ETH_MACTSCR) until bit 5 is cleared.\n6. Program bit 1 of Timestamp control register (ETH_MACTSCR) to select the Fine\nUpdate method (if required).\n7. Program System time seconds update register (ETH_MACSTSUR) and System time\nnanoseconds update register (ETH_MACSTNUR) with the appropriate time value.\n8. Set bit 2 in Timestamp control register (ETH_MACTSCR).\nThe timestamp counter starts as soon as it is initialized with the value written in the\ntimestamp update registers. If one-step timestamping is required:\na) Enable one-step timestamping by programming bit 27 of the TDES3 Context\nDescriptor.\nb) Program Timestamp ingress asymmetric correction register (ETH_MACTSIACR)\nto update the correction field in PDelay_Req PTP messages.\n9. Enable the MAC receiver and transmitter for proper timestamping.\nNote: If timestamp operation is disabled by clearing bit 0 of Timestamp control register\n(ETH_MACTSCR), repeat all these steps to restart the timestamp operation.\nSystem time correction\nTo synchronize or update the system time in one shot (coarse correction method), complete\nthe following steps:\n1. Set the offset (positive or negative) in the timestamp update registers (System time\nseconds update register (ETH_MACSTSUR) and System time nanoseconds update\nregister (ETH_MACSTNUR)).\n2. Set bit 3 (TSUPDT) of the Timestamp control register (ETH_MACTSCR).\nThe value in the timestamp update registers is added to or subtracted from the system\ntime when the TSUPDT bit is cleared.\nTo synchronize or update the system time to reduce system-time jitter (fine correction\nmethod), complete the following steps:\n1. With the help of the algorithm described in Section: System time register module,\ncalculate at which rate you intend to increment or decrement the system time.\n2. Update the Timestamp addend register (ETH_MACTSAR) with the new value and set\nbit 5 of the Timestamp control register (ETH_MACTSCR) Register.\n3. Wait for the time during which you want the new value of the Addend register to be\nactive. This can be done by enabling the Timestamp Trigger interrupt after the system\ntime reaches the target value.\n4. Program the required target time in PPS x target time seconds register\n(ETH_MACPPSTTSxR) and PPS x target time nanoseconds register\n(ETH_MACPPSTTNxR).\n5. Enable the Timestamp interrupt in bit 12 of Interrupt enable register (ETH_MACIER).\n6. Set bit 3 in Register Timestamp control register (ETH_MACTSCR).\n7. When this trigger generates an interrupt, read Interrupt status register (ETH_MACISR).\n8. Reprogram Timestamp addend register (ETH_MACTSAR) with the old value and set\nbit 5 again.",
+      "semantic": {}
+    }
+  ]
+}

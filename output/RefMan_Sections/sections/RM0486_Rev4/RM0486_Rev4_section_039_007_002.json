@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.7.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.7.2",
+      "section_title": "Pixel 2D cropping",
+      "level": 3,
+      "parent_section": "39.7",
+      "page": 1862,
+      "page_end": 1863,
+      "semantic_type": "generic",
+      "features": [
+        "cropping",
+        "pixel"
+      ],
+      "chars": 1561,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1862",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.7.2 \"Pixel 2D cropping\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1862.",
+      "section_content": "The pixel 2D cropping aims at extracting and forwarding a rectangle of pixels.\nThe cropping assigns an X and Y location to its input pixels, and selects a configured\nrectangle among the pixels, and forward the pixels of this rectangle farther in the pixel pipe.\nThe pixels around the selected rectangle are discarded.\nFunctionality\n• Counts lines thanks to HSync (if from parallel interface) or packets (if from CSI-2)\n• Counts pixels inside a line\n• Positive cropping (forwards a selected rectangle of pixels in the pipe)\n• Cropping with 0 value for HSIZE[11:0] or VSIZE[11:0] forces the internal crop to get the\nmaximum value on the parameter where the software sets to the 0 value\nSoftware configuration\n[Table 353. DCMIPP_PxCRSTR and DCMIPP_PxCRSZR bit function]\nIf the cropped window is larger than the received window, only the received pixels are\nforwarded (no pixels are inserted to match the window size).\nIf the software sets 0 in one or both horizontal/vertical size bit fields (HSIZE, VSIZE), the\ncrop forces internally the value to be at the maximum on the corresponding bit field.\nConfiguration example\nTo select a small rectangle (size 100 x 50), whose upper pixel is located at position (30, 10),\nprovide the following setting:\n• ENABLE = 1 to crop a sub-rectangle\n• HSTART, VSTART = (30, 10) to start cropping at x = 30, y = 10 of the received picture\n• HSIZE, VSIZE = (100, 50)\nThe most bottom-right selected pixels have a position (129, 59) from the received picture.\nThe frame forwarded is handled downstream in the pipe as a 100 x 50 frame.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S57.8.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "57",
+      "chapter_title": "General purpose timers (TIM15/TIM16/TIM17)",
+      "section": "57.8.4",
+      "section_title": "TIMx status register (TIMx_SR)(x = 16 to 17)",
+      "level": 3,
+      "parent_section": "57.8",
+      "page": 2905,
+      "page_end": 2906,
+      "semantic_type": "register_description",
+      "features": [
+        "bif",
+        "cc1if",
+        "cc1of",
+        "comif",
+        "timer",
+        "uif"
+      ],
+      "chars": 2546,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2905",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 57.8.4 \"TIMx status register (TIMx_SR)(x = 16 to 17)\" in chapter 57 (General purpose timers (TIM15/TIM16/TIM17)), RM0486 Rev 4, page 2905.",
+      "section_content": "Address offset: 0x10\nReset value: 0x0000\nBits 15:10 Reserved, must be kept at reset value.\nBit 9 CC1OF: Capture/Compare 1 overcapture flag\nThis flag is set by hardware only when the corresponding channel is configured in input\ncapture mode. It is cleared by software by writing it to 0.\n0:No overcapture has been detected\n1:The counter value has been captured in TIMx_CCR1 register while CC1IF flag was\nalready set\nBit 8 Reserved, must be kept at reset value.\nBit 7 BIF: Break interrupt flag\nThis flag is set by hardware as soon as the tim_brk input goes active. It can be cleared by\nsoftware if the break input is not active.\n0: No break event occurred\n1: An active level has been detected on the break input\nBit 6 Reserved, must be kept at reset value.\nBit 5 COMIF: COM interrupt flag\nThis flag is set by hardware on a COM event (once the capture/compare control bits –CCxE,\nCCxNE, OCxM– have been updated). It is cleared by software.\n0: No COM event occurred\n1: COM interrupt pending\nBits 4:2 Reserved, must be kept at reset value.\nBit 1 CC1IF: Capture/Compare 1 interrupt flag\nThis flag is set by hardware. It is cleared by software (input capture or output compare\nmode) or by reading the TIMx_CCR1 register (input capture mode only).\n0: No compare match / No input capture occurred\n1: A compare match or an input capture occurred\nIf channel CC1 is configured as output: this flag is set when the content of the counter\nTIMx_CNT matches the content of the TIMx_CCR1 register. When the content of\nTIMx_CCR1 is greater than the content of TIMx_ARR, the CC1IF bit goes high on the\ncounter overflow (in up-counting and up/down-counting modes) or underflow (in down-\ncounting mode). There are 3 possible options for flag setting in center-aligned mode, refer\nto the CMS bits in the TIMx_CR1 register for the full description.\nIf channel CC1 is configured as input: this bit is set when counter value has been\ncaptured in TIMx_CCR1 register (an edge has been detected on IC1, as per the edge\nsensitivity defined with the CC1P and CC1NP bits setting, in TIMx_CCER).\nBit 0 UIF: Update interrupt flag\nThis bit is set by hardware on an update event. It is cleared by software.\n0: No update occurred.\n1: Update interrupt pending. This bit is set by hardware when the registers are updated:\n– At overflow regarding the repetition counter value (update if repetition counter = 0)\nand if the UDIS = 0 in the TIMx_CR1 register.\n– When CNT is reinitialized by software using the UG bit in TIMx_EGR register, if\nURS = 0 and UDIS = 0 in the TIMx_CR1 register.",
+      "semantic": {
+        "register": "TIMx_SR",
+        "address_offset": "0x10",
+        "reset_value": "0x0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "15:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "CC1OF",
+            "description": "Capture/Compare 1 overcapture flag This flag is set by hardware only when the corresponding channel is configured in input capture mode. It is cleared by software by writing it to 0. already set",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No overcapture has been detected"
+              },
+              {
+                "value": "1",
+                "meaning": "The counter value has been captured in TIMx_CCR1 register while CC1IF flag was"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "BIF",
+            "description": "Break interrupt flag This flag is set by hardware as soon as the tim_brk input goes active. It can be cleared by software if the break input is not active.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No break event occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "An active level has been detected on the break input"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "COMIF",
+            "description": "COM interrupt flag This flag is set by hardware on a COM event (once the capture/compare control bits –CCxE, CCxNE, OCxM– have been updated). It is cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No COM event occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "COM interrupt pending"
+              }
+            ]
+          },
+          {
+            "bits": "4:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "CC1IF",
+            "description": "Capture/Compare 1 interrupt flag This flag is set by hardware. It is cleared by software (input capture or output compare mode) or by reading the TIMx_CCR1 register (input capture mode only). If channel CC1 is configured as output: this flag is set when the content of the counter TIMx_CNT matches the content of the TIMx_CCR1 register. When the content of TIMx_CCR1 is greater than the content of TIMx_ARR, the CC1IF bit goes high on the counter overflow (in up-counting and up/down-counting modes) or underflow (in down- counting mode). There are 3 possible options for flag setting in center-aligned mode, refer to the CMS bits in the TIMx_CR1 register for the full description. If channel CC1 is configured as input: this bit is set when counter value has been captured in TIMx_CCR1 register (an edge has been detected on IC1, as per the edge sensitivity defined with the CC1P and CC1NP bits setting, in TIMx_CCER).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No compare match / No input capture occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "A compare match or an input capture occurred"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "UIF",
+            "description": "Update interrupt flag This bit is set by hardware on an update event. It is cleared by software. – At overflow regarding the repetition counter value (update if repetition counter = 0) and if the UDIS = 0 in the TIMx_CR1 register. – When CNT is reinitialized by software using the UG bit in TIMx_EGR register, if URS = 0 and UDIS = 0 in the TIMx_CR1 register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No update occurred."
+              },
+              {
+                "value": "1",
+                "meaning": "Update interrupt pending. This bit is set by hardware when the registers are updated:"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

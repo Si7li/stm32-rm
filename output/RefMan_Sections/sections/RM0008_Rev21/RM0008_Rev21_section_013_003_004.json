@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S13.3.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "13",
+      "chapter_title": "Direct memory access controller (DMA)",
+      "section": "13.3.4",
+      "section_title": "Programmable data width, data alignment and endians",
+      "level": 3,
+      "parent_section": "13.3",
+      "page": 279,
+      "page_end": 280,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "memory"
+      ],
+      "chars": 1586,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=279",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.3.4 \"Programmable data width, data alignment and endians\" in chapter 13 (Direct memory access controller (DMA)), RM0008 Rev 21, page 279.",
+      "section_content": "When PSIZE and MSIZE are not equal, the DMA performs some data alignments as\ndescribed in Table76.\n[Table 76. Programmable data width and endian behavior (when bits PINC = MINC = 1)]\nAddressing an AHB peripheral that does not support byte or halfword write\noperations\nWhen the DMA initiates an AHB byte or halfword write operation, the data are duplicated on\nthe unused lanes of the HWDATA[31:0] bus. So when the used AHB slave peripheral does\nnot support byte or halfword write operations (when HSIZE is not used by the peripheral)\nand does not generate any error, the DMA writes the 32 HWDATA bits as shown in the two\nexamples below:\n• To write the halfword “0xABCD”, the DMA sets the HWDATA bus to “0xABCDABCD”\nwith HSIZE = HalfWord\n• To write the byte “0xAB”, the DMA sets the HWDATA bus to “0xABABABAB” with\nHSIZE = Byte\nAssuming that the AHB/APB bridge is an AHB 32-bit slave peripheral that does not take the\nHSIZE data into account, it will transform any AHB byte or halfword operation into a 32-bit\nAPB operation in the following manner:\n• an AHB byte write operation of the data “0xB0” to 0x0 (or to 0x1, 0x2 or 0x3) will be\nconverted to an APB word write operation of the data “0xB0B0B0B0” to 0x0\n• an AHB halfword write operation of the data “0xB1B0” to 0x0 (or to 0x2) will be\nconverted to an APB word write operation of the data “0xB1B0B1B0” to 0x0\nFor instance, to write the APB backup registers (16-bit registers aligned to a 32-bit address\nboundary), the memory source size (MSIZE) must be configured to “16-bit” and the\nperipheral destination size (PSIZE) to “32-bit”.",
+      "semantic": {}
+    }
+  ]
+}

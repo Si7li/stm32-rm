@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S5.3.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "5",
+      "chapter_title": "Power control (PWR)",
+      "section": "5.3.2",
+      "section_title": "Low-power modes",
+      "level": 3,
+      "parent_section": "5.3",
+      "page": 98,
+      "page_end": 102,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 5695,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=98",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 5.3.2 \"Low-power modes\" in chapter 5 (Power control (PWR)), RM0490 Rev 6, page 98.",
+      "section_content": "The device features the following low-power modes:\n• Sleep mode\nCPU clock is off, all peripherals including Cortex®-M0+ core peripherals such as NVIC\nand SysTick can run and wake up the CPU when an interrupt or an event occurs.\nTo further reduce the power consumption in Sleep mode, the peripheral clocks can be\ndisabled prior to executing the WFI or WFE instructions. This can also be done\nautomatically, by configuring RCC_AHBSMENR and RCC_APBSMENRx registers.\nIf disabled before entering Sleep mode, HSI48 can be restarted by a peripheral with\nwake-up capability requiring HSI48.\n• Stop mode\nSRAM and register contents are retained. HSE and HSI48 stop. HSI48 can be\nrestarted by a peripheral with wake-up capability requiring HSI48.\nThe LSI and LSE oscillators can be kept running.\nThe RTC can remain active (Stop mode with RTC, Stop mode without RTC).\nThe event of exiting Stop mode enables the HSI48 oscillator and selects HSISYS as\nsystem clock.\n• Standby mode\nVCORE domain is powered off and the SRAM and register contents lost, except PWR\ncontrol register 3 (PWR_CR3) and PWR backup x register (PWR_BKPxR).\nAll clocks in the VCORE domain are stopped and the HSI48 and HSE oscillators\ndisabled. The IWDG and the LSI oscillator can be kept running.\nThe event of exiting Standby mode enables the HSI48 oscillator, selects HSISYS as\nsystem clock and sets its prescaler division factor to four (HSIDIV[2:0]=010).\n• Shutdown mode\nVCORE domain is powered off and the SRAM and register contents lost.\nAll oscillators are disabled.\nThe event of exiting Shutdown mode enables the HSI48 oscillator, selects HSISYS as\nsystem clock and sets its prescaler division factor to four (HSIDIV[2:0]=010).\nIn this mode, the supply voltage monitoring is disabled and the product behavior is not\nguaranteed in case of a power voltage drop.\nDebug in low-power modes\nBy default, the debug connection is lost upon entering Stop, Shutdown, or Standby mode, as\nthe core is no longer clocked.\nHowever, specific settings in the DBGMCU_CR register allow debugging the software even\nin low-power modes. For more details, refer to Section30.9.1: Debug support for low-power\nmodes.\nLow-power mode entry and exit\nThe software controls low-power mode entry, selection, and exit through:\n• SEVONPEND, SLEEPDEEP, and SLEEPONEXIT bits of the Cortex®-M0+ system\ncontrol register\n• LPMS[2:0] bitfield of the PWR control register 1 (PWR_CR1)\n• WFI (wait for interrupt) and WFE (wait for event) instructions (low-power mode entry\nstimuli)\n• NVIC, EXTI and peripheral pending interrupt and event flags\n• configuring return from ISR (interrupt service routine) as low-power mode entry\nstimulus\nEntering low-power modes\nConditionally, the device enters low-power modes upon one of the following stimuli:\n• WFI (wait for interrupt) instruction\n• WFE (wait for event) instruction\n• return from ISR (when the SLEEPONEXIT bit is high)\nThe low-power mode entry stimulus occurring while a low-power mode exit condition is met,\nis ignored (the low-power mode entry is aborted) and the program execution continues.\nFor low-power modes other than Sleep, the low-power mode entry is delayed (as opposed\nto aborted) until a potential ongoing flash memory or APB access is terminated.\nThe selection of the low-power mode to enter is determined by the SLEEPDEEP and\nLPMS[2:0] bitfields.\nRefer to the following table (including the table footnotes) for details about low-power mode\nentry conditions. All the conditions in a table row must be met for the corresponding low-\npower mode entry to occur.\n[Table 28. Low-power mode entry overview]\nExiting low-power modes\nThe device exits any low-power mode upon external reset on NRST pin.\nAdditionally, it exits Sleep, Stop, and Standby modes upon BOR/PDR and IWDG reset, and\nSleep and Stop modes upon a CSS detection on LSE.\nFor all other low-power mode exit conditions, refer to the following table (including the table\nfootnotes). All conditions in a table row must be met for the corresponding low-power mode\nexit to occur.\n[Table 29. Low-power mode exit overview]\nNote: For any NVIC IRQ interrupt, EXTI interrupt or EXTI event, the table assumes that the\nmechanism is activated through the NVIC ISER, EXTI_IMR1, or EXTI_EMR1 register,\nrespectively. For any interrupt or event, it also has to be activated in the peripheral.\nSome peripherals send their interrupt request signal to both NVIC and EXTI and can\ngenerate both NVIC IRQ and EXTI interrupts if configured to do so. Some other peripherals\nonly send their interrupt signal to NVIC and they can therefore only generate an NVIC\ninterrupt. The latter type of peripheral cannot wake the system up from Stop mode.\nUpon waking up from Sleep and Stop modes, the pending bits associated to the\ninterrupt/event having woken up the system must be cleared. It may also be necessary to\nclear the interrupt flag in the peripheral.\nUpon waking up from Standby and Shutdown mode, the program execution restarts in the\nsame way as upon a reset (boot pin sampling, option bytes loading, reset vector is fetched,\nand so on).\nAuto-wake-up from Stop mode\nThe RTC can wake the device up from Stop mode at regular intervals, without any external\nstimulus. For this purpose, select LSI or LSE as RTC clock source, through the\nRTCSEL[1:0] bitfield of the RCC control/status register 1 (RCC_CSR1).\nThe LSI oscillator does not require an external quartz and reduces the system cost, at\nexpense of accuracy. The LSE oscillator with an external quartz ensures higher accuracy\nbut it leads to an extra cost.\nTo enable the wake-up from Stop mode with RTC alarm:\n• Configure the EXTI Line 19 to be sensitive to rising edge.\n• Configure the RTC to generate wake-up event.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.15.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.15.3",
+      "section_title": "Device initialization",
+      "level": 3,
+      "parent_section": "73.15",
+      "page": 3871,
+      "page_end": 3871,
+      "semantic_type": "generic",
+      "features": [
+        "device",
+        "initialization"
+      ],
+      "chars": 1210,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3871",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.15.3 \"Device initialization\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3871.",
+      "section_content": "The application must perform the following steps to initialize the core as a device on power-\nup or after a mode change from host to device.\n1. Program the following fields in the OTG_DCFG register:\n– Device speed\n– Non-zero-length status OUT handshake\n– Periodic Frame Interval\n2. Program the Device threshold control register. This is required only if you are using\nDMA mode and you are planning to enable thresholding.\n3. Clear the DCTL.SDIS bit. The core issues a connect after this bit is cleared.\n4. Program the OTG_GINTMSK register to unmask the following interrupts:\n– USB reset\n– Enumeration done\n– Early suspend\n– USB suspend\n– SOF\n5. Wait for the USBRST interrupt in OTG_GINTSTS. It indicates that a reset has been\ndetected on the USB that lasts for about 10 ms on receiving this interrupt.\n6. Wait for the ENUMDNE interrupt in OTG_GINTSTS. This interrupt indicates the end of\nreset on the USB. On receiving this interrupt, the application must read the OTG_DSTS\nregister to determine the enumeration speed and perform the steps listed in Endpoint\ninitialization on enumeration completion.\nAt this point, the device is ready to accept SOF packets and perform control transfers on\ncontrol endpoint 0.",
+      "semantic": {}
+    }
+  ]
+}

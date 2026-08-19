@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S47.4.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "47",
+      "chapter_title": "Universal serial bus full-speed host/device interface (USB)",
+      "section": "47.4.6",
+      "section_title": "Description of host frame scheduler (HFS) specific to Host mode",
+      "level": 3,
+      "parent_section": "47.4",
+      "page": 2091,
+      "page_end": 2092,
+      "semantic_type": "generic",
+      "features": [
+        "hfs"
+      ],
+      "chars": 1765,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2091",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 47.4.6 \"Description of host frame scheduler (HFS) specific to Host mode\" in chapter 47 (Universal serial bus full-speed host/device interface (USB)), RM0522 Rev 1, page 2091.",
+      "section_content": "The host frame scheduler is the hardware machine in charge to submit host channel\nrequests on the bus according to the USB priority order and bandwidth access rules.\nHost channels are divided in two categories:\n– Periodic channels: isochronous and interrupt traffic types. With guaranteed\nbandwith access.\n– Non-periodic channels: bulk and control traffic types. With best effort service.\nThe host frame scheduler organizes the full-speed frame in 3 sequential windows\n– Periodic service window\n– Non-periodic service window\n– Black security window\nAt the start of a new frame, the host scheduler:\n1. First considers all periodic channels which were active (STAT bits VALID) at the start of\nframe\n2. Executes single round of service of periodic channels, the periodic service window, in\nhardware priority order from CH#1 to CH#8. For bidirectional channels it executes the\nOUT direction first\n3. When the periodic round is finished, HFS closes the periodic service window and stops\nservicing periodic traffic even if some periodic channel was re-enabled or some new\nchannel was enabled after the SOF.\n4. Starts servicing all non-periodic channels which are currently active (STAT bits VALID)\nin hardware priority order from CH#1 to CH#8. For bidirectional channels it executes\nthe OUT direction first.\n5. Executes multiple round-robin service cycles of non-periodic channels until almost the\nend of frame\n6. Non-periodic traffic can be requested at any time and is serviced by HFS with best\neffort latency, with the exception of a black security window at the end of the frame\nwhere new injected requests are directly postponed to the next frame to avoid babbles.\nThis is also true for pending transactions which have not been serviced ahead of the\nsecurity window.",
+      "semantic": {}
+    }
+  ]
+}

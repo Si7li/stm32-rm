@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S43.5.14",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "43",
+      "chapter_title": "Universal synchronous/asynchronous receiver transmitter (USART/UART)",
+      "section": "43.5.14",
+      "section_title": "USART LIN (local interconnection network) mode",
+      "level": 3,
+      "parent_section": "43.5",
+      "page": 1825,
+      "page_end": 1827,
+      "semantic_type": "generic",
+      "features": [
+        "lin",
+        "uart",
+        "usart"
+      ],
+      "chars": 2555,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1825",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.5.14 \"USART LIN (local interconnection network) mode\" in chapter 43 (Universal synchronous/asynchronous receiver transmitter (USART/UART)), RM0522 Rev 1, page 1825.",
+      "section_content": "This section is relevant only when LIN mode is supported. Refer to Section43.4: USART\nimplementation.\nThe LIN mode is selected by setting the LINEN bit in the USART_CR2 register. In LIN\nmode, the following bits must be kept cleared:\n• STOP[1:0] and CLKEN in the USART_CR2 register,\n• SCEN, HDSEL and IREN in the USART_CR3 register.\nLIN transmission\nThe procedure described in Section43.5.5 has to be applied for LIN master transmission. It\nmust be the same as for normal USART transmission with the following differences:\n• Clear the M bit to configure 8-bit word length.\n• Set the LINEN bit to enter LIN mode. In this case, setting the SBKRQ bit sends 13 zero\nbits as a break character. Then 2 bits of value ‘1 are sent to enable the next start\ndetection.\nLIN reception\nWhen LIN mode is enabled, the break detection circuit is activated. The detection is totally\nindependent from the normal USART receiver. A break can be detected whenever it occurs,\nduring Idle state or during a frame.\nWhen the receiver is enabled (RE=1 in USART_CR1), the circuit looks at the RX input for\na start signal. The method for detecting start bits is the same when searching break\ncharacters or data. After a start bit has been detected, the circuit samples the next bits\nexactly like for the data (on the 8th, 9th and 10th samples). If 10 (when the LBDL = 0 in\nUSART_CR2) or 11 (when LBDL=1 in USART_CR2) consecutive bits are detected as 0,\nand are followed by a delimiter character, the LBDF flag is set in USART_ISR. If the LBDIE\nbit=1, an interrupt is generated. Before validating the break, the delimiter is checked for as\nit signifies that the RX line has returned to a high level.\nIf a 1 is sampled before the 10 or 11 have occurred, the break detection circuit cancels the\ncurrent detection and searches for a start bit again.\nIf the LIN mode is disabled (LINEN=0), the receiver continues working as normal USART,\nwithout taking into account the break detection.\nIf the LIN mode is enabled (LINEN=1), as soon as a framing error occurs (that is, stop bit\ndetected at 0, which is the case for any break frame), the receiver stops until the break\ndetection circuit receives either a ‘1, if the break word was not complete, or a delimiter\ncharacter if a break has been detected.\nThe behavior of the break detector state machine and the break flag is shown in Figure629.\nExamples of break frames are given in Figure630.\n[Figure 629. Break detection in LIN mode (11-bit break length - LBDL bit is set)]\n[Figure 630. Break detection in LIN mode vs. Framing error detection]",
+      "semantic": {}
+    }
+  ]
+}

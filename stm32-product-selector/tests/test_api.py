@@ -7,7 +7,10 @@ be matched on a single string.
 
 from __future__ import annotations
 
-from stproducts.api import parse_grid
+import base64
+import json
+
+from stproducts.api import EXCEL_DOWNLOAD_URL, download_workbook, excel_export_payload, parse_grid
 
 
 def col(**kw):
@@ -107,3 +110,87 @@ def test_rows_are_keyed_by_part_number():
     assert grid.part_numbers == ["STM32F205RB"]
     assert grid.rows[0]["product_id"] == "PF250192"
     assert grid.level_title == "STM32F2 series"
+
+
+def test_excel_export_payload_mirrors_get_download_info():
+    """The ``downloadInfo`` POSTed to products-excel-download: fixed leading
+    columns, then every visible column in its own order, all product ids."""
+    payload = {
+        "levelTitle": "T",
+        "columns": [
+            # id "4" here is a column ST happens to call "General Description";
+            # the point is the export always opens 1, 4, 163 in that order.
+            col(id="1", name="Part Number", order="1"),
+            col(id="4", name="General Description", order="2"),
+            col(id="163", name="Marketing Status", order="3"),
+            col(id="10", name="Flash Size", order="4"),
+            col(id="11", name="Operating Temperature", qualifier="max", order="5"),
+            col(id="12", name="Not shown", order="6", show=False),
+        ],
+        "rows": [
+            {"productId": "PF1", "path": "/etc/prmis/products/LN0001/PF1", "cells": [
+                {"columnId": "1", "value": "A"},
+                {"columnId": "10", "value": "100"},
+            ]},
+            {"productId": "PF2", "cells": [
+                {"columnId": "1", "value": "B"},
+                {"columnId": "11", "value": "85"},
+            ]},
+        ],
+    }
+    grid = parse_grid("LN0001", payload)
+    out = excel_export_payload(grid)
+    assert out["rootProductId"] == "LN0001"
+    # 1, 4, 163 always lead; hidden columns are never exported.
+    assert out["columnIds"] == ["1", "4", "163", "10", "11"]
+    assert out["superAttributesColumnIds"] == ["11"]
+    assert out["productIds"] == ["PF1", "PF2"]
+    assert out["exponentPF"] == "PF1"  # its path contains the root id
+    # Rows are dense: every column id present, "-" for blank cells. ST's
+    # server drops a missing key and shifts the row, so a sparse part would
+    # otherwise land its values under the wrong headers.
+    assert out["rows"][0] == {"1": "A", "4": "-", "163": "-", "10": "100", "11": "-"}
+    assert out["rows"][1] == {"1": "B", "4": "-", "163": "-", "10": "-", "11": "85"}
+
+
+def test_excel_export_payload_exponent_falls_back_to_last_product():
+    payload = {
+        "levelTitle": "T",
+        "columns": [col(id="1", name="Part Number", order="1")],
+        "rows": [
+            {"productId": "PF1", "path": "", "cells": [{"columnId": "1", "value": "A"}]},
+            {"productId": "PF2", "path": "", "cells": [{"columnId": "1", "value": "B"}]},
+        ],
+    }
+    grid = parse_grid("LN0001", payload)
+    assert excel_export_payload(grid)["exponentPF"] == "PF2"
+
+
+def test_download_workbook_posts_base64_request_data():
+    payload = {
+        "levelTitle": "T",
+        "columns": [col(id="1", name="Part Number", order="1")],
+        "rows": [
+            {"productId": "PF1", "path": "/LN0001/PF1",
+             "cells": [{"columnId": "1", "value": "A"}]},
+        ],
+    }
+    grid = parse_grid("LN0001", payload)
+
+    class StubFetcher:
+        def __init__(self):
+            self.calls = []
+
+        def post_form_bytes(self, url, data, *, referer=None):
+            self.calls.append((url, data, referer))
+            return b"PK\x03\x04 fake xlsx"
+
+    stub = StubFetcher()
+    raw = download_workbook(stub, grid)
+    assert raw == b"PK\x03\x04 fake xlsx"
+    (url, data, referer) = stub.calls[0]
+    assert url == EXCEL_DOWNLOAD_URL
+    assert list(data) == ["requestData"]
+    decoded = json.loads(base64.b64decode(data["requestData"]).decode("utf-8"))
+    assert decoded["rootProductId"] == "LN0001"
+    assert decoded["productIds"] == ["PF1"]

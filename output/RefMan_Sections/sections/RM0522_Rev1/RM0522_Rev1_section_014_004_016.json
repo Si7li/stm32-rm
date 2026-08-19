@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.4.16",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.4.16",
+      "section_title": "LPDMA error management",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 418,
+      "page_end": 419,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 3212,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=418",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.16 \"LPDMA error management\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 418.",
+      "section_content": "LPDMA is able to manage and report to the user a transfer error, as follows, depending on\nthe root cause.\nData transfer error\nOn a bus access (as a AHB single) to the source or the destination:\n• The source or destination target reports an AHB error.\n• The programmed channel transfer is stopped (LPDMA_CxCR.EN cleared by the\nLPDMA hardware). The channel status register reports an idle state\n(LPDMA_CxSR.IDLEF=1) and the data error (LPDMA_CxSR.DTEF=1).\n• After a LPDMA data transfer error, the user must perform a debug session, taking care\nof the product-defined memory mapping of the source and destination, including the\nprotection attributes.\n• After a LPDMA data transfer error, the user must issue a channel reset\n(setLPDMA_CxCR.RESET) to reset the hardware LPDMA channel data path before\nthe user enables again the same channel for a next transfer.\nLink transfer error\nOn a tentative update of a LPDMA channel register from the programmed LLI in the\nmemory:\n• The linked-list memory reports an AHB error.\n• The programmed channel transfer is stopped (LPDMA_CxCR.EN cleared by the\nLPDMA hardware), the channel status register reports an idle state\n(LPDMA_CxSR.IDLEF=1) and the link error (LPDMA_CxSR.ULEF=1).\n• After a LPDMA link error, the user must perform a debug session, taking care of the\nproduct-defined memory mapping of the linked-list data structure (LPDMA_CxLBAR\nand LPDMA_CxLLR), including the protection attributes.\n• After a LPDMA link error, the user must explicitly write the linked-list register file\n(LPDMA_CxTR1, LPDMA_CxTR2, LPDMA_CxBR1, LPDMA_CxSAR,\nLPDMA_CxDAR and LPDMA_CxLLR), before the user enables again the same\nchannel for a next transfer.\nUser setting error\nOn a tentative execution of a LPDMA transfer with an unauthorized user setting:\n• The programmed channel transfer is disabled (LPDMA_CxCR.EN forced and cleared\nby the LPDMA hardware) preventing the next unauthorized programmed data transfer\nfrom being executed. The channel status register reports an idle state\n(LPDMA_CxSR.IDLEF=1) and a user setting error (LPDMA_CxSR.USEF=1).\n• After a LPDMA user setting error, the user must perform a debug session, taking care\nof the LPDMA channel programming. A user setting error can be caused by one of the\nfollowing:\n– a programmed null source block size without a programmed update of this value\nfrom the next LLI1 (LPDMA_CxBR1.BNDT[15:0]=0 and\nLPDMA_CxLLR.UB1=0)\n– a programmed non-null source block size being not a multiple of the programmed\ndata width of a source single transfer (LPDMA_CxBR1.BNDT[2:0] versus\nLPDMA_CxTR1.SDW_LOG2[1:0])\n– a programmed unaligned source start address, being not a multiple of the\nprogrammed data width of a source single transfer (LPDMA_CxSAR[2:0] versus\nLPDMA_CxTR1.SDW_LOG2[1:0])\n– a programmed unaligned destination start address, being not a multiple of the\nprogrammed data width of a destination single transfer (LPDMA_CxDAR[2:0]\nversus LPDMA_CxTR1.DDW_LOG2[1:0])\n– a programmed double-word source data width\n(LPDMA_CxTR1.SDW_LOG2[1:0]=0b11)\n– a programmed double-word destination data width\n(LPDMA_CxTR1.DDW_LOG2[1:0]=0b11\n– a programmed linked-list item LLIn+1 with a null data transfer\n(LPDMA_CxLLR.UB1=1 and LPDMA_CxBR1. BNDT=0)",
+      "semantic": {}
+    }
+  ]
+}

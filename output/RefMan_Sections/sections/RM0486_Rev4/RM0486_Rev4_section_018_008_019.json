@@ -1,0 +1,59 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.8.19",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.8.19",
+      "section_title": "HPDMA channel x block register 2 (HPDMA_CxBR2)",
+      "level": 3,
+      "parent_section": "18.8",
+      "page": 923,
+      "page_end": 924,
+      "semantic_type": "register_description",
+      "features": [
+        "brdao",
+        "brsao",
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 2254,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=923",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.8.19 \"HPDMA channel x block register 2 (HPDMA_CxBR2)\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 923.",
+      "section_content": "Address offset: 0x0A8 + 0x80 * x (x = 12 to 15)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(HPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of channel x (HPDMA_PRIVCFGR.PRIVx).\nThis register is CID-filtered depending on the CID configuration of the channel x\n(HPDMA_CxCIDCFGR.CFEN = 1). If the debug domain feature is activated, a write access\nto this register is granted to the debug domain CID, regardless of any CID filtering.\nThis register controls the transfer of a channel x at a 2D/repeated block level.\nThis register must be written when HPDMA_CxCR.EN = 0.\nThis register is read-only when HPDMA_CxCR.EN = 1.\nThis register must be written when the channel is completed (then the hardware has\ndeasserted HPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block, 2D/repeated block, LLI, or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by the\nHPDMA from the memory if HPDMA_CxLLR.UB2 = 1.\nBits 31:16 BRDAO[15:0]: Block repeated destination address offset\nFor a channel with 2D addressing capability, this bitfield is used to update (by addition or\nsubtraction depending on HPDMA_CxBR1.BRDDEC) the current destination address\n(HPDMA_CxDAR) at the end of a block transfer.\nNote: A block repeated destination address offset must be aligned with the programmed data\nwidth of a destination burst (BRDAO versus HPDMA_CxTR1.DDW_LOG2). Else a user\nsetting error is reported and no transfer is issued.\nBRDAO[15:0] must be set to 0 in peripheral flow-control mode\n(if HPDMA_CxTR2.PFREQ = 1).\nBits 15:0 BRSAO[15:0]: Block repeated source address offset\nFor a channel with 2D addressing capability, this bitfield is used to update (by addition or\nsubtraction depending on HPDMA_CxBR1.BRSDEC) the current source address\n(HPDMA_CxSAR) at the end of a block transfer.\nNote: A block repeated source address offset must be aligned with the programmed data\nwidth of a source burst (BRSAO versus HPDMA_CxTR1.SDW_LOG2). Else a user\nsetting error is reported and no transfer is issued.\nBRSAO[15:0] must be set to 0 in peripheral flow-control mode\n(if HPDMA_CxTR2.PFREQ = 1).",
+      "semantic": {
+        "register": "HPDMA_CxBR2",
+        "address_offset": "0x0A8 + 0x80 * x (x = 12 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "BRDAO[15:0]",
+            "description": "Block repeated destination address offset For a channel with 2D addressing capability, this bitfield is used to update (by addition or subtraction depending on HPDMA_CxBR1.BRDDEC) the current destination address (HPDMA_CxDAR) at the end of a block transfer. Note: A block repeated destination address offset must be aligned with the programmed data width of a destination burst (BRDAO versus HPDMA_CxTR1.DDW_LOG2). Else a user setting error is reported and no transfer is issued. BRDAO[15:0] must be set to 0 in peripheral flow-control mode (if HPDMA_CxTR2.PFREQ = 1).",
+            "values": []
+          },
+          {
+            "bits": "15:0",
+            "name": "BRSAO[15:0]",
+            "description": "Block repeated source address offset For a channel with 2D addressing capability, this bitfield is used to update (by addition or subtraction depending on HPDMA_CxBR1.BRSDEC) the current source address (HPDMA_CxSAR) at the end of a block transfer. Note: A block repeated source address offset must be aligned with the programmed data width of a source burst (BRSAO versus HPDMA_CxTR1.SDW_LOG2). Else a user setting error is reported and no transfer is issued. BRSAO[15:0] must be set to 0 in peripheral flow-control mode (if HPDMA_CxTR2.PFREQ = 1).",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

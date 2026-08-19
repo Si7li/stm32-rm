@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S31.17.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "31",
+      "chapter_title": "Debug support (DBG)",
+      "section": "31.17.2",
+      "section_title": "TRACE pin assignment",
+      "level": 3,
+      "parent_section": "31.17",
+      "page": 1105,
+      "page_end": 1106,
+      "semantic_type": "generic",
+      "features": [
+        "trace"
+      ],
+      "chars": 2285,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1105",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.17.2 \"TRACE pin assignment\" in chapter 31 (Debug support (DBG)), RM0008 Rev 21, page 1105.",
+      "section_content": "• Asynchronous mode\nThe asynchronous mode requires 1 extra pin and is available on all packages. It is only\navailable if using Serial Wire mode (not in JTAG mode).\n[Table 231. Asynchronous TRACE pin assignment]\n• Synchronous mode\nThe synchronous mode requires from 2 to 6 extra pins depending on the data trace\nsize and is only available in the larger packages. In addition it is available in JTAG\nmode and in Serial Wire mode and provides better bandwidth output capabilities than\nasynchronous trace.\n[Table 232. Synchronous TRACE pin assignment]\nTPUI TRACE pin assignment\nBy default, these pins are NOT assigned. They can be assigned by setting the\nTRACE_IOEN and TRACE_MODE bits in the MCU Debug component configuration\nregister. This configuration has to be done by the debugger host.\nIn addition, the number of pins to assign depends on the trace configuration (asynchronous\nor synchronous).\n• Asynchronous mode: 1 extra pin is needed\n• Synchronous mode: from 2 to 5 extra pins are needed depending on the size of the\ndata trace port register (1, 2 or 4):\n– TRACECK\n– TRACED(0) if port size is configured to 1, 2 or 4\n– TRACED(1) if port size is configured to 2 or 4\n– TRACED(2) if port size is configured to 4\n– TRACED(3) if port size is configured to 4\nTo assign the TRACE pin, the debugger host must program the bits TRACE_IOEN and\nTRACE_MODE[1:0] of the Debug MCU configuration register (DBGMCU_CR). By default\nthe TRACE pins are not assigned.\nThis register is mapped on the external PPB and is reset by the PORESET (and not by the\nSYSTEM reset). It can be written by the debugger under SYSTEM reset.\n[Table 233. Flexible TRACE pin assignment]\nNote: By default, the TRACECLKIN input clock of the TPIU is tied to GND. It is assigned to HCLK\ntwo clock cycles after the bit TRACE_IOEN has been set.\nThe debugger must then program the Trace Mode by writing the PROTOCOL[1:0] bits in the\nSPP_R (Selected Pin Protocol) register of the TPIU.\n• PROTOCOL=00: Trace Port Mode (synchronous)\n• PROTOCOL=01 or 10: Serial Wire (Manchester or NRZ) Mode (asynchronous mode).\nDefault state is 01\nIt then also configures the TRACE port size by writing the bits [3:0] in the CPSPS_R\n(Current Sync Port Size register) of the TPIU:\n• 0x1 for 1 pin (default state)\n• 0x2 for 2 pins\n• 0x8 for 4 pins",
+      "semantic": {}
+    }
+  ]
+}

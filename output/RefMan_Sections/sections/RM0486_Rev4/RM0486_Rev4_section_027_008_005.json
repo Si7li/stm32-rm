@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S27.8.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "27",
+      "chapter_title": "Flexible memory controller (FMC)",
+      "section": "27.8.5",
+      "section_title": "Synchronous transactions",
+      "level": 3,
+      "parent_section": "27.8",
+      "page": 1211,
+      "page_end": 1216,
+      "semantic_type": "generic",
+      "features": [
+        "memory"
+      ],
+      "chars": 4142,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1211",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.8.5 \"Synchronous transactions\" in chapter 27 (Flexible memory controller (FMC)), RM0486 Rev 4, page 1211.",
+      "section_content": "The memory clock, FMC_CLK, is a submultiple of fmc_ker_ck. It depends on the value of\nCLKDIV.\nNOR flash memories specify a minimum time from NADV assertion to FMC_CLK high. To\nmeet this constraint, the FMC does not issue the clock to the memory during the first internal\nclock cycle of the synchronous access (before NADV assertion). This guarantees that the\nrising edge of the memory clock occurs in the middle of the NADV low pulse.\nData latency versus NOR memory latency\nThe data latency is the number of cycles to wait before sampling the data. The DATLAT\nvalue must be consistent with the latency value specified in the NOR flash configuration\nregister. The FMC does not include the clock cycle when NADV is low in the data latency\ncount.\nCaution: Some NOR flash memories include the NADV Low cycle in the data latency count, so that\nthe exact relation between the NOR flash latency and the FMC DATLAT parameter can be\neither:\n• NOR flash latency = (DATLAT + 2) CLK clock cycles\n• or NOR flash latency = (DATLAT + 3) CLK clock cycles\nSome recent memories assert NWAIT during the latency phase. In such cases DATLAT can\nbe set to its minimum value. As a result, the FMC samples the data and waits long enough\nto evaluate if the data are valid. Thus the FMC detects when the memory exits latency and\nreal data are processed.\nOther memories do not assert NWAIT during latency. In this case the latency must be set\ncorrectly for both the FMC and the memory, otherwise invalid data are mistaken for good\ndata, or valid data are lost in the initial phase of the memory access.\nSingle-burst transfer\nWhen the selected memory region is configured in burst mode for synchronous accesses, if\nfor example a single-burst transaction is requested on 16-bit memories, the FMC performs a\nburst transaction of length 1 (if the AXI transfer is 16 bits), or length 2 (if the AXI transfer is\n32 bits) and deassert the Chip Select signal when the last data is strobed.\nSuch transfers are not the most efficient in terms of cycles compared to asynchronous read\noperations. Nevertheless, a random asynchronous access first requires to re-program the\nmemory access mode, which altogether lasts longer.\nCross boundary page for CellularRAM™ 1.5\nCellularRAM™ 1.5 does not allow burst access to cross the page boundary. The FMC\nallows to split automatically the burst access when the memory page size is reached by\nconfiguring the CPSIZE bits in the FMC_BCR1 register following the memory page size.\nWait management\nFor synchronous NOR flash memories, NWAIT is evaluated after the programmed latency\nperiod, which corresponds to (DATLAT+2) FMC_CLK clock cycles.\nIf NWAIT is active (low level when WAITPOL = 0, high level when WAITPOL = 1),\nwait-states are inserted until NWAIT is inactive (high level when WAITPOL = 0, low level\nwhen WAITPOL = 1).\nWhen NWAIT is inactive, the data is considered valid either immediately (bit WAITCFG = 1)\nor on the next clock edge (bit WAITCFG = 0).\nDuring wait-state insertion via the NWAIT signal, the controller continues to send clock\npulses to the memory, keeping the Chip Select and output enable signals valid. It does not\nconsider the data as valid.\nIn burst mode, there are two timing configurations for the NOR flash NWAIT signal:\n• The flash memory asserts the NWAIT signal one data cycle before the wait-state\n(default after reset).\n• The flash memory asserts the NWAIT signal during the wait-state\nThe FMC supports both NOR flash wait-state configurations, for each Chip Select, thanks to\nthe WAITCFG bit in the FMC_BCRx registers (x = 0 to 3).\n[Figure 176. Wait configuration waveforms]\n[Figure 177. Synchronous multiplexed read mode waveforms - NOR, PSRAM (CRAM)]\n[Table 180. FMC_BCRx bitfields (Synchronous multiplexed read mode)]\n[Table 181. FMC_BTRx bitfields (Synchronous multiplexed read mode)]\n[Figure 178. Synchronous multiplexed write mode waveforms - PSRAM (CRAM)]\n1. The memory must issue NWAIT signal one cycle in advance, accordingly WAITCFG must be programmed\nto 0.\n[Table 182. FMC_BCRx bitfields (Synchronous multiplexed write mode)]\n[Table 183. FMC_BTRx bitfields (Synchronous multiplexed write mode)]",
+      "semantic": {}
+    }
+  ]
+}

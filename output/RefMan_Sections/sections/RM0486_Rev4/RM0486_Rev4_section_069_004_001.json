@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.4.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.4.1",
+      "section_title": "Initialization phase",
+      "level": 3,
+      "parent_section": "69.4",
+      "page": 3591,
+      "page_end": 3591,
+      "semantic_type": "generic",
+      "features": [
+        "initialization",
+        "phase"
+      ],
+      "chars": 1828,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3591",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.4.1 \"Initialization phase\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3591.",
+      "section_content": "• The initialization function looks like this:\n• Configure the DMA transfer for both audio samples and IEC60958 channel status and\nuser information (DMA channel selection and activation, priority, number of data to\ntransfer, circular/no circular mode, DMA interrupts)\n• Configure the destination address:\n– Configure the address of the SPDIFRX_CSR register as source address for\nIEC60958 channel status and user information\n– Configure the address of the SPDIFRX_FMTx_DR register as source address for\naudio samples\n– Enable the generation of the spdifrx_ker_ck. Refer to Table684 in order to define\nthe minimum clock frequency versus supported audio sampling rate.\nNote that the audio sampling rate of the received stream is not known in advance.\nThis means that the user has to select a spdifrx_ker_ck frequency at least 704\ntimes higher than the maximum audio sampling rate the application is supposed to\nhandle: for example if the application is able to handle streams to up to 96 kHz,\nthen Fspdifrx_ker_ck must be at least 704x96kHz=67.6MHz\n• Enable interrupt for errors and event signaling (IFEIE = SYNCDIE = OVRIE, PERRIE =\n1, others set to 0). Note that SYNCDIE can be set to 0.\n• Configure the SPDIFRX_CR register:\n– INSEL must select the wanted input\n– NBTR = 2, WFA = 1 (16 re-tries allowed, wait for activity before going to\nsynchronization phase),\n– PTMSK = CUMSK = 1 (Preamble, C and U bits are not mixed with data)\n– VMSK = PMSK = 0 (Parity error and validity bit mixed with data)\n– CHSEL = 0 (channels status are read from sub-frame A)\n– DRFMT = 01 (data aligned to the left)\n– RXSTEO = 1 (expected stereo mode linear)\n– CBDMAEN = RXDMAEN = 1 (enable DMA channels)\n– SPDIFRXEN = 01 (switch SPDIFRX to STATE_SYNC)\n• The CPU can enter in WFI mode\nThen the CPU receives interrupts coming either from DMA or SPDIFRX.",
+      "semantic": {}
+    }
+  ]
+}

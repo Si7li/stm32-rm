@@ -1,0 +1,230 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S61.6.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "61",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "61.6.4",
+      "section_title": "RTC initialization control and status register (RTC_ICSR)",
+      "level": 3,
+      "parent_section": "61.6",
+      "page": 3029,
+      "page_end": 3030,
+      "semantic_type": "register_description",
+      "features": [
+        "bcdu",
+        "bin",
+        "clock",
+        "init",
+        "initf",
+        "inits",
+        "recalpf",
+        "rsf",
+        "rtc",
+        "rtc-icsr",
+        "shpf",
+        "wutwf"
+      ],
+      "chars": 3970,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3029",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 61.6.4 \"RTC initialization control and status register (RTC_ICSR)\" in chapter 61 (Real-time clock (RTC)), RM0486 Rev 4, page 3029.",
+      "section_content": "This register is write protected. The write access procedure is described in RTC register\nwrite protection on page3015.\nThis register can be globally protected, or each bit of this register can be individually\nprotected against nonsecure access. Refer to Section61.3.4: RTC secure protection\nmodes.\nThis register can be globally protected, or each bit of this register can be individually\nprotected against unprivileged access. Refer to Section61.3.5: RTC privilege protection\nmodes.\nAddress offset: 0x0C\nBackup domain reset value: 0x0000 0007\nSystem reset: not affected except INIT, INITF, and RSF bits which are cleared to 0\nBits 31:17 Reserved, must be kept at reset value.\nBit 16 RECALPF: Recalibration pending Flag\nThe RECALPF status flag is automatically set to 1 when software writes to the RTC_CALR\nregister, indicating that the RTC_CALR register is blocked. When the new calibration settings\nare taken into account, this bit returns to 0. Refer to Re-calibration on-the-fly.\nBits 15:13 Reserved, must be kept at reset value.\nBits 12:10 BCDU[2:0]: BCD update (BIN = 10 or 11)\nIn mixed mode when both BCD calendar and binary extended counter are used (BIN = 10 or\n11), the calendar second is incremented using the SSR Least Significant Bits.\n0x0: 1s calendar increment is generated each time SS[7:0] = 0\n0x1: 1s calendar increment is generated each time SS[8:0] = 0\n0x2: 1s calendar increment is generated each time SS[9:0] = 0\n0x3: 1s calendar increment is generated each time SS[10:0] = 0\n0x4: 1s calendar increment is generated each time SS[11:0] = 0\n0x5: 1s calendar increment is generated each time SS[12:0] = 0\n0x6: 1s calendar increment is generated each time SS[13:0] = 0\n0x7: 1s calendar increment is generated each time SS[14:0] = 0\nBits 9:8 BIN[1:0]: Binary mode\n00: Free running BCD calendar mode (Binary mode disabled).\n01: Free running Binary mode (BCD mode disabled)\n10: Free running BCD calendar and Binary modes\n11: Free running BCD calendar and Binary modes\nBit 7 INIT: Initialization mode\n0: Free running mode\n1: Initialization mode used to program time and date register (RTC_TR and RTC_DR), and\nprescaler register (RTC_PRER), plus BIN and BCDU fields. Counters are stopped and start\ncounting from the new value when INIT is reset.\nBit 6 INITF: Initialization flag\nWhen this bit is set to 1, the RTC is in initialization state, and the time, date and prescaler\nregisters can be updated.\n0: Calendar registers update is not allowed\n1: Calendar registers update is allowed\nBit 5 RSF: Registers synchronization flag\nThis bit is set by hardware each time the calendar registers are copied into the shadow\nregisters (RTC_SSR, RTC_TR and RTC_DR). This bit is cleared by hardware in initialization\nmode, while a shift operation is pending (SHPF = 1), or when in bypass shadow register\nmode (BYPSHAD = 1). This bit can also be cleared by software.\nIt is cleared either by software or by hardware in initialization mode.\n0: Calendar shadow registers not yet synchronized\n1: Calendar shadow registers synchronized\nNote: RSF is not set when the frequency of the APB clock is less than twice the frequency of\nRTCCLK.\nBit 4 INITS: Initialization status flag\nThis bit is set by hardware when the calendar year field is different from 0 (Backup domain\nreset state).\n0: Calendar has not been initialized\n1: Calendar has been initialized\nBit 3 SHPF: Shift operation pending\nThis flag is set by hardware as soon as a shift operation is initiated by a write to the\nRTC_SHIFTR register. It is cleared by hardware when the corresponding shift operation has\nbeen executed. Writing to the SHPF bit has no effect.\n0: No shift operation is pending\n1: A shift operation is pending\nBit 2 WUTWF: Wake-up timer write flag\nThis bit is set by hardware when WUT value can be changed, after the WUTE bit has been\nset to 0 in RTC_CR.\n0: Wake-up timer configuration update not allowed\n1: Wake-up timer configuration update allowed\nBits 1:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "RTC_ICSR",
+        "address_offset": "0x0C",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "RECALPF",
+            "description": "Recalibration pending Flag The RECALPF status flag is automatically set to 1 when software writes to the RTC_CALR register, indicating that the RTC_CALR register is blocked. When the new calibration settings are taken into account, this bit returns to 0. Refer to Re-calibration on-the-fly.",
+            "values": []
+          },
+          {
+            "bits": "15:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12:10",
+            "name": "BCDU[2:0]",
+            "description": "BCD update (BIN = 10 or 11) In mixed mode when both BCD calendar and binary extended counter are used (BIN = 10 or 11), the calendar second is incremented using the SSR Least Significant Bits.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "1s calendar increment is generated each time SS[7:0] = 0"
+              },
+              {
+                "value": "0x1",
+                "meaning": "1s calendar increment is generated each time SS[8:0] = 0"
+              },
+              {
+                "value": "0x2",
+                "meaning": "1s calendar increment is generated each time SS[9:0] = 0"
+              },
+              {
+                "value": "0x3",
+                "meaning": "1s calendar increment is generated each time SS[10:0] = 0"
+              },
+              {
+                "value": "0x4",
+                "meaning": "1s calendar increment is generated each time SS[11:0] = 0"
+              },
+              {
+                "value": "0x5",
+                "meaning": "1s calendar increment is generated each time SS[12:0] = 0"
+              },
+              {
+                "value": "0x6",
+                "meaning": "1s calendar increment is generated each time SS[13:0] = 0"
+              },
+              {
+                "value": "0x7",
+                "meaning": "1s calendar increment is generated each time SS[14:0] = 0"
+              }
+            ]
+          },
+          {
+            "bits": "9:8",
+            "name": "BIN[1:0]",
+            "description": "Binary mode",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Free running BCD calendar mode (Binary mode disabled)."
+              },
+              {
+                "value": "01",
+                "meaning": "Free running Binary mode (BCD mode disabled)"
+              },
+              {
+                "value": "10",
+                "meaning": "Free running BCD calendar and Binary modes"
+              },
+              {
+                "value": "11",
+                "meaning": "Free running BCD calendar and Binary modes"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "INIT",
+            "description": "Initialization mode prescaler register (RTC_PRER), plus BIN and BCDU fields. Counters are stopped and start counting from the new value when INIT is reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Free running mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Initialization mode used to program time and date register (RTC_TR and RTC_DR), and"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "INITF",
+            "description": "Initialization flag When this bit is set to 1, the RTC is in initialization state, and the time, date and prescaler registers can be updated.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calendar registers update is not allowed"
+              },
+              {
+                "value": "1",
+                "meaning": "Calendar registers update is allowed"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "RSF",
+            "description": "Registers synchronization flag This bit is set by hardware each time the calendar registers are copied into the shadow registers (RTC_SSR, RTC_TR and RTC_DR). This bit is cleared by hardware in initialization mode, while a shift operation is pending (SHPF = 1), or when in bypass shadow register mode (BYPSHAD = 1). This bit can also be cleared by software. It is cleared either by software or by hardware in initialization mode. Note: RSF is not set when the frequency of the APB clock is less than twice the frequency of RTCCLK.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calendar shadow registers not yet synchronized"
+              },
+              {
+                "value": "1",
+                "meaning": "Calendar shadow registers synchronized"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "INITS",
+            "description": "Initialization status flag This bit is set by hardware when the calendar year field is different from 0 (Backup domain reset state).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calendar has not been initialized"
+              },
+              {
+                "value": "1",
+                "meaning": "Calendar has been initialized"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "SHPF",
+            "description": "Shift operation pending This flag is set by hardware as soon as a shift operation is initiated by a write to the RTC_SHIFTR register. It is cleared by hardware when the corresponding shift operation has been executed. Writing to the SHPF bit has no effect.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No shift operation is pending"
+              },
+              {
+                "value": "1",
+                "meaning": "A shift operation is pending"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "WUTWF",
+            "description": "Wake-up timer write flag This bit is set by hardware when WUT value can be changed, after the WUTE bit has been set to 0 in RTC_CR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Wake-up timer configuration update not allowed"
+              },
+              {
+                "value": "1",
+                "meaning": "Wake-up timer configuration update allowed"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

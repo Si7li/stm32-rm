@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S10.3.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "10",
+      "chapter_title": "SRAM configuration controller (RAMCFG)",
+      "section": "10.3.3",
+      "section_title": "ECC (BKPSRAM)",
+      "level": 3,
+      "parent_section": "10.3",
+      "page": 292,
+      "page_end": 293,
+      "semantic_type": "generic",
+      "features": [
+        "bkpsram",
+        "ecc"
+      ],
+      "chars": 2801,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=292",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 10.3.3 \"ECC (BKPSRAM)\" in chapter 10 (SRAM configuration controller (RAMCFG)), RM0486 Rev 4, page 292.",
+      "section_content": "The ECC is supported by the BKPSRAM. Seven ECC bits are added per 32 bits of SRAM:\nthis allows a 2-bit error detection, and a 1-bit error correction on memory read access.\nAs the ECC is calculated and checked for a 32-bit word, byte and half-word write accesses\nare managed by the SRAM interface: it first reads the whole word, then writes the word\nagain with the new byte/half-word value. ECC double errors are also detected during these\nbyte or half-word AHB write accesses (read/modify/write done by the interface). Thebyte or\nhalf-word write access latency is two AHB clock cycles.\nCaution: In case of a byte or half-word write on the SRAM with ECC, the read/modify/write operation\nis done in a buffer. The buffer content is written into the SRAM two AHB clock cycles after\nthe SRAM AHB is released (when the SRAM is no more accessed).\nThe ECC is also available on the Cortex-M55 I-TCM and D-TCM.\nWhen the FLEXMEM is used as I/D-TCM, it supports ECC through specific memory\ncut/word organization. When the FLEXMEM is used as FLEXRAM, it does not support ECC,\neven for the part that can be set in retention\nSingle and double ECC errors\nWhen a single error is detected, it is automatically corrected, and SEDC (single error\ndetected and corrected) is set inRAMCFG_BKPSRAMISR.\nAn interrupt is generated if enabled by SEIE in RAMCFG_BKPSRAMIER. Thefailing\naddress is stored in RAMCFG_BKPSRAMESEAR, if ALE is set in RAMCFG_BKPRAMCR.\nCaution: Single errors are not reported if SEDC is not cleared in time when a new error happens.\nWhen a double error is detected, DED is set in RAMCFG_BKPSRAMISR. An interrupt is\ngenerated if enabled by DEIE in RAMCFG_BKPSRAMIER. The failing address is stored in\nRAMCFG_BKPSRAMEDEAR if ALE is set in RAMCFG_BKPSRAMCR.\nCaution: Double errors are not reported if DED is not cleared. Double errors are not corrected, and\nmust be managed by exception.\nThe ECC can be activated/deactivated by executing the following software sequence:\n1. Write 0xAE in RAMCFG_BKSRAMECCKEYR.\n2. Write 0x75 in RAMCFG_BKSRAMECCKEYR.\n3. Write 1 to ECCE in RAMCFG_BKPSRAMCR to activate the ECC (write 0 to this bit to\ndeactivate the ECC).\nFault injection\nThe RAMCFG supports a software loop for runtime fault injection in the BKPSRAM when\nthe ECC is activated:\n1. With the ECC enabled, the application writes at a given address.\n2. The application disables the ECC writing.\n3. The application writes a different data at the same address as previously.\nDataareupdated but the matching ECC word is not modified.\n4. The application enables ECC writing.\n5. The application reads at the same address as previously. An interrupt is expected due\nto either one error corrected, or several errors detected. The application can check that\nthe desired address appears in RAMCFG_BKPSRAMSEAR or _BKPSRAMDEAR.",
+      "semantic": {}
+    }
+  ]
+}

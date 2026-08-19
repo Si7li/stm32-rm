@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S21.4.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "21",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "21.4.7",
+      "section_title": "Calibration (ADCAL, ADC_CALFACT)",
+      "level": 3,
+      "parent_section": "21.4",
+      "page": 572,
+      "page_end": 574,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "adc-calfact",
+        "adcal"
+      ],
+      "chars": 2892,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=572",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.4.7 \"Calibration (ADCAL, ADC_CALFACT)\" in chapter 21 (Analog-to-digital converters (ADC)), RM0522 Rev 1, page 572.",
+      "section_content": "Each ADC provides an automatic calibration procedure that drives all the calibration\nsequences including the power-on/off sequence of the ADC. During the procedure, the ADC\ncalculates a calibration factor, which is 7-bit wide and is applied internally to the ADC until\nthe next ADC power-off. During the calibration procedure, the application must not use the\nADC and must wait until calibration is complete.\nCalibration is preliminary to any ADC operation. It removes the offset error which may vary\nfrom chip to chip due to process or bandgap variation.\nThe calibration is initiated by software by setting bit ADCAL=1. Calibration can only be\ninitiated when the ADC is disabled (when ADEN=0). The ADCAL bit stays at 1 during all\nthe calibration sequence. It is then cleared by hardware as soon the calibration completes.\nAt this time, the associated calibration factor is stored internally in the analog ADC and also\nin the bits CALFACT[6:0] of the ADC_CALFACT register.\nThe internal analog calibration is kept if the ADC is disabled (ADEN=0). However, if the\nADC is disabled for extended periods, then it is recommended that a new calibration cycle is\nrun before reenabling the ADC.\nThe internal analog calibration is lost each time the power of the ADC is removed (for\nexample, when the product enters Standby). In this case, to avoid spending time\nrecalibrating the ADC, it is possible to rewrite the calibration factor into the ADC_CALFACT\nregister without recalibrating, supposing that the software has previously saved the\ncalibration factor delivered during the previous calibration.\nThe calibration factor can be written if the ADC is enabled but not converting (ADEN=1 and\nADSTART=0 and JADSTART=0). Then, at the next start of conversion, the calibration\nfactor is automatically injected into the analog ADC. This loading is transparent and does\nnot add any cycle latency to the start of the conversion. It is recommended to recalibrate\nwhen the VREF+ voltage changed more than 10% (see Section21.4.31: Monitoring the\ninternal voltage reference).\nSoftware procedure to calibrate the ADC\n1. Ensure DEEPPWD=0, ADVREGEN=1 and that ADC voltage regulator startup time\nhas elapsed.\n2. Ensure that ADEN=0.\n3. Set ADCAL.\n4. Wait until ADCAL=0.\n5. The calibration factor can be read from the ADC_CALFACT register.\n[Figure 90. ADC calibration]\nADCAL\nADC State OFF Startup Calibrate OFF\nCALFACT[6:0] 0x00 Calibration factor\nby S/W by H/W Indicative timings\nSoftware procedure to reinject a calibration factor into the ADC\n1. Ensure ADEN=1 and ADSTART=0 and JADSTART=0 (ADC enabled and no\nconversion is ongoing).\n2. Write CALFACT with the new calibration factors.\n3. When a conversion is launched, the calibration factor is injected into the analog ADC\nonly if the internal analog calibration factor differs from the one stored in bits CALFACT.\n[Figure 91. Updating the ADC calibration factor]",
+      "semantic": {}
+    }
+  ]
+}

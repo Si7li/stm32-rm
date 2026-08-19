@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S9.4.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "9",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "9.4.1",
+      "section_title": "HSE clock",
+      "level": 3,
+      "parent_section": "9.4",
+      "page": 256,
+      "page_end": 257,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "hse",
+        "rcc"
+      ],
+      "chars": 2379,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=256",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.4.1 \"HSE clock\" in chapter 9 (Reset and clock control (RCC)), RM0522 Rev 1, page 256.",
+      "section_content": "The HSE block can generate a clock from an external crystal/ceramic resonator, or from an\nexternal clock source.\n[Figure 26. HSE/ LSE clock sources]\nOSC32_IN OSC32_OUT OSC32_IN OSC32_OUT\nOSC_IN OSC_OUT OSC_IN OSC_OUT\nGPIO\nExternal clock\nsource CL1 Load CL2\ncapacitors\nExternal clock source (HSE bypass)\nIn this mode, an external clock source must be provided to OSC_IN pin. The external clock\ncan be low swing (analog) or digital. If this clock is directly used by a peripheral, the duty\ncycle requirement is defined by the peripheral and the application (refer to datasheet for\nmore details).\nIn case of an analog clock (low swing) the HSEBYP and HSEON bits must be set to 1\ninRCC_CR1.\nIn case of a digital clock, the HSEBYP and the HSEEXT bits must be set to 1 followed by\nsetting the HSEON bit to 1 in RCC_CR1.\nExternal crystal/ceramic resonator\nThe oscillator is enabled by setting the HSEBYP bit to 0 and HSEON bit to 1.\nThe HSE can be used when the product requires a very accurate high-speed clock.\nThe associated hardware configuration is shown in Figure26: the resonator and the load\ncapacitors must be placed as close as possible to the oscillator pins to minimize output\ndistortion and startup stabilization time. The loading capacitance values must be adjusted\naccording to the selected crystal or ceramic resonator. Refer to the electrical characteristics\nsection of the datasheet for more details.\nThe HSERDY flag in RCC_CR1 indicates whether the HSE oscillator is stable or not. At\nstartup, the hse_ck clock is not released until this bit is set by hardware. An interrupt can be\ngenerated if enabled in RCC_CIER.\nThe HSE can be switched on and off through the HSEON bit.\nNote: The HSE cannot be switched off if one of the following two conditions is met:\n• the HSE is used directly (through software multiplexer) as a system clock\n• the HSE is selected as the reference clock for PSI, with PSI enabled and selected to\nprovide the system clock (through software multiplexer).\nIn that case the hardware does not allow programming the HSEON bit to 0.\nThe HSE is automatically disabled by hardware when the system enters Stop or Standby\nmode. It can be kept on under Stop 0 mode if PSIKERON is set and PSI needs HSE as a\nreference clock.\nIn addition, the HSE clock can be driven to the MCO1 and MCO2 outputs and used as a\nclock source for other application components.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S18.3.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "18",
+      "chapter_title": "CORDIC coprocessor (CORDIC)",
+      "section": "18.3.6",
+      "section_title": "Zero-overhead mode",
+      "level": 3,
+      "parent_section": "18.3",
+      "page": 490,
+      "page_end": 491,
+      "semantic_type": "generic",
+      "features": [
+        "mode",
+        "overhead",
+        "zero"
+      ],
+      "chars": 4282,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=490",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.3.6 \"Zero-overhead mode\" in chapter 18 (CORDIC coprocessor (CORDIC)), RM0522 Rev 1, page 490.",
+      "section_content": "The fastest way to use the coprocessor is to preprogram the CORDIC_CSR register with\nthe function to be performed (FUNC), the desired number of clock cycles (PRECISION), the\nsize of the input and output values (ARGSIZE, RESSIZE), the number of input arguments\n(NARGS) and/or results (NRES), and the scaling factor (SCALE), if applicable.\nThe calculation is triggered by writing the input arguments to the CORDIC_WDATA register.\nAs soon as the correct number of input arguments has been written (and any ongoing\ncalculation has finished), a new calculation is launched using these input arguments and the\ncurrent CORDIC_CSR settings. There is no need to reprogram the CORDIC_CSR register if\nthere is no change.\nIf a dual 32-bit input argument is needed (ARGSIZE = 0, NARGS = 1), the primary input\nargument (ARG1) must be written first, followed by the secondary argument (ARG2). If the\nsecondary argument remains unchanged for a series of calculations, the second write can\nbe avoided, by reprogramming the number of arguments to one (NARGS = 0), once the first\ncalculation has started. The secondary argument retains its programmed value as long as\nthe function is not changed.\nNote: ARG2 is set to +1 (0x7FFFFFFF) after a reset.\nIf two 16-bit arguments are used (ARGSIZE = 1) they must be packed into a 32-bit word,\nwith ARG1 in the least significant half-word and ARG2 in the most significant half-word. The\npacked 32-bit word is then written to the CORDIC_WDATA register. Only one write is\nneeded in this case (NARGS = 0).\nFor functions taking only one input argument, ARG1, it is recommended to set NARGS=0.\nIf NARGS = 1, a second write to CORDIC_WDATA must be performed to trigger the\ncalculation. The ARG2 data in this case is not used.\nOnce the calculation starts, any attempt to read the CORDIC_RDATA register inserts bus\nwait-states until the calculation is completed, before returning the result. It is then possible\nfor the software to write the input and immediately read the result without polling to see if it is\nvalid. Alternatively, the processor can wait for the appropriate number of clock cycles before\nreading the result. This time can be used to program the CORDIC_CSR register for the next\ncalculation, and prepare the next input data, if needed. The CORDIC_CSR register can be\nreprogrammed while a calculation is in progress, without affecting the result of the ongoing\ncalculation. In the same way, the CORDIC_WDATA register can be updated with the next\nargument(s) once the previous ones have been taken into account. The next arguments and\nsettings remain pending until the previous calculation has completed.\nWhen a calculation is finished, the result(s) can be read from the CORDIC_RDATA register.\nIf two 32-bit results are expected (NRES = 1, RESSIZE = 0), the primary result (RES1) is\nread out first, followed by the secondary result (RES2). If only one 32-bit result is expected\n(NRES = 0, RESSIZE = 0), then RES1 is output on the first read.\nIf 16-bit results are expected (RESSIZE = 1), a single read to CORDIC_RDATA fetches both\nresults packed into a 32-bit word. RES1 is in the lower half-word, and RES2 in the upper\nhalf-word. In this case, it is recommended to program NRES = 0. IF NRES = 1, a second\nread of CORDIC_RDATA must be performed to free up the CORDIC for the next operation.\nThe data from this second read must be discarded.\nThe next calculation starts when the expected number of results has been read, provided\nthe expected number of arguments has been written. This means that at any time, there can\nbe a calculation in progress, or waiting for the results to be read, and an operation pending.\nAny further access to CORDIC_WDATA while an operation is pending cancels it and\noverwrites the data.\nThe following sequence summarizes the use of the CORDIC_IP in zero-overhead mode:\n1. Program the CORDIC_CSR register with the appropriate settings\n2. Program the argument(s) for the first calculation in the CORDIC_WDATA register. This\nlaunches the first calculation.\n3. If needed, update the CORDIC_CSR register settings for the next calculation.\n4. Program the argument(s) for the next calculation in the CORDIC_WDATA register.\n5. Read the result(s) from the CORDIC_RDATA register. This triggers the next\ncalculation.\n6. Go to step 3.",
+      "semantic": {}
+    }
+  ]
+}

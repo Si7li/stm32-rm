@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.4.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.4.3",
+      "section_title": "HPDMA channel suspend and resume",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 846,
+      "page_end": 847,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 1257,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=846",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.3 \"HPDMA channel suspend and resume\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 846.",
+      "section_content": "The software can suspend on its own a channel still active, with the following sequence:\n1. The software writes 1 into the HPDMA_CxCR.SUSP bit.\n2. The software polls the suspended flag HPDMA_CxSR.SUSPF until SUSPF=1, or\nwaits for an interrupt previously enabled by writing 1 to HPDMA_CxCR.SUSPIE.\nWaitfor the channel to be effectively in suspended state means wait for the completion\nof any ongoing HPDMA transfer over its master ports. Then the software can observe,\nin a steady state, any read register or bitfield that is hardware modifiable.\nNote: An ongoing HPDMA transfer can be a data transfer (a source/destination burst\ntransfer) or a link transfer for the internal update of the linked-list register file from the\nnext linked-list item.\n3. The software safely resumes the suspended channel by writing 0 to\nHPDMACxCR.SUSP.\n[Figure 74. HPDMA channel suspend and resume sequence]\nChannel state = Active\nSuspend the DMA channel\n(write 1 to CxCR.SUSP)\nSUSPF=1 ? N\nChannel state = Suspended and Idle Y\nReceiving\nsuspended\ninterrupt\nResume the DMA channel\n(write 0 to CxCR.SUSP)\nChannel state = Active\nNote: A suspend and resume sequence does not impact the HPDMA_CxCR.EN bit. Suspending a\nchannel (transfer) does not suspend a started trigger detection.",
+      "semantic": {}
+    }
+  ]
+}

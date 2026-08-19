@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.9.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.9.8",
+      "section_title": "Stop sequence",
+      "level": 3,
+      "parent_section": "67.9",
+      "page": 3471,
+      "page_end": 3471,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 1046,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3471",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.9.8 \"Stop sequence\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3471.",
+      "section_content": "The application can stop the I2S/PCM transfers by clearing the SPE bit. In that case the\ncommunication is stopped immediately, without waiting for the end of the current frame.\nIn master mode it is also possible to stop the I2S/PCM transfers at the end of the current\nframe. For that purpose, the user has to set the bit CSUSP, and polls the CSTART bit until it\ngoes to 0. The CSTART bit goes to 0 when the current stereo (if an I2S mode was selected)\nor mono sample are completely shifted in or out. Then the SPE bit can be cleared.\nFigure907 shows an example of stop sequence in the case of master mode. The CSUSP\nbit is set during the transmission of the left sample, the transfer continue until the last bit of\nthe right sample is transferred. Then CSTART and CSUSP go back to 0, CK and WS signals\ngo back to their inactive state, and the user can clear the SPE bit.\nIn slave mode, CSUSP must be kept at 0.\n[Figure 907. Stop sequence, I2S Philips standard, master]\nSPE\nNote: In slave mode, the stop sequence is only controlled by the SPE bit.",
+      "semantic": {}
+    }
+  ]
+}

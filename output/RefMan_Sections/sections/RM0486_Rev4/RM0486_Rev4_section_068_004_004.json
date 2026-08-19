@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.4.4",
+      "section_title": "SAI synchronization mode",
+      "level": 3,
+      "parent_section": "68.4",
+      "page": 3506,
+      "page_end": 3507,
+      "semantic_type": "generic",
+      "features": [
+        "sai"
+      ],
+      "chars": 2777,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3506",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.4.4 \"SAI synchronization mode\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3506.",
+      "section_content": "There are two levels of synchronization, either at audio subblock level or at SAI level.\nInternal synchronization\nAn audio subblock can be configured to operate synchronously with the second audio\nsubblock in the same SAI. In this case, the bit clock and the frame synchronization signals\nare shared to reduce the number of external pins used for the communication. The audio\nblock configured in synchronous mode sees its own SCK_x, FS_x, and MCLK_x pins\nreleased back as GPIOs while the audio block configured in asynchronous mode is the one\nfor which FS_x and SCK_x ad MCLK_x I/O pins are relevant (if the audio block is\nconsidered as master).\nTypically, the audio block in synchronous mode can be used to configure the SAI in full\nduplex mode. One of the two audio blocks can be configured as a master and the other as\nslave, or both as slaves with one asynchronous block (corresponding SYNCEN[1:0] bits set\nto 00 in SAI_xCR1) and one synchronous block (corresponding SYNCEN[1:0] bits set to 01\nin the SAI_xCR1 register).\nNote: Due to internal resynchronization stages, PCLK APB frequency must be higher than twice\nthe bit rate clock frequency.\nExternal synchronization\nThe audio subblocks can also be configured to operate synchronously with another SAI.\nThis can be done as follows:\n1. The SAI, which is configured as the source from which the other SAI is synchronized,\nhas to define which of its audio subblocks is supposed to provide the FS and SCK\nsignals to other SAI. This is done by programming SYNCOUT[1:0] bits.\n2. The SAI which receives the synchronization signals, has to select which SAI provides\nthe synchronization by setting the proper value on SYNCIN[1:0] bits. For each of the\ntwo SAI audio subblocks, the user must then specify if it operates synchronously with\nthe other SAI via the SYNCEN bit.\nNote: The SYNCIN[1:0] and SYNCOUT[1:0] bits are located in the SAI_GCR register, and the\nSYNCEN bits in the SAI_xCR1 register.\nIf both audio subblocks in a given SAI need to be synchronized with another SAI, it is\npossible to choose one of the following configurations:\n• Configure each audio block to be synchronous with another SAI block through the\nSYNCEN[1:0] bits.\n• Configure one audio block to be synchronous with another SAI through the\nSYNCEN[1:0] bits. The other audio block is then configured as synchronous with the\nsecond SAI audio block through SYNCEN[1:0] bits.\nThe following table shows how to select the proper synchronization signal depending on the\nSAI block used. For example SAI2 can select the synchronization from SAI1 by setting SAI2\nSYNCIN to 0. If SAI1 wants to select the synchronization coming from SAI2, SAI1 SYNCIN\nmust be set to 1. Positions noted as ‘Reserved’ must not be used.\n[Table 671. External synchronization selection]",
+      "semantic": {}
+    }
+  ]
+}

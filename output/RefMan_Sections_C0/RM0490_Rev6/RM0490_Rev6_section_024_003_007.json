@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S24.3.7",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "24",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "24.3.7",
+      "section_title": "RTC initialization and configuration",
+      "level": 3,
+      "parent_section": "24.3",
+      "page": 653,
+      "page_end": 654,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rtc"
+      ],
+      "chars": 2967,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=653",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.3.7 \"RTC initialization and configuration\" in chapter 24 (Real-time clock (RTC)), RM0490 Rev 6, page 653.",
+      "section_content": "RTC register access\nThe RTC registers are 32-bit registers. The APB interface introduces two wait states in RTC\nregister accesses except on read accesses to calendar shadow registers when\nBYPSHAD=0.\nRTC register write protection\nAfter Power-on reset, some of the RTC registers are write-protected.\nWriting to the protected RTC registers is enabled by writing a key into the Write Protection\nregister, RTC_WPR.\nThe following steps are required to unlock the write protection on the protected RTC\nregisters.\n1. Write 0xCA into the RTC_WPR register.\n2. Write 0x53 into the RTC_WPR register.\nWriting a wrong key reactivates the write protection.\nThe protection mechanism is not affected by system reset.\nCalendar initialization and configuration\nTo program the initial time and date calendar values, including the time format and the\nprescaler configuration, the following sequence is required:\n1. Set INIT bit to 1 in the RTC_ICSR register to enter initialization mode. In this mode, the\ncalendar counter is stopped and its value can be updated.\n2. Poll INITF bit of in the RTC_ICSR register. The initialization phase mode is entered\nwhen INITF is set to 1. It takes around 2 RTCCLK clock cycles (due to clock\nsynchronization).\n3. To generate a 1Hz clock for the calendar counter, program both the prescaler factors\nin RTC_PRER register.\n4. Load the initial time and date values in the shadow registers (RTC_TR and RTC_DR),\nand configure the time format (12 or 24 hours) through the FMT bit in the RTC_CR\nregister.\n5. Exit the initialization mode by clearing the INIT bit. The actual calendar counter value is\nthen automatically loaded and the counting restarts after 4 RTCCLK clock cycles.\nWhen the initialization sequence is complete, the calendar starts counting.\nNote: After a system reset, the application can read the INITS flag in the RTC_ICSR register to\ncheck if the calendar has been initialized or not. If this flag equals 0, the calendar has not\nbeen initialized since the year field is set at its Power-on reset default value (0x00).\nTo read the calendar after initialization, the software must first check that the RSF flag is set\nin the RTC_ICSR register.\nDaylight saving time\nThe daylight saving time management is performed through bits SUB1H, ADD1H, and BKP\nof the RTC_CR register.\nUsing SUB1H or ADD1H, the software can subtract or add one hour to the calendar in one\nsingle operation without going through the initialization procedure.\nIn addition, the software can use the BKP bit to memorize this operation.\nProgramming the alarm\nA similar procedure must be followed to program or update the programmable alarms. The\nprocedure below is given for alarm A.\n1. Clear ALRAE in RTC_CR to disable alarm A.\n2. Program the alarm A registers (RTC_ALRMASSR/RTC_ALRMAR).\n3. Set ALRAE in the RTC_CR register to enable alarm A again.\nNote: Each change of the RTC_CR register is taken into account after around 2 RTCCLK clock\ncycles due to clock synchronization.",
+      "semantic": {}
+    }
+  ]
+}

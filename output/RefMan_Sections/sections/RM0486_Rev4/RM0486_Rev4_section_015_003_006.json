@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S15.3.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "15",
+      "chapter_title": "General-purpose I/Os (GPIO)",
+      "section": "15.3.6",
+      "section_title": "GPIO locking mechanism",
+      "level": 3,
+      "parent_section": "15.3",
+      "page": 787,
+      "page_end": 787,
+      "semantic_type": "generic",
+      "features": [
+        "gpio"
+      ],
+      "chars": 1497,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=787",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 15.3.6 \"GPIO locking mechanism\" in chapter 15 (General-purpose I/Os (GPIO)), RM0486 Rev 4, page 787.",
+      "section_content": "GPIO control registers can be frozen by applying a specific write sequence\ntoGPIOx_LCKR. Indeed, each GPIOx_LCKR bit freezes the corresponding bit in the IO\nports control registers (GPIOx_MODER, GPIOx_OTYPER, GPIOx_OSPEEDR,\nGPIOx_PUPDR, GPIOx_DELAYRL/H, GPIOx_ADVCFGR, and GPIOx_AFRL/H).\nTo write GPIOx_LCKR, a specific write/read sequence must be applied. When the right lock\nsequence is applied to bit 16 in this register, the value of LCKR[15:0] is used to lock the\nconfiguration of the I/Os (during the write sequence the LCKR[15:0] value must be the\nsame, during the write sequence, only the IOs for which LCKR[15:0] stays to 1 for all the\nspecific write sequence are locked; other IOs configuration are not (lock sequence aborted).\nWhen the lock sequence is applied to a port bit, the value of the port bit can no longer be\nmodified until a next device or peripheral reset. Each GPIOx_LCKR bit freezes the\ncorresponding bit in the control registers (GPIOx_MODER, GPIOx_OTYPER,\nGPIOx_OSPEEDR, GPIOx_PUPDR, GPIOx_DELAYRL/H, GPIOx_ADVCFGR, and\nGPIOx_AFRL/H).\nThe LOCK sequence can be performed only using a word (32-bit long) access to\nGPIOx_LCKR, because GPIOx_LCKR bit 16 must be set at the same time as the [15:0] bits.\nNote: A lock sequence aborts in the event of an AHB bus error (see Section15.1), or insufficient\naccess rights (see Section15.3.16).\nA lock sequence automatically suspends when accessing a different register from\nGPIOx_LCKR. It resumes with the next access to GPIOx_LCKR.",
+      "semantic": {}
+    }
+  ]
+}

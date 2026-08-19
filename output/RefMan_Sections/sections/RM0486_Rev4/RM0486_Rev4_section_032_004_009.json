@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.4.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.4.9",
+      "section_title": "ADC on-off control (ADEN, ADDIS, ADRDY)",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1479,
+      "page_end": 1480,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "addis",
+        "aden",
+        "adrdy"
+      ],
+      "chars": 1677,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1479",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.9 \"ADC on-off control (ADEN, ADDIS, ADRDY)\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1479.",
+      "section_content": "First, follow the procedure described in Section32.4.6: ADC Deep-power-down mode\n(DEEPPWD)).\nOnce DEEPPWD is cleared, the ADC can be enabled. It requires a tSTAB stabilization time\nbefore starting converting accurately (see Figure266).\nTwo control bits enable or disable the ADC:\n• Set ADEN to enable the ADC. The ADRDY flag is set once the ADC is ready for\noperation.\n• Set ADDIS to disable the ADC. ADEN and ADDIS are automatically deasserted by\nhardware as soon as the analog ADC is effectively disabled.\nRegular conversions can then start either by setting ADSTART (refer to Section32.4.20:\nConversion on external trigger and trigger polarity (EXTSEL, EXTEN, JEXTSEL, JEXTEN))\nor when an external trigger event occurs if regular triggers are enabled.\nInjected conversions start by setting JADSTART or when an external injected trigger event\noccurs, if injected triggers are enabled.\nSoftware procedure to enable the ADC\n1. Clear the ADRDY bit in the ADC_ISR register by programming it to 1.\n2. Set ADEN.\n3. Wait until ADRDY=1 (ADRDY is set after the ADC startup time). This can be done by\nusing the associated interrupt (ADRDYIE must be set).\n4. Clear the ADRDY bit in the ADC_ISR register by programming it to 1 (optional).\nSoftware procedure to disable the ADC\n1. Check that both ADSTART=0 and JADSTART=0 to ensure that no conversion is\nongoing. If required, stop all regular and injected ongoing conversions by setting\nADSTP and JADSTP. Then wait until ADSTP=0 and JADSTP=0.\n2. Set ADDIS.\n3. If required by the application, wait for ADEN=0, until the analog ADC is effectively\ndisabled (ADDIS is automatically reset once ADEN=0).\n[Figure 266. Enabling/disabling the ADC]",
+      "semantic": {}
+    }
+  ]
+}

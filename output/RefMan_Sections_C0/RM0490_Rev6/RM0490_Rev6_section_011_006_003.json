@@ -1,0 +1,264 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S11.6.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "11",
+      "chapter_title": "Direct memory access controller (DMA)",
+      "section": "11.6.3",
+      "section_title": "DMA channel x configuration register (DMA_CCRx)",
+      "level": 3,
+      "parent_section": "11.6",
+      "page": 236,
+      "page_end": 238,
+      "semantic_type": "register_description",
+      "features": [
+        "circ",
+        "dir",
+        "dma",
+        "htie",
+        "mem2mem",
+        "memory",
+        "minc",
+        "msize",
+        "pinc",
+        "psize",
+        "tcie",
+        "teie"
+      ],
+      "chars": 5129,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=236",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.6.3 \"DMA channel x configuration register (DMA_CCRx)\" in chapter 11 (Direct memory access controller (DMA)), RM0490 Rev 6, page 236.",
+      "section_content": "Address offset: 0x08 + 0x14 * (x - 1), (x = 1 to 7)\nReset value: 0x00000000\nThe register fields/bits MEM2MEM, PL[1:0], MSIZE[1:0], PSIZE[1:0], MINC, PINC, and DIR\nare read-only when EN = 1.\nThe states of MEM2MEM and CIRC bits must not be both high at the same time.\nBits 31:15 Reserved, must be kept at reset value.\nBit 14 MEM2MEM: Memory-to-memory mode\n0: Disabled\n1: Enabled\nNote: This bit is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is read-only when the channel is enabled (EN = 1).\nBits 13:12 PL[1:0]: Priority level\n00: Low\n01: Medium\n10: High\n11: Very high\nNote: This bitfield is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is read-only when the channel is enabled (EN = 1).\nBits 11:10 MSIZE[1:0]: Memory size\nDefines the data size of each DMA transfer to the identified memory.\nIn memory-to-memory mode, this bitfield identifies the memory source if DIR = 1 and the\nmemory destination if DIR = 0.\nIn peripheral-to-peripheral mode, this bitfield identifies the peripheral source if DIR = 1 and\nthe peripheral destination if DIR = 0.\n00: 8 bits\n01: 16 bits\n10: 32 bits\n11: Reserved\nNote: This bitfield is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is read-only when the channel is enabled (EN = 1).\nBits 9:8 PSIZE[1:0]: Peripheral size\nDefines the data size of each DMA transfer to the identified peripheral.\nIn memory-to-memory mode, this bitfield identifies the memory destination if DIR = 1 and the\nmemory source if DIR = 0.\nIn peripheral-to-peripheral mode, this bitfield identifies the peripheral destination if DIR = 1\nand the peripheral source if DIR = 0.\n00: 8 bits\n01: 16 bits\n10: 32 bits\n11: Reserved\nNote: This bitfield is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is read-only when the channel is enabled (EN = 1).\nBit 7 MINC: Memory increment mode\nDefines the increment mode for each DMA transfer to the identified memory.\nIn memory-to-memory mode, this bit identifies the memory source if DIR = 1 and the memory\ndestination if DIR = 0.\nIn peripheral-to-peripheral mode, this bit identifies the peripheral source if DIR = 1 and the\nperipheral destination if DIR = 0.\n0: Disabled\n1: Enabled\nNote: This bit is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is read-only when the channel is enabled (EN = 1).\nBit 6 PINC: Peripheral increment mode\nDefines the increment mode for each DMA transfer to the identified peripheral.\nn memory-to-memory mode, this bit identifies the memory destination if DIR = 1 and the\nmemory source if DIR = 0.\nIn peripheral-to-peripheral mode, this bit identifies the peripheral destination if DIR = 1 and\nthe peripheral source if DIR = 0.\n0: Disabled\n1: Enabled\nNote: This bit is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is read-only when the channel is enabled (EN = 1).\nBit 5 CIRC: Circular mode\n0: Disabled\n1: Enabled\nNote: This bit is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is not read-only when the channel is enabled (EN = 1).\nBit 4 DIR: Data transfer direction\nThis bit must be set only in memory-to-peripheral and peripheral-to-memory modes.\n0: Read from peripheral\n– Source attributes are defined by PSIZE and PINC, plus the DMA_CPARx register.\nThis is still valid in a memory-to-memory mode.\n– Destination attributes are defined by MSIZE and MINC, plus the DMA_CMARx\nregister. This is still valid in a peripheral-to-peripheral mode.\n1: Read from memory\n– Destination attributes are defined by PSIZE and PINC, plus the DMA_CPARx\nregister. This is still valid in a memory-to-memory mode.\n– Source attributes are defined by MSIZE and MINC, plus the DMA_CMARx register.\nThis is still valid in a peripheral-to-peripheral mode.\nNote: This bit is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is read-only when the channel is enabled (EN = 1).\nBit 3 TEIE: Transfer error interrupt enable\n0: Disabled\n1: Enabled\nNote: This bit is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is not read-only when the channel is enabled (EN = 1).\nBit 2 HTIE: Half transfer interrupt enable\n0: Disabled\n1: Enabled\nNote: This bit is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is not read-only when the channel is enabled (EN = 1).\nBit 1 TCIE: Transfer complete interrupt enable\n0: Disabled\n1: Enabled\nNote: This bit is set and cleared by software. It must not be written when the channel is\nenabled (EN = 1). It is not read-only when the channel is enabled (EN = 1).\nBit 0 EN: Channel enable\nWhen a channel transfer error occurs, this bit is cleared by hardware. It can not be set again\nby software (channel x re-activated) until the TEIFx bit of the DMA_ISR register is cleared\n(bysetting the CTEIFx bit of the DMA_IFCR register).\n0: Disabled\n1: Enabled\nNote: This bit is set and cleared by software.",
+      "semantic": {
+        "register": "DMA_CCRx",
+        "address_offset": "0x08 + 0x14 * (x - 1), (x = 1 to 7)",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "MEM2MEM",
+            "description": "Memory-to-memory mode Note: This bit is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "PL[1:0]",
+            "description": "Priority level Note: This bitfield is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Low"
+              },
+              {
+                "value": "01",
+                "meaning": "Medium"
+              },
+              {
+                "value": "10",
+                "meaning": "High"
+              },
+              {
+                "value": "11",
+                "meaning": "Very high"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "MSIZE[1:0]",
+            "description": "Memory size Defines the data size of each DMA transfer to the identified memory. In memory-to-memory mode, this bitfield identifies the memory source if DIR = 1 and the memory destination if DIR = 0. In peripheral-to-peripheral mode, this bitfield identifies the peripheral source if DIR = 1 and the peripheral destination if DIR = 0. Note: This bitfield is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "8 bits"
+              },
+              {
+                "value": "01",
+                "meaning": "16 bits"
+              },
+              {
+                "value": "10",
+                "meaning": "32 bits"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "9:8",
+            "name": "PSIZE[1:0]",
+            "description": "Peripheral size Defines the data size of each DMA transfer to the identified peripheral. In memory-to-memory mode, this bitfield identifies the memory destination if DIR = 1 and the memory source if DIR = 0. In peripheral-to-peripheral mode, this bitfield identifies the peripheral destination if DIR = 1 and the peripheral source if DIR = 0. Note: This bitfield is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "8 bits"
+              },
+              {
+                "value": "01",
+                "meaning": "16 bits"
+              },
+              {
+                "value": "10",
+                "meaning": "32 bits"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "MINC",
+            "description": "Memory increment mode Defines the increment mode for each DMA transfer to the identified memory. In memory-to-memory mode, this bit identifies the memory source if DIR = 1 and the memory destination if DIR = 0. In peripheral-to-peripheral mode, this bit identifies the peripheral source if DIR = 1 and the peripheral destination if DIR = 0. Note: This bit is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "PINC",
+            "description": "Peripheral increment mode Defines the increment mode for each DMA transfer to the identified peripheral. n memory-to-memory mode, this bit identifies the memory destination if DIR = 1 and the memory source if DIR = 0. In peripheral-to-peripheral mode, this bit identifies the peripheral destination if DIR = 1 and the peripheral source if DIR = 0. Note: This bit is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "CIRC",
+            "description": "Circular mode Note: This bit is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is not read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "DIR",
+            "description": "Data transfer direction This bit must be set only in memory-to-peripheral and peripheral-to-memory modes. – Source attributes are defined by PSIZE and PINC, plus the DMA_CPARx register. This is still valid in a memory-to-memory mode. – Destination attributes are defined by MSIZE and MINC, plus the DMA_CMARx register. This is still valid in a peripheral-to-peripheral mode. – Destination attributes are defined by PSIZE and PINC, plus the DMA_CPARx register. This is still valid in a memory-to-memory mode. – Source attributes are defined by MSIZE and MINC, plus the DMA_CMARx register. This is still valid in a peripheral-to-peripheral mode. Note: This bit is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Read from peripheral"
+              },
+              {
+                "value": "1",
+                "meaning": "Read from memory"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "TEIE",
+            "description": "Transfer error interrupt enable Note: This bit is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is not read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "HTIE",
+            "description": "Half transfer interrupt enable Note: This bit is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is not read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "TCIE",
+            "description": "Transfer complete interrupt enable Note: This bit is set and cleared by software. It must not be written when the channel is enabled (EN = 1). It is not read-only when the channel is enabled (EN = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EN",
+            "description": "Channel enable When a channel transfer error occurs, this bit is cleared by hardware. It can not be set again by software (channel x re-activated) until the TEIFx bit of the DMA_ISR register is cleared (bysetting the CTEIFx bit of the DMA_IFCR register). Note: This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

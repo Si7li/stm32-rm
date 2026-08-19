@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.5.14",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.5.14",
+      "section_title": "CRC calculation",
+      "level": 3,
+      "parent_section": "27.5",
+      "page": 854,
+      "page_end": 856,
+      "semantic_type": "generic",
+      "features": [
+        "crc",
+        "spi"
+      ],
+      "chars": 5140,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=854",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.5.14 \"CRC calculation\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 854.",
+      "section_content": "Two separate CRC calculators are implemented in order to check the reliability of\ntransmitted and received data. The SPI offers CRC8 or CRC16 calculation independently of\nthe frame data length, which can be fixed to 8-bit or 16-bit. For all the other data frame\nlengths, no CRC is available.\nCRC principle\nCRC calculation is enabled by setting the CRCEN bit in the SPIx_CR1 register before the\nSPI is enabled (SPE = 1). The CRC value is calculated using an odd programmable\npolynomial on each bit. The calculation is processed on the sampling clock edge defined by\nthe CPHA and CPOL bits in the SPIx_CR1 register. The calculated CRC value is checked\nautomatically at the end of the data block as well as for transfer managed by CPU or by the\nDMA. When a mismatch is detected between the CRC calculated internally on the received\ndata and the CRC sent by the transmitter, a CRCERR flag is set to indicate a data corruption\nerror. The right procedure for handling the CRC calculation depends on the SPI\nconfiguration and the chosen transfer management.\nNote: The polynomial value should only be odd. No even values are supported.\nCRC transfer managed by CPU\nCommunication starts and continues normally until the last data frame has to be sent or\nreceived in the SPIx_DR register. Then CRCNEXT bit has to be set in the SPIx_CR1\nregister to indicate that the CRC frame transaction follows after the transaction of the\ncurrently processed data frame. The CRCNEXT bit must be set before the end of the last\ndata frame transaction. CRC calculation is frozen during CRC transaction.\nThe received CRC is stored in the RXFIFO like a data byte or word. That is why in CRC\nmode only, the reception buffer has to be considered as a single 16-bit buffer used to\nreceive only one data frame at a time.\nA CRC-format transaction usually takes one more data frame to communicate at the end of\ndata sequence. However, when setting an 8-bit data frame checked by 16-bit CRC, two\nmore frames are necessary to send the complete CRC.\nWhen the last CRC data is received, an automatic check is performed comparing the\nreceived value and the value in the SPIx_RXCRC register. Software has to check the\nCRCERR flag in the SPIx_SR register to determine if the data transfers were corrupted or\nnot. Software clears the CRCERR flag by writing '0' to it.\nAfter the CRC reception, the CRC value is stored in the RXFIFO and must be read in the\nSPIx_DR register in order to clear the RXNE flag.\nCRC transfer managed by DMA\nWhen SPI communication is enabled with CRC communication and DMA mode, the\ntransmission and reception of the CRC at the end of communication is automatic (with the\nexception of reading CRC data in receive only mode). The CRCNEXT bit does not have to\nbe handled by the software. The counter for the SPI transmission DMA channel has to be\nset to the number of data frames to transmit excluding the CRC frame. On the receiver side,\nthe received CRC value is handled automatically by DMA at the end of the transaction but\nuser must take care to flush out received CRC information from RXFIFO as it is always\nloaded into it. In full-duplex mode, the counter of the reception DMA channel can be set to\nthe number of data frames to receive including the CRC, which means, for example, in the\nspecific case of an 8-bit data frame checked by 16-bit CRC:\nDMA_RX = Numb_of_data + 2\nIn receive only mode, the DMA reception channel counter should contain only the amount of\ndata transferred, excluding the CRC calculation. Then based on the complete transfer from\nDMA, all the CRC values must be read back by software from FIFO as it works as a single\nbuffer in this mode.\nAt the end of the data and CRC transfers, the CRCERR flag in the SPIx_SR register is set if\ncorruption occurred during the transfer.\nIf packing mode is used, the LDMA_RX bit needs managing if the number of data is odd.\nResetting the SPIx_TXCRC and SPIx_RXCRC values\nThe SPIx_TXCRC and SPIx_RXCRC values are cleared automatically when new data is\nsampled after a CRC phase. This allows the use of DMA circular mode (not available in\nreceive-only mode) in order to transfer data without any interruption, (several data blocks\ncovered by intermediate CRC checking phases).\nIf the SPI is disabled during a communication the following sequence must be followed:\n1. Disable the SPI\n2. Clear the CRCEN bit\n3. Enable the CRCEN bit\n4. Enable the SPI\nNote: When the SPI interface is configured as a slave, the NSS internal signal needs to be kept\nlow during transaction of the CRC phase once the CRCNEXT signal is released. That is why\nthe CRC calculation cannot be used at NSS Pulse mode when NSS hardware mode should\nbe applied at slave normally.\nAt TI mode, despite the fact that clock phase and clock polarity setting is fixed and\nindependent on SPIx_CR1 register, the corresponding setting CPOL=0 CPHA=1 has to be\nkept at the SPIx_CR1 register anyway if CRC is applied. In addition, the CRC calculation\nhas to be reset between sessions by SPI disable sequence with re-enable the CRCEN bit\ndescribed above at both master and slave side, else CRC calculation can be corrupted at\nthis specific mode.",
+      "semantic": {}
+    }
+  ]
+}

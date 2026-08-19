@@ -1,0 +1,39 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.4.8",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.4.8",
+      "section_title": "Channel selection (CHSEL, SCANDIR, CHSELRMOD)",
+      "level": 3,
+      "parent_section": "16.4",
+      "page": 299,
+      "page_end": 300,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "chsel",
+        "chselrmod",
+        "scandir"
+      ],
+      "chars": 2321,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=299",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.4.8 \"Channel selection (CHSEL, SCANDIR, CHSELRMOD)\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 299.",
+      "section_content": "There are up to 23 multiplexed channels:\n• Up to 19 analog inputs from GPIO pins (ADC_INx)\n• 4 internal analog inputs (temperature sensor, internal reference voltage, analog supply\nand analog ground)\nIt is possible to convert a single channel or a sequence of channels.\nThe sequence of the channels to be converted can be programmed in the ADC_CHSELR\nchannel selection register: each analog input channel has a dedicated selection bit\n(CHSELx).\nThe ADC scan sequencer can be used in two different modes:\n• Sequencer not fully configurable:\nThe order in which the channels are scanned is defined by the channel number\n(CHSELRMOD bit must be cleared in ADC_CFGR1 register):\n– Sequence length configured through CHSELx bits in ADC_CHSELR register\n– Sequence direction: the channels are scanned in a forward direction (from the\nlowest to the highest channel number) or backward direction (from the highest to\nthe lowest channel number) depending on the value of SCANDIR bit\n(SCANDIR = 0: forward scan, SCANDIR = 1: backward scan)\n– Any channel can belong to in these sequences\n• Sequencer fully configurable\nThe CHSELRMOD bit is set in ADC_CFGR1 register.\n– Sequencer length is up to 8 channels\n– The order in which the channels are scanned is independent from the channel\nnumber. Any order can be configured through SQ1[3:0] to SQ8[3:0] bits in\nADC_CHSELR register.\n– Only channel 0 to channel 14 can be selected in this sequence\n– If the sequencer detects SQx[3:0] = 0b1111, the following SQx[3:0] registers are\nignored.\n– If no 0b1111 is programmed in SQx[3:0], the sequencer scans full eight channels.\nAfter programming ADC CHSELR, SCANDIR and CHSELRMOD bits, it is mandatory to wait\nfor CCRDY flag before starting conversions. It indicates that the new channel setting has\nbeen applied. If a new configuration is required, the CCRDY flag must be cleared prior to\nstarting the conversion.\nThe software is allowed to program the CHSEL, SCANDIR, CHSELRMOD bits only when\nADSTART bit is cleared (which ensures that no conversion is ongoing).\nTemperature sensor, VREFINT and VDDA and VSSA internal channels\nThe temperature sensor is connected to channel ADC VIN[9].\nThe internal voltage reference VREFINT is connected to channel ADC VIN[10].\nVDDA channel is connected to ADC VIN[15].\nVSSA channel is connected to ADC VIN[16].",
+      "semantic": {}
+    }
+  ]
+}

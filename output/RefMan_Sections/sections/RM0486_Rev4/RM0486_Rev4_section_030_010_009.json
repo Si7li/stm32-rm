@@ -1,0 +1,257 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.10.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.10.9",
+      "section_title": "SDMMC data control register (SDMMC_DCTRL)",
+      "level": 3,
+      "parent_section": "30.10",
+      "page": 1439,
+      "page_end": 1440,
+      "semantic_type": "register_description",
+      "features": [
+        "boot",
+        "bootacken",
+        "dblocksize",
+        "dtdir",
+        "dten",
+        "dtmode",
+        "fiforst",
+        "rwmod",
+        "rwstart",
+        "rwstop",
+        "sdioen",
+        "sdmmc",
+        "sdmmc-dctrl"
+      ],
+      "chars": 3497,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1439",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.10.9 \"SDMMC data control register (SDMMC_DCTRL)\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1439.",
+      "section_content": "Address offset: 0x02C\nReset value: 0x00000000\nThis register controls the data path state machine (DPSM).\nBits 31:14 Reserved, must be kept at reset value.\nBit 13 FIFORST: FIFO reset, flushes any remaining data\nThis bit can only be written by firmware when IDMAEN= 0 and DPSM is active\n(DPSMACT=1). This bit only takes effect when a transfer error or transfer hold occurs.\n0: FIFO not affected.\n1: Flush any remaining data and reset the FIFO pointers. This bit is automatically cleared to\n0 by hardware when DPSM gets inactive (DPSMACT = 0).\nBit 12 BOOTACKEN: Enable the reception of the boot acknowledgment\nThis bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).\n0: Boot acknowledgment disabled, not expected to be received\n1: Boot acknowledgment enabled, expected to be received\nBit 11 SDIOEN: SD I/O interrupt enable functions\nThis bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).\nIf this bit is set, the DPSM enables the SD I/O card specific interrupt operation.\nBit 10 RWMOD: Read Wait mode\nThis bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).\n0: Read Wait control using SDMMC_D2\n1: Read Wait control stopping SDMMC_CK\nBit 9 RWSTOP: Read Wait stop\nThis bit is written by firmware and auto cleared by hardware when the DPSM moves from the\nR_W state to the Wait_R or Idle state.\n0: No Read Wait stop\n1: Enable for Read Wait stop when DPSM is in the R_W state.\nBit 8 RWSTART: Read Wait start\nIf this bit is set, Read Wait operation starts.\nBits 7:4 DBLOCKSIZE[3:0]: Data block size\nThis bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).\nDefine the data block length when the block data transfer mode is selected:\n0000: Block length = 20 = 1 byte\n0001: Block length = 21 = 2 bytes\n0010: Block length = 22 = 4 bytes\n0011: Block length = 23 = 8 bytes\n0100: Block length = 24 = 16 bytes\n0101: Block length = 25 = 32 bytes\n0110: Block length = 26 = 64 bytes\n0111: Block length = 27 = 128 bytes\n1000: Block length = 28 = 256 bytes\n1001: Block length = 29 = 512 bytes\n1010: Block length = 210 = 1024 bytes\n1011: Block length = 211 = 2048 bytes\n1100: Block length = 212 = 4096 bytes\n1101: Block length = 213 = 8192 bytes\n1110: Block length = 214 = 16384 bytes\n1111: Reserved\nWhen DATALENGTH is not a multiple of DBLOCKSIZE, the transfered data is truncated at a\nmultiple of DBLOCKSIZE. (None of the remaining data are transfered.)\nWhen DDR = 1, DBLOCKSIZE = 0000 must not be used. (No data are transfered)\nBits 3:2 DTMODE[1:0]: Data transfer mode selection\nThis bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).\n00: Block data transfer ending on block count.\n01: SDIO multibyte data transfer.\n10: e•MMC Stream data transfer. (WIDBUS must select 1-bit wide bus mode)\n11: Block data transfer ending with STOP_TRANSMISSION command (not to be used with\nDTEN initiated data transfers).\nBit 1 DTDIR: Data transfer direction selection\nThis bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).\n0: From host to card.\n1: From card to host.\nBit 0 DTEN: Data transfer enable bit\nThis bit can only be written by firmware when DPSM is inactive (DPSMACT = 0). This bit is\ncleared by hardware when data transfer completes.\nThis bit must only be used to transfer data when no associated data transfer command is\nused (must not be used with SD or e•MMC cards).\n0: Do not start data transfer without CPSM data transfer command.\n1: Start data transfer without CPSM data transfer command.",
+      "semantic": {
+        "register": "SDMMC_DCTRL",
+        "address_offset": "0x02C",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "FIFORST",
+            "description": "FIFO reset, flushes any remaining data This bit can only be written by firmware when IDMAEN= 0 and DPSM is active (DPSMACT=1). This bit only takes effect when a transfer error or transfer hold occurs. 0 by hardware when DPSM gets inactive (DPSMACT = 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "FIFO not affected."
+              },
+              {
+                "value": "1",
+                "meaning": "Flush any remaining data and reset the FIFO pointers. This bit is automatically cleared to"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "BOOTACKEN",
+            "description": "Enable the reception of the boot acknowledgment This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Boot acknowledgment disabled, not expected to be received"
+              },
+              {
+                "value": "1",
+                "meaning": "Boot acknowledgment enabled, expected to be received"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "SDIOEN",
+            "description": "SD I/O interrupt enable functions This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0). If this bit is set, the DPSM enables the SD I/O card specific interrupt operation.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "RWMOD",
+            "description": "Read Wait mode This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Read Wait control using SDMMC_D2"
+              },
+              {
+                "value": "1",
+                "meaning": "Read Wait control stopping SDMMC_CK"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "RWSTOP",
+            "description": "Read Wait stop This bit is written by firmware and auto cleared by hardware when the DPSM moves from the R_W state to the Wait_R or Idle state.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Read Wait stop"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable for Read Wait stop when DPSM is in the R_W state."
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "RWSTART",
+            "description": "Read Wait start If this bit is set, Read Wait operation starts.",
+            "values": []
+          },
+          {
+            "bits": "7:4",
+            "name": "DBLOCKSIZE[3:0]",
+            "description": "Data block size This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0). Define the data block length when the block data transfer mode is selected: When DATALENGTH is not a multiple of DBLOCKSIZE, the transfered data is truncated at a multiple of DBLOCKSIZE. (None of the remaining data are transfered.) When DDR = 1, DBLOCKSIZE = 0000 must not be used. (No data are transfered)",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Block length = 20 = 1 byte"
+              },
+              {
+                "value": "0001",
+                "meaning": "Block length = 21 = 2 bytes"
+              },
+              {
+                "value": "0010",
+                "meaning": "Block length = 22 = 4 bytes"
+              },
+              {
+                "value": "0011",
+                "meaning": "Block length = 23 = 8 bytes"
+              },
+              {
+                "value": "0100",
+                "meaning": "Block length = 24 = 16 bytes"
+              },
+              {
+                "value": "0101",
+                "meaning": "Block length = 25 = 32 bytes"
+              },
+              {
+                "value": "0110",
+                "meaning": "Block length = 26 = 64 bytes"
+              },
+              {
+                "value": "0111",
+                "meaning": "Block length = 27 = 128 bytes"
+              },
+              {
+                "value": "1000",
+                "meaning": "Block length = 28 = 256 bytes"
+              },
+              {
+                "value": "1001",
+                "meaning": "Block length = 29 = 512 bytes"
+              },
+              {
+                "value": "1010",
+                "meaning": "Block length = 210 = 1024 bytes"
+              },
+              {
+                "value": "1011",
+                "meaning": "Block length = 211 = 2048 bytes"
+              },
+              {
+                "value": "1100",
+                "meaning": "Block length = 212 = 4096 bytes"
+              },
+              {
+                "value": "1101",
+                "meaning": "Block length = 213 = 8192 bytes"
+              },
+              {
+                "value": "1110",
+                "meaning": "Block length = 214 = 16384 bytes"
+              },
+              {
+                "value": "1111",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3:2",
+            "name": "DTMODE[1:0]",
+            "description": "Data transfer mode selection This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0). DTEN initiated data transfers).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Block data transfer ending on block count."
+              },
+              {
+                "value": "01",
+                "meaning": "SDIO multibyte data transfer."
+              },
+              {
+                "value": "10",
+                "meaning": "e•MMC Stream data transfer. (WIDBUS must select 1-bit wide bus mode)"
+              },
+              {
+                "value": "11",
+                "meaning": "Block data transfer ending with STOP_TRANSMISSION command (not to be used with"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "DTDIR",
+            "description": "Data transfer direction selection This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "From host to card."
+              },
+              {
+                "value": "1",
+                "meaning": "From card to host."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "DTEN",
+            "description": "Data transfer enable bit This bit can only be written by firmware when DPSM is inactive (DPSMACT = 0). This bit is cleared by hardware when data transfer completes. This bit must only be used to transfer data when no associated data transfer command is used (must not be used with SD or e•MMC cards).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Do not start data transfer without CPSM data transfer command."
+              },
+              {
+                "value": "1",
+                "meaning": "Start data transfer without CPSM data transfer command."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,338 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.11.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.11.4",
+      "section_title": "SPI/I2S configuration register 2 (SPI_CFG2)",
+      "level": 3,
+      "parent_section": "67.11",
+      "page": 3487,
+      "page_end": 3489,
+      "semantic_type": "register_description",
+      "features": [
+        "afcntr",
+        "comm",
+        "cpha",
+        "cpol",
+        "i2s",
+        "ioswp",
+        "lsbfrst",
+        "master",
+        "midi",
+        "mssi",
+        "rdiom",
+        "rdiop",
+        "spi",
+        "spi-cfg2",
+        "ssiop",
+        "ssm",
+        "ssoe",
+        "ssom"
+      ],
+      "chars": 4671,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3487",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.11.4 \"SPI/I2S configuration register 2 (SPI_CFG2)\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3487.",
+      "section_content": "Address offset: 0x00C\nReset value: 0x00000000\nThe content of this register is write-protected when SPI is enabled or the IOLOCK bit is set\nin the SPI_CR1 register.\nBit 31 AFCNTR: alternate function GPIOs control\nThis bit is taken into account when SPE = 0 only.\nWhen SPI must be disabled temporary for a specific configuration reason (for example CRC\nreset, CPHA or HDDIR change) setting this bit prevents any glitches on the associated\noutputs configured at alternate function mode by keeping them forced at state corresponding\nthe current SPI configuration.\n0: The peripheral takes no control of GPIOs while it is disabled\n1: The peripheral keeps always control of all associated GPIOs\nNote: This bit can be also used in PCM and I2S modes.\nThe bit AFCNTR must not be set, when the block is in slave mode.\nBit 30 SSOM: NSS output management in master mode\nThis bit is taken into account in master mode when SSOE is enabled. It allows the NSS\noutput to be configured between two consecutive data transfers.\n0: NSS is kept at active level until data transfer is complete, it becomes inactive with EOT flag\n1: SPI data frames are interleaved with NSS nonactive pulses when MIDI[3:0]>1\nBit 29 SSOE: NSS output enable\nThis bit is taken into account in master mode only\n0: NSS output is disabled and the SPI can work in multimaster configuration\n1: NSS output is enabled. The SPI cannot work in a multimaster environment. It forces the\nNSS pin at inactive level after the transfer is complete or SPI is disabled with respect to\nSSOM, MIDI, MSSI, SSIOP bits setting\nBit 28 SSIOP: NSS input/output polarity\n0: low level is active for NSS signal\n1: high level is active for NSS signal\nBit 27 Reserved, must be kept at reset value.\nBit 26 SSM: Software management of internal slave select signal input\n0: Input value of the internal slave select signal is determined by the external NSS hardware\npin\n1: Input value of the internal slave select signal is determined by the SSI bit controlled by\nsoftware\nNote: When master uses hardware NSS output (SSM = 0 and SSOE = 1), the internal slave\nselect signal input is forced to not active state internally to prevent master mode fault\nerror.\nBit 25 CPOL: clock polarity\n0: SCK signal is at 0 when idle\n1: SCK signal is at 1 when idle\nBit 24 CPHA: clock phase\n0: the first clock transition is the first data capture edge\n1: the second clock transition is the first data capture edge\nBit 23 LSBFRST: data frame format\n0: MSB transmitted first\n1: LSB transmitted first\nNote: This bit can be also used in PCM and I2S modes.\nBit 22 MASTER: SPI master\n0: SPI slave\n1: SPI master\nBits 21:19 SP[2:0]: serial protocol\n000: SPI Motorola\n001: SPI TI\nothers: reserved, must not be used\nBits 18:17 COMM[1:0]: SPI Communication Mode\n00: full-duplex\n01: simplex transmitter\n10: simplex receiver\n11: half-duplex\nBit 16 Reserved, must be kept at reset value.\nBit 15 IOSWP: swap functionality of MISO and MOSI pins\nWhen this bit is set, the function of MISO and MOSI pins alternate functions are inverted.\nOriginal MISO pin becomes MOSI and original MOSI pin becomes MISO.\n0: no swap\n1: MOSI and MISO are swapped\nNote: This bit can be also used in PCM and I2S modes to swap SDO and SDI pins.\nBit 14 RDIOP: RDY signal input/output polarity\n0: high level of the signal means the slave is ready for communication\n1: low level of the signal means the slave is ready for communication\nBit 13 RDIOM: RDY signal input/output management\n0: RDY signal is defined internally fixed as permanently active (RDIOP setting has no effect)\n1: RDY signal is overtaken from alternate function input (at master case) or output (at slave\ncase) of the dedicated pin (RDIOP setting takes effect)\nNote: When DSIZE in the SPI_CFG1 register is configured shorter than 8 bits, the RDIOM bit\nmust be kept at zero.\nBits 12:8 Reserved, must be kept at reset value.\nBits 7:4 MIDI[3:0]: Master Inter-Data Idleness\nSpecifies minimum time delay (expressed in SPI clock cycles periods) inserted between two\nconsecutive data frames in master mode.\n0000: no delay\n0001: 1 clock cycle period delay\n...\n1111: 15 clock cycle periods delay\nNote: This feature is not supported in TI mode.\nBits 3:0 MSSI[3:0]: Master NSS Idleness\nSpecifies an extra delay, expressed in number of SPI clock cycle periods, inserted\nadditionally between active edge of NSS opening a session and the beginning of the first\ndata frame of the session in master mode when SSOE is enabled.\n0000: no extra delay\n0001: 1 clock cycle period delay added\n...\n1111: 15 clock cycle periods delay added\nNote: This feature is not supported in TI mode.\nTo include the delay, the SPI must be disabled and re-enabled between sessions.",
+      "semantic": {
+        "register": "SPI_CFG2",
+        "address_offset": "0x00C",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "AFCNTR",
+            "description": "alternate function GPIOs control This bit is taken into account when SPE = 0 only. When SPI must be disabled temporary for a specific configuration reason (for example CRC reset, CPHA or HDDIR change) setting this bit prevents any glitches on the associated outputs configured at alternate function mode by keeping them forced at state corresponding the current SPI configuration. Note: This bit can be also used in PCM and I2S modes. The bit AFCNTR must not be set, when the block is in slave mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The peripheral takes no control of GPIOs while it is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "The peripheral keeps always control of all associated GPIOs"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "SSOM",
+            "description": "NSS output management in master mode This bit is taken into account in master mode when SSOE is enabled. It allows the NSS output to be configured between two consecutive data transfers.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "NSS is kept at active level until data transfer is complete, it becomes inactive with EOT flag"
+              },
+              {
+                "value": "1",
+                "meaning": "SPI data frames are interleaved with NSS nonactive pulses when MIDI[3:0]>1"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "SSOE",
+            "description": "NSS output enable This bit is taken into account in master mode only NSS pin at inactive level after the transfer is complete or SPI is disabled with respect to SSOM, MIDI, MSSI, SSIOP bits setting",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "NSS output is disabled and the SPI can work in multimaster configuration"
+              },
+              {
+                "value": "1",
+                "meaning": "NSS output is enabled. The SPI cannot work in a multimaster environment. It forces the"
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "SSIOP",
+            "description": "NSS input/output polarity",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "low level is active for NSS signal"
+              },
+              {
+                "value": "1",
+                "meaning": "high level is active for NSS signal"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "SSM",
+            "description": "Software management of internal slave select signal input pin software Note: When master uses hardware NSS output (SSM = 0 and SSOE = 1), the internal slave select signal input is forced to not active state internally to prevent master mode fault error.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Input value of the internal slave select signal is determined by the external NSS hardware"
+              },
+              {
+                "value": "1",
+                "meaning": "Input value of the internal slave select signal is determined by the SSI bit controlled by"
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "CPOL",
+            "description": "clock polarity",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SCK signal is at 0 when idle"
+              },
+              {
+                "value": "1",
+                "meaning": "SCK signal is at 1 when idle"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "CPHA",
+            "description": "clock phase",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "the first clock transition is the first data capture edge"
+              },
+              {
+                "value": "1",
+                "meaning": "the second clock transition is the first data capture edge"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "LSBFRST",
+            "description": "data frame format Note: This bit can be also used in PCM and I2S modes.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "MSB transmitted first"
+              },
+              {
+                "value": "1",
+                "meaning": "LSB transmitted first"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "MASTER",
+            "description": "SPI master",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SPI slave"
+              },
+              {
+                "value": "1",
+                "meaning": "SPI master"
+              }
+            ]
+          },
+          {
+            "bits": "21:19",
+            "name": "SP[2:0]",
+            "description": "serial protocol",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "SPI Motorola"
+              },
+              {
+                "value": "001",
+                "meaning": "SPI TI"
+              },
+              {
+                "value": "others",
+                "meaning": "reserved, must not be used"
+              }
+            ]
+          },
+          {
+            "bits": "18:17",
+            "name": "COMM[1:0]",
+            "description": "SPI Communication Mode",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "full-duplex"
+              },
+              {
+                "value": "01",
+                "meaning": "simplex transmitter"
+              },
+              {
+                "value": "10",
+                "meaning": "simplex receiver"
+              },
+              {
+                "value": "11",
+                "meaning": "half-duplex"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "IOSWP",
+            "description": "swap functionality of MISO and MOSI pins When this bit is set, the function of MISO and MOSI pins alternate functions are inverted. Original MISO pin becomes MOSI and original MOSI pin becomes MISO. Note: This bit can be also used in PCM and I2S modes to swap SDO and SDI pins.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no swap"
+              },
+              {
+                "value": "1",
+                "meaning": "MOSI and MISO are swapped"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "RDIOP",
+            "description": "RDY signal input/output polarity",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "high level of the signal means the slave is ready for communication"
+              },
+              {
+                "value": "1",
+                "meaning": "low level of the signal means the slave is ready for communication"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "RDIOM",
+            "description": "RDY signal input/output management case) of the dedicated pin (RDIOP setting takes effect) Note: When DSIZE in the SPI_CFG1 register is configured shorter than 8 bits, the RDIOM bit must be kept at zero.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RDY signal is defined internally fixed as permanently active (RDIOP setting has no effect)"
+              },
+              {
+                "value": "1",
+                "meaning": "RDY signal is overtaken from alternate function input (at master case) or output (at slave"
+              }
+            ]
+          },
+          {
+            "bits": "12:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:4",
+            "name": "MIDI[3:0]",
+            "description": "Master Inter-Data Idleness Specifies minimum time delay (expressed in SPI clock cycles periods) inserted between two consecutive data frames in master mode. ... Note: This feature is not supported in TI mode.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "no delay"
+              },
+              {
+                "value": "0001",
+                "meaning": "1 clock cycle period delay"
+              },
+              {
+                "value": "1111",
+                "meaning": "15 clock cycle periods delay"
+              }
+            ]
+          },
+          {
+            "bits": "3:0",
+            "name": "MSSI[3:0]",
+            "description": "Master NSS Idleness Specifies an extra delay, expressed in number of SPI clock cycle periods, inserted additionally between active edge of NSS opening a session and the beginning of the first data frame of the session in master mode when SSOE is enabled. ... Note: This feature is not supported in TI mode. To include the delay, the SPI must be disabled and re-enabled between sessions.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "no extra delay"
+              },
+              {
+                "value": "0001",
+                "meaning": "1 clock cycle period delay added"
+              },
+              {
+                "value": "1111",
+                "meaning": "15 clock cycle periods delay added"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

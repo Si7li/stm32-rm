@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S52.4.15",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "52",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "52.4.15",
+      "section_title": "ECC Fp scalar multiplication",
+      "level": 3,
+      "parent_section": "52.4",
+      "page": 2468,
+      "page_end": 2469,
+      "semantic_type": "generic",
+      "features": [
+        "ecc"
+      ],
+      "chars": 1664,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2468",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 52.4.15 \"ECC Fp scalar multiplication\" in chapter 52 (Public key accelerator (PKA)), RM0486 Rev 4, page 2468.",
+      "section_content": "This operation calculates k×P(xP,yP), where P is a point on a curve over prime fields and\nx is the elliptic curve scalar point multiplication. The result is a point that belongs to the\nsame curve or a point at infinity.\nNote: Once this operation is started PKA control register and PKA memory is no more available.\nAccess is restored once BUSY bit is set to 0 by the PKA.\nWhen this operation completes with errors due to unexpected hardware events, a PKA\ntamper event is triggered to TAMP peripheral, and access to PKA RAM becomes blocked\nuntil erased by hardware. PKA tamper is also triggered when the programmed input point is\nnot found on the input ECC curve. PKA operation point on elliptic curve can be used to\navoid this.\nThe following table summarizes the operation instructions.\n[Table 459. ECC Fp scalar multiplication]\nWhen performing this operation the following special cases must be noted:\n• For k=0 this function returns a point at infinity (0,0) if curve parameter b is nonzero,\n(0,1) otherwise. For k different from 0 it might happen that a point at infinity is returned.\nWhen the application detects this behavior, a new computation must be carried out.\n• For k<0 (that is, a negative scalar multiplication is required) the multiplier absolute\nvalue\nk=|-k| must be provided to the PKA. After the computation completion, the formula -\nP=(x,-y) can be used to compute the y coordinate of the effective final result (the x\ncoordinate remains the same).\nNote: The error code is not affected when PKA automatically clears the PKA RAM at the end of\nthis protected operation. When the error output equals 0xD60D, the result output is not\naffected either.",
+      "semantic": {}
+    }
+  ]
+}

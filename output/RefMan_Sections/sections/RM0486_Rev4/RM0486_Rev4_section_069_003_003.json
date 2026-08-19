@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.3.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.3.3",
+      "section_title": "SPDIFRX decoder (SPDIFRX_DC)",
+      "level": 3,
+      "parent_section": "69.3",
+      "page": 3573,
+      "page_end": 3576,
+      "semantic_type": "generic",
+      "features": [
+        "spdifrx",
+        "spdifrx-dc"
+      ],
+      "chars": 5851,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3573",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.3.3 \"SPDIFRX decoder (SPDIFRX_DC)\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3573.",
+      "section_content": "Main principle\nThe technique used by the SPDIFRX in order to decode the S/PDIF stream is based on the\nmeasurement of the time interval between two consecutive edges. Three kinds of time\nintervals may be found into an S/PDIF stream:\n• The long time interval, having a duration of 3 x UI, noted TL. It appears only during\npreambles.\n• The medium time interval, having a duration of 2 x UI, noted TM. It appears both in\nsome preambles or into the information field.\n• The short time interval, having a duration of 1 x UI, noted TS. It appears both in some\npreambles or into the information field.\nThe SPDIFRX_DC block is responsible of the decoding of the received S/PDIF stream. It\ntakes care of the following functions:\n• Resampling and filtering of the incoming signal\n• Estimation of the time-intervals\n• Estimation of the symbol rate and synchronization\n• Decoding of the serial data, and check of integrity\n• Detection of the block, and sub-frame preambles\n• Continuous tracking of the symbol rate\nFigure941 gives a detailed view of the SPDIFRX decoder.\n[Figure 941. SPDIFRX decoder]\n1. 'n' is fixed to 3, and 'x' is set to 0.\nNoise filtering and rising/falling edge detection\nThe S/PDIF signal received on the selected SPDIFRX_IN is re-sampled using the\nspdifrx_ker_ck clock (acquisition clock). A simple filtering is applied in order cancel spurs.\nThis is performed by the stage detecting the edge transitions. The edge transitions are\ndetected as follow:\n• A rising edge is detected when the sequence 0 followed by two 1 is sampled.\n• A falling edge is detected when the sequence 1 followed by two 0 is sampled.\n• After a rising edge, a falling edge sequence is expected.\n• After a falling edge, a rising edge sequence is expected.\n[Figure 942. Noise filtering and edge detection]\nLongest and shortest transition detector\nThe longest and shortest transition detector block detects the maximum (MAX_CNT)\nand minimum (MIN_CNT) duration between two transitions. The TRCNT counter is used to\nmeasure the time interval duration. It is clocked by the spdifrx_ker_ck signal. On every\ntransition pulse, the counter value is stored and the counter is reset to start counting again.\nThe maximum duration is normally found during the preamble period. This maximum\nduration is sent out as MAX_CNT. The minimum duration is sent out as MIN_CNT.\nThe search of the longest and shortest transition is stopped when the transition timer\nexpires. The transition timer is like a watchdog timer that generates a trigger after 70\ntransitions of the incoming signal. Note that counting 70 transitions insures a delay a bit\nlonger than a sub-frame.\nNote that when the TRCNT overflows due to a too long time interval between two pulses,\nthe SPDIFRX is stopped and the flag TERR of SPDIFRX_SR register is set to 1.\nTransition coder and preamble detector\nThe transition coder and preamble detector block receives the MAX_CNT and\nMIN_CNT. It also receives the current transition width from the TRCNT counter (see\nFigure941). This block encodes the current transition width by comparing the current\ntransition width with two different thresholds, names THHI and THLO.\n• If the current transition width is less than (THLO - 1), then the data received is half part\nof data bit ‘1’, and is coded as TS.\n• If the current transition width is greater than (THLO - 1), and less than THHI, then the\ndata received is data bit ‘0’, and is coded as TM.\n• If the current transition width is greater than THHI, then the data received is the long\npulse of preambles, and is coded as TL.\n• Else an error code is generated (FERR flag is set).\nThe thresholds THHI and THLO are elaborated using two different methods.\nIf the peripheral is doing its initial synchronization (‘coarse synchronization’), then the\nthresholds are computed as follow:\n• THLO = MAX_CNT / 2.\n• THHI = MIN_CNT + MAX_CNT / 2.\nOnce the ‘coarse synchronization’ is completed, then the SPDIFRX uses a more accurate\nreference in order to elaborate the thresholds. The SPDIFRX measures the length of 24\nsymbols (WIDTH24) for defining THLO and the length of 40 symbols (WIDTH40) for THHI.\nTHHI and THLO are computed as follow:\n• THLO = (WIDTH24) / 32\n• THHI = (WIDTH40) / 32\nThis second synchronization phase is called the ‘fine synchronization’. Refer to Figure945\nfor additional information.\nAs shown in the figure hereafter, THLO is ideally equal to 1.5 UI, and to THHI 2.5 UI.\n[Figure 943. Thresholds]\nThe preamble detector checks four consecutive transitions of a specific sequence to\ndetermine if they form the part of preamble. Let us say TRANS0, TRANS1, TRANS2 and\nTRANS3 represent four consecutive transitions encoded as mentioned above. Table683\nshows the values of these four transitions to form a preamble. Absence of this pattern\nindicates that these transitions form part of the data in the sub frame and bi-phase decoder\ndecode them.\n[Table 683. Transition sequence for preamble]\nBi-phase decoder\nThe Bi-phase decoder decodes the input bi-phase marked data stream using the transition\ninformation provided by the transition coder and preamble detector block. It first waits for\nthe preamble detection information. After the preamble detection, it decodes the following\ntransition information:\n• If the incoming transition information is TM then it is decoded as a ‘0’.\n• Two consecutive TS are decoded as a ‘1’.\n• Any other transition sequence generates an error signal (FERR set to 1).\nAfter decoding 28 data bits this way, this module looks for the following preamble data. If the\nnew preamble is not what is expected, then this block generates an error signal (FERR set\nto 1). Refer to Section69.3.9, for additional information on error flags.\nData packing\nThis block is responsible of the decoding of the IEC-60958 frames and blocks. It also\nhandles the writing into the RX_BUF or into SPDIFRX_CSR register.",
+      "semantic": {}
+    }
+  ]
+}

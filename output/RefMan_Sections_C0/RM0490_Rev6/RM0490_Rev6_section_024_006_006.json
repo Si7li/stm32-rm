@@ -1,0 +1,353 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S24.6.6",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "24",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "24.6.6",
+      "section_title": "RTC control register (RTC_CR)",
+      "level": 3,
+      "parent_section": "24.6",
+      "page": 665,
+      "page_end": 667,
+      "semantic_type": "register_description",
+      "features": [
+        "add1h",
+        "alrae",
+        "alraie",
+        "bkp",
+        "bypshad",
+        "clock",
+        "coe",
+        "cosel",
+        "fmt",
+        "osel",
+        "out2en",
+        "pol",
+        "refckon",
+        "rtc",
+        "rtc-cr",
+        "sub1h",
+        "tampalrm-pu",
+        "tampalrm-type",
+        "tse",
+        "tsedge",
+        "tsie"
+      ],
+      "chars": 4375,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=665",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.6.6 \"RTC control register (RTC_CR)\" in chapter 24 (Real-time clock (RTC)), RM0490 Rev 6, page 665.",
+      "section_content": "This register is write protected. The write access procedure is described in RTC register\nwrite protection on page653.\nAddress offset: 0x18\nPower-on reset value: 0x0000 0000\nSystem reset: not affected\nBit 31 OUT2EN: RTC_OUT2 output enable\nSetting this bit allows to remap the RTC outputs on RTC_OUT2 as follows:\nOUT2EN = 0: RTC output 2 disable\nIf OSEL ≠ 00 or TAMPOE = 1: TAMPALRM is output on RTC_OUT1\nIf OSEL = 00 and TAMPOE = 0 and COE = 1: CALIB is output on RTC_OUT1\nOUT2EN = 1: RTC output 2 enable\nIf (OSEL ≠ 00 or TAMPOE = 1) and COE = 0: TAMPALRM is output on RTC_OUT2\nIf OSEL = 00 and TAMPOE = 0 and COE = 1: CALIB is output on RTC_OUT2\nIf (OSEL≠ 00 or TAMPOE = 1) and COE = 1: CALIB is output on RTC_OUT2 and\nTAMPALRM is output on RTC_OUT1.\nBit 30 TAMPALRM_TYPE: TAMPALRM output type\n0: TAMPALRM is push-pull output\n1: TAMPALRM is open-drain output\nBit 29 TAMPALRM_PU: TAMPALRM pull-up enable\n0: No pull-up is applied on TAMPALRM output\n1: A pull-up is applied on TAMPALRM output\nBits 28:24 Reserved, must be kept at reset value.\nBit 23 COE: Calibration output enable\nThis bit enables the CALIB output\n0: Calibration output disabled\n1: Calibration output enabled\nBits 22:21 OSEL[1:0]: Output selection\nThese bits are used to select the flag to be routed to TAMPALRM output.\n00: Output disabled\n01: Alarm A output enabled\n10: Reserved\n11: Reserved\nBit 20 POL: Output polarity\nThis bit is used to configure the polarity of TAMPALRM output.\n0: The pin is high when ALRAF is asserted (depending on OSEL[1:0]).\n1: The pin is low when ALRAF is asserted (depending on OSEL[1:0]).\nBit 19 COSEL: Calibration output selection\nWhen COE = 1, this bit selects which signal is output on CALIB.\n0: Calibration output is 512Hz\n1: Calibration output is 1Hz\nThese frequencies are valid for RTCCLK at 32.768kHz and prescalers at their default values\n(PREDIV_A = 127 and PREDIV_S = 255). Refer to Section24.3.14: Calibration clock output.\nBit 18 BKP: Backup\nThis bit can be written by the user to memorize whether the daylight saving time change has\nbeen performed or not.\nBit 17 SUB1H: Subtract 1 hour (winter time change)\nWhen this bit is set outside initialization mode, 1 hour is subtracted to the calendar time if the\ncurrent hour is not 0. This bit is always read as 0.\nSetting this bit has no effect when current hour is 0.\n0: No effect\n1: Subtracts 1 hour to the current time. This can be used for winter time change.\nBit 16 ADD1H: Add 1 hour (summer time change)\nWhen this bit is set outside initialization mode, 1 hour is added to the calendar time. This bit\nis always read as 0.\n0: No effect\n1: Adds 1 hour to the current time. This can be used for summer time change\nBit 15 TSIE: Timestamp interrupt enable\n0: Timestamp interrupt disable\n1: Timestamp interrupt enable\nBits 14:13 Reserved, must be kept at reset value.\nBit 12 ALRAIE: Alarm A interrupt enable\n0: Alarm A interrupt disabled\n1: Alarm A interrupt enabled\nBit 11 TSE: timestamp enable\n0: timestamp disable\n1: timestamp enable\nBits 10:9 Reserved, must be kept at reset value.\nBit 8 ALRAE: Alarm A enable\n0: Alarm A disabled\n1: Alarm A enabled\nBit 7 Reserved, must be kept at reset value.\nBit 6 FMT: Hour format\n0: 24 hour/day format\n1: AM/PM hour format\nBit 5 BYPSHAD: Bypass the shadow registers\n0: Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken from\nthe shadow registers, which are updated once every two RTCCLK cycles.\n1: Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken\ndirectly from the calendar counters.\nNote: If the frequency of the APB1 clock is less than seven times the frequency of RTCCLK,\nBYPSHAD must be set to 1.\nBit 4 REFCKON: RTC_REFIN reference clock detection enable (50 or 60Hz)\n0: RTC_REFIN detection disabled\n1: RTC_REFIN detection enabled\nNote: PREDIV_S must be 0x00FF.\nBit 3 TSEDGE: Timestamp event active edge\n0: RTC_TS input rising edge generates a timestamp event\n1: RTC_TS input falling edge generates a timestamp event\nTSE must be reset when TSEDGE is changed to avoid unwanted TSF setting.\nBits 2:0 Reserved, must be kept at reset value.\nNote: Bits 6 and 4 of this register can be written in initialization mode only (RTC_ICSR/INITF = 1).\nIt is recommended not to change the hour during the calendar hour increment as it could\nmask the incrementation of the calendar hour.\nADD1H and SUB1H changes are effective in the next second.",
+      "semantic": {
+        "register": "RTC_CR",
+        "address_offset": "0x18",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "OUT2EN",
+            "description": "RTC_OUT2 output enable Setting this bit allows to remap the RTC outputs on RTC_OUT2 as follows: OUT2EN = 0: RTC output 2 disable If OSEL ≠ 00 or TAMPOE = 1: TAMPALRM is output on RTC_OUT1 If OSEL = 00 and TAMPOE = 0 and COE = 1: CALIB is output on RTC_OUT1 OUT2EN = 1: RTC output 2 enable If (OSEL ≠ 00 or TAMPOE = 1) and COE = 0: TAMPALRM is output on RTC_OUT2 If OSEL = 00 and TAMPOE = 0 and COE = 1: CALIB is output on RTC_OUT2 If (OSEL≠ 00 or TAMPOE = 1) and COE = 1: CALIB is output on RTC_OUT2 and TAMPALRM is output on RTC_OUT1.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "TAMPALRM_TYPE",
+            "description": "TAMPALRM output type",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "TAMPALRM is push-pull output"
+              },
+              {
+                "value": "1",
+                "meaning": "TAMPALRM is open-drain output"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "TAMPALRM_PU",
+            "description": "TAMPALRM pull-up enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No pull-up is applied on TAMPALRM output"
+              },
+              {
+                "value": "1",
+                "meaning": "A pull-up is applied on TAMPALRM output"
+              }
+            ]
+          },
+          {
+            "bits": "28:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "COE",
+            "description": "Calibration output enable This bit enables the CALIB output",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calibration output disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Calibration output enabled"
+              }
+            ]
+          },
+          {
+            "bits": "22:21",
+            "name": "OSEL[1:0]",
+            "description": "Output selection These bits are used to select the flag to be routed to TAMPALRM output.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Output disabled"
+              },
+              {
+                "value": "01",
+                "meaning": "Alarm A output enabled"
+              },
+              {
+                "value": "10",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "POL",
+            "description": "Output polarity This bit is used to configure the polarity of TAMPALRM output.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The pin is high when ALRAF is asserted (depending on OSEL[1:0])."
+              },
+              {
+                "value": "1",
+                "meaning": "The pin is low when ALRAF is asserted (depending on OSEL[1:0])."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "COSEL",
+            "description": "Calibration output selection When COE = 1, this bit selects which signal is output on CALIB. These frequencies are valid for RTCCLK at 32.768kHz and prescalers at their default values (PREDIV_A = 127 and PREDIV_S = 255). Refer to Section24.3.14: Calibration clock output.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calibration output is 512Hz"
+              },
+              {
+                "value": "1",
+                "meaning": "Calibration output is 1Hz"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "BKP",
+            "description": "Backup This bit can be written by the user to memorize whether the daylight saving time change has been performed or not.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "SUB1H",
+            "description": "Subtract 1 hour (winter time change) When this bit is set outside initialization mode, 1 hour is subtracted to the calendar time if the current hour is not 0. This bit is always read as 0. Setting this bit has no effect when current hour is 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Subtracts 1 hour to the current time. This can be used for winter time change."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "ADD1H",
+            "description": "Add 1 hour (summer time change) When this bit is set outside initialization mode, 1 hour is added to the calendar time. This bit is always read as 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Adds 1 hour to the current time. This can be used for summer time change"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "TSIE",
+            "description": "Timestamp interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Timestamp interrupt disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Timestamp interrupt enable"
+              }
+            ]
+          },
+          {
+            "bits": "14:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "ALRAIE",
+            "description": "Alarm A interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Alarm A interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Alarm A interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "TSE",
+            "description": "timestamp enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "timestamp disable"
+              },
+              {
+                "value": "1",
+                "meaning": "timestamp enable"
+              }
+            ]
+          },
+          {
+            "bits": "10:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "ALRAE",
+            "description": "Alarm A enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Alarm A disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Alarm A enabled"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "FMT",
+            "description": "Hour format",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "24 hour/day format"
+              },
+              {
+                "value": "1",
+                "meaning": "AM/PM hour format"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "BYPSHAD",
+            "description": "Bypass the shadow registers the shadow registers, which are updated once every two RTCCLK cycles. directly from the calendar counters. Note: If the frequency of the APB1 clock is less than seven times the frequency of RTCCLK, BYPSHAD must be set to 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken from"
+              },
+              {
+                "value": "1",
+                "meaning": "Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "REFCKON",
+            "description": "RTC_REFIN reference clock detection enable (50 or 60Hz) Note: PREDIV_S must be 0x00FF.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RTC_REFIN detection disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "RTC_REFIN detection enabled"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "TSEDGE",
+            "description": "Timestamp event active edge TSE must be reset when TSEDGE is changed to avoid unwanted TSF setting.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RTC_TS input rising edge generates a timestamp event"
+              },
+              {
+                "value": "1",
+                "meaning": "RTC_TS input falling edge generates a timestamp event"
+              }
+            ]
+          },
+          {
+            "bits": "2:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value. Note: Bits 6 and 4 of this register can be written in initialization mode only (RTC_ICSR/INITF = 1). It is recommended not to change the hour during the calendar hour increment as it could mask the incrementation of the calendar hour. ADD1H and SUB1H changes are effective in the next second.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

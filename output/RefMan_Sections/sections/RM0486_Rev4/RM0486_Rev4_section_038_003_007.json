@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S38.3.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "38",
+      "chapter_title": "Digital camera interface (DCMI)",
+      "section": "38.3.7",
+      "section_title": "DCMI capture modes",
+      "level": 3,
+      "parent_section": "38.3",
+      "page": 1799,
+      "page_end": 1800,
+      "semantic_type": "generic",
+      "features": [
+        "dcmi"
+      ],
+      "chars": 1934,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1799",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 38.3.7 \"DCMI capture modes\" in chapter 38 (Digital camera interface (DCMI)), RM0486 Rev 4, page 1799.",
+      "section_content": "This interface supports two types of capture: snapshot (single frame) and continuous grab.\nSnapshot mode (single frame)\nIn this mode, a single frame is captured (CM = 1 of the DCMI_CR register). After the\nCAPTURE bit is set in DCMI_CR, the interface waits for the detection of a start of frame\nbefore sampling the data. The camera interface is automatically disabled (CAPTURE bit\ncleared in DCMI_CR) after receiving the first complete frame. An interrupt is generated\n(IT_FRAME) if it is enabled.\nIn case of an overrun, the frame is lost and the CAPTURE bit is cleared.\n[Figure 392. Frame capture waveforms in snapshot mode]\nDCMI_HSYNC\nDCMI_VSYNC\nFrame 2\nFrame 1 captured not captured\n1. Here, the active state of DCMI_HSYNC and DCMI_VSYNC is 1.\n2. DCMI_HSYNC and DCMI_VSYNC can change states at the same time.\nContinuous grab mode\nIn this mode (CM bit = 0 in DCMI_CR), once the CAPTURE bit has been set in DCMI_CR,\nthe grabbing process starts on the next DCMI_VSYNC or embedded frame start depending\non the mode. The process continues until the CAPTURE bit is cleared in DCMI_CR. Once\nthe CAPTURE bit has been cleared, the grabbing process continues until the end of the\ncurrent frame.\n[Figure 393. Frame capture waveforms in continuous grab mode]\n1. Here, the active state of DCMI_HSYNC and DCMI_VSYNC is 1.\n2. DCMI_HSYNC and DCMI_VSYNC can change states at the same time.\nIn continuous grab mode, the FCRC[1:0] bits in DCMI_CR can be configured to grab all\npictures, every second picture or one out of four pictures to decrease the frame capture\nrate.\nNote: In the hardware synchronization mode (ESS = 0 in DCMI_CR), the IT_VSYNC interrupt is\ngenerated (if enabled) even when CAPTURE = 0 in DCMI_CR so, to reduce the frame\ncapture rate even further, the IT_VSYNC interrupt can be used to count the number of\nframes between 2 captures in conjunction with the Snapshot mode. This is not allowed by\nembedded data synchronization mode.",
+      "semantic": {}
+    }
+  ]
+}

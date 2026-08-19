@@ -1,0 +1,246 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S52.7.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "52",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "52.7.1",
+      "section_title": "PKA control register (PKA_CR)",
+      "level": 3,
+      "parent_section": "52.7",
+      "page": 2479,
+      "page_end": 2480,
+      "semantic_type": "register_description",
+      "features": [
+        "addrerrie",
+        "mode",
+        "operrie",
+        "pka",
+        "pka-cr",
+        "procendie",
+        "ramerrie",
+        "start"
+      ],
+      "chars": 2850,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2479",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 52.7.1 \"PKA control register (PKA_CR)\" in chapter 52 (Public key accelerator (PKA)), RM0486 Rev 4, page 2479.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000 0000\nBits 31:22 Reserved, must be kept at reset value.\nBit 21 OPERRIE: Operation error interrupt enable\n0: No interrupt is generated when OPERRF flag is set in PKA_SR.\n1: An interrupt is generated when OPERRF flag is set in PKA_SR.\nBit 20 ADDRERRIE: Address error interrupt enable\n0: No interrupt is generated when ADDRERRF flag is set in PKA_SR.\n1: An interrupt is generated when ADDRERRF flag is set in PKA_SR.\nBit 19 RAMERRIE: RAM error interrupt enable\n0: No interrupt is generated when RAMERRF flag is set in PKA_SR.\n1: An interrupt is generated when RAMERRF flag is set in PKA_SR.\nBit 18 Reserved, must be kept at reset value.\nBit 17 PROCENDIE: End of operation interrupt enable\n0: No interrupt is generated when PROCENDF flag is set in PKA_SR.\n1: An interrupt is generated when PROCENDF flag is set in PKA_SR.\nBits 16:14 Reserved, must be kept at reset value.\nBits 13:8 MODE[5:0]: PKA operation code\n000000: Montgomery parameter computation then modular exponentiation\n000001: Montgomery parameter computation only\n000010: Modular exponentiation only (Montgomery parameter must be loaded first)\n000011: Modular exponentiation (protected, used when manipulating secrets)\n100000: Montgomery parameter computation then ECC scalar multiplication (protected)\n100100: ECDSA sign (protected)\n100110: ECDSA verification\n101000: Point on elliptic curve Fp check\n000111: RSA CRT exponentiation\n001000: Modular inversion\n001001: Arithmetic addition\n001010: Arithmetic subtraction\n001011: Arithmetic multiplication\n001100: Arithmetic comparison\n001101: Modular reduction\n001110: Modular addition\n001111: Modular subtraction\n010000: Montgomery multiplication\n100011: ECC complete addition\n100111: ECC double base ladder\n101111: ECC projective to affine\nWhen an operation not listed here is written by the application with EN bit set, OPERRF bit is\nset in PKA_SR register, and the write to MODE[5:0] bitfield is ignored. When PKA is configured\nin limited mode (LMF = 1 in PKA_SR), writing a MODE[5:0] different from 0x26 with EN bit to 1\ntriggers OPERRF bit to be set and write to MODE[5:0] bit is ignored.\nBits 7:2 Reserved, must be kept at reset value.\nBit 1 START: start the operation\nSet this bit to start the operation selected by the MODE[5:0] bitfield, using the operands and\ndata already written to the PKA RAM. This bit is always read as 0.\nWhen an illegal operation is selected while START bit is set no operation is started, and\nOPERRF bit is set in PKA_SR.\nNote: START is ignored if PKA is busy.\nBit 0 EN: PKA enable\n0: Disable PKA\n1: Enable PKA; PKA becomes functional when INITOK is set by hardware in PKA_SR.\nWhen an illegal operation is selected while EN = 1, OPERRF bit is set in PKA_SR. See\nPKA_CR.MODE[5:0] bitfield for details.\nNote: When EN = 0, PKA RAM can still be accessed by the application.",
+      "semantic": {
+        "register": "PKA_CR",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "OPERRIE",
+            "description": "Operation error interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt is generated when OPERRF flag is set in PKA_SR."
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt is generated when OPERRF flag is set in PKA_SR."
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "ADDRERRIE",
+            "description": "Address error interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt is generated when ADDRERRF flag is set in PKA_SR."
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt is generated when ADDRERRF flag is set in PKA_SR."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "RAMERRIE",
+            "description": "RAM error interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt is generated when RAMERRF flag is set in PKA_SR."
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt is generated when RAMERRF flag is set in PKA_SR."
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "PROCENDIE",
+            "description": "End of operation interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt is generated when PROCENDF flag is set in PKA_SR."
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt is generated when PROCENDF flag is set in PKA_SR."
+              }
+            ]
+          },
+          {
+            "bits": "16:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:8",
+            "name": "MODE[5:0]",
+            "description": "PKA operation code When an operation not listed here is written by the application with EN bit set, OPERRF bit is set in PKA_SR register, and the write to MODE[5:0] bitfield is ignored. When PKA is configured in limited mode (LMF = 1 in PKA_SR), writing a MODE[5:0] different from 0x26 with EN bit to 1 triggers OPERRF bit to be set and write to MODE[5:0] bit is ignored.",
+            "values": [
+              {
+                "value": "000000",
+                "meaning": "Montgomery parameter computation then modular exponentiation"
+              },
+              {
+                "value": "000001",
+                "meaning": "Montgomery parameter computation only"
+              },
+              {
+                "value": "000010",
+                "meaning": "Modular exponentiation only (Montgomery parameter must be loaded first)"
+              },
+              {
+                "value": "000011",
+                "meaning": "Modular exponentiation (protected, used when manipulating secrets)"
+              },
+              {
+                "value": "100000",
+                "meaning": "Montgomery parameter computation then ECC scalar multiplication (protected)"
+              },
+              {
+                "value": "100100",
+                "meaning": "ECDSA sign (protected)"
+              },
+              {
+                "value": "100110",
+                "meaning": "ECDSA verification"
+              },
+              {
+                "value": "101000",
+                "meaning": "Point on elliptic curve Fp check"
+              },
+              {
+                "value": "000111",
+                "meaning": "RSA CRT exponentiation"
+              },
+              {
+                "value": "001000",
+                "meaning": "Modular inversion"
+              },
+              {
+                "value": "001001",
+                "meaning": "Arithmetic addition"
+              },
+              {
+                "value": "001010",
+                "meaning": "Arithmetic subtraction"
+              },
+              {
+                "value": "001011",
+                "meaning": "Arithmetic multiplication"
+              },
+              {
+                "value": "001100",
+                "meaning": "Arithmetic comparison"
+              },
+              {
+                "value": "001101",
+                "meaning": "Modular reduction"
+              },
+              {
+                "value": "001110",
+                "meaning": "Modular addition"
+              },
+              {
+                "value": "001111",
+                "meaning": "Modular subtraction"
+              },
+              {
+                "value": "010000",
+                "meaning": "Montgomery multiplication"
+              },
+              {
+                "value": "100011",
+                "meaning": "ECC complete addition"
+              },
+              {
+                "value": "100111",
+                "meaning": "ECC double base ladder"
+              },
+              {
+                "value": "101111",
+                "meaning": "ECC projective to affine"
+              }
+            ]
+          },
+          {
+            "bits": "7:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "START",
+            "description": "start the operation Set this bit to start the operation selected by the MODE[5:0] bitfield, using the operands and data already written to the PKA RAM. This bit is always read as 0. When an illegal operation is selected while START bit is set no operation is started, and OPERRF bit is set in PKA_SR. Note: START is ignored if PKA is busy.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "EN",
+            "description": "PKA enable When an illegal operation is selected while EN = 1, OPERRF bit is set in PKA_SR. See PKA_CR.MODE[5:0] bitfield for details. Note: When EN = 0, PKA RAM can still be accessed by the application.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable PKA"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable PKA; PKA becomes functional when INITOK is set by hardware in PKA_SR."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

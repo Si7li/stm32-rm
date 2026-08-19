@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S29.4.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "29",
+      "chapter_title": "Hash processor (HASH)",
+      "section": "29.4.6",
+      "section_title": "Message padding",
+      "level": 3,
+      "parent_section": "29.4",
+      "page": 899,
+      "page_end": 900,
+      "semantic_type": "generic",
+      "features": [
+        "message",
+        "padding"
+      ],
+      "chars": 2950,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=899",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.4.6 \"Message padding\" in chapter 29 (Hash processor (HASH)), RM0522 Rev 1, page 899.",
+      "section_content": "Overview\nWhen computing a condensed representation of a message, the process of feeding data\ninto the hash processor (with automatic partial digest computation every block size transfer)\nloops until the last bits of the original message are written to the HASH_DIN register.\nAs the length (number of bits) of a message can be any integer value, the last word written\nto the hash processor may have a valid number of bits between 1 and 32. This number of\nvalid bits in the last word, NBLW, has to be written to the HASH_STR register, so that\nmessage padding is correctly performed before the final message digest computation.\nPadding processing\nDetailed hashing sequences with padding are described in Section29.4.5: Message digest\ncomputing. As mentioned in these sequences, the padding is done automatically using the\ninformation provided in NBLW[4:0].\nHashing example\nBelow is an example of SHA-1 digest computation with HASH. Message processing and\npadding are defined in Federal Information Processing Standards PUB 180-4.\nLet us assume that the original message is the ASCII binary-coded form of “abc”, of length\nL=24 (‘U’ means don’t care):\nbyte 0 byte 1 byte 2 byte 3\n01100001 01100010 01100011 UUUUUUUU\n<-- 1st word written to HASH_DIN -->\nNBLW has to be loaded with the value 24: a “1” is appended at bit location 24 in the bit string\n(starting counting from left to right in the above bit string), which corresponds to bit 31 in the\nHASH_DIN register (little-endian convention):\n01100001 01100010 01100011 1UUUUUUU\nSince L=24, the number of bits in the above bit string is 25, and 423 “0” bits are\nautomatically appended, making now 448 bits.\nThis gives in hexadecimal (byte words in big-endian format):\n61626380 00000000 00000000 00000000\n00000000 00000000 00000000 00000000\n00000000 00000000 00000000 00000000\n00000000 00000000\nThe message length value, L, in two-word format (that is 00000000 00000018) is appended.\nHence, the final padded message in hexadecimal (byte words in big-endian format):\n61626380 00000000 00000000 00000000\n00000000 00000000 00000000 00000000\n00000000 00000000 00000000 00000000\n00000000 00000000 00000000 00000018\nIf the hash processor is programmed to swap byte within HASH_DIN input register\n(DATATYPE=10 in HASH_CR), the above message has to be entered using following\nsequence:\n1. 0xUU636261 is written to the HASH_DIN register (where ‘U’ means don’t care)\n2. 0x18 is written to the HASH_STR register (the number of valid bits in the last word\nwritten to the HASH_DIN register is 24, as the original message length is 24 bits)\n3. 0x100 is written to the HASH_STR register to run the final digest computation.\n4. The hash computing is complete with the message digest available in the HASH_HRx\nregisters (x=0 to 4) for the SHA-1 algorithm. For this FIPS example, the expected\nvalue is as follows:\nHASH_HR0 = 0xA9993E36\nHASH_HR1 = 0x4706816A\nHASH_HR2 = 0xBA3E2571\nHASH_HR3 = 0x7850C26C\nHASH_HR4 = 0x9CD0D89D",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.4.12",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.4.12",
+      "section_title": "Starting conversions (ADSTART)",
+      "level": 3,
+      "parent_section": "16.4",
+      "page": 302,
+      "page_end": 302,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "adstart"
+      ],
+      "chars": 1590,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=302",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.4.12 \"Starting conversions (ADSTART)\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 302.",
+      "section_content": "Software starts ADC conversions by setting ADSTART = 1.\nWhen ADSTART is set, the conversion:\n• Starts immediately if EXTEN = 00 (software trigger)\n• At the next active edge of the selected hardware trigger if EXTEN ≠ 00\nThe ADSTART bit is also used to indicate whether an ADC operation is currently ongoing. It\nis possible to re-configure the ADC while ADSTART = 0, indicating that the ADC is idle.\nThe ADSTART bit is cleared by hardware:\n• In single mode with software trigger (CONT = 0, EXTEN = 00)\n– At any end of conversion sequence (EOS = 1)\n• In discontinuous mode with software trigger (CONT = 0, DISCEN = 1, EXTEN = 00)\n– At end of conversion (EOC = 1)\n• In all cases (CONT = x, EXTEN = XX)\n– After execution of the ADSTP procedure invoked by software (see\nSection 16.4.14: Stopping an ongoing conversion (ADSTP) on page 304)\nNote: In continuous mode (CONT = 1), the ADSTART bit is not cleared by hardware when the\nEOS flag is set because the sequence is automatically relaunched.\nWhen hardware trigger is selected in single mode (CONT = 0 and EXTEN = 01), ADSTART\nis not cleared by hardware when the EOS flag is set (except if DMAEN = 1 and\nDMACFG = 0 in which case ADSTART is cleared at end of the DMA transfer). This avoids\nthe need for software having to set the ADSTART bit again and ensures the next trigger\nevent is not missed.\nAfter changing channel selection configuration (by programming ADC_CHSELR register or\nchanging CHSELRMOD or SCANDIR), it is mandatory to wait until CCRDY flag is asserted\nbefore asserting ADSTART, otherwise the value written to ADSTART is ignored.",
+      "semantic": {}
+    }
+  ]
+}

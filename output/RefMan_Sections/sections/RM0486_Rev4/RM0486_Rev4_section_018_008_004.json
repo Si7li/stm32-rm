@@ -1,0 +1,68 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.8.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.8.4",
+      "section_title": "HPDMA nonsecure masked interrupt status register (HPDMA_MISR)",
+      "level": 3,
+      "parent_section": "18.8",
+      "page": 895,
+      "page_end": 896,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "hpdma",
+        "hpdma-misr",
+        "interrupt",
+        "memory"
+      ],
+      "chars": 1518,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=895",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.8.4 \"HPDMA nonsecure masked interrupt status register (HPDMA_MISR)\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 895.",
+      "section_content": "Address offset: 0x00C\nReset value: 0x0000 0000\nThis register is a read register.\nThis is a nonsecure register, containing the masked interrupt status bit MISx for each\nnonsecure channel x (channel x configured with HPDMA_SECCFGR.SECx = 0). It is a\nlogical OR of all the flags of HPDMA_CxSR, each source flag being enabled by the\ncorresponding interrupt enable bit of HPDMA_CxCR.\nEvery bit is deasserted by hardware when writing 1 to the corresponding flag clear bit in\nHPDMA_CxFCR.\nIf a channel x is in secure state (HPDMA_SECCFGR.SECx = 1), a read access to the\nmasked interrupt status bit MISx of this channel x returns zero.\nThis register can mix privileged and unprivileged information, depending on the privileged\nstate of each channel HPDMA_PRIVCFGR.PRIVx. A privileged software can read the full\nnonsecure interrupt status. An unprivileged software is restricted to read the status of\nunprivileged (and nonsecure) channels, other privileged bitfields returning zero.\nThis register can mix information from different CIDs. If a channel x is configured as CID\nfiltered (HPDMA_CxCIDCFGR.CFEN = 1), the MISx bit can be read only by an authorized\nCID agent, else it is returned zero. If the debug domain feature is activated, an access to\nthis register is granted to the debug domain CID, regardless of any CID filtering.\nBits 31:16 Reserved, must be kept at reset value.\nBits 15:0 MISx: Masked interrupt status of channel x (x = 15 to 0)\n0: No interrupt occurred on channel x.\n1: An interrupt occurred on channel x.",
+      "semantic": {
+        "register": "HPDMA_MISR",
+        "address_offset": "0x00C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:0",
+            "name": "MISx",
+            "description": "Masked interrupt status of channel x (x = 15 to 0)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No interrupt occurred on channel x."
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt occurred on channel x."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

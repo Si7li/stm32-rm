@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.4.19",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.4.19",
+      "section_title": "Stopping an ongoing conversion (ADSTP, JADSTP)",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1488,
+      "page_end": 1489,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "adstp",
+        "jadstp"
+      ],
+      "chars": 1560,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1488",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.19 \"Stopping an ongoing conversion (ADSTP, JADSTP)\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1488.",
+      "section_content": "The software can decide to stop ongoing regular conversions by setting ADSTP and\nongoing injected conversions by setting JADSTP.\nStopping conversions resets the ongoing ADC operation. The ADC can then be\nreconfigured (for example by changing the channel selection or the trigger). It is then ready\nfor a new operation.\nInjected conversions can be stopped while regular conversions are still ongoing and vice\nversa. This allows, for instance, the reconfiguration of the injected conversion sequence and\ntriggers while regular conversions are still ongoing (and vice versa).\nWhen the ADSTP bit is set by software, any ongoing regular conversion is aborted with the\npartial result discarded (the ADC_DR register is not updated with the current conversion).\nWhen the JADSTP bit is set by software, any ongoing injected conversion is aborted with\npartial result discarded (the ADC_JDRy register is not updated with the current conversion).\nThe scan sequence is also aborted and reset (meaning that relaunching the ADC restarts a\nnew sequence).\nOnce this procedure is complete, ADSTP/ADSTART bits (for regular conversion), or\nJADSTP/JADSTART bits (for injected conversion) are deasserted by hardware and the\nsoftware must poll ADSTART (or JADSTART) until the bit is reset before assuming the ADC\nis completely stopped.\nNote: In autoinjection mode (JAUTO=1), setting the ADSTP bit aborts both regular and injected\nconversions (JADSTP must not be used).\n[Figure 269. Stopping ongoing regular conversions]\n[Figure 270. Stopping ongoing regular and injected conversions]",
+      "semantic": {}
+    }
+  ]
+}

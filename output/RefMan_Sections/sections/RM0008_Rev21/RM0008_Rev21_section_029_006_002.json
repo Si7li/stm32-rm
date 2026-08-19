@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S29.6.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "29",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "29.6.2",
+      "section_title": "Host bus burst access",
+      "level": 3,
+      "parent_section": "29.6",
+      "page": 1011,
+      "page_end": 1012,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 2147,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1011",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.6.2 \"Host bus burst access\" in chapter 29 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0008 Rev 21, page 1011.",
+      "section_content": "The DMA attempts to execute fixed-length burst transfers on the AHB master interface if\nconfigured to do so (FB bit in ETH_DMABMR). The maximum burst length is indicated and\nlimited by the PBL field (ETH_DMABMR [13:8]). The receive and transmit descriptors are\nalways accessed in the maximum possible burst size (limited by PBL) for the 16 bytes to be\nread.\nThe Transmit DMA initiates a data transfer only when there is sufficient space in the\nTransmit FIFO to accommodate the configured burst or the number of bytes until the end of\nframe (when it is less than the configured burst length). The DMA indicates the start address\nand the number of transfers required to the AHB Master Interface. When the AHB Interface\nis configured for fixed-length burst, then it transfers data using the best combination of\nINCR4, INCR8, INCR16 and SINGLE transactions. Otherwise (no fixed-length burst), it\ntransfers data using INCR (undefined length) and SINGLE transactions.\nThe Receive DMA initiates a data transfer only when sufficient data for the configured burst\nis available in Receive FIFO or when the end of frame (when it is less than the configured\nburst length) is detected in the Receive FIFO. The DMA indicates the start address and the\nnumber of transfers required to the AHB master interface. When the AHB interface is\nconfigured for fixed-length burst, then it transfers data using the best combination of INCR4,\nINCR8, INCR16 and SINGLE transactions. If the end of frame is reached before the fixed-\nburst ends on the AHB interface, then dummy transfers are performed in order to complete\nthe fixed-length burst. Otherwise (FB bit in ETH_DMABMR is reset), it transfers data using\nINCR (undefined length) and SINGLE transactions.\nWhen the AHB interface is configured for address-aligned beats, both DMA engines ensure\nthat the first burst transfer the AHB initiates is less than or equal to the size of the configured\nPBL. Thus, all subsequent beats start at an address that is aligned to the configured PBL.\nThe DMA can only align the address for beats up to size 16 (for PBL > 16), because the\nAHB interface does not support more than INCR16.",
+      "semantic": {}
+    }
+  ]
+}

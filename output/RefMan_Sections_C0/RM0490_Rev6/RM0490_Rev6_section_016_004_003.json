@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.4.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.4.3",
+      "section_title": "Calibration (ADCAL)",
+      "level": 3,
+      "parent_section": "16.4",
+      "page": 292,
+      "page_end": 294,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "adcal"
+      ],
+      "chars": 3376,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=292",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.4.3 \"Calibration (ADCAL)\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 292.",
+      "section_content": "The ADC has a calibration feature. During the procedure, the ADC calculates a calibration\nfactor which is internally applied to the ADC until the next ADC power-off. The application\nmust not use the ADC during calibration and must wait until it is complete.\nCalibration should be performed before starting A/D conversion. It removes the offset error\nwhich may vary from chip to chip due to process variation.\nThe calibration is initiated by software by setting bit ADCAL to 1. It can be initiated only\nwhen all the following conditions are met:\n• the ADC voltage regulator is enabled (ADVREGEN = 1),\n• the ADC is disabled (ADEN = 0), and\n• the Auto-off mode is disabled (AUTOFF = 0).\nADCAL bit stays at 1 during all the calibration sequence. It is then cleared by hardware as\nsoon the calibration completes. After this, the calibration factor can be read from the\nADC_DR register (from bits 6 to 0).\nThe internal analog calibration is kept if the ADC is disabled (ADEN = 0). When the ADC\noperating conditions change (VREF+ changes are the main contributor to ADC offset\nvariations and temperature change to a lesser extend), it is recommended to re-run a\ncalibration cycle.\nThe calibration factor is lost in the following cases:\n• The power supply is removed from the ADC (for example when the product enters\nStandby mode)\n• The ADC peripheral is reset.\nThe calibration factor is lost each time power is removed from the ADC (for example when\nthe product enters Standby mode). Still, it is possible to save and restore the calibration\nfactor by software to save time when re-starting the ADC (as long as temperature and\nvoltage are stable during the ADC power-down).\nThe calibration factor can be written if the ADC is enabled but not converting (ADEN = 1 and\nADSTART = 0). Then, at the next start of conversion, the calibration factor is automatically\ninjected into the analog ADC. This loading is transparent and does not add any cycle\nlatency to the start of the conversion.\nSoftware calibration procedure\n1. Ensure that ADEN = 0, AUTOFF = 0, ADVREGEN = 1, and DMAEN = 0.\n2. Set ADCAL = 1.\n3. Wait until ADCAL = 0 (or until EOCAL = 1). This can be handled by interrupt if the\ninterrupt is enabled by setting the EOCALIE bit in the ADC_IER register.\n4. The calibration factor minus one can then be read from bits 6:0 of the ADC_DR or\nADC_CALFACT registers. The resulting calibration factor must be incremented by one\nand written back to the ADC_CALFACT register.\n5. To reduce the noise effect of the calibration factor extraction, the software can make\nthe average of eight calibration factor values. This step is optional but recommended\nfor better accuracy.\nThe averaging procedure is as follows\na) Obtain eight incremented calibration factor values (perform eight times step 2 to\nstep 4).\nb) Calculate the average of these eight values and round it up to the nearest integer.\nc) Write the result to the ADC_CALFACT register.\nNote: If the resulting calibration factor is higher than 0x7F, write 0x7F to the ADC_CALFACT\nregister to avoid overflow.\n[Figure 31. ADC calibration]\nCalibration factor forcing software procedure\n1. Ensure that ADEN = 1 and ADSTART = 0 (ADC started with no conversion ongoing)\n2. Write ADC_CALFACT with the saved calibration factor\n3. The calibration factor is used as soon as a new conversion is launched.\n[Figure 32. Calibration factor forcing]",
+      "semantic": {}
+    }
+  ]
+}

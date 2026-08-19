@@ -1,0 +1,73 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.25",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.25",
+      "section_title": "OTG host frame interval register (OTG_HFIR)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3822,
+      "page_end": 3823,
+      "semantic_type": "register_description",
+      "features": [
+        "frivl",
+        "otg",
+        "otg-hfir",
+        "rldctrl"
+      ],
+      "chars": 1477,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3822",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.25 \"OTG host frame interval register (OTG_HFIR)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3822.",
+      "section_content": "This register stores the frame interval information for the current speed to which the OTG\ncontroller has enumerated.\nAddress offset: 0x404\nReset value: 0x0000EA60\nBits 31:17 Reserved, must be kept at reset value.\nBit 16 RLDCTRL: Reload control\nThis bit allows dynamic reloading of the HFIR register during run time.\n0: The HFIR cannot be reloaded dynamically\n1: The HFIR can be dynamically reloaded during run time.\nThis bit needs to be programmed during initial configuration and its value must not be\nchanged during run time.\nCaution: RLDCTRL = 0 is not recommended.\nBits 15:0 FRIVL[15:0]: Frame interval\nThe value that the application programs to this field, specifies the interval between two\nconsecutive micro-SOFs (HS) or Keep-Alive tokens (LS). This field contains the number of\nPHY clocks that constitute the required frame interval. The application can write a value to\nthis register only after the port enable bit of the host port control and status register (PENA\nbit in OTG_HPRT) has been set. If no value is programmed, the core calculates the value\nbased on the PHY clock specified in the FS/LS PHY clock select field of the host\nconfiguration register (FSLSPCS in OTG_HCFG). Do not change the value of this field after\nthe initial configuration, unless the RLDCTRL bit is set. In such case, the FRIVL is reloaded\nwith each SOF event.\n– Frame interval = 125μs × (FRIVL - 1) in high speed operation\n– Frame interval = 1ms × (FRIVL - 1) in low/full speed operation",
+      "semantic": {
+        "register": "OTG_HFIR",
+        "address_offset": "0x404",
+        "reset_value": "0x0000EA60",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "RLDCTRL",
+            "description": "Reload control This bit allows dynamic reloading of the HFIR register during run time. This bit needs to be programmed during initial configuration and its value must not be changed during run time. Caution: RLDCTRL = 0 is not recommended.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The HFIR cannot be reloaded dynamically"
+              },
+              {
+                "value": "1",
+                "meaning": "The HFIR can be dynamically reloaded during run time."
+              }
+            ]
+          },
+          {
+            "bits": "15:0",
+            "name": "FRIVL[15:0]",
+            "description": "Frame interval The value that the application programs to this field, specifies the interval between two consecutive micro-SOFs (HS) or Keep-Alive tokens (LS). This field contains the number of PHY clocks that constitute the required frame interval. The application can write a value to this register only after the port enable bit of the host port control and status register (PENA bit in OTG_HPRT) has been set. If no value is programmed, the core calculates the value based on the PHY clock specified in the FS/LS PHY clock select field of the host configuration register (FSLSPCS in OTG_HCFG). Do not change the value of this field after the initial configuration, unless the RLDCTRL bit is set. In such case, the FRIVL is reloaded with each SOF event. – Frame interval = 125μs × (FRIVL - 1) in high speed operation – Frame interval = 1ms × (FRIVL - 1) in low/full speed operation",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

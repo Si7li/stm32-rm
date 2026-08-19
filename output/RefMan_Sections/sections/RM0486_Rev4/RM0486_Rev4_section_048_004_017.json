@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S48.4.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "48",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "48.4.17",
+      "section_title": "SAES key registers",
+      "level": 3,
+      "parent_section": "48.4",
+      "page": 2336,
+      "page_end": 2337,
+      "semantic_type": "generic",
+      "features": [
+        "saes"
+      ],
+      "chars": 3600,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2336",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.4.17 \"SAES key registers\" in chapter 48 (Secure AES coprocessor (SAES)), RM0486 Rev 4, page 2336.",
+      "section_content": "The eight SAES_KEYRx write-only registers store the encryption or decryption key\ninformation, as shown on Table409. Reads are not allowed for security reason.\nNote: In memory and in SAES key registers, keys are stored in little-endian format, with most\nsignificant byte on the highest address.\n[Table 409. Key endianness in SAES_KEYRx registers (128/256-bit keys)]\nThe key registers are not affected by the data swapping feature controlled by the\nDATATYPE[1:0] bitfield.\nWrite operations to the SAES_KEYRx registers are ignored when SAES peripheral is\nenabled (EN bit set) and KEYSEL[2:0] is different from zero. The application must check this\nbefore modifying key registers.\nThe entire key must be written before starting an AES computation.\nIn normal key mode (KMOD[1:0] at 0x0), with KEYSEL[2:0] at 0x0, the key registers must\nalways be written in either ascending or descending order. The write sequence becomes:\n• SAES_KEYRx (x=0to3 or x=3 to 0) for KEYSIZE cleared\n• SAES_KEYRx (x=0to7 or x=7 to 0) for KEYSIZE set\nNote: KEYSIZE must be written before the key.\nAs soon as the first key register is written, the KEYVALID flag is cleared. Once the key\nregisters writing sequence is completed, KEYVALID is set and EN becomes writable. If an\nerror occurs, KEYVALID is cleared and KEIF set (see Section48.4.19).\nKey selection\nWith KEYSEL[2:0] at 0x0, the application must write the key in the SAES_KEYRx registers.\nWith KEYSEL[2:0] at 0x1, a derived hardware unique key (DHUK), computed inside SAES\nfrom a nonvolatile and secret root hardware unique key, is loaded directly into key registers,\nbased on KEYSIZE information. Thanks to the key derivation function, the computed DHUK\ndepends on the SAES usage (privilege, security, KMOD[1:0] / KSHAREID[1:0],\nCHMOD[2:0], CPU, and KEYSIZE context).\nWith KEYSEL[2:0] at 0x2, the boot hardware key (BHK), stored in tamper-resistant secure\nbackup registers, is entirely transferred into key registers upon a secure application\nperforming a single read of all TAMP_BKPxR registers (x = 0 to 3 for KEYSIZE cleared, x =\n0 to 7 for KEYSIZE set) in ascending order. Refer to Table409.\nWith KEYSEL[2:0] at 0x4, the XOR combination of DHUK and BHK is entirely transferred\ninto key registers upon a secure application performing a single read of all TAMP_BKPxR\nregisters (x = 0 to 3 for KEYSIZE cleared, x = 0 to 7 for KEYSIZE set) in ascending order.\nRefer to Table409.\nRepeated writing of KEYSEL[2:0] with the same non-zero value only triggers the loading of\nDHUK or BHK if KEYVALID is cleared. The recommended method to clear KEYVALID is to\nset IPRST. Such method is required for example when switching from ECB decryption to\nECB encryption, selecting the same BHK (KEYSEL[2:0] at 0x2).\nFor all KEYSEL[2:0] values, initiating the key-loading sequence sets the BUSY flag and\nclears the KEYVALID flag. Once the amount of bits defined by KEYSIZE is transfered to the\nSAES_KEYRx registers, BUSY is cleared, KEYVALID set and the EN bit becomes writable.\nIf an error occurs, BUSY and KEYVALID are cleared and KEIF set (see Section48.4.19).\nNote: DHUK, BHK and their XOR combination are not readable by any software\n(even secure).\nKey protection\nAs depicted in Figure475, when an application sets the KEYPROT bit before writing a key\nin SAES_KEYRx, any application executing in a different security context (that is, different\nsecurity attribute) triggers a KEIF error flag upon access to any SAES register when\nKEYVALID is set.\nNote: KEYSEL[2:0] values different from zero (normal key) automatically protect the key registers.\n[Figure 475. Key protection mechanisms]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.38",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.38",
+      "section_title": "OTG device configuration register (OTG_DCFG)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3833,
+      "page_end": 3835,
+      "semantic_type": "register_description",
+      "features": [
+        "dad",
+        "dspd",
+        "erratim",
+        "nzlsohsk",
+        "otg",
+        "otg-dcfg",
+        "perschivl",
+        "pfivl"
+      ],
+      "chars": 2767,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3833",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.38 \"OTG device configuration register (OTG_DCFG)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3833.",
+      "section_content": "This register configures the core in device mode after power-on or after certain control\ncommands or enumeration. Do not make changes to this register after initial programming.\nAddress offset: 0x800\nReset value: 0x02200000\nBits 31:26 Reserved, must be kept at reset value.\nBits 25:24 PERSCHIVL[1:0]: Periodic schedule interval\nThis field specifies the amount of time the Internal DMA engine must allocate for fetching\nperiodic IN endpoint data. Based on the number of periodic endpoints, this value must be\nspecified as 25, 50 or 75% of the (micro) frame.\n– When any periodic endpoints are active, the internal DMA engine allocates\nthe specified amount of time in fetching periodic IN endpoint data\n– When no periodic endpoint is active, then the internal DMA engine services\nnonperiodic endpoints, ignoring this field\n– After the specified time within a (micro) frame, the DMA switches to\nfetching nonperiodic endpoints\n00: 25% of (micro)frame\n01: 50% of (micro)frame\n10: 75% of (micro)frame\n11: Reserved\nBits 23:16 Reserved, must be kept at reset value.\nBit 15 ERRATIM: Erratic error interrupt mask\n1: Mask early suspend interrupt on erratic error\n0: Early suspend interrupt is generated on erratic error\nBit 14 Reserved, must be kept at reset value.\nBit 13 Reserved, must be kept at reset value.\nBits 12:11 PFIVL[1:0]: Periodic frame interval\nIndicates the time within a frame at which the application must be notified using the end of\nperiodic frame interrupt. This can be used to determine if all the isochronous traffic for that\nframe is complete.\n00: 80% of the frame interval\n01: 85% of the frame interval\n10: 90% of the frame interval\n11: 95% of the frame interval\nBits 10:4 DAD[6:0]: Device address\nThe application must program this field after every SetAddress control command.\nBit 3 Reserved, must be kept at reset value.\nBit 2 NZLSOHSK: Non-zero-length status OUT handshake\nThe application can use this field to select the handshake the core sends on receiving a\nnonzero-length data packet during the OUT transaction of a control transfer’s status stage.\n1:Send a STALL handshake on a nonzero-length status OUT transaction and do not send\nthe received OUT packet to the application.\n0:Send the received OUT packet to the application (zero-length or nonzero-length) and\nsend a handshake based on the NAK and STALL bits for the endpoint in the device\nendpoint control register.\nBits 1:0 DSPD[1:0]: Device speed\nIndicates the speed at which the application requires the core to enumerate, or the\nmaximum speed the application can support. However, the actual bus speed is determined\nonly after the chirp sequence is completed, and is based on the speed of the USB host to\nwhich the core is connected.\n00: High speed\n01: Full speed\n10: Reserved\n11: Reserved",
+      "semantic": {
+        "register": "OTG_DCFG",
+        "address_offset": "0x800",
+        "reset_value": "0x02200000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25:24",
+            "name": "PERSCHIVL[1:0]",
+            "description": "Periodic schedule interval This field specifies the amount of time the Internal DMA engine must allocate for fetching periodic IN endpoint data. Based on the number of periodic endpoints, this value must be specified as 25, 50 or 75% of the (micro) frame. – When any periodic endpoints are active, the internal DMA engine allocates the specified amount of time in fetching periodic IN endpoint data – When no periodic endpoint is active, then the internal DMA engine services nonperiodic endpoints, ignoring this field – After the specified time within a (micro) frame, the DMA switches to fetching nonperiodic endpoints",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "25% of (micro)frame"
+              },
+              {
+                "value": "01",
+                "meaning": "50% of (micro)frame"
+              },
+              {
+                "value": "10",
+                "meaning": "75% of (micro)frame"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "23:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "ERRATIM",
+            "description": "Erratic error interrupt mask",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "Mask early suspend interrupt on erratic error"
+              },
+              {
+                "value": "0",
+                "meaning": "Early suspend interrupt is generated on erratic error"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12:11",
+            "name": "PFIVL[1:0]",
+            "description": "Periodic frame interval Indicates the time within a frame at which the application must be notified using the end of periodic frame interrupt. This can be used to determine if all the isochronous traffic for that frame is complete.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "80% of the frame interval"
+              },
+              {
+                "value": "01",
+                "meaning": "85% of the frame interval"
+              },
+              {
+                "value": "10",
+                "meaning": "90% of the frame interval"
+              },
+              {
+                "value": "11",
+                "meaning": "95% of the frame interval"
+              }
+            ]
+          },
+          {
+            "bits": "10:4",
+            "name": "DAD[6:0]",
+            "description": "Device address The application must program this field after every SetAddress control command.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "NZLSOHSK",
+            "description": "Non-zero-length status OUT handshake The application can use this field to select the handshake the core sends on receiving a nonzero-length data packet during the OUT transaction of a control transfer’s status stage. the received OUT packet to the application. send a handshake based on the NAK and STALL bits for the endpoint in the device endpoint control register.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "Send a STALL handshake on a nonzero-length status OUT transaction and do not send"
+              },
+              {
+                "value": "0",
+                "meaning": "Send the received OUT packet to the application (zero-length or nonzero-length) and"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "DSPD[1:0]",
+            "description": "Device speed Indicates the speed at which the application requires the core to enumerate, or the maximum speed the application can support. However, the actual bus speed is determined only after the chirp sequence is completed, and is based on the speed of the USB host to which the core is connected.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "High speed"
+              },
+              {
+                "value": "01",
+                "meaning": "Full speed"
+              },
+              {
+                "value": "10",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

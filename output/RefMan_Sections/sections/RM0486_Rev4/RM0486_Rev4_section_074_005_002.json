@@ -1,0 +1,506 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S74.5.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "74",
+      "chapter_title": "USB HS PHY controller (USBPHYC)",
+      "section": "74.5.2",
+      "section_title": "USBPHYC trimming 1 register (USBPHYC_TRIM1CR)",
+      "level": 3,
+      "parent_section": "74.5",
+      "page": 3930,
+      "page_end": 3933,
+      "semantic_type": "register_description",
+      "features": [
+        "compdistune",
+        "otgtune",
+        "pllitune",
+        "pllptune",
+        "sqrxtune",
+        "txfslstune",
+        "txhsxvtune",
+        "txrestune",
+        "txrisetune",
+        "txvreftune",
+        "usbphyc",
+        "usbphyc-trim1cr",
+        "vdatreftune"
+      ],
+      "chars": 4598,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3930",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 74.5.2 \"USBPHYC trimming 1 register (USBPHYC_TRIM1CR)\" in chapter 74 (USB HS PHY controller (USBPHYC)), RM0486 Rev 4, page 3930.",
+      "section_content": "Address offset: 0x4\nReset value: 0x299ED6F0\nBit 31 Reserved, must be kept at reset value.\nBits 30:29 TXRESTUNE[1:0]: USB source impedance adjustment\nIn some applications there can be significant serial resistance on the DP and DM paths\nbetween the transceiver and the cable. This bitfield adjusts the driver source impedance to\ncompensate for added serial resistance on the USB.\nNote: Any setting other than the default one can result in source impedance variations across\nprocess, voltage and temperature that do not meet USB2.0 specification limits.\n11: Source impedance is decreased by approximately 5.6Ω\n10: Source impedance is decreased by approximately 3.6Ω\n01: Nominal\n00: Source impedance is increased by approximately 1.3Ω\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 28:27 TXRISETUNE[1:0]: HS transmitter rise/fall time adjustment\nIt adjusts the rise/fall times of the high-speed waveform.\n11: -8.1%\n10: -7.2%\n01: Nominal\n00: +5.4%\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 26:23 TXVREFTUNE[3:0]: HS DC Voltage Level Adjustment\nIt adjusts the high speed DC level voltage.\n1111: +24%\n1110:+22%\n1101:+20%\n1100:+18%\n1011:+16%\n1010:+14%\n1001:+12%\n1000:+10%\n0111:+8%\n0110:+6%\n0101:+4%\n0100:+2%\n0011:Nominal\n0010:-2%\n0001:-4%\n0000:-6%\nWhen the PHY is in a Host role, any adjustment of the HS transmit voltage level tune bits\n(TXVREFTUNE[3:0]) might also necessitate a change to the HS disconnect detection\nthreshold (COMPDISTUNE[2:0]).\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 22:19 TXFSLSTUNE[3:0]: FS/LS source impedance adjustment\nIt adjusts the low- and full-speed single-ended source impedance while driving high. The\nfollowing adjustment values are based on nominal process, voltage and temperature.\n1111: -10.7%\n1110:Reserved\n1101:Reserved\n1100:Reserved\n1011:Reserved\n1010:Reserved\n1001:Reserved\n1000:Reserved\n0111:-5.6%\n0110:Reserved\n0101:Reserved\n0100:Reserved\n0011:Nominal\n0010:Reserved\n0001:+6.5%\n0000:+14%\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 18:17 TXHSXVTUNE[1:0]: Transmitter high-speed crossover adjustment\nIt adjusts the voltage at which DP and DM signals crossover while transmitting in high-speed\nmode.\n11: Nominal\n10: +15mV\n01: -15mV\n00: Reserved\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 16:14 OTGTUNE[2:0]: VBUS valid threshold adjustment\nIt adjusts the voltage level for the VBUS valid threshold.\n111: +12%\n110: +9%\n101:+6%\n100:+3%\n011: Nominal\n010:-3%\n001:-6%\n000:-9%\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 13:12 VDATREFTUNE[1:0]: Data detect voltage adjustment\nIt adjusts the threshold voltage level (VDAT_REF) used to detect data during charger type\ndetection.\n11: -20%\n10: -10%\n01: Nominal\n00: +10%\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 11:9 SQRXTUNE[2:0]: Squelch threshold adjustment\nIt adjusts the voltage level for the threshold used to detect valid high speed data.\n111: -20%\n110: -15%\n101:-10%\n100:-5%\n011: Nominal\n010:+5%\n001:+10%\n000:+15%\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 8:6 COMPDISTUNE[2:0]: Disconnect threshold adjustment\nIt adjusts the voltage level for the threshold used to detect a disconnect event at the Host.\n111: +12%\n110: +10%\n101:+7%\n100:+3%\n011: Nominal\n010:-4%\n001:-6%\n000:-9%\nWhen the PHY is in a Host role, any adjustment of the HS transmit voltage level tune bits\n(TXVREFTUNE[3:0]) might also necessitate a change to the HS disconnect detection\nthreshold (COMPDISTUNE[2:0]).\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 5:2 PLLPTUNE[3:0]: PLL proportional path tune\n1111: 5.5×\n1110:5×\n1101:4.5×\n1100:4×\n1011:4.5×\n1010:4×\n1001:3.5×\n1000:3×\n0111:3.5×\n0110:3×\n0101:2.5×\n0100:2×\n0011:2.5×\n0010:2×\n0001:1.5×\n0000:1×\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.\nBits 1:0 PLLITUNE[1:0]: PLL integral path tune\n11: 2.0×\n10: 1.5×\n01: 1.0×\n00: 0.5×\nThis is a strapping option that must be set prior to USBPHYC reset. It must remain static\nduring normal operation.",
+      "semantic": {
+        "register": "USBPHYC_TRIM1CR",
+        "address_offset": "0x4",
+        "reset_value": "0x299ED6F0",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30:29",
+            "name": "TXRESTUNE[1:0]",
+            "description": "USB source impedance adjustment In some applications there can be significant serial resistance on the DP and DM paths between the transceiver and the cable. This bitfield adjusts the driver source impedance to compensate for added serial resistance on the USB. Note: Any setting other than the default one can result in source impedance variations across process, voltage and temperature that do not meet USB2.0 specification limits. This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "11",
+                "meaning": "Source impedance is decreased by approximately 5.6Ω"
+              },
+              {
+                "value": "10",
+                "meaning": "Source impedance is decreased by approximately 3.6Ω"
+              },
+              {
+                "value": "01",
+                "meaning": "Nominal"
+              },
+              {
+                "value": "00",
+                "meaning": "Source impedance is increased by approximately 1.3Ω"
+              }
+            ]
+          },
+          {
+            "bits": "28:27",
+            "name": "TXRISETUNE[1:0]",
+            "description": "HS transmitter rise/fall time adjustment It adjusts the rise/fall times of the high-speed waveform. This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "11",
+                "meaning": "-8.1%"
+              },
+              {
+                "value": "10",
+                "meaning": "-7.2%"
+              },
+              {
+                "value": "01",
+                "meaning": "Nominal"
+              },
+              {
+                "value": "00",
+                "meaning": "+5.4%"
+              }
+            ]
+          },
+          {
+            "bits": "26:23",
+            "name": "TXVREFTUNE[3:0]",
+            "description": "HS DC Voltage Level Adjustment It adjusts the high speed DC level voltage. When the PHY is in a Host role, any adjustment of the HS transmit voltage level tune bits (TXVREFTUNE[3:0]) might also necessitate a change to the HS disconnect detection threshold (COMPDISTUNE[2:0]). This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "1111",
+                "meaning": "+24%"
+              },
+              {
+                "value": "1110",
+                "meaning": "+22%"
+              },
+              {
+                "value": "1101",
+                "meaning": "+20%"
+              },
+              {
+                "value": "1100",
+                "meaning": "+18%"
+              },
+              {
+                "value": "1011",
+                "meaning": "+16%"
+              },
+              {
+                "value": "1010",
+                "meaning": "+14%"
+              },
+              {
+                "value": "1001",
+                "meaning": "+12%"
+              },
+              {
+                "value": "1000",
+                "meaning": "+10%"
+              },
+              {
+                "value": "0111",
+                "meaning": "+8%"
+              },
+              {
+                "value": "0110",
+                "meaning": "+6%"
+              },
+              {
+                "value": "0101",
+                "meaning": "+4%"
+              },
+              {
+                "value": "0100",
+                "meaning": "+2%"
+              },
+              {
+                "value": "0011",
+                "meaning": "Nominal"
+              },
+              {
+                "value": "0010",
+                "meaning": "-2%"
+              },
+              {
+                "value": "0001",
+                "meaning": "-4%"
+              },
+              {
+                "value": "0000",
+                "meaning": "-6%"
+              }
+            ]
+          },
+          {
+            "bits": "22:19",
+            "name": "TXFSLSTUNE[3:0]",
+            "description": "FS/LS source impedance adjustment It adjusts the low- and full-speed single-ended source impedance while driving high. The following adjustment values are based on nominal process, voltage and temperature. This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "1111",
+                "meaning": "-10.7%"
+              },
+              {
+                "value": "1110",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "1101",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "1100",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "1011",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "1010",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "1001",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "1000",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0111",
+                "meaning": "-5.6%"
+              },
+              {
+                "value": "0110",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0101",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0100",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0011",
+                "meaning": "Nominal"
+              },
+              {
+                "value": "0010",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0001",
+                "meaning": "+6.5%"
+              },
+              {
+                "value": "0000",
+                "meaning": "+14%"
+              }
+            ]
+          },
+          {
+            "bits": "18:17",
+            "name": "TXHSXVTUNE[1:0]",
+            "description": "Transmitter high-speed crossover adjustment It adjusts the voltage at which DP and DM signals crossover while transmitting in high-speed mode. This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "11",
+                "meaning": "Nominal"
+              },
+              {
+                "value": "10",
+                "meaning": "+15mV"
+              },
+              {
+                "value": "01",
+                "meaning": "-15mV"
+              },
+              {
+                "value": "00",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "16:14",
+            "name": "OTGTUNE[2:0]",
+            "description": "VBUS valid threshold adjustment It adjusts the voltage level for the VBUS valid threshold. This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "111",
+                "meaning": "+12%"
+              },
+              {
+                "value": "110",
+                "meaning": "+9%"
+              },
+              {
+                "value": "101",
+                "meaning": "+6%"
+              },
+              {
+                "value": "100",
+                "meaning": "+3%"
+              },
+              {
+                "value": "011",
+                "meaning": "Nominal"
+              },
+              {
+                "value": "010",
+                "meaning": "-3%"
+              },
+              {
+                "value": "001",
+                "meaning": "-6%"
+              },
+              {
+                "value": "000",
+                "meaning": "-9%"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "VDATREFTUNE[1:0]",
+            "description": "Data detect voltage adjustment It adjusts the threshold voltage level (VDAT_REF) used to detect data during charger type detection. This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "11",
+                "meaning": "-20%"
+              },
+              {
+                "value": "10",
+                "meaning": "-10%"
+              },
+              {
+                "value": "01",
+                "meaning": "Nominal"
+              },
+              {
+                "value": "00",
+                "meaning": "+10%"
+              }
+            ]
+          },
+          {
+            "bits": "11:9",
+            "name": "SQRXTUNE[2:0]",
+            "description": "Squelch threshold adjustment It adjusts the voltage level for the threshold used to detect valid high speed data. This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "111",
+                "meaning": "-20%"
+              },
+              {
+                "value": "110",
+                "meaning": "-15%"
+              },
+              {
+                "value": "101",
+                "meaning": "-10%"
+              },
+              {
+                "value": "100",
+                "meaning": "-5%"
+              },
+              {
+                "value": "011",
+                "meaning": "Nominal"
+              },
+              {
+                "value": "010",
+                "meaning": "+5%"
+              },
+              {
+                "value": "001",
+                "meaning": "+10%"
+              },
+              {
+                "value": "000",
+                "meaning": "+15%"
+              }
+            ]
+          },
+          {
+            "bits": "8:6",
+            "name": "COMPDISTUNE[2:0]",
+            "description": "Disconnect threshold adjustment It adjusts the voltage level for the threshold used to detect a disconnect event at the Host. When the PHY is in a Host role, any adjustment of the HS transmit voltage level tune bits (TXVREFTUNE[3:0]) might also necessitate a change to the HS disconnect detection threshold (COMPDISTUNE[2:0]). This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "111",
+                "meaning": "+12%"
+              },
+              {
+                "value": "110",
+                "meaning": "+10%"
+              },
+              {
+                "value": "101",
+                "meaning": "+7%"
+              },
+              {
+                "value": "100",
+                "meaning": "+3%"
+              },
+              {
+                "value": "011",
+                "meaning": "Nominal"
+              },
+              {
+                "value": "010",
+                "meaning": "-4%"
+              },
+              {
+                "value": "001",
+                "meaning": "-6%"
+              },
+              {
+                "value": "000",
+                "meaning": "-9%"
+              }
+            ]
+          },
+          {
+            "bits": "5:2",
+            "name": "PLLPTUNE[3:0]",
+            "description": "PLL proportional path tune This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "1111",
+                "meaning": "5.5×"
+              },
+              {
+                "value": "1110",
+                "meaning": "5×"
+              },
+              {
+                "value": "1101",
+                "meaning": "4.5×"
+              },
+              {
+                "value": "1100",
+                "meaning": "4×"
+              },
+              {
+                "value": "1011",
+                "meaning": "4.5×"
+              },
+              {
+                "value": "1010",
+                "meaning": "4×"
+              },
+              {
+                "value": "1001",
+                "meaning": "3.5×"
+              },
+              {
+                "value": "1000",
+                "meaning": "3×"
+              },
+              {
+                "value": "0111",
+                "meaning": "3.5×"
+              },
+              {
+                "value": "0110",
+                "meaning": "3×"
+              },
+              {
+                "value": "0101",
+                "meaning": "2.5×"
+              },
+              {
+                "value": "0100",
+                "meaning": "2×"
+              },
+              {
+                "value": "0011",
+                "meaning": "2.5×"
+              },
+              {
+                "value": "0010",
+                "meaning": "2×"
+              },
+              {
+                "value": "0001",
+                "meaning": "1.5×"
+              },
+              {
+                "value": "0000",
+                "meaning": "1×"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "PLLITUNE[1:0]",
+            "description": "PLL integral path tune This is a strapping option that must be set prior to USBPHYC reset. It must remain static during normal operation.",
+            "values": [
+              {
+                "value": "11",
+                "meaning": "2.0×"
+              },
+              {
+                "value": "10",
+                "meaning": "1.5×"
+              },
+              {
+                "value": "01",
+                "meaning": "1.0×"
+              },
+              {
+                "value": "00",
+                "meaning": "0.5×"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

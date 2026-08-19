@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.3.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.3.9",
+      "section_title": "Reception errors",
+      "level": 3,
+      "parent_section": "69.3",
+      "page": 3584,
+      "page_end": 3586,
+      "semantic_type": "generic",
+      "features": [
+        "errors",
+        "reception"
+      ],
+      "chars": 3032,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3584",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.3.9 \"Reception errors\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3584.",
+      "section_content": "Frame structure and synchronization error\nThe SPDIFRX, detects errors, when one of the following condition occurs:\n• The FERR bit is set to 1 on the following conditions:\n– For each of the 28 information bits, if one symbol transition sequence is not\ncorrect: for example if short pulses are not grouped by pairs.\n– If preambles occur to an unexpected place, or an expected preamble is not\nreceived.\n• The SERR bit is set when the synchronization fails, because the number of re-tries\nexceeded the programmed value.\n• The TERR bit is set when the counter used to estimate the width between two\ntransitions overflows (TRCNT).\nThe overflow occurs when no transition is detected during 8192 periods of\nspdifrx_ker_ck clock. It represents at most a time interval of 11.6 frames.\nWhen one of those flags goes to 1, the traffic on selected SPDIFRX_IN is then ignored, an\ninterrupt is generated if the IFEIE bit of the SPDIFRX_CR register is set.\nThe normal procedure when one of those errors occur is:\n• Set SPDIFRXEN to 0 in order to clear the error flags\n• Set SPDIFRXEN to 01 or 11 in order to restart the SPDIFRX\nRefer to Figure946 for additional information.\nParity error\nFor each sub-frame, an even number of zeros and ones is expected inside the 28\ninformation bits. If not, the parity error bit PERR is set in the SPDIFRX_SR register and an\ninterrupt is generated if the parity interrupt enable PERRIE bit is set in the SPDIFRX_CR\nregister. The reception of the incoming data is not paused, and the SPDIFRX continue to\ndeliver data to SPDIFRX_FMTx_DR even if the interrupt is still pending.\nThe interrupt is acknowledged by clearing the PERR flag through PERRCF bit.\nIf the software wants to guarantee the coherency between the data read in the\nSPDIFRX_FMTx_DR register and the value of the bit PERR, the bit PMSK must be set to 0.\nOverrun error\nIf both SPDIFRX_FMTx_DR and RX_BUF are full, while the SPDIFRX_DC needs to write a\nnew sample in RX_BUF, this new sample is dropped, and an overrun condition is triggered.\nThe overrun error flag OVR is set in the SPDIFRX_SR register and an interrupt is generated\nif the OVRIE bit of the SPDIFRX_CR register is set.\nIf the RXSTEO bit is set to 0, then as soon as the RX_BUF is empty, the SPDIFRX stores\nthe next incoming data, even if the OVR flag is still pending. The main purpose is to reduce\nas much as possible the amount of lost samples. Note that the behavior is similar\nindependently of DRFMT value. See Figure949.\n[Figure 949. S/PDIF overrun error when RXSTEO = 0]\nIf the RXSTEO bit is set to 1, it means that stereo data are transported, then the SPDIFRX\nhas to avoid misalignment between left and right channels. So the peripheral has to drop a\nsecond sample even if there is room inside the RX_BUF in order to avoid misalignment.\nThen the incoming samples can be written normally into the RX_BUF even if the OVR flag is\nstill pending. Refer to Figure950.\nThe OVR flag is cleared by software, by setting the OVRCF bit to 1.\n[Figure 950. S/PDIF overrun error when RXSTEO = 1]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.6.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.6.5",
+      "section_title": "ADC configuration register 2 (ADC_CFGR2)",
+      "level": 3,
+      "parent_section": "32.6",
+      "page": 1548,
+      "page_end": 1551,
+      "semantic_type": "register_description",
+      "features": [
+        "adc",
+        "adc-cfgr2",
+        "bulb",
+        "jovse",
+        "lshift",
+        "ovsr",
+        "ovss",
+        "rovse",
+        "rovsm",
+        "smptrig",
+        "swtrig",
+        "trovs"
+      ],
+      "chars": 5068,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1548",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.6.5 \"ADC configuration register 2 (ADC_CFGR2)\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1548.",
+      "section_content": "Address offset: 0x010\nReset value: 0x0000 0000\nBits 31:28 LSHIFT[3:0]: Left shift factor\nThis bitfield is set and cleared by software to define the left shifting applied to the final result with or\nwithout oversampling.\n0000: No left shift\n0001: 1-bit left shift\n0010: 2-bit left shift\n0011: 3-bit left shift\n0100: 4-bit left shift\n0101: 5-bit left shift\n0110: 6-bit left shift\n0111: 7-bit left shift\n1000: 8-bit left shift\n1001: 9-bit left shift\n1010: 10-bit left shift\n1011: 11-bit left shift\n1100: 12-bit left shift\n1101: 13-bit left shift\n1110: 14-bit left shift\n1111: 15-bit left shift\nNote: The software is allowed to write this bit only when ADSTART=0 (which ensures that no\nconversion is ongoing).\nBits 27:26 Reserved, must be kept at reset value.\nBits 25:16 OVSR[9:0]: Oversampling ratio\nThis bitfield is set and cleared by software to define the oversampling ratio.\n0: 1x (no oversampling)\n1: 2x\n2: 3x\n...\n1023: 1024x\nNote: The software is allowed to write this bit only when ADSTART=0 (which ensures that no\nconversion is ongoing).\nBit 15 SMPTRIG: Sampling time control trigger mode\nThis bit is set and cleared by software to enable the sampling time control trigger mode.\n0: Sampling time control trigger mode disabled\n1: Sampling time control trigger mode enabled\nIf EXTEN[1:0] bits are set to 01, the sampling time starts on the trigger rising edge, and the\nconversion starts on the trigger falling edge.\nThe SMPTRIG bit must not be set when the BULB bit is set.\nWhen EXTEN[1:0] bits are set to 00, set SWTRIG to start the sampling.\nNote: The software is allowed to write this bit only when ADEN=0. When the discontinuous mode is\nused, only DISCNUM[2:0]=000 configuration is compatible with sampling time control trigger\nmode.\nBit 14 SWTRIG: Software trigger bit for sampling time control trigger mode\nThis bit is set and cleared by software to trigger the conversion in sampling time control trigger\nmode.\n0: Software trigger starts the conversion for sampling time control trigger mode\n1: Software trigger starts the sampling for sampling time control trigger mode\nNote: The software is allowed to write this bit only when ADSTART=0 (which ensures that no\nconversion is ongoing), SMPTRIG=1, and EXTEN[0:1]=00.\nBit 13 BULB: Bulb sampling mode\nThis bit is set and cleared by software to enable the bulb sampling mode.\n0: Bulb sampling mode disabled\n1: Bulb sampling mode enabled. The sampling period starts just after the previous end of\nconversion.\nBULB bit must not be set when the SWTRIG bit is set.\nThe very first ADC conversion is performed with the sampling time specified in SMPx bits.\nNote: The software is allowed to write this bit only when ADEN=0. When the discontinuous mode is\nused, only DISCNUM[2:0]=000 configuration is compatible with bulb mode.\nBits 12:11 Reserved, must be kept at reset value.\nBit 10 ROVSM: Regular oversampling mode\nThis bit is set and cleared by software to select the regular oversampling mode.\n0: Continued mode: When injected conversions are triggered, the oversampling is temporary\nstopped and continued after the injection sequence (oversampling buffer is maintained during\ninjected sequence)\n1: Resumed mode: When injected conversions are triggered, the current oversampling is aborted\nand resumed from start after the injection sequence (oversampling buffer is zeroed by injected\nsequence start)\nNote: The software is allowed to write this bit only when ADSTART=0 (which ensures that no\nconversion is ongoing). It is recommended to clear both JOVSE and GCOMP when\nROVSM=0.\nBit 9 TROVS: Triggered regular oversampling\nThis bit is set and cleared by software to enable triggered oversampling\n0: All oversampled conversions for a channel are done consecutively following a trigger\n1: Each oversampled conversion for a channel needs a new trigger\nNote: The software is allowed to write this bit only when ADSTART=0 and JADSTART=0 (which\nensures that no conversion is ongoing).\nBits 8:5 OVSS[3:0]: Oversampling shift\nThis bitfield is set and cleared by software to define the right shifting applied to the raw oversampling\nresult.\n0000: No shift\n0001: 1-bit shift\n0010: 2-bit shift\n0011: 3-bit shift\n0100: 4-bit shift\n0101: 5-bit shift\n0110: 6-bit shift\n0111: 7-bit shift\n1000: 8-bit shift\n1001: 9-bit shift\n1010: 10-bit shift\nOther: reserved, must not be used\nNote: The software is allowed to write this bit only when ADSTART=0 (which ensures that no\nconversion is ongoing).\nBits 4:2 Reserved, must be kept at reset value.\nBit 1 JOVSE: Injected oversampling enable\nThis bit is set and cleared by software to enable injected oversampling.\n0: Injected oversampling disabled\n1: Injected oversampling enabled\nNote: The software is allowed to write this bit only when JADSTART = 0 (which ensures that no\nconversion is ongoing).\nBit 0 ROVSE: Regular oversampling enable\nThis bit is set and cleared by software to enable regular oversampling.\n0: Regular oversampling disabled\n1: Regular oversampling enabled\nNote: The software is allowed to write this bit only when ADSTART=0 (which ensures that no\nconversion is ongoing)",
+      "semantic": {
+        "register": "ADC_CFGR2",
+        "address_offset": "0x010",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:28",
+            "name": "LSHIFT[3:0]",
+            "description": "Left shift factor This bitfield is set and cleared by software to define the left shifting applied to the final result with or without oversampling. Note: The software is allowed to write this bit only when ADSTART=0 (which ensures that no conversion is ongoing).",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "No left shift"
+              },
+              {
+                "value": "0001",
+                "meaning": "1-bit left shift"
+              },
+              {
+                "value": "0010",
+                "meaning": "2-bit left shift"
+              },
+              {
+                "value": "0011",
+                "meaning": "3-bit left shift"
+              },
+              {
+                "value": "0100",
+                "meaning": "4-bit left shift"
+              },
+              {
+                "value": "0101",
+                "meaning": "5-bit left shift"
+              },
+              {
+                "value": "0110",
+                "meaning": "6-bit left shift"
+              },
+              {
+                "value": "0111",
+                "meaning": "7-bit left shift"
+              },
+              {
+                "value": "1000",
+                "meaning": "8-bit left shift"
+              },
+              {
+                "value": "1001",
+                "meaning": "9-bit left shift"
+              },
+              {
+                "value": "1010",
+                "meaning": "10-bit left shift"
+              },
+              {
+                "value": "1011",
+                "meaning": "11-bit left shift"
+              },
+              {
+                "value": "1100",
+                "meaning": "12-bit left shift"
+              },
+              {
+                "value": "1101",
+                "meaning": "13-bit left shift"
+              },
+              {
+                "value": "1110",
+                "meaning": "14-bit left shift"
+              },
+              {
+                "value": "1111",
+                "meaning": "15-bit left shift"
+              }
+            ]
+          },
+          {
+            "bits": "27:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25:16",
+            "name": "OVSR[9:0]",
+            "description": "Oversampling ratio This bitfield is set and cleared by software to define the oversampling ratio. ... Note: The software is allowed to write this bit only when ADSTART=0 (which ensures that no conversion is ongoing).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "1x (no oversampling)"
+              },
+              {
+                "value": "1",
+                "meaning": "2x"
+              },
+              {
+                "value": "2",
+                "meaning": "3x"
+              },
+              {
+                "value": "1023",
+                "meaning": "1024x"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "SMPTRIG",
+            "description": "Sampling time control trigger mode This bit is set and cleared by software to enable the sampling time control trigger mode. If EXTEN[1:0] bits are set to 01, the sampling time starts on the trigger rising edge, and the conversion starts on the trigger falling edge. The SMPTRIG bit must not be set when the BULB bit is set. When EXTEN[1:0] bits are set to 00, set SWTRIG to start the sampling. Note: The software is allowed to write this bit only when ADEN=0. When the discontinuous mode is used, only DISCNUM[2:0]=000 configuration is compatible with sampling time control trigger mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Sampling time control trigger mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Sampling time control trigger mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "SWTRIG",
+            "description": "Software trigger bit for sampling time control trigger mode This bit is set and cleared by software to trigger the conversion in sampling time control trigger mode. Note: The software is allowed to write this bit only when ADSTART=0 (which ensures that no conversion is ongoing), SMPTRIG=1, and EXTEN[0:1]=00.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Software trigger starts the conversion for sampling time control trigger mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Software trigger starts the sampling for sampling time control trigger mode"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "BULB",
+            "description": "Bulb sampling mode This bit is set and cleared by software to enable the bulb sampling mode. conversion. BULB bit must not be set when the SWTRIG bit is set. The very first ADC conversion is performed with the sampling time specified in SMPx bits. Note: The software is allowed to write this bit only when ADEN=0. When the discontinuous mode is used, only DISCNUM[2:0]=000 configuration is compatible with bulb mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Bulb sampling mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Bulb sampling mode enabled. The sampling period starts just after the previous end of"
+              }
+            ]
+          },
+          {
+            "bits": "12:11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "ROVSM",
+            "description": "Regular oversampling mode This bit is set and cleared by software to select the regular oversampling mode. stopped and continued after the injection sequence (oversampling buffer is maintained during injected sequence) and resumed from start after the injection sequence (oversampling buffer is zeroed by injected sequence start) Note: The software is allowed to write this bit only when ADSTART=0 (which ensures that no conversion is ongoing). It is recommended to clear both JOVSE and GCOMP when ROVSM=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Continued mode: When injected conversions are triggered, the oversampling is temporary"
+              },
+              {
+                "value": "1",
+                "meaning": "Resumed mode: When injected conversions are triggered, the current oversampling is aborted"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "TROVS",
+            "description": "Triggered regular oversampling This bit is set and cleared by software to enable triggered oversampling Note: The software is allowed to write this bit only when ADSTART=0 and JADSTART=0 (which ensures that no conversion is ongoing).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "All oversampled conversions for a channel are done consecutively following a trigger"
+              },
+              {
+                "value": "1",
+                "meaning": "Each oversampled conversion for a channel needs a new trigger"
+              }
+            ]
+          },
+          {
+            "bits": "8:5",
+            "name": "OVSS[3:0]",
+            "description": "Oversampling shift This bitfield is set and cleared by software to define the right shifting applied to the raw oversampling result. Note: The software is allowed to write this bit only when ADSTART=0 (which ensures that no conversion is ongoing).",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "No shift"
+              },
+              {
+                "value": "0001",
+                "meaning": "1-bit shift"
+              },
+              {
+                "value": "0010",
+                "meaning": "2-bit shift"
+              },
+              {
+                "value": "0011",
+                "meaning": "3-bit shift"
+              },
+              {
+                "value": "0100",
+                "meaning": "4-bit shift"
+              },
+              {
+                "value": "0101",
+                "meaning": "5-bit shift"
+              },
+              {
+                "value": "0110",
+                "meaning": "6-bit shift"
+              },
+              {
+                "value": "0111",
+                "meaning": "7-bit shift"
+              },
+              {
+                "value": "1000",
+                "meaning": "8-bit shift"
+              },
+              {
+                "value": "1001",
+                "meaning": "9-bit shift"
+              },
+              {
+                "value": "1010",
+                "meaning": "10-bit shift"
+              },
+              {
+                "value": "Other",
+                "meaning": "reserved, must not be used"
+              }
+            ]
+          },
+          {
+            "bits": "4:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "JOVSE",
+            "description": "Injected oversampling enable This bit is set and cleared by software to enable injected oversampling. Note: The software is allowed to write this bit only when JADSTART = 0 (which ensures that no conversion is ongoing).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Injected oversampling disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Injected oversampling enabled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "ROVSE",
+            "description": "Regular oversampling enable This bit is set and cleared by software to enable regular oversampling. Note: The software is allowed to write this bit only when ADSTART=0 (which ensures that no conversion is ongoing)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Regular oversampling disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Regular oversampling enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

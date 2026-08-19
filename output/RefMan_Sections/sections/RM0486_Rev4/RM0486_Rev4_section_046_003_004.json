@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S46.3.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "46",
+      "chapter_title": "JPEG codec (JPEG)",
+      "section": "46.3.4",
+      "section_title": "JPEG encoding procedure",
+      "level": 3,
+      "parent_section": "46.3",
+      "page": 2268,
+      "page_end": 2271,
+      "semantic_type": "generic",
+      "features": [
+        "jpeg"
+      ],
+      "chars": 5024,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2268",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 46.3.4 \"JPEG encoding procedure\" in chapter 46 (JPEG codec (JPEG)), RM0486 Rev 4, page 2268.",
+      "section_content": "The JPEG codec can encode a JPEG stream as defined in the ISO/IEC 10918-1\nspecification.\nIt can optionally generate the JPEG header.\nThe JPEG codec is configured in encode mode resetting the DE bit (decode enable) of the\nJPEG_CONFR1 register.\nThe configuration used for encoding the JPEG must be loaded in the JPEG codec:\n• JPEG codec configuration registers\n• Quantization tables\n• Huffman tables\nThe JPEG codec is started setting the START bit of the JPEG_CONFR0 register.\nOnce the JPEG codec has been started, it requests data for its input FIFO generating one\nof:\n• DMA request\n• DMA trigger\n• Interrupts\nDMA generation for input FIFO\nA DMA request is generated when the 32-byte input FIFO becomes at least half-empty, that\nis, when there is free room for writing 16 bytes of data.\nThe DMA request generation is independent of the START bit of the JPEG_CONFR0\nregister. If the input FIFO can accept 16 bytes and the DMA for the input FIFO is enabled\n(setting the IDMAEN bit of the JPEG_CR register), a DMA request is generated regardless\nof the state of the JPEG codec kernel.\nA burst transfer is launched by the DMA to write 16 bytes of data.\nWrites are ignored if the input FIFO is full.\nAt the end of the encoding process, extra bytes may remain in the input FIFO and/or a DMA\nrequest may be pending. The FIFO can be flushed by setting the IFF bit (input FIFO flush) of\nthe JPEG_CR register.\nPrior to flushing the FIFO, the DMA for the input FIFO must be disabled to prevent\nunwanted DMA request upon flushing the FIFO.\nThe consequence of not flushing the FIFO at the end of the encoding process is that any\nremaining data is taken into the next JPEG encoding.\nThe DMA requests are no more generated once the EOCF flag of the JPEG_SR register is\nset.\nInterrupt or DMA trigger generation for input FIFO\nInput FIFO can be managed using interrupts or DMA triggers through two flags according to\nthe FIFO state:\n• Input FIFO not full flag: a 32-bit value can be written in.\n• Input FIFO threshold flag: 8 words (32 bytes) can be written in.\nThe interrupt or DMA trigger generation is independent of the START bit of the\nJPEG_CONFR0 register. The input FIFO flags are generated regardless of the state of the\nJPEG codec kernel.\nWrites are ignored if the input FIFO is full.\nAt the end of the encoding process, extra bytes may remain in the input FIFO and/or an\ninterrupt request / DMA trigger may be pending. The FIFO can be flushed by setting the IFF\nbit (input FIFO flush) of the JPEG_CR register.\nPrior to flushing the FIFO:\n• The interrupts for the input FIFO must be disabled to prevent an unwanted interrupt\nrequest upon flushing the FIFO.\n• The DMA channel must be stopped to prevent an unwanted DMA trigger.\nThe consequence of not flushing the FIFO at the end of the encoding process is that any\nremaining data is taken into the next JPEG encoding.\nJPEG encoding\nOnce the JPEG header is generated, the incoming MCUs are encoded and the resulting\ndata stream sent to the output FIFO.\nDMA generation for output FIFO\nA DMA request is generated when the 32-byte output FIFO becomes at least half-full, that\nis, when there are at least 16 bytes of data.\nA burst transfer is launched by the DMA to read 16 bytes of data.\nRead returns 0 if the output FIFO is empty.\nAt the end of the encoding process, the last bytes may remain in the output FIFO as the\nstream padding may not be on 16 bytes.\nThese additional bytes must be managed by the CPU using the output FIFO not empty flag.\nIn case of abort of the JPEG codec operations by resetting the START bit of the\nJPEG_CONFR0 register, the output FIFO can be flushed. The FIFO can be flushed by\nsetting the OFF bit (output FIFO flush) of the JPEG_CR register.\nPrior to flushing the FIFO, the DMA for the input FIFO must be disabled to prevent an\nunwanted DMA request upon flushing the FIFO.\nInterrupt or DMA trigger generation for output FIFO\nOutput FIFO can be managed using interrupts or DMA triggers through two flags according\nto the FIFO state:\n• Output FIFO not empty flag: a 32-bit value can be read out.\n• Output FIFO threshold flag: 8 words (32 bytes) can be read out.\nReads return 0 if the output FIFO is empty.\nIn case of abort of the JPEG codec operations by resetting the START bit of the\nJPEG_CONFR0 register, the output FIFO can be flushed. The FIFO can be flushed by\nsetting the FF bit (FIFO flush) of the JPEG_CR register.\nPrior to flushing the FIFO:\n• The interrupts for the output FIFO must be disabled to prevent an unwanted interrupt\nrequest upon flushing the FIFO.\n• The DMA channel must be stopped to prevent an unwanted DMA trigger.\nThe output FIFO must be flushed at the end of processing before any JPEG configuration\nchange.\nThe EOCF bit (end of conversion flag) of the JPEG_SR register can only be cleared when\nthe output FIFO is empty.\nClearing either of the HDR bit (header processing) of the JPEG_CONFR1 register and the\nJCEN bit (JPEG codec enable) of the JPEG_CR register is allowed only when the EOCF bit\nof the JPEG_SR register is cleared.",
+      "semantic": {}
+    }
+  ]
+}

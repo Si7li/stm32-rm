@@ -1,0 +1,126 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S51.6.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "51",
+      "chapter_title": "Memory cipher engine (MCE)",
+      "section": "51.6.7",
+      "section_title": "MCE region x configuration register (MCE_REGCRx)",
+      "level": 3,
+      "parent_section": "51.6",
+      "page": 2441,
+      "page_end": 2442,
+      "semantic_type": "register_description",
+      "features": [
+        "bren",
+        "ctxid",
+        "enc",
+        "mce",
+        "memory"
+      ],
+      "chars": 2732,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2441",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 51.6.7 \"MCE region x configuration register (MCE_REGCRx)\" in chapter 51 (Memory cipher engine (MCE)), RM0486 Rev 4, page 2441.",
+      "section_content": "Address offset: 0x040 + 0x10 * (x - 1), (x = 1 to 4)\nReset value: 0x00000000\nWrites are ignored if GLOCK is set in MCE_CR register.\nBits 31:16 Reserved, must be kept at reset value.\nBits 15:14 ENC[1:0]: Encrypted region\nThose bits are taken into account only if BREN is set. Write to these bits is ignored if BREN is\nset.\n00: No effect\n01: Stream cipher - All allowed read (resp. write) requests are decrypted (resp. encrypted)\nusing the stream cipher, when CCEN bit is set in MCE_CCzCFGR (where CTXID=z).\n10: Block cipher - All allowed read (resp. write) requests are decrypted (resp. encrypted)\nusing the SCA resistant block cipher. If CTXID=0 and MKVALID=0 bypass mode is\nselected instead. If CTXID=z and CCEN bit is cleared in MCE_CCzCFGR bypass mode\nis also selected.\n11: Fast block cipher - All allowed read (resp. write) requests are decrypted (resp.\nencrypted) using the fast block cipher. If CTXID=0 and FMKVALID=0 bypass mode is\nselected instead. If CTXID=z and CCEN bit is cleared in MCE_CCzCFGR bypass mode\nis also selected.\nBits 13:11 Reserved, must be kept at reset value.\nBits 10:9 CTXID[1:0]: Context ID\nThis bitfield defines the cryptographic context used by the cipher engine assigned to this\nregion. If ENC=00 bitfield CTXID is ignored. If BREN is set write to this bitfield is ignored.\n00: If ENC=10 (resp. 11) the key stored in MCE_MKEYR (resp. MCE_FMKEYR) registers\nis used by the block cipher. If ENC=01 bypass mode is selected instead of stream\ncipher.\n01: If ENC=10 or 11 the key stored in MCE_CC1KEYR is used by the block cipher.\nIf ENC=01 the key stored in MCE_CC1KEYR is used by the stream cipher. The nonce\nin MCE_CC1NRx registers and the version in MCE_CC1CR register are also used.\n10: If ENC=10 or 11 the key stored in MCE_CC2KEYR is used by the block cipher.\nIf ENC=01 the key stored in MCE_CC2KEYR is used by the stream cipher. The nonce\nin MCE_CC2NRx registers and the version in MCE_CC2CR register are also used.\n11: Reserved\nWhen CTXID=z (z different from zero) the selected key is usable only if ENC[1:0] equals to\nMODE[1:0] in MCE_CCzCFGR register. When selected key is not usable any read to this\nregion returns zero, any write is ignored until a valid key is selected, and IAEF flag is raised\neach time there is an access to this region with BREN=1.\nBits 8:1 Reserved, must be kept at reset value.\nBit 0 BREN: Base region enable\n0: Region x is disabled. Access control of primary region (privileged or unprivileged, no\nencryption) applies to any access between this region start and end addresses.\n1: Region x is enable. Access controls and encryption option defined in this region apply to\nany access between this region start and end addresses.\nBREN cannot be set if BADDRSTART > BADDREND.",
+      "semantic": {
+        "register": "MCE_REGCRx",
+        "address_offset": "0x040 + 0x10 * (x - 1), (x = 1 to 4)",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:14",
+            "name": "ENC[1:0]",
+            "description": "Encrypted region Those bits are taken into account only if BREN is set. Write to these bits is ignored if BREN is set. using the stream cipher, when CCEN bit is set in MCE_CCzCFGR (where CTXID=z). using the SCA resistant block cipher. If CTXID=0 and MKVALID=0 bypass mode is selected instead. If CTXID=z and CCEN bit is cleared in MCE_CCzCFGR bypass mode is also selected. encrypted) using the fast block cipher. If CTXID=0 and FMKVALID=0 bypass mode is selected instead. If CTXID=z and CCEN bit is cleared in MCE_CCzCFGR bypass mode is also selected.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No effect"
+              },
+              {
+                "value": "01",
+                "meaning": "Stream cipher - All allowed read (resp. write) requests are decrypted (resp. encrypted)"
+              },
+              {
+                "value": "10",
+                "meaning": "Block cipher - All allowed read (resp. write) requests are decrypted (resp. encrypted)"
+              },
+              {
+                "value": "11",
+                "meaning": "Fast block cipher - All allowed read (resp. write) requests are decrypted (resp."
+              }
+            ]
+          },
+          {
+            "bits": "13:11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10:9",
+            "name": "CTXID[1:0]",
+            "description": "Context ID This bitfield defines the cryptographic context used by the cipher engine assigned to this region. If ENC=00 bitfield CTXID is ignored. If BREN is set write to this bitfield is ignored. is used by the block cipher. If ENC=01 bypass mode is selected instead of stream cipher. If ENC=01 the key stored in MCE_CC1KEYR is used by the stream cipher. The nonce in MCE_CC1NRx registers and the version in MCE_CC1CR register are also used. If ENC=01 the key stored in MCE_CC2KEYR is used by the stream cipher. The nonce in MCE_CC2NRx registers and the version in MCE_CC2CR register are also used. When CTXID=z (z different from zero) the selected key is usable only if ENC[1:0] equals to MODE[1:0] in MCE_CCzCFGR register. When selected key is not usable any read to this region returns zero, any write is ignored until a valid key is selected, and IAEF flag is raised each time there is an access to this region with BREN=1.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "If ENC=10 (resp. 11) the key stored in MCE_MKEYR (resp. MCE_FMKEYR) registers"
+              },
+              {
+                "value": "01",
+                "meaning": "If ENC=10 or 11 the key stored in MCE_CC1KEYR is used by the block cipher."
+              },
+              {
+                "value": "10",
+                "meaning": "If ENC=10 or 11 the key stored in MCE_CC2KEYR is used by the block cipher."
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "8:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "BREN",
+            "description": "Base region enable encryption) applies to any access between this region start and end addresses. any access between this region start and end addresses. BREN cannot be set if BADDRSTART > BADDREND.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Region x is disabled. Access control of primary region (privileged or unprivileged, no"
+              },
+              {
+                "value": "1",
+                "meaning": "Region x is enable. Access controls and encryption option defined in this region apply to"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

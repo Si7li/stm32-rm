@@ -1,0 +1,206 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S27.6.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "27",
+      "chapter_title": "Universal synchronous asynchronous receiver transmitter (USART)",
+      "section": "27.6.1",
+      "section_title": "Status register (USART_SR)",
+      "level": 3,
+      "parent_section": "27.6",
+      "page": 818,
+      "page_end": 819,
+      "semantic_type": "register_description",
+      "features": [
+        "cts",
+        "idle",
+        "lbd",
+        "ore",
+        "rxne",
+        "txe",
+        "usart",
+        "usart-sr"
+      ],
+      "chars": 4788,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=818",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.6.1 \"Status register (USART_SR)\" in chapter 27 (Universal synchronous asynchronous receiver transmitter (USART)), RM0008 Rev 21, page 818.",
+      "section_content": "Address offset: 0x00\nReset value: 0x00C0\nReserved\nBits 31:10 Reserved, forced by hardware to 0.\nBit 9 CTS: CTS flag\nThis bit is set by hardware when the CTS input toggles, if the CTSE bit is set. It is cleared by\nsoftware (by writing it to 0). An interrupt is generated if CTSIE=1 in the USART_CR3\nregister.\n0: No change occurred on the CTS status line\n1: A change occurred on the CTS status line\nThis bit is not available for UART4 & UART5.\nBit 8 LBD: LIN break detection flag\nThis bit is set by hardware when the LIN break is detected. It is cleared by software (by\nwriting it to 0). An interrupt is generated if LBDIE = 1 in the USART_CR2 register.\n0: LIN Break not detected\n1: LIN break detected\nNote: An interrupt is generated when LBD=1 if LBDIE=1\nBit 7 TXE: Transmit data register empty\nThis bit is set by hardware when the content of the TDR register has been transferred into\nthe shift register. An interrupt is generated if the TXEIE bit =1 in the USART_CR1 register. It\nis cleared by a write to the USART_DR register.\n0: Data is not transferred to the shift register\n1: Data is transferred to the shift register)\nNote: This bit is used during single buffer transmission.\nBit 6 TC: Transmission complete\nThis bit is set by hardware if the transmission of a frame containing data is complete and if\nTXE is set. An interrupt is generated if TCIE=1 in the USART_CR1 register. It is cleared by a\nsoftware sequence (a read from the USART_SR register followed by a write to the\nUSART_DR register). The TC bit can also be cleared by writing a '0' to it. This clearing\nsequence is recommended only for multibuffer communication.\n0: Transmission is not complete\n1: Transmission is complete\nBit 5 RXNE: Read data register not empty\nThis bit is set by hardware when the content of the RDR shift register has been transferred to\nthe USART_DR register. An interrupt is generated if RXNEIE=1 in the USART_CR1 register.\nIt is cleared by a read to the USART_DR register. The RXNE flag can also be cleared by\nwriting a zero to it. This clearing sequence is recommended only for multibuffer\ncommunication.\n0: Data is not received\n1: Received data is ready to be read.\nBit 4 IDLE: IDLE line detected\nThis bit is set by hardware when an Idle Line is detected. An interrupt is generated if the\nIDLEIE=1 in the USART_CR1 register. It is cleared by a software sequence (an read to the\nUSART_SR register followed by a read to the USART_DR register).\n0: No Idle Line is detected\n1: Idle Line is detected\nNote: The IDLE bit will not be set again until the RXNE bit has been set itself (i.e. a new idle\nline occurs).\nBit 3 ORE: Overrun error\nThis bit is set by hardware when the word currently being received in the shift register is\nready to be transferred into the RDR register while RXNE=1. An interrupt is generated if\nRXNEIE=1 in the USART_CR1 register. It is cleared by a software sequence (an read to the\nUSART_SR register followed by a read to the USART_DR register).\n0: No Overrun error\n1: Overrun error is detected\nNote: When this bit is set, the RDR register content will not be lost but the shift register will be\noverwritten. An interrupt is generated on ORE flag in case of Multi Buffer\ncommunication if the EIE bit is set.\nBit 2 NE: Noise error flag\nThis bit is set by hardware when noise is detected on a received frame. It is cleared by a\nsoftware sequence (an read to the USART_SR register followed by a read to the\nUSART_DR register).\n0: No noise is detected\n1: Noise is detected\nNote: This bit does not generate interrupt as it appears at the same time as the RXNE bit\nwhich itself generates an interrupting interrupt is generated on NE flag in case of Multi\nBuffer communication if the EIE bit is set.\nBit 1 FE: Framing error\nThis bit is set by hardware when a de-synchronization, excessive noise or a break character\nis detected. It is cleared by a software sequence (an read to the USART_SR register\nfollowed by a read to the USART_DR register).\n0: No Framing error is detected\n1: Framing error or break character is detected\nNote: This bit does not generate interrupt as it appears at the same time as the RXNE bit\nwhich itself generates an interrupt. If the word currently being transferred causes both\nframe error and overrun error, it will be transferred and only the ORE bit will be set.\nAn interrupt is generated on FE flag in case of Multi Buffer communication if the EIE bit\nis set.\nBit 0 PE: Parity error\nThis bit is set by hardware when a parity error occurs in receiver mode. It is cleared by a\nsoftware sequence (a read to the status register followed by a read to the USART_DR data\nregister). The software must wait for the RXNE flag to be set before clearing the PE bit.\nAn interrupt is generated if PEIE=1 in the USART_CR1 register.\n0: No parity error\n1: Parity error",
+      "semantic": {
+        "register": "USART_SR",
+        "address_offset": "0x00",
+        "reset_value": "0x00C0",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:10",
+            "name": "Res.",
+            "description": "Reserved, forced by hardware to 0.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "CTS",
+            "description": "CTS flag This bit is set by hardware when the CTS input toggles, if the CTSE bit is set. It is cleared by software (by writing it to 0). An interrupt is generated if CTSIE=1 in the USART_CR3 register. This bit is not available for UART4 & UART5.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No change occurred on the CTS status line"
+              },
+              {
+                "value": "1",
+                "meaning": "A change occurred on the CTS status line"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "LBD",
+            "description": "LIN break detection flag This bit is set by hardware when the LIN break is detected. It is cleared by software (by writing it to 0). An interrupt is generated if LBDIE = 1 in the USART_CR2 register. Note: An interrupt is generated when LBD=1 if LBDIE=1",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "LIN Break not detected"
+              },
+              {
+                "value": "1",
+                "meaning": "LIN break detected"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "TXE",
+            "description": "Transmit data register empty This bit is set by hardware when the content of the TDR register has been transferred into the shift register. An interrupt is generated if the TXEIE bit =1 in the USART_CR1 register. It is cleared by a write to the USART_DR register. Note: This bit is used during single buffer transmission.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data is not transferred to the shift register"
+              },
+              {
+                "value": "1",
+                "meaning": "Data is transferred to the shift register)"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "TC",
+            "description": "Transmission complete This bit is set by hardware if the transmission of a frame containing data is complete and if TXE is set. An interrupt is generated if TCIE=1 in the USART_CR1 register. It is cleared by a software sequence (a read from the USART_SR register followed by a write to the USART_DR register). The TC bit can also be cleared by writing a '0' to it. This clearing sequence is recommended only for multibuffer communication.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Transmission is not complete"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmission is complete"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "RXNE",
+            "description": "Read data register not empty This bit is set by hardware when the content of the RDR shift register has been transferred to the USART_DR register. An interrupt is generated if RXNEIE=1 in the USART_CR1 register. It is cleared by a read to the USART_DR register. The RXNE flag can also be cleared by writing a zero to it. This clearing sequence is recommended only for multibuffer communication.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data is not received"
+              },
+              {
+                "value": "1",
+                "meaning": "Received data is ready to be read."
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "IDLE",
+            "description": "IDLE line detected This bit is set by hardware when an Idle Line is detected. An interrupt is generated if the IDLEIE=1 in the USART_CR1 register. It is cleared by a software sequence (an read to the USART_SR register followed by a read to the USART_DR register). Note: The IDLE bit will not be set again until the RXNE bit has been set itself (i.e. a new idle line occurs).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Idle Line is detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Idle Line is detected"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "ORE",
+            "description": "Overrun error This bit is set by hardware when the word currently being received in the shift register is ready to be transferred into the RDR register while RXNE=1. An interrupt is generated if RXNEIE=1 in the USART_CR1 register. It is cleared by a software sequence (an read to the USART_SR register followed by a read to the USART_DR register). Note: When this bit is set, the RDR register content will not be lost but the shift register will be overwritten. An interrupt is generated on ORE flag in case of Multi Buffer communication if the EIE bit is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Overrun error"
+              },
+              {
+                "value": "1",
+                "meaning": "Overrun error is detected"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "NE",
+            "description": "Noise error flag This bit is set by hardware when noise is detected on a received frame. It is cleared by a software sequence (an read to the USART_SR register followed by a read to the USART_DR register). Note: This bit does not generate interrupt as it appears at the same time as the RXNE bit which itself generates an interrupting interrupt is generated on NE flag in case of Multi Buffer communication if the EIE bit is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No noise is detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Noise is detected"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "FE",
+            "description": "Framing error This bit is set by hardware when a de-synchronization, excessive noise or a break character is detected. It is cleared by a software sequence (an read to the USART_SR register followed by a read to the USART_DR register). Note: This bit does not generate interrupt as it appears at the same time as the RXNE bit which itself generates an interrupt. If the word currently being transferred causes both frame error and overrun error, it will be transferred and only the ORE bit will be set. An interrupt is generated on FE flag in case of Multi Buffer communication if the EIE bit is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Framing error is detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Framing error or break character is detected"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "PE",
+            "description": "Parity error This bit is set by hardware when a parity error occurs in receiver mode. It is cleared by a software sequence (a read to the status register followed by a read to the USART_DR data register). The software must wait for the RXNE flag to be set before clearing the PE bit. An interrupt is generated if PEIE=1 in the USART_CR1 register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No parity error"
+              },
+              {
+                "value": "1",
+                "meaning": "Parity error"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

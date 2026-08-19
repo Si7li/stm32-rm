@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.3.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.3.2",
+      "section_title": "Configuring the SPI in slave mode",
+      "level": 3,
+      "parent_section": "25.3",
+      "page": 706,
+      "page_end": 706,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2698,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=706",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.3.2 \"Configuring the SPI in slave mode\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 706.",
+      "section_content": "In the slave configuration, the serial clock is received on the SCK pin from the master\ndevice. The value set in the BR[2:0] bits in the SPI_CR1 register, does not affect the data\ntransfer rate.\nNote: It is recommended to enable the SPI slave before the master sends the clock. If not,\nundesired data transmission might occur. The data register of the slave needs to be ready\nbefore the first edge of the communication clock or before the end of the ongoing\ncommunication. It is mandatory to have the polarity of the communication clock set to the\nsteady state value before the slave and the master are enabled.\nFollow the procedure below to configure the SPI in slave mode:\nProcedure\n1. Set the DFF bit to define 8- or 16-bit data frame format\n2. Select the CPOL and CPHA bits to define one of the four relationships between the\ndata transfer and the serial clock (see Figure240). For correct data transfer, the CPOL\nand CPHA bits must be configured in the same way in the slave device and the master\ndevice.\n3. The frame format (MSB-first or LSB-first depending on the value of the LSBFIRST bit in\nthe SPI_CR1 register) must be the same as the master device.\n4. In Hardware mode (refer to Slave select (NSS) pin management), the NSS pin must be\nconnected to a low level signal during the complete byte transmit sequence. In NSS\nsoftware mode, set the SSM bit and clear the SSI bit in the SPI_CR1 register.\n5. Clear the MSTR bit and set the SPE bit (both in the SPI_CR1 register) to assign the\npins to alternate functions.\nIn this configuration the MOSI pin is a data input and the MISO pin is a data output.\nTransmit sequence\nThe data byte is parallel-loaded into the Tx buffer during a write cycle.\nThe transmit sequence begins when the slave device receives the clock signal and the most\nsignificant bit of the data on its MOSI pin. The remaining bits (the 7 bits in 8-bit data frame\nformat, and the 15 bits in 16-bit data frame format) are loaded into the shift-register. The\nTXE flag in the SPI_SR register is set on the transfer of data from the Tx Buffer to the shift\nregister and an interrupt is generated if the TXEIE bit in the SPI_CR2 register is set.\nReceive sequence\nFor the receiver, when data transfer is complete:\n• The Data in shift register is transferred to Rx Buffer and the RXNE flag (SPI_SR\nregister) is set\n• An Interrupt is generated if the RXNEIE bit is set in the SPI_CR2 register.\nAfter the last sampling clock edge the RXNE bit is set, a copy of the data byte received in\nthe shift register is moved to the Rx buffer. When the SPI_DR register is read, the SPI\nperipheral returns this buffered value.\nClearing of the RXNE bit is performed by reading the SPI_DR register.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S27.3.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "27",
+      "chapter_title": "Universal synchronous asynchronous receiver transmitter (USART)",
+      "section": "27.3.2",
+      "section_title": "Transmitter",
+      "level": 3,
+      "parent_section": "27.3",
+      "page": 791,
+      "page_end": 793,
+      "semantic_type": "generic",
+      "features": [
+        "usart"
+      ],
+      "chars": 5374,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=791",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.3.2 \"Transmitter\" in chapter 27 (Universal synchronous asynchronous receiver transmitter (USART)), RM0008 Rev 21, page 791.",
+      "section_content": "The transmitter can send data words of either 8 or 9 bits depending on the M bit status.\nWhen the transmit enable bit (TE) is set, the data in the transmit shift register is output on\nthe TX pin and the corresponding clock pulses are output on the CK pin.\nCharacter transmission\nDuring a USART transmission, data shifts out least significant bit first on the TX pin. In this\nmode, the USART_DR register consists of a buffer (TDR) between the internal bus and the\ntransmit shift register (see Figure279).\nEvery character is preceded by a start bit, which is a logic level low for one bit period. The\ncharacter is terminated by a configurable number of stop bits.\nThe following stop bits are supported by USART: 0.5, 1, 1.5 and 2 stop bits.\nNote: The TE bit should not be reset during transmission of data. Resetting the TE bit during the\ntransmission will corrupt the data on the TX pin as the baud rate counters will get frozen.\nThe current data being transmitted will be lost.\nAn idle frame will be sent after the TE bit is enabled.\nConfigurable stop bits\nThe number of stop bits to be transmitted with every character can be programmed in\nControl register 2, bits 13,12.\n1. 1 stop bit: This is the default value.\n2. 2 stop bits: This is supported by normal USART, single-wire and modem modes.\n3. 0.5 stop bit: To be used when receiving data in Smartcard mode.\n4. 1.5 stop bits: To be used when transmitting and receiving data in Smartcard mode.\nAn idle frame transmission will include the stop bits.\nA break transmission will be 10 low bits followed by the configured number of stop bits\n(when m = 0) and 11 low bits followed by the configured number of stop bits (when m = 1). It\nis not possible to transmit long breaks (break of length greater than 10/11 low bits).\n[Figure 281. Configurable stop bits]\nCLOCK ******\n** LBCL bit controls last data clock pulse\na) 1 Stop Bit\nData Frame Po P s a B s r i i i t b ty le N N ex e t xt Data Frame\nb) 1 1/2 stop Bits 1 1/2 stop bits\nData Frame Po P s a B s r i i i t b ty le Ne N x e t x D t ata Frame\nc) 2 Stop Bits Data Frame Po P s a B s r i i i t b ty le Next Next Data Frame\nd) 1/2 Stop Bit 1/2 stop bit\nProcedure:\n1. Enable the USART by writing the UE bit in USART_CR1 register to 1.\n2. Program the M bit in USART_CR1 to define the word length.\n3. Program the number of stop bits in USART_CR2.\n4. Select DMA enable (DMAT) in USART_CR3 if Multi buffer Communication is to take\nplace. Configure the DMA register as explained in multibuffer communication.\n5. Select the desired baud rate using the USART_BRR register.\n6. Set the TE bit in USART_CR1 to send an idle frame as first transmission.\n7. Write the data to send in the USART_DR register (this clears the TXE bit). Repeat this\nfor each data to be transmitted in case of single buffer.\n8. After writing the last data into the USART_DR register, wait until TC=1. This indicates\nthat the transmission of the last frame is complete. This is required for instance when\nthe USART is disabled or enters the Halt mode to avoid corrupting the last\ntransmission.\nSingle byte communication\nThe TXE bit is always cleared by a write to the data register.\nThe TXE bit is set by hardware and it indicates:\n• The data has been moved from TDR to the shift register and the data transmission has\nstarted.\n• The TDR register is empty.\n• The next data can be written in the USART_DR register without overwriting the\nprevious data.\nThis flag generates an interrupt if the TXEIE bit is set.\nWhen a transmission is taking place, a write instruction to the USART_DR register stores\nthe data in the TDR register and which is copied in the shift register at the end of the current\ntransmission.\nWhen no transmission is taking place, a write instruction to the USART_DR register places\nthe data directly in the shift register, the data transmission starts, and the TXE bit is\nimmediately set.\nIf a frame is transmitted (after the stop bit) and the TXE bit is set, the TC bit goes high. An\ninterrupt is generated if the TCIE bit is set in the USART_CR1 register.\nAfter writing the last data into the USART_DR register, it is mandatory to wait for TC=1\nbefore disabling the USART or causing the microcontroller to enter the low-power mode\n(see Figure282).\nThe TC bit is cleared by the following software sequence:\n1. A read from the USART_SR register\n2. A write to the USART_DR register\nNote: The TC bit can also be cleared by writing a ‘0’ to it. This clearing sequence is recommended\nonly for Multibuffer communication.\n[Figure 282. TC/TXE behavior when transmitting]\nBreak characters\nSetting the SBK bit transmits a break character. The break frame length depends on the M\nbit (see Figure280).\nIf the SBK bit is set to ‘1’ a break character is sent on the TX line after completing the current\ncharacter transmission. This bit is reset by hardware when the break character is completed\n(during the stop bit of the break character). The USART inserts a logic 1 bit at the end of the\nlast break frame to guarantee the recognition of the start bit of the next frame.\nNote: If the software resets the SBK bit before the commencement of break transmission, the\nbreak character will not be transmitted. For two consecutive breaks, the SBK bit should be\nset after the stop bit of the previous break.\nIdle characters\nSetting the TE bit drives the USART to send an idle frame before the first data frame.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.13",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.13",
+      "section_title": "I3C event register (I3C_EVR)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1769,
+      "page_end": 1773,
+      "semantic_type": "register_description",
+      "features": [
+        "asupdf",
+        "cfef",
+        "cfnff",
+        "crf",
+        "crupdf",
+        "daupdf",
+        "deff",
+        "errf",
+        "fcf",
+        "getf",
+        "grpf",
+        "hjf",
+        "i3c",
+        "i3c-evr",
+        "ibiendf",
+        "ibif",
+        "intupdf",
+        "mrlupdf",
+        "mwlupdf",
+        "rstf",
+        "rxfnef",
+        "rxlastf",
+        "rxtgtendf",
+        "sfnef",
+        "staf",
+        "txfef",
+        "txfnff",
+        "txlastf",
+        "wkpf"
+      ],
+      "chars": 12195,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1769",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.13 \"I3C event register (I3C_EVR)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1769.",
+      "section_content": "Address offset: 0x050\nReset value: 0x00000003\nThis is a read register, used for reporting event flags.\nBit 31 GRPF: Group addressing flag (when the I3C acts as target)\nWhen the I3C acts as target (and is typically controller-capable), this flag is asserted by\nhardware to indicate that the broadcast DEFGRPA CCC (define list of group addresses) has\nbeen received. Then, software can store the received data for when getting controller role.\nThe flag is cleared when software writes 1 into the corresponding CGRPF bit in the I3C_CR\nregister.\nBit 30 DEFF: DEFTGTS flag (when the I3C acts as target)\nWhen the I3C acts as target (and is typically controller capable), this flag is asserted by\nhardware to indicate that the broadcast DEFTGTS CCC (define list of targets) has been\nreceived. Then, software can store the received data for when getting the controller role.\nThe flag is cleared when software writes 1 into the corresponding CDEFF bit in the\nI3C_CEVR register.\nBit 29 INTUPDF: Interrupt/controller-role/hot-join update flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that the direct or\nbroadcast ENEC/DISEC CCC (enable/disable target events) has been received, where a\ntarget event is either an interrupt/IBI request, a controller-role request, or an hot-join request.\nThen, software must read respectively IBIEN, CREN, or HJEN in the I3C_DEVR0 register.\nThe flag is cleared when software writes 1 into the corresponding CINTUPDF bit in the\nI3C_CEVR register.\nBit 28 ASUPDF: Activity state update flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that the direct or\nbroadcast ENTASx CCC (with x = 0...3) has been received. Then, software must read\nAS[1:0] in the I3C_DEVR0 register.\nThe flag is cleared when software writes 1 into the corresponding CASUPDF bit in the\nI3C_CEVR register.\nBit 27 RSTF: Reset pattern flag (when the I3C acts as target)\nWhen I3C acts as target, this flag is asserted by hardware to indicate that a reset pattern has\nbeen detected (14 SDA transitions while SCL is low, followed by repeated start, then stop).\nThen, when not in Stop mode, software must read RSTACT[1:0] and RSTVAL in the\nI3C_DEVR0 register, to know the required reset level.\n– If RSTVAL = 1: when the RSTF is asserted (and/or the corresponding interrupt if\nenabled), RSTACT[1:0] in the I3C_DEVR0 register dictates the reset action to be\nperformed by the software, if any.\n– If RSTVAL = 0: when the RSTF is asserted (and/or the corresponding interrupt if\nenabled), the software must issue an I3C reset after a first detected reset pattern,\nand a system reset on the second one.\nWhen in Stop mode, the corresponding interrupt can be used to wake up the device.\nThe flag is cleared when software writes 1 into the corresponding CRSTF bit in the I3C_CEVR\nregister.\nBit 26 MRLUPDF: Maximum read length update flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that a direct\nSETMRL CCC (set max read length) has been received. Then, software must read\nMRL[15:0] in the I3C_MAXRLR register to get the maximum read length value.\nThe flag is cleared when software writes 1 into the corresponding CMRLUPDF bit in the\nI3C_CEVR register.\nBit 25 MWLUPDF: Maximum write length update flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that a direct\nSETMWL CCC (set max write length) has been received. Then, software must read\nMWL[15:0] in the I3C_MAXRLR register to get the maximum write length value.\nThe flag is cleared when software writes 1 into the corresponding CMWLUPDF bit in the\nI3C_CEVR register.\nBit 24 DAUPDF: Dynamic address update flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that a dynamic\naddress update has been received via any of the broadcast ENTDAA, RSTDAA and direct\nSETNEWDA CCC. Then, software must read DA[6:0] and DAVAL in the I3C_DEVR0 register\nto get the dynamic address update.\nThe flag is cleared when software writes 1 into the corresponding CDAUPDF bit in the\nI3C_CEVR register.\nBit 23 STAF: Get status flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that a direct\nGETSTATUS CCC of format 1 (without defining byte or with defining byte TGTSTAT) has\nbeen received.\nThe flag is cleared when software writes 1 into the corresponding CSTAF bit in the\nI3C_CEVR register.\nBit 22 GETF: Get flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that any direct CCC\nof get type (GET*** CCC) except the GETSTATUS of format 1 (but including GETSTATUS of\nformat 2) has been received.\nThe flag is cleared when software writes 1 into the corresponding CGETF bit in the\nI3C_CEVR register.\nBit 21 WKPF: Wake-up/missed start flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that a start has\nbeen detected (an SDA falling edge followed by an SCL falling edge) but on the next SCL\nfalling edge, the I3C kernel clock is (still) gated. Thus an I3C bus transaction may have been\nlost by the target.\nThe corresponding interrupt can be used to wake up the device from a low power (Sleep or\nStop) mode.\nThe flag is cleared when software writes 1 into the corresponding CWKPF bit in the\nI3C_CEVR register.\nBit 20 Reserved, must be kept at reset value.\nBit 19 HJF: Hot-join flag (when the I3C acts as controller)\nWhen the I3C acts as controller, this flag is asserted by hardware to indicate that an hot join\nrequest has been received.\nThe flag is cleared when software writes 1 into the corresponding CHJF bit in the I3C_CEVR\nregister.\nBit 18 CRUPDF: Controller-role update flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that it has now\ngained the controller role after the completed controller-role hand-off procedure.\nThe flag is cleared when software writes 1 into the corresponding CCRUPDF bit in the\nI3C_CEVR register.\nBit 17 CRF: Controller-role request flag (when the I3C acts as controller)\nWhen the I3C acts as controller, this flag is asserted by hardware to indicate that a controller-\nrole request has been acknowledged and completed (by hardware). The software must then\nissue a GETACCCR CCC (get accept controller role) for the controller-role hand-off\nprocedure.\nThe flag is cleared when software writes 1 into the corresponding CCRF bit in the I3C_CEVR\nregister.\nBit 16 IBIENDF: IBI end flag (when the I3C acts as target)\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that an IBI transfer\nhas been received and completed (IBI acknowledged and IBI data bytes read by controller if\nany).\nThe flag is cleared when software writes 1 into the corresponding CIBIENDF bit in the\nI3C_CEVR register.\nBit 15 IBIF: IBI flag (when the I3C acts as controller)\nWhen the I3C acts as controller, this flag is asserted by hardware to indicate that an IBI\nrequest has been received.\nThe flag is cleared when software writes 1 into the corresponding CIBIF bit in the I3C_CEVR\nregister.\nBits 14:12 Reserved, must be kept at reset value.\nBit 11 ERRF: Flag (whatever the I3C acts as controller/target)\nThis flag is asserted by hardware to indicate that an error occurred.Then, software must read\nI3C_SER to get the error type.\nThe flag is cleared when software writes 1 into the corresponding CERRF bit in the\nI3C_CEVR register.\nBit 10 RXTGTENDF: Target-initiated read end flag (when the I3C acts as controller)\nWhen the I3C acts as controller, and only if the S-FIFO is disabled (SMODE = 0 in the\nI3C_CFGR register), this flag is asserted by hardware to indicate that the target has\nprematurely ended a read transfer. Then, software must read the status register I3C_SR to\ncheck information related to the last message and get the number of received data bytes on\nthe prematurely read transfer (XDCNT in the I3C_SR register).\nThe flag is cleared when software writes 1 into the corresponding CRXTGTENDF bit in the\nI3C_CEVR register.\nBit 9 FCF: Frame complete flag (whatever the I3C acts as controller/target)\nWhen the I3C acts as controller, this flag is asserted by hardware to indicate that a frame has\nbeen (normally) completed on the I3C bus, for example, when a stop is issued.\nWhen the I3C acts as target, this flag is asserted by hardware to indicate that a message\naddressed to/by this target has been (normally) completed on the I3C bus, for example, when\na next stop or repeated start is then issued by the controller.\nThe flag is cleared when software writes 1 into the corresponding CFCF bit in the I3C_CEVR\nregister.\nBit 8 Reserved, must be kept at reset value.\nBit 7 RXLASTF: Last read data byte/word flag (when the I3C acts as controller)\nWhen the I3C acts as controller, this flag is asserted by hardware to indicate that the last data\nbyte/word (depending upon RXTHRES in the I3C_CFGR register) of a message must be\nread from the RX-FIFO. The flag is de-asserted by hardware when the last data byte/word of\na message is read.\nBit 6 TXLASTF: Last written data byte/word flag (whatever the I3C acts as controller/target)\nThis flag is asserted by hardware to indicate that the last data byte/word (depending upon\nTXTHRES in the I3C_CFGR register) of a message must be written to the TX-FIFO. The flag\nis de-asserted by hardware when the last data byte/word of a message is written.\nBit 5 RXFNEF: RX-FIFO not empty flag (whatever the I3C acts as controller/target)\nThis flag is asserted/de-asserted by hardware to indicate that a data byte must/must not be\nread from the RX-FIFO.\nNote: The software must wait for RXFNEF = 1 (by polling or via the enabled interrupt) before\nreading from RX-FIFO (reading from I3C_RDR or I3C_RDWR, depending upon\nRXTHRES).\nBit 4 TXFNFF: TX-FIFO not full flag (whatever the I3C acts as controller/target)\nThis flag is asserted/de-asserted by hardware to indicate that a data byte/word must/must not\nbe written to the TX-FIFO.\nNote: The software must wait for TXFNFF = 1 (by polling or via the enabled interrupt) before\nwriting to TX-FIFO (writing to I3C_TDR or I3C_TDWR, depending upon TXTHRES).\nNote: When the I3C acts as target, if the software intends to use the TXFNFF flag for writing\ninto I3C_TDR/I3C_TDWR, it must have configured and set the TX-FIFO preload (write\nPRELOAD in the I3C_TGTTDR register).\nBit 3 SFNEF: S-FIFO not empty flag (when the I3C acts as controller)\nWhen the I3C acts as controller, if the S-FIFO is enabled (SMODE = 1 in the I3C_CFGR\nregister), this flag is asserted by hardware to indicate that a status word must be read from\nthe S-FIFO. The flag is de-asserted by hardware to indicate that a status word is not to be\nread from the S-FIFO.\nBit 2 CFNFF: C-FIFO not full flag (when the I3C acts as controller)\nWhen the I3C acts as controller, this flag is asserted by hardware to indicate that a control\nword must be written to the C-FIFO. The flag is de-asserted by hardware to indicate that a\ncontrol word is not to be written to the C-FIFO.\nNote: The software must wait for CFNFF = 1 (by polling or via the enabled interrupt) before\nwriting to C-FIFO (writing to I3C_CR).\nBit 1 TXFEF: TX-FIFO empty flag (whatever the I3C acts as controller/target)\nThis flag is asserted by hardware to indicate that the TX-FIFO is empty.\nThis flag is de-asserted by hardware to indicate that the TX-FIFO is not empty.\nBit 0 CFEF: C-FIFO empty flag (whatever the I3C acts as controller)\nThis flag is asserted by hardware to indicate that the C-FIFO is empty when controller, and\nthat the I3C_CR register contains no control word (none IBI/CR/HJ request) when target.\nThis flag is de-asserted by hardware to indicate that the C-FIFO is not empty when controller,\nand that the I3C_CR register contains one control word (a pending IBI/CR/HJ request) when\ntarget.\nNote: When the I3C acts as controller, if the C-FIFO and TX-FIFO preload is configured\n(TMODE = 1 in the I3C_CFGR register), the software must wait for TXFEF = 1 and\nCFEF = 1 before starting a new frame transfer.",
+      "semantic": {
+        "register": "I3C_EVR",
+        "address_offset": "0x050",
+        "reset_value": "0x00000003",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "GRPF",
+            "description": "Group addressing flag (when the I3C acts as target) When the I3C acts as target (and is typically controller-capable), this flag is asserted by hardware to indicate that the broadcast DEFGRPA CCC (define list of group addresses) has been received. Then, software can store the received data for when getting controller role. The flag is cleared when software writes 1 into the corresponding CGRPF bit in the I3C_CR register.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "DEFF",
+            "description": "DEFTGTS flag (when the I3C acts as target) When the I3C acts as target (and is typically controller capable), this flag is asserted by hardware to indicate that the broadcast DEFTGTS CCC (define list of targets) has been received. Then, software can store the received data for when getting the controller role. The flag is cleared when software writes 1 into the corresponding CDEFF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "INTUPDF",
+            "description": "Interrupt/controller-role/hot-join update flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that the direct or broadcast ENEC/DISEC CCC (enable/disable target events) has been received, where a target event is either an interrupt/IBI request, a controller-role request, or an hot-join request. Then, software must read respectively IBIEN, CREN, or HJEN in the I3C_DEVR0 register. The flag is cleared when software writes 1 into the corresponding CINTUPDF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "28",
+            "name": "ASUPDF",
+            "description": "Activity state update flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that the direct or broadcast ENTASx CCC (with x = 0...3) has been received. Then, software must read AS[1:0] in the I3C_DEVR0 register. The flag is cleared when software writes 1 into the corresponding CASUPDF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "RSTF",
+            "description": "Reset pattern flag (when the I3C acts as target) When I3C acts as target, this flag is asserted by hardware to indicate that a reset pattern has been detected (14 SDA transitions while SCL is low, followed by repeated start, then stop). Then, when not in Stop mode, software must read RSTACT[1:0] and RSTVAL in the I3C_DEVR0 register, to know the required reset level. – If RSTVAL = 1: when the RSTF is asserted (and/or the corresponding interrupt if enabled), RSTACT[1:0] in the I3C_DEVR0 register dictates the reset action to be performed by the software, if any. – If RSTVAL = 0: when the RSTF is asserted (and/or the corresponding interrupt if enabled), the software must issue an I3C reset after a first detected reset pattern, and a system reset on the second one. When in Stop mode, the corresponding interrupt can be used to wake up the device. The flag is cleared when software writes 1 into the corresponding CRSTF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "MRLUPDF",
+            "description": "Maximum read length update flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that a direct SETMRL CCC (set max read length) has been received. Then, software must read MRL[15:0] in the I3C_MAXRLR register to get the maximum read length value. The flag is cleared when software writes 1 into the corresponding CMRLUPDF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "25",
+            "name": "MWLUPDF",
+            "description": "Maximum write length update flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that a direct SETMWL CCC (set max write length) has been received. Then, software must read MWL[15:0] in the I3C_MAXRLR register to get the maximum write length value. The flag is cleared when software writes 1 into the corresponding CMWLUPDF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "DAUPDF",
+            "description": "Dynamic address update flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that a dynamic address update has been received via any of the broadcast ENTDAA, RSTDAA and direct SETNEWDA CCC. Then, software must read DA[6:0] and DAVAL in the I3C_DEVR0 register to get the dynamic address update. The flag is cleared when software writes 1 into the corresponding CDAUPDF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "STAF",
+            "description": "Get status flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that a direct GETSTATUS CCC of format 1 (without defining byte or with defining byte TGTSTAT) has been received. The flag is cleared when software writes 1 into the corresponding CSTAF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "GETF",
+            "description": "Get flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that any direct CCC of get type (GET*** CCC) except the GETSTATUS of format 1 (but including GETSTATUS of format 2) has been received. The flag is cleared when software writes 1 into the corresponding CGETF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "WKPF",
+            "description": "Wake-up/missed start flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that a start has been detected (an SDA falling edge followed by an SCL falling edge) but on the next SCL falling edge, the I3C kernel clock is (still) gated. Thus an I3C bus transaction may have been lost by the target. The corresponding interrupt can be used to wake up the device from a low power (Sleep or Stop) mode. The flag is cleared when software writes 1 into the corresponding CWKPF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "HJF",
+            "description": "Hot-join flag (when the I3C acts as controller) When the I3C acts as controller, this flag is asserted by hardware to indicate that an hot join request has been received. The flag is cleared when software writes 1 into the corresponding CHJF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "CRUPDF",
+            "description": "Controller-role update flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that it has now gained the controller role after the completed controller-role hand-off procedure. The flag is cleared when software writes 1 into the corresponding CCRUPDF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "CRF",
+            "description": "Controller-role request flag (when the I3C acts as controller) When the I3C acts as controller, this flag is asserted by hardware to indicate that a controller- role request has been acknowledged and completed (by hardware). The software must then issue a GETACCCR CCC (get accept controller role) for the controller-role hand-off procedure. The flag is cleared when software writes 1 into the corresponding CCRF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "IBIENDF",
+            "description": "IBI end flag (when the I3C acts as target) When the I3C acts as target, this flag is asserted by hardware to indicate that an IBI transfer has been received and completed (IBI acknowledged and IBI data bytes read by controller if any). The flag is cleared when software writes 1 into the corresponding CIBIENDF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "IBIF",
+            "description": "IBI flag (when the I3C acts as controller) When the I3C acts as controller, this flag is asserted by hardware to indicate that an IBI request has been received. The flag is cleared when software writes 1 into the corresponding CIBIF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "14:12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "ERRF",
+            "description": "Flag (whatever the I3C acts as controller/target) This flag is asserted by hardware to indicate that an error occurred.Then, software must read I3C_SER to get the error type. The flag is cleared when software writes 1 into the corresponding CERRF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "RXTGTENDF",
+            "description": "Target-initiated read end flag (when the I3C acts as controller) When the I3C acts as controller, and only if the S-FIFO is disabled (SMODE = 0 in the I3C_CFGR register), this flag is asserted by hardware to indicate that the target has prematurely ended a read transfer. Then, software must read the status register I3C_SR to check information related to the last message and get the number of received data bytes on the prematurely read transfer (XDCNT in the I3C_SR register). The flag is cleared when software writes 1 into the corresponding CRXTGTENDF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "FCF",
+            "description": "Frame complete flag (whatever the I3C acts as controller/target) When the I3C acts as controller, this flag is asserted by hardware to indicate that a frame has been (normally) completed on the I3C bus, for example, when a stop is issued. When the I3C acts as target, this flag is asserted by hardware to indicate that a message addressed to/by this target has been (normally) completed on the I3C bus, for example, when a next stop or repeated start is then issued by the controller. The flag is cleared when software writes 1 into the corresponding CFCF bit in the I3C_CEVR register.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "RXLASTF",
+            "description": "Last read data byte/word flag (when the I3C acts as controller) When the I3C acts as controller, this flag is asserted by hardware to indicate that the last data byte/word (depending upon RXTHRES in the I3C_CFGR register) of a message must be read from the RX-FIFO. The flag is de-asserted by hardware when the last data byte/word of a message is read.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "TXLASTF",
+            "description": "Last written data byte/word flag (whatever the I3C acts as controller/target) This flag is asserted by hardware to indicate that the last data byte/word (depending upon TXTHRES in the I3C_CFGR register) of a message must be written to the TX-FIFO. The flag is de-asserted by hardware when the last data byte/word of a message is written.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "RXFNEF",
+            "description": "RX-FIFO not empty flag (whatever the I3C acts as controller/target) This flag is asserted/de-asserted by hardware to indicate that a data byte must/must not be read from the RX-FIFO. Note: The software must wait for RXFNEF = 1 (by polling or via the enabled interrupt) before reading from RX-FIFO (reading from I3C_RDR or I3C_RDWR, depending upon RXTHRES).",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "TXFNFF",
+            "description": "TX-FIFO not full flag (whatever the I3C acts as controller/target) This flag is asserted/de-asserted by hardware to indicate that a data byte/word must/must not be written to the TX-FIFO. Note: The software must wait for TXFNFF = 1 (by polling or via the enabled interrupt) before writing to TX-FIFO (writing to I3C_TDR or I3C_TDWR, depending upon TXTHRES). Note: When the I3C acts as target, if the software intends to use the TXFNFF flag for writing into I3C_TDR/I3C_TDWR, it must have configured and set the TX-FIFO preload (write PRELOAD in the I3C_TGTTDR register).",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "SFNEF",
+            "description": "S-FIFO not empty flag (when the I3C acts as controller) When the I3C acts as controller, if the S-FIFO is enabled (SMODE = 1 in the I3C_CFGR register), this flag is asserted by hardware to indicate that a status word must be read from the S-FIFO. The flag is de-asserted by hardware to indicate that a status word is not to be read from the S-FIFO.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "CFNFF",
+            "description": "C-FIFO not full flag (when the I3C acts as controller) When the I3C acts as controller, this flag is asserted by hardware to indicate that a control word must be written to the C-FIFO. The flag is de-asserted by hardware to indicate that a control word is not to be written to the C-FIFO. Note: The software must wait for CFNFF = 1 (by polling or via the enabled interrupt) before writing to C-FIFO (writing to I3C_CR).",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "TXFEF",
+            "description": "TX-FIFO empty flag (whatever the I3C acts as controller/target) This flag is asserted by hardware to indicate that the TX-FIFO is empty. This flag is de-asserted by hardware to indicate that the TX-FIFO is not empty.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "CFEF",
+            "description": "C-FIFO empty flag (whatever the I3C acts as controller) This flag is asserted by hardware to indicate that the C-FIFO is empty when controller, and that the I3C_CR register contains no control word (none IBI/CR/HJ request) when target. This flag is de-asserted by hardware to indicate that the C-FIFO is not empty when controller, and that the I3C_CR register contains one control word (a pending IBI/CR/HJ request) when target. Note: When the I3C acts as controller, if the C-FIFO and TX-FIFO preload is configured (TMODE = 1 in the I3C_CFGR register), the software must wait for TXFEF = 1 and CFEF = 1 before starting a new frame transfer.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

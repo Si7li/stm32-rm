@@ -1,0 +1,38 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S7.2.7",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "7",
+      "chapter_title": "Low-, medium-, high- and XL-density reset and clock control (RCC)",
+      "section": "7.2.7",
+      "section_title": "Clock security system (CSS)",
+      "level": 3,
+      "parent_section": "7.2",
+      "page": 97,
+      "page_end": 97,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "css",
+        "rcc"
+      ],
+      "chars": 1371,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=97",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 7.2.7 \"Clock security system (CSS)\" in chapter 7 (Low-, medium-, high- and XL-density reset and clock control (RCC)), RM0008 Rev 21, page 97.",
+      "section_content": "Clock Security System can be activated by software. In this case, the clock detector is\nenabled after the HSE oscillator startup delay, and disabled when this oscillator is stopped.\nIf a failure is detected on the HSE clock, the HSE oscillator is automatically disabled, a clock\nfailure event is sent to the break input of the advanced-control timers (TIM1 and TIM8) and\nan interrupt is generated to inform the software about the failure (Clock Security System\nInterrupt CSSI), allowing the MCU to perform rescue operations. The CSSI is linked to the\nCortex®-M3 NMI (Non-Maskable Interrupt) exception vector.\nNote: Once the CSS is enabled and if the HSE clock fails, the CSS interrupt occurs and an NMI is\nautomatically generated. The NMI will be executed indefinitely unless the CSS interrupt\npending bit is cleared. As a consequence, in the NMI ISR user must clear the CSS interrupt\nby setting the CSSC bit in the Clock interrupt register (RCC_CIR).\nIf the HSE oscillator is used directly or indirectly as the system clock (indirectly means: it is\nused as PLL input clock, and the PLL clock is used as system clock), a detected failure\ncauses a switch of the system clock to the HSI oscillator and the disabling of the HSE\noscillator. If the HSE clock (divided or not) is the clock entry of the PLL used as system clock\nwhen the failure occurs, the PLL is disabled too.",
+      "semantic": {}
+    }
+  ]
+}

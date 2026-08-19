@@ -1,0 +1,53 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S14.4.20",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "14",
+      "chapter_title": "Advanced-control timers (TIM1 and TIM8)",
+      "section": "14.4.20",
+      "section_title": "TIM1 and TIM8 DMA address for full transfer (TIMx_DMAR)",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 362,
+      "page_end": 362,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "dmab",
+        "tim1",
+        "tim8",
+        "timer"
+      ],
+      "chars": 1886,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=362",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.20 \"TIM1 and TIM8 DMA address for full transfer (TIMx_DMAR)\" in chapter 14 (Advanced-control timers (TIM1 and TIM8)), RM0008 Rev 21, page 362.",
+      "section_content": "Address offset: 0x4C\nReset value: 0x00000000\nBits 31:0 DMAB[31:0]: DMA register for burst accesses\nA read or write operation to the DMAR register accesses the register located at the address\n(TIMx_CR1 address) + (DBA + DMA index) x 4\nwhere TIMx_CR1 address is the address of the control register 1, DBA is the DMA base\naddress configured in TIMx_DCR register, DMA index is automatically controlled by the\nDMA transfer, and ranges from 0 to DBL (DBL configured in TIMx_DCR).\nExample of how to use the DMA burst feature\nIn this example the timer DMA burst feature is used to update the contents of the CCRx\nregisters (x = 2, 3, 4) with the DMA transferring half words into the CCRx registers.\nThis is done in the following steps:\n1. Configure the corresponding DMA channel as follows:\n– DMA channel peripheral address is the DMAR register address\n– DMA channel memory address is the address of the buffer in the RAM containing\nthe data to be transferred by DMA into CCRx registers.\n– Number of data to transfer = 3 (See note below).\n– Circular mode disabled.\n2. Configure the DCR register by configuring the DBA and DBL bit fields as follows:\nDBL = 3 transfers, DBA = 0xE.\n3. Enable the TIMx update DMA request (set the UDE bit in the DIER register).\n4. Enable TIMx\n5. Enable the DMA channel\nNote: This example is for the case where every CCRx register to be updated once. If every CCRx\nregister is to be updated twice for example, the number of data to transfer should be 6. Let's\ntake the example of a buffer in the RAM containing data1, data2, data3, data4, data5 and\ndata6. The data is transferred to the CCRx registers as follows: on the first update DMA\nrequest, data1 is transferred to CCR2, data2 is transferred to CCR3, data3 is transferred to\nCCR4 and on the second update DMA request, data4 is transferred to CCR2, data5 is\ntransferred to CCR3 and data6 is transferred to CCR4.",
+      "semantic": {
+        "register": "TIMx_DMAR",
+        "address_offset": "0x4C",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:0",
+            "name": "DMAB[31:0]",
+            "description": "DMA register for burst accesses A read or write operation to the DMAR register accesses the register located at the address (TIMx_CR1 address) + (DBA + DMA index) x 4 where TIMx_CR1 address is the address of the control register 1, DBA is the DMA base address configured in TIMx_DCR register, DMA index is automatically controlled by the DMA transfer, and ranges from 0 to DBL (DBL configured in TIMx_DCR). Example of how to use the DMA burst feature In this example the timer DMA burst feature is used to update the contents of the CCRx registers (x = 2, 3, 4) with the DMA transferring half words into the CCRx registers. This is done in the following steps: 1. Configure the corresponding DMA channel as follows: – DMA channel peripheral address is the DMAR register address – DMA channel memory address is the address of the buffer in the RAM containing the data to be transferred by DMA into CCRx registers. – Number of data to transfer = 3 (See note below). – Circular mode disabled. 2. Configure the DCR register by configuring the DBA and DBL bit fields as follows: DBL = 3 transfers, DBA = 0xE. 3. Enable the TIMx update DMA request (set the UDE bit in the DIER register). 4. Enable TIMx 5. Enable the DMA channel Note: This example is for the case where every CCRx register to be updated once. If every CCRx register is to be updated twice for example, the number of data to transfer should be 6. Let's take the example of a buffer in the RAM containing data1, data2, data3, data4, data5 and data6. The data is transferred to the CCRx registers as follows: on the first update DMA request, data1 is transferred to CCR2, data2 is transferred to CCR3, data3 is transferred to CCR4 and on the second update DMA request, data4 is transferred to CCR2, data5 is transferred to CCR3 and data6 is transferred to CCR4.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

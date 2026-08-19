@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S75.5.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "75",
+      "chapter_title": "USB Type-C®/USB Power Delivery interface (UCPD)",
+      "section": "75.5.4",
+      "section_title": "USB PD receive",
+      "level": 3,
+      "parent_section": "75.5",
+      "page": 3953,
+      "page_end": 3954,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "usb"
+      ],
+      "chars": 1509,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3953",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 75.5.4 \"USB PD receive\" in chapter 75 (USB Type-C®/USB Power Delivery interface (UCPD)), RM0486 Rev 4, page 3953.",
+      "section_content": "Notification of start of the receive message sequence is triggered by an interrupt on\nUCPD_SR (bit RXORDDET).\nThe information is recovered by reading:\n• UCPD_RX_SOP (on interrupt RXORDDET)\n• UCPD_RXDR (on interrupt RXNE, repeats for each byte)\n• UCPD_RXPAYSZ (on interrupt RXMSGEND)\nThe data previously read from UCPD_RXDR above must be discarded at this point if the\nRXERR flag is set.\nIf the CRC is valid, the received data is transferred to the protocol layer.\nFor debug purposes, it may be desirable to track statistics of the number of incorrect\nK-codes received (this is done only when 3/4 K-codes were valid as defined in the\nspecification). This is facilitated through:\n• RXSOP3OF4 bit indicating the presence of at least one invalid K-code\n• RXSOPKINVALID bitfield identifying the order of invalid K-code in the ordered set\nUse of DMA for reception\nDMA (Direct Memory Access) can be enabled for reception by setting the RXDMAEN bit in\nthe UCPD_CR register.\nWhenever a Rx message is expected:\n• Program a DMA receive operation (and spare buffer) a little longer than the maximum\npossible message (length depends on extended message support).\n• After receiving RXORDDET, DMA operation starts working in the background.\n• On reception of RXMSGEND interrupt, read RXPAYSZ.\n• Double-check RXPAYSZ vs. the number of DMA Rx bytes (must correspond but DMA\nread of RXDR is slightly after RXDR gets last byte).\n• Process the DMA Rx buffer.\n• Prepare next Rx DMA buffer as soon as possible in order to be ready.",
+      "semantic": {}
+    }
+  ]
+}

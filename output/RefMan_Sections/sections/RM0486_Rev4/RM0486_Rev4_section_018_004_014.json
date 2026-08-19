@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.4.14",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.4.14",
+      "section_title": "HPDMA transfer in peripheral flow-control mode",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 887,
+      "page_end": 888,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 1463,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=887",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.14 \"HPDMA transfer in peripheral flow-control mode\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 887.",
+      "section_content": "A peripheral with the peripheral flow-control mode feature can decide to early terminate\nanHPDMA block transfer, provided that the allocated channel is implemented with this\nfeature (see Section18.3.6).\nIf the related HPDMA channel x is also programmed in peripheral flow-control mode\n(HPDMA_CxTR2.PFREQ=1):\n• The HPDMA block transfer starts as follows:\n– If HPDMA_CxBR1.BNDT[15:0]≠0, the programmed value is internally taken into\naccount by the HPDMA hardware.\n– If HPDMA_CxBR1.BNDT[15:0]=0, the HPDMA hardware internally considers\na64-Kbyte value for the maximum source block size to be transferred.\n• The HPDMA block transfer is completed as soon as the first occurrence of any of the\nfollowing condition occurs:\n– When HPDMA_CxBR1.BNDT[15:0]=0\n– When the peripheral early terminates the block. The complete transfer event is\ngenerated if programmed, depending on HPDMA_CxTR2. Then the software can\nread the current number of transferred bytes from the source\n(HPDMA_CxBR1.BNDT[15:0]), and/or read the current source or destination\naddress of the buffer in memory (HPDMA_CxSAR[31:0] or\nHPDMA_CxDAR[31:0]).\nIn peripheral flow-control mode:\n• A destination peripheral with an hardware requested transfer is not supported:\nmemory-to-peripheral transfer is not supported.\n• Data packing from a source peripheral is not supported.\n• 2D/repeated block is not supported.\n• HPDMA_CxBR1.BNDT[15:0] must be programmed as a multiple of the source\n(peripheral) burst size.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S31.4.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "31",
+      "chapter_title": "Debug support (DBG)",
+      "section": "31.4.2",
+      "section_title": "Flexible SWJ-DP pin assignment",
+      "level": 3,
+      "parent_section": "31.4",
+      "page": 1082,
+      "page_end": 1083,
+      "semantic_type": "generic",
+      "features": [
+        "swj"
+      ],
+      "chars": 1934,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1082",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.4.2 \"Flexible SWJ-DP pin assignment\" in chapter 31 (Debug support (DBG)), RM0008 Rev 21, page 1082.",
+      "section_content": "After RESET (SYSRESETn or PORESETn), all five pins used for the SWJ-DP are assigned\nas dedicated pins immediately usable by the debugger host (note that the trace outputs are\nnot assigned except if explicitly programmed by the debugger host).\nHowever, the STM32F10xxx MCU implements the AF remap and debug I/O configuration\nregister (AFIO_MAPR) register to disable some part or all of the SWJ-DP port and so\nreleases the associated pins for General Purpose IOs usage. This register is mapped on an\nAPB bridge connected to the Cortex®-M3 System Bus. Programming of this register is done\nby the user software program and not the debugger host.\nThree control bits allow the configuration of the SWJ-DP pin assignments. These bits are\nreset by the System Reset.\n• AFIO_MAPR (@ 0x40010004 in the STM32F10xxx MCU)\n– READ: APB - No Wait State\n– WRITE: APB - 1 Wait State if the write buffer of the AHB-APB bridge is full.\nBit 26:24= SWJ_CFG[2:0]\nSet and cleared by software.\nThese bits are used to configure the number of pins assigned to the SWJ debug port.\nThe goal is to release as much as possible the number of pins to be used as General\nPurpose IOs if using a small size for the debug port.\nThe default state after reset is “000” (whole pins assigned for a full JTAG-DP\nconnection). Only one of the 3 bits can be set (it is forbidden to set more than one bit).\n[Table 220. Flexible SWJ-DP pin assignment]\nNote: When the APB bridge write buffer is full, it takes one extra APB cycle when writing the\nAFIO_MAPR register. This is because the deactivation of the JTAGSW pins is done in two\ncycles to guarantee a clean level on the nTRST and TCK input signals of the core.\n• Cycle 1: the JTAGSW input signals to the core are tied to 1 or 0 (to 1 for nTRST, TDI\nand TMS, to 0 for TCK)\n• Cycle 2: the GPIO controller takes the control signals of the SWJTAG IO pins (like\ncontrols of direction, pull-up/down, Schmitt trigger activation, etc.).",
+      "semantic": {}
+    }
+  ]
+}

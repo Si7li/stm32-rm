@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.6.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.6.4",
+      "section_title": "Hardware key management",
+      "level": 3,
+      "parent_section": "3.6",
+      "page": 193,
+      "page_end": 195,
+      "semantic_type": "generic",
+      "features": [
+        "hardware",
+        "management"
+      ],
+      "chars": 2319,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=193",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.6.4 \"Hardware key management\" in chapter 3 (System security), RM0486 Rev 4, page 193.",
+      "section_content": "Figure3 shows how key management service applications use the DPA-resistant SAES\nengine to provision keys to the external flash memory, or fuses in encrypted form (encrypted\nwith a device-unique key derived from HUK and/or BHK). The provisioned key can\nsubsequently be used to encrypt/decrypt data, it cannot be directly handled by the software.\n[Figure 3. Key management principle]\nBSEC fuses Battery-powered always-on domain (VBAT)\nRTC\nEpoch HUK\nBHK\nout\nData\nout\nPrivate bus, inaccessible by any software Standard communication bus\nThe mechanism is based on KMOD[1:0] and KEYSEL[2:0] in SAES_CR The decryption\nresult is read out and handled by software only when KMOD = 0b00. If KMOD ≠ 0 and\nKEYSEL is selecting the output of the derivation function, the decryption result goes directly\non dedicated buses to key registers in the SAES (whenKMOD = 0b01), or (when\nKMOD=0b10) to the fast CRYP1. KMOD is also an input to the derivation function that\nprocesses the device secret HUK and BHK\nA key to be provisioned in the device can be encrypted with a device-unique key (derived\nfrom HUK and/or BHK) with KMOD = 0b01 or 0b10 in SAES_CR. This key is then stored\nsomewhere in encrypted format. When this encrypted key needs to be used, it can only be\nsuccessfully decrypted with the same KMOD setting. The key cannot now be output as clear\ntext and handled by software: it can only be directly placed in unreadable key registers, and\nused to decrypt or encrypt data. Once the key has been provisioned, it can never again be\nviewed on the device in clear.\nThe derivation function depends on the epoch input from the BSEC: if epoch fuses are\nincremented, any keys provisioned during a previous epoch are never again usable.\nThe derivation function also depends on the 2-bit TIL input from the BSEC. The software\ncan set thisinput value to something later than the current HDPL, but can never set it to\nanything earlier. Keys are always provisioned for use up to a particular HDPL stage. Once\nthat stage has finished, this key is no longer usable.\nThe KEYSEL field in SAES_CR selects the source of the key used in the SAES.\n• 0b001: derived key based only on the HUK\n• 0b010: derived key based only on the BHK\n• 0b100: derived key based on a combination of HUK and BHK\n• 0b000: software loadable (but unreadable) key register",
+      "semantic": {}
+    }
+  ]
+}

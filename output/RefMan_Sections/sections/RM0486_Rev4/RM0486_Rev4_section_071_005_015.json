@@ -1,0 +1,501 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.5.15",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.5.15",
+      "section_title": "FDCAN interrupt register (FDCAN_IR)",
+      "level": 3,
+      "parent_section": "71.5",
+      "page": 3692,
+      "page_end": 3695,
+      "semantic_type": "register_description",
+      "features": [
+        "ara",
+        "drx",
+        "elo",
+        "fdcan",
+        "fdcan-ir",
+        "hpm",
+        "interrupt",
+        "mraf",
+        "pea",
+        "ped",
+        "rf0f",
+        "rf0l",
+        "rf0n",
+        "rf0w",
+        "rf1f",
+        "rf1l",
+        "rf1n",
+        "rf1w",
+        "tcf",
+        "teff",
+        "tefl",
+        "tefn",
+        "tefw",
+        "tfe",
+        "too",
+        "tsw",
+        "wdi"
+      ],
+      "chars": 4755,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3692",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.5.15 \"FDCAN interrupt register (FDCAN_IR)\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3692.",
+      "section_content": "The flags are set when one of the listed conditions is detected (edge-sensitive). The flags\nremain set until the user clears them. A flag is cleared by writing a 1 to the corresponding bit\nposition.\nWriting a 0 has no effect. A hard reset clears the register. The configuration of IE controls\nwhether an interrupt is generated. The configuration of ILS controls on which interrupt line\nan interrupt is signaled.\nAddress offset: 0x0050\nReset value: 0x0000 0000\nBits 31:30 Reserved, must be kept at reset value.\nBit 29 ARA: Access to reserved address\n0: No access to reserved address occurred\n1: Access to reserved address occurred\nBit 28 PED: Protocol error in data phase (data bit time is used)\n0: No protocol error in data phase\n1: Protocol error in data phase detected (PSR.DLEC different from 0,7)\nBit 27 PEA: Protocol error in arbitration phase (nominal bit time is used)\n0: No protocol error in arbitration phase\n1: Protocol error in arbitration phase detected (PSR.LEC different from 0,7)\nBit 26 WDI: Watchdog interrupt\n0: No message RAM watchdog event occurred\n1: Message RAM watchdog event due to missing READY\nBit 25 BO: Bus_Off status\n0: Bus_Off status unchanged\n1: Bus_Off status changed\nBit 24 EW: Warning status\n0: Error_Warning status unchanged\n1: Error_Warning status changed\nBit 23 EP: Error passive\n0: Error_Passive status unchanged\n1: Error_Passive status changed\nBit 22 ELO: Error logging overflow\n0: CAN error logging counter did not overflow\n1: Overflow of CAN error logging counter occurred\nBits 21:20 Reserved, must be kept at reset value.\nBit 19 DRX: Message stored to dedicated Rx buffer\nThe flag is set whenever a received message has been stored into a dedicated Rx buffer.\n0: No Rx buffer updated\n1: At least one received message stored into a Rx buffer\nBit 18 TOO: Timeout occurred\n0: No timeout\n1: Timeout reached\nBit 17 MRAF: Message RAM access failure\nThe flag is set when the Rx handler\nl Has not completed acceptance filtering or storage of an accepted message until the arbitration\nfield of the following message has been received. In this case acceptance filtering or message\nstorage is aborted and the Rx handler starts processing of the following message.\nl Was unable to write a message to the message RAM. In this case message storage is aborted.\nIn both cases the FIFO put index is not updated or the New data flag for a dedicated Rx buffer is not\nset. The partly stored message is overwritten when the next message is stored to this location.\nThe flag is also set when the Tx handler was not able to read a message from the message RAM in\ntime. In this case message transmission is aborted. In case of a Tx handler access failure the\nFDCAN is switched into restricted operation mode (see Restricted operation mode). To leave\nrestricted operation mode, the user must reset FDCAN_CCCR.ASM.\n0: No message RAM access failure occurred\n1: Message RAM access failure occurred\nBit 16 TSW: Timestamp wraparound\n0: No timestamp counter wraparound\n1: Timestamp counter wraparound\nBit 15 TEFL: Tx event FIFO element lost\n0: No Tx event FIFO element lost\n1: Tx event FIFO element lost, also set after write attempt to Tx event FIFO of size 0\nBit 14 TEFF: Tx event FIFO full\n0: Tx event FIFO not full\n1: Tx event FIFO full\nBit 13 TEFW: Tx event FIFO watermark reached\n0: Tx event FIFO fill level below watermark\n1: Tx event FIFO fill level reached watermark\nBit 12 TEFN: Tx event FIFO new entry\n0: Tx event FIFO unchanged\n1: Tx handler wrote Tx event FIFO element\nBit 11 TFE: Tx FIFO empty\n0: Tx FIFO non-empty\n1: Tx FIFO empty\nBit 10 TCF: Transmission cancellation finished\n0: No transmission cancellation finished\n1: Transmission cancellation finished\nBit 9 TC: Transmission completed\n0: No transmission completed\n1: Transmission completed\nBit 8 HPM: High priority message\n0: No high priority message received\n1: High priority message received\nBit 7 RF1L: Rx FIFO 1 message lost\n0: No Rx FIFO 1 message lost\n1: Rx FIFO 1 message lost, also set after write attempt to Rx FIFO 1 of size 0\nBit 6 RF1F: Rx FIFO 1 full\n0: Rx FIFO 1 not full\n1: Rx FIFO 1 full\nBit 5 RF1W: Rx FIFO 1 watermark reached\n0: Rx FIFO 1 fill level below watermark\n1: Rx FIFO 1 fill level reached watermark\nBit 4 RF1N: Rx FIFO 1 new message\n0: No new message written to Rx FIFO 1\n1: New message written to Rx FIFO 1\nBit 3 RF0L: Rx FIFO 0 message lost\n0: No Rx FIFO 0 message lost\n1: Rx FIFO 0 message lost, also set after write attempt to Rx FIFO 0 of size 0\nBit 2 RF0F: Rx FIFO 0 full\n0: Rx FIFO 0 not full\n1: Rx FIFO 0 full\nBit 1 RF0W: Rx FIFO 0 watermark reached\n0: Rx FIFO 0 fill level below watermark\n1: Rx FIFO 0 fill level reached watermark\nBit 0 RF0N: Rx FIFO 0 New message\n0: No new message written to Rx FIFO 0\n1: New message written to Rx FIFO 0",
+      "semantic": {
+        "register": "FDCAN_IR",
+        "address_offset": "0x0050",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "ARA",
+            "description": "Access to reserved address",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No access to reserved address occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "Access to reserved address occurred"
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "PED",
+            "description": "Protocol error in data phase (data bit time is used)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No protocol error in data phase"
+              },
+              {
+                "value": "1",
+                "meaning": "Protocol error in data phase detected (PSR.DLEC different from 0,7)"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "PEA",
+            "description": "Protocol error in arbitration phase (nominal bit time is used)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No protocol error in arbitration phase"
+              },
+              {
+                "value": "1",
+                "meaning": "Protocol error in arbitration phase detected (PSR.LEC different from 0,7)"
+              }
+            ]
+          },
+          {
+            "bits": "26",
+            "name": "WDI",
+            "description": "Watchdog interrupt",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No message RAM watchdog event occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "Message RAM watchdog event due to missing READY"
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "BO",
+            "description": "Bus_Off status",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Bus_Off status unchanged"
+              },
+              {
+                "value": "1",
+                "meaning": "Bus_Off status changed"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "EW",
+            "description": "Warning status",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Error_Warning status unchanged"
+              },
+              {
+                "value": "1",
+                "meaning": "Error_Warning status changed"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "EP",
+            "description": "Error passive",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Error_Passive status unchanged"
+              },
+              {
+                "value": "1",
+                "meaning": "Error_Passive status changed"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "ELO",
+            "description": "Error logging overflow",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CAN error logging counter did not overflow"
+              },
+              {
+                "value": "1",
+                "meaning": "Overflow of CAN error logging counter occurred"
+              }
+            ]
+          },
+          {
+            "bits": "21:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "DRX",
+            "description": "Message stored to dedicated Rx buffer The flag is set whenever a received message has been stored into a dedicated Rx buffer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Rx buffer updated"
+              },
+              {
+                "value": "1",
+                "meaning": "At least one received message stored into a Rx buffer"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "TOO",
+            "description": "Timeout occurred",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No timeout"
+              },
+              {
+                "value": "1",
+                "meaning": "Timeout reached"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "MRAF",
+            "description": "Message RAM access failure The flag is set when the Rx handler l Has not completed acceptance filtering or storage of an accepted message until the arbitration field of the following message has been received. In this case acceptance filtering or message storage is aborted and the Rx handler starts processing of the following message. l Was unable to write a message to the message RAM. In this case message storage is aborted. In both cases the FIFO put index is not updated or the New data flag for a dedicated Rx buffer is not set. The partly stored message is overwritten when the next message is stored to this location. The flag is also set when the Tx handler was not able to read a message from the message RAM in time. In this case message transmission is aborted. In case of a Tx handler access failure the FDCAN is switched into restricted operation mode (see Restricted operation mode). To leave restricted operation mode, the user must reset FDCAN_CCCR.ASM.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No message RAM access failure occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "Message RAM access failure occurred"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "TSW",
+            "description": "Timestamp wraparound",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No timestamp counter wraparound"
+              },
+              {
+                "value": "1",
+                "meaning": "Timestamp counter wraparound"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "TEFL",
+            "description": "Tx event FIFO element lost",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Tx event FIFO element lost"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx event FIFO element lost, also set after write attempt to Tx event FIFO of size 0"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "TEFF",
+            "description": "Tx event FIFO full",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tx event FIFO not full"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx event FIFO full"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "TEFW",
+            "description": "Tx event FIFO watermark reached",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tx event FIFO fill level below watermark"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx event FIFO fill level reached watermark"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "TEFN",
+            "description": "Tx event FIFO new entry",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tx event FIFO unchanged"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx handler wrote Tx event FIFO element"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "TFE",
+            "description": "Tx FIFO empty",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tx FIFO non-empty"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx FIFO empty"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "TCF",
+            "description": "Transmission cancellation finished",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No transmission cancellation finished"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmission cancellation finished"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "TC",
+            "description": "Transmission completed",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No transmission completed"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmission completed"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "HPM",
+            "description": "High priority message",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No high priority message received"
+              },
+              {
+                "value": "1",
+                "meaning": "High priority message received"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "RF1L",
+            "description": "Rx FIFO 1 message lost",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Rx FIFO 1 message lost"
+              },
+              {
+                "value": "1",
+                "meaning": "Rx FIFO 1 message lost, also set after write attempt to Rx FIFO 1 of size 0"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "RF1F",
+            "description": "Rx FIFO 1 full",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Rx FIFO 1 not full"
+              },
+              {
+                "value": "1",
+                "meaning": "Rx FIFO 1 full"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "RF1W",
+            "description": "Rx FIFO 1 watermark reached",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Rx FIFO 1 fill level below watermark"
+              },
+              {
+                "value": "1",
+                "meaning": "Rx FIFO 1 fill level reached watermark"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "RF1N",
+            "description": "Rx FIFO 1 new message",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No new message written to Rx FIFO 1"
+              },
+              {
+                "value": "1",
+                "meaning": "New message written to Rx FIFO 1"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "RF0L",
+            "description": "Rx FIFO 0 message lost",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Rx FIFO 0 message lost"
+              },
+              {
+                "value": "1",
+                "meaning": "Rx FIFO 0 message lost, also set after write attempt to Rx FIFO 0 of size 0"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "RF0F",
+            "description": "Rx FIFO 0 full",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Rx FIFO 0 not full"
+              },
+              {
+                "value": "1",
+                "meaning": "Rx FIFO 0 full"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "RF0W",
+            "description": "Rx FIFO 0 watermark reached",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Rx FIFO 0 fill level below watermark"
+              },
+              {
+                "value": "1",
+                "meaning": "Rx FIFO 0 fill level reached watermark"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "RF0N",
+            "description": "Rx FIFO 0 New message",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No new message written to Rx FIFO 0"
+              },
+              {
+                "value": "1",
+                "meaning": "New message written to Rx FIFO 0"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

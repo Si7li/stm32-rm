@@ -1,0 +1,40 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S37.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "37",
+      "chapter_title": "Camera subsystem",
+      "section": "37.4.4",
+      "section_title": "Streaming from the camera subsystem to slave peripherals",
+      "level": 3,
+      "parent_section": "37.4",
+      "page": 1786,
+      "page_end": 1787,
+      "semantic_type": "generic",
+      "features": [
+        "camera",
+        "peripherals",
+        "slave",
+        "streaming",
+        "subsystem"
+      ],
+      "chars": 2135,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1786",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 37.4.4 \"Streaming from the camera subsystem to slave peripherals\" in chapter 37 (Camera subsystem), RM0486 Rev 4, page 1786.",
+      "section_content": "The DCMIPP in the camera subsystem can stream pixels to a set of slave peripherals NPU,\nHP/GPDMA, and VENC. This avoids to write the full frame into a frame buffer (and allocate\nthis frame buffer).\nThe streaming is done via a small intermediate buffer in the system memory, organized\nin double ping-pong buffer. The double buffer must be a power-of-two amount of lines, with\na recommended size of 16 lines high each.\nThe processing is as follows:\n1. The DCMIPP starts writing into the first buffer.\n2. After step 1 completion, the DCMIPP emits an hardware trigger signal to the slave\nperipheral, and continues to write to the second buffer.\n3. At hardware trigger reception, the slave peripheral reads from the first buffer. It is\nexpected to read and process the buffer faster than the DCMIPP fills the other.\n4. After completing writing the second buffer, the DCMIPP emits again a trigger, and\nwraps back its write address counter to restart writing into the first buffer.\n5. After finishing reading the second buffer, the slave peripheral wraps back reading into\nthe first buffer.\nAll DCMIPP pipes can be streamed, but not to all slave peripherals:\n• Pipe0 (dump pipe) can be streamed to HP/GPDMA.\n• Pipe1 (main pixel pipe) can be streamed to HP/GPDMA, NPU, or VENC.\n• Pipe2 (aux pixel pipe) can be streamed to HP/GPDMA or NPU.\nThe VENC can only get streamed from Pipe1 (only pipe that can output a YUV420 pixel\nformat, needed for its H264 or JPG encode).\nA same pipe can be streamed simultaneously to several peripherals if the resolution and\npixel format match: after receiving the same broadcasted trigger, the various slave\nperipherals simply read in parallel from the same shared intermediate buffer.\nMore information about the streaming can be found in the respective peripheral sections:\n• Section39: Digital camera interface pixel pipeline (DCMIPP) (see pixel packing and\nstreaming across a ping-pong buffer)\n• Section20: Neural-ART accelerator™ (NPU)\n• Section18: High-performance direct memory access controller (HPDMA)\n• Section19: General purpose direct memory access controller (GPDMA)\n• Section45: Video encoder (VENC)",
+      "semantic": {}
+    }
+  ]
+}

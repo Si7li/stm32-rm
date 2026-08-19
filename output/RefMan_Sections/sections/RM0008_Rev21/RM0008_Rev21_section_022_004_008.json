@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.4.8",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.4.8",
+      "section_title": "Erase: group erase and sector erase",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 585,
+      "page_end": 586,
+      "semantic_type": "generic",
+      "features": [
+        "erase"
+      ],
+      "chars": 1501,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=585",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.8 \"Erase: group erase and sector erase\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 585.",
+      "section_content": "The erasable unit of the MultiMediaCard is the erase group. The erase group is measured in\nwrite blocks, which are the basic writable units of the card. The size of the erase group is a\ncard-specific parameter and defined in the CSD.\nThe host can erase a contiguous range of Erase Groups. Starting the erase process is a\nthree-step sequence.\nFirst the host defines the start address of the range using the ERASE_GROUP_START\n(CMD35) command, next it defines the last address of the range using the\nERASE_GROUP_END (CMD36) command and, finally, it starts the erase process by issuing\nthe ERASE (CMD38) command. The address field in the erase commands is an Erase\nGroup address in byte units. The card ignores all LSBs below the Erase Group size,\neffectively rounding the address down to the Erase Group boundary.\nIf an erase command is received out of sequence, the card sets the ERASE_SEQ_ERROR\nbit in the status register and resets the whole sequence.\nIf an out-of-sequence (neither of the erase commands, except SEND_STATUS) command\nreceived, the card sets the ERASE_RESET status bit in the status register, resets the erase\nsequence and executes the last command.\nIf the erase range includes write protected blocks, they are left intact and only nonprotected\nblocks are erased. The WP_ERASE_SKIP status bit in the status register is set.\nThe card indicates that an erase is in progress by holding SDIO_D low. The actual erase\ntime may be quite long, and the host may issue CMD7 to deselect the card.",
+      "semantic": {}
+    }
+  ]
+}

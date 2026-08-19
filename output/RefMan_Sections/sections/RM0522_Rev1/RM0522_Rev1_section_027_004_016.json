@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S27.4.16",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "27",
+      "chapter_title": "AES hardware accelerator (AES)",
+      "section": "27.4.16",
+      "section_title": "AES key registers",
+      "level": 3,
+      "parent_section": "27.4",
+      "page": 820,
+      "page_end": 820,
+      "semantic_type": "generic",
+      "features": [
+        "aes"
+      ],
+      "chars": 1242,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=820",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.4.16 \"AES key registers\" in chapter 27 (AES hardware accelerator (AES)), RM0522 Rev 1, page 820.",
+      "section_content": "The eight AES_KEYRx write-only registers store the encryption or decryption key\ninformation, as shown on Table211. Reads are not allowed for security reason.\nNote: In memory and in AES key registers, keys are stored in little-endian format, with most\nsignificant byte on the highest address.\n[Table 211. Key endianness in AES_KEYRx registers (128/256-bit keys)]\nThe key registers are not affected by the data swapping feature controlled by the\nDATATYPE[1:0] bitfield.\nWrite operations to the AES_KEYRx registers are ignored when AES peripheral is enabled\n(EN bit set). The application must check this before modifying key registers.\nThe entire key must be written before starting an AES computation.\nIn normal key mode (KMOD[1:0] at 0x0), the key registers must always be written in either\nascending or descending order. The write sequence becomes:\n• AES_KEYRx (x=0to3 or x=3 to 0) for KEYSIZE cleared\n• AES_KEYRx (x=0to7 or x=7 to 0) for KEYSIZE set\nNote: KEYSIZE must be written before the key.\nAs soon as the first key register is written, the KEYVALID flag is cleared. Once the key\nregisters writing sequence is completed, KEYVALID is set and EN becomes writable. If an\nerror occurs, KEYVALID is cleared and KEIF set (see Section27.4.18).",
+      "semantic": {}
+    }
+  ]
+}

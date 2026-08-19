@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.4.4",
+      "section_title": "FIFO acknowledge handling",
+      "level": 3,
+      "parent_section": "71.4",
+      "page": 3642,
+      "page_end": 3643,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 1468,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3642",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.4.4 \"FIFO acknowledge handling\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3642.",
+      "section_content": "The get indices of Rx FIFO 0, Rx FIFO 1, and the Tx event FIFO are controlled by writing to\nthe corresponding FIFO acknowledge index, see FDCAN Rx FIFO 0 acknowledge register\n(FDCAN_RXF0A), FDCAN Rx FIFO 1 acknowledge register (FDCAN_RXF1A), and FDCAN\nTx event FIFO configuration register (FDCAN_TXEFC). Writing to the FIFO acknowledge\nindex sets the FIFO get index to the FIFO acknowledge index plus one and thereby updates\nthe FIFO fill level. There are two use cases:\n• When only a single element has been read from the FIFO (the one being pointed to by\nthe get index), this get index value is written to the FIFO acknowledge index.\n• When a sequence of elements has been read from the FIFO, it is sufficient to write the\nFIFO acknowledge index only once at the end of that read sequence (value: index of\nthe last element read), to update the FIFO get index.\nBecause the CPU has free access to the FDCAN message RAM, special care must be\ntaken when reading FIFO elements in an arbitrary order (get index not considered). This\nmight be useful when reading a high priority message from one of the two Rx FIFOs. In this\ncase the FIFO acknowledge index must not be written because this would set the get index\nto a wrong position and also alters the FIFO fill level. In this case, some of the older FIFO\nelements would be lost.\nNote: The application must ensure that a valid value is written to the FIFO acknowledge index.\nThe FDCAN does not check for erroneous values.",
+      "semantic": {}
+    }
+  ]
+}

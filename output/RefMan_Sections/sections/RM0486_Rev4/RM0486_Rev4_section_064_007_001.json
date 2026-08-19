@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.7.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.7.1",
+      "section_title": "I3C peripheral state",
+      "level": 3,
+      "parent_section": "64.7",
+      "page": 3176,
+      "page_end": 3176,
+      "semantic_type": "generic",
+      "features": [
+        "i3c"
+      ],
+      "chars": 2763,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3176",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.7.1 \"I3C peripheral state\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3176.",
+      "section_content": "The I3C peripheral plays the role of I3C bus controller, or the role of an I3C target. In any\ncase (see Figure818 and Figure819), the peripheral is in one of the following states:\n• Disabled state:\n– After an I3C reset (system reset or I3C reset from RCC), the I3C peripheral is in\ndisabled state.\n– When the software sets to 1 bit EN in the I3C_CFGR register, the I3C peripheral\ntakes into account the value of the different initialized configuration registers, and\nswitches to the (enabled and) idle state. The peripheral is initialized as I3C target\nor I3C controller.\n– As I3C controller, then software can enable the I3C peripheral and initialize the\nI3C bus.\n– As I3C target, then the software can enable the I3C peripheral to operate on an\nI3C bus.\n• Idle state:\n– After being enabled (EN = 1), the I3C peripheral activates its I3CCLK and SCL\nclock domains, and is able to communicate on the I3C bus.\n– The software can partly update the I3C peripheral configuration, see Updating the\nconfiguration for a transfer, as controller and Updating the configuration of the I3C\nperipheral, as target for more details.\n– The I3C peripheral switches to the (enabled and) active state in either one of the\nfollowing conditions:\nOnce the software initiates a transfer (as controller: when the software initiates a\nframe transfer; as target: when the software initiates an IBI/CR/HJ request).\nOnce the hardware receives a request from another I3C device on the bus (as\ncontroller: after a start request from a target and a maximum TCAS time; as target:\nwhen receiving a broadcast/direct CCC or a private read/write).\n• Active state:\n– The I3C peripheral executes the transfer(s) on the bus.\n– When the requested transfer(s) is(are) completed, the software is notified by an\nevent from the I3C event register (I3C_EVR), and the corresponding interrupt is\nenabled by I3C interrupt enable register (I3C_IER). The I3C peripheral switches to\nidle state, is still able to communicate on the bus, and can be (partly) reconfigured:\nAs controller: the raised event/flag can be frame completed (FCF), IBI/controller-\nrole/hot-join request completed (IBIF/CRF/HJF), or transfer error (ERRF).\nAs target: the raised event/flag can be dynamic address assignment completed\n(DAUPDF), IBI completed (IBIENDF), controller-role gaining completed\n(CRUPDF), broadcast/direct CCC completed (xxUPDF/RSTF/GETF/STAF),\nprivate read/write completed (FCF), or transfer error (ERRF).\nNote: The software can disable the I3C peripheral (write EN = 0), partially resetting it (subparts\nwithin the SCL clock domain and the I3CCLK kernel clock domain). Event, interrupt, and\nclock request generation are also impacted. The previously written configuration of the APB\nregisters is kept and not modified.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.4.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.4.3",
+      "section_title": "Option-byte modification",
+      "level": 3,
+      "parent_section": "6.4",
+      "page": 150,
+      "page_end": 151,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory"
+      ],
+      "chars": 3089,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=150",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.4.3 \"Option-byte modification\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 150.",
+      "section_content": "Changing user option bytes\nA user-option-byte change operation can be used to modify the configuration and the\nprotection settings saved in the nonvolatile option byte area.\nThere are numerous rules enforced when attempting to change a user option byte, they are\nall summarized in Section6.4.9. Failing to stick to these rules usually results in error,\ndescribed in Section6.8.6.\nThe FLASH features two sets of option-byte registers:\n• The first register set contains the current values of the option bytes. Their names have\nthe _CUR extension. All “_CUR” registers are read-only. Their values are automatically\nloaded from the nonvolatile memory after power-on reset, wake-up from system\nStandby mode, or after an option-byte change operation.\n• The second register set allows the modification of the option bytes. Their names\ncontain the _PRG extension. All “_PRG” registers can be accessed in read/write mode.\nWhen the OPTLOCK bit in FLASH_OPTCR is set, modifying the FLASH_XXX_PRG\nregisters is not possible.\nWhen OPTSTRT bit is set to 1, the FLASH checks the programming sequence (PGSERR),\nand the conditions described in Section6.4.9 (OPTCHANGEERR). Ifno error has been\ndetected (PGSERR/OPTCHANGEERR), the FLASH launches the option-byte modification\nin its nonvolatile memory, and updates the option-byte registers with _CUR extension.\nIf one of the condition described in Section6.4.9, Section6.8.6, or Section6.8.2 is not\nrespected, the FLASH aborts the option-byte change operation. In this case,\nFLASH_XXX_PRG registers are not overwritten by current option value. The user\napplication can check what was wrong in their configuration.\nUnlocking the option-byte modification\nAfter reset, the OPTLOCK bit is set to 1 and FLASH_OPTCR is locked. As a result, the\napplication software must unlock the option configuration register before attempting to\nchange the option bytes. FLASH_OPTCR unlock sequence is described in Section6.5.4.\nOption-byte modification sequence\nTo modify user option bytes, follow the sequence below:\n1. Check that no flash memory operation is ongoing by checking the BSY bit\ninFLASH_SR, and that the write buffer is empty by checking the WBNE bit in the same\nregister.\n2. Check the data buffer is empty (DBNE = 0) in FLASH_SR.\n3. Clear all error flags due to a previous operation.\n4. Unlock FLASH_OPTCR register as described in Section6.5.4, unless the register is\nalready unlocked.\n5. Write the desired new option byte values in the corresponding option registers\n(FLASH_XXX_PRG).\n6. Set the option byte start change OPTSTRT bit to 1 in FLASH_OPTCR.\n7. Wait until BSY bit is cleared in FLASH_SR.\n8. OPTSTRT bit is cleared automatically at the end of the sequence (or in case of error).\n9. Perform a system reset if the RDP level, SWAP_BANK, or BOOTADD options have\nbeen changed. A system reset is also recommended if other option bytes have been\nmodified.\nNote: If a reset or a power-down occurs while the option-byte modification is ongoing, the original\noption-byte value is kept. A new option-byte modification sequence is required to program\nthe new value",
+      "semantic": {}
+    }
+  ]
+}

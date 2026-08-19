@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.9.12",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.9.12",
+      "section_title": "Handling of underrun situation",
+      "level": 3,
+      "parent_section": "45.9",
+      "page": 1994,
+      "page_end": 1995,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2138,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1994",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.9.12 \"Handling of underrun situation\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1994.",
+      "section_content": "In transmit mode, an underrun situation is detected when a new data needs to be loaded\ninto the shift register while the TxFIFO is already empty. In such a situation the UDR flag is\nset, and at least one audio frame contains unexpected data.\na. Not always available, refer to Section45.3: SPI implementation in order to check if 24 and 32-bit data\nwidths are supported.\nFor I2S modes, there is a hardware mechanism to prevent misalignment situations (left and\nright channel swapped). When an underrun situation is detected, the last valid data present\nin the shift register is repeated if the real channel length matches the length selected by the\nCHLEN bit. In the other cases, an undefined data is repeated. Typically, if the block is\nprogrammed in slave TX mode, and the external master audio device is using channel\nlengths other than 16 or 32 bits, the repeated data value is undefined in case of underrun.\nThe following figure shows the case where an underrun occurs and the peripheral replays\nthe last valid data on left and right channels as long as conditions of restart are not met. The\ntransmission restarts:\n• When there is enough data into the TxFIFO, and\n• When the restart condition is met:\n– If the underrun occurs when a right channel data needs to be transmitted, the\ntransmission restarts when a right channel needs to be transmitted, or\n– If the underrun occurs when a left channel data needs to be transmitted, the\ntransmission restarts when a left channel needs to be transmitted.\n[Figure 689. Handling of underrun situation]\nWhen the block is configured in one of the PCM modes, the transmission restarts at the start\nof the next frame, when there is enough data in the TxFIFO.\nThe UDR flag can trigger an interrupt if the UDRIE bit of the SPI_IER register is set. The\nUDR bit is cleared by setting the UDRC bit of the SPI_IFCR register.\nNote: An underrun situation can occur in master or slave mode. In master mode, when an\nunderrun occurs, the WS, CK, and MCK signals are not gated.\nDue to resynchronization, any change of the UDR flag is taken into account by the hardware\nafter at least two periods of CK clock.",
+      "semantic": {}
+    }
+  ]
+}

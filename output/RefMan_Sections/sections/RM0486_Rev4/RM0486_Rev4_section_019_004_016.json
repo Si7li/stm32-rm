@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.4.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.4.16",
+      "section_title": "GPDMA privileged/unprivileged channel",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 976,
+      "page_end": 976,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "gpdma",
+        "memory"
+      ],
+      "chars": 1811,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=976",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.16 \"GPDMA privileged/unprivileged channel\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 976.",
+      "section_content": "Any channel x is a privileged or unprivileged hardware resource, as configured by a\nprivileged agent via GPDMA_PRIVCFGR.PRIVx.\nWhen a channel x is configured in a privileged state by a privileged agent, the following\naccess control rules are applied:\n• An unprivileged read access to a register field of this channel is forced to return 0,\nexcept for GPDMA_PRIVCFGR, GPDMA_SECCFGR, GPDMA_RCFGLOCKR that are\nreadable by an unprivileged agent.\n• An unprivileged write access to a register field of this channel has no impact.\nWhen a channel is configured in a privileged (or unprivileged) state, the source and\ndestination data transfers are privileged (respectively unprivileged) transfers over the AHB\nmaster port.\nWhen a channel is configured in a privileged (or unprivileged) state and in linked-list mode,\nthe loading of the next linked-list data structure from the GPDMA memory into its register\nfile, is automatically performed with privileged (respectively unprivileged) transfers, via the\nGPDMA_CxCR.LAP allocated master port.\nThe GPDMA generates a privileged bus that reflects GPDMA_PRIVCFGR, to keep the\nother peripherals informed of the privileged/unprivileged state of each GPDMA channel x.\nWhen the privileged software must switch a channel from a privileged state to\nanunprivileged state, the privileged software must abort the channel or wait until that the\nprivileged channel is completed before switching. This is needed to dynamically re-allocate\na channel to a next unprivileged transfer as an unprivileged software is not allowed to do so,\nand must have GPDMA_CxCR.EN=0 before the unprivileged software can reprogram the\nGPDMA_CxCR for a next transfer. The privileged software may reset not only the channel x\n(GPDMA_CxCR.RESET=1) but also the full channel x register file to its reset value.",
+      "semantic": {}
+    }
+  ]
+}

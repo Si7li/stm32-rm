@@ -1,0 +1,243 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.10.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.10.6",
+      "section_title": "FLASH status register (FLASH_SR)",
+      "level": 3,
+      "parent_section": "6.10",
+      "page": 178,
+      "page_end": 179,
+      "semantic_type": "register_description",
+      "features": [
+        "bslock",
+        "bsy",
+        "dbne",
+        "eop",
+        "flash",
+        "flash-sr",
+        "incerr",
+        "memory",
+        "oemlock",
+        "optchangeerr",
+        "pgserr",
+        "strberr",
+        "wbne",
+        "write-protection",
+        "wrperr"
+      ],
+      "chars": 4516,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=178",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.10.6 \"FLASH status register (FLASH_SR)\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 178.",
+      "section_content": "Address offset: 0x020\nReset value: 0x0000 000X\nThis register can be protected against unprivileged access when PRIV = 1\ninFLASH_PRIVCFGR.\nBits 31:24 Reserved, must be kept at reset value.\nBit 23 OPTCHANGEERR: Option-byte change error flag\nThis flag indicates that an error occurred during an option-byte change operation. When This\nbit is set to 1, the option-byte change operation did not successfully complete. An interrupt is\ngenerated when this flag is raised if OPTCHANGEERRIE in FLASH_NSCR is set to 1.\nWriting 1 to CLR_OPTCHANGEERR in FLASH_CCR clears OPTCHANGEERR.\n0: No option-byte change errors occurred.\n1: One or more errors occurred during an option-byte change operation.\nNote: OPTSTRT in FLASH_OPTCR cannot be set while OPTCHANGEERR is set.\nBits 22:21 Reserved, must be kept at reset value.\nBit 20 INCERR: Inconsistency error flag\nThis flag is raised when an inconsistency error occurs. An interrupt is generated if INCERRIE\nis set to 1. Writing 1 to CLR_INCERR in FLASH_CCR clears INCERR.\n0: No inconsistency error occurred.\n1: An inconsistency error occurred.\nBit 19 STRBERR: Strobe error flag\nThis flag is raised when a strobe error occurs (when the master attempts to write several\ntimes the same byte in the write buffer). An interrupt is generated if STRBERRIE is set to 1.\nWriting 1 to CLR_STRBERR in FLASH_CCR clears STRBERR.\n0: No strobe error occurred.\n1: A strobe error occurred.\nBit 18 PGSERR: Programming sequence error flag\nThis flag is raised when a sequence error occurs. An interrupt is generated if the PGSERRIE\nbit is set to 1. Writing 1 to CLR_PGSERR in FLASH_CCR clears PGSERR.\n0: No sequence error occurred.\n1: A sequence error occurred.\nBit 17 WRPERR: Write protection error flag\nThis flag is raised when a protection error occurs during a program operation. An interrupt is\nalso generated if the WRPERRIE is set to 1. Writing 1 to CLR_WRPERR bit in FLASH_CCR\nclears WRPERR.\n0: No write-protection error occurred.\n1: A write-protection error occurred.\nBit 16 EOP: End of operation flag\nThis flag is set when an operation (program/erase) completes. An interrupt is generated if\nEOPIE is set to 1. It is not necessary to reset EOP before starting a new operation. EOP bit is\ncleared by writing 1 to CLR_EOP in FLASH_CCR.\n0: No operation completed.\n1: An operation completed.\nBits 15:10 Reserved, must be kept at reset value.\nBit 9 BSLOCK: BS lock\nThis bit indicates that the BS key read during the option byte loading is not default (default is\n0xAAAAAAAA).\nWhen set, the BS personalized key mechanism to transition to L2 from L2_wBS is active.\nBit 8 OEMLOCK: OEM lock\nThis bit indicates that the OEM key read during the OBL is not virgin. When set, the OEM\nRDP lock mechanism is active. The lock mechanism allows the user to regress from RDP\nL2_wBS or L2 to L0. This bit is set once a 128-bit password is written in OEMKEYRx\nregisters and written in memory. It cannot be cleared.\n0: Lock mechanism is not active, progressing to RDP L2_wBS or L2 is irrevocable.\n1: Lock mechanism is active, a key exist to regress to RDP L0.\nBits 7:4 Reserved, must be kept at reset value.\nBit 3 DBNE: Data buffer not empty flag\nThis flag is set when the FLASH is processing 6-bit ECC data (OTP or EDATA area when\nEDATA_EN option bit set) in a dedicated buffer. This bit cannot be cleared by software. The\nhardware resets it once the buffer is free.\n0: Data buffer not used\n1: Data buffer used, wait\nBit 2 Reserved, must be kept at reset value.\nBit 1 WBNE: Write buffer not empty flag\nThis flag is set when the FLASH is waiting for new data to complete the write buffer. In this\nstate, the write buffer is not empty. WBNE is reset by hardware each time the write buffer is\ncomplete or the write buffer is emptied following one of the event below:\n- The application software forces the write operation using FW bit in FLASH_CR.\n- The FLASH detects an error that involves data loss.\nThis bit cannot be reset by software writing 0 directly. To reset it, clear the write buffer by\nperforming any of the above listed actions, or send the missing data.\n0: Write buffer empty or full\n1: Write buffer waiting data to complete\nBit 0 BSY: Busy flag\nThis flag indicates that a flash memory is busy by an operation (write, erase, option-byte\nchange). It is set at the beginning of a flash memory operation, and cleared when the\noperation finishes or an error occurs.\n0: No programming, erase, or option-byte change operation being executed\n1: Programming, erase, or option byte change operation being executed",
+      "semantic": {
+        "register": "FLASH_SR",
+        "address_offset": "0x020",
+        "reset_value": "0x0000 000X",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "OPTCHANGEERR",
+            "description": "Option-byte change error flag This flag indicates that an error occurred during an option-byte change operation. When This bit is set to 1, the option-byte change operation did not successfully complete. An interrupt is generated when this flag is raised if OPTCHANGEERRIE in FLASH_NSCR is set to 1. Writing 1 to CLR_OPTCHANGEERR in FLASH_CCR clears OPTCHANGEERR. Note: OPTSTRT in FLASH_OPTCR cannot be set while OPTCHANGEERR is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No option-byte change errors occurred."
+              },
+              {
+                "value": "1",
+                "meaning": "One or more errors occurred during an option-byte change operation."
+              }
+            ]
+          },
+          {
+            "bits": "22:21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "INCERR",
+            "description": "Inconsistency error flag This flag is raised when an inconsistency error occurs. An interrupt is generated if INCERRIE is set to 1. Writing 1 to CLR_INCERR in FLASH_CCR clears INCERR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No inconsistency error occurred."
+              },
+              {
+                "value": "1",
+                "meaning": "An inconsistency error occurred."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "STRBERR",
+            "description": "Strobe error flag This flag is raised when a strobe error occurs (when the master attempts to write several times the same byte in the write buffer). An interrupt is generated if STRBERRIE is set to 1. Writing 1 to CLR_STRBERR in FLASH_CCR clears STRBERR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No strobe error occurred."
+              },
+              {
+                "value": "1",
+                "meaning": "A strobe error occurred."
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "PGSERR",
+            "description": "Programming sequence error flag This flag is raised when a sequence error occurs. An interrupt is generated if the PGSERRIE bit is set to 1. Writing 1 to CLR_PGSERR in FLASH_CCR clears PGSERR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No sequence error occurred."
+              },
+              {
+                "value": "1",
+                "meaning": "A sequence error occurred."
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "WRPERR",
+            "description": "Write protection error flag This flag is raised when a protection error occurs during a program operation. An interrupt is also generated if the WRPERRIE is set to 1. Writing 1 to CLR_WRPERR bit in FLASH_CCR clears WRPERR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No write-protection error occurred."
+              },
+              {
+                "value": "1",
+                "meaning": "A write-protection error occurred."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "EOP",
+            "description": "End of operation flag This flag is set when an operation (program/erase) completes. An interrupt is generated if EOPIE is set to 1. It is not necessary to reset EOP before starting a new operation. EOP bit is cleared by writing 1 to CLR_EOP in FLASH_CCR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No operation completed."
+              },
+              {
+                "value": "1",
+                "meaning": "An operation completed."
+              }
+            ]
+          },
+          {
+            "bits": "15:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "BSLOCK",
+            "description": "BS lock This bit indicates that the BS key read during the option byte loading is not default (default is 0xAAAAAAAA). When set, the BS personalized key mechanism to transition to L2 from L2_wBS is active.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "OEMLOCK",
+            "description": "OEM lock This bit indicates that the OEM key read during the OBL is not virgin. When set, the OEM RDP lock mechanism is active. The lock mechanism allows the user to regress from RDP L2_wBS or L2 to L0. This bit is set once a 128-bit password is written in OEMKEYRx registers and written in memory. It cannot be cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Lock mechanism is not active, progressing to RDP L2_wBS or L2 is irrevocable."
+              },
+              {
+                "value": "1",
+                "meaning": "Lock mechanism is active, a key exist to regress to RDP L0."
+              }
+            ]
+          },
+          {
+            "bits": "7:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "DBNE",
+            "description": "Data buffer not empty flag This flag is set when the FLASH is processing 6-bit ECC data (OTP or EDATA area when EDATA_EN option bit set) in a dedicated buffer. This bit cannot be cleared by software. The hardware resets it once the buffer is free.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data buffer not used"
+              },
+              {
+                "value": "1",
+                "meaning": "Data buffer used, wait"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "WBNE",
+            "description": "Write buffer not empty flag This flag is set when the FLASH is waiting for new data to complete the write buffer. In this state, the write buffer is not empty. WBNE is reset by hardware each time the write buffer is complete or the write buffer is emptied following one of the event below: - The application software forces the write operation using FW bit in FLASH_CR. - The FLASH detects an error that involves data loss. This bit cannot be reset by software writing 0 directly. To reset it, clear the write buffer by performing any of the above listed actions, or send the missing data.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Write buffer empty or full"
+              },
+              {
+                "value": "1",
+                "meaning": "Write buffer waiting data to complete"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "BSY",
+            "description": "Busy flag This flag indicates that a flash memory is busy by an operation (write, erase, option-byte change). It is set at the beginning of a flash memory operation, and cleared when the operation finishes or an error occurs.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No programming, erase, or option-byte change operation being executed"
+              },
+              {
+                "value": "1",
+                "meaning": "Programming, erase, or option byte change operation being executed"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

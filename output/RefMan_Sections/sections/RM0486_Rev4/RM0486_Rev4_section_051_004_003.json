@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S51.4.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "51",
+      "chapter_title": "Memory cipher engine (MCE)",
+      "section": "51.4.3",
+      "section_title": "MCE programming",
+      "level": 3,
+      "parent_section": "51.4",
+      "page": 2432,
+      "page_end": 2433,
+      "semantic_type": "generic",
+      "features": [
+        "mce",
+        "memory"
+      ],
+      "chars": 2573,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2432",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 51.4.3 \"MCE programming\" in chapter 51 (Memory cipher engine (MCE)), RM0486 Rev 4, page 2432.",
+      "section_content": "Overview\nThrough MCE registers application software defines security regions, as shown on\nFigure497.\n[Figure 497. MCE region programming]\n1. Covers all addressable space.\nThere are three types of accesses filtered by MCE:\n1. Access to an area located in one enabled region (accesses 1). In this cases region\nfiltering rules applies. If encryption is enabled cipher engine is used accordingly.\n2. Access to an area overlapping two enabled regions (access 2):\n– If both regions are encrypted, access is automatically rejected with an error\n3. Access to an area not belonging to any enabled region (accesses 3). In this case\nprimary region 0 filtering apply (any access granted, no encryption).\nConfiguring regions\nWhen application needs to use any region x following sequence can be used, for example at\nboot time.\n1. Application selects, once, the correct cipher using CIPHERSEL in MCE_CR register.\nBy default AES-128 is selected. When CIPHERSEL is changed all keys in MCE are\nzeroed.\n2. Application sets a start and end address for each of the required region x, using\nMCE_SADDRx and MCE_EADDRx registers.\n3. Application finalizes the programming by configuring MCE_REGCRx setting up\nsecurity parameters (encryption). Initializing encryption is detailed in Section51.4.5\nand Section51.4.5.\n4. After final check on above configuration application enables each required region z,\nsetting BREN bit in MCE_REGCRz.\nMCE configuration can be fixed until next SoC reset when GLOCK is set in MCE_CR\nregister.\nNote: When ENCDIS bit is set in MCE_SR, if ENC bit and BREN bits are set in MCE_REGCRx all\nwrites to this region x are ignored and all read requests return zero. See Section51.4.8 for\ndetails.\nRuntime modification of region configuration\nNote: When BREN is cleared primary region 0 access rules applies instead of base region rules\n(see Overview).\nGLOCK or KEYLOCK/CCLOCK bits must be used to write lock the following registers:\nMCE_MKEYRx, MCE_FMKEYRx, MCE_CCxCFGR, MCE_CCxNR0/1 and\nMCE_CCxKEYR, in order to avoid unexpected changes to the cipher keys/context while\nused by the MCE.\nEncrypting with MCE\nMCE automatically encrypts on-the-fly any granted write transaction to a region with\nencryption properly initialized. When stream cipher is selected it is important to activate\nwrite protection as soon as the whole region has been encrypted (read-only region).\nWhen MCE is used in conjunction with XSPI it is mandatory to set the Flash memory\ncontroller in memory map mode. It is also required to use the DMA to perform writes to the\nflash memory using 16 bytes bursts.",
+      "semantic": {}
+    }
+  ]
+}

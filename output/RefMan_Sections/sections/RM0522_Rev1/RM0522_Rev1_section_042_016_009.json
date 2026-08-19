@@ -1,0 +1,73 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.9",
+      "section_title": "I3C target transmit configuration register (I3C_TGTTDR)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1764,
+      "page_end": 1764,
+      "semantic_type": "register_description",
+      "features": [
+        "i3c",
+        "i3c-tgttdr",
+        "preload",
+        "tgttdcnt"
+      ],
+      "chars": 1705,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1764",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.9 \"I3C target transmit configuration register (I3C_TGTTDR)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1764.",
+      "section_content": "Address offset: 0x024\nReset value: 0x00000000\nWhen I3C acts as target, this register must be used to preload a number of data bytes in the\nTX-FIFO, so that they are ready to be transmitted on the I3C bus, when they are\naccepted/acknowledged by the controller, whatever the DMA mode is used or not\n(independently from TXDMAEN in the I3C_CFGR register).\nWhen I3C acts as target, alternatively, if the number of data bytes to be transmitted is less\nthan or equal to the TX-FIFO size (8 bytes), the software can directly use and write byte(s)\ninto the I3C_TDR register (or I3C_TDWR register, depending upon TXTHRES in the\nI3C_CFGR register), via polling on the TX-FIFO empty flag (TXFEF = 1 in the I3C_EVR\nregister), or via the corresponding enabled interrupt.\nIn any case, since an I3C target is unable to stretch/stall the SCL line, the software can\nidentify a TX-FIFO underrun via DOR = 1 in the I3C_EVR register.\nBits 31:17 Reserved, must be kept at reset value.\nBit 16 PRELOAD: Preload of the TX-FIFO (when I3C is configured as target)\nThis bit must be written and asserted by software in the same access when is written and\ndefined the number of bytes to preload into the TX-FIFO and to transmit.\nThis bit is cleared by hardware when all the data bytes to transmit are loaded into the TX-FIFO.\n0: no TX-FIFO preload\n1: TX-FIFO preload\nBits 15:0 TGTTDCNT[15:0]: Transmit data counter, in bytes (when I3C is configured as target)\nThis bitfield must be written by software in the same access when is asserted PRELOAD, in\norder to define the number of bytes to preload and to transmit.\nThis bitfield is updated by hardware and reports, when read, the remaining number of bytes\nto be loaded into the TX-FIFO.",
+      "semantic": {
+        "register": "I3C_TGTTDR",
+        "address_offset": "0x024",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "PRELOAD",
+            "description": "Preload of the TX-FIFO (when I3C is configured as target) This bit must be written and asserted by software in the same access when is written and defined the number of bytes to preload into the TX-FIFO and to transmit. This bit is cleared by hardware when all the data bytes to transmit are loaded into the TX-FIFO.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no TX-FIFO preload"
+              },
+              {
+                "value": "1",
+                "meaning": "TX-FIFO preload"
+              }
+            ]
+          },
+          {
+            "bits": "15:0",
+            "name": "TGTTDCNT[15:0]",
+            "description": "Transmit data counter, in bytes (when I3C is configured as target) This bitfield must be written by software in the same access when is asserted PRELOAD, in order to define the number of bytes to preload and to transmit. This bitfield is updated by hardware and reports, when read, the remaining number of bytes to be loaded into the TX-FIFO.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

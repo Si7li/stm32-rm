@@ -1,0 +1,99 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S27.8.19",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "27",
+      "chapter_title": "AES hardware accelerator (AES)",
+      "section": "27.8.19",
+      "section_title": "AES interrupt status register (AES_ISR)",
+      "level": 3,
+      "parent_section": "27.8",
+      "page": 835,
+      "page_end": 835,
+      "semantic_type": "register_description",
+      "features": [
+        "aes",
+        "aes-isr",
+        "ccf",
+        "interrupt",
+        "keif",
+        "rweif"
+      ],
+      "chars": 1945,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=835",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.8.19 \"AES interrupt status register (AES_ISR)\" in chapter 27 (AES hardware accelerator (AES)), RM0522 Rev 1, page 835.",
+      "section_content": "Address offset: 0x304\nReset value: 0x0000 0000\nBits 31:3 Reserved, must be kept at reset value.\nBit 2 KEIF: Key error interrupt flag\nThis read-only bit is set by hardware when the key information fails to load into key registers.\n0: No key error detected\n1: Key information failed to load into key registers\nThe flag setting generates an interrupt if the KEIE bit of the AES_IER register is set. It also clears\nthe key registers and the KEYVALID flag in the AES_SR register.\nThe flag is cleared by setting the corresponding bit of the AES_ICR register.\nKEIF is raised upon any of the following events:\n–AES_KEYRx register write does not respect the correct order. (For KEYSIZEcleared,\nAES_KEYR0 then AES_KEYR1 then AES_KEYR2 then AES_KEYR3 register, or reverse. For\nKEYSIZE set, AES_KEYR0 then AES_KEYR1 then AES_KEYR2 then AES_KEYR3 then\nAES_KEYR4 then AES_KEYR5 then AES_KEYR6 then AES_KEYR7, or reverse).\n–AES fails to load the key shared by the SAES peripheral (KMOD[1:0]=0x2).\nKEIF must be cleared by the application software, otherwise KEYVALID cannot be set.\nBit 1 RWEIF: Read or write error interrupt flag\nThis read-only bit is set by hardware when a RDERRF or a WRERRF error flag is set in the\nAES_SR register.\n0: No read or write error detected\n1: Read or write error detected\nThe flag setting generates an interrupt if the RWEIE bit of the AES_IER register is set.\nThe flag is cleared by setting the corresponding bit of the AES_ICR register.\nThe flags has no meaning when key derivation mode is selected.\nSee the AES_SR register for details.\nBit 0 CCF: Computation complete flag\nThis flag indicates whether the computation is completed. It is significant only when the\nDMAOUTEN bit is cleared, and it may stay high when DMAOUTEN is set.\n0: Not completed\n1: Completed\nThe flag setting generates an interrupt if the CCFIE bit of the AES_IER register is set.\nThe flag is cleared by setting the corresponding bit of the AES_ICR register.",
+      "semantic": {
+        "register": "AES_ISR",
+        "address_offset": "0x304",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "KEIF",
+            "description": "Key error interrupt flag This read-only bit is set by hardware when the key information fails to load into key registers. The flag setting generates an interrupt if the KEIE bit of the AES_IER register is set. It also clears the key registers and the KEYVALID flag in the AES_SR register. The flag is cleared by setting the corresponding bit of the AES_ICR register. KEIF is raised upon any of the following events: –AES_KEYRx register write does not respect the correct order. (For KEYSIZEcleared, AES_KEYR0 then AES_KEYR1 then AES_KEYR2 then AES_KEYR3 register, or reverse. For KEYSIZE set, AES_KEYR0 then AES_KEYR1 then AES_KEYR2 then AES_KEYR3 then AES_KEYR4 then AES_KEYR5 then AES_KEYR6 then AES_KEYR7, or reverse). –AES fails to load the key shared by the SAES peripheral (KMOD[1:0]=0x2). KEIF must be cleared by the application software, otherwise KEYVALID cannot be set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No key error detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Key information failed to load into key registers"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "RWEIF",
+            "description": "Read or write error interrupt flag This read-only bit is set by hardware when a RDERRF or a WRERRF error flag is set in the AES_SR register. The flag setting generates an interrupt if the RWEIE bit of the AES_IER register is set. The flag is cleared by setting the corresponding bit of the AES_ICR register. The flags has no meaning when key derivation mode is selected. See the AES_SR register for details.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No read or write error detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Read or write error detected"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CCF",
+            "description": "Computation complete flag This flag indicates whether the computation is completed. It is significant only when the DMAOUTEN bit is cleared, and it may stay high when DMAOUTEN is set. The flag setting generates an interrupt if the CCFIE bit of the AES_IER register is set. The flag is cleared by setting the corresponding bit of the AES_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not completed"
+              },
+              {
+                "value": "1",
+                "meaning": "Completed"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

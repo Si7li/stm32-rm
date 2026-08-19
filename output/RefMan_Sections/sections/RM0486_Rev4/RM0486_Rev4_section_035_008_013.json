@@ -1,0 +1,124 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.8.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.8.13",
+      "section_title": "MDF short circuit detector control register x (MDF_SCDxCR)",
+      "level": 3,
+      "parent_section": "35.8",
+      "page": 1697,
+      "page_end": 1698,
+      "semantic_type": "register_description",
+      "features": [
+        "bkscd",
+        "mdf",
+        "scdactive",
+        "scden",
+        "scdt"
+      ],
+      "chars": 1850,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1697",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.8.13 \"MDF short circuit detector control register x (MDF_SCDxCR)\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1697.",
+      "section_content": "Address offset: 0x0A8 + 0x80 * x, (x = 0 to 5)\nReset value: 0x0000 0000\nThis register is used for the adjustment stream delays. The number of registers is equal to\nthe amount of filters. Refer to Section35.3 for details.\nBit 31 SCDACTIVE: SCDx active flag\nThis bit is set and cleared by hardware. It is used to check if the SCDx is effectively enabled\n(active) or not. The protected fields of this function can only be updated when the\nSCDACTIVE is set to 0 (refer to Section35.4.15 for details).\nThe delay between a transition on SCDEN and a transition on SCDACTIVE is two periods of\nAHB clock and two periods of mdf_proc_ck.\n0: SCDx not active and can be configured if needed\n1: SCDx active and protected fields cannot be configured\nBits 30:20 Reserved, must be kept at reset value.\nBits 19:12 SCDT[7:0]: SCDx threshold\nThis bitfield is set and cleared by software. These bits are written by software to define the\nthreshold counter for SCDx. If this value is reached, a short-circuit detector event occurs on a\ngiven input stream.\n0: 2 consecutive 1's or 0's generate an event.\n1: 2 consecutive 1's or 0's generate an event.\n2: 3 consecutive 1's or 0's generate an event.\n...\n255: 256 consecutive 1's or 0's generate an event.\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 11:8 Reserved, must be kept at reset value.\nBits 7:4 BKSCD[3:0]: Break signal assignment for short circuit detector\nThis bitfield is set and cleared by software.\nBKSCD[i] = 0: Break signal (mdf_break[i]) not assigned to this SCD event\nBKSCD[i] = 1: Break signal (mdf_break[i]) assigned to this SCD event\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 3:1 Reserved, must be kept at reset value.\nBit 0 SCDEN: SCDx enable\nThis bit is set and cleared by software.\n0: SCDx disabled\n1: SCDx enabled,",
+      "semantic": {
+        "register": "MDF_SCDxCR",
+        "address_offset": "0x0A8 + 0x80 * x, (x = 0 to 5)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "SCDACTIVE",
+            "description": "SCDx active flag This bit is set and cleared by hardware. It is used to check if the SCDx is effectively enabled (active) or not. The protected fields of this function can only be updated when the SCDACTIVE is set to 0 (refer to Section35.4.15 for details). The delay between a transition on SCDEN and a transition on SCDACTIVE is two periods of AHB clock and two periods of mdf_proc_ck.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SCDx not active and can be configured if needed"
+              },
+              {
+                "value": "1",
+                "meaning": "SCDx active and protected fields cannot be configured"
+              }
+            ]
+          },
+          {
+            "bits": "30:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:12",
+            "name": "SCDT[7:0]",
+            "description": "SCDx threshold This bitfield is set and cleared by software. These bits are written by software to define the threshold counter for SCDx. If this value is reached, a short-circuit detector event occurs on a given input stream. ... Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "2 consecutive 1's or 0's generate an event."
+              },
+              {
+                "value": "1",
+                "meaning": "2 consecutive 1's or 0's generate an event."
+              },
+              {
+                "value": "2",
+                "meaning": "3 consecutive 1's or 0's generate an event."
+              },
+              {
+                "value": "255",
+                "meaning": "256 consecutive 1's or 0's generate an event."
+              }
+            ]
+          },
+          {
+            "bits": "11:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:4",
+            "name": "BKSCD[3:0]",
+            "description": "Break signal assignment for short circuit detector This bitfield is set and cleared by software. BKSCD[i] = 0: Break signal (mdf_break[i]) not assigned to this SCD event BKSCD[i] = 1: Break signal (mdf_break[i]) assigned to this SCD event Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": []
+          },
+          {
+            "bits": "3:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "SCDEN",
+            "description": "SCDx enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SCDx disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "SCDx enabled,"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

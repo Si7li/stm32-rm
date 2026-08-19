@@ -1,0 +1,116 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T311",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "311",
+      "title": "Programming sequence (CIC4)",
+      "page": 1753,
+      "section": "36.7.2",
+      "section_title": "Programming examples",
+      "semantic_type": "generic",
+      "features": [
+        "cic4"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1753",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Operations",
+        "Comments"
+      ],
+      "text_helper": "Table 311, \"Programming sequence (CIC4)\", in section 36.7.2 (Programming examples) on page 1753. Columns: Operations, Comments. 17 data row(s). Notes: 1. SNTHR and ANMIN values are computed using the same approach than in Threshold programming with SADMOD = 01 (detection of a sound higher than 63 dBSPL).",
+      "table_content": {
+        "headers": [
+          "Operations",
+          "Comments"
+        ],
+        "rows": [
+          [
+            "Adjust the proper kernel clock frequency \nvia the RCC",
+            "Assuming that the RCC is programmed to provide a kernel clock \n(adf_ker_ck) of 1.536 MHz coming from a RC oscillator. "
+          ],
+          [
+            "Select the proper ADF kernel clock \nsource via the RCC",
+            "Refer to the RCC of the product."
+          ],
+          [
+            "Enable the ADF clocks via the RCC",
+            "Refer to the RCC of the product."
+          ],
+          [
+            "Reset the ADF via the RCC",
+            "Refer to the RCC of the product."
+          ],
+          [
+            "AFMUX programming ",
+            "Program the AFMUX to select ADF_SD0 and ADF_CCK0 functions. "
+          ],
+          [
+            "Enable ADF processing clock:\nADF_CKGCR = 0x0001 0023",
+            "PROCDIV = 0 (bypass): adf_proc_ck frequency is 1.536MHz.\nCCKDIV = 1 (division by 2): ADF_CCK0 clock frequency is 768 kHz.\nThe ADF_CCK0 pin is set in output and generates a clock so that the \nmicrophone can exit from low-power mode."
+          ],
+          [
+            "Serial interfaces configuration:\nADF_SITF0CR = 0x0000 1F01",
+            "SCKSRC = 0 to select ADF_CCK0 as serial clock.\nSIFTMOD = 0 to select LF_MASTER SPI mode.\nClock absence feature is not working in this mode.\nThe serial interface is enabled."
+          ],
+          [
+            "Bitstream matrix configuration:\nADF_BSMX0CR = 0x0000 0000",
+            "DFLT0 filter takes the bitstream of SITF0, sampled on rising edge"
+          ],
+          [
+            "Filters configuration (CIC):\nADF_DFLT0CICR = 0x00402F40",
+            "SCALE = 0x04 (12 dB): RSFLT is not enabled. Note that the gain is 8.5 \ndB, higher than recommended in order to improve signal accuracy for the \nSAD. Saturation is not an issue in this case, as only the detection of a \nsignal much lower than the full scale is needed.\nMCICD = 0x2F (decimation by 48)\nCICMOD = 4 to select a Sinc4\nDATSCR = 0 to select data coming from BSMX"
+          ],
+          [
+            "Filters configuration (RSFLT and HPF):\nADF_DFLT0RSFR = 0x00000301",
+            "HPFC = 3: cut-off frequency of 16kHz * 0.0095 = 152 Hz\nHPFBYP = 0: HPF not bypassed\nRSFLTBYP = 1: RSFLT bypassed"
+          ],
+          [
+            "Micro delay adjust:\nADF_DLY0CR = 0x00000000",
+            "Not used in this example"
+          ],
+          [
+            "Enable interrupt events:\nADF_DFLT0IER = 0x00001000",
+            "Enable the interrupt events the application wants to handle.\nIn this example, SDDETIE is set to 1 to have an interrupt if a sound is \ndetected."
+          ],
+          [
+            "SAD setting:\nADF_SADCR = 0x00001400 ",
+            "SADMOD = 1: Trigger based on sound level values\nFRSIZE = 4: Sound level computed on 128 samples\nHYSTEN = 0: No hysteresis\nDETCFG = 0: interrupt generated when the SAD enters in DETECT state\nDATCAP = 0: samples not transferred to memory\nSADEN = 0: SAD not yet enabled"
+          ],
+          [
+            "SAD setting:\nADF_SADCFGR = 0x00250001 ",
+            "ANMIN = 0x25: Sound threshold of 37 * 10^SNTHR/20 = 74 LSB(1)\nHGOVR = 0: four frames (4 x 128 = 512 samples)\nLFRNB = 0: Learning phase set to two frames. Not useful in this mode.\nANSLP = 0: Not used in this mode\nSNTHR = 1: Threshold set to 6 dB (see ANMIN)"
+          ],
+          [
+            "Clear status flags:\nADF_DFLT0ISR = 0x00000FFF",
+            "Clear all the status flags before running the ADF"
+          ],
+          [
+            "Enable the SAD: \nADF_SADCR = 0x00001401\nWait for SADACTIVE flag = 1",
+            "Enable first the SAD, in order to be sure that data transfer to memory are \nblocked by the SAD."
+          ],
+          [
+            "Enable the filter:\nADF_DFLT0CR = 0x00000001",
+            "NBDIS = 0: no samples discarded\nACQMOD = 0: Asynchronous continuous acquisition mode\nDMAEN = 0: DMA interface not used\nDFLTEN = 1: Filter enabled"
+          ]
+        ],
+        "notes": [
+          "1. SNTHR and ANMIN values are computed using the same approach than in Threshold programming with SADMOD = 01 (detection of a sound higher than 63 dBSPL)."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S9.4.10",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "9",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "9.4.10",
+      "section_title": "Clock security system (CSS)",
+      "level": 3,
+      "parent_section": "9.4",
+      "page": 263,
+      "page_end": 264,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "css",
+        "rcc"
+      ],
+      "chars": 2977,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=263",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.4.10 \"Clock security system (CSS)\" in chapter 9 (Reset and clock control (RCC)), RM0522 Rev 1, page 263.",
+      "section_content": "Clock security system on HSE\nThe clock security system can be enabled by software via the HSECSSON bit, which can be\nset even when the HSEON is cleared.\nThe CSS on HSE is enabled by the hardware when the HSE is enabled and ready, and\nHSECSSON set to 1.\nThe CSS on HSE is disabled when the HSE is disabled. It is not possible to clear directly the\nHSECSSON bit by software.\nThe HSECSSON bit is cleared by hardware when a system reset occurs or when the\nsystem enters Standby mode.\nIf a failure is detected on the HSE clock while it is used as a system clock, the system\nautomatically switches to the HSIDIV3, to provide a safe clock. The HSE is then\nautomatically disabled, a clock failure event is sent to the break inputs of the advanced-\ncontrol timer (TIM1, TIM8, TIM15, TIM16, and TIM17), and an NMI is automatically\ngenerated to inform the application about the failure, allowing the MCU to perform rescue\noperations. If the HSE output was used as clock source for the PSI reference clock when\nthe failure occurred, the oscillator is also disabled.\nIf an HSE clock failure occurs when the CSS is enabled, the CSS generates an interrupt that\ncauses the automatic generation of an NMI. The HSECSSF flag in RCC_CIFR is set to 1 to\nallow the application to identify the failure source. The NMI routine is executed indefinitely\nuntil the HSECSSF bit is cleared. As a consequence, the application must clear the\nHSECSSF flag in the NMI ISR by setting the HSECSSC bit in RCC_CICR.\nClock security system on LSE\nA clock security system on LSE can be activated by software writing the LSECSSON bit\ninRCC_RTCCR. This bit can be disabled only by a hardware reset or RTC software reset,\nor after a failure detection on LSE. LSECSSON must be written after LSE is enabled\n(LSEON enabled) and ready (LSERDY set by hardware), and after the RTC clock has been\nselected by RTCSEL.\nThe CSS on LSE is working in all modes. It also works under system reset (excluding\npower-on reset).\nThe clock security system on the LSE detects when the LSE disappears or in case of over\nfrequency.\nIf a failure is detected on the external 32kHz oscillator, the LSE clock is no longer supplied\nto the RTC, but no hardware action is made to the registers.\nNote: If the LSECSS is enabled and the LSE clock fails, the LSECSSI occurs and an NMI is\nautomatically generated. The NMI is executed infinitely unless the LSECSSF interrupt\npending bit is cleared. It is therefore necessary that the NMI ISR clears the LSECSSI by\nsetting the LSECSSC bit in the clock interrupt clear register (RCC_CICR).\nIn case of CSS on LSE detection event (LSECSSD = 1 in the RCC_RTCCR), the software\nmust change the RTC clock source (no clock or LSI or HSE, with RTCSEL bitfield\nmodification only possible while LSECSSD = 1) then disable the LSECSSON bit that clears\nthe LSECSSD, stop the defective 32kHz oscillator (disabling LSEON), or act to secure the\napplication.\nRefer to the datasheet for CSS on LSE electrical characteristics.",
+      "semantic": {}
+    }
+  ]
+}

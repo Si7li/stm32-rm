@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S28.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "28",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "28.6",
+      "section_title": "SAES DMA requests",
+      "level": 2,
+      "parent_section": null,
+      "page": 876,
+      "page_end": 876,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "saes"
+      ],
+      "chars": 1851,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=876",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.6 \"SAES DMA requests\" in chapter 28 (Secure AES coprocessor (SAES)), RM0522 Rev 1, page 876.",
+      "section_content": "The SAES peripheral provides an interface to connect to the DMA (direct memory access)\ncontroller. The DMA operation is controlled through the DMAINEN and DMAOUTEN bits of\nthe SAES_CR register. When key derivation is selected (MODE[1:0] is at 0x1), setting those\nbits has no effect.\nSAES only supports single DMA requests.\nSuspend and resume operations are not supported in DMA mode.\nDetailed usage of DMA with SAES can be found in Appending data using DMA subsection\nof Section28.4.5: SAES encryption or decryption typical usage.\nData input using DMA\nSetting DMAINEN enables DMA writing into SAES. SAES then initiates, during the input\nphase, a set of single DMA requests for each 16-byte data block to write to the SAES_DINR\nregister (quadruple 32-bit word, MSB first).\nNote: According to the algorithm and the mode selected, special padding / ciphertext stealing\nmight be required (see Section28.4.7).\nData output using DMA\nSetting DMAOUTEN enables DMA reading from SAES. SAES then initiates, during the\noutput phase, a set of single DMA requests for each 16-byte data block to read from the\nSAES_DOUTR register (quadruple 32-bit word, MSB first).\nAfter the output phase, at the end of processing of a 16-byte data block, SAES switches\nautomatically to a new input phase for the next data block, if any.\nIn DMA mode, the CCF flag has no use because the reading of the SAES_DOUTR register\nis managed by DMA automatically at the end of the computation phase. The CCF flag must\nonly be cleared when transiting back to managing the data transfers by software.\nNote: According to the message size, extra bytes might need to be discarded by application in the\nlast block.\nStopping DMA transfers\nAll DMA request signals are de-asserted when SAES is disabled (EN cleared) or the DMA\nenable bit (DMAINEN for input data, DMAOUTEN for output data) is cleared.",
+      "semantic": {}
+    }
+  ]
+}

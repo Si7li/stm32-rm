@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.4.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.4.12",
+      "section_title": "GPDMA triggered transfer",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 971,
+      "page_end": 972,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "gpdma",
+        "memory"
+      ],
+      "chars": 2183,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=971",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.12 \"GPDMA triggered transfer\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 971.",
+      "section_content": "A programmed GPDMA transfer can be triggered by a rising/falling edge of a selected input\ntrigger event, as defined by GPDMA_CxTR2.TRIGPOL[1:0] and\nGPDMA_CxTR2.TRIGSEL[6:0] (see Section19.3.6 for the trigger selection).\nThe triggered transfer, as defined by the trigger mode in GPDMA_CxTR2.TRIGM[1:0], can\nbe at LLI data transfer level, to condition the first burst read of a block, the first burst read of\na 2D/repeated block for channel x (x=12to15), or each programmed single read. The\ntrigger mode can also be programmed to condition the LLI link transfer (see TRIGM[1:0] in\nGPDMA_CxTR2 for more details).\nTrigger hit memorization and trigger overrun flag generation\nThe GPDMA monitoring of a trigger for a channel x is started when the channel is\nenabled/loaded with a new active trigger configuration: rising or falling edge on a selected\ntrigger (respectively TRIGPOL[1:0]=01 or TRIGPOL[1:0]=10).\nThe monitoring of this trigger is kept active during the triggered and uncompleted (data or\nlink) transfer. If a new trigger is detected, this hit is internally memorized to grant the next\ntransfer, as long as the defined rising/falling edge and TRIGSEL[6:0] are not modified, and\nthe channel is enabled.\nTransferring a next LLIn+1, that updates the GPDMA_CxTR2 with a new value for any of\nTRIGSEL[6:0] or TRIGPOL[1:0], resets the monitoring, trashing the possible memorized hit\nof the formerly defined LLIn trigger.\nCaution: After a first new trigger hitn+1 is memorized, if another trigger hitn+2 is detected and if the hitn\ntriggered transfer is still not completed, hitn+2 is lost and not memorized. A trigger overrun\nflag is reported (GPDMA_CxSR.TOF=1) and an interrupt is generated if enabled\n(ifGPDMA_CxCR.TOIE=1). The channel is not automatically disabled by hardware due to\na trigger overrun.\nFigure111 illustrates the trigger hit, memorization and overrun in the configuration example\nwith a block-level trigger mode and a rising edge trigger polarity.\n[Figure 111. Trigger hit, memorization, and overrun waveform]\nNote: The user can assign the same input trigger event to different channels. This can be used to\ntrigger different channels on a broadcast trigger event.",
+      "semantic": {}
+    }
+  ]
+}

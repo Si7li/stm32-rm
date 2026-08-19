@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.9.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.9.7",
+      "section_title": "Startup sequence",
+      "level": 3,
+      "parent_section": "45.9",
+      "page": 1988,
+      "page_end": 1990,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 3038,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1988",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.9.7 \"Startup sequence\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1988.",
+      "section_content": "When the bit SPE is cleared, the user is not allowed to read and write from/to the\nSPI_RXDR and SPI_TXDR registers, but the access to other registers is allowed.\nWhen the application wants to use the SPI/I2S block the user has to proceed as follows:\n1. Ensure that the SPE is cleared, otherwise write SPE to 0.\n2. Program all the configuration and control registers according to the wanted\nconfiguration. Refer to Section45.9.16 for detailed programming examples.\n3. Clear all the status flags by setting the USPC, TIFREC, OVRC, and UDRC bits of the\nSPI_IFCR register. Note that if the flag SUSP is not cleared (via the SUSPC bit) the\nCSTART control bit has no effect.\n4. Set the SPE bit to activate the SPI/I2S block. When this bit is set, the serial interface is\nstill disabled, but the DMA and interrupt services are working, allowing for example, the\ndata transfer into the TxFIFO.\n5. Set bit CSTART to activate the serial interface.\nAs shown in Figure684, in I2S Philips standard master TX, the generation of the WS and\nCK signals starts after a resynchronization delay (SYNC_DLY2) when CSTART goes to 1\nand the TxFIFO is not empty. Note that the CK bit clock is activated four rising edges before\nthe falling edge of WS in order to ensure that the external slave device can detect properly\nWS transition. Other standards behave similarly.\n[Figure 684. Startup sequence, I2S Philips standard, master]\nCK(O)\n(CKPOL = 0)\nSDO\n(LSBFRST = 0)\nCSTART\nSPE\nAccesses to\nSPI/I2S block SPI/I2S Data transfer to Enabling of the serial\nconfiguration the TX_FIFO interface\nRepresents the signal interfaces in the case where AFCNTR is kept to 0\n(1) Bit MCKOE is set to 1\n2. When MCKOE is set, the MCK is generated after a synchronization delay (SYNC_DLY1). For more\ninformation, see MCK generation in Section45.9.9: Clock generator.\n3. Note that the level of WS and CK signals are controlled by the SPI/I2S block during the configuration phase\nas soon as the AFCNTR bit is set.\nNote: Due to clock domain resynchronization, the CSTART bit is taken into account by the\nhardware after about three periods of CK clock (SYNC_DLY2).\nIn slave mode, once the bit CSTART is set, the data transfer starts when the start-of-frame\ncondition is met:\n• For the I2S Philips standard, the start-of-frame condition is a falling edge of the WS\nsignal. The transmission/reception starts one bit clock later.\nIf WSINV = 1, then the start-of-frame condition is a rising edge.\n• For other protocols, the start-of-frame condition is a rising edge of the WS signal. The\ntransmission/reception starts at the rising edge of WS for MSB-aligned protocol. The\ntransmission/reception starts one bit clock later for PCM protocol.\nIf WSINV = 1, then the start-of-frame condition is a falling edge.\nFigure685 shows an example of startup sequence in I2S Philips standard, slave mode.\n[Figure 685. Startup sequence, I2S Philips standard, slave]\nNote: Due to clock domain resynchronization, the CSTART bit is taken into account by the\nhardware after two periods of CK clock (SYNC_DLY).",
+      "semantic": {}
+    }
+  ]
+}

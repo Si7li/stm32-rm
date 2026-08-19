@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S72.2.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "72",
+      "chapter_title": "USB subsystem (USBSS)",
+      "section": "72.2.4",
+      "section_title": "Battery charging",
+      "level": 3,
+      "parent_section": "72.2",
+      "page": 3750,
+      "page_end": 3751,
+      "semantic_type": "generic",
+      "features": [
+        "battery",
+        "charging"
+      ],
+      "chars": 2018,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3750",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 72.2.4 \"Battery charging\" in chapter 72 (USB subsystem (USBSS)), RM0486 Rev 4, page 3750.",
+      "section_content": "The OTGPHY1 integrates the voltage and current sources, as well as the voltage\ncomparators required to support Battery Charging v1.2. The relevant control bits are\nimplemented in OTG_GCCFG register of the OTG1 controller.\nThe control sequence depends on whether the OTG HS port 1 is Host or Device.\nHost case\nIf the application wants the Host port to behave as a Standard Downstream Port (SDP), the\ndefault values of H_CDPEN, H_CDPDETEN, H_VDMSRCEN bits in OTG_GCCFG register\nmust be kept.\nIf the application wants the Host port to behave as a Charging Downstream Port (CDP), one\nof the following two control sequences must be implemented:\nControl sequence 1:\n• Set the H_CDPEN bit to 1\n• Decode the disconnect information transmitted by the OTGPHY1 to the OTG1\ncontroller (HOSTDISCONNECT0 output of OTGPHY1).\n– If disconnect = 1, set the H_VDMSRCEN bit to 1\n– else set the H_VDMSRCEN bit to 0\nControl sequence 2:\n• Set the H_CDPEN bit to 1 and the H_CDPDETEN bit to 1\n• Monitor CHGDET and FSVPLUS status bits:\n– If CHGDET = 1 and FSVPLUS = 0, set the H_VDMSRCEN bit to 1\n– else, set the H_VDMSRCEN bit to 0\nDevice case\n• Data contact detection\n– Set the PD_DCDET bit to 1. This enables a current source on OTG1_HSDP and\npulls OTG1_HSDM low.\n– If FSVPLUS is at 0 for more than tDCD_DBNC (as defined in Battery Charging\nv1.2), Data Contact has happened. PD_DCDET must be reset.\n• Primary detection\n– Set the PD_PDET bit to 1. This enables a voltage source on OTG1_HSDP and a\nvoltage comparator on OTG1_HSDM.\n– If CHGDET = 0, the Device is connected to a Standard Downstream Port (SDP).\n– If CHGDET = 1, the Device is connected to a Charging Downstream Port (CDP) or\na Dedicated Charging Port (DCP).\n– Reset PD_PDET.\n• Secondary detection\n– Set the PD_SDET bit to 1. This enables a voltage source on OTG1_HSDM and a\nvoltage comparator on OTG1_HSDP.\n– If CHGDET = 0, the Device is connected to a Charging Downstream Port (CDP).\n– If CHGDET = 1, the Device is connected to a Dedicated Charging Port (DCP).\n– Reset PD_SDET.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.4.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.4.6",
+      "section_title": "Frame synchronization",
+      "level": 3,
+      "parent_section": "68.4",
+      "page": 3507,
+      "page_end": 3510,
+      "semantic_type": "generic",
+      "features": [
+        "frame",
+        "synchronization"
+      ],
+      "chars": 5807,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3507",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.4.6 \"Frame synchronization\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3507.",
+      "section_content": "The FS signal acts as the frame synchronization signal in the audio frame (start of frame).\nThe shape of this signal is completely configurable to target the different audio protocols\nwith their own specificities concerning this frame synchronization behavior. This\nreconfigurability is done using the SAI_xFRCR register. Figure915 illustrates this flexibility.\n[Figure 915. Audio frame]\n[Table 671. External synchronization selection]\nSCK\n(FSOFF = 0)\n(FSOFF = 1)\nIn AC’97 mode or in SPDIF mode (bit PRTCFG[1:0] = 10 or PRTCFG[1:0] = 01 in the\nSAI_xCR1 register), the frame synchronization shape is forced to match the AC’97 protocol.\nThe SAI_xFRCR register value is ignored.\nEach audio block is independent and consequently each one requires a specific\nconfiguration.\nFrame length\n• Master mode\nThe audio frame length can be configured to up to 256-bit clock cycles, by configuring\nthe FRL[7:0] field in the SAI_xFRCR register.\nIf the frame length is greater than the number of declared slots for the frame, the\nremaining bits to transmit are extended to 0 or the SD line is released to high-Z\ndepending on the state of bit TRIS in the SAI_xCR2 register (refer to FS signal role). In\nreception mode, the remaining bit is ignored.\nIf bit NODIV is cleared, (FRL+1) must be equal to a power of 2, from 8 to 256, to ensure\nthat an audio frame contains an integer number of MCLK pulses per bit clock cycle.\nIf bit NODIV is set, the (FRL+1) field can take any value from 8 to 256. Refer to\nSection68.4.8: SAI clock generator”\n• Slave mode\nThe audio frame length is mainly used to specify to the slave the number of bit clock\ncycles per audio frame sent by the external master. It is used mainly to detect from the\nmaster any anticipated or late occurrence of the frame synchronization signal during an\nongoing audio frame. In this case, an error is generated. For more details, refer to\nSection68.4.14: Error flags.\nIn slave mode, there are no constraints on the FRL[7:0] configuration in the\nSAI_xFRCR register.\nThe number of bits in the frame is equal to FRL[7:0] + 1.\nThe minimum number of bits to transfer in an audio frame is 8.\nFrame synchronization polarity\nThe FSPOL bit in the SAI_xFRCR register sets the active polarity of the FS pin from which a\nframe is started. The start of the frame is edge sensitive.\nIn slave mode, the audio block waits for a valid frame to start transmitting or receiving. The\nstart of the frame is synchronized to this signal. It is effective only if the start of the frame is\nnot detected during an ongoing communication and assimilated to an anticipated start of\nframe (refer to Section68.4.14: Error flags).\nIn master mode, the frame synchronization is sent continuously each time an audio frame is\ncomplete until the SAIEN bit in the SAI_xCR1 register is cleared. If no data are present in\nthe FIFO at the end of the previous audio frame, an underrun condition is managed as\ndescribed in Section68.4.14: Error flags), but the audio communication flow is not\ninterrupted.\nFrame synchronization active level length\nThe FSALL[6:0] bits of the SAI_xFRCR register enable the configuration of the length of the\nactive level of the frame synchronization signal. The length can be set from 1- to 128-bit\nclock cycles.\nAs an example, the active length can be half of the frame length in I2S, LSB or MSB-justified\nmodes, or one-bit wide for PCM/DSP or TDM.\nFrame synchronization offset\nDepending on the audio protocol targeted in the application, the frame synchronization\nsignal can be asserted when transmitting the last bit or the first bit of the audio frame (this is\nthe case in I2S standard protocol and in MSB-justified protocol, respectively). The FSOFF\nbit in the SAI_xFRCR register enables the possibility to choose between two configurations.\nFS signal role\nThe FS signal can have a different meaning depending on the FS function. FSDEF bit in the\nSAI_xFRCR register selects which meaning it has:\n• 0: start of frame, like, for instance, the PCM/DSP, TDM, AC’97, audio protocols,\n• 1: start of frame and channel side identification within the audio frame like for the I2S or\nthe MSB- or LSB-justified protocols.\nWhen the FS signal is considered as a start of frame and channel side identification within\nthe frame, the number of declared slots must be considered to be half the number for the left\nchannel and half the number for the right channel. If the number of bit clock cycles on half\naudio frame is greater than the number of slots dedicated to a channel side, and TRIS = 0, 0\nis sent for transmission for the remaining bit clock cycles in the SAI_xCR2 register.\nOtherwise, if TRIS = 1, the SD line is released to high-Z. In reception mode, the remaining\nbit clock cycles are not considered until the channel side changes.\n[Figure 916. FS role is start of frame + channel side identification (FSDEF = TRIS = 1)]\n1. The frame length must be even.\nIf the FSDEF bit in SAI_xFRCR is kept clear, so FS signal is equivalent to a start of frame,\nand if the number of slots defined in NBSLOT[3:0] in SAI_xSLOTR multiplied by the number\nof bits by slot configured in SLOTSZ[1:0] in SAI_xSLOTR is less than the frame size (bit\nFRL[7:0] in the SAI_xFRCR register), then:\n• If TRIS = 0 in the SAI_xCR2 register, the remaining bit after the last slot is forced to 0\nuntil the end of frame in case of transmitter,\n• If TRIS = 1, the line is released to high-Z during the transfer of these remaining bits. In\nreception mode, these bits are discarded.\n[Figure 917. FS role is start of frame (FSDEF = 0)]\nData = 0 after slot n if TRIS = 0\nSD output released (HI-Z) after slot n if TRIS = 1\nThe FS signal is not used when the audio block in transmitter mode is configured to get the\nSPDIF output on the SD line. The corresponding FS I/O is released and left free for other\npurposes.",
+      "semantic": {}
+    }
+  ]
+}

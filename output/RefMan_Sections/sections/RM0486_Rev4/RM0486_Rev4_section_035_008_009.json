@@ -1,0 +1,174 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.8.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.8.9",
+      "section_title": "MDF out-of limit detector control register x (MDF_OLDxCR)",
+      "level": 3,
+      "parent_section": "35.8",
+      "page": 1694,
+      "page_end": 1695,
+      "semantic_type": "register_description",
+      "features": [
+        "acicd",
+        "acicn",
+        "bkold",
+        "mdf",
+        "oldactive",
+        "olden",
+        "thinb"
+      ],
+      "chars": 2656,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1694",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.8.9 \"MDF out-of limit detector control register x (MDF_OLDxCR)\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1694.",
+      "section_content": "Address offset: 0x098 + 0x80 * x, (x = 0 to 5)\nReset value: 0x0000 0000\nThis register is used to configure the OLDx.The number of registers is equal to the amount\nof filters. Refer to Section35.3 for details.\nBit 31 OLDACTIVE: OLDx active flag\nThis bit is set and cleared by hardware. It is used to check if the OLDx is effectively enabled\n(active) or not. The protected fields and registers of this function can only be updated when\nthe OLDACTIVE is set to 0 (refer to Section35.4.15 for details).\nThe delay between a transition on OLDEN and a transition on OLDACTIVE is two periods of\nAHB clock and two periods of mdf_proc_ck.\n0: OLDx not active and can be configured if needed\n1: OLDx active and protected fields cannot be configured\nBits 30:22 Reserved, must be kept at reset value.\nBits 21:17 ACICD[4:0]: OLDx CIC decimation ratio selection\nThis bitfield is set and cleared by software. It is used to select the decimation ratio of the\nACIC. It is only taken into account by the MDF when CICMOD[2:0] = 0xx. The decimation\nratio is given by (ACICD + 1).\n0: Decimation ratio is 1.\n1: Decimation ratio is 2.\n2: Decimation ratio is 3.\n3: Decimation ratio is 4.\n...\n31: Decimation ratio is 32.\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 16:14 Reserved, must be kept at reset value.\nBits 13:12 ACICN[1:0]: OLDx CIC order selection\nThis bitfield is set and cleared by software. It is used to select the ACIC type and order. It is\nonly taken into account by the MDF when CICMOD[2:0] = 0xx.\n00: FastSinc filter type\n01: Sinc1 filter type\n10: Sinc2 filter type\n11: Sinc3 filter type\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 11:8 Reserved, must be kept at reset value.\nBits 7:4 BKOLD[3:0]: Break signal assignment for out-of limit detector\nThis bitfield is set and cleared by software.\nBKOLD[i] = 0: Break signal (mdf_break[i]) not assigned to threshold event\nBKOLD[i] = 1: Break signal (mdf_break[i]) assigned to threshold event\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 3:2 Reserved, must be kept at reset value.\nBit 1 THINB: Threshold In band\nThis bit is set and cleared by software.\n0: The OLDx generates an event if the signal is lower than OLDTHL or higher than OLDTHH\n(default value).\n1: The OLDx generates an event if the signal is lower than OLDTHH and higher than\nOLDTHL.\nNote: This bit can be write-protected (refer to Section35.4.15 for details).\nBit 0 OLDEN: OLDx enable\nThis bit is set and cleared by software.\n0: OLDx disabled (default value)\n1: OLDx enabled, including the ACIC filter working in continuous mode",
+      "semantic": {
+        "register": "MDF_OLDxCR",
+        "address_offset": "0x098 + 0x80 * x, (x = 0 to 5)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "OLDACTIVE",
+            "description": "OLDx active flag This bit is set and cleared by hardware. It is used to check if the OLDx is effectively enabled (active) or not. The protected fields and registers of this function can only be updated when the OLDACTIVE is set to 0 (refer to Section35.4.15 for details). The delay between a transition on OLDEN and a transition on OLDACTIVE is two periods of AHB clock and two periods of mdf_proc_ck.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OLDx not active and can be configured if needed"
+              },
+              {
+                "value": "1",
+                "meaning": "OLDx active and protected fields cannot be configured"
+              }
+            ]
+          },
+          {
+            "bits": "30:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21:17",
+            "name": "ACICD[4:0]",
+            "description": "OLDx CIC decimation ratio selection This bitfield is set and cleared by software. It is used to select the decimation ratio of the ACIC. It is only taken into account by the MDF when CICMOD[2:0] = 0xx. The decimation ratio is given by (ACICD + 1). ... Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Decimation ratio is 1."
+              },
+              {
+                "value": "1",
+                "meaning": "Decimation ratio is 2."
+              },
+              {
+                "value": "2",
+                "meaning": "Decimation ratio is 3."
+              },
+              {
+                "value": "3",
+                "meaning": "Decimation ratio is 4."
+              },
+              {
+                "value": "31",
+                "meaning": "Decimation ratio is 32."
+              }
+            ]
+          },
+          {
+            "bits": "16:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:12",
+            "name": "ACICN[1:0]",
+            "description": "OLDx CIC order selection This bitfield is set and cleared by software. It is used to select the ACIC type and order. It is only taken into account by the MDF when CICMOD[2:0] = 0xx. Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "FastSinc filter type"
+              },
+              {
+                "value": "01",
+                "meaning": "Sinc1 filter type"
+              },
+              {
+                "value": "10",
+                "meaning": "Sinc2 filter type"
+              },
+              {
+                "value": "11",
+                "meaning": "Sinc3 filter type"
+              }
+            ]
+          },
+          {
+            "bits": "11:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:4",
+            "name": "BKOLD[3:0]",
+            "description": "Break signal assignment for out-of limit detector This bitfield is set and cleared by software. BKOLD[i] = 0: Break signal (mdf_break[i]) not assigned to threshold event BKOLD[i] = 1: Break signal (mdf_break[i]) assigned to threshold event Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": []
+          },
+          {
+            "bits": "3:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "THINB",
+            "description": "Threshold In band This bit is set and cleared by software. (default value). OLDTHL. Note: This bit can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The OLDx generates an event if the signal is lower than OLDTHL or higher than OLDTHH"
+              },
+              {
+                "value": "1",
+                "meaning": "The OLDx generates an event if the signal is lower than OLDTHH and higher than"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "OLDEN",
+            "description": "OLDx enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OLDx disabled (default value)"
+              },
+              {
+                "value": "1",
+                "meaning": "OLDx enabled, including the ACIC filter working in continuous mode"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

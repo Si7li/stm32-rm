@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S8.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "8",
+      "chapter_title": "Power control (PWR)",
+      "section": "8.7",
+      "section_title": "Power modes",
+      "level": 2,
+      "parent_section": null,
+      "page": 229,
+      "page_end": 233,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2973,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=229",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 8.7 \"Power modes\" in chapter 8 (Power control (PWR)), RM0522 Rev 1, page 229.",
+      "section_content": "By default, the microcontroller is in Run mode after a system or a power reset. Three\nlow-power modes are available to reduce consumption when there is no need to keep the\nCPU running, for example when waiting for an external event. The user can select the mode\nthat gives the best compromise between low-power consumption, short startup time, and\nwake-up sources.\nThe device features the following low-power modes:\n• Sleep mode\nCPU clock off, peripherals such as NVIC and SysTick can run and wake up the CPU\nwhen an interrupt or an event occurs. Refer to Section8.7.4.\n• Stop 0 and Stop 1 modes\nAchieve the lowest power consumption, while retaining the content of SRAM and\nregisters. All clocks in the core domain are stopped. The HSE crystal oscillators, HSI\n(except if HSIKERON is set), PSI (except if PSIKERON is set) are disabled. The LSE\nor LSI is still running. Under Stop 0, the LDO regulator supplies VCORE at 1.2V while\nunder Stop 1 VCORE voltage is decreased down to 0.9V. Consequently wake up\nsources are reduced and wake up time increased, refer to SectionTable 54.\nThe RTC can remain active (Stop mode with RTC, Stop mode without RTC).\nWhen exiting from Stop mode, the system clock is HSI clock at 144MHz or 48MHz\nbased STOPWUCK value.\nRefer to Section8.7.5.\n• Standby mode\nThis mode achieves the lowest power consumption. The internal regulator is switched\noff so that the core domain is powered off. The HSI, PSI, and the HSE crystal\noscillators are also switched off.\nThe RTC can remain active (Standby mode with RTC, Standby mode without RTC).\nThe power-on reset and power-down reset (POR/PDR) remains active.\nThe state of the I/O (except I/Os used by Standby mode) during Standby mode can be\nretained.\nAfter entering Standby mode, SRAMs and register contents are lost except for registers\nin the RTC domain and Standby circuitry.\nThe device exits Standby mode when an external reset (NRST pin), an IWDG reset,\nWKUP pin event (configurable rising or falling edge), an RTC event occurs (alarm,\nperiodic wake-up, timestamp), or a tamper detection. The tamper detection can be\nraised either due to external pins or due to an internal failure detection.\nThe system clock after wake-up is HSI at 48MHz.\nThe table below shows the power modes overview.\n[Table 54. Low-power mode summary]\n[Table 55. Functionalities depending on the working mode(1)]\nIn addition, the power consumption in Run mode can be reduced by slowing down the\nsystem clocks and by gating the clocks to the APB and AHB peripherals when they are not\nused.\nDebug mode\nBy default, the debug connection is lost if the application puts the MCU in Stop or Standby\nmode while the debug features are used. This is due to the fact that the Cortex-M33 core is\nno longer clocked.\nHowever, by setting some configuration bits in the DBGMCU control registers, the software\ncan be debugged even when using the low-power modes extensively. For more details,\nrefer to Section49.2.5: Debug and low-power modes.",
+      "semantic": {}
+    }
+  ]
+}

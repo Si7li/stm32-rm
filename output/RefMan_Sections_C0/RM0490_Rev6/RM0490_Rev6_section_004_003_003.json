@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.3.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.3.3",
+      "section_title": "Flash memory acceleration",
+      "level": 3,
+      "parent_section": "4.3",
+      "page": 59,
+      "page_end": 60,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory"
+      ],
+      "chars": 2017,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=59",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.3.3 \"Flash memory acceleration\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 59.",
+      "section_content": "Instruction prefetch\nEach flash memory read operation provides 64 bits from either two instructions of 32 bits or\nfour instructions of 16 bits according to the program launched. This 64-bits current\ninstruction line is saved in a current buffer. So, in case of sequential code, at least two CPU\ncycles are needed to execute the previous read instruction line. Prefetch on the CPU S-bus\ncan be used to read the next sequential instruction line from the flash memory while the\ncurrent instruction line is being requested by the CPU.\nPrefetch is enabled by setting the PRFTEN bit of the FLASH access control register\n(FLASH_ACR). This feature is useful if at least one wait state is needed to access the flash\nmemory.\nWhen the code is not sequential (branch), the instruction may not be present in the currently\nused instruction line or in the prefetched instruction line. In this case (miss), the penalty in\nterms of number of cycles is at least equal to the number of wait states.\nIf a loop is present in the current buffer, no new access is performed.\nCache memory\nTo limit the time lost due to jumps, it is possible to retain two cache lines of 64 bits (16 bytes)\nin the instruction cache memory. This feature can be enabled by setting the instruction\ncache enable (ICEN) bit of the FLASH access control register (FLASH_ACR). Each time a\nmiss occurs (requested data not present in the currently used instruction line, in the\nprefetched instruction line or in the instruction cache memory), the line read is copied into\nthe instruction cache memory. If some data contained in the instruction cache memory are\nrequested by the CPU, they are provided without inserting any delay. Once all the\ninstruction cache memory lines are filled, the LRU (least recently used) policy is used to\ndetermine the line to replace in the instruction memory cache. This feature is particularly\nuseful in case of code containing loops.\nThe Instruction cache memory is enabled after system reset.\nNo data cache is available on Cortex®-M0+.",
+      "semantic": {}
+    }
+  ]
+}

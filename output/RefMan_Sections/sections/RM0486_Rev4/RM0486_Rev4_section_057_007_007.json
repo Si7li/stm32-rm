@@ -1,0 +1,209 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S57.7.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "57",
+      "chapter_title": "General purpose timers (TIM15/TIM16/TIM17)",
+      "section": "57.7.7",
+      "section_title": "TIM15 capture/compare mode register 1 (TIM15_CCMR1)",
+      "level": 3,
+      "parent_section": "57.7",
+      "page": 2880,
+      "page_end": 2881,
+      "semantic_type": "register_description",
+      "features": [
+        "cc1s",
+        "cc2s",
+        "ic1f",
+        "ic1psc",
+        "ic2f",
+        "ic2psc",
+        "tim15",
+        "tim15-ccmr1",
+        "timer"
+      ],
+      "chars": 3035,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2880",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 57.7.7 \"TIM15 capture/compare mode register 1 (TIM15_CCMR1)\" in chapter 57 (General purpose timers (TIM15/TIM16/TIM17)), RM0486 Rev 4, page 2880.",
+      "section_content": "Address offset: 0x18\nReset value: 0x00000000\nThe same register can be used for input capture mode (this section) or for output compare\nmode (next section). The direction of a channel is defined by configuring the corresponding\nCCxS bits. All the other bits of this register have a different function for input capture and for\noutput compare modes. It is possible to combine both modes independently (for example\nchannel 1 in input capture mode and channel 2 in output compare mode).\nInput capture mode\nBits 31:16 Reserved, must be kept at reset value.\nBits 15:12 IC2F[3:0]: Input capture 2 filter\nBits 11:10 IC2PSC[1:0]: Input capture 2 prescaler\nBits 9:8 CC2S[1:0]: Capture/Compare 2 selection\nThis bitfield defines the direction of the channel (input/output) as well as the used input.\n00: CC2 channel is configured as output\n01: CC2 channel is configured as input, tim_ic2 is mapped on tim_ti2\n10: CC2 channel is configured as input, tim_ic2 is mapped on tim_ti1\n11: CC2 channel is configured as input, tim_ic2 is mapped on tim_trc. This mode is working only if an\ninternal trigger input is selected through TS bit (TIM15_SMCR register)\nNote: CC2S bits are writable only when the channel is OFF (CC2E = 0 in TIM15_CCER).\nBits 7:4 IC1F[3:0]: Input capture 1 filter\nThis bitfield defines the frequency used to sample tim_ti1 input and the length of the digital filter\napplied to tim_ti1. The digital filter is made of an event counter in which N consecutive events are\nneeded to validate a transition on the output:\n0000: No filter, sampling is done at fDTS\n0001: fSAMPLING = ftim_ker_ck, N = 2\n0010: fSAMPLING = ftim_ker_ck, N = 4\n0011: fSAMPLING = ftim_ker_ck, N = 8\n0100: fSAMPLING = fDTS/2, N = 6\n0101: fSAMPLING = fDTS/2, N = 8\n0110: fSAMPLING = fDTS/4, N = 6\n0111: fSAMPLING = fDTS/4, N = 8\n1000: fSAMPLING = fDTS/8, N = 6\n1001: fSAMPLING = fDTS/8, N = 8\n1010: fSAMPLING = fDTS/16, N = 5\n1011: fSAMPLING = fDTS/16, N = 6\n1100: fSAMPLING = fDTS/16, N = 8\n1101: fSAMPLING = fDTS/32, N = 5\n1110: fSAMPLING = fDTS/32, N = 6\n1111: fSAMPLING = fDTS/32, N = 8\nBits 3:2 IC1PSC[1:0]: Input capture 1 prescaler\nThis bitfield defines the ratio of the prescaler acting on CC1 input (tim_ic1). The prescaler is reset as\nsoon as CC1E = 0 (TIM15_CCER register).\n00: no prescaler, capture is done each time an edge is detected on the capture input\n01: capture is done once every 2 events\n10: capture is done once every 4 events\n11: capture is done once every 8 events\nBits 1:0 CC1S[1:0]: Capture/Compare 1 selection\nThis bitfield defines the direction of the channel (input/output) as well as the used input.\n00: CC1 channel is configured as output\n01: CC1 channel is configured as input, tim_ic1 is mapped on tim_ti1\n10: CC1 channel is configured as input, tim_ic1 is mapped on tim_ti2\n11: CC1 channel is configured as input, tim_ic1 is mapped on tim_trc. This mode is working only if an\ninternal trigger input is selected through TS bit (TIM15_SMCR register)\nNote: CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIM15_CCER).",
+      "semantic": {
+        "register": "TIM15_CCMR1",
+        "address_offset": "0x18",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:12",
+            "name": "IC2F[3:0]",
+            "description": "Input capture 2 filter",
+            "values": []
+          },
+          {
+            "bits": "11:10",
+            "name": "IC2PSC[1:0]",
+            "description": "Input capture 2 prescaler",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "CC2S[1:0]",
+            "description": "Capture/Compare 2 selection This bitfield defines the direction of the channel (input/output) as well as the used input. internal trigger input is selected through TS bit (TIM15_SMCR register) Note: CC2S bits are writable only when the channel is OFF (CC2E = 0 in TIM15_CCER).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CC2 channel is configured as output"
+              },
+              {
+                "value": "01",
+                "meaning": "CC2 channel is configured as input, tim_ic2 is mapped on tim_ti2"
+              },
+              {
+                "value": "10",
+                "meaning": "CC2 channel is configured as input, tim_ic2 is mapped on tim_ti1"
+              },
+              {
+                "value": "11",
+                "meaning": "CC2 channel is configured as input, tim_ic2 is mapped on tim_trc. This mode is working only if an"
+              }
+            ]
+          },
+          {
+            "bits": "7:4",
+            "name": "IC1F[3:0]",
+            "description": "Input capture 1 filter This bitfield defines the frequency used to sample tim_ti1 input and the length of the digital filter applied to tim_ti1. The digital filter is made of an event counter in which N consecutive events are needed to validate a transition on the output:",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "No filter, sampling is done at fDTS"
+              },
+              {
+                "value": "0001",
+                "meaning": "fSAMPLING = ftim_ker_ck, N = 2"
+              },
+              {
+                "value": "0010",
+                "meaning": "fSAMPLING = ftim_ker_ck, N = 4"
+              },
+              {
+                "value": "0011",
+                "meaning": "fSAMPLING = ftim_ker_ck, N = 8"
+              },
+              {
+                "value": "0100",
+                "meaning": "fSAMPLING = fDTS/2, N = 6"
+              },
+              {
+                "value": "0101",
+                "meaning": "fSAMPLING = fDTS/2, N = 8"
+              },
+              {
+                "value": "0110",
+                "meaning": "fSAMPLING = fDTS/4, N = 6"
+              },
+              {
+                "value": "0111",
+                "meaning": "fSAMPLING = fDTS/4, N = 8"
+              },
+              {
+                "value": "1000",
+                "meaning": "fSAMPLING = fDTS/8, N = 6"
+              },
+              {
+                "value": "1001",
+                "meaning": "fSAMPLING = fDTS/8, N = 8"
+              },
+              {
+                "value": "1010",
+                "meaning": "fSAMPLING = fDTS/16, N = 5"
+              },
+              {
+                "value": "1011",
+                "meaning": "fSAMPLING = fDTS/16, N = 6"
+              },
+              {
+                "value": "1100",
+                "meaning": "fSAMPLING = fDTS/16, N = 8"
+              },
+              {
+                "value": "1101",
+                "meaning": "fSAMPLING = fDTS/32, N = 5"
+              },
+              {
+                "value": "1110",
+                "meaning": "fSAMPLING = fDTS/32, N = 6"
+              },
+              {
+                "value": "1111",
+                "meaning": "fSAMPLING = fDTS/32, N = 8"
+              }
+            ]
+          },
+          {
+            "bits": "3:2",
+            "name": "IC1PSC[1:0]",
+            "description": "Input capture 1 prescaler This bitfield defines the ratio of the prescaler acting on CC1 input (tim_ic1). The prescaler is reset as soon as CC1E = 0 (TIM15_CCER register).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "no prescaler, capture is done each time an edge is detected on the capture input"
+              },
+              {
+                "value": "01",
+                "meaning": "capture is done once every 2 events"
+              },
+              {
+                "value": "10",
+                "meaning": "capture is done once every 4 events"
+              },
+              {
+                "value": "11",
+                "meaning": "capture is done once every 8 events"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "CC1S[1:0]",
+            "description": "Capture/Compare 1 selection This bitfield defines the direction of the channel (input/output) as well as the used input. internal trigger input is selected through TS bit (TIM15_SMCR register) Note: CC1S bits are writable only when the channel is OFF (CC1E = 0 in TIM15_CCER).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CC1 channel is configured as output"
+              },
+              {
+                "value": "01",
+                "meaning": "CC1 channel is configured as input, tim_ic1 is mapped on tim_ti1"
+              },
+              {
+                "value": "10",
+                "meaning": "CC1 channel is configured as input, tim_ic1 is mapped on tim_ti2"
+              },
+              {
+                "value": "11",
+                "meaning": "CC1 channel is configured as input, tim_ic1 is mapped on tim_trc. This mode is working only if an"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

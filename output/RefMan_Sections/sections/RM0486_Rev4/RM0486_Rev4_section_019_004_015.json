@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.4.15",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.4.15",
+      "section_title": "GPDMA secure/nonsecure channel",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 975,
+      "page_end": 975,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "gpdma",
+        "memory"
+      ],
+      "chars": 2101,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=975",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.15 \"GPDMA secure/nonsecure channel\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 975.",
+      "section_content": "The GPDMA controller is compliant with the TrustZone hardware architecture at channel\nlevel, partitioning all its resources so that they exist in one of the secure and nonsecure\nworlds at any given time.\nAny channel x is a secure or a nonsecure hardware resource, as configured\nbyGPDMA_SECCFGR.SECx.\nWhen a channel x is configured in secure state by a secure and privileged agent, the\nfollowing access control rules are applied:\n• A nonsecure read access to a register field of this channel is forced to return 0, except\nfor GPDMA_SECCFGR, GPDMA_PRIVCFGR, GPDMA_RCFGLOCKR that are\nreadable by a nonsecure agent.\n• A nonsecure write access to a register field of this channel has no impact.\nWhen a channel x is configured in secure state, a secure agent can configure separately as\nsecure or nonsecure the GPDMA data transfer from the source (GPDMA_CxTR1.SSEC)\nand the GPDMA data transfer to the destination (GPDMA_CxTR1.DSEC).\nWhen a channel x is configured in secure state and in linked-list mode, the loading of the\nnext linked-list data structure from the GPDMA memory into its register file, is automatically\nperformed with secure transfers via the GPDMA_CxCR.LAP allocated master port.\nThe GPDMA generates a secure bus that reflects GPDMA_SECCFGR, to keep the other\nperipherals informed of the secure/nonsecure state of each GPDMA channel x.\nThe GPDMA also generates a security illegal access pulse signal on an illegal nonsecure\naccess to a secure GPDMA register. This signal is routed to the TrustZone interrupt\ncontroller.\nWhen the secure software must switch a channel from a secure state to a nonsecure state,\nthe secure software must abort the channel or wait until the secure channel is completed\nbefore switching. This is needed to dynamically re-allocate a channel to a next nonsecure\ntransfer as a nonsecure software is not allowed to do so and must have\nGPDMA_CxCR.EN=0 before the nonsecure software can reprogram the GPDMA_CxCR\nfor a next transfer. The secure software may reset not only the channel x\n(GPDMA_CxCR.RESET=1) but also the full channel x register file to its reset value.",
+      "semantic": {}
+    }
+  ]
+}

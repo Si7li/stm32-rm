@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S8.7.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "8",
+      "chapter_title": "Power control (PWR)",
+      "section": "8.7.3",
+      "section_title": "Low-power modes",
+      "level": 3,
+      "parent_section": "8.7",
+      "page": 233,
+      "page_end": 234,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2795,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=233",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 8.7.3 \"Low-power modes\" in chapter 8 (Power control (PWR)), RM0522 Rev 1, page 233.",
+      "section_content": "Entering into a low-power mode\nThe MCU enters in low-power modes by executing the WFI (wait for interrupt), or WFE (wait\nfor event) instructions, or when the SLEEPONEXIT bit in the Cortex-M33 system control\nregister is set on return from ISR.\nEntering into a low-power mode through WFI or WFE is executed only if no interrupt is\npending or no event is pending.\nExiting a low-power mode\nThe MCU exits the Sleep or Stop mode according to how the low-power mode was entered:\n• If the WFI instruction or return from ISR was used to enter the low-power mode, any\nperipheral interrupt acknowledged by the NVIC can wake up the device.\n• If the WFE instruction is used to enter the low-power mode, the MCU exits the low-\npower mode as soon as an event occurs. The wake-up event can be generated either\nby:\n– An NVIC IRQ interrupt:\n> When SEVONPEND=0 in the Cortex-M33 system control register\nBy enabling an interrupt in the peripheral control register and in the NVIC.\nWhen the MCU resumes from WFE, the peripheral interrupt pending bit and\nthe NVIC peripheral IRQ channel pending bit (in the NVIC interrupt clear\npending register) must be cleared. Only NVIC interrupts with high enough\npriority can wake up and interrupt the MCU.\n> When SEVONPEND=1 in the Cortex-M33 system control register\nBy enabling an interrupt in the peripheral control register and optionally in the\nNVIC. When the MCU resumes from WFE, the peripheral interrupt pending\nbit and when enabled the NVIC peripheral IRQ channel pending bit (in the\nNVIC interrupt clear pending register) must be cleared. All NVIC interrupts\nwake up the MCU, even the disabled ones. Only enabled NVIC interrupts\nwith high enough priority can wake up and interrupt the MCU.\n– An event:\n> Configuring an EXTI line in event mode. When the CPU resumes from WFE,\nit is not necessary to clear the EXTI peripheral interrupt pending bit or the\nNVIC IRQ channel pending bit, as the pending bits corresponding to the\nevent line are not set. It may be necessary to clear the interrupt flag in the\nperipheral.\nThe MCU exits Standby mode through an external reset (NRST pin), an IWDG reset, a\nrising edge on one of the enabled WKUPx pins or a RTC/TAMP event (see Figure561: RTC\nblock diagram).\nAfter waking up from Standby mode, the program execution restarts in the same way as\nafter a reset (boot pin sampling, option bytes loading, reset vector is fetched).\nCaution: When the device is in Stop 0 mode, a peripheral interrupt powers on an internal oscillator.\nThe corresponding NVIC interrupt channel must be enabled to allow the interrupt to exit the\ndevice from Stop mode. It is not allowed to disable a peripheral interrupt by disabling only\nthe NVIC channel while keeping the peripheral interrupt enable, as the device could remain\nin Stop mode with clock ON.",
+      "semantic": {}
+    }
+  ]
+}

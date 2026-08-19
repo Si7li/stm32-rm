@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.7",
+      "section_title": "Tamper detection and response",
+      "level": 2,
+      "parent_section": null,
+      "page": 195,
+      "page_end": 197,
+      "semantic_type": "generic",
+      "features": [
+        "detection",
+        "response",
+        "tamper"
+      ],
+      "chars": 4145,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=195",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.7 \"Tamper detection and response\" in chapter 3 (System security), RM0486 Rev 4, page 195.",
+      "section_content": "The STM32N6x5/x7xx devices include active protection of critical security assets against\ntemperature, voltage, and frequency attacks. The detection of such attacks is managed in\nthe RTC, which resides on VBAT domain (see Section61: Real-time clock (RTC) for details.\nThe devices support eight input/output tamper pins, which allow four independent\nactive-tamper meshes (or up to seven if the same output pin is shared by several input\npins). Four pins are in the VBAT domain.\nActive pins are clocked by the LSE, and are functional in all system operating modes (Run,\nSleep, Stop, Standby, or Shutdown), and in VBAT mode.\nThe detection time is programmable, and a digital filtering is available (tamper triggered\nafter two false comparisons in four consecutive comparison samples).\nTimestamps are automatically generated when a tamper event occurs.\n[Table 6. Internal tampers in TAMP]\nEach tamper source, whether internal or external, can be enabled or disabled.\nWhentheevent associated with an enabled tamper source occurs, it is called tamper event,\nand it results in the following:\n• BHK and HUK (dedicated keybuses to SAES) are masked to zero and invalidated.\n• PKA, SAES, CRYP, and HASH are reset, unless the boot ROM has set the\nSYSCFG_POTTAMPRSTCR register to indicate it safely controls them.\n• The backup RAM and registers, and the secure RAM (16-Kbyte AHB SRAM2 aliased\nat0x28004000 and 0x38004000) are inaccessible (read-as-zero).\n• Fuse secrets are un-reloadable by anyone except the boot ROM.\nEach tamper source can be further configured to generate an immediate erase of device\nsecrets. An event on a tamper that is configured to do no erase, is called a potential tamper.\nThesecure software must decide on the response.\nNote: The boot ROM always sets SYSCONF_POTTAMPRSTCR to override any potential tamper,\nand to ensure it can access the firmware key, and use the crypto accelerators.\nThe boot ROM can load the FSBL even if a potential tamper occurs before or during boot.\nOnce the application analyzes the situation following a potential tamper event notification,\nthere are two possible cases:\n• The application launches secret erase with a software command by setting BKERASE\nin TAMP_CR2.\n• The application just clears the flags to release secret blocking (false tamper).\nAn event on a tamper configured to perform immediate erase of device secrets is called a\nconfirmed tamper. The device secrets consist of the backup registers, MCE key registers,\nthe content of the PKA SRAM, and the secure AHB SRAM2 (erased as soon as VDD is\npresent). There is aconfigurable option that says that the content of the backup RAM must\nalso be considered as device secrets, and erased on a confirmed tamper. It is optional\nbecause the expectation is that the backup RAM only ever contains secrets stored in a form\nencrypted by a key in backup registers, and when they need to be used, they are decrypted\ninto the secure AHB SRAM2.\nEach source of tamper can be configured to trigger the following events:\n• Generate an interrupt, able to wake up the device from Stop and Standby modes.\n• Generate an hardware trigger for the low-power timers.\nThe system includes a watchdog that the software needs to refresh regularly (and\neventually fires if the software hangs). If the watchdog fires, and there is a potential tamper\nflagged (not yet analyzed by the software), ITAMP11 is set.\nITAMP11 must be configured as a confirmed tamper (performs an immediate erase of\ndevice secrets).\nNote: SYSCONF_POTTAMPRSTCR only overrides a potential tamper. If a confirmed tamper\noccurs while the boot ROM operates, fuse secrets are made inaccessible until the next\nsystem reset. This may cause the authentication to fail, and a system reset is eventually\ntriggered by the watchdog. By this time, all device secrets have been erased, and\nSYSCONF_POTTAMPRSTCR can override blocks that caused the flagging of a tamper\nevent. The software can boot, and, for example, display a message indicating\ntheoccurrence of the confirmed tamper.\nThe effect of low-power modes on a tamper detection are summarized in the table below.\n[Table 7. Effect of low-power modes on TAMP]",
+      "semantic": {}
+    }
+  ]
+}

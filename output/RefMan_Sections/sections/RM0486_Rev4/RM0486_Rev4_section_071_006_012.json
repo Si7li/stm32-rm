@@ -1,0 +1,278 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.6.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.6.12",
+      "section_title": "FDCAN TT operation status register (FDCAN_TTOST)",
+      "level": 3,
+      "parent_section": "71.6",
+      "page": 3734,
+      "page_end": 3736,
+      "semantic_type": "register_description",
+      "features": [
+        "awe",
+        "fdcan",
+        "fdcan-ttost",
+        "gfi",
+        "gsi",
+        "qcs",
+        "qgtp",
+        "rto",
+        "spl",
+        "sys",
+        "tmp",
+        "wecs",
+        "wfe",
+        "wgtd"
+      ],
+      "chars": 3379,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3734",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.6.12 \"FDCAN TT operation status register (FDCAN_TTOST)\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3734.",
+      "section_content": "Address offset: 0x012C\nReset value: 0x0000 0080\nBit 31 SPL: Schedule phase lock\nThe bit is valid only when external synchronization is enabled\n(FDCAN_TTOCN.ESCN = 1). In this case it signals that the difference between cycle time\nconfigured by FDCAN_TTGTP.CTP and the cycle time at the rising edge at event trigger pin is less\nthan or equal to 9 NTU (see Section71.4.18: Synchronization to external time schedule).\n0: Phase outside range\n1: Phase inside range\nBit 30 WECS: Wait for external clock synchronization.\n0: No external clock synchronization pending\n1: Node waits for external clock synchronization to take effect. The bit is reset at the start of the next\nbasic cycle.\nBit 29 AWE: Application watchdog event\nThe application watchdog is served by reading FDCAN_TTOST. When the watchdog is not served in\ntime, bit AWE is set, all FDCAN communication is stopped, and the FDCAN is set into bus\nmonitoring mode.\n0: Application watchdog served in time\n1: Failed to serve application watchdog in time\nBit 28 WFE: Wait for event\n0: No gap announced, reset by a reference message with Next_is_Gap = 0\n1: Reference message with Next_is_Gap = 1 received\nBit 27 GSI: Gap started indicator\n0: No gap in schedule, reset by each reference message and for all time slaves\n1: Gap time after basic cycle has started\nBits 26:24 TMP[2:0]: Time master priority\n0x0-7 Priority of actual time master\nBit 23 GFI: Gap finished indicator\nSet when the CPU writes FDCAN_TTOCN.FGP, or by a time mark interrupt if TMG = 1, or via input\npin (event trigger) if FDCAN_TTOCN.GCS = 1. Not set by Ref_Trigger_Gap or when Gap is finished\nby another node sending a reference message.\n0: Reset at the end of each reference message\n1: Gap finished by FDCAN\nBit 22 WGTD: Wait for global time discontinuity\n0: No global time preset pending\n1: Node waits for the global time preset to take effect. The bit is reset when the node has transmitted\na reference message with Disc_Bit = 1 or after it received a reference message.\nBits 21:16 Reserved, must be kept at reset value.\nBits 15:8 RTO[7:0]: Reference trigger offset\nThe reference trigger offset value is a signed integer with a range from -127 (0x81) to 127 (0x7F).\nThere is no notification when the lower limit of-127 is reached. In case the FDCAN becomes time\nmaster (MS[1:0] = 11), the reset of RTO is delayed due to synchronization between user and CAN\nclock domain. For time slaves the value configured by FDCAN_TTOCF.IRTO is read.\n0x00-FF Actual reference trigger offset value\nBit 7 QCS: Quality of clock speed\nOnly relevant in TTCAN level 0 and level 2, otherwise fixed to 1.\n0: Local clock speed not synchronized to time master clock speed\n1: Synchronization deviation ≤ SDL\nBit 6 QGTP: Quality of global time phase\nOnly relevant in TTCAN level 0 and level 2, otherwise fixed to 0.\n0: Global time not valid\n1: Global time in phase with time master\nBits 5:4 SYS[1:0]: Synchronization state\n00: Out of Synchronization\n01: Synchronizing to FDCAN communication\n10: Schedule suspended by gap (In_Gap)\n11: Synchronized to schedule (In_Schedule)\nBits 3:2 MS[1:0]: Master state\n00: Master_Off, no master properties relevant\n01: Operating as time Slave\n10: Operating as backup time master\n11: Operating as current time master\nBits 1:0 EL[1:0]: Error level\n00: Severity 0 - No error\n01: Severity 1 - Warning\n10: Severity 2 - error\n11: Severity 3 - Severe error",
+      "semantic": {
+        "register": "FDCAN_TTOST",
+        "address_offset": "0x012C",
+        "reset_value": "0x0000 0080",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "SPL",
+            "description": "Schedule phase lock The bit is valid only when external synchronization is enabled (FDCAN_TTOCN.ESCN = 1). In this case it signals that the difference between cycle time configured by FDCAN_TTGTP.CTP and the cycle time at the rising edge at event trigger pin is less than or equal to 9 NTU (see Section71.4.18: Synchronization to external time schedule).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Phase outside range"
+              },
+              {
+                "value": "1",
+                "meaning": "Phase inside range"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "WECS",
+            "description": "Wait for external clock synchronization. basic cycle.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No external clock synchronization pending"
+              },
+              {
+                "value": "1",
+                "meaning": "Node waits for external clock synchronization to take effect. The bit is reset at the start of the next"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "AWE",
+            "description": "Application watchdog event The application watchdog is served by reading FDCAN_TTOST. When the watchdog is not served in time, bit AWE is set, all FDCAN communication is stopped, and the FDCAN is set into bus monitoring mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Application watchdog served in time"
+              },
+              {
+                "value": "1",
+                "meaning": "Failed to serve application watchdog in time"
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "WFE",
+            "description": "Wait for event",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No gap announced, reset by a reference message with Next_is_Gap = 0"
+              },
+              {
+                "value": "1",
+                "meaning": "Reference message with Next_is_Gap = 1 received"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "GSI",
+            "description": "Gap started indicator",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No gap in schedule, reset by each reference message and for all time slaves"
+              },
+              {
+                "value": "1",
+                "meaning": "Gap time after basic cycle has started"
+              }
+            ]
+          },
+          {
+            "bits": "26:24",
+            "name": "TMP[2:0]",
+            "description": "Time master priority 0x0-7 Priority of actual time master",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "GFI",
+            "description": "Gap finished indicator Set when the CPU writes FDCAN_TTOCN.FGP, or by a time mark interrupt if TMG = 1, or via input pin (event trigger) if FDCAN_TTOCN.GCS = 1. Not set by Ref_Trigger_Gap or when Gap is finished by another node sending a reference message.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Reset at the end of each reference message"
+              },
+              {
+                "value": "1",
+                "meaning": "Gap finished by FDCAN"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "WGTD",
+            "description": "Wait for global time discontinuity a reference message with Disc_Bit = 1 or after it received a reference message.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No global time preset pending"
+              },
+              {
+                "value": "1",
+                "meaning": "Node waits for the global time preset to take effect. The bit is reset when the node has transmitted"
+              }
+            ]
+          },
+          {
+            "bits": "21:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "RTO[7:0]",
+            "description": "Reference trigger offset The reference trigger offset value is a signed integer with a range from -127 (0x81) to 127 (0x7F). There is no notification when the lower limit of-127 is reached. In case the FDCAN becomes time master (MS[1:0] = 11), the reset of RTO is delayed due to synchronization between user and CAN clock domain. For time slaves the value configured by FDCAN_TTOCF.IRTO is read. 0x00-FF Actual reference trigger offset value",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "QCS",
+            "description": "Quality of clock speed Only relevant in TTCAN level 0 and level 2, otherwise fixed to 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Local clock speed not synchronized to time master clock speed"
+              },
+              {
+                "value": "1",
+                "meaning": "Synchronization deviation ≤ SDL"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "QGTP",
+            "description": "Quality of global time phase Only relevant in TTCAN level 0 and level 2, otherwise fixed to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Global time not valid"
+              },
+              {
+                "value": "1",
+                "meaning": "Global time in phase with time master"
+              }
+            ]
+          },
+          {
+            "bits": "5:4",
+            "name": "SYS[1:0]",
+            "description": "Synchronization state",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Out of Synchronization"
+              },
+              {
+                "value": "01",
+                "meaning": "Synchronizing to FDCAN communication"
+              },
+              {
+                "value": "10",
+                "meaning": "Schedule suspended by gap (In_Gap)"
+              },
+              {
+                "value": "11",
+                "meaning": "Synchronized to schedule (In_Schedule)"
+              }
+            ]
+          },
+          {
+            "bits": "3:2",
+            "name": "MS[1:0]",
+            "description": "Master state",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Master_Off, no master properties relevant"
+              },
+              {
+                "value": "01",
+                "meaning": "Operating as time Slave"
+              },
+              {
+                "value": "10",
+                "meaning": "Operating as backup time master"
+              },
+              {
+                "value": "11",
+                "meaning": "Operating as current time master"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "EL[1:0]",
+            "description": "Error level",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Severity 0 - No error"
+              },
+              {
+                "value": "01",
+                "meaning": "Severity 1 - Warning"
+              },
+              {
+                "value": "10",
+                "meaning": "Severity 2 - error"
+              },
+              {
+                "value": "11",
+                "meaning": "Severity 3 - Severe error"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

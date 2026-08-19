@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.4.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.4.8",
+      "section_title": "SAI clock generator",
+      "level": 3,
+      "parent_section": "68.4",
+      "page": 3512,
+      "page_end": 3515,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "sai"
+      ],
+      "chars": 4914,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3512",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.4.8 \"SAI clock generator\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3512.",
+      "section_content": "Each audio block has its own clock generator. The clock generator builds the master clock\n(MCLK_x) and bit clock (SCK_x) signals from the sai_x_ker_ck. The sai_x_ker_ck clock is\ndelivered by the clock controller of the product (RCC).\nGeneration of the master clock (MCLK_x)\nThe clock generator provides the master clock (MCLK_x) when the audio block is defined as\nMaster or Slave. The master clock is generated as soon as the MCKEN bit is set to 1 even if\nthe SAIEN bit for the corresponding block is set to 0. This feature can be useful if the\nMCLK_x clock is used as system clock for an external audio device, since it enables the\ngeneration of the MCLK_x before activating the audio stream.\nTo generate a master clock on MCLK_x output before transferring the audio samples, the\nuser application has to follow the sequence below:\n1. Check that SAIEN = 0.\n2. Program the MCKDIV[5:0] divider to the required value.\n3. Set the MCKEN bit to 1.\n4. Later, the application can configure other parts of the SAI, and sets the SAIEN bit to 1\nto start the transfer of audio samples.\nTo avoid disturbances on the clock generated on MCLK_x output, the following operations\nare not recommended:\n• Changing MCKDIV when MCKEN = 1\n• Setting MCKEN to 0 if the SAIEN = 1\nThe SAI makes sure that there are no spurs on MCLK_x output when the MCLK_x is\nswitched ON and OFF via the MCKEN bit (with SAIEN = 0).\nTable672 shows MCLK_x activation conditions.\n[Table 672. MCLK_x activation conditions]\nNote: MCLK_x can also be generated in AC’97 mode, when MCLKEN is set to 1.\nGeneration of the bit clock (SCK_x)\nThe clock generator provides the bit clock (SCK_x) when the audio block is defined as\nMaster. The frame synchronization (FS_x) is also derived from the signals provided by the\nclock generator.\nIn Slave mode, the value of NODIV and OSR fields are ignored, and the SCK_x clock is not\ngenerated.\nThe bit clock strobing edge of SCK_x can be configured through the CKSTR fields, which is\nfunctional both in master and slave mode.\nFigure920 illustrates the architecture of the audio block clock generator.\n[Figure 920. Audio block clock generator overview]\nThe NODIV bit must be used to force the ratio between the master clock (MCLK_x) and the\nframe synchronization (FS_x) frequency to 256 or 512.\n• If NODIV is set to 0, the frequency ratio between the frame synchronization and the\nmaster clock is fixed to 512 or 256, according to OSR value, but the frame length must\nbe a power of 2. More details are given below.\n• If NODIV is set to 1, the application can adjust the frequency of the bit clock (SCK_x)\nvia MCKDIV. In addition, there is no restriction on the frame length value as long as the\nframe length is bigger or equal to 8 (that is, FRL[7:0] > 6). The frame synchronization\nfrequency depends on MCKDIV and frame length (FRL[7:0]). In that case, the\nfrequency of the MCLK_x is equal to the SCK_x.\nThe NODIV, MCKEN, SAIEN, OVR, CKSTR, and MCKDIV[5:0] bits belong to the SAI_xCR1\nregister, while FRL[7:0] belongs to SAI_xFRCR.\nClock generator programming when NODIV = 0\nIn that case, the MCLK_x frequency is:\n• FMCLK_x = 256 x FFS_x if OSR = 0\n• FMCLK_x = 512 x FFS_x if OSR = 1\nWhen MCKDIV is different from 0, the MCLK_x frequency is given by the formula below:\nFMCLK_x = - F ---s--\n-a---i-\n_---x--\n-_---k\n---e--\n-r-\n-_--c---k--\nThe frame synchronization frequency is given by:\nF ----s-\n-a---i--_\n-x--_--\n-k---e-\n--r--_--\n-c--k-\nFFS_x =\n------\n-----\n----\n-----\n----\n----\n-----\n----\n---\n---\n1\n2\n5\n6\nThe bit clock frequency (SCK_x) is given by the following formula:\n-- × ---\n--- ( -- F -\n) ---\n---- F -\n--- R -\n---- L\n- + ---- 1\n---s--\na---i-\n-_---x-\n-_-\n--k---e\n---r--_-\n--c\n---k--\nFSCK_x = -\n----\n----\n---\n1\n2\n5\n6\nNote: When NODIV is equal to 0, (FRL+1) must be a power of two. In addition, (FRL+1) must\nrange between 8 and 256. (FRL +1) represents the number of bit clock in the audio frame.\nWhen the MCKDIV division ratio is odd, the MCLK duty cycle is not 50%. The bit clock\nsignal (SCK_x) can also have a duty cycle different from 50% if MCKDIV is odd, if OSR is\nequal to 0, and if (FRL+1) = 2 8.\nIt is recommended, to program MCKDIV to an even value or to large values (higher than\n10).\nNote that MCKDIV = 0 gives the same result as MCKDIV = 1.\nClock generator programming when NODIV = 1\nWhen MCKDIV is different from 0, the frequency of the bit clock (SCK_x) is given in the\nformula below:\nFSCK_x = FMCLK_x = F ----s--\n-a---i-\n_---x--\n-_---k\n---e--\n-r-\n_----c--k--\nThe frequency of the frame synchronization (FS_x) in given by the following formula:\nF ----s\n---a--\n-i-_--\n-x---\n_---k--\n-e---r-_-\n--c--\n-k----\nFFS_x =\n---\n----\n-----\n----\n---\n---\n1\nNote: When NODIV is set to 1, (FRL+1) can take any values from 8 to 256.\nMCKDIV = 0 gives the same result as MCKDIV = 1.\nClock generator programming examples\nTable673 gives programming examples for 48, 96, and 192kHz.\n[Table 673. Clock generator programming examples]",
+      "semantic": {}
+    }
+  ]
+}

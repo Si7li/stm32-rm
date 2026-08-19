@@ -1,0 +1,146 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T631",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "631",
+      "title": "I3C controller error management",
+      "page": 3224,
+      "section": "64.12.1",
+      "section_title": "Controller error management",
+      "semantic_type": "generic",
+      "features": [
+        "i3c"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3224",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Error type",
+        "Description",
+        "Error detection",
+        "Controller action",
+        "Reported error(1)"
+      ],
+      "text_helper": "Table 631, \"I3C controller error management\", in section 64.12.1 (Controller error management) on page 3224. Columns: Error type, Description, Error detection, Controller action, Reported error(1). 13 data row(s). Notes: 1. ERRF in the I3C_EVR register, PERR, CODERR[3:0], DERR, ANACK, DNACK, COVR, and DOVR in the I3C_SER register.; 2. MIPI v1.1: on a GETCAPS CCC, the number of received data bytes can be 2, 3 or 4. How.",
+      "table_content": {
+        "headers": [
+          "Error type",
+          "Description",
+          "Error detection",
+          "Controller action",
+          "Reported error(1)"
+        ],
+        "rows": [
+          [
+            "CE0",
+            "Illegally formatted \nCCC (e.g. less \nreturned data byte(s))",
+            "Prematurely ended \nread data by target on \na direct CCC read(2)",
+            "Hardware emits a stop.",
+            "ERRF = 1 and \nPERR = 1 and \nCODERR[3:0] = 0000"
+          ],
+          [
+            "CE1",
+            "Monitoring error",
+            "An incorrect ACK is \ndetected at the end of \na legacy I2C read",
+            "Hardware keeps SCL running for \nnine clock cycles and another byte \nto be possibly exchanged, then \nemits again a NACK, followed by a \nstop.",
+            "ERRF = 1 and \nPERR = 1 and \nCODERR[3:0] = 0001"
+          ],
+          [
+            "CE1",
+            "Monitoring error",
+            "Restart or stop cannot \nbe generated at the \nend of an I3C SDR \nread",
+            "SCL is kept running. Software can \nstop SCL by writing a control word \nwith MTYPE[3:0] = 0000 in the \nI3C_CR register (header \nmessage), then must typically wait \nat least 150 µs before emitting \nanother message.",
+            "ERRF = 1 and \nPERR = 1 and \nCODERR[3:0] = 0001"
+          ],
+          [
+            "CE1",
+            "Monitoring error",
+            "After a CE1 error, a \nstart cannot be \ngenerated",
+            "SCL is kept running. Software can \nstop SCL by writing a control word \nwith MTYPE[3:0] = 0000 in the \nI3C_CR register (header \nmessage), then must typically wait \nat least 150 µs before emitting \nanother message.",
+            "ERRF = 1 and \nPERR = 1 and \nCODERR[3:0] = 0001"
+          ],
+          [
+            "CE2",
+            "No response to \nbroadcast address \n(0b111_1110)",
+            "Header (0b111_1110 + \nRnW=0) is detected \nas NACK-ed during a \nmessage different \nfrom escalation fault or \nreset pattern message",
+            "Hardware emits an HDR exit \npattern followed by a stop.",
+            "ERRF = 1 and \nPERR = 1 and \nCODERR[3:0] = 0010"
+          ],
+          [
+            "CE3",
+            "Failed controller \nhand-off",
+            "New controller has not \ndriven SCL low after \nhaving SDA low (after \na start via a test \nheader or a start \nrequest from a target) \nand after the delay \ntime defined by its \nactivity state has \nelapsed",
+            "Hardware emits a start + \n0b111_1110 + RnW = 0, followed \nby ACK/NACK from target(s), then \nstops.",
+            "ERRF = 1 and \nPERR = 1 and \nCODERR[3:0] = 0011"
+          ],
+          [
+            "-",
+            "Incorrect returned \n7-bit target address \nwith parity bit on a \nGETACCCR CCC",
+            "Incorrect dynamic \naddress and/or parity \nbit is detected",
+            "Hardware cancels the GETACCCR \nCCC by emitting a Restart + \n0b111_1110 + RnW = 0, followed \nby ACK/NACK from target(s), then \nstops.",
+            "ERRF = 1 and \nDERR = 1"
+          ],
+          [
+            "-",
+            "Addressed target is \nNACK-ed on a direct \nCCC read for the first \ntime",
+            "NACK is detected",
+            "Hardware performs a single-retry \nby emitting a Restart + 7-bit same \ntarget address + RnW = 1.",
+            "-"
+          ],
+          [
+            "-",
+            "Addressed target is \nNACK-ed on either a \ndirect CCC write, an \nI3C private read/write, \na legacy I2C, or a \ndirect CCC read for \nthe second time",
+            "NACK is detected",
+            "Hardware emits a stop.",
+            "ERRF = 1 and \nANACK= 1"
+          ],
+          [
+            "-",
+            "Assigned/transmitted \ndynamic address with \nparity bit is NACK-ed \non a ENTDAA CCC \nfor the first time",
+            "NACK is detected",
+            "Hardware performs a single-retry \nassignation loop by emitting a \nRestart + 0b111_1110 + RnW = 1, \nfollowed by an ACK and 8-byte \nread data from the (most-priority) \ntarget, followed by the assigned \naddress + parity bit.",
+            "-"
+          ],
+          [
+            "-",
+            "Assigned/transmitted \ndynamic address with \nparity bit is NACK-ed \non a ENTDAA CCC \nfor the second time",
+            "NACK is detected",
+            "Hardware emits a stop.",
+            "ERRF = 1 and\nDNACK= 1"
+          ],
+          [
+            "-",
+            "Write data is \nNACK-ed on a legacy \nI2C write",
+            "NACK is detected",
+            "Hardware emits a stop.",
+            "ERRF = 1 and\nDNACK= 1"
+          ],
+          [
+            "-",
+            "Control word, status \nword, transmitted data \nor read data is not \nwritten/read in time vs. \nI3C bus timings",
+            "SCL stall timeout",
+            "Hardware emits a stop.",
+            "ERRF = 1 and \n(COVR = 1 or \nDOVR =1)"
+          ]
+        ],
+        "notes": [
+          "1. ERRF in the I3C_EVR register, PERR, CODERR[3:0], DERR, ANACK, DNACK, COVR, and DOVR in the I3C_SER register.",
+          "2. MIPI v1.1: on a GETCAPS CCC, the number of received data bytes can be 2, 3 or 4. However a target compliant with MIPI v1.0 can return only the first byte as per previously named GETHDRCAP CCC. As a result, CE0 is not generated if the number is lower than 4. On a GETMXDS CCC, the number of received data bytes can be 2 or 5. CE0 is not generated if the number is lower than 5."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

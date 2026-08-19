@@ -1,0 +1,90 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.10.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.10.5",
+      "section_title": "FLASH option control register (FLASH_OPTCR)",
+      "level": 3,
+      "parent_section": "6.10",
+      "page": 177,
+      "page_end": 177,
+      "semantic_type": "register_description",
+      "features": [
+        "flash",
+        "flash-optcr",
+        "memory",
+        "optlock",
+        "optstrt",
+        "swap-bank"
+      ],
+      "chars": 1987,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=177",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.10.5 \"FLASH option control register (FLASH_OPTCR)\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 177.",
+      "section_content": "Address offset: 0x01C\nReset value: 0xX000 0001\nThis register can be protected against unprivileged access when PRIV = 1\ninFLASH_PRIVCFGR.\nAccess: No wait state when no flash memory operation is ongoing.\nThis register is not accessible in write mode when the BSY bit is set. Any attempt to write to\nit while the BSY bit set causes the AHB bus to stall until the BSY bit is cleared.\nBit 31 SWAP_BANK: Bank-swapping option configuration bit\nSWAP_BANK controls whether bank1 and bank2 are swapped or not. This bit is loaded with\nthe SWAP_BANK bit of FLASH_OPTSR_CUR register only after reset or POR.\n0: Bank1 and bank2 not swapped\n1: Bank1 and bank2 swapped\nBits 30:2 Reserved, must be kept at reset value.\nBit 1 OPTSTRT: Option-byte start change option configuration bit\nOPTSTRT triggers an option byte change operation. The user can set OPTSTRT only when\nthe OPTLOCK bit is cleared to 0. It is set only by software and cleared when the option-byte\nchange is completed or an error occurs (PGSERR or OPTCHANGEERR). It is reset at the\nsame time as BSY bit.\nThe user application cannot modify any FLASH_XXX_PRG register until the option change\noperation has been completed.\nBefore setting this bit, the user has to write the required values in FLASH_XXX_PRG.\nFLASH_XXX_PRG registers are locked until the option-byte change operation has been\nexecuted in nonvolatile memory.\nBit 0 OPTLOCK: FLASH_OPTCR lock option configuration bit\nThe OPTLOCK bit locks the FLASH_OPTCR register as well as all _PRG registers. The\ncorrect write sequence to FLASH_OPTKEYR register unlocks this bit. If a wrong sequence is\nexecuted, or the unlock sequence to FLASH_OPTKEYR is performed twice, this bit remains\nlocked until next system reset.\nIt is possible to set OPTLOCK by programming it to 1. When set to 1, a new unlock sequence\nis mandatory to unlock it. When OPTLOCK changes from 0 to 1, the others bits of\nFLASH_OPTCR register do not change.\n0: FLASH_OPTCR register unlocked\n1: FLASH_OPTCR register locked.",
+      "semantic": {
+        "register": "FLASH_OPTCR",
+        "address_offset": "0x01C",
+        "reset_value": "0xX000 0001",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "SWAP_BANK",
+            "description": "Bank-swapping option configuration bit SWAP_BANK controls whether bank1 and bank2 are swapped or not. This bit is loaded with the SWAP_BANK bit of FLASH_OPTSR_CUR register only after reset or POR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Bank1 and bank2 not swapped"
+              },
+              {
+                "value": "1",
+                "meaning": "Bank1 and bank2 swapped"
+              }
+            ]
+          },
+          {
+            "bits": "30:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "OPTSTRT",
+            "description": "Option-byte start change option configuration bit OPTSTRT triggers an option byte change operation. The user can set OPTSTRT only when the OPTLOCK bit is cleared to 0. It is set only by software and cleared when the option-byte change is completed or an error occurs (PGSERR or OPTCHANGEERR). It is reset at the same time as BSY bit. The user application cannot modify any FLASH_XXX_PRG register until the option change operation has been completed. Before setting this bit, the user has to write the required values in FLASH_XXX_PRG. FLASH_XXX_PRG registers are locked until the option-byte change operation has been executed in nonvolatile memory.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "OPTLOCK",
+            "description": "FLASH_OPTCR lock option configuration bit The OPTLOCK bit locks the FLASH_OPTCR register as well as all _PRG registers. The correct write sequence to FLASH_OPTKEYR register unlocks this bit. If a wrong sequence is executed, or the unlock sequence to FLASH_OPTKEYR is performed twice, this bit remains locked until next system reset. It is possible to set OPTLOCK by programming it to 1. When set to 1, a new unlock sequence is mandatory to unlock it. When OPTLOCK changes from 0 to 1, the others bits of FLASH_OPTCR register do not change.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "FLASH_OPTCR register unlocked"
+              },
+              {
+                "value": "1",
+                "meaning": "FLASH_OPTCR register locked."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

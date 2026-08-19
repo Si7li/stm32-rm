@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S48.9.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "48",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "48.9.7",
+      "section_title": "Programming guidelines for switching the AHB clock frequency",
+      "level": 3,
+      "parent_section": "48.9",
+      "page": 2237,
+      "page_end": 2238,
+      "semantic_type": "generic",
+      "features": [
+        "ahb",
+        "clock",
+        "dma"
+      ],
+      "chars": 1168,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2237",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.9.7 \"Programming guidelines for switching the AHB clock frequency\" in chapter 48 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0522 Rev 1, page 2237.",
+      "section_content": "To dynamically change the AHB clock frequency (without applying soft reset or hard reset),\nfollow these steps:\n1. Disable the Transmit DMA (if applicable) and wait for any previous frame transmissions\nto complete. When the frame transmissions is complete, the Tx FIFO becomes empty\nand the Tx DMA enters Stop state. The Tx FIFO status is given in the Tx queue 0\ndebug register (ETH_MTLTXQ0DR) and the status of DMA is given in Debug status\nregister (ETH_DMADSR).\n2. Disable the MAC transmitter and the MAC receiver by clearing the appropriate bits in\nOperating mode configuration register (ETH_MACCR).\n3. Disable the Receive DMA (if applicable) after making sure that the data in the Rx FIFO\nis transferred to the system memory. The Rx FIFO empty status is given in Rx queue 0\ndebug register (ETH_MTLRXQ0DR).\n4. Ensure that the application does not perform any register read or write operation.\n5. Change the frequency of the AHB clock.\n6. Enable the MAC transmitter or the MAC receiver and the Transmit or Receive DMA.\nThese steps ensure that no valid data is present in the Tx FIFO or Rx FIFO at the time\nof clock frequency switching and prevent any data corruption.",
+      "semantic": {}
+    }
+  ]
+}

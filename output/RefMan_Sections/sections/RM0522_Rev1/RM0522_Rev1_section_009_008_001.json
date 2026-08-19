@@ -1,0 +1,367 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S9.8.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "9",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "9.8.1",
+      "section_title": "RCC clock control register (RCC_CR1)",
+      "level": 3,
+      "parent_section": "9.8",
+      "page": 274,
+      "page_end": 276,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "hsebyp",
+        "hsecsson",
+        "hseext",
+        "hseon",
+        "hserdy",
+        "hsidiv3on",
+        "hsidiv3rdy",
+        "hsikeron",
+        "hsikon",
+        "hsikrdy",
+        "hsison",
+        "hsisrdy",
+        "psidiv3on",
+        "psidiv3rdy",
+        "psikeron",
+        "psikon",
+        "psikrdy",
+        "psison",
+        "psisrdy",
+        "rcc",
+        "rcc-cr1"
+      ],
+      "chars": 6013,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=274",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.8.1 \"RCC clock control register (RCC_CR1)\" in chapter 9 (Reset and clock control (RCC)), RM0522 Rev 1, page 274.",
+      "section_content": "Address offset: 0x000\nReset value: 0x0000 0022\nBits 31:21 Reserved, must be kept at reset value.\nBit 20 HSEEXT: External high speed clock type in Bypass mode\nThis bit is set and reset by software to select the external clock type (analog or digital).\nTheexternal clock must be enabled with the HSEON bit to be used by the device. The\nHSEEXT bit can be written only if the HSE oscillator is disabled.\n0: HSE in analog mode (default after reset)\n1: HSE in digital mode\nBit 19 HSECSSON: HSE clock security system enable\nThis bit is set by software to enable clock security system on HSE. This bit is “set only”\n(disabled by a system reset or when the system enters in Standby mode). When\nHSECSSON is set, the clock detector is enabled by hardware when the HSE is ready and\ndisabled by hardware if an oscillator failure is detected.\n0: CSS on HSE off (clock detector off) (default after reset)\n1: CSS on HSE on (clock detector on if the HSE oscillator is stable, off if not).\nBit 18 HSEBYP: HSE clock bypass\nThis bit is set and cleared by software to bypass the oscillator with an external clock. The\nexternal clock must be enabled with the HSEON bit to be used by the device. The HSEBYP\nbit can be written only if the HSE oscillator is disabled.\n0: HSE oscillator not bypassed (default after reset)\n1: HSE oscillator bypassed with an external clock\nBit 17 HSERDY: HSE clock ready flag\nThis bit is set by hardware to indicate that the HSE oscillator is stable.\n0: HSE clock not ready (default after reset)\n1: HSE clock ready\nBit 16 HSEON: HSE clock enable\nThis bit is set and cleared by software. It is cleared by hardware to stop the HSE when\nentering Stop or Standby mode. This bit cannot be cleared if the HSE is used directly or\nindirectly (via SW mux) as system clock, or if the HSE is selected as reference clock for PSI\nwith PSI enabled (PSISON bit or PSIDIV3ON bit or PSIKON bit set to 1).\n0: HSE off (default after reset)\n1: HSE on\nBit 15 Reserved, must be kept at reset value.\nBit 14 PSIKRDY: PSIK clock ready flag\nThis bit is set by hardware to indicate that the PSI oscillator divided clock is stable.\n0: PSIK clock not ready (default after reset)\n1: PSIK clock ready\nBit 13 PSIDIV3RDY: PSIDIV3 clock ready flag\nThis bit is set by hardware to indicate that the PSI oscillator divided by 3 clock is stable.\n0: PSIDIV3 clock not ready (default after reset)\n1: PSIDIV3 clock ready\nBit 12 PSISRDY: PSIS clock ready flag\nThis bit is set by hardware to indicate that the PSIS clock is stable.\n0: PSIS clock not ready (default after reset)\n1: PSIS clock ready\nBit 11 PSIKERON: PSI clock enable in Stop mode\nThis bit is set and cleared by software to force maintain PSI enabled in Stop 0 mode, to be\nquickly available as kernel clock for some peripherals. This bit only impacts PSI if PSISON,\nPSIDIV3ON, or PSIKON is set.\n0: No effect on PSI (default after reset)\n1: PSI keep ON even in Stop 0 mode\nBit 10 PSIKON: PSIK clock enable\nThis bit is set and reset by software to enable/disable PSIK clock for peripheral. This bit value\nis kept under Stop 0 if PSIKERON is set, otherwise it is cleared.\n0: PSIK off (default after reset)\n1: PSIK on\nBit 9 PSIDIV3ON: PSIDIV3 clock enable\nThis bit is set and reset by software to enable/disable PSIDIV3 clock for peripheral.\nThis bit value is kept under Stop 0 if PSIKERON is set, otherwise it is cleared.\n0: PSIDIV3 off (default after reset)\n1: PSIDIV3 on\nBit 8 PSISON: PSIS clock enable\nThis bit is set and reset by software to enable/disable PSIS clock for peripheral and system.\nThis bit value is kept under Stop 0 if PSIKERON is set, otherwise it is cleared. This bit cannot\nbe cleared if the PSIS is used (via SW mux) as system clock.\n0: PSIS off (default after reset)\n1: PSIS on\nBit 7 Reserved, must be kept at reset value.\nBit 6 HSIKRDY: HSIK clock ready flag\nThis bit is set by hardware to indicate that the HSIK divided clock is stable.\n0: HSIK clock not ready (default after reset)\n1: HSIK clock ready\nBit 5 HSIDIV3RDY: HSIDIV3 clock ready flag\nThis bit is set by hardware to indicate that the HSI oscillator divided by 3 clock is stable.\n0: HSIDIV3 clock not ready (default after reset)\n1: HSIDIV3 clock ready\nBit 4 HSISRDY: HSIS clock ready flag\nThis bit is set by hardware to indicate that the HSIS clock is stable.\n0: HSIS clock not ready (default after reset)\n1: HSIS clock ready\nBit 3 HSIKERON: HSI clock enable in Stop mode\nThis bit is set and cleared by software to maintain HSI enabled in Stop 0 mode, to be quickly\navailable as kernel clock for some peripherals. This bit only impact HSI if HSISON,\nHSIDIV3ON or HSIKON are set.\n0: No effect on HSI (default after reset)\n1: HSI keep ON in Stop 0 mode\nBit 2 HSIKON: HSIK clock enable\nThis bit is set and reset by software to enable/disable HSIK clock for peripheral. This bit\nvalue is kept under Stop 0 mode if HSIKERON is set, otherwise it is cleared.\n0: HSIK off (default after reset)\n1: HSIK on\nBit 1 HSIDIV3ON: HSIDIV3 clock enable\nThis bit is set and reset by software to enable/disable HSIDIV3 clock for system or\nperipheral. It is set by hardware to force the HSIDIV3 to on when product exit Standby mode,\nor in case of a failure of the HSE which is used directly or indirectly as the system clock\nsource. This bit cannot be cleared if the HSIDIV3 is used directly (via SW mux) as system\nclock. This bit value is kept under Stop 0 mode if HSIKERON is set, otherwise it is cleared.\nThis bit is set by hardware to force the HSIDIV3 to on when the system leaves Stop mode, if\nSTOPWUCK = 0.\n0: HSIDIV3 off\n1: HSIDIV3 on (default after reset)\nBit 0 HSISON: HSIS clock enable\nThis bit is set and cleared by software to enable/disable HSIS clock for system and\nperipheral. This bit is set by hardware to force the HSI to on when the product leaves Stop\nmode, if STOPWUCK=1. This bit value is kept under Stop 0 mode if HSIKERON is set,\notherwise it is cleared. This bit cannot be cleared if the HSIS is used directly or indirectly (via\nSW mux) as system clock.\n0: HSIS off (default after reset)\n1: HSIS on",
+      "semantic": {
+        "register": "RCC_CR1",
+        "address_offset": "0x000",
+        "reset_value": "0x0000 0022",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "HSEEXT",
+            "description": "External high speed clock type in Bypass mode This bit is set and reset by software to select the external clock type (analog or digital). Theexternal clock must be enabled with the HSEON bit to be used by the device. The HSEEXT bit can be written only if the HSE oscillator is disabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSE in analog mode (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSE in digital mode"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "HSECSSON",
+            "description": "HSE clock security system enable This bit is set by software to enable clock security system on HSE. This bit is “set only” (disabled by a system reset or when the system enters in Standby mode). When HSECSSON is set, the clock detector is enabled by hardware when the HSE is ready and disabled by hardware if an oscillator failure is detected.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CSS on HSE off (clock detector off) (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "CSS on HSE on (clock detector on if the HSE oscillator is stable, off if not)."
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "HSEBYP",
+            "description": "HSE clock bypass This bit is set and cleared by software to bypass the oscillator with an external clock. The external clock must be enabled with the HSEON bit to be used by the device. The HSEBYP bit can be written only if the HSE oscillator is disabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSE oscillator not bypassed (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSE oscillator bypassed with an external clock"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "HSERDY",
+            "description": "HSE clock ready flag This bit is set by hardware to indicate that the HSE oscillator is stable.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSE clock not ready (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSE clock ready"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "HSEON",
+            "description": "HSE clock enable This bit is set and cleared by software. It is cleared by hardware to stop the HSE when entering Stop or Standby mode. This bit cannot be cleared if the HSE is used directly or indirectly (via SW mux) as system clock, or if the HSE is selected as reference clock for PSI with PSI enabled (PSISON bit or PSIDIV3ON bit or PSIKON bit set to 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSE off (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSE on"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "PSIKRDY",
+            "description": "PSIK clock ready flag This bit is set by hardware to indicate that the PSI oscillator divided clock is stable.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PSIK clock not ready (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "PSIK clock ready"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "PSIDIV3RDY",
+            "description": "PSIDIV3 clock ready flag This bit is set by hardware to indicate that the PSI oscillator divided by 3 clock is stable.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PSIDIV3 clock not ready (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "PSIDIV3 clock ready"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "PSISRDY",
+            "description": "PSIS clock ready flag This bit is set by hardware to indicate that the PSIS clock is stable.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PSIS clock not ready (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "PSIS clock ready"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "PSIKERON",
+            "description": "PSI clock enable in Stop mode This bit is set and cleared by software to force maintain PSI enabled in Stop 0 mode, to be quickly available as kernel clock for some peripherals. This bit only impacts PSI if PSISON, PSIDIV3ON, or PSIKON is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect on PSI (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "PSI keep ON even in Stop 0 mode"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "PSIKON",
+            "description": "PSIK clock enable This bit is set and reset by software to enable/disable PSIK clock for peripheral. This bit value is kept under Stop 0 if PSIKERON is set, otherwise it is cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PSIK off (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "PSIK on"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "PSIDIV3ON",
+            "description": "PSIDIV3 clock enable This bit is set and reset by software to enable/disable PSIDIV3 clock for peripheral. This bit value is kept under Stop 0 if PSIKERON is set, otherwise it is cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PSIDIV3 off (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "PSIDIV3 on"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "PSISON",
+            "description": "PSIS clock enable This bit is set and reset by software to enable/disable PSIS clock for peripheral and system. This bit value is kept under Stop 0 if PSIKERON is set, otherwise it is cleared. This bit cannot be cleared if the PSIS is used (via SW mux) as system clock.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PSIS off (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "PSIS on"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "HSIKRDY",
+            "description": "HSIK clock ready flag This bit is set by hardware to indicate that the HSIK divided clock is stable.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSIK clock not ready (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSIK clock ready"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "HSIDIV3RDY",
+            "description": "HSIDIV3 clock ready flag This bit is set by hardware to indicate that the HSI oscillator divided by 3 clock is stable.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSIDIV3 clock not ready (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSIDIV3 clock ready"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "HSISRDY",
+            "description": "HSIS clock ready flag This bit is set by hardware to indicate that the HSIS clock is stable.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSIS clock not ready (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSIS clock ready"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "HSIKERON",
+            "description": "HSI clock enable in Stop mode This bit is set and cleared by software to maintain HSI enabled in Stop 0 mode, to be quickly available as kernel clock for some peripherals. This bit only impact HSI if HSISON, HSIDIV3ON or HSIKON are set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect on HSI (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSI keep ON in Stop 0 mode"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "HSIKON",
+            "description": "HSIK clock enable This bit is set and reset by software to enable/disable HSIK clock for peripheral. This bit value is kept under Stop 0 mode if HSIKERON is set, otherwise it is cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSIK off (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSIK on"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "HSIDIV3ON",
+            "description": "HSIDIV3 clock enable This bit is set and reset by software to enable/disable HSIDIV3 clock for system or peripheral. It is set by hardware to force the HSIDIV3 to on when product exit Standby mode, or in case of a failure of the HSE which is used directly or indirectly as the system clock source. This bit cannot be cleared if the HSIDIV3 is used directly (via SW mux) as system clock. This bit value is kept under Stop 0 mode if HSIKERON is set, otherwise it is cleared. This bit is set by hardware to force the HSIDIV3 to on when the system leaves Stop mode, if STOPWUCK = 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSIDIV3 off"
+              },
+              {
+                "value": "1",
+                "meaning": "HSIDIV3 on (default after reset)"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "HSISON",
+            "description": "HSIS clock enable This bit is set and cleared by software to enable/disable HSIS clock for system and peripheral. This bit is set by hardware to force the HSI to on when the product leaves Stop mode, if STOPWUCK=1. This bit value is kept under Stop 0 mode if HSIKERON is set, otherwise it is cleared. This bit cannot be cleared if the HSIS is used directly or indirectly (via SW mux) as system clock.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HSIS off (default after reset)"
+              },
+              {
+                "value": "1",
+                "meaning": "HSIS on"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S24.6.8",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "24",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "24.6.8",
+      "section_title": "RTC calibration register (RTC_CALR)",
+      "level": 3,
+      "parent_section": "24.6",
+      "page": 668,
+      "page_end": 669,
+      "semantic_type": "register_description",
+      "features": [
+        "calm",
+        "calp",
+        "calw16",
+        "calw8",
+        "clock",
+        "rtc",
+        "rtc-calr"
+      ],
+      "chars": 1724,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=668",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.6.8 \"RTC calibration register (RTC_CALR)\" in chapter 24 (Real-time clock (RTC)), RM0490 Rev 6, page 668.",
+      "section_content": "This register is write protected. The write access procedure is described in RTC register\nwrite protection on page653.\nAddress offset: 0x28\nPower-on reset value: 0x0000 0000\nSystem reset: not affected\nBits 31:16 Reserved, must be kept at reset value.\nBit 15 CALP: Increase frequency of RTC by 488.5ppm\n0: No RTCCLK pulses are added.\n1: One RTCCLK pulse is effectively inserted every 211 pulses (frequency increased by\n488.5ppm).\nThis feature is intended to be used in conjunction with CALM, which lowers the frequency of\nthe calendar with a fine resolution. if the input frequency is 32768Hz, the number of\nRTCCLK pulses added during a 32-second window is calculated as follows: (512 × CALP) -\nCALM.\nRefer to Section24.3.12: RTC smooth digital calibration.\nBit 14 CALW8: Use an 8-second calibration cycle period\nWhen CALW8 is set to 1, the 8-second calibration cycle period is selected.\nNote: CALM[1:0] are stuck at 00 when CALW8 = 1. Refer to Section24.3.12: RTC smooth\ndigital calibration.\nBit 13 CALW16: Use a 16-second calibration cycle period\nWhen CALW16 is set to 1, the 16-second calibration cycle period is selected. This bit must\nnot be set to 1 if CALW8 = 1.\nNote: CALM[0] is stuck at 0 when CALW16 = 1. Refer to Section24.3.12: RTC smooth digital\ncalibration.\nBits 12:9 Reserved, must be kept at reset value.\nBits 8:0 CALM[8:0]: Calibration minus\nThe frequency of the calendar is reduced by masking CALM out of 220 RTCCLK pulses (32\nseconds if the input frequency is 32768Hz). This decreases the frequency of the calendar\nwith a resolution of 0.9537ppm.\nTo increase the frequency of the calendar, this feature should be used in conjunction with\nCALP. See Section24.3.12: RTC smooth digital calibration on page657.",
+      "semantic": {
+        "register": "RTC_CALR",
+        "address_offset": "0x28",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "CALP",
+            "description": "Increase frequency of RTC by 488.5ppm 488.5ppm). This feature is intended to be used in conjunction with CALM, which lowers the frequency of the calendar with a fine resolution. if the input frequency is 32768Hz, the number of RTCCLK pulses added during a 32-second window is calculated as follows: (512 × CALP) - CALM. Refer to Section24.3.12: RTC smooth digital calibration.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No RTCCLK pulses are added."
+              },
+              {
+                "value": "1",
+                "meaning": "One RTCCLK pulse is effectively inserted every 211 pulses (frequency increased by"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "CALW8",
+            "description": "Use an 8-second calibration cycle period When CALW8 is set to 1, the 8-second calibration cycle period is selected. Note: CALM[1:0] are stuck at 00 when CALW8 = 1. Refer to Section24.3.12: RTC smooth digital calibration.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "CALW16",
+            "description": "Use a 16-second calibration cycle period When CALW16 is set to 1, the 16-second calibration cycle period is selected. This bit must not be set to 1 if CALW8 = 1. Note: CALM[0] is stuck at 0 when CALW16 = 1. Refer to Section24.3.12: RTC smooth digital calibration.",
+            "values": []
+          },
+          {
+            "bits": "12:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8:0",
+            "name": "CALM[8:0]",
+            "description": "Calibration minus The frequency of the calendar is reduced by masking CALM out of 220 RTCCLK pulses (32 seconds if the input frequency is 32768Hz). This decreases the frequency of the calendar with a resolution of 0.9537ppm. To increase the frequency of the calendar, this feature should be used in conjunction with CALP. See Section24.3.12: RTC smooth digital calibration on page657.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

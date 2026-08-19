@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.7.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.7.5",
+      "section_title": "Regions of interest (ROIs)",
+      "level": 3,
+      "parent_section": "39.7",
+      "page": 1866,
+      "page_end": 1867,
+      "semantic_type": "generic",
+      "features": [
+        "interest",
+        "regions",
+        "rois"
+      ],
+      "chars": 2196,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1866",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.7.5 \"Regions of interest (ROIs)\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1866.",
+      "section_content": "Pixel pipes can defined up to eight different ROIs to highlight areas on a picture. The\npurpose of this feature is to draw one rectangle with user size defined for each enabled ROI.\nThere is no hardware processing within the defined area applied on the image. As the aim is\nto draw rectangles on a display, the ROI is supposed to be used when the data flow is RGB\nat the output of the image processing blocks.\nThe line width is configurable commonly for each ROI thanks to bit-field ROILSZ[1:0] of the\nDCMIPP_PxCMRICR register. The color line is configurable per ROI to make easy visual\ndistinction between each region of interest.\nEach configuration is valid for a frame and it may be changed frame by frame by\nreprogramming the registers by software.\nEach ROI can be enabled independently for displaying purpose.\nFigure407 shows a basic example of two ROIs displayed within a frame to isolate two\nflights (it is only visual information). The application can decide to crop the area to work on\nthese two ROIs, by reprogramming the crop area for the next frames to make appropriate\nanalysis linked to the application target.\n[Figure 407. Example with two ROIs]\nROI1\nROI2\nImage from the camera sensor\nSoftware configuration\nThe first action is the configuration of DCMIPP_PxCMRICR, the common register to activate\nthe ROI and to select the line width applied to all the active ROIs within a frame:\n• ROIyEN (y = 1 to 8): each ROI can be enabled during the frame.\n• ROILSZ: select the line width in pixel (1, 2, 4 or 8 pixels wide).\nThe second step is the configuration of each ROI, independently, through registers\nDCMIPP_PxRIyCR1 and DCMIPP_PxRIyCR2. The color line, among others, is set during\nthis step.\n• VSTART and HSTART bit fields allow to set the origin point of the rectangle for a given\nROI. The origin is located on the top-left pixel, within the colored lines.\n• VSIZE and HSIZE bit fields are used to set up the vertical and horizontal size in pixel\nfor the area to draw. The size of the rectangle is measured the colored lines.\n• CLR, CLG, CLB are used to select the color among 64. Each component has its two\nbits duplicated to 8-bit, to get an RGB888 at the output of the ROI block",
+      "semantic": {}
+    }
+  ]
+}

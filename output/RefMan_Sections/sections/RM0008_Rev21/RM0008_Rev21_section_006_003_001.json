@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S6.3.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "6",
+      "chapter_title": "Backup registers (BKP)",
+      "section": "6.3.1",
+      "section_title": "Tamper detection",
+      "level": 3,
+      "parent_section": "6.3",
+      "page": 82,
+      "page_end": 82,
+      "semantic_type": "generic",
+      "features": [
+        "detection",
+        "tamper"
+      ],
+      "chars": 1572,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=82",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.3.1 \"Tamper detection\" in chapter 6 (Backup registers (BKP)), RM0008 Rev 21, page 82.",
+      "section_content": "The TAMPER pin generates a Tamper detection event when the pin changes from 0 to 1 or\nfrom 1 to 0 depending on the TPAL bit in the Backup control register (BKP_CR). A tamper\ndetection event resets all data backup registers.\nHowever to avoid losing Tamper events, the signal used for edge detection is logically\nANDed with the Tamper enable in order to detect a Tamper event in case it occurs before\nthe TAMPER pin is enabled.\n• When TPAL=0: If the TAMPER pin is already high before it is enabled (by setting TPE\nbit), an extra Tamper event is detected as soon as the TAMPER pin is enabled (while\nthere was no rising edge on the TAMPER pin after TPE was set)\n• When TPAL=1: If the TAMPER pin is already low before it is enabled (by setting the\nTPE bit), an extra Tamper event is detected as soon as the TAMPER pin is enabled\n(while there was no falling edge on the TAMPER pin after TPE was set)\nBy setting the TPIE bit in the BKP_CSR register, an interrupt is generated when a Tamper\ndetection event occurs.\nAfter a Tamper event has been detected and cleared, the TAMPER pin should be disabled\nand then re-enabled with TPE before writing to the backup data registers (BKP_DRx) again.\nThis prevents software from writing to the backup data registers (BKP_DRx), while the\nTAMPER pin value still indicates a Tamper detection. This is equivalent to a level detection\non the TAMPER pin.\nNote: Tamper detection is still active when VDD power is switched off. To avoid unwanted resetting\nof the data backup registers, the TAMPER pin should be externally tied to the correct level.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,292 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S26.6.6",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "26",
+      "chapter_title": "Inter-integrated circuit (I2C) interface",
+      "section": "26.6.6",
+      "section_title": "I2C Status register 1 (I2C_SR1)",
+      "level": 3,
+      "parent_section": "26.6",
+      "page": 777,
+      "page_end": 780,
+      "semantic_type": "register_description",
+      "features": [
+        "add10",
+        "addr",
+        "arlo",
+        "berr",
+        "btf",
+        "i2c",
+        "i2c-sr1",
+        "ovr",
+        "pecerr",
+        "smbalert",
+        "stopf",
+        "timeout"
+      ],
+      "chars": 6365,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=777",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.6.6 \"I2C Status register 1 (I2C_SR1)\" in chapter 26 (Inter-integrated circuit (I2C) interface), RM0008 Rev 21, page 777.",
+      "section_content": "Address offset: 0x14\nReset value: 0x0000\nBit 15 SMBALERT: SMBus alert\nIn SMBus host mode:\n0: no SMBALERT\n1: SMBALERT event occurred on pin\nIn SMBus slave mode:\n0: no SMBALERT response address header\n1: SMBALERT response address header to SMBALERT LOW received\n– Cleared by software writing 0, or by hardware when PE=0.\nBit 14 TIMEOUT: Timeout or Tlow error\n0: No timeout error\n1: SCL remained LOW for 25 ms (Timeout)\nMaster cumulative clock low extend time more than 10 ms (Tlow:mext)\nSlave cumulative clock low extend time more than 25 ms (Tlow:sext)\n– When set in slave mode: slave resets the communication and lines are released by\nhardware\n– When set in master mode: Stop condition sent by hardware\n– Cleared by software writing 0, or by hardware when PE=0.\nNote: This functionality is available only in SMBus mode.\nBit 13 Reserved, must be kept at reset value\nBit 12 PECERR: PEC Error in reception\n0: no PEC error: receiver returns ACK after PEC reception (if ACK=1)\n1: PEC error: receiver returns NACK after PEC reception (whatever ACK)\nNote: Cleared by software writing 0, or by hardware when PE=0.\nBit 11 OVR: Overrun/Underrun\n0: No overrun/underrun\n1: Overrun or underrun\n– Set by hardware in slave mode when NOSTRETCH=1 and:\n– In reception when a new byte is received (including ACK pulse) and the DR register has not\nbeen read yet. New received byte is lost.\n– In transmission when a new byte should be sent and the DR register has not been written\nyet. The same byte is sent twice.\n– Cleared by software writing 0, or by hardware when PE=0.\nNote: If the DR write occurs very close to SCL rising edge, the sent data is unspecified and a\nhold timing error occurs\nBit 10 AF: Acknowledge failure\n0: No acknowledge failure\n1: Acknowledge failure\n– Set by hardware when no acknowledge is returned.\n– Cleared by software writing 0, or by hardware when PE=0.\nBit 9 ARLO: Arbitration lost (master mode)\n0: No Arbitration Lost detected\n1: Arbitration Lost detected\nSet by hardware when the interface loses the arbitration of the bus to another master\n– Cleared by software writing 0, or by hardware when PE=0.\nAfter an ARLO event the interface switches back automatically to Slave mode (MSL=0).\nNote: In SMBUS, the arbitration on the data in slave mode occurs only during the data phase,\nor the acknowledge transmission (not on the address acknowledge).\nBit 8 BERR: Bus error\n0: No misplaced Start or Stop condition\n1: Misplaced Start or Stop condition\n– Set by hardware when the interface detects an SDA rising or falling edge while SCL is high,\noccurring in a non-valid position during a byte transfer.\n– Cleared by software writing 0, or by hardware when PE=0.\nBit 7 TxE: Data register empty (transmitters)\n0: Data register not empty\n1: Data register empty\n– Set when DR is empty in transmission. TxE is not set during address phase.\n– Cleared by software writing to the DR register or by hardware after a start or a stop condition\nor when PE=0.\nTxE is not set if either a NACK is received, or if next byte to be transmitted is PEC (PEC=1)\nNote: TxE is not cleared by writing the first data being transmitted, or by writing data when\nBTF is set, as in both cases the data register is still empty.\nBit 6 RxNE: Data register not empty (receivers)\n0: Data register empty\n1: Data register not empty\n– Set when data register is not empty in receiver mode. RxNE is not set during address phase.\n– Cleared by software reading or writing the DR register or by hardware when PE=0.\nRxNE is not set in case of ARLO event.\nNote: RxNE is not cleared by reading data when BTF is set, as the data register is still full.\nBit 5 Reserved, must be kept at reset value\nBit 4 STOPF: Stop detection (slave mode)\n0: No Stop condition detected\n1: Stop condition detected\n– Set by hardware when a Stop condition is detected on the bus by the slave after an\nacknowledge (if ACK=1).\n– Cleared by software reading the SR1 register followed by a write in the CR1 register, or by\nhardware when PE=0\nNote: The STOPF bit is not set after a NACK reception.\nIt is recommended to perform the complete clearing sequence (READ SR1 then\nWRITE CR1) after the STOPF is set. Refer to Figure272.\nBit 3 ADD10: 10-bit header sent (Master mode)\n0: No ADD10 event occurred.\n1: Master has sent first address byte (header).\n– Set by hardware when the master has sent the first byte in 10-bit address mode.\n– Cleared by software reading the SR1 register followed by a write in the DR register of the\nsecond address byte, or by hardware when PE=0.\nNote: ADD10 bit is not set after a NACK reception\nBit 2 BTF: Byte transfer finished\n0: Data byte transfer not done\n1: Data byte transfer succeeded\n– Set by hardware when NOSTRETCH=0 and:\n– In reception when a new byte is received (including ACK pulse) and DR has not been read\nyet (RxNE=1).\n– In transmission when a new byte should be sent and DR has not been written yet (TxE=1).\n– Cleared by software reading SR1 followed by either a read or write in the DR register or by\nhardware after a start or a stop condition in transmission or when PE=0.\nNote: The BTF bit is not set after a NACK reception\nThe BTF bit is not set if next byte to be transmitted is the PEC (TRA=1 in I2C_SR2\nregister and PEC=1 in I2C_CR1 register)\nBit 1 ADDR: Address sent (master mode)/matched (slave mode)\nThis bit is cleared by software reading SR1 register followed reading SR2, or by hardware\nwhen PE=0.\nAddress matched (Slave)\n0: Address mismatched or not received.\n1: Received address matched.\n– Set by hardware as soon as the received slave address matched with the OAR registers\ncontent or a general call or a SMBus Device Default Address or SMBus Host or SMBus Alert\nis recognized. (when enabled depending on configuration).\nNote: In slave mode, it is recommended to perform the complete clearing sequence (READ\nSR1 then READ SR2) after ADDR is set. Refer to Figure272.\nAddress sent (Master)\n0: No end of address transmission\n1: End of address transmission\n– For 10-bit addressing, the bit is set after the ACK of the 2nd byte.\n– For 7-bit addressing, the bit is set after the ACK of the byte.\nNote: ADDR is not set after a NACK reception\nBit 0 SB: Start bit (Master mode)\n0: No Start condition\n1: Start condition generated.\n– Set when a Start condition generated.\n– Cleared by software by reading the SR1 register followed by writing the DR register, or by\nhardware when PE=0",
+      "semantic": {
+        "register": "I2C_SR1",
+        "address_offset": "0x14",
+        "reset_value": "0x0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "15",
+            "name": "SMBALERT",
+            "description": "SMBus alert In SMBus host mode: In SMBus slave mode: – Cleared by software writing 0, or by hardware when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no SMBALERT"
+              },
+              {
+                "value": "1",
+                "meaning": "SMBALERT event occurred on pin"
+              },
+              {
+                "value": "0",
+                "meaning": "no SMBALERT response address header"
+              },
+              {
+                "value": "1",
+                "meaning": "SMBALERT response address header to SMBALERT LOW received"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "TIMEOUT",
+            "description": "Timeout or Tlow error Master cumulative clock low extend time more than 10 ms (Tlow:mext) Slave cumulative clock low extend time more than 25 ms (Tlow:sext) – When set in slave mode: slave resets the communication and lines are released by hardware – When set in master mode: Stop condition sent by hardware – Cleared by software writing 0, or by hardware when PE=0. Note: This functionality is available only in SMBus mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No timeout error"
+              },
+              {
+                "value": "1",
+                "meaning": "SCL remained LOW for 25 ms (Timeout)"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "PECERR",
+            "description": "PEC Error in reception Note: Cleared by software writing 0, or by hardware when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no PEC error: receiver returns ACK after PEC reception (if ACK=1)"
+              },
+              {
+                "value": "1",
+                "meaning": "PEC error: receiver returns NACK after PEC reception (whatever ACK)"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "OVR",
+            "description": "Overrun/Underrun – Set by hardware in slave mode when NOSTRETCH=1 and: – In reception when a new byte is received (including ACK pulse) and the DR register has not been read yet. New received byte is lost. – In transmission when a new byte should be sent and the DR register has not been written yet. The same byte is sent twice. – Cleared by software writing 0, or by hardware when PE=0. Note: If the DR write occurs very close to SCL rising edge, the sent data is unspecified and a hold timing error occurs",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No overrun/underrun"
+              },
+              {
+                "value": "1",
+                "meaning": "Overrun or underrun"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "AF",
+            "description": "Acknowledge failure – Set by hardware when no acknowledge is returned. – Cleared by software writing 0, or by hardware when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No acknowledge failure"
+              },
+              {
+                "value": "1",
+                "meaning": "Acknowledge failure"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "ARLO",
+            "description": "Arbitration lost (master mode) Set by hardware when the interface loses the arbitration of the bus to another master – Cleared by software writing 0, or by hardware when PE=0. After an ARLO event the interface switches back automatically to Slave mode (MSL=0). Note: In SMBUS, the arbitration on the data in slave mode occurs only during the data phase, or the acknowledge transmission (not on the address acknowledge).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Arbitration Lost detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Arbitration Lost detected"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "BERR",
+            "description": "Bus error – Set by hardware when the interface detects an SDA rising or falling edge while SCL is high, occurring in a non-valid position during a byte transfer. – Cleared by software writing 0, or by hardware when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No misplaced Start or Stop condition"
+              },
+              {
+                "value": "1",
+                "meaning": "Misplaced Start or Stop condition"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "TxE",
+            "description": "Data register empty (transmitters) – Set when DR is empty in transmission. TxE is not set during address phase. – Cleared by software writing to the DR register or by hardware after a start or a stop condition or when PE=0. TxE is not set if either a NACK is received, or if next byte to be transmitted is PEC (PEC=1) Note: TxE is not cleared by writing the first data being transmitted, or by writing data when BTF is set, as in both cases the data register is still empty.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data register not empty"
+              },
+              {
+                "value": "1",
+                "meaning": "Data register empty"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "RxNE",
+            "description": "Data register not empty (receivers) – Set when data register is not empty in receiver mode. RxNE is not set during address phase. – Cleared by software reading or writing the DR register or by hardware when PE=0. RxNE is not set in case of ARLO event. Note: RxNE is not cleared by reading data when BTF is set, as the data register is still full.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data register empty"
+              },
+              {
+                "value": "1",
+                "meaning": "Data register not empty"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "STOPF",
+            "description": "Stop detection (slave mode) – Set by hardware when a Stop condition is detected on the bus by the slave after an acknowledge (if ACK=1). – Cleared by software reading the SR1 register followed by a write in the CR1 register, or by hardware when PE=0 Note: The STOPF bit is not set after a NACK reception. It is recommended to perform the complete clearing sequence (READ SR1 then WRITE CR1) after the STOPF is set. Refer to Figure272.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Stop condition detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Stop condition detected"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "ADD10",
+            "description": "10-bit header sent (Master mode) – Set by hardware when the master has sent the first byte in 10-bit address mode. – Cleared by software reading the SR1 register followed by a write in the DR register of the second address byte, or by hardware when PE=0. Note: ADD10 bit is not set after a NACK reception",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No ADD10 event occurred."
+              },
+              {
+                "value": "1",
+                "meaning": "Master has sent first address byte (header)."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "BTF",
+            "description": "Byte transfer finished – Set by hardware when NOSTRETCH=0 and: – In reception when a new byte is received (including ACK pulse) and DR has not been read yet (RxNE=1). – In transmission when a new byte should be sent and DR has not been written yet (TxE=1). – Cleared by software reading SR1 followed by either a read or write in the DR register or by hardware after a start or a stop condition in transmission or when PE=0. Note: The BTF bit is not set after a NACK reception The BTF bit is not set if next byte to be transmitted is the PEC (TRA=1 in I2C_SR2 register and PEC=1 in I2C_CR1 register)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data byte transfer not done"
+              },
+              {
+                "value": "1",
+                "meaning": "Data byte transfer succeeded"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "ADDR",
+            "description": "Address sent (master mode)/matched (slave mode) This bit is cleared by software reading SR1 register followed reading SR2, or by hardware when PE=0. Address matched (Slave) – Set by hardware as soon as the received slave address matched with the OAR registers content or a general call or a SMBus Device Default Address or SMBus Host or SMBus Alert is recognized. (when enabled depending on configuration). Note: In slave mode, it is recommended to perform the complete clearing sequence (READ SR1 then READ SR2) after ADDR is set. Refer to Figure272. Address sent (Master) – For 10-bit addressing, the bit is set after the ACK of the 2nd byte. – For 7-bit addressing, the bit is set after the ACK of the byte. Note: ADDR is not set after a NACK reception",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Address mismatched or not received."
+              },
+              {
+                "value": "1",
+                "meaning": "Received address matched."
+              },
+              {
+                "value": "0",
+                "meaning": "No end of address transmission"
+              },
+              {
+                "value": "1",
+                "meaning": "End of address transmission"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "SB",
+            "description": "Start bit (Master mode) – Set when a Start condition generated. – Cleared by software by reading the SR1 register followed by writing the DR register, or by hardware when PE=0",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Start condition"
+              },
+              {
+                "value": "1",
+                "meaning": "Start condition generated."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S45.4.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "45",
+      "chapter_title": "Video encoder (VENC)",
+      "section": "45.4.7",
+      "section_title": "VENC synchronization",
+      "level": 3,
+      "parent_section": "45.4",
+      "page": 2159,
+      "page_end": 2160,
+      "semantic_type": "generic",
+      "features": [
+        "venc"
+      ],
+      "chars": 1091,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2159",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.4.7 \"VENC synchronization\" in chapter 45 (Video encoder (VENC)), RM0486 Rev 4, page 2159.",
+      "section_content": "The VENC can be synchronized, if needed, onto an external peripheral: it is used to encode\na full frame, per chunk of one/more line of macro-blocks.\nInitialization\nThe software allocates a double buffer, with each one line of macro-blocks (16 pixel high).\nThis double buffer is used in a ping-pong way: when the external peripheral writes into\nonebuffer, the VENC reads from the other buffer, and encodes it.\nBefore one frame\n1. The software configures and triggers the VENC for a new frame.\n2. The VENC waits for venc_rdy to become high (set by the source peripheral).\n3. The VENC starts to encode the current ping-pong buffer.\n4. The VENC finishes its encoding: it swaps its ping-pong buffer, and waits to a next\nvenc_rdy signal high.\nNote: The VENC is thus fully slaved onto the external peripheral, and solely driven by the\nvenc_rdy trigger from the source signal:\n- The encoding of one line of macroblock must be guaranteed faster than the reception of\nthe next line of macroblock.\n- The external peripheral triggers the VENC each time it has finished writing one line of\nthemacroblock.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.11.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.11.2",
+      "section_title": "Host FIFO architecture",
+      "level": 3,
+      "parent_section": "73.11",
+      "page": 3777,
+      "page_end": 3778,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 3483,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3777",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.11.2 \"Host FIFO architecture\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3777.",
+      "section_content": "[Figure 989. Host-mode FIFO address mapping and AHB FIFO access mapping]\nHost Rx FIFO\nThe host uses one receiver FIFO for all periodic and nonperiodic transactions. The FIFO is\nused as a receive buffer to hold the received data (payload of the received packet) from the\nUSB until it is transferred to the system memory. Packets received from any remote IN\nendpoint are stacked back-to-back until free space is available. The status of each received\npacket with the host channel destination, byte count, data PID and validity of the received\ndata are also stored into the FIFO. The size of the receive FIFO is configured in the receive\nFIFO size register (OTG_GRXFSIZ).\nThe single receive FIFO architecture makes it highly efficient for the USB host to fill in the\nreceive data buffer:\n• All IN configured host channels share the same RAM buffer (shared FIFO)\n• The OTG core can fill in the receive FIFO up to the limit for any sequence of IN tokens\ndriven by the host software\nThe application receives the Rx FIFO not-empty interrupt as long as there is at least one\npacket available for download. It reads the packet information from the receive status read\nand pop register and finally pops the data off the receive FIFO.\nHost Tx FIFOs\nThe host uses one transmit FIFO for all non-periodic (control and bulk) OUT transactions\nand one transmit FIFO for all periodic (isochronous and interrupt) OUT transactions. FIFOs\nare used as transmit buffers to hold the data (payload of the transmit packet) to be\ntransmitted over the USB. The size of the periodic (nonperiodic) Tx FIFO is configured in the\nhost periodic (nonperiodic) transmit FIFO size OTG_HPTXFSIZ / OTG_HNPTXFSIZ)\nregister.\nThe two Tx FIFO implementation derives from the higher priority granted to the periodic type\nof traffic over the USB frame. At the beginning of each frame, the built-in host scheduler\nprocesses the periodic request queue first, followed by the nonperiodic request queue.\nThe two transmit FIFO architecture provides the USB host with separate optimization for\nperiodic and nonperiodic transmit data buffer management:\n• All host channels configured to support periodic (nonperiodic) transactions in the OUT\ndirection share the same RAM buffer (shared FIFOs)\n• The OTG core can fill in the periodic (nonperiodic) transmit FIFO up to the limit for any\nsequence of OUT tokens driven by the host software\nThe OTG core issues the periodic Tx FIFO empty interrupt (PTXFE bit in OTG_GINTSTS)\nas long as the periodic Tx FIFO is half or completely empty, depending on the value of the\nperiodic Tx FIFO empty level bit in the AHB configuration register (PTXFELVL bit in\nOTG_GAHBCFG). The application can push the transmission data in advance as long as\nfree space is available in both the periodic Tx FIFO and the periodic request queue. The\nhost periodic transmit FIFO and queue status register (OTG_HPTXSTS) can be read to\nknow how much space is available in both.\nOTG core issues the non periodic Tx FIFO empty interrupt (NPTXFE bit in OTG_GINTSTS)\nas long as the nonperiodic Tx FIFO is half or completely empty depending on the non\nperiodic Tx FIFO empty level bit in the AHB configuration register (TXFELVL bit in\nOTG_GAHBCFG). The application can push the transmission data as long as free space is\navailable in both the nonperiodic Tx FIFO and nonperiodic request queue. The host\nnonperiodic transmit FIFO and queue status register (OTG_HNPTXSTS) can be read to\nknow how much space is available in both.",
+      "semantic": {}
+    }
+  ]
+}

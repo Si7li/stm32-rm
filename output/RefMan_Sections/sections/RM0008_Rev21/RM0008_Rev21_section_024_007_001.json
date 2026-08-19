@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S24.7.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "24",
+      "chapter_title": "Controller area network (bxCAN)",
+      "section": "24.7.1",
+      "section_title": "Transmission handling",
+      "level": 3,
+      "parent_section": "24.7",
+      "page": 660,
+      "page_end": 662,
+      "semantic_type": "generic",
+      "features": [
+        "handling",
+        "transmission"
+      ],
+      "chars": 3028,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=660",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.7.1 \"Transmission handling\" in chapter 24 (Controller area network (bxCAN)), RM0008 Rev 21, page 660.",
+      "section_content": "In order to transmit a message, the application must select one empty transmit mailbox, set\nup the identifier, the data length code (DLC) and the data before requesting the transmission\nby setting the corresponding TXRQ bit in the CAN_TIxR register. Once the mailbox has left\nempty state, the software no longer has write access to the mailbox registers. Immediately\nafter the TXRQ bit has been set, the mailbox enters pending state and waits to become the\nhighest priority mailbox, see Transmit Priority. As soon as the mailbox has the highest\npriority it will be scheduled for transmission. The transmission of the message of the\nscheduled mailbox will start (enter transmit state) when the CAN bus becomes idle. Once\nthe mailbox has been successfully transmitted, it will become empty again. The hardware\nindicates a successful transmission by setting the RQCP and TXOK bits in the CAN_TSR\nregister.\nIf the transmission fails, the cause is indicated by the ALST bit in the CAN_TSR register in\ncase of an Arbitration Lost, and/or the TERR bit, in case of transmission error detection.\nTransmit priority\nBy identifier When more than one transmit mailbox is pending, the\ntransmission order is given by the identifier of the message\nstored in the mailbox. The message with the lowest identifier\nvalue has the highest priority according to the arbitration of the\nCAN protocol. If the identifier values are equal, the lower mailbox\nnumber will be scheduled first.\nBy transmit request order The transmit mailboxes can be configured as a transmit FIFO by\nsetting the TXFP bit in the CAN_MCR register. In this mode the\npriority order is given by the transmit request order. This mode is\nvery useful for segmented transmission.\nAbort\nA transmission request can be aborted by the user setting the ABRQ bit in the CAN_TSR\nregister. In pending or scheduled state, the mailbox is aborted immediately. An abort\nrequest while the mailbox is in transmit state can have two results. If the mailbox is\ntransmitted successfully the mailbox becomes empty with the TXOK bit set in the\nCAN_TSR register. If the transmission fails, the mailbox becomes scheduled, the\ntransmission is aborted and becomes empty with TXOK cleared. In all cases the mailbox\nwill become empty again at least at the end of the current transmission.\nNonautomatic retransmission mode\nThis mode has been implemented in order to fulfil the requirement of the Time Triggered\nCommunication option of the CAN standard. To configure the hardware in this mode the\nNART bit in the CAN_MCR register must be set.\nIn this mode, each transmission is started only once. If the first attempt fails, due to an\narbitration loss or an error, the hardware will not automatically restart the message\ntransmission.\nAt the end of the first transmission attempt, the hardware considers the request as\ncompleted and sets the RQCP bit in the CAN_TSR register. The result of the transmission is\nindicated in the CAN_TSR register by the TXOK, ALST and TERR bits.\n[Figure 228. Transmit mailbox states]",
+      "semantic": {}
+    }
+  ]
+}

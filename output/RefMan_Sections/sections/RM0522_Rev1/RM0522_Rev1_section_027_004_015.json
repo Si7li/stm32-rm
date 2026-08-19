@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S27.4.15",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "27",
+      "chapter_title": "AES hardware accelerator (AES)",
+      "section": "27.4.15",
+      "section_title": "AES data registers and data swapping",
+      "level": 3,
+      "parent_section": "27.4",
+      "page": 818,
+      "page_end": 820,
+      "semantic_type": "generic",
+      "features": [
+        "aes"
+      ],
+      "chars": 1980,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=818",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.4.15 \"AES data registers and data swapping\" in chapter 27 (AES hardware accelerator (AES)), RM0522 Rev 1, page 818.",
+      "section_content": "Data input and output\nA 16-byte data block enters the AES peripheral with four successive 32-bit word writes into\nthe AES_DINR register (bitfield DIN[31:0]), the most significant word (bits [127:96]) first, the\nleast significant word (bits [31:0]) last.\nA 16-byte data block is retrieved from the AES peripheral with four successive 32-bit word\nreads of the AES_DOUTR register (bitfield DOUT[31:0]), the most significant word (bits\n[127:96]) first, the least significant word (bits [31:0]) last.\nThe four 32-bit words of a 16-byte data block must be stored in the memory consecutively\nand in big-endian order, that is, with the most significant word on the lowest address. See\nTable210 “no swapping” option for details.\nData swapping\nThe AES peripheral can be configured to perform a bit-, a byte-, a half-word-, or no\nswapping on the input data word in the AES_DINR register, before loading it to the AES\nprocessing core, and on the data output from the AES processing core, before sending it to\nthe AES_DOUTR register. The choice depends on the type of data. For example, a byte\nswapping is used for an ASCII text stream.\nThe data swap type is selected through DATATYPE[1:0]. The selection applies to both AES\ninput and output.\nNote: The data in AES key registers (AES_KEYRx) and initialization vector registers (AES_IVRx)\nare not sensitive to the swap mode selection.\nThe AES data swapping feature is summarized in Table210 and Figure192.\n[Table 210. AES data swapping example]\n[Figure 192. 128-bit block construction according to the data type]\nData padding\nFigure192 also gives an example of memory data block padding with zeros such that the\nzeroed bits after the data swap form a contiguous zone at the MSB end of the AES core\ninput buffer. The example shows the padding of an input data block containing:\n• 84 message bits, with DATATYPE[1:0]=0x0\n• 48 message bits, with DATATYPE[1:0]=0x1\n• 56 message bits, with DATATYPE[1:0]=0x2\n• 34 message bits, with DATATYPE[1:0]=0x3",
+      "semantic": {}
+    }
+  ]
+}

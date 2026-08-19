@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S49.4.15",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "49",
+      "chapter_title": "Cryptographic processor (CRYP)",
+      "section": "49.4.15",
+      "section_title": "CRYP data registers and data swapping",
+      "level": 3,
+      "parent_section": "49.4",
+      "page": 2386,
+      "page_end": 2388,
+      "semantic_type": "generic",
+      "features": [
+        "cryp"
+      ],
+      "chars": 2003,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2386",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.4.15 \"CRYP data registers and data swapping\" in chapter 49 (Cryptographic processor (CRYP)), RM0486 Rev 4, page 2386.",
+      "section_content": "Data input and output\nA 16-byte data block enters the CRYP peripheral with four successive 32-bit word writes\ninto the CRYP_DINR register (bitfield DIN[31:0]), the most significant word (bits [127:96])\nfirst, the least significant word (bits [31:0]) last.\nA 16-byte data block is retrieved from the CRYP peripheral with four successive 32-bit word\nreads of the CRYP_DOUTR register (bitfield DOUT[31:0]), the most significant word (bits\n[127:96]) first, the least significant word (bits [31:0]) last.\nThe four 32-bit words of a 16-byte data block must be stored in the memory consecutively\nand in big-endian order, that is, with the most significant word on the lowest address. See\nTable422 “no swapping” option for details.\nData swapping\nThe CRYP peripheral can be configured to perform a bit-, a byte-, a half-word-, or no\nswapping on the input data word in the CRYP input FIFO, before loading it to the AES\nprocessing core, and on the data output from the AES processing core, before sending it to\nthe CRYP output FIFO. The choice depends on the type of data. For example, a byte\nswapping is used for an ASCII text stream.\nThe data swap type is selected through the DATATYPE[1:0]. The selection applies both to\nthe input and the output of the CRYP, except in GCM/CCM final phase (data must be\ninserted normally).\nNote: The data in CRYP key registers (CRYP_KxL/R) and initialization vector registers\n(CRYP_IVxL/R) are not sensitive to the swap mode selection.\nThe CRYP data swapping feature is summarized in Table422 and Figure492.\n[Table 422. AES data swapping example]\nData padding\nFigure492 also gives an example of memory data block padding with zeros such that the\nzeroed bits after the data swap form a contiguous zone at the MSB end of the AES core\ninput buffer. The example shows the padding of an input data block containing:\n• 84 message bits, with DATATYPE[1:0]=0x0\n• 48 message bits, with DATATYPE[1:0]=0x1\n• 56 message bits, with DATATYPE[1:0]=0x2\n• 34 message bits, with DATATYPE[1:0]=0x3",
+      "semantic": {}
+    }
+  ]
+}

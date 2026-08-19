@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S26.5.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "26",
+      "chapter_title": "Universal synchronous receiver transmitter (USART)",
+      "section": "26.5.4",
+      "section_title": "USART FIFOs and thresholds",
+      "level": 3,
+      "parent_section": "26.5",
+      "page": 751,
+      "page_end": 751,
+      "semantic_type": "generic",
+      "features": [
+        "usart"
+      ],
+      "chars": 2017,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=751",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.5.4 \"USART FIFOs and thresholds\" in chapter 26 (Universal synchronous receiver transmitter (USART)), RM0490 Rev 6, page 751.",
+      "section_content": "The USART can operate in FIFO mode.\nThe USART comes with a Transmit FIFO (TXFIFO) and a Receive FIFO (RXFIFO). The\nFIFO mode is enabled by setting FIFOEN in USART_CR1 register (bit 29). This mode is\nsupported only in UART, SPI and smartcard modes.\nSince the maximum data word length is 9 bits, the TXFIFO is 9-bit wide. However the\nRXFIFO default width is 12 bits. This is due to the fact that the receiver does not only store\nthe data in the FIFO, but also the error flags associated to each character (Parity error,\nNoise error and Framing error flags).\nNote: The received data is stored in the RXFIFO together with the corresponding flags. However,\nonly the data are read when reading the RDR.\nThe status flags are available in the USART_ISR register.\nIt is possible to configure the TXFIFO and RXFIFO levels at which the Tx and RX interrupts\nare triggered. These thresholds are programmed through RXFTCFG and TXFTCFG\nbitfields in USART_CR3 control register.\nIn this case:\n• The RXFT flag is set in the USART_ISR register and the corresponding interrupt (if\nenabled) is generated, when the number of received data in the RXFIFO reaches the\nthreshold programmed in the RXFTCFG bits fields.\nThis means that the RXFIFO is filled until the number of data in the RXFIFO is equal to\nthe programmed threshold.\nRXFTCFG data have been received: one data in USART_RDR and (RXFTCFG - 1)\ndata in the RXFIFO. As an example, when the RXFTCFG is programmed to ‘101’, the\nRXFT flag is set when a number of data corresponding to the FIFO size has been\nreceived (FIFO size -1 data in the RXFIFO and 1 data in the USART_RDR). As a\nresult, the next received data is not set the overrun flag.\n• The TXFT flag is set in the USART_ISR register and the corresponding interrupt (if\nenabled) is generated when the number of empty locations in the TXFIFO reaches the\nthreshold programmed in the TXFTCFG bits fields.\nThis means that the TXFIFO is emptied until the number of empty locations in the\nTXFIFO is equal to the programmed threshold.",
+      "semantic": {}
+    }
+  ]
+}

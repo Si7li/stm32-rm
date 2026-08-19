@@ -1,0 +1,85 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.6.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.6.5",
+      "section_title": "FDCAN TUR configuration register (FDCAN_TURCF)",
+      "level": 3,
+      "parent_section": "71.6",
+      "page": 3725,
+      "page_end": 3726,
+      "semantic_type": "register_description",
+      "features": [
+        "elt",
+        "fdcan",
+        "fdcan-turcf",
+        "ncl",
+        "tur"
+      ],
+      "chars": 2543,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3725",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.6.5 \"FDCAN TUR configuration register (FDCAN_TURCF)\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3725.",
+      "section_content": "The length of the NTU is given by: NTU = CAN clock period x NC/DC.\nNC is an 18-bit value. Its high part, NCH[17:16] is hard wired to 0b01. Therefore the range of\nNC extends from 0x10000 to 0x1FFFF. The value configured by NCL is the initial value for\nFDCAN_TURNA.NAV[15:0]. DC is set to 0x1000 by hardware reset and it may not be\nwritten to 0x0000.\n• Level 1: NC 4 × DC and NTU = CAN bit time\n• Levels 0 and 2: NC 8 × DC\nThe actual value of FDCAN_TUR may be changed by the clock drift compensation function\nof TTCAN level 0 and level 2 in order to adjust the node local view of the NTU to the time\nmaster view of the NTU. DC is not changed by the automatic drift compensation,\nFDCAN_TURNA.NAV may be adjusted around NC in the range of the synchronization\ndeviation limit given by FDCAN_TTOCF.LDSDL. NC and DC must be programmed to the\nlargest suitable values in achieve the best computational accuracy for the drift\ncompensation process.\nAddress offset: 0x0110\nReset value: 0x0000 0000\nBit 31 ELT: Enable local time.\n0: Local time is stopped, default\n1: Local time is enabled\nThese are write-protected bits, write access is possible only when bit CCE and bit INIT of\nFDCAN_CCCR register are set to 1.\nNote: The local time is started by setting ELT, it remains active until ELT is reset or until the next\nhardware reset. FDCAN_TURCF.DC is locked when FDCAN_TURCF.ELT=1. If ELT is written\nto 0, the readable value stays at 1 until the new value has been synchronized into the CAN\nclock domain. During this time write access to the other bits of the register is locked.\nBit 30 Reserved, must be kept at reset value.\nBits 29:16 DC[13:0]: Denominator configuration.\n0x0000: Illegal value\n0x0001 to 0x3FFF: Denominator configuration\nThese are write-protected bits, write access is possible only when bit CCE and bit INIT of\nFDCAN_CCCR register are set to 1.\nBits 15:0 NCL[15:0]: Numerator configuration low.\nWrite access to the TUR numerator configuration low is only possible during configuration with\nFDCAN_TURCF.ELT = 0 or if FDCAN_TTOCF.EECS (external clock synchronization enabled) is set.\nWhen a new value for NCL is written outside TT configuration mode, the new value takes effect\nwhen FDCAN_TTOST.WECS is cleared to 0. NCL is locked FDCAN_TTOST.WECS is 1.\n0x0000 to FFFF Numerator configuration low\nThese are write-protected bits, write access is possible only when bit CCE and bit INIT of\nFDCAN_CCCR register are set to 1.\nNote: If NC < 7 × DC in TTCAN level 1, subsequent time marks in the trigger memory must differ\nby at least two NTUs.",
+      "semantic": {
+        "register": "FDCAN_TURCF",
+        "address_offset": "0x0110",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "ELT",
+            "description": "Enable local time. These are write-protected bits, write access is possible only when bit CCE and bit INIT of FDCAN_CCCR register are set to 1. Note: The local time is started by setting ELT, it remains active until ELT is reset or until the next hardware reset. FDCAN_TURCF.DC is locked when FDCAN_TURCF.ELT=1. If ELT is written to 0, the readable value stays at 1 until the new value has been synchronized into the CAN clock domain. During this time write access to the other bits of the register is locked.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Local time is stopped, default"
+              },
+              {
+                "value": "1",
+                "meaning": "Local time is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29:16",
+            "name": "DC[13:0]",
+            "description": "Denominator configuration. 0x0001 to 0x3FFF: Denominator configuration These are write-protected bits, write access is possible only when bit CCE and bit INIT of FDCAN_CCCR register are set to 1.",
+            "values": [
+              {
+                "value": "0x0000",
+                "meaning": "Illegal value"
+              }
+            ]
+          },
+          {
+            "bits": "15:0",
+            "name": "NCL[15:0]",
+            "description": "Numerator configuration low. Write access to the TUR numerator configuration low is only possible during configuration with FDCAN_TURCF.ELT = 0 or if FDCAN_TTOCF.EECS (external clock synchronization enabled) is set. When a new value for NCL is written outside TT configuration mode, the new value takes effect when FDCAN_TTOST.WECS is cleared to 0. NCL is locked FDCAN_TTOST.WECS is 1. 0x0000 to FFFF Numerator configuration low These are write-protected bits, write access is possible only when bit CCE and bit INIT of FDCAN_CCCR register are set to 1. Note: If NC < 7 × DC in TTCAN level 1, subsequent time marks in the trigger memory must differ by at least two NTUs.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.3.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.3.9",
+      "section_title": "OTP and RO memory access",
+      "level": 3,
+      "parent_section": "6.3",
+      "page": 138,
+      "page_end": 141,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "otp"
+      ],
+      "chars": 4280,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=138",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.3.9 \"OTP and RO memory access\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 138.",
+      "section_content": "OTP and RO memory are accessed through the main AHB interface. The OTP is accessible\nat the address 0x08FFE000 to 0x08FFF1FF, and the read only section is accessible from\n0x08FFF800 to 0x08FFFDFF.\nThey are stored in a distinct way as data or user flash, filling first 4 bytes of a page, then 5th\nto 8th and finally 9th to 12th as columns. It does not impact addressing nor locking\nmechanism but requires caution to decode ECC double error or operation interruption.\nIndeed for OTP or RO the ECC address returned in ADDR_ECC bitfield indicate FLASH\nline.\nIn case of double error detection, the corrupted access can be identified thanks to\nDATA_ADDR_ECC bitfield returning OTP position on the line.\nThey are stored in a different way than user data, each sector being filled vertically 32-bit\nwise as described in the table below.\n[Table 21. OTP first page organization]\nFLASH one-time programmable area\nThe FLASH offers a 4608-byte memory area dedicated to application nonconfidential, one-\ntime programmable data (OTP). This area is composed of 2304 words of 16 bits (plus 6 bits\nof ECC). It cannot be erased, and can be written only once. The OTP area can be accessed\nthrough the main AHB interface from address 0x08FFE000 to 0x08FFF1FE (last whole\nreadable 16-bit word).\nOTP data can be programmed by the application software by chunks of 16 bits. Overwriting\nan already programmed 16-bit half-word can lead to data and ECC errors and is therefore\nnot supported.\nNote: The OTP area is virgin when the device is delivered by STMicroelectronics.\nWhen reading OTP data with a single error corrected or a double error detected, the FLASH\nreports read errors, as described in Section6.8.5.\nWhen reading OTP data not written by the application software (such as virgin OTP), the\nECC correction reports a double-error detection (ECCD), and the data are to be found in\nFLASH_ECCDR register. ECCD implies a NMI raised, unless setting in SBS prevents that.\nOTP write protection\nOTP data are organized as 24 blocks of 96 OTP words, as shown in Table22. An entire\nOTP block can be protected (locked) from write accesses by setting the LOCKBLi\n(i=0to23) bit corresponding to each OTP block (i = 0 to 23) in FLASH_OTPBLR. A block\ncan be write-protected whether or not it has been programmed (even partially).\nThe OTP block locking operation is irreversible and independent from the product life state.\nNote: The OTP area can only be accessed in read mode.\n[Table 22. Flash memory OTP organization]\nOTP write sequence\nFollow the sequence below to write an OTP word:\n1. Check that no flash memory operation is ongoing by checking the BSY bit\ninFLASH_SR register, and that the data buffer is empty by checking the DBNE bit in\nthe same register.\n2. Check and clear all the error flags due to previous programming/erase operation.\n3. Set PG bit in FLASH_CR.\n4. Check the protection status of the target OTP word (see Table22). The corresponding\nLOCKBLi bit must not be set to 1.\n5. Write two OTP words (32 bits) corresponding to the 4-byte aligned address shown\ninTable22. Alternatively, the application software can program separately the 16-bit\nMSB or 16-bit LSB. In this case the first 16-bit write operation starts immediately\nwithout waiting for the second one\n6. Wait for the BSY bit to be cleared in FLASH_SR.\n7. Clear PG bit in FLASH_CR if there is not any programming request anymore in the\nbank.\n8. Optionally, lock the OTP block using LOCKBLi to prevent further data changes.\nNote: Do not write twice an OTP 16-bit word, otherwise an ECC error can be generated.\nWriting OTP data at byte level is not supported and generates a bus error.\nTo avoid data corruption, it is important to complete the OTP write process (for example by\nreading back the OTP value), before starting an option change.\nFLASH read-only area\nThe FLASH offers a 1.5-Kbyte memory area to store read-only data, also referred to as RO.\nThis area is mapped as described in Table23. It can be accessed through the AHB main\nport. This read-only area is protected by a robust ECC scheme, as explained in\nSection6.3.8.\nThe read-only information that can be used by the application software are described in the\ntable below. This information is programmed by STMicroelectronics.\n[Table 23. Read-only public data organization]",
+      "semantic": {}
+    }
+  ]
+}

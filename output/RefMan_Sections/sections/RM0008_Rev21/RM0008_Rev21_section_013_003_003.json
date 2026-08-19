@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S13.3.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "13",
+      "chapter_title": "Direct memory access controller (DMA)",
+      "section": "13.3.3",
+      "section_title": "DMA channels",
+      "level": 3,
+      "parent_section": "13.3",
+      "page": 277,
+      "page_end": 279,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "memory"
+      ],
+      "chars": 4086,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=277",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.3.3 \"DMA channels\" in chapter 13 (Direct memory access controller (DMA)), RM0008 Rev 21, page 277.",
+      "section_content": "Each channel can handle DMA transfer between a peripheral register located at a fixed\naddress and a memory address. The amount of data to be transferred (up to 65535) is\nprogrammable. The register which contains the amount of data items to be transferred is\ndecremented after each transaction.\nProgrammable data sizes\nTransfer data sizes of the peripheral and memory are fully programmable through the\nPSIZE and MSIZE bits in the DMA_CCRx register.\nPointer incrementation\nPeripheral and memory pointers can optionally be automatically post-incremented after\neach transaction depending on the PINC and MINC bits in the DMA_CCRx register. If\nincremented mode is enabled, the address of the next transfer will be the address of the\nprevious one incremented by 1, 2 or 4 depending on the chosen data size. The first transfer\naddress is the one programmed in the DMA_CPARx/DMA_CMARx registers. During\ntransfer operations, these registers keep the initially programmed value. The current\ntransfer addresses (in the current internal peripheral/memory address register) are not\naccessible by software.\nIf the channel is configured in noncircular mode, no DMA request is served after the last\ntransfer (that is once the number of data items to be transferred has reached zero). In order\nto reload a new number of data items to be transferred into the DMA_CNDTRx register, the\nDMA channel must be disabled.\nNote: If a DMA channel is disabled, the DMA registers are not reset. The DMA channel registers\n(DMA_CCRx, DMA_CPARx and DMA_CMARx) retain the initial values programmed during\nthe channel configuration phase.\nIn circular mode, after the last transfer, the DMA_CNDTRx register is automatically reloaded\nwith the initially programmed value. The current internal address registers are reloaded with\nthe base address values from the DMA_CPARx/DMA_CMARx registers.\nChannel configuration procedure\nThe following sequence should be followed to configure a DMA channelx (where x is the\nchannel number).\n1. Set the peripheral register address in the DMA_CPARx register. The data will be\nmoved from/ to this address to/ from the memory after the peripheral event.\n2. Set the memory address in the DMA_CMARx register. The data will be written to or\nread from this memory after the peripheral event.\n3. Configure the total number of data to be transferred in the DMA_CNDTRx register.\nAfter each peripheral event, this value will be decremented.\n4. Configure the channel priority using the PL[1:0] bits in the DMA_CCRx register\n5. Configure data transfer direction, circular mode, peripheral & memory incremented\nmode, peripheral & memory data size, and interrupt after half and/or full transfer in the\nDMA_CCRx register\n6. Activate the channel by setting the ENABLE bit in the DMA_CCRx register.\nAs soon as the channel is enabled, it can serve any DMA request from the peripheral\nconnected on the channel.\nOnce half of the bytes are transferred, the half-transfer flag (HTIF) is set and an interrupt is\ngenerated if the Half-Transfer Interrupt Enable bit (HTIE) is set. At the end of the transfer,\nthe Transfer Complete Flag (TCIF) is set and an interrupt is generated if the Transfer\nComplete Interrupt Enable bit (TCIE) is set.\nCircular mode\nCircular mode is available to handle circular buffers and continuous data flows (e.g. ADC\nscan mode). This feature can be enabled using the CIRC bit in the DMA_CCRx register.\nWhen circular mode is activated, the number of data to be transferred is automatically\nreloaded with the initial value programmed during the channel configuration phase, and the\nDMA requests continue to be served.\nMemory-to-memory mode\nThe DMA channels can also work without being triggered by a request from a peripheral.\nThis mode is called Memory to Memory mode.\nIf the MEM2MEM bit in the DMA_CCRx register is set, then the channel initiates transfers\nas soon as it is enabled by software by setting the Enable bit (EN) in the DMA_CCRx\nregister. The transfer stops once the DMA_CNDTRx register reaches zero. Memory to\nMemory mode may not be used at the same time as Circular mode.",
+      "semantic": {}
+    }
+  ]
+}

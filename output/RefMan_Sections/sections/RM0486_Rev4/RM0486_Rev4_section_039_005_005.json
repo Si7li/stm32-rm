@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.5.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.5.5",
+      "section_title": "Dump counter",
+      "level": 3,
+      "parent_section": "39.5",
+      "page": 1843,
+      "page_end": 1844,
+      "semantic_type": "generic",
+      "features": [
+        "counter",
+        "dump"
+      ],
+      "chars": 2242,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1843",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.5.5 \"Dump counter\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1843.",
+      "section_content": "The dump counter is present on dump pipe. It is used to count the amount of data that are\ndumped in that frame, and to potentially limit the amount dumped if too large. It allows the\nsoftware to know the size of dumped buffer, and to make sure that no dump is made out of a\npreallocated buffer.\nIt is specifically useful when dumping a content whose length is unknown prior to reception,\nlike an encoded JPG stream. When dumping a pixel frame, the size is known thanks to the\nconfigured width and height of the frame.\nThe counter is counting 32-bit data for almost all the input formats, even if the value is\nexpressed in number of bytes. The counter increment is 4-bytes granularity for all formats\nexcept the JPEG byte stream input mode, for which the counter granularity is 8-bit because\nthe application does not know the amount of dumped data.\nFeatures\n• Dump counter, counting the amount of bytes dumped. It counts the amount of dumped\n32-bit words (the increment is 4), except when connected to a parallel interface camera\nand dumping a 8-bit data in byte stream mode (see FORMAT bit field in the\nDCMIPP_PRCR register), where it counts per byte (the increment is 1).\n– The counter saturates at 0x03FF_FFFF.\n– At FrameEnd, the counter value is recopied in a readable shadow register and the\ncounter itself is reset to start the count of the next frame.\n• Dump limit, that clamps the dumped words below a maximum limit:\n– If the counter reaches the limit, all following bytes are deleted until the next VSync.\n– The counter continues to count over the limit, to indicate how many bytes have\nbeen received and must have been dumped if not deleted.\n• Interrupt limit is triggered when some bytes are deleted due to dump limit crossed.\n• CSI headers, when dumped (HEADEREN = 1), participate to the counted and limited\ndata volumes.\n• Monochrome or raw Bayer padding (alignment of 10/12/14 bpp to 16 bpp) is also taken\ninto account in data volumes.\nSoftware configuration\n[Table 341. DCMIPP_P0DCCNTR and DCMIPP_P0DCLMTR bit function]\nNote: The dump counter sees the CSI-2 packet headers as normal 32-bit words. Raw Bayer and\nmonochrome pixels on 10/12/14 bpc are padded onto 16 bits, and are thus slightly larger\nthan their 10/12/14 bit size.",
+      "semantic": {}
+    }
+  ]
+}

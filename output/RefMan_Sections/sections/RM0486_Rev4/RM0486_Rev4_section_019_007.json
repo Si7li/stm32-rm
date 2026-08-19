@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.7",
+      "section_title": "GPDMA interrupts",
+      "level": 2,
+      "parent_section": null,
+      "page": 979,
+      "page_end": 980,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "gpdma",
+        "interrupt",
+        "memory"
+      ],
+      "chars": 2372,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=979",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.7 \"GPDMA interrupts\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 979.",
+      "section_content": "There is one GPDMA interrupt line for each channel, and separately for each CPU\n(ifseveral ones in the devices).\n[Table 106. GPDMA interrupt requests]\nA GPDMA channel x event may be:\n• a transfer complete\n• a half-transfer complete\n• a transfer error, due to either:\n– a data transfer error\n– an update link error\n– a user setting error completed suspension\n• a trigger overrun\nNote: When a channel x transfer complete event occurs, the output signal gpdma_chx_tc is\ngenerated as a high pulse of one clock cycle.\nAn interrupt is generated following any xx event, provided that both:\n• the corresponding interrupt event xx is enabled (GPDMA_CxCR.xxIE=1)\n• the corresponding event flag is cleared (GPDMA_CxSR.xxF=0). This means that,\nafter a previous same xx event occurrence, a software agent must have written 1 into\nthe corresponding xx flag clear control bit (write 1 into GPDMA_CxFCR.xxF).\nTCF (transfer complete) and HTF (half transfer) events generation is controlled by\nGPDMA_CxTR2.TCEM[1:0] as follows:\n• A transfer complete event is a block transfer complete, a 2D/repeated block transfer\ncomplete, or a LLI transfer complete including the upload of the next LLI if any, or the\nfull linked-list completion, depending on the transfer complete event mode\nGPDMA_CxTR2.TCEM[1:0].\n• A half-transfer event is a half-block transfer or a half 2D/repeated block transfer,\ndepending on the transfer complete event mode GPDMA_CxTR2.TCEM[1:0].\nA half-block transfer occurs when half of the source block size bytes (rounded-up\ninteger of GPDMA_CxBR1.BNDT[15:0]/2) is transferred to the destination.\nA half 2D/repeated block transfer occurs when half of the repeated blocks (rounded-up\ninteger of (GPDMA_CxBR1.BRC[10:0]+1)/2) is transferred to the destination.\nSee GPDMA channel x transfer register 2 (GPDMA_CxTR2) for more details.\nA transfer error rises in one of the following situations:\n• during a single/burst data transfer from the source or to the destination (DTEF)\n• during an update of a GPDMA channel register from the programmed LLI in memory\n(ULEF)\n• during a tentative execution of a GPDMA channel with an unauthorized setting (USEF)\nThe user must perform a debug session to correct the GPDMA channel programming\nversus the USEF root causes list (see Section19.4.17).\nA trigger overrun is described in Trigger hit memorization and trigger overrun flag\ngeneration.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S12.4.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "12",
+      "chapter_title": "AXI cache (CACHEAXI)",
+      "section": "12.4.3",
+      "section_title": "CACHEAXI TAG memory",
+      "level": 3,
+      "parent_section": "12.4",
+      "page": 326,
+      "page_end": 328,
+      "semantic_type": "generic",
+      "features": [
+        "cacheaxi",
+        "memory",
+        "tag"
+      ],
+      "chars": 3506,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=326",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.4.3 \"CACHEAXI TAG memory\" in chapter 12 (AXI cache (CACHEAXI)), RM0486 Rev 4, page 326.",
+      "section_content": "The CACHEAXI TAG memory contains:\n• Address tags that indicate which data are contained in the cache data memories\n• Valid bits\n• Dirty bits\n• Privilege bits\n• Compartment ID (CID) bits\nThere is one valid bit (V), one privilege bit (P), one 3-bit CID (C[2:0]) and one dirty bit (D) per\ncache line (per way).\nThe valid bit enables/disables access to the data cache line: if the line is not valid, the data\naccess (read or write) is performed in the main memory.\nThe valid bit is set when the cache line is written (allocated by either a read-allocate miss or\na write-back miss).\nThe valid bits are reset in any of the below cases:\n• After CACHEAXI reset is released\n• When cache mode is disabled (by setting EN low in CACHEAXI_CR1, by software)\n• When executing the full invalidate command, when software sets CACHEINV=1 in\nCACHEAXI_CR1\n• When executing the clean and invalidate range command, when software sets\nCACHECMD=0b11 and STARTCMD=1 in CACHEAXI_CR2.\nSee Section12.4.10: CACHEAXI maintenance for details on cache maintenance\ncommands.\nThe dirty bit indicates that the cache line has up-to-date values with respect to the main\nmemory content (in other words, cache has last right value, main memory is not up to date).\nThe dirty bit is set when the cache line is written by a slave cache port write transaction (only\nin case of an access with write-back attribute).\nThe dirty bits are reset in any of the below cases:\n• After CACHEAXI reset is released\n• When a line refill is performed on a read miss (on a write-back miss, the refilled cache\nline is modified by the written data and dirty bit=1)\n• When cache invalidation is performed\n• When executing one of the CACHEAXI clean operations (cache line written back to the\nmain memory), setting by software CACHECMD=0b01 or 0b011 in CACHEAXI_CR2\nThe privilege bit indicates if the data is managed by a privileged entity. It is assigned\naccording to the value of AXI privileged attribute at slave cache port, for the first access to\nthis line (it is written only during a line allocation). The privilege bit holds same polarity as\nthe privileged attribute: 1 for privileged access, 0 for unprivileged access.\nThe privilege bits are reset:\n• After CACHEAXI reset is released\n• When the cache is invalidated.\nThe 3-bit CID indicates to which processing compartment a data belongs to. It is assigned\naccording to the value of AXI user-defined CID attribute at slave cache port for the first\naccess to this line (it is written only during a line allocation).\nThe CID bits (C[2:0]) are reset:\n• After CACHEAXI reset is released\n• When the cache is invalidated.\nWhen a cacheable transaction is received at the slave cache port, its AXI transfer address\n(AxADDR_in[31:0]; either ARADDR_in if on the AXI read channel, or AWADDR_in if on AXI\nwrite channel) is split into the following fields (see the table below for B and W values):\n• AxADDR_in[B-1:0]: address byte offset, indicates which byte to select inside\nacacheline\n• AxADDR_in[B+W-1:B]: address way index indicates which cache line to select inside\neach way\n• AxADDR_in[31:B+W]: tag address, to be compared to TAG memory address to check if\nthe requested data is already available (meaning valid) inside CACHEAXI\nThe table below gives the main CACHEAXI parameters for TAG memory dimensioning.\n[Table 46. TAG memory dimensioning parameters]\nFigure 14. shows the functional view of TAG and data memories, for an n-way set\nassociative CACHEAXI.\n[Figure 14. CACHEAXI TAG and data memories functional view]",
+      "semantic": {}
+    }
+  ]
+}

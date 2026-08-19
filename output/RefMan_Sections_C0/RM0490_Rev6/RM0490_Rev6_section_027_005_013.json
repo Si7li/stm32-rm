@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.5.13",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.5.13",
+      "section_title": "TI mode",
+      "level": 3,
+      "parent_section": "27.5",
+      "page": 853,
+      "page_end": 854,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 1722,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=853",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.5.13 \"TI mode\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 853.",
+      "section_content": "TI protocol in master mode\nThe SPI interface is compatible with the TI protocol. The FRF bit of the SPIx_CR2 register\ncan be used to configure the SPI to be compliant with this protocol.\nThe clock polarity and phase are forced to conform to the TI protocol requirements whatever\nthe values set in the SPIx_CR1 register. NSS management is also specific to the TI protocol\nwhich makes the configuration of NSS management through the SPIx_CR1 and SPIx_CR2\nregisters (SSM, SSI, SSOE) impossible in this case.\nIn slave mode, the SPI baud rate prescaler is used to control the moment when the MISO\npin state changes to HiZ when the current transaction finishes (see Figure294). Any baud\nrate can be used, making it possible to determine this moment with optimal flexibility.\nHowever, the baud rate is generally set to the external master clock baud rate. The delay for\nthe MISO signal to become HiZ (trelease) depends on internal resynchronization and on the\nbaud rate value set in through the BR[2:0] bits in the SPIx_CR1 register. It is given by the\nformula:\nt t\n--b---a--u---d--_---r-a---t-e-- + 4× t <t < --b---a--u---d--_---r-a---t-e-- + 6× t\n2 pclk release 2 pclk\nIf the slave detects a misplaced NSS pulse during a data frame transaction the TIFRE flag is\nset.\nIf the data size is equal to 4-bits or 5-bits, the master in full-duplex mode or transmit-only\nmode uses a protocol with one more dummy data bit added after LSB. TI NSS pulse is\ngenerated above this dummy bit clock cycle instead of the LSB in each period.\nThis feature is not available for Motorola SPI communications (FRF bit set to 0).\nFigure294: TI mode transfer shows the SPI communication waveforms when TI mode is\nselected.\n[Figure 294. TI mode transfer]",
+      "semantic": {}
+    }
+  ]
+}

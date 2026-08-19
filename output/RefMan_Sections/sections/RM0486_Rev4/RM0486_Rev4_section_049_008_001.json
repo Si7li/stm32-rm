@@ -1,0 +1,271 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S49.8.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "49",
+      "chapter_title": "Cryptographic processor (CRYP)",
+      "section": "49.8.1",
+      "section_title": "CRYP control register (CRYP_CR)",
+      "level": 3,
+      "parent_section": "49.8",
+      "page": 2393,
+      "page_end": 2395,
+      "semantic_type": "register_description",
+      "features": [
+        "algodir",
+        "algomode",
+        "cryp",
+        "cryp-cr",
+        "crypen",
+        "datatype",
+        "fflush",
+        "gcm-ccmph",
+        "iprst",
+        "keysize",
+        "kmod",
+        "npblb"
+      ],
+      "chars": 4211,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2393",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.8.1 \"CRYP control register (CRYP_CR)\" in chapter 49 (Cryptographic processor (CRYP)), RM0486 Rev 4, page 2393.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000 0000\n[Table 427. Processing latency for GCM and CCM (in clock cycles)]\nBit 31 IPRST: CRYP peripheral software reset\nSetting the bit resets the CRYP peripheral, putting all registers to their default values, except\nthe IPRST bit itself.\nThis bit must be kept cleared while writing any configuration registers.\nBits 30:26 Reserved, must be kept at reset value.\nBits 25:24 KMOD[1:0]: Key mode selection\nThis bitfield defines how the CRYP key can be used by the application. KEYSIZE must be\ncorrectly initialized when setting KMOD[1:0] different from zero.\n0x0: Normal-key mode. Key registers are freely usable.\n0x2: Shared-key mode. If shared-key mode is properly initialized in SAES peripheral, the\nCRYP peripheral automatically loads its key registers with the data stored in the SAES key\nregisters. The key value is available in CRYP key registers when BUSY bit is cleared and\nKEYVALID is set in the CRYP_SR register. Key error flag KERF is set otherwise in the\nCRYP_SR register.\nOthers: Reserved\nAttempts to write the bitfield are ignored when BUSY is set.\nBits 23:20 NPBLB[3:0]: Number of padding bytes in last block\nThis padding information must be filled by software before processing the last block of GCM\npayload encryption or CCM payload decryption, otherwise authentication tag computation is\nincorrect.\n0x0: All bytes are valid (no padding)\n0x1: Padding for the last LSB byte\n...\n0xF: Padding for the 15 LSB bytes of last block.\nAttempts to write the bitfield are ignored when BUSY is set.\nBit 18 Reserved, must be kept at reset value.\nBits 17:16 GCM_CCMPH[1:0]: GCM or CCM phase selection\nThis bitfield selects the phase, applicable only with GCM, GMAC or CCM chaining modes.\n0x0: Initialization phase\n0x1: Header phase\n0x2: Payload phase\n0x3: Final phase\nAttempts to write the bitfield are ignored when BUSY is set.\nBit 15 CRYPEN: CRYP enable\nThis bit enables/disables the CRYP peripheral.\n0:CRYP disabled\n1: CRYP enabled\nThis bit is automatically cleared by hardware upon the completion of the key preparation\n(ALGOMODE[3:0] at 0x7) and upon the completion of GCM/GMAC/CCM initialization phase.\nThe bit cannot be set as long as KEYVALID is cleared.\nBit 14 FFLUSH: FIFO flush\nThis bit enables/disables the flushing of CRYP input and output FIFOs. Reading this bit\nalways returns 0.\n0: No effect\n1: FIFO flush enabled\nWhen CRYPEN is cleared, writing this bit to 1 flushes both input and output FIFOs (that is\nread and write pointers of the FIFOs are reset).\nFFLUSH bit must be set when BUSY is cleared, otherwise the FIFO is flushed, but the block\nbeing processed may be pushed into the output FIFO just after the flush operation, resulting\nin a non-empty FIFO condition.\nAttempts to write FFLUSH are ignored when CRYPEN is set.\nBits 13:10 Reserved, must be kept at reset value.\nBits 9:8 KEYSIZE[1:0]: Key size selection\nThis bitfield defines the key length in bits of the key used by CRYP.\n0x0: 128-bits\n0x1: 192 bits\n0x2: 256 bits\n0x3: Reserved\nWhen KEYSIZE is changed, KEYVALID bit is cleared.\nAttempts to write the bitfield are ignored when BUSY is set.\nBits 7:6 DATATYPE[1:0]: Data type\nThis bitfield defines the format of data written in the CRYP_DINR register or read from the\nCRYP_DOUTR register, through selecting the mode of data swapping. This swapping is\ndefined in Section49.4.15: CRYP data registers and data swapping.\n0x0: No swapping (32-bit data).\n0x1: Half-word swapping (16-bit data).\n0x2: Byte swapping (8-bit data).\n0x3: Bit-level swapping.\nAttempts to write the bitfield are ignored when BUSY is set.\nBits 19, 5:3 ALGOMODE[3:0]: Algorithm mode\nThis bitfield selects the AES algorithm/chaining mode.\n0x4: Electronic codebook (ECB)\n0x5: Cipher Block Chaining (CBC)\n0x6: Counter mode (CTR)\n0x7: AES key preparation for ECB or CBC decryption\n0x8: Galois counter mode (GCM) and Galois message authentication code (GMAC)\n0x9: Counter with CBC-MAC (CCM)\nOthers: Reserved\nAttempts to write the bitfield are ignored when BUSY is set.\nBit 2 ALGODIR: Algorithm direction\nThis bit selects the algorithm direction.\n0: Encryption\n1: Decryption\nAttempts to write the bitfield are ignored when BUSY is set.\nBits 1:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "CRYP_CR",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "IPRST",
+            "description": "CRYP peripheral software reset Setting the bit resets the CRYP peripheral, putting all registers to their default values, except the IPRST bit itself. This bit must be kept cleared while writing any configuration registers.",
+            "values": []
+          },
+          {
+            "bits": "30:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25:24",
+            "name": "KMOD[1:0]",
+            "description": "Key mode selection This bitfield defines how the CRYP key can be used by the application. KEYSIZE must be correctly initialized when setting KMOD[1:0] different from zero. CRYP peripheral automatically loads its key registers with the data stored in the SAES key registers. The key value is available in CRYP key registers when BUSY bit is cleared and KEYVALID is set in the CRYP_SR register. Key error flag KERF is set otherwise in the CRYP_SR register. Attempts to write the bitfield are ignored when BUSY is set.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Normal-key mode. Key registers are freely usable."
+              },
+              {
+                "value": "0x2",
+                "meaning": "Shared-key mode. If shared-key mode is properly initialized in SAES peripheral, the"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "23:20",
+            "name": "NPBLB[3:0]",
+            "description": "Number of padding bytes in last block This padding information must be filled by software before processing the last block of GCM payload encryption or CCM payload decryption, otherwise authentication tag computation is incorrect. ... Attempts to write the bitfield are ignored when BUSY is set.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "All bytes are valid (no padding)"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Padding for the last LSB byte"
+              },
+              {
+                "value": "0xF",
+                "meaning": "Padding for the 15 LSB bytes of last block."
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17:16",
+            "name": "GCM_CCMPH[1:0]",
+            "description": "GCM or CCM phase selection This bitfield selects the phase, applicable only with GCM, GMAC or CCM chaining modes. Attempts to write the bitfield are ignored when BUSY is set.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Initialization phase"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Header phase"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Payload phase"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Final phase"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "CRYPEN",
+            "description": "CRYP enable This bit enables/disables the CRYP peripheral. This bit is automatically cleared by hardware upon the completion of the key preparation (ALGOMODE[3:0] at 0x7) and upon the completion of GCM/GMAC/CCM initialization phase. The bit cannot be set as long as KEYVALID is cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CRYP disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "CRYP enabled"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "FFLUSH",
+            "description": "FIFO flush This bit enables/disables the flushing of CRYP input and output FIFOs. Reading this bit always returns 0. When CRYPEN is cleared, writing this bit to 1 flushes both input and output FIFOs (that is read and write pointers of the FIFOs are reset). FFLUSH bit must be set when BUSY is cleared, otherwise the FIFO is flushed, but the block being processed may be pushed into the output FIFO just after the flush operation, resulting in a non-empty FIFO condition. Attempts to write FFLUSH are ignored when CRYPEN is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "FIFO flush enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "KEYSIZE[1:0]",
+            "description": "Key size selection This bitfield defines the key length in bits of the key used by CRYP. When KEYSIZE is changed, KEYVALID bit is cleared. Attempts to write the bitfield are ignored when BUSY is set.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "128-bits"
+              },
+              {
+                "value": "0x1",
+                "meaning": "192 bits"
+              },
+              {
+                "value": "0x2",
+                "meaning": "256 bits"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "DATATYPE[1:0]",
+            "description": "Data type This bitfield defines the format of data written in the CRYP_DINR register or read from the CRYP_DOUTR register, through selecting the mode of data swapping. This swapping is defined in Section49.4.15: CRYP data registers and data swapping. Attempts to write the bitfield are ignored when BUSY is set.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "No swapping (32-bit data)."
+              },
+              {
+                "value": "0x1",
+                "meaning": "Half-word swapping (16-bit data)."
+              },
+              {
+                "value": "0x2",
+                "meaning": "Byte swapping (8-bit data)."
+              },
+              {
+                "value": "0x3",
+                "meaning": "Bit-level swapping."
+              }
+            ]
+          },
+          {
+            "bits": "19, 5:3",
+            "name": "ALGOMODE[3:0]",
+            "description": "Algorithm mode This bitfield selects the AES algorithm/chaining mode. Attempts to write the bitfield are ignored when BUSY is set.",
+            "values": [
+              {
+                "value": "0x4",
+                "meaning": "Electronic codebook (ECB)"
+              },
+              {
+                "value": "0x5",
+                "meaning": "Cipher Block Chaining (CBC)"
+              },
+              {
+                "value": "0x6",
+                "meaning": "Counter mode (CTR)"
+              },
+              {
+                "value": "0x7",
+                "meaning": "AES key preparation for ECB or CBC decryption"
+              },
+              {
+                "value": "0x8",
+                "meaning": "Galois counter mode (GCM) and Galois message authentication code (GMAC)"
+              },
+              {
+                "value": "0x9",
+                "meaning": "Counter with CBC-MAC (CCM)"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "ALGODIR",
+            "description": "Algorithm direction This bit selects the algorithm direction. Attempts to write the bitfield are ignored when BUSY is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Encryption"
+              },
+              {
+                "value": "1",
+                "meaning": "Decryption"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

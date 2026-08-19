@@ -1,0 +1,174 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S52.7.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "52",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "52.7.2",
+      "section_title": "PKA status register (PKA_SR)",
+      "level": 3,
+      "parent_section": "52.7",
+      "page": 2481,
+      "page_end": 2482,
+      "semantic_type": "register_description",
+      "features": [
+        "addrerrf",
+        "busy",
+        "initok",
+        "lmf",
+        "operrf",
+        "pka",
+        "pka-sr",
+        "procendf",
+        "ramerrf"
+      ],
+      "chars": 2121,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2481",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 52.7.2 \"PKA status register (PKA_SR)\" in chapter 52 (Public key accelerator (PKA)), RM0486 Rev 4, page 2481.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0000 0000\nBits 31:22 Reserved, must be kept at reset value.\nBit 21 OPERRF: Operation error flag\n0: No event error\n1: An illegal or unknown operation has been selected in PKA_CR register\nThis bit is cleared using OPERRFC bit in PKA_CLRFR.\nBit 20 ADDRERRF: Address error flag\n0: No address error\n1: Address access is out of range (unmapped address)\nThis bit is cleared using ADDRERRFC bit in PKA_CLRFR.\nBit 19 RAMERRF: PKA RAM error flag\n0: No PKA RAM access error\n1: An AHB access to the PKA RAM occurred while the PKA core was computing and using its\ninternal RAM (AHB PKA_RAM access are not allowed while PKA operation is in progress).\nThis bit is cleared using RAMERRFC bit in PKA_CLRFR.\nBit 18 Reserved, must be kept at reset value.\nBit 17 PROCENDF: PKA end of operation flag\n0: Operation in progress\n1: PKA operation is completed. This flag is set when the BUSY bit is deasserted.\nBit 16 BUSY: Busy flag\nThis bit is set whenever a PKA operation is in progress (START = 1 in PKA_CR). It is automatically\ncleared when the computation is complete, making PKA RAM accessible again.\n0: No operation is in progress (default)\n1: An operation is in progress\nIf PKA is started with a wrong opcode, it stays busy for a couple of cycles, then it aborts automatically\nthe operation and goes back to ready (BUSY = 0).\nBits 15:2 Reserved, must be kept at reset value.\nBit 1 LMF: Limited mode flag\nThis bit is updated when EN bit in PKA_CR is set\n0: All values documented in MODE[5:0] bitfield can be used.\n1: Only ECDSA verification (MODE[5:0] = 0x26) is supported by the PKA.\nBit 0 INITOK: PKA initialization OK\nThis bit is asserted when PKA initialization is complete.\n0: PKA is not initialized correctly. START bit cannot be set.\n1: PKA is initialized correctly and can be used normally.\nWhen RNG is not able to output proper random numbers or when SAES is using the RNG bus,\nINITOK remains at 0. If it happens, make sure the RNG peripheral is properly clocked and initialized,\nand the SAES peripheral is clocked with BUSY bit cleared in SAES_SR to release the RNG bus,\nthen enable PKA again.",
+      "semantic": {
+        "register": "PKA_SR",
+        "address_offset": "0x04",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "OPERRF",
+            "description": "Operation error flag This bit is cleared using OPERRFC bit in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No event error"
+              },
+              {
+                "value": "1",
+                "meaning": "An illegal or unknown operation has been selected in PKA_CR register"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "ADDRERRF",
+            "description": "Address error flag This bit is cleared using ADDRERRFC bit in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No address error"
+              },
+              {
+                "value": "1",
+                "meaning": "Address access is out of range (unmapped address)"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "RAMERRF",
+            "description": "PKA RAM error flag internal RAM (AHB PKA_RAM access are not allowed while PKA operation is in progress). This bit is cleared using RAMERRFC bit in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No PKA RAM access error"
+              },
+              {
+                "value": "1",
+                "meaning": "An AHB access to the PKA RAM occurred while the PKA core was computing and using its"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "PROCENDF",
+            "description": "PKA end of operation flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Operation in progress"
+              },
+              {
+                "value": "1",
+                "meaning": "PKA operation is completed. This flag is set when the BUSY bit is deasserted."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "BUSY",
+            "description": "Busy flag This bit is set whenever a PKA operation is in progress (START = 1 in PKA_CR). It is automatically cleared when the computation is complete, making PKA RAM accessible again. If PKA is started with a wrong opcode, it stays busy for a couple of cycles, then it aborts automatically the operation and goes back to ready (BUSY = 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No operation is in progress (default)"
+              },
+              {
+                "value": "1",
+                "meaning": "An operation is in progress"
+              }
+            ]
+          },
+          {
+            "bits": "15:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "LMF",
+            "description": "Limited mode flag This bit is updated when EN bit in PKA_CR is set",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "All values documented in MODE[5:0] bitfield can be used."
+              },
+              {
+                "value": "1",
+                "meaning": "Only ECDSA verification (MODE[5:0] = 0x26) is supported by the PKA."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "INITOK",
+            "description": "PKA initialization OK This bit is asserted when PKA initialization is complete. When RNG is not able to output proper random numbers or when SAES is using the RNG bus, INITOK remains at 0. If it happens, make sure the RNG peripheral is properly clocked and initialized, and the SAES peripheral is clocked with BUSY bit cleared in SAES_SR to release the RNG bus, then enable PKA again.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PKA is not initialized correctly. START bit cannot be set."
+              },
+              {
+                "value": "1",
+                "meaning": "PKA is initialized correctly and can be used normally."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

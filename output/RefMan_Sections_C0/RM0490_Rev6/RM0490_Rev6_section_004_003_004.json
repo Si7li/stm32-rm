@@ -1,0 +1,38 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.3.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.3.4",
+      "section_title": "FLASH program and erase operations",
+      "level": 3,
+      "parent_section": "4.3",
+      "page": 60,
+      "page_end": 61,
+      "semantic_type": "generic",
+      "features": [
+        "erase",
+        "flash",
+        "memory"
+      ],
+      "chars": 2122,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=60",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.3.4 \"FLASH program and erase operations\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 60.",
+      "section_content": "The device-embedded flash memory can be programmed using in-circuit programming or\nin-application programming.\nThe in-circuit programming (ICP) method is used to update the entire contents of the flash\nmemory, using SWD protocol or the supported interfaces by the system boot loader, to load\nthe user application for the CPU, into the microcontroller. ICP offers quick and efficient\ndesign iterations and eliminates unnecessary package handling or socketing of devices.\nIn contrast to the ICP method, in-application programming (IAP) can use any\ncommunication interface supported by the microcontroller (I/Os, UART, I2C, SPI, etc.) to\ndownload programming data into memory. IAP allows the user to re-program the flash\nmemory while the application is running. Nevertheless, part of the application has to have\nbeen previously programmed in the flash memory using ICP.\nThe success of a data word programming operation and a page/bank erase operation is not\nguaranteed if aborted due to device reset or power loss.\nDuring a program/erase operation to the flash memory, any attempt to read the flash\nmemory stalls the bus. The read operation proceeds correctly once the program/erase\noperation has completed.\nUnlocking the flash memory\nAfter reset, write into the FLASH control register (FLASH_CR) is not allowed so as to\nprotect the flash memory against possible unwanted operations due, for example, to electric\ndisturbances. The following sequence unlocks these registers:\n1. Write KEY1 = 0x4567 0123 in the FLASH key register (FLASH_KEYR)\n2. Write KEY2 = 0xCDEF 89AB in the FLASH key register (FLASH_KEYR).\nAny wrong sequence locks the FLASH_CR registers until the next system reset. In the case\nof a wrong key sequence, a bus error is detected and a Hard Fault interrupt is generated.\nThe FLASH_CR registers can be locked again by software by setting the LOCK bit in one of\nthese registers.\nNote: The FLASH_CR register cannot be written when the BSY1 bit of the FLASH status register\n(FLASH_SR) is set. Any attempt to write to this register with the BSY1 bit set causes the\nAHB bus to stall until the BSY1 bit is cleared.",
+      "semantic": {}
+    }
+  ]
+}

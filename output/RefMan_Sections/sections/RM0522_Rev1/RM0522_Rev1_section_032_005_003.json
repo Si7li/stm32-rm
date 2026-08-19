@@ -1,0 +1,477 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S32.5.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "32",
+      "chapter_title": "General-purpose timers(TIM2/TIM3/TIM4/TIM5)",
+      "section": "32.5.3",
+      "section_title": "TIM slave mode control register (TIM_SMCR)",
+      "level": 3,
+      "parent_section": "32.5",
+      "page": 1226,
+      "page_end": 1229,
+      "semantic_type": "register_description",
+      "features": [
+        "ece",
+        "etf",
+        "etp",
+        "etps",
+        "msm",
+        "occs",
+        "setps",
+        "sms",
+        "smspe",
+        "smsps",
+        "tim",
+        "tim-smcr",
+        "timer"
+      ],
+      "chars": 8094,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1226",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.5.3 \"TIM slave mode control register (TIM_SMCR)\" in chapter 32 (General-purpose timers(TIM2/TIM3/TIM4/TIM5)), RM0522 Rev 1, page 1226.",
+      "section_content": "Address offset: 0x008\nReset value: 0x00000000\nBits 31:30 Reserved, must be kept at reset value.\nBits 29:26 SETPS[3:0]: Synchronous external trigger prescaler\nThe linear synchronous prescaler divides the frequency of the tim_etrf signal, by a factor\n(SETPS[3:0] + 1).\nBit 25 SMSPS: SMS preload source\nThis bit selects whether the events that triggers the SMS[4:0] bitfield transfer from preload to\nactive\n0: The transfer is triggered by the Timer’s Update event\n1: The transfer is triggered by the Index event\nBit 24 SMSPE: SMS preload enable\nThis bit selects whether the SMS[4:0] bitfield is preloaded\n0: SMS[4:0] bitfield is not preloaded\n1: SMS[4:0] preload is enabled\nBits 23:22 Reserved, must be kept at reset value.\nBits 19:18 Reserved, must be kept at reset value.\nBit 15 ETP: External trigger polarity\nThis bit selects whether tim_etr_in or tim_etr_in is used for trigger operations\n0: tim_etr_in is non-inverted, active at high level or rising edge\n1: tim_etr_in is inverted, active at low level or falling edge\nBit 14 ECE: External clock enable\nThis bit enables external clock mode 2.\n0: External clock mode 2 disabled\n1: External clock mode 2 enabled. The counter is clocked by any active edge on the tim_etrf\nsignal.\nNote: Setting the ECE bit has the same effect as selecting external clock mode 1 with tim_trgi\nconnected to tim_etrf (SMS = 111 and TS = 00111).\nIt is possible to simultaneously use external clock mode 2 with the following slave\nmodes: reset mode, gated mode and trigger mode. Nevertheless, tim_trgi must not be\nconnected to tim_etrf in this case (TS bits must not be 00111).\nIf external clock mode 1 and external clock mode 2 are enabled at the same time, the\nexternal clock input is tim_etrf.\nBits 13:12 ETPS[1:0]: External trigger prescaler\nExternal trigger signal tim_etrp frequency must be at most 1/4 of tim_ker_ck frequency. A\nprescaler can be enabled to reduce tim_etrp frequency. It is useful when inputting fast\nexternal clocks on tim_etr_in.\n00: Prescaler OFF\n01: tim_etrp frequency divided by 2\n10: tim_etrp frequency divided by 4\n11: tim_etrp frequency divided by 8\nBits 11:8 ETF[3:0]: External trigger filter\nThis bitfield then defines the frequency used to sample tim_etrp signal and the length of the\ndigital filter applied to tim_etrp. The digital filter is made of an event counter in which N\nconsecutive events are needed to validate a transition on the output:\n0000: No filter, sampling is done at fDTS\n0001: fSAMPLING = ftim_ker_ck, N = 2\n0010: fSAMPLING = ftim_ker_ck, N = 4\n0011: fSAMPLING = ftim_ker_ck, N = 8\n0100: fSAMPLING = fDTS/2, N = 6\n0101: fSAMPLING = fDTS/2, N = 8\n0110: fSAMPLING = fDTS/4, N = 6\n0111: fSAMPLING = fDTS/4, N = 8\n1000: fSAMPLING = fDTS/8, N = 6\n1001: fSAMPLING = fDTS/8, N = 8\n1010: fSAMPLING = fDTS/16, N = 5\n1011: fSAMPLING = fDTS/16, N = 6\n1100: fSAMPLING = fDTS/16, N = 8\n1101: fSAMPLING = fDTS/32, N = 5\n1110: fSAMPLING = fDTS/32, N = 6\n1111: fSAMPLING = fDTS/32, N = 8\nBit 7 MSM: Master/slave mode\n0: No action\n1: The effect of an event on the trigger input (tim_trgi) is delayed to allow a perfect\nsynchronization between the current timer and its slaves (through tim_trgo). It is useful if we\nwant to synchronize several timers on a single external event.\nBits 21, 20, 6, 5, 4 TS[4:0]: Trigger selection\nThis bitfield selects the trigger input to be used to synchronize the counter.\n00000: Internal trigger 0 (tim_itr0)\n00001: Internal trigger 1 (tim_itr1)\n00010: Internal trigger 2 (tim_itr2)\n00011: Internal trigger 3 (tim_itr3)\n00100: tim_ti1 edge detector (tim_ti1f_ed)\n00101: Filtered timer input 1 (tim_ti1fp1)\n00110: Filtered timer input 2 (tim_ti2fp2)\n00111: External trigger input (tim_etrf)\n01000: Internal trigger 4 (tim_itr4)\n01001: Internal trigger 5 (tim_itr5)\n01010: Internal trigger 6 (tim_itr6)\n01011: Internal trigger 7 (tim_itr7)\n01100: Internal trigger 8 (tim_itr8)\n01101: Internal trigger 9 (tim_itr9)\n01110: Internal trigger 10 (tim_itr10)\n01111: Internal trigger 11 (tim_itr11)\n10000: Internal trigger 12 (tim_itr12)\n10001: Internal trigger 13 (tim_itr13)\n10010: Internal trigger 14 (tim_itr14)\n10011: Internal trigger 15 (tim_itr15)\n10100: Internal trigger 16 (tim_itr16)\n10101: Internal trigger 17 (tim_itr17)\n10110: Internal trigger 18 (tim_itr18)\n10111: Internal trigger 19 (tim_itr19)\n11000: Internal trigger 20 (tim_itr20)\n11001: Internal trigger 21 (tim_itr21)\n11010: Internal trigger 22 (tim_itr22)\n11011: Internal trigger 23 (tim_itr23)\n11100: Internal trigger 24 (tim_itr24)\n11101: Internal trigger 25 (tim_itr25)\n11110: Internal trigger 26 (tim_itr26)\n11111: Internal trigger 27 (tim_itr27)\nSee Section32.4.2: TIM2/TIM3/TIM4/TIM5 pins and internal signals for product specific\nimplementation details.\nNote: These bits must be changed only when they are not used (for example when\nSMS=000) to avoid wrong edge detections at the transition.\nBit 3 OCCS: OCREF clear selection\nThis bit is used to select the OCREF clear source\n0: tim_ocref_clr_int is connected to the tim_ocref_clr input\n1: tim_ocref_clr_int is connected to tim_etrf\nNote: If the OCREF clear selection feature is not supported, this bit is reserved and forced by\nhardware to 0. Section32.3: TIM2/TIM3/TIM4/TIM5 implementation.\nBits 17:16, 2:0 SMS[4:0]: Slave mode selection\nWhen external signals are selected the active edge of the trigger signal (tim_trgi) is linked to\nthe polarity selected on the external input (refer to ETP bit in TIM_SMCR for tim_etr_in and\nCCxP/CCxNP bits in TIM_CCER register for tim_ti1fp1 and tim_ti2fp2).\n00000:Slave mode disabled - if CEN = 1 then the prescaler is clocked directly by the internal\nclock.\n00001:Encoder mode 1 - Counter counts up/down on tim_ti1fp1 edge depending on\ntim_ti2fp2 level.\n00010:Encoder mode 2 - Counter counts up/down on tim_ti2fp2 edge depending on\ntim_ti1fp1 level.\n00011:Encoder mode 3 - Counter counts up/down on both tim_ti1fp1 and tim_ti2fp2 edges\ndepending on the level of the other input.\n00100:Reset mode - Rising edge of the selected trigger input (tim_trgi) reinitializes the\ncounter and generates an update of the registers.\n00101:Gated mode - The counter clock is enabled when the trigger input (tim_trgi) is high.\nThe counter stops (but is not reset) as soon as the trigger becomes low. Both start\nand stop of the counter are controlled.\n00110:Trigger mode - The counter starts at a rising edge of the trigger tim_trgi (but it is not\nreset). Only the start of the counter is controlled.\n00111:External clock mode 1 - Rising edges of the selected trigger (tim_trgi) clock the\ncounter.\n01000:Combined reset + trigger mode - Rising edge of the selected trigger input (tim_trgi)\nreinitializes the counter, generates an update of the registers and starts the counter.\n01001:Combined gated + reset mode - The counter clock is enabled when the trigger input\n(tim_trgi) is high. The counter stops and is reset) as soon as the trigger becomes low.\nBoth start and stop of the counter are controlled.\n01010:Encoder mode: Clock plus direction, x2 mode.\n01011:Encoder mode: Clock plus direction, x1 mode, tim_ti2fp2 edge sensitivity is set by\nCC2P.\n01100:Encoder mode: Directional clock, x2 mode.\n01101:Encoder mode: Directional clock, x1 mode, tim_ti1fp1 and tim_ti2fp2 edge sensitivity\nis set by CC1P and CC2P.\n01110:Quadrature encoder mode: x1 mode, counting on tim_ti1fp1 edges only, edge\nsensitivity is set by CC1P.\n01111:Quadrature encoder mode: x1 mode, counting on tim_ti2fp2 edges only, edge\nsensitivity is set by CC2P.\n10000: Quadrature encoder with built-in debouncer: x2 mode.\n10001: Quadrature encoder with built-in debouncer: x4 mode.\nNote: The gated mode must not be used if tim_ti1f_ed is selected as the trigger input (TS =\n00100). Indeed, tim_ti1f_ed outputs 1 pulse for each transition on tim_ti1f, whereas the\ngated mode checks the level of the trigger signal.\nNote: The clock of the slave peripherals (such as timer, ADC) receiving the tim_trgo signal\nmust be enabled prior to receive events from the master timer, and the clock frequency\n(prescaler) must not be changed on-the-fly while triggers are received from the master\ntimer.",
+      "semantic": {
+        "register": "TIM_SMCR",
+        "address_offset": "0x008",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29:26",
+            "name": "SETPS[3:0]",
+            "description": "Synchronous external trigger prescaler The linear synchronous prescaler divides the frequency of the tim_etrf signal, by a factor (SETPS[3:0] + 1).",
+            "values": []
+          },
+          {
+            "bits": "25",
+            "name": "SMSPS",
+            "description": "SMS preload source This bit selects whether the events that triggers the SMS[4:0] bitfield transfer from preload to active",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The transfer is triggered by the Timer’s Update event"
+              },
+              {
+                "value": "1",
+                "meaning": "The transfer is triggered by the Index event"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "SMSPE",
+            "description": "SMS preload enable This bit selects whether the SMS[4:0] bitfield is preloaded",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SMS[4:0] bitfield is not preloaded"
+              },
+              {
+                "value": "1",
+                "meaning": "SMS[4:0] preload is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "23:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "ETP",
+            "description": "External trigger polarity This bit selects whether tim_etr_in or tim_etr_in is used for trigger operations",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "tim_etr_in is non-inverted, active at high level or rising edge"
+              },
+              {
+                "value": "1",
+                "meaning": "tim_etr_in is inverted, active at low level or falling edge"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "ECE",
+            "description": "External clock enable This bit enables external clock mode 2. signal. Note: Setting the ECE bit has the same effect as selecting external clock mode 1 with tim_trgi connected to tim_etrf (SMS = 111 and TS = 00111). It is possible to simultaneously use external clock mode 2 with the following slave modes: reset mode, gated mode and trigger mode. Nevertheless, tim_trgi must not be connected to tim_etrf in this case (TS bits must not be 00111). If external clock mode 1 and external clock mode 2 are enabled at the same time, the external clock input is tim_etrf.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "External clock mode 2 disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "External clock mode 2 enabled. The counter is clocked by any active edge on the tim_etrf"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "ETPS[1:0]",
+            "description": "External trigger prescaler External trigger signal tim_etrp frequency must be at most 1/4 of tim_ker_ck frequency. A prescaler can be enabled to reduce tim_etrp frequency. It is useful when inputting fast external clocks on tim_etr_in.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Prescaler OFF"
+              },
+              {
+                "value": "01",
+                "meaning": "tim_etrp frequency divided by 2"
+              },
+              {
+                "value": "10",
+                "meaning": "tim_etrp frequency divided by 4"
+              },
+              {
+                "value": "11",
+                "meaning": "tim_etrp frequency divided by 8"
+              }
+            ]
+          },
+          {
+            "bits": "11:8",
+            "name": "ETF[3:0]",
+            "description": "External trigger filter This bitfield then defines the frequency used to sample tim_etrp signal and the length of the digital filter applied to tim_etrp. The digital filter is made of an event counter in which N consecutive events are needed to validate a transition on the output:",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "No filter, sampling is done at fDTS"
+              },
+              {
+                "value": "0001",
+                "meaning": "fSAMPLING = ftim_ker_ck, N = 2"
+              },
+              {
+                "value": "0010",
+                "meaning": "fSAMPLING = ftim_ker_ck, N = 4"
+              },
+              {
+                "value": "0011",
+                "meaning": "fSAMPLING = ftim_ker_ck, N = 8"
+              },
+              {
+                "value": "0100",
+                "meaning": "fSAMPLING = fDTS/2, N = 6"
+              },
+              {
+                "value": "0101",
+                "meaning": "fSAMPLING = fDTS/2, N = 8"
+              },
+              {
+                "value": "0110",
+                "meaning": "fSAMPLING = fDTS/4, N = 6"
+              },
+              {
+                "value": "0111",
+                "meaning": "fSAMPLING = fDTS/4, N = 8"
+              },
+              {
+                "value": "1000",
+                "meaning": "fSAMPLING = fDTS/8, N = 6"
+              },
+              {
+                "value": "1001",
+                "meaning": "fSAMPLING = fDTS/8, N = 8"
+              },
+              {
+                "value": "1010",
+                "meaning": "fSAMPLING = fDTS/16, N = 5"
+              },
+              {
+                "value": "1011",
+                "meaning": "fSAMPLING = fDTS/16, N = 6"
+              },
+              {
+                "value": "1100",
+                "meaning": "fSAMPLING = fDTS/16, N = 8"
+              },
+              {
+                "value": "1101",
+                "meaning": "fSAMPLING = fDTS/32, N = 5"
+              },
+              {
+                "value": "1110",
+                "meaning": "fSAMPLING = fDTS/32, N = 6"
+              },
+              {
+                "value": "1111",
+                "meaning": "fSAMPLING = fDTS/32, N = 8"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "MSM",
+            "description": "Master/slave mode synchronization between the current timer and its slaves (through tim_trgo). It is useful if we want to synchronize several timers on a single external event.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No action"
+              },
+              {
+                "value": "1",
+                "meaning": "The effect of an event on the trigger input (tim_trgi) is delayed to allow a perfect"
+              }
+            ]
+          },
+          {
+            "bits": "21, 20, 6, 5, 4",
+            "name": "TS[4:0]",
+            "description": "Trigger selection This bitfield selects the trigger input to be used to synchronize the counter. See Section32.4.2: TIM2/TIM3/TIM4/TIM5 pins and internal signals for product specific implementation details. Note: These bits must be changed only when they are not used (for example when SMS=000) to avoid wrong edge detections at the transition.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "Internal trigger 0 (tim_itr0)"
+              },
+              {
+                "value": "00001",
+                "meaning": "Internal trigger 1 (tim_itr1)"
+              },
+              {
+                "value": "00010",
+                "meaning": "Internal trigger 2 (tim_itr2)"
+              },
+              {
+                "value": "00011",
+                "meaning": "Internal trigger 3 (tim_itr3)"
+              },
+              {
+                "value": "00100",
+                "meaning": "tim_ti1 edge detector (tim_ti1f_ed)"
+              },
+              {
+                "value": "00101",
+                "meaning": "Filtered timer input 1 (tim_ti1fp1)"
+              },
+              {
+                "value": "00110",
+                "meaning": "Filtered timer input 2 (tim_ti2fp2)"
+              },
+              {
+                "value": "00111",
+                "meaning": "External trigger input (tim_etrf)"
+              },
+              {
+                "value": "01000",
+                "meaning": "Internal trigger 4 (tim_itr4)"
+              },
+              {
+                "value": "01001",
+                "meaning": "Internal trigger 5 (tim_itr5)"
+              },
+              {
+                "value": "01010",
+                "meaning": "Internal trigger 6 (tim_itr6)"
+              },
+              {
+                "value": "01011",
+                "meaning": "Internal trigger 7 (tim_itr7)"
+              },
+              {
+                "value": "01100",
+                "meaning": "Internal trigger 8 (tim_itr8)"
+              },
+              {
+                "value": "01101",
+                "meaning": "Internal trigger 9 (tim_itr9)"
+              },
+              {
+                "value": "01110",
+                "meaning": "Internal trigger 10 (tim_itr10)"
+              },
+              {
+                "value": "01111",
+                "meaning": "Internal trigger 11 (tim_itr11)"
+              },
+              {
+                "value": "10000",
+                "meaning": "Internal trigger 12 (tim_itr12)"
+              },
+              {
+                "value": "10001",
+                "meaning": "Internal trigger 13 (tim_itr13)"
+              },
+              {
+                "value": "10010",
+                "meaning": "Internal trigger 14 (tim_itr14)"
+              },
+              {
+                "value": "10011",
+                "meaning": "Internal trigger 15 (tim_itr15)"
+              },
+              {
+                "value": "10100",
+                "meaning": "Internal trigger 16 (tim_itr16)"
+              },
+              {
+                "value": "10101",
+                "meaning": "Internal trigger 17 (tim_itr17)"
+              },
+              {
+                "value": "10110",
+                "meaning": "Internal trigger 18 (tim_itr18)"
+              },
+              {
+                "value": "10111",
+                "meaning": "Internal trigger 19 (tim_itr19)"
+              },
+              {
+                "value": "11000",
+                "meaning": "Internal trigger 20 (tim_itr20)"
+              },
+              {
+                "value": "11001",
+                "meaning": "Internal trigger 21 (tim_itr21)"
+              },
+              {
+                "value": "11010",
+                "meaning": "Internal trigger 22 (tim_itr22)"
+              },
+              {
+                "value": "11011",
+                "meaning": "Internal trigger 23 (tim_itr23)"
+              },
+              {
+                "value": "11100",
+                "meaning": "Internal trigger 24 (tim_itr24)"
+              },
+              {
+                "value": "11101",
+                "meaning": "Internal trigger 25 (tim_itr25)"
+              },
+              {
+                "value": "11110",
+                "meaning": "Internal trigger 26 (tim_itr26)"
+              },
+              {
+                "value": "11111",
+                "meaning": "Internal trigger 27 (tim_itr27)"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "OCCS",
+            "description": "OCREF clear selection This bit is used to select the OCREF clear source Note: If the OCREF clear selection feature is not supported, this bit is reserved and forced by hardware to 0. Section32.3: TIM2/TIM3/TIM4/TIM5 implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "tim_ocref_clr_int is connected to the tim_ocref_clr input"
+              },
+              {
+                "value": "1",
+                "meaning": "tim_ocref_clr_int is connected to tim_etrf"
+              }
+            ]
+          },
+          {
+            "bits": "17:16, 2:0",
+            "name": "SMS[4:0]",
+            "description": "Slave mode selection When external signals are selected the active edge of the trigger signal (tim_trgi) is linked to the polarity selected on the external input (refer to ETP bit in TIM_SMCR for tim_etr_in and CCxP/CCxNP bits in TIM_CCER register for tim_ti1fp1 and tim_ti2fp2). clock. tim_ti2fp2 level. tim_ti1fp1 level. depending on the level of the other input. counter and generates an update of the registers. The counter stops (but is not reset) as soon as the trigger becomes low. Both start and stop of the counter are controlled. reset). Only the start of the counter is controlled. counter. reinitializes the counter, generates an update of the registers and starts the counter. (tim_trgi) is high. The counter stops and is reset) as soon as the trigger becomes low. Both start and stop of the counter are controlled. CC2P. is set by CC1P and CC2P. sensitivity is set by CC1P. sensitivity is set by CC2P. Note: The gated mode must not be used if tim_ti1f_ed is selected as the trigger input (TS = 00100). Indeed, tim_ti1f_ed outputs 1 pulse for each transition on tim_ti1f, whereas the gated mode checks the level of the trigger signal. Note: The clock of the slave peripherals (such as timer, ADC) receiving the tim_trgo signal must be enabled prior to receive events from the master timer, and the clock frequency (prescaler) must not be changed on-the-fly while triggers are received from the master timer.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "Slave mode disabled - if CEN = 1 then the prescaler is clocked directly by the internal"
+              },
+              {
+                "value": "00001",
+                "meaning": "Encoder mode 1 - Counter counts up/down on tim_ti1fp1 edge depending on"
+              },
+              {
+                "value": "00010",
+                "meaning": "Encoder mode 2 - Counter counts up/down on tim_ti2fp2 edge depending on"
+              },
+              {
+                "value": "00011",
+                "meaning": "Encoder mode 3 - Counter counts up/down on both tim_ti1fp1 and tim_ti2fp2 edges"
+              },
+              {
+                "value": "00100",
+                "meaning": "Reset mode - Rising edge of the selected trigger input (tim_trgi) reinitializes the"
+              },
+              {
+                "value": "00101",
+                "meaning": "Gated mode - The counter clock is enabled when the trigger input (tim_trgi) is high."
+              },
+              {
+                "value": "00110",
+                "meaning": "Trigger mode - The counter starts at a rising edge of the trigger tim_trgi (but it is not"
+              },
+              {
+                "value": "00111",
+                "meaning": "External clock mode 1 - Rising edges of the selected trigger (tim_trgi) clock the"
+              },
+              {
+                "value": "01000",
+                "meaning": "Combined reset + trigger mode - Rising edge of the selected trigger input (tim_trgi)"
+              },
+              {
+                "value": "01001",
+                "meaning": "Combined gated + reset mode - The counter clock is enabled when the trigger input"
+              },
+              {
+                "value": "01010",
+                "meaning": "Encoder mode: Clock plus direction, x2 mode."
+              },
+              {
+                "value": "01011",
+                "meaning": "Encoder mode: Clock plus direction, x1 mode, tim_ti2fp2 edge sensitivity is set by"
+              },
+              {
+                "value": "01100",
+                "meaning": "Encoder mode: Directional clock, x2 mode."
+              },
+              {
+                "value": "01101",
+                "meaning": "Encoder mode: Directional clock, x1 mode, tim_ti1fp1 and tim_ti2fp2 edge sensitivity"
+              },
+              {
+                "value": "01110",
+                "meaning": "Quadrature encoder mode: x1 mode, counting on tim_ti1fp1 edges only, edge"
+              },
+              {
+                "value": "01111",
+                "meaning": "Quadrature encoder mode: x1 mode, counting on tim_ti2fp2 edges only, edge"
+              },
+              {
+                "value": "10000",
+                "meaning": "Quadrature encoder with built-in debouncer: x2 mode."
+              },
+              {
+                "value": "10001",
+                "meaning": "Quadrature encoder with built-in debouncer: x4 mode."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

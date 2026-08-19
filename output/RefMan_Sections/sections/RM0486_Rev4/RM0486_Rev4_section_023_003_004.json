@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S23.3.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "23",
+      "chapter_title": "Graphic timer (GFXTIM)",
+      "section": "23.3.4",
+      "section_title": "Example of clock generator configuration",
+      "level": 3,
+      "parent_section": "23.3",
+      "page": 1085,
+      "page_end": 1089,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "timer"
+      ],
+      "chars": 3118,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1085",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 23.3.4 \"Example of clock generator configuration\" in chapter 23 (Graphic timer (GFXTIM)), RM0486 Rev 4, page 1085.",
+      "section_content": "The clock generator can have several configuration to work:\n• in standalone (without any external synchronization)\n• with external HSYNC and VSYNC\n• with external HSYNC only\n• with external VSYNC only\n• with external CSYNC (TE) only\nThe synchronization signals, HSYNC, VSYNC and TE, are symmetrical in the\nimplementation and can be exchanged if needed.\nThe set of examples detailed below are given for reference, but other combinations can be\nprogrammed int the clock generator.\nStandalone\nIn standalone configuration, the clock generator provides to the GFXTIM, the frame-clock\nand the line-clock without any external signals.\n[Figure 142. Waveforms in standalone]\nThe LCCUF (line-clock counter underflow) event acts as line-clock and the FCCUF\n(frame-clock counter underflow) acts as frame-clock.\nThe clock generator can be synchronized by one of the following ways:\n• by software reload, setting the FCCFR in GFXTIM_CGCR.\n• by hardware reload on an external VSYNC (or TE)\n[Figure 143. Active counters and signals in standalone]\nExternal HSYNC and VSYNC\nWhen using external HSYNC and VSYNC, the counters are not used for the line and\nframe-clock generation. The clock generator copy directly HSYNC to the line-clock and\nVSYNC to the frame-clock.\n[Figure 144. Waveforms with external HSYNC and VSYNC]\nHSYNC acts as line-clock and VSYNC acts as frame-clock.\nExternal HSYNC only\nWith external HSYNC only, the clock generator provides to the GFXTIM, the frame-clock\nand the line-clock based only on HSYNC.\n[Figure 145. Waveforms with external HSYNC only]\nHSYNC acts as line-clock and FCCUF acts as frame-clock.\nThe clock generator can be synchronized by one of the following ways:\n• by software reload, setting FCCFR in GFXTIM_CGCR\n• by hardware reload on an external VSYNC (or TE)\n[Figure 146. Active counters and signals with external HSYNC only]\nExternal VSYNC only\nWith external VSYNC only, the clock generator provides to the GFXTIM, the frame-clock\nand the line-clock based only on VSYNC.\n[Figure 147. Waveforms with external VSYNC only]\nLCCUF (line-clock counter underflow) acts as line-clock and VSYNC acts as frame-clock.\nThe line-clock counter generating the line-clock is reloaded on VSYNC event.\n[Figure 148. Active counters with external VSYNC only]\nThe line-clock counter can also act as a prescaler for the frame-clock counter to have a\nwider range of counting. FCCUF acts as line-clock.\n[Figure 149. Prescaling when external VSYNC only]\nExternal CSYNC only\nWith external CSYNC only, the clock generator provides to the GFXTIM, the frame-clock\nand the line-clock based only on CSYNC (in the following figures, CSYNC is input on TE).\n[Figure 150. Waveforms with external CSYNC only]\nThe CSYNC (on TE pin in this example) acts as line-clock and LCCUF acts as frame-clock.\nThe line-clock counter generating the frame-clock is reloaded on CSYNC event.\n[Figure 151. Active counters and signals with external CSYNC only]\nThe line-clock counter can also act as a prescaler for the frame-clock counter to have a\nwider range of counting. FCCUF acts as frame-clock.\n[Figure 152. Prescaling when external CSYNC only]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S44.4.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "44",
+      "chapter_title": "Low-power universal asynchronous receiver transmitter (LPUART)",
+      "section": "44.4.9",
+      "section_title": "Tolerance of the LPUART receiver to clock deviation",
+      "level": 3,
+      "parent_section": "44.4",
+      "page": 1904,
+      "page_end": 1905,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "lpuart",
+        "power",
+        "uart"
+      ],
+      "chars": 1696,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1904",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 44.4.9 \"Tolerance of the LPUART receiver to clock deviation\" in chapter 44 (Low-power universal asynchronous receiver transmitter (LPUART)), RM0522 Rev 1, page 1904.",
+      "section_content": "The asynchronous receiver of the LPUART works correctly only if the total clock system\ndeviation is less than the tolerance of the LPUART receiver. The causes that contribute to\nthe total deviation are:\n• DTRA: deviation due to the transmitter error (which also includes the deviation of the\ntransmitter’s local oscillator)\n• DQUANT: error due to the baud rate quantization of the receiver\n• DREC: deviation of the receiver local oscillator\n• DTCL: deviation due to the transmission line (generally due to the transceivers, which\ncan introduce an asymmetry between the low-to-high transition timing and the high-to-\nlow transition timing)\nDTRA+DQUANT+DREC+DTCL+DWU<LPUART receiver tolerance\nwhere\nDWU is the error due to sampling point deviation when the wake-up from low-\npower mode is used.\nwhen M[1:0]=01:\nDWU = t --\nW---\n--U---L ×---P---U\n---A-\n--R--\n-T--\n1\n1\nwhen M[1:0] = 00:\nDWU = t --\nW---\n--U---L ×---P---U\n---A-\n--R--\n-T--\n1\n0\nwhen M[1:0] = 10:\nDWU = t --W--\n---U--×-L---P-\n--U--\n-A---\nR--\n--T--\n9\ntWULPUART is the time between the detection of the start bit falling edge and the\ninstant when the clock (requested by the peripheral) is ready and reaching the\nperipheral, and the regulator is ready.\nThe LPUART receiver can receive data correctly at up to the maximum tolerated deviation\nspecified in Table454:\n• Number of stop bits defined through STOP[1:0] bits in the LPUART_CR2 register\n• LPUART_BRR register value.\n[Table 454. Tolerance of the LPUART receiver]\nNote: The data specified in Table454 may slightly differ in the special case when the received\nframes contain some idle frames of exactly 10-bit times when M bits = 00 (11-bit times when\nM=01 or 9- bit times when M = 10).",
+      "semantic": {}
+    }
+  ]
+}

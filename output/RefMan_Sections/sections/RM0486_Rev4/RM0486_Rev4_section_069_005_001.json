@@ -1,0 +1,339 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.5.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.5.1",
+      "section_title": "SPDIFRX control register (SPDIFRX_CR)",
+      "level": 3,
+      "parent_section": "69.5",
+      "page": 3593,
+      "page_end": 3595,
+      "semantic_type": "register_description",
+      "features": [
+        "cbdmaen",
+        "chsel",
+        "cksbkpen",
+        "cksen",
+        "cumsk",
+        "dma",
+        "drfmt",
+        "insel",
+        "nbtr",
+        "pmsk",
+        "ptmsk",
+        "rxdmaen",
+        "rxsteo",
+        "spdifrx",
+        "spdifrx-cr",
+        "spdifrxen",
+        "vmsk",
+        "wfa"
+      ],
+      "chars": 4156,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3593",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.5.1 \"SPDIFRX control register (SPDIFRX_CR)\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3593.",
+      "section_content": "Only 32-bit accesses are allowed in this register.\nAddress offset: 0x00\nReset value: 0x00000000\nBits 31:22 Reserved, must be kept at reset value.\nBit 21 CKSBKPEN: Backup symbol clock enable\nThis bit is set/reset by software.\n1: The SPDIFRX generates a backup symbol clock if CKSEN = 1.\n0: The SPDIFRX does not generate a backup symbol clock.\nBit 20 CKSEN: Symbol clock enable\nThis bit is set/reset by software.\n1: The SPDIFRX generates a symbol clock.\n0: The SPDIFRX does not generate a symbol clock.\nBit 19 Reserved, must be kept at reset value.\nBits 18:16 INSEL[2:0]: SPDIFRX input selection(1)\n000: SPDIFRX_IN0 selected\n001: SPDIFRX_IN1 selected\n010: SPDIFRX_IN2 selected\n011: SPDIFRX_IN3 selected\nother: reserved\nBit 15 Reserved, must be kept at reset value.\nBit 14 WFA: Wait for activity(1)\nThis bit is set/reset by software.\n1: The SPDIFRX waits for activity on SPDIFRX_IN line (4 transitions) before performing the\nsynchronization.\n0: The SPDIFRX does not wait for activity on SPDIFRX_IN line before performing the\nsynchronization.\nBits 13:12 NBTR[1:0]: Maximum allowed re-tries during synchronization phase(1)\n00: No re-try is allowed (only one attempt)\n01: 3 re-tries allowed\n10: 15 re-tries allowed\n11: 63 re-tries allowed\nBit 11 CHSEL: Channel selection(1)\nThis bit is set/reset by software.\n1: The control flow takes the channel status from channel B.\n0: The control flow takes the channel status from channel A.\nBit 10 CBDMAEN: Control buffer DMA enable for control flow(1)\nThis bit is set/reset by software.\n1: DMA mode is enabled for reception of channel status and used data information.\n0: DMA mode is disabled for reception of channel status and used data information.\nNote: When this bit is set, the DMA request is made whenever the CSRNE flag is set.\nBit 9 PTMSK: Mask of preamble type bits(1)\nThis bit is set/reset by software.\n1: The preamble type bits are not copied into the SPDIFRX_FMTx_DR, zeros are written instead.\n0: The preamble type bits are copied into the SPDIFRX_FMTx_DR.\nBit 8 CUMSK: Mask of channel status and user bits(1)\nThis bit is set/reset by software.\n1: The channel status and user bits are not copied into the SPDIFRX_FMTx_DR, zeros are written\ninstead.\n0: The channel status and user bits are copied into the SPDIFRX_FMTx_DR.\nBit 7 VMSK: Mask of validity bit(1)\nThis bit is set/reset by software.\n1: The validity bit is not copied into the SPDIFRX_FMTx_DR, a zero is written instead.\n0: The validity bit is copied into the SPDIFRX_FMTx_DR.\nBit 6 PMSK: Mask parity error bit(1)\nThis bit is set/reset by software.\n1: The parity error bit is not copied into the SPDIFRX_FMTx_DR, a zero is written instead.\n0: The parity error bit is copied into the SPDIFRX_FMTx_DR.\nBits 5:4 DRFMT[1:0]: RX data format(1)\nThis bit is set/reset by software.\n11: reserved\n10: Data sample are packed by setting two 16-bit sample into a 32-bit word.\n01: Data samples are aligned in the left (MSB)\n00: Data samples are aligned in the right (LSB).\nBit 3 RXSTEO: Stereo mode(1)\nThis bit is set/reset by software.\n1: The peripheral is in stereo mode.\n0: The peripheral is in mono mode.\nNote: This bit is used in case of overrun situation in order to handle misalignment.\nBit 2 RXDMAEN: Receiver DMA enable for data flow(1)\nThis bit is set/reset by software.\n1: DMA mode is enabled for reception.\n0: DMA mode is disabled for reception.\nNote: When this bit is set, the DMA request is made whenever the RXNE flag is set.\nBits 1:0 SPDIFRXEN[1:0]: Peripheral block enable(1)\nThis field is modified by software.\nIt must be used to change the peripheral phase among the three possible states: STATE_IDLE,\nSTATE_SYNC and STATE_RCV.\n00: Disable SPDIFRX (STATE_IDLE).\n01: Enable SPDIFRX synchronization only.\n10: Reserved\n11: Enable SPDIF receiver.\nNote: It is not possible to transition from STATE_RCV to STATE_SYNC, the user must first go the\nSTATE_IDLE.\nit is possible to transition from STATE_IDLE to STATE_RCV: in that case the peripheral\ntransitions from STATE_IDLE to STATE_SYNC and as soon as the synchronization is\nperformed goes to STATE_RCV.\n1. Refer to Section69.3.14: Register protection for additional information on fields properties.",
+      "semantic": {
+        "register": "SPDIFRX_CR",
+        "address_offset": "0x00",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "CKSBKPEN",
+            "description": "Backup symbol clock enable This bit is set/reset by software.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The SPDIFRX generates a backup symbol clock if CKSEN = 1."
+              },
+              {
+                "value": "0",
+                "meaning": "The SPDIFRX does not generate a backup symbol clock."
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "CKSEN",
+            "description": "Symbol clock enable This bit is set/reset by software.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The SPDIFRX generates a symbol clock."
+              },
+              {
+                "value": "0",
+                "meaning": "The SPDIFRX does not generate a symbol clock."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18:16",
+            "name": "INSEL[2:0]",
+            "description": "SPDIFRX input selection(1)",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "SPDIFRX_IN0 selected"
+              },
+              {
+                "value": "001",
+                "meaning": "SPDIFRX_IN1 selected"
+              },
+              {
+                "value": "010",
+                "meaning": "SPDIFRX_IN2 selected"
+              },
+              {
+                "value": "011",
+                "meaning": "SPDIFRX_IN3 selected"
+              },
+              {
+                "value": "other",
+                "meaning": "reserved"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "WFA",
+            "description": "Wait for activity(1) This bit is set/reset by software. synchronization. synchronization.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The SPDIFRX waits for activity on SPDIFRX_IN line (4 transitions) before performing the"
+              },
+              {
+                "value": "0",
+                "meaning": "The SPDIFRX does not wait for activity on SPDIFRX_IN line before performing the"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "NBTR[1:0]",
+            "description": "Maximum allowed re-tries during synchronization phase(1)",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No re-try is allowed (only one attempt)"
+              },
+              {
+                "value": "01",
+                "meaning": "3 re-tries allowed"
+              },
+              {
+                "value": "10",
+                "meaning": "15 re-tries allowed"
+              },
+              {
+                "value": "11",
+                "meaning": "63 re-tries allowed"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "CHSEL",
+            "description": "Channel selection(1) This bit is set/reset by software.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The control flow takes the channel status from channel B."
+              },
+              {
+                "value": "0",
+                "meaning": "The control flow takes the channel status from channel A."
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "CBDMAEN",
+            "description": "Control buffer DMA enable for control flow(1) This bit is set/reset by software. Note: When this bit is set, the DMA request is made whenever the CSRNE flag is set.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for reception of channel status and used data information."
+              },
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for reception of channel status and used data information."
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "PTMSK",
+            "description": "Mask of preamble type bits(1) This bit is set/reset by software.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The preamble type bits are not copied into the SPDIFRX_FMTx_DR, zeros are written instead."
+              },
+              {
+                "value": "0",
+                "meaning": "The preamble type bits are copied into the SPDIFRX_FMTx_DR."
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "CUMSK",
+            "description": "Mask of channel status and user bits(1) This bit is set/reset by software. instead.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The channel status and user bits are not copied into the SPDIFRX_FMTx_DR, zeros are written"
+              },
+              {
+                "value": "0",
+                "meaning": "The channel status and user bits are copied into the SPDIFRX_FMTx_DR."
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "VMSK",
+            "description": "Mask of validity bit(1) This bit is set/reset by software.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The validity bit is not copied into the SPDIFRX_FMTx_DR, a zero is written instead."
+              },
+              {
+                "value": "0",
+                "meaning": "The validity bit is copied into the SPDIFRX_FMTx_DR."
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "PMSK",
+            "description": "Mask parity error bit(1) This bit is set/reset by software.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The parity error bit is not copied into the SPDIFRX_FMTx_DR, a zero is written instead."
+              },
+              {
+                "value": "0",
+                "meaning": "The parity error bit is copied into the SPDIFRX_FMTx_DR."
+              }
+            ]
+          },
+          {
+            "bits": "5:4",
+            "name": "DRFMT[1:0]",
+            "description": "RX data format(1) This bit is set/reset by software.",
+            "values": [
+              {
+                "value": "11",
+                "meaning": "reserved"
+              },
+              {
+                "value": "10",
+                "meaning": "Data sample are packed by setting two 16-bit sample into a 32-bit word."
+              },
+              {
+                "value": "01",
+                "meaning": "Data samples are aligned in the left (MSB)"
+              },
+              {
+                "value": "00",
+                "meaning": "Data samples are aligned in the right (LSB)."
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "RXSTEO",
+            "description": "Stereo mode(1) This bit is set/reset by software. Note: This bit is used in case of overrun situation in order to handle misalignment.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The peripheral is in stereo mode."
+              },
+              {
+                "value": "0",
+                "meaning": "The peripheral is in mono mode."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "RXDMAEN",
+            "description": "Receiver DMA enable for data flow(1) This bit is set/reset by software. Note: When this bit is set, the DMA request is made whenever the RXNE flag is set.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for reception."
+              },
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for reception."
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "SPDIFRXEN[1:0]",
+            "description": "Peripheral block enable(1) This field is modified by software. It must be used to change the peripheral phase among the three possible states: STATE_IDLE, STATE_SYNC and STATE_RCV. Note: It is not possible to transition from STATE_RCV to STATE_SYNC, the user must first go the STATE_IDLE. it is possible to transition from STATE_IDLE to STATE_RCV: in that case the peripheral transitions from STATE_IDLE to STATE_SYNC and as soon as the synchronization is performed goes to STATE_RCV. 1. Refer to Section69.3.14: Register protection for additional information on fields properties.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Disable SPDIFRX (STATE_IDLE)."
+              },
+              {
+                "value": "01",
+                "meaning": "Enable SPDIFRX synchronization only."
+              },
+              {
+                "value": "10",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "11",
+                "meaning": "Enable SPDIF receiver."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

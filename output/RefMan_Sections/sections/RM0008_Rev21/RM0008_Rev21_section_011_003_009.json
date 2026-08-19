@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S11.3.9",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "11",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "11.3.9",
+      "section_title": "Injected channel management",
+      "level": 3,
+      "parent_section": "11.3",
+      "page": 221,
+      "page_end": 222,
+      "semantic_type": "generic",
+      "features": [
+        "adc"
+      ],
+      "chars": 2015,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=221",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.3.9 \"Injected channel management\" in chapter 11 (Analog-to-digital converter (ADC)), RM0008 Rev 21, page 221.",
+      "section_content": "Triggered injection\nTo use triggered injection, the JAUTO bit must be cleared and SCAN bit must be set in the\nADC_CR1 register.\n1. Start conversion of a group of regular channels either by external trigger or by setting\nthe ADON bit in the ADC_CR2 register.\n2. If an external injected trigger occurs during the regular group channel conversion, the\ncurrent conversion is reset and the injected channel sequence is converted in Scan\nonce mode.\n3. Then, the regular group channel conversion is resumed from the last interrupted\nregular conversion. If a regular event occurs during an injected conversion, it doesn’t\ninterrupt it but the regular sequence is executed at the end of the injected sequence.\nFigure25 shows the timing diagram.\nNote: When using triggered injection, the interval between trigger events must be longer than the\ninjection sequence. For instance, if the sequence length is 28 ADC clock cycles (that is two\nconversions with a 1.5 clock-period sampling time), the minimum interval between triggers\nmust be 29 ADC clock cycles.\nAuto-injection\nIf the JAUTO bit is set, then the injected group channels are automatically converted after\nthe regular group channels. This can be used to convert a sequence of up to 20 conversions\nprogrammed in the ADC_SQRx and ADC_JSQR registers.\nIn this mode, external trigger on injected channels must be disabled.\nIf the CONT bit is also set in addition to the JAUTO bit, regular channels followed by injected\nchannels are continuously converted.\nFor ADC clock prescalers ranging from 4 to 8, a delay of 1 ADC clock period is automatically\ninserted when switching from regular to injected sequence (respectively injected to regular).\nWhen the ADC clock prescaler is set to 2, the delay is 2 ADC clock periods.\nNote: It is not possible to use both auto-injected and discontinuous modes simultaneously.\n[Figure 25. Injected conversion latency]\n1. The maximum latency value can be found in the electrical characteristics of the STM32F101xx and\nSTM32F103xx datasheets.",
+      "semantic": {}
+    }
+  ]
+}

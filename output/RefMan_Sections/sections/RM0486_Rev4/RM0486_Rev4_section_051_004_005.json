@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S51.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "51",
+      "chapter_title": "Memory cipher engine (MCE)",
+      "section": "51.4.5",
+      "section_title": "MCE block cipher encryption mode",
+      "level": 3,
+      "parent_section": "51.4",
+      "page": 2433,
+      "page_end": 2435,
+      "semantic_type": "generic",
+      "features": [
+        "mce",
+        "memory"
+      ],
+      "chars": 2482,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2433",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 51.4.5 \"MCE block cipher encryption mode\" in chapter 51 (Memory cipher engine (MCE)), RM0486 Rev 4, page 2433.",
+      "section_content": "Caution: When MCE is used in conjunction with XSPI it is mandatory to read or write the flash\nmemory using the memory map mode of the flash memory controller.\nFigure498 details the block cipher implementations in the MCE peripheral. Top figure is a\nstandard encryption (for writes), bottom figure is a fast decryption (for reads). Application\ncan select a 256-bit master key using CIPHERSEL bitfield in MCE_CR register (AES-128\nselection is shown, multiply by two all key lenghts when AES-256 is selected).\n[Figure 498. MCE implementation of block ciphers]\n1. Operation starts from the capture of the address.\n2. Operation starts from availability of data input.\n3. Only required for AES cipher.\nAddress_i is most significant bits of physical address of block (i) + block (i+1). Result of key\nderivation primitive can be used for two consecutive 16-byte data words. Since the normal\nkey derivation function is leakage resilient the master key information is protected against\nside channel attacks (SCA).\nMASTER_KEY must be stored in write-only MCE_MKEYRx registers. MCE_MKEYR4 to 7\nregisters must be written only if AES-256 cipher is selected with CIPHERSEL.\nFAST_MASTER_KEY must be stored in write-only MCE_FMKEYRx registers.\nMCE_FMKEYR4 to 7 registers must be written only if AES-256 cipher is selected with\nCIPHERSEL. Alternatively, MCE_CCzKEYRx registers can be used if cipher context z is\nselected in MCE_REGCR (CTXID=z). In this case AES-256 cipher must not be selected\nwith CIPHERSEL.\nEach time a key material has been successfully written in MCE, the following flags are set:\n• MKVALID bit in MCE_SR is set when a complete key has been written in\nMCE_MKEYR registers.\n• FMKVALID bit in MCE_SR is set when a complete key has been written in\nMCE_FMKEYR registers.\n• KEYCRC[7:0] in MCE_CCzCFGR is loaded with 8-bit checksum when a complete key\nhas been written in MCE_CCzKEYR registers. See KEYCRC bitfield for details.\nBypass mode is selected instead of cipher mode if the selected key is not marked as valid\nwith above flags. See ENC bitfield description for details.\nNote: With AES block cipher, writing (encryption) requires extra cycles in order to perform the\nrequired key scheduling to obtain the encryption key. See next table for details.\nFast key derivation function may be sensitive against side channel attacks. Hence master\nkey used in normal mode is never used in fast mode.\nRelative performances are described on Table436.\n[Table 436. MCE block cipher latencies]",
+      "semantic": {}
+    }
+  ]
+}

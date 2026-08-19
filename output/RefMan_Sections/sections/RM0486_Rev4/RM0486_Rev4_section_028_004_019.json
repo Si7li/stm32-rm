@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.4.19",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.4.19",
+      "section_title": "XSPI high-speed interface and calibration",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 1321,
+      "page_end": 1322,
+      "semantic_type": "generic",
+      "features": [
+        "spi",
+        "xspi"
+      ],
+      "chars": 3099,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1321",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.19 \"XSPI high-speed interface and calibration\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1321.",
+      "section_content": "To reach higher frequencies, a dedicated high-speed interface is inserted between the XSPI\n(or the I/O manager in case the product embeds one), and the I/O pads.\nThe following is valid for all data bus sizes 1, 2, 4, 8 or 16 bits.\nThe high-speed interface block embeds resynchronization registers that are clocked by a\ndelayed clock created from a DLL (delay locked loop) also located in the high-speed\ninterface. The high-speed interface features are controlled by registers located in the XSPI.\nThe purpose of resynchronization is primary to shift data or data strobe by one quarter of\ncontroller bus clock period, with a correct timing accuracy. DLL must be calibrated versus\nthis clock period.\nThe calibration process is automatically enabled when one of the three conditions below is\nmet:\n• The XSPI exits reset state.\n• A value is written in PRESCALER[7:0] of XSPI_DCR2.\n• A value is written in XSPI_CCR.\nThe calibration process starts when the two following conditions are both met:\n• The calibration has been enabled by one of the three conditions above.\n• An action that sets BUSY=1 is performed. For example the first transfer to memory\nafter calibration is enabled. When the calibration is completed, BUSY returns to 0.\nIn case a periodic recalibration is needed (for example to take in account possible variations\nin temperature or power supply on a long duration), this recalibration must be triggered by\nwriting periodically in PRESCALER[7:0] of XSPI_DCR2, while BUSY=0.\nOnce the calibration is completed, the value of the SPI bus clock period, expressed in\nnumber of unitary delay, is available to user in COARSE[5:0] and FINE[6:0] of\nXSPI_CALFCR.\nAfter auto-calibration, XSPI_CALSOR and XSPI_CALSIR are automatically loaded with the\nsame value that corresponds to the delay for a quarter cycle.\nThe automatic calibration is not executed if at least one of both registers\nXSPI_CALSOR/XSPI_CALSIR is written between the last write operation on XSPI_DCR2 or\nXSPI_CCR and the next transfer start. In such case, the calibration values must be set by\nthe software code into XSPI_CALSOR and XSPI_CALSIR registers. It may improve the\nflash programming time without relaunching the automatic calibration processing between\ntwo programming pages.\nWhen the memory is not supporting DQS (DQSE = 0), the automatic calibration is not used\nin reception. The DLL Master is used instead for delaying the feedback clock\n(XSPI_CALMR). This delay needs to be adjusted by the application itself, using a software\nsequence that determines which delay is optimal to guarantee the correct read operations.\nWhen the clock is divided in DTR transmission mode, the quarter cycle delays on DQS/data\nare not inserted by the DLLs themselves, but by internal flops design scheme. In SDR\ntransmission mode, the DLLs are not used and this, whatever the clock prescaler value.\nIn case of DTR mode and prescaler bypassed (PRESCALER[7:0] = 0), the kernel clock\nprovided to interface must have a 50% duty-cycle.\nWhen using the high-speed-interface, the system clock (AXI clock) must be at least as fast\nas the SPI clock.",
+      "semantic": {}
+    }
+  ]
+}

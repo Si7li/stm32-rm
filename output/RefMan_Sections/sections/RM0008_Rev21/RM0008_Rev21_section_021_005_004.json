@@ -1,0 +1,39 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S21.5.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "21",
+      "chapter_title": "Flexible static memory controller (FSMC)",
+      "section": "21.5.4",
+      "section_title": "NOR Flash/PSRAM controller asynchronous transactions",
+      "level": 3,
+      "parent_section": "21.5",
+      "page": 517,
+      "page_end": 534,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "nor",
+        "psram"
+      ],
+      "chars": 5290,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=517",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.5.4 \"NOR Flash/PSRAM controller asynchronous transactions\" in chapter 21 (Flexible static memory controller (FSMC)), RM0008 Rev 21, page 517.",
+      "section_content": "Asynchronous static memories (NOR Flash memory, PSRAM, SRAM)\n• Signals are synchronized by the internal clock HCLK. This clock is not issued to the\nmemory\n• The FSMC always samples the data before de-asserting the NOE signals. This\nguarantees that the memory data-hold timing constraint is met (chip enable high to\ndata transition, usually 0ns min.)\n• If the extended mode is enabled (EXTMOD bit is set in the FSMC_BCRx register), up\nto four extended modes (A, B, C and D) are available. It is possible to mix A, B, C and\nD modes for read and write operations. For example, read operation can be performed\nin mode A and write in mode B.\n• If the extended mode is disabled (EXTMOD bit is reset in the FSMC_BCRx register),\nthe FSMC can operate in Mode1 or Mode2 as follows:\n– Mode 1 is the default mode when SRAM/PSRAM memory type is selected\n(MTYP[0:1] = 0x0 or 0x01 in the FSMC_BCRx register)\n– Mode 2 is the default mode when NOR memory type is selected (MTYP[0:1] =\n0x10 in the FSMC_BCRx register).\nMode 1 - SRAM/PSRAM (CRAM)\nThe next figures show the read and write transactions for the supported modes followed by\nthe required configuration of FSMC _BCRx, and FSMC_BTRx/FSMC_BWTRx registers.\n[Figure 187. Mode1 read accesses]\n1. NBL[1:0] are driven low during read access.\n[Figure 188. Mode1 write accesses]\nThe one HCLK cycle at the end of the write transaction helps guarantee the address and\ndata hold time after the NWE rising edge. Due to the presence of this one HCLK cycle, the\nDATAST value must be greater than zero (DATAST > 0).\n[Table 109. FSMC_BCRx bit fields]\n[Table 110. FSMC_BTRx bit fields]\nMode A - SRAM/PSRAM (CRAM) OE toggling\n[Figure 189. ModeA read accesses]\n1. NBL[1:0] are driven low during read access.\n[Figure 190. ModeA write accesses]\nThe differences compared with mode1 are the toggling of NOE and the independent read\nand write timings.\n[Table 111. FSMC_BCRx bit fields]\n[Table 112. FSMC_BTRx bit fields]\n[Table 113. FSMC_BWTRx bit fields]\nMode 2/B - NOR Flash\n[Figure 191. Mode2 and mode B read accesses]\n[Figure 192. Mode2 write accesses]\n[Figure 193. Mode B write accesses]\nThe differences with mode1 are the toggling of NWE and the independent read and write\ntimings when extended mode is set (Mode B).\n[Table 114. FSMC_BCRx bit fields]\n[Table 115. FSMC_BTRx bit fields]\n[Table 116. FSMC_BWTRx bit fields]\nNote: The FSMC_BWTRx register is valid only if extended mode is set (mode B), otherwise all its\ncontent is don’t care.\nMode C - NOR Flash - OE toggling\n[Figure 194. Mode C read accesses]\n[Figure 195. Mode C write accesses]\nThe differences compared with mode1 are the toggling of NOE and the independent read\nand write timings.\n[Table 117. FSMC_BCRx bit fields]\n[Table 118. FSMC_BTRx bit fields]\n[Table 119. FSMC_BWTRx bit fields]\nMode D - asynchronous access with extended address\n[Figure 196. Mode D read accesses]\n[Figure 197. Mode D write accesses]\nThe differences with mode1 are the toggling of NOE that goes on toggling after NADV\nchanges and the independent read and write timings.\n[Table 120. FSMC_BCRx bit fields]\n[Table 121. FSMC_BTRx bit fields]\n[Table 122. FSMC_BWTRx bit fields]\nMuxed mode - multiplexed asynchronous access to NOR Flash memory\n[Figure 198. Multiplexed read accesses]\n[Figure 199. Multiplexed write accesses]\nThe difference with mode D is the drive of the lower address byte(s) on the databus.\n[Table 123. FSMC_BCRx bit fields]\n[Table 124. FSMC_BTRx bit fields]\nWAIT management in asynchronous accesses\nIf the asynchronous memory asserts a WAIT signal to indicate that it is not yet ready to\naccept or to provide data, the ASYNCWAIT bit has to be set in FSMC_BCRx register.\nIf the WAIT signal is active (high or low depending on the WAITPOL bit), the second access\nphase (Data setup phase) programmed by the DATAST bits, is extended until WAIT\nbecomes inactive. Unlike the data setup phase, the first access phases (Address setup and\nAddress hold phases), programmed by the ADDSET[3:0] and ADDHLD bits, are not WAIT\nsensitive and so they are not prolonged.\nThe data setup phase (DATAST in FSMC_BTRx register) must be programmed so that the\nWAIT signal meets the following conditions:\n• For read accesses: WAIT can be detected 4 HCLK cycles before data is being sampled\nor 6 HCLK cycles before NOE is deasserted (refer to Figure200).\n• For write accesses: WAIT can be detected 4 HCLK cycles before NWE deassertion\n(refer to Figure201).\n1. Memory asserts the WAIT signal aligned to NOE/NWE which toggles:\nDATAST≥(4×HCLK)+max_wait_assertion_time\n2. Memory asserts the WAIT signal aligned to NEx (or NOE/NWE not toggling):\nmax_wait_assertion_time>address_phase+hold_phase\nthen\nDATAST≥(4×HCLK)+(max_wait_assertion_time– address_phase –hold_phase)\notherwise\nDATAST≥4×HCLK\nwhere max_wait_assertion_time is the maximum time taken by the memory to assert\nthe WAIT signal once NEx/NOE/NWE is low.\nFigure200 and Figure201 show the number of HCLK clock cycles that are added to the\nmemory access after WAIT is released by the asynchronous memory (independently of the\nabove cases).\n[Figure 200. Asynchronous wait during a read access]\n1. NWAIT polarity depends on WAITPOL bit setting in FSMC_BCRx register.\n[Figure 201. Asynchronous wait during a write access]\n1. NWAIT polarity depends on WAITPOL bit setting in FSMC_BCRx register.",
+      "semantic": {}
+    }
+  ]
+}

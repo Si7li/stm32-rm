@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.4.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.4.17",
+      "section_title": "Starting conversions (ADSTART, JADSTART)",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1486,
+      "page_end": 1487,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "adstart",
+        "jadstart"
+      ],
+      "chars": 2511,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1486",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.17 \"Starting conversions (ADSTART, JADSTART)\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1486.",
+      "section_content": "ADC regular conversions can be started by setting ADSTART.\nWhen ADSTART is set, the conversion starts:\n• Immediately if EXTEN[1:0] = 00 (software trigger), or\n• At the next active edge of the selected regular hardware trigger, if EXTEN[1:0] is not\nequal to 00.\nThe application software starts ADC injected conversions by setting JADSTART.\nWhen JADSTART is set, the conversion starts:\n• Immediately if JEXTEN[1:0] = 00 (software trigger), or\n• At the next active edge of the selected injected hardware trigger, if JEXTEN[1:0] is not\nequal to 00.\nNote: In autoinjection mode (JAUTO=1), use the ADSTART bit to start regular conversions\nfollowed by autoinjected conversions (JADSTART must be kept cleared).\nWhen the hardware trigger is enabled, ADSTART and JADSTART also indicate whether an\nADC operation is ongoing. The ADC can be reconfigured while ADSTART and JADSTART\nare both cleared, indicating that the ADC is idle.\nIn the case of software triggering, ADSTP and/or JADSTP must be set before ADC\nreconfiguration.\nADSTART is deasserted by hardware:\n• In single mode with software regular trigger (CONT=0, EXTEN=0x0): at any end of\nregular conversion sequence (EOS assertion)\n• In discontinuous mode (CONT = 0, DISCEN = 1, DISCNUM= x): at any of subgroup\nsequence\n• In all cases (CONT and EXTEN don’t care), after execution of the ADSTP procedure\nasserted by the software\nNote: In continuous mode (CONT=1), ADSTART is not deasserted by hardware when EOS is\nasserted because the sequence is automatically relaunched.\nWhen a hardware trigger is selected in single mode (CONT=0 and EXTEN≠0x00),\nADSTART is not deasserted by hardware when EOS is asserted to help the software that\ndoes not need to reset ADSTART again for the next hardware trigger event. This ensures\nthat no further hardware triggers are missed.\nJADSTART is deasserted by hardware:\n• In single mode with software injected trigger (JEXTEN=0x0): at the end of each\ninjected conversion sequence (JEOS assertion)\n• In discontinuous mode (JDISCEN = 1): at the end of any conversion\n• In all cases (JEXTEN=x), after execution of the JADSTP procedure asserted by the\nsoftware\nNote: When the software trigger is selected, the ADSTART bit must not be set if the EOC flag is\nstill high.\nIn bulb mode (BULB=1), the previous end-of-conversion automatically starts the sampling,\nthen setting ADSTART starts the conversion including the programmed sampling time.\nIn sampling time control trigger mode (SMPTRIG=1), SWTRIG bit must be set to start the\nconversion.",
+      "semantic": {}
+    }
+  ]
+}

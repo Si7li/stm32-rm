@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.6.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.6.4",
+      "section_title": "Reduced gigabit media independent interface (RGMII)",
+      "level": 3,
+      "parent_section": "76.6",
+      "page": 4105,
+      "page_end": 4107,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "rgmii"
+      ],
+      "chars": 3908,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4105",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.6.4 \"Reduced gigabit media independent interface (RGMII)\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4105.",
+      "section_content": "The reduced gigabit media independent interface (RGMII) specification reduces the pin\ncount of the interconnection between the MAC and the PHY for GMII and MII interfaces. To\nachieve this, the data path and control signals are reduced and multiplexed together with\nboth edges of the transmit and receive clocks. For Gigabit operation, the clocks operate at\n125MHz; for 10/100 operation, the clock rates are 2.5/25MHz.\nThe RGMII module is instantiated between the GMII of the MAC and the PHY to translate\nthe control and data signals between the GMII and RGMII protocols. The RGMII block has\nthe following characteristics:\n• Support of 10, 100 and 1000Mbps operation rates.\n• No extra clock required since both edges of the incoming clocks are used.\n• Extraction of the in-band (link speed, link status, and duplex mode) status signals from\nthe PHY and provides them to the MAC for link detection.\nRGMII block diagram\nFigure1056: RGMII block diagram and interface signals shows the position of the RGMII\nblock relative to the MAC and RGMII PHY. The RGMII block is placed between the GMII and\nthe PHY to translate the GMII signals to RGMII signals.\n[Figure 1056. RGMII block diagram and interface signals]\n• Transmit path: this block translates all GMII transmit signals to RGMII signals. The\nblock registers all GMII input signals at the rising edge of eth_gmii_gtx_clk and\ngenerates all RGMII transmit signals at the rising and falling edges of eth_gmii_gtx_clk.\n• Receive path: this block translates all RGMII receive signals to GMII receive signals.\nThe block registers all RGMII input signals at the rising and falling edges of eth_rx_clk\nand generates all GMII receive signals at the rising edge of eth_rx_clk.\n• GTX_CLK: RGMII clock for Tx data transfers, 125MHz, 25MHz or 2.5MHz\n• TXD[3:0]: transmit data\n• TX_CTL: multiplexing of TX_EN on the rising edge of GTX_CLK, and a logical XOR\nbetween TX_EN and TX_ER values on falling edge of GTX_CLK\n• RX_CLK: RGMII clock for Rx data transfers\n• RXD[3:0]: receive data\n• RX_CTL: after demultiplexing, this pin provides ETH_RX_DV on the rising edge of\nETH_RX_CLK, and ETH_RX_ER (logical XOR between ETH_RX_CTL values on\nrising edge and falling edge of ETH_RX_CLK).\nSignal conversion\nThe RGMII block performs data conversions in both directions.\nTransmit data conversion\nAs defined in the RGMII specification, multiplexing of data and control in Gigabit mode is\naccomplished by using both edges of the Transmit clock. The RGMII block accepts the 8-bit\nGMII transmit data from the MAC GMII (gmii_txd[7:0]) on the rising edge of eth_gmii_gtx_-\nclk. For Gigabit operation, the RGMII block then converts gmii_txd[7:0] to two 4-bit nibbles\nand transmits the data on the RGMII transmit data port (rgmii_txd_o[3:0]) as follows:\n• At the rising edge of eth_gmii_gtx_clk, rgmii_txd_o[3:0] contains gmii_txd[3:0]\n• At the falling edge of eth_gmii_gtx_clk, rgmii_txd_o[3:0] contains gmii_txd[7:4]\nFor 10/100 mode, the Transmit data to the PHY is 4 bits. Therefore, for 10/100 mode, the\nRGMII block drives the gmii_txd[3:0] data to the PHY on rgmii_txd_o[3:0] at the rising edge\nof eth_gmii_gtx_clk.\nReceive data conversion\nIn 1000-Mbps mode, the RGMII block registers the 4-bit data on the rgmii_rxd_i[3:0] signal\nat both edges of the Receive clock (eth_rx_clk) and transfers the resulting 8-bit data to the\nMAC GMII on the rising edge of eth_rx_clk clock, as follows:\n• gmii_rxd[3:0] is the value received on rgmii_rxd_i[3:0] at the rising edge of eth_rx_clk\n• gmii_rxd[7:4] is the value received on rgmii_rxd_i[3:0] at the falling edge of eth_rx_clk\nIn 10/100 mode, the RGMII block registers the 4-bit data on rgmii_rxd_i[3:0] only at the ris-\ning edge of eth_rx_clk and transfers the data to the MAC GMII on the rising edge of eth_rx-\n_clk, as follows:\n• gmii_rxd[3:0] is the value received on rgmii_rxd_i[3:0] at the rising edge of eth_rx_clk.\n• gmii_rxd[7:4] is 0x0.",
+      "semantic": {}
+    }
+  ]
+}

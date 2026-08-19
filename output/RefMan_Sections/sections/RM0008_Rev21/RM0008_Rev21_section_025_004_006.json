@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.4.6",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.4.6",
+      "section_title": "Status flags",
+      "level": 3,
+      "parent_section": "25.4",
+      "page": 739,
+      "page_end": 740,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2642,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=739",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.4.6 \"Status flags\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 739.",
+      "section_content": "Three status flags are provided for the application to fully monitor the state of the I2S bus.\nBusy flag (BSY)\nThe BSY flag is set and cleared by hardware (writing to this flag has no effect). It indicates\nthe state of the communication layer of the I2S.\nWhen BSY is set, it indicates that the I2S is busy communicating. There is one exception in\nmaster receive mode (I2SCFG = 11) where the BSY flag is kept low during reception.\nThe BSY flag is useful to detect the end of a transfer if the software needs to disable the I2S.\nThis avoids corrupting the last transfer. For this, the procedure described below must be\nstrictly respected.\nThe BSY flag is set when a transfer starts, except when the I2S is in master receiver mode.\nThe BSY flag is cleared:\n• when a transfer completes (except in master transmit mode, in which the\ncommunication is supposed to be continuous)\n• when the I2S is disabled\nWhen communication is continuous:\n• In master transmit mode, the BSY flag is kept high during all the transfers\n• In slave mode, the BSY flag goes low for one I2S clock cycle between each transfer\nNote: Do not use the BSY flag to handle each data transmission or reception. It is better to use the\nTXE and RXNE flags instead.\nTx buffer empty flag (TXE)\nWhen set, this flag indicates that the Tx buffer is empty and the next data to be transmitted\ncan then be loaded into it. The TXE flag is reset when the Tx buffer already contains data to\nbe transmitted. It is also reset when the I2S is disabled (I2SE bit is reset).\nRX buffer not empty (RXNE)\nWhen set, this flag indicates that there are valid received data in the RX Buffer. It is reset\nwhen SPI_DR register is read.\nChannel Side flag (CHSIDE)\nIn transmission mode, this flag is refreshed when TXE goes high. It indicates the channel\nside to which the data to transfer on SD has to belong. In case of an underrun error event in\nslave transmission mode, this flag is not reliable and I2S needs to be switched off and\nswitched on before resuming the communication.\nIn reception mode, this flag is refreshed when data are received into SPI_DR. It indicates\nfrom which channel side data have been received. Note that in case of error (like OVR) this\nflag becomes meaningless and the I2S should be reset by disabling and then enabling it\n(with configuration if it needs changing).\nThis flag has no meaning in the PCM standard (for both Short and Long frame modes).\nWhen the OVR or UDR flag in the SPI_SR is set and the ERRIE bit in SPI_CR2 is also set,\nan interrupt is generated. This interrupt can be cleared by reading the SPI_SR status\nregister (once the interrupt source has been cleared).",
+      "semantic": {}
+    }
+  ]
+}

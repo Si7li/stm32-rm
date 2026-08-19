@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S43.5.15",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "43",
+      "chapter_title": "Universal synchronous/asynchronous receiver transmitter (USART/UART)",
+      "section": "43.5.15",
+      "section_title": "USART synchronous mode",
+      "level": 3,
+      "parent_section": "43.5",
+      "page": 1827,
+      "page_end": 1831,
+      "semantic_type": "generic",
+      "features": [
+        "uart",
+        "usart"
+      ],
+      "chars": 5683,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1827",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.5.15 \"USART synchronous mode\" in chapter 43 (Universal synchronous/asynchronous receiver transmitter (USART/UART)), RM0522 Rev 1, page 1827.",
+      "section_content": "Master mode\nThe synchronous master mode is selected by programming the CLKEN bit in the\nUSART_CR2 register to 1. In synchronous mode, the following bits must be kept cleared:\n• LINEN bit in the USART_CR2 register,\n• SCEN, HDSEL and IREN bits in the USART_CR3 register.\nIn this mode, the USART can be used to control bidirectional synchronous serial\ncommunications in master mode. The CK pin is the output of the USART transmitter clock.\nNo clock pulses are sent to the CK pin during start bit and stop bit. Depending on the state\nof the LBCL bit in the USART_CR2 register, clock pulses are, or are not, generated during\nthe last valid data bit (address mark). The CPOL bit in the USART_CR2 register is used to\nselect the clock polarity, and the CPHA bit in the USART_CR2 register is used to select the\nphase of the external clock (see Figure631, Figure632 and Figure633).\nDuring the Idle state, preamble and send break, the external CK clock is not activated.\nIn synchronous master mode, the USART transmitter operates exactly like in asynchronous\nmode. However, since CK is synchronized with TX (according to CPOL and CPHA), the\ndata on TX is synchronous.\nIn synchronous master mode, the USART receiver operates in a different way compared to\nasynchronous mode. If RE is set to 1, the data are sampled on CK (rising or falling edge,\ndepending on CPOL and CPHA), without any oversampling. A given setup and a hold time\nmust be respected (which depends on the baud rate: 1/16 bit time).\nNote: In master mode, the CK pin operates in conjunction with the TX pin. Thus, the clock is\nprovided only if the transmitter is enabled (TE=1) and data are being transmitted\n(USART_TDR data register written). This means that it is not possible to receive\nsynchronous data without transmitting data.\n[Figure 631. USART example of synchronous master transmission]\n[Figure 632. USART data clock timing diagram in synchronous master mode]\n(M bits=00)\nIdle or preceding M bits = 00 (8 data bits) Idle or next\ntransmission Start Stoptransmission\nClock (CPOL=0, CPHA=1)\nStart LSB MSB Stop\nData on RX\n(from slave) 0 1 2 3 4 5 6 7\nLSB MSB\nCapture strobe\n*LBCL bit controls last data pulse\n[Figure 633. USART data clock timing diagram in synchronous master mode]\n(M bits = 01)\nI p t d r r a l e e n c s o e m r d i i s n s g i on Start M bits =01 (9 data bits) Stop I t d ra le n s o m r i n s e s x io t n\nClock (CPOL=0,\nClock (CPOL=0,\nCPHA=0)\nCPHA=1)\nStart LSB MSB Stop\nData on RX\n(from slave) 0 1 2 3 4 5 6 7 8\nLSB MSB\nCapture *\nstrobe\n*LBCL bit controls last data pulse\nSlave mode\nThe synchronous slave mode is selected by programming the SLVEN bit in the\nUSART_CR2 register to 1. In synchronous slave mode, the following bits must be kept\ncleared:\n• LINEN and CLKEN bits in the USART_CR2 register,\n• SCEN, HDSEL and IREN bits in the USART_CR3 register.\nIn this mode, the USART can be used to control bidirectional synchronous serial\ncommunications in slave mode. The CK pin is the input of the USART in slave mode.\nNote: When the peripheral is used in SPI slave mode, the frequency of peripheral clock source\n(usart_ker_ck_pres) must be greater than 3 times the CK input frequency.\nThe CPOL bit and the CPHA bit in the USART_CR2 register are used to select the clock\npolarity and the phase of the external clock, respectively (see Figure634).\nAn underrun error flag is available in slave transmission mode. This flag is set when the first\nclock pulse for data transmission appears while the software has not yet loaded any value to\nUSART_TDR.\nThe slave supports the hardware and software NSS management.\n[Figure 634. USART data clock timing diagram in synchronous slave mode]\n(M bits=00)\nSlave Select (NSS) pin management\nThe hardware or software slave select management can be set through the DIS_NSS bit in\nthe USART_CR2 register:\n• Software NSS management (DIS_NSS = 1)\nSPI slave is always selected and NSS input pin is ignored.\nThe external NSS pin remains free for other application uses.\n• Hardware NSS management (DIS_NSS = 0)\nThe SPI slave selection depends on NSS input pin. The slave is selected when NSS is\nlow and deselected when NSS is high.\nNote: The LBCL (used only on SPI master mode), CPOL and CPHA bits have to be selected when\nthe USART is disabled (UE=0) to ensure that the clock pulses function correctly.\nIn SPI slave mode, the USART must be enabled before starting the master communications\n(or between frames while the clock is stable). Otherwise, if the USART slave is enabled\nwhile the master is in the middle of a frame, it becomes desynchronized with the master.\nThe data register of the slave needs to be ready before the first edge of the communication\nclock or before the end of the ongoing communication, otherwise the SPI slave transmits\nzeros.\nSPI slave underrun error\nWhen an underrun error occurs, the UDR flag is set in the USART_ISR register, and the SPI\nslave goes on sending the last data until the underrrun error flag is cleared by software.\nThe underrun flag is set at the beginning of the frame. An underrun error interrupt is\ntriggered if EIE bit is set in the USART_CR3 register.\nThe underrun error flag is cleared by setting bit UDRCF in the USART_ICR register.\nIn case of underrun error, it is still possible to write to the TDR register. Clearing the\nunderrun error enables sending new data.\nIf an underrun error occurred and there is no new data written in TDR, then the TC flag is set\nat the end of the frame.\nNote: An underrun error may occur if the moment the data is written to the USART_TDR is too\nclose to the first CK transmission edge. To avoid this underrun error, the USART_TDR must\nbe written 3 usart_ker_ck cycles before the first CK edge.",
+      "semantic": {}
+    }
+  ]
+}

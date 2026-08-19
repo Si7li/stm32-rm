@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S31.3.36",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "31",
+      "chapter_title": "Advanced-control timers (TIM1/TIM8)",
+      "section": "31.3.36",
+      "section_title": "ADC triggers",
+      "level": 3,
+      "parent_section": "31.3",
+      "page": 1055,
+      "page_end": 1055,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "timer"
+      ],
+      "chars": 1728,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1055",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.3.36 \"ADC triggers\" in chapter 31 (Advanced-control timers (TIM1/TIM8)), RM0522 Rev 1, page 1055.",
+      "section_content": "The timer can generate an ADC triggering event with various internal signals, such as reset,\nenable or compare events. It is also possible to generate a pulse issued by internal edge\ndetectors, such as:\n• Rising and falling edges of OC4ref\n• Rising edge on OC5ref or falling edge on OC6ref\nRefer to MMS2[4:0] bitfield description in TIM_CR2 for the complete list of triggering\noptions.\nThe triggers are issued on the tim_trgo2 internal line which is redirected to the ADC. There\nis a total of 24 possible events, which can be selected using the MMS2[4:0] bits in the\nTIM_CR2 register.\nAn example of an application for 3-phase motor drives is given in Figure263.\nNote: The clock of the slave peripherals (timer, ADC, ...) receiving the tim_trgo or the tim_trgo2\nsignals must be enabled prior to receive events from the master timer, and the clock\nfrequency (prescaler) must not be changed on-the-fly while triggers are received from the\nmaster timer.\nNote: The clock of the ADC must be enabled prior to receive events from the master timer, and\nmust not be changed on-the-fly while triggers are received from the timer.\nIt is possible to reduce the ADC triggering rate with the tim_tro2 post scaler. This is done by\nperiodically discarding tim_trgo2 events, as per the value programmed in TGO2PSC[4:0]\nbitfield in TIM_CR1, as shown on Figure324 below.\n[Figure 324. tim_trgo2 postscaler example]\nThe post scaler is able to operate with:\n– pulses as shown on Figure324 above, when selecting for instance MMS2[4:0] =\n10001 to have a trigger on tim_oc7refc rising rising or falling edges\n– the tim_ocxrefc signal itself (ie with user-defined duty cycle), when selecting for\ninstance MMS2[4:0] = 10000 to have a trigger on tim_oc7refc",
+      "semantic": {}
+    }
+  ]
+}

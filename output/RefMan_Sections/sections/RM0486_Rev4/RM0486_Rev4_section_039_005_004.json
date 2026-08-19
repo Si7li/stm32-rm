@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.5.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.5.4",
+      "section_title": "Header insertion",
+      "level": 3,
+      "parent_section": "39.5",
+      "page": 1842,
+      "page_end": 1843,
+      "semantic_type": "generic",
+      "features": [
+        "header",
+        "insertion"
+      ],
+      "chars": 1428,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1842",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.5.4 \"Header insertion\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1842.",
+      "section_content": "The module works on the dump pipe(s) and it optionally inserts an header before the data of\na former CSI packet.\nFeatures\n• Optionally inserts non-data information to help software interpreting the following data\npayload. The non-data info is Frame sync short packets and Header of data long\npackets (both non-data info into a 32-bit word), mapped as follows:\n– Frame sync short packet: defined by Frame type = SOF or EOF\n> bits 31:16: Frame number\n> bits 15:8: Reserved (forced to 0)\n> bits 7:4: Virtual channel ID in CSI-2_v1.3, bits 7:6 = 00\n> bits 3:0: Frame type (SOF = 0x1 or EOF = 0x2)\n– Header of data long packet (defined by below Frame type = DATA)\n> bits 31:16: Amount of bytes in the payload\n> bits 15:8: Data type ID in CSI-2_v1.3, bits 15:14 = 00\n> bits 7:4: Virtual channel ID in CSI-2_v1.3, bits 7:6 = 00\n> bits 3:0: Frame type (DATA = 0x0)\nTo keep consistency between the amount of bytes provided by the header versus those\neffectively dumped, it is recommended to not activate the header insertion simultaneously\nwith the crop or decimation, as these functions modify the amount of dumped data.\nWhen header insertion is active, the FrameEnd packet is dumped as a header, and is\nconsidered as the unique part of an additional line, inducing an event.\nSoftware configuration\nIt is configured with the DCMIPP_P0PPCR register:\n• HEADEREN:\n– 0: No header insertion\n– 1: Insertion of the headers, aligned on 32 bits.",
+      "semantic": {}
+    }
+  ]
+}

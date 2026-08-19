@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.5.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.5.12",
+      "section_title": "MAC management counters",
+      "level": 3,
+      "parent_section": "76.5",
+      "page": 4091,
+      "page_end": 4092,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "mac"
+      ],
+      "chars": 3469,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4091",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.5.12 \"MAC management counters\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4091.",
+      "section_content": "The peripheral supports storing the statistics about the received and transmitted packets in\nregisters that are accessible through the application.\nThe counters in the MAC management counters (MMC) module can be viewed as an\nextension of the register address space of the CSR module. The MMC module maintains a\nset of registers for gathering statistics on the received and transmitted packets. The register\nset includes a control register for controlling the behavior of the registers, two 32-bit\nregisters containing interrupts generated (receive and transmit), and two 32-bit registers\ncontaining masks for the Interrupt register (receive and transmit). These registers are\naccessible from the Application through the AHB slave interface in the same way the CSR\nregisters are accessed. The organization of these registers is shown in Section76.11.4:\nEthernet MAC and MMC registers.\nThe MMC counters are free running. There is no separate enable for the counters to start. A\nparticular MMC counter starts counting when corresponding packet is received or\ntransmitted.\nThe receive MMC counters are updated for packets that are passed by the Address Filter\n(AFM) block. The statistics of packets dropped by the AFM module, are not updated unless\nthey are runt packets of less than 6 bytes (DA bytes are not received fully). To get statistics\nof all packets, set bit 0 in the Packet filtering control register (ETH_MACPFR). The MMC\nmodule gathers statistics on encapsulated IPv4, IPv6, TCP, UDP, or ICMP payloads in\nreceived Ethernet packets.\nIn addition to control registers, two sets of registers are implemented:\n• Six registers used for collision, error, and good packet counters:\n– Tx single collision good packets register\n(ETH_TX_SINGLE_COLLISION_GOOD_PACKETS)\n– Tx multiple collision good packets register\n(ETH_TX_MULTIPLE_COLLISION_GOOD_PACKETS)\n– Tx packet count good register (ETH_TX_PACKET_COUNT_GOOD)\n– Rx CRC error packets register (ETH_RX_CRC_ERROR_PACKETS)\n– Rx alignment error packets register (ETH_RX_ALIGNMENT_ERROR_PACKETS)\n– Rx unicast packets good register (ETH_RX_UNICAST_PACKETS_GOOD)\n• Four registers to record LPI mode transition:\n– Tx LPI microsecond timer register (ETH_TX_LPI_USEC_CNTR)\n– Tx LPI transition counter register (ETH_TX_LPI_TRAN_CNTR)\n– Rx LPI microsecond counter register (ETH_RX_LPI_USEC_CNTR)\n– Rx LPI transition counter register (ETH_RX_LPI_TRAN_CNTR)\nDefinitions\nThe following terminology is used in MMC register descriptions:\n• Transmitted packets are considered “good” if transmitted successfully. In other words,\na transmitted packet is good if the packets transmission is not aborted because of any\nof the following errors:\n– Jabber timeout\n– No carrier or loss of carrier\n– Late collision\n– Packet underflow\n– Excessive deferral\n– Excessive collision\n• Received packets are considered “good” if none of the following errors exists:\n– CRC error\n– Runt packet (shorter than 64 bytes)\n– Alignment error (in 10/100 Mbit/s only)\n– Length error (non-Type packet only)\n– Out of range (non-Type packet only, longer than 1518 bytes)\n– GMII_RXER input error\n• The maximum transmit frame size depends on the frame type, as follows:\n– Untagged frame maxsize=1,518\n– VLAN frame maxsize=1,522\n– Jumbo frame maxsize=9,018\n– JumboVLAN frame maxsize=9,022\n• The maximum receive packet size depends on the packet type and control bits (JE,\nS2KP, GPSLCE and EDVLP), as shown in the Table813.\n[Table 813. Size of the maximum receive packet]",
+      "semantic": {}
+    }
+  ]
+}

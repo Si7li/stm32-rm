@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.4.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.4.13",
+      "section_title": "GPDMA circular buffering with linked-list programming",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 972,
+      "page_end": 974,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "gpdma",
+        "memory"
+      ],
+      "chars": 2258,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=972",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.13 \"GPDMA circular buffering with linked-list programming\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 972.",
+      "section_content": "GPDMA circular buffering for memory-to-peripheral and\nperipheral-to-memory transfers, with a linear addressing channel\nFor a circular buffering, with a continuous memory-to-peripheral (or peripheral-to-memory)\ntransfer, the software must set up a channel with half-transfer and complete transfer\nevents/interrupts generation (GPDMA_CxCR.HTIE=1 and GPDMA_CxCR.TCIE=1), in\norder to enable a concurrent buffer software processing.\nLLI0 is configured for the first block transfer with the linear addressing channel. A\ncontinuously-executed LLI1 is needed to restore the memory source (or destination) start\naddress, for the memory-to-peripheral transfer (respectively the peripheral-to-memory\ntransfer). GPDMA automatically reloads the initially programmed\nGPDMA_CxBR1.BNDT[15:0] when a block transfer is completed, and there is no need to\nrestore GPDMA_CxBR1.\nFigure112 illustrates this programming with a linear addressing GPDMA channel and a\nsource circular buffer.\n[Figure 112. GPDMA circular buffer programming: update of the memory start address]\nwith a linear addressing channel\nReq=PERIPH_TX Req=PERIPH_TX\nInit/LLI0 S R A e R s / t L o L re I1\nChannel x\nHt+ tcf Ht+ tcf\nLinked-list register file\nDMA_CxTR1 Memory\nCxLBA (LA = 0)\nD D M M A A _ _ C C x x B TR R 2 1 oth U er S s A U = x x 1 = 0 LLI1\nNote: With a 2D addressing channel, the user may use a single LLI with\nGPDMA_CxBR1.BRC[10:0]=1, and program a negative memory block address offset with\nGDMA_CxBR2 and GDMA_CxBR1, in order to jump back to the memory source or the\ndestination start address.\nIf circular buffering must be executed after some other transfers over the shared GPDMA\nchannel x, the before-last LLIN-1 in memory is needed to configure the first block transfer.\nAnd the last LLIN restores the memory source (or destination) start address in\nmemory-to-peripheral transfer (respectively in peripheral-to-memory transfer).\nFigure113 illustrates this programming with a linear addressing shared GPDMA channel,\nand a source circular buffer.\n[Figure 113. Shared GPDMA channel with circular buffering: update of the memory]\nstart address with a linear addressing channel\nReq=PERIPH_TX Req=PERIPH_TX\nInit/LLI0 LLI1 ... LLIN-1 LLIN\nChannel X Ht+ tcf Ht+ tcf\nUSA = 1, others Uxx = 0 LA+ = 0xC",
+      "semantic": {}
+    }
+  ]
+}

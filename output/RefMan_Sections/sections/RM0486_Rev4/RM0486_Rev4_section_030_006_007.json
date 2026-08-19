@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.6.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.6.7",
+      "section_title": "Reset and card cycle power",
+      "level": 3,
+      "parent_section": "30.6",
+      "page": 1423,
+      "page_end": 1424,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 1556,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1423",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.6.7 \"Reset and card cycle power\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1423.",
+      "section_content": "Reset\nFollowing reset the SDMMC is in the reset state. In this state the SDMMC is disabled and no\ncommand nor data can be transfered. The SDMMC_D[7:0], and SDMMC_CMD are in HiZ\nand the SDMMC_CK is driven low.\nBefore moving to the power-on state the SDMMC must be configured.\nIn the power-on state the SDMMC_CK clock is running. First 74 SDMMC_CK cycles are\nclocked after which the SDMMC is enabled and command and data can be transfered.\nThe SDMMC states are controlled by Firmware with the PWRCTL register bits according\nFigure 256..\n[Figure 256. SDMMC state control]\nSignals drive 0 Signals drive 1 Wait 74 cycles\nSD S M i M g R n C e a s l d s e i s H t a iZ bled Reset SDM P M ow C e e r- n o a n bled\nCard cycle power\nTo perform a card cycle power the following procedure applies:\n1. Reset the SDMMC with the RCC.SDMMCxRST register bit. This resets the SDMMC to\nthe reset state and the CPSM and DPSM to the Idle state.\n2. Disable the Vcc power to the card.\n3. Set the SDMMC in power-cycle state. This makes that the SDMMC_D[7:0],\nSDMMC_CMD and SDMMC_CK are driven low, to prevent the card from being\nsupplied through the signal lines.\n4. After minimum 1ms enable the Vcc power to the card.\n5. After the power ramp period set the SDMMC to the power-off state for minimum 1ms.\nThe SDMMC_D[7:0], SDMMC_CMD and SDMMC_CK are set to drive 1.\n6. After the 1ms delay set the SDMMC to power-on state in which the SDMMC_CK clock\nis enabled.\n7. After 74 SDMMC_CK cycles the first command can be sent to the card.\n[Figure 257. Card cycle power / power up diagram]",
+      "semantic": {}
+    }
+  ]
+}

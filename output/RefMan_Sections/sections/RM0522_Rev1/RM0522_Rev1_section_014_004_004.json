@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.4.4",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.4.4",
+      "section_title": "LPDMA channel abort and restart",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 392,
+      "page_end": 393,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 1441,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=392",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.4 \"LPDMA channel abort and restart\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 392.",
+      "section_content": "Alternatively, like for aborting a continuous LPDMA transfer with a circular buffering or a\ndouble buffering, the software can abort, on its own, a still active channel with the following\nsequence:\n1. The software writes 1 into the LPDMA_CxCR.SUSP bit.\n2. The software polls suspended flag LPDMA_CxSR.SUSPF until SUSPF=1, or waits for\nan interrupt previously enabled by writing 1 to LPDMA_CxCR.SUSPIE. Wait for the\nchannel to be effectively in suspended state means wait for the completion of any\nongoing LPDMA transfer over its master port.\n3. The software resets the channel by writing 1 to LPDMA_CxCR.RESET. This causes\nthe reset of the channel internal state, the reset of the LPDMA_CxCR.EN bit, and the\nreset of the LPDMA_CxCR.SUSP bit.\n4. The software safely reconfigures the channel. The software must reprogram the\nhardware-modified LPDMA_CxBR1, LPDMA_CxSAR, and LPDMA_CxDAR registers.\n5. In order to restart the aborted then reprogrammed channel, the software enables it\nagain by writing 1 to the LPDMA_CxCR.EN bit.\nThe abort and restart sequence is illustrated in the figure below.\n[Figure 43. LPDMA channel abort and restart sequence]\nChannel state = Active\nSuspend the DMA channel\n(write 1 to CxCR.SUSP)\nSUSPF=1 ?\nChannel state = Suspended Y\nR e c e iv in g (and Idle)\nsuspended\ninterrupt\nReset the DMA channel\n(write 1 to CxCR.RESET)\nChannel state = Idle\nReconfigure the DMA channel\nEnable the DMA channel\nChannel state = Active",
+      "semantic": {}
+    }
+  ]
+}

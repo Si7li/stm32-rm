@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S36.4.15",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "36",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "36.4.15",
+      "section_title": "Encoder mode",
+      "level": 3,
+      "parent_section": "36.4",
+      "page": 1496,
+      "page_end": 1497,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "timer"
+      ],
+      "chars": 2250,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1496",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.4.15 \"Encoder mode\" in chapter 36 (Low-power timer (LPTIM)), RM0522 Rev 1, page 1496.",
+      "section_content": "This mode allows handling signals from quadrature encoders used to detect angular\nposition of rotary elements. Encoder interface mode acts simply as an external clock with\ndirection selection. This means that the counter just counts continuously between 0 and the\nauto-reload value programmed into the LPTIM_ARR register (0 up to ARR or ARR down to\n0 depending on the direction). Therefore LPTIM_ARR must be configured before starting\nthe counter. From the two external input signals, Input1 and Input2, a clock signal is\ngenerated to clock the LPTIM counter. The phase between those two signals determines\nthe counting direction.\nThe Encoder mode is only available when the LPTIM is clocked by an internal clock source.\nThe signals frequency on both Input1 and Input2 inputs must not exceed the LPTIM internal\nclock frequency divided by 4. This is mandatory in order to guarantee a proper operation of\nthe LPTIM.\nDirection change is signalized by the two down and up flags in the LPTIM_ISR register. An\ninterrupt can be generated for both direction change events if enabled through the DOWNIE\nbit.\nTo activate the Encoder mode the ENC bit has to be set to 1. The LPTIM must first be\nconfigured in Continuous mode.\nWhen Encoder mode is active, the LPTIM counter is modified automatically following the\nspeed and the direction of the incremental encoder. Therefore, its content always\nrepresents the encoder’s position. The count direction, signaled by the Up and Down flags,\ncorrespond to the rotation direction of the encoder rotor.\nAccording to the edge sensitivity configured using the CKPOL[1:0] bits, different counting\nscenarios are possible. The following table summarizes the possible combinations,\nassuming that Input1 and Input2 do not switch at the same time.\n[Table 375. Encoder counting scenarios]\nThe following figure shows a counting sequence for Encoder mode where both-edge\nsensitivity is configured.\nCaution: In this mode the LPTIM must be clocked by an internal clock source, so the CKSEL bit must\nbe maintained to its reset value which is equal to 0. Also, the prescaler division ratio must be\nequal to its reset value which is 1 (PRESC[2:0] bits must be 000).\n[Figure 545. Encoder mode counting sequence]\nT1\nT2\nCounter\nup down up",
+      "semantic": {}
+    }
+  ]
+}

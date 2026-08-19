@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.3.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.3.3",
+      "section_title": "Configuring the SPI in master mode",
+      "level": 3,
+      "parent_section": "25.3",
+      "page": 707,
+      "page_end": 707,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2377,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=707",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.3.3 \"Configuring the SPI in master mode\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 707.",
+      "section_content": "In the master configuration, the serial clock is generated on the SCK pin.\nProcedure\n1. Select the BR[2:0] bits to define the serial clock baud rate (see SPI_CR1 register).\n2. Select the CPOL and CPHA bits to define one of the four relationships between the\ndata transfer and the serial clock (see Figure240).\n3. Set the DFF bit to define 8- or 16-bit data frame format\n4. Configure the LSBFIRST bit in the SPI_CR1 register to define the frame format.\n5. If the NSS pin is required in input mode, in hardware mode, connect the NSS pin to a\nhigh-level signal during the complete byte transmit sequence. In NSS software mode,\nset the SSM and SSI bits in the SPI_CR1 register. If the NSS pin is required in output\nmode, the SSOE bit only should be set.\n6. The MSTR and SPE bits must be set (they remain set only if the NSS pin is connected\nto a high-level signal).\nIn this configuration the MOSI pin is a data output and the MISO pin is a data input.\nTransmit sequence\nThe transmit sequence begins when a byte is written in the Tx Buffer.\nThe data byte is parallel-loaded into the shift register (from the internal bus) during the first\nbit transmission and then shifted out serially to the MOSI pin MSB first or LSB first\ndepending on the LSBFIRST bit in the SPI_CR1 register. The TXE flag is set on the transfer\nof data from the Tx Buffer to the shift register and an interrupt is generated if the TXEIE bit in\nthe SPI_CR2 register is set.\nReceive sequence\nFor the receiver, when data transfer is complete:\n• The data in the shift register is transferred to the RX Buffer and the RXNE flag is set\n• An interrupt is generated if the RXNEIE bit is set in the SPI_CR2 register\nAt the last sampling clock edge the RXNE bit is set, a copy of the data byte received in the\nshift register is moved to the Rx buffer. When the SPI_DR register is read, the SPI\nperipheral returns this buffered value.\nClearing the RXNE bit is performed by reading the SPI_DR register.\nA continuous transmit stream can be maintained if the next data to be transmitted is put in\nthe Tx buffer once the transmission is started. Note that TXE flag should be ‘1 before any\nattempt to write the Tx buffer is made.\nNote: When a master is communicating with SPI slaves which need to be de-selected between\ntransmissions, the NSS pin must be configured as GPIO or another GPIO must be used and\ntoggled by software.",
+      "semantic": {}
+    }
+  ]
+}

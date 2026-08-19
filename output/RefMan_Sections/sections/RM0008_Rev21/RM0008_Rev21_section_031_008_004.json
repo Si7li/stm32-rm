@@ -1,0 +1,38 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S31.8.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "31",
+      "chapter_title": "Debug support (DBG)",
+      "section": "31.8.4",
+      "section_title": "DP and AP read/write accesses",
+      "level": 3,
+      "parent_section": "31.8",
+      "page": 1092,
+      "page_end": 1092,
+      "semantic_type": "generic",
+      "features": [
+        "accesses",
+        "read",
+        "write"
+      ],
+      "chars": 1270,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1092",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.8.4 \"DP and AP read/write accesses\" in chapter 31 (Debug support (DBG)), RM0008 Rev 21, page 1092.",
+      "section_content": "• Read accesses to the DP are not posted: the target response can be immediate (if\nACK=OK) or can be delayed (if ACK=WAIT).\n• Read accesses to the AP are posted. This means that the result of the access is\nreturned on the next transfer. If the next access to be done is NOT an AP access, then\nthe DP-RDBUFF register must be read to obtain the result.\nThe READOK flag of the DP-CTRL/STAT register is updated on every AP read access\nor RDBUFF read request to know if the AP read access was successful.\n• The SW-DP implements a write buffer (for both DP or AP writes), that enables it to\naccept a write operation even when other transactions are still outstanding. If the write\nbuffer is full, the target acknowledge response is “WAIT”. With the exception of\nIDCODE read or CTRL/STAT read or ABORT write which are accepted even if the write\nbuffer is full.\n• Because of the asynchronous clock domains SWCLK and HCLK, two extra SWCLK\ncycles are needed after a write transaction (after the parity bit) to make the write\neffective internally. These cycles should be applied while driving the line low (IDLE\nstate)\nThis is particularly important when writing the CTRL/STAT for a power-up request. If the\nnext transaction (requiring a power-up) occurs immediately, it will fail.",
+      "semantic": {}
+    }
+  ]
+}

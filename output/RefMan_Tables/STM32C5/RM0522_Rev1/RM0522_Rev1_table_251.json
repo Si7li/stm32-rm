@@ -1,0 +1,120 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "table_id": "RM0522-T251",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "251",
+      "title": "Modular exponentiation (protected mode)",
+      "page": 933,
+      "section": "30.4.6",
+      "section_title": "Modular exponentiation",
+      "semantic_type": "generic",
+      "features": [
+        "exponentiation",
+        "mode",
+        "modular",
+        "protected"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=933",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Parameters with direction",
+        "Parameters with direction",
+        "Value (note)",
+        "Storage",
+        "Size"
+      ],
+      "text_helper": "Table 251, \"Modular exponentiation (protected mode)\", in section 30.4.6 (Modular exponentiation) on page 933. Columns: Parameters with direction, Parameters with direction, Value (note), Storage, Size. 9 data row(s). Notes: 1. Euler totient function of n1 with phi = (p - 1) × (q - 1), where p and q are prime factors of modulus n (see NIST SP800-56B Appendix C or RSA encryption/decryption principle for details). As optimi.",
+      "table_content": {
+        "headers": [
+          "Parameters with direction",
+          "Parameters with direction",
+          "Value (note)",
+          "Storage",
+          "Size"
+        ],
+        "rows": [
+          [
+            "IN",
+            "MODE[5:0]",
+            "0x03",
+            "PKA_CR",
+            "6 bits"
+          ],
+          [
+            "IN",
+            "Exponent e length",
+            "(in bits, not null)",
+            "RAM@0x400",
+            "64 bits"
+          ],
+          [
+            "IN",
+            "Modulus or \noperand length",
+            "(in bits, not null)",
+            "RAM@0x408",
+            "64 bits"
+          ],
+          [
+            "IN",
+            "Operand A (base of \nexponentiation)",
+            "(0 ≤ A < n)",
+            "RAM@0x16C8",
+            "ROS"
+          ],
+          [
+            "IN",
+            "Exponent e",
+            "(0 ≤ e < n)",
+            "RAM@0x14B8",
+            "ROS"
+          ],
+          [
+            "IN",
+            "Modulus value n",
+            "(odd integer only, n < 24096)",
+            "RAM@0x0838",
+            "ROS"
+          ],
+          [
+            "IN",
+            "Phi value(1) ",
+            "-",
+            "RAM@0x0C68",
+            "ROS"
+          ],
+          [
+            "OUT",
+            "Result: Aemodn",
+            "(0 ≤ result < n)",
+            "RAM@0x838",
+            "ROS"
+          ],
+          [
+            "ERROR",
+            "Error Aemodn",
+            "No errors: 0xD60D\nErrors: 0xCBC9",
+            "RAM@0x1298",
+            "64 bits"
+          ]
+        ],
+        "notes": [
+          "1. Euler totient function of n1 with phi = (p - 1) × (q - 1), where p and q are prime factors of modulus n (see NIST SP800-56B Appendix C or RSA encryption/decryption principle for details). As optimization it is recommended to keep phi information as part of the key pair generation. Alternative is to store the key as (p, q, e, d) instead of (N, e, d, phi), in this case, to derive N and phi using PKA arithmetic multiplier: N=p×q, and phi = (p - 1) × (q - 1)."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

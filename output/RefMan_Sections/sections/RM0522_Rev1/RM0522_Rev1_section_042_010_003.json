@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.10.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.10.3",
+      "section_title": "RX-FIFO management, as controller",
+      "level": 3,
+      "parent_section": "42.10",
+      "page": 1735,
+      "page_end": 1737,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 4161,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1735",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.10.3 \"RX-FIFO management, as controller\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1735.",
+      "section_content": "When controller, as shown in figures of Section42.9, RX-FIFO is used during any of the\nfollowing transfers:\n• broadcast ENTDAA CCC (Figure600)\n• direct CCC read (Figure599), including direct RSTACT CCC read (Figure601)\n• private read (Figure606)\n• legacy I2C read (Figure608)\nFigure614 illustrates the management of the RX-FIFO for queuing and popping-out data\nbytes or word(s) as received from the I3C bus, when the I3C peripheral acts as controller.\n[Figure 614. RX-FIFO management, as controller]\nFirst, the software must initialize the RX-FIFO management via the following fields of the\nI3C_CFGR register:\n• RXDMAEN: enable/disable DMA mode for RX-FIFO\n• RXTHRES: pop-out data byte(s) or word(s) from RX-FIFO\nThen, depending on RXDMAEN, the RX-FIFO is read either:\n• directly by the software (RXDMAEN = 0) at the byte/word level:\n– via polling mode (RXFNEIE = 0 in the I3C_IER register): waiting for a next data\nbyte/word is requested by the hardware (RXFNEF = 1 in the I3C_IER register)\nbefore an explicit read to the I3C_RDR or I3C_RDWR register, depending upon bit\nRXTHRES in the I3C_CGFR register\n– via enabled interrupt notification if RXFNEIE = 1 in the I3C_IER register\n• by the allocated DMA channel (if RXDMAEN = 1) to the corresponding DMA request\nfrom the I3C peripheral (i3c_rx_dma):\n– as configured at DMA block level, the DMA automatically pops-out/reads data\nbytes/words from the I3C_RDR or I3C_RDWR register (depending upon bit\nRXTHRES), and writes them into its memory destination buffer, until the frame\ncompletion (a stop is emitted on the I3C bus after the last message of the frame),\nunless a transfer error occurs.\nAn I3C message begins from a start or a repeated start, and ends with a stop or a repeated\nstart. At message level, the last received data byte/word from the I3C bus is flagged by\nIRXLASTF = 1 in the I3C_EVR register. When an I3C frame is described with multiple\nmessages (separated by a repeated start), this event can be used by the software for\nupdating the pointer to the buffer where is/are stored the data byte(s)/word(s) of the next\nmessage.\nIf RX-FIFO is full and a data byte is received on the I3C bus, an RX-FIFO overrun is\nreported (ERRF = 1 in the I3C_EVR register and DOVR = 1 in the I3C_SER register). If\nenabled by ERRIE = 1 in the I3C_IER register, an interrupt is generated.\nThe configuration for the RX-FIFO management can be modified when the I3C peripheral is\nnot in active state.\nEarly read termination from the target\nA private read message can be early completed (also known as prematurely ended) by the\naddressed target.\n• If RXDMAEN = 1:\n– the software must allocate, for the DMA request i3c_rx_dma, a DMA channel x,\ncapable of peripheral early termination (refer to DMA implementation section).\n– The software must configure the DMA channel x to enable the DMA peripheral-\nflow control mode via PFREQ = 1 in the DMA_CxTR2 register, to be able to\nperform a(n) (early or not) DMA block completion.\n– Then, on block completion, the software can read BR1.BNDT[15:0] in DMA_Cx\nand/or DMA_CxSAR register(s), to get the effective number of DMA transferred\nbytes.\n• If RXDMAEN = 0:\n– at message level, the last received data byte/word from the I3C bus is flagged by\nRXFNEF = 1 and RXLASTF = 1 in the I3C_EVR register.\nIn any case, if the S-FIFO is disabled (if SMODE = 0 in the I3C_CFGR register), the\nsoftware is notified that an early read termination occurs by RXTGTENDF = 1 in the\nI3C_EVR register, and the corresponding interrupt if enabled. Then, software can read the\nstatus register I3C_SR to check information related to the last message ,and get the number\nof received data bytes on the prematurely ended read transfer (XDCNT[15:0] in the I3C_SR\nregister).\nIn any case, if the S-FIFO is enabled (SMODE = 1 in the I3C_CFGR register), the software\nor the DMA (depending upon SDMAEN in the I3C_CFGR register) must read for each\nmessage the status register I3C_SR. The number of effective received data bytes on the\nprematurely ended read message is reported by XDCNT[15:0] (and then ABT = 1) in the\nI3C_SR register.\nFor more information, refer to I3C status register (I3C_SR) and Section42.10.4.",
+      "semantic": {}
+    }
+  ]
+}

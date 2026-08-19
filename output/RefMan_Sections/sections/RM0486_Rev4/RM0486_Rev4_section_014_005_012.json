@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S14.5.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "14",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "14.5.12",
+      "section_title": "Power-on and wake-up sequences",
+      "level": 3,
+      "parent_section": "14.5",
+      "page": 420,
+      "page_end": 421,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "power",
+        "rcc"
+      ],
+      "chars": 1589,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=420",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.5.12 \"Power-on and wake-up sequences\" in chapter 14 (Reset and clock control (RCC)), RM0486 Rev 4, page 420.",
+      "section_content": "For detailed diagrams, refer to Section13.4.1: System supply startup in the PWR.\nThe time interval between the event that exits the device from a low-power, and the moment\nwhere the CPU is able to execute code, depends on the system state and on its\nconfiguration. Figure37 shows the most usual examples.\nPower-on wake-up sequence\nThe sequence shown in Figure37 gives the most significant phases of the power-on\nwake-up. It is the longest sequence since the circuit was not powered.\nNote: This sequence remains unchanged whatever VBAT is present or not.\nBoot from pin reset (NRST)\nWhen a pin reset occurs, VDD is still present. As a result:\n• the regulator settling time is faster since the reference voltage is already stable\n• the HSI restart delay may be needed if the HSI was not enabled when the NRST\noccurred, otherwise this restart delay phase is skipped.\nBoot from system standby\nWhen waking up from system standby, the reference voltage is stable since VDD has not\nbeen removed. As a result, the regulator settling time is fast. Since VDDCORE was not\npresent, the restart delay for the HSI and HSIS cannot be skipped.\nsys_rst remains asserted until HSIS runs and the memory repair completes.\nRestart from system stop\nWhen restarting from system stop, VDD is still present. As a result, the sequence is mainly\ncomposed of two steps:\n1. The regulator settling time reaches VOS1 (default voltage).\n2. HSI/MSI restart delay. This step can be skipped if HSISTOPEN = MSISTOPEN = 1 in\nRCC_STOPCR.\nsys_rst remains asserted until HSIS runs.\n[Figure 37. Boot sequences versus system states]",
+      "semantic": {}
+    }
+  ]
+}

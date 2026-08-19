@@ -1,0 +1,327 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S13.9.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "13",
+      "chapter_title": "Power control (PWR)",
+      "section": "13.9.12",
+      "section_title": "PWR supply voltage monitoring control register 3 (PWR_SVMCR3)",
+      "level": 3,
+      "parent_section": "13.9",
+      "page": 395,
+      "page_end": 397,
+      "semantic_type": "register_description",
+      "features": [
+        "ardy",
+        "asv",
+        "avmen",
+        "power",
+        "pwr",
+        "pwr-svmcr3",
+        "usb33rdy",
+        "usb33sv",
+        "usb33vmen",
+        "vddio2rdy",
+        "vddio2sv",
+        "vddio2vmen",
+        "vddio2vrsel",
+        "vddio3rdy",
+        "vddio3sv",
+        "vddio3vmen",
+        "vddio3vrsel",
+        "vddiovrsel"
+      ],
+      "chars": 5610,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=395",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.9.12 \"PWR supply voltage monitoring control register 3 (PWR_SVMCR3)\" in chapter 13 (Power control (PWR)), RM0486 Rev 4, page 395.",
+      "section_content": "Address offset: 0x03C\nReset value: 0x0000 0000\nSee individual bits for reset condition. Access six wait states when writing this register.\nWhen a system reset occurs during the register write cycle, the written data are not\nguaranteed.\nSecure restriction is defined by SEC7 in PWR_SECCFGR. Privilege restriction is defined\nbyPRIV7 in PWR_PRIVCFGR.\nBits 31:27 Reserved, must be kept at reset value.\nBit 26 VDDIO3VRSEL: VDDIO3 I/O voltage range selection\nThis bit is used to select the voltage range supported by I/Os supplied by VDDIO3. it is not\nreset by wake-up from Standby mode, but by any application reset (such as NRST or IWDG).\n0: 3v3 voltage range selected. If VDDIO3 is in 1v8 range with this setting, I/Os work\nindegraded mode.\n1: 1v8 voltage range selected. HSLV_VDDIO3 option bit must be set to allow 1v8 voltage\nrange operation. Setting this configuration while VDDIO3 is in 3v3 range damages the device.\nBit 25 VDDIO2VRSEL: VDDIO2 I/O voltage range selection\nThis bit is used to select the voltage range supported by I/Os supplied by VDDIO2. It is not\nreset by wake-up from Standby mode, but by any application reset (such as NRST or IWDG).\n0: 3v3 voltage range selected. If VDDIO2 is in 1v8 range with this setting, I/Os work\nindegraded mode.\n1: 1v8 voltage range selected. HSLV_VDDIO2 option bit must be set to allow 1v8 voltage\nrange operation. Setting this configuration while VDDIO2 is in 3v3 range damages the device.\nBit 24 VDDIOVRSEL: VDD I/O voltage range selection\nThis bit is used to select the voltage range supported by I/Os supplied by VDD. It is not reset\nby wake-up from Standby mode, but by any application reset (such as NRST or IWDG).\n0: 3v3 voltage range selected. If VDD is in 1v8 range with this setting, I/Os work in degraded\nmode.\n1: 1v8 voltage range selected. HSLV_VDD option bit must be set to allow 1v8 voltage range\noperation. Setting this configuration while VDD is in 3v3 range damages the device.\nBits 23:21 Reserved, must be kept at reset value.\nBit 20 ARDY: VDDA18ADC ready\n0: VDDA18ADC is below the threshold of the VDDA18ADC voltage monitor.\n1: VDDA18ADC is equal or above the threshold of the VDDA18ADC voltage monitor.\nBit 19 Reserved, must be kept at reset value.\nBit 18 USB33RDY: VDD33USB ready\n0: VDD33USB is below the threshold of the USB33 voltage monitor.\n1: VDD33USB is equal or above the threshold of the USB33 voltage monitor.\nBit 17 VDDIO3RDY: VDDIO3 ready\n0: VDDIO3 is below the threshold of the VDDIO3 voltage monitor.\n1: VDDIO3 is equal or above the threshold of the VDDIO3 voltage monitor.\nBit 16 VDDIO2RDY: VDDIO2 ready\n0: VDDIO2 is below the threshold of the VDDIO2 voltage monitor.\n1: VDDIO2 is equal or above the threshold of the VDDIO2 voltage monitor.\nBits 15:13 Reserved, must be kept at reset value.\nBit 12 ASV: VDDA18ADC independent supply valid\nThis bit is used to validate the VDDA18ADC supply for electrical and logical isolation purpose.\nSetting this bit is mandatory to use the analog to digital converters. If VDDA18ADC is not\nalways present in the application, the VDDA18ADC voltage monitor can be used to determine\nwhether this supply is ready or not. This bit is reset on any system reset.\n0: VDDA18ADC is not present. Logical and electrical isolation is applied to ignore this supply.\n1: VDDA18ADC is valid.\nBit 11 Reserved, must be kept at reset value.\nBit 10 USB33SV: VDD33USB independent supply valid\nThis bit is used to validate the VDD33USB supply for electrical and logical isolation purpose.\nSetting this bit is mandatory to use the USB2 HS PHYs. If VDD33USB is not always present in\nthe application, the VDD33USB voltage monitor can be used to determine whether this supply\nis ready or not. This bit is reset on any system reset.\n0: VDD33USB is not present. Logical and electrical isolation is applied to ignore this supply.\n1: VDD33USB is valid.\nBit 9 VDDIO3SV: VDDIO3 independent supply valid\nThis bit is used to validate the VDDIO3 supply for electrical and logical isolation purpose.\nSetting this bit is mandatory to use PN[12:0] I/Os. If VDDIO3 is not always present in the\napplication, the VDDIO3 voltage monitor can be used to determine whether this supply is\nready or not. This bit is reset on any system reset.\n0: VDDIO3 is not present. Logical and electrical isolation is applied to ignore this supply.\n1: VDDIO3 is valid.\nBit 8 VDDIO2SV: VDDIO2 independent supply valid.\nThis bit is used to validate the VDDIO2 supply for electrical and logical isolation purpose.\nSetting this bit is mandatory to use PO[5:0] and PP[15:0] I/Os. If VDDIO2 is not always present\nin the application, the VDDIO2 voltage monitor can be used to determine whether this supply\nis ready or not. This bit is reset on any system reset.\n0: VDDIO2 is not present. Logical and electrical isolation is applied to ignore this supply.\n1: VDDIO2 is valid.\nBits 7:5 Reserved, must be kept at reset value.\nBit 4 AVMEN: VDDA18ADC independent ADC voltage monitor enable\nThis bit is reset on any system reset.\n0: VDDA18ADC voltage monitor disabled\n1: VDDA18ADC voltage monitor enabled\nBit 3 Reserved, must be kept at reset value.\nBit 2 USB33VMEN: VDD33USB independent USB 33 voltage monitor enable.\nThis bit is reset on any system reset.\n0: VDD33USB voltage monitor disabled\n1: VDD33USB voltage monitor enabled\nBit 1 VDDIO3VMEN: VDDIO3 independent voltage monitor enable\nThis bit is reset on any system reset.\n0: VDDIO3 voltage monitor disabled\n1: VDDIO3 voltage monitor enabled\nBit 0 VDDIO2VMEN: VDDIO2 independent voltage monitor enable\nThis bit is reset on any system reset.\n0: VDDIO2 voltage monitor disabled\n1: VDDIO2 voltage monitor enabled",
+      "semantic": {
+        "register": "PWR_SVMCR3",
+        "address_offset": "0x03C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:27",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "VDDIO3VRSEL",
+            "description": "VDDIO3 I/O voltage range selection This bit is used to select the voltage range supported by I/Os supplied by VDDIO3. it is not reset by wake-up from Standby mode, but by any application reset (such as NRST or IWDG). indegraded mode. range operation. Setting this configuration while VDDIO3 is in 3v3 range damages the device.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "3v3 voltage range selected. If VDDIO3 is in 1v8 range with this setting, I/Os work"
+              },
+              {
+                "value": "1",
+                "meaning": "1v8 voltage range selected. HSLV_VDDIO3 option bit must be set to allow 1v8 voltage"
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "VDDIO2VRSEL",
+            "description": "VDDIO2 I/O voltage range selection This bit is used to select the voltage range supported by I/Os supplied by VDDIO2. It is not reset by wake-up from Standby mode, but by any application reset (such as NRST or IWDG). indegraded mode. range operation. Setting this configuration while VDDIO2 is in 3v3 range damages the device.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "3v3 voltage range selected. If VDDIO2 is in 1v8 range with this setting, I/Os work"
+              },
+              {
+                "value": "1",
+                "meaning": "1v8 voltage range selected. HSLV_VDDIO2 option bit must be set to allow 1v8 voltage"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "VDDIOVRSEL",
+            "description": "VDD I/O voltage range selection This bit is used to select the voltage range supported by I/Os supplied by VDD. It is not reset by wake-up from Standby mode, but by any application reset (such as NRST or IWDG). mode. operation. Setting this configuration while VDD is in 3v3 range damages the device.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "3v3 voltage range selected. If VDD is in 1v8 range with this setting, I/Os work in degraded"
+              },
+              {
+                "value": "1",
+                "meaning": "1v8 voltage range selected. HSLV_VDD option bit must be set to allow 1v8 voltage range"
+              }
+            ]
+          },
+          {
+            "bits": "23:21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "ARDY",
+            "description": "VDDA18ADC ready",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDDA18ADC is below the threshold of the VDDA18ADC voltage monitor."
+              },
+              {
+                "value": "1",
+                "meaning": "VDDA18ADC is equal or above the threshold of the VDDA18ADC voltage monitor."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "USB33RDY",
+            "description": "VDD33USB ready",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDD33USB is below the threshold of the USB33 voltage monitor."
+              },
+              {
+                "value": "1",
+                "meaning": "VDD33USB is equal or above the threshold of the USB33 voltage monitor."
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "VDDIO3RDY",
+            "description": "VDDIO3 ready",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDDIO3 is below the threshold of the VDDIO3 voltage monitor."
+              },
+              {
+                "value": "1",
+                "meaning": "VDDIO3 is equal or above the threshold of the VDDIO3 voltage monitor."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "VDDIO2RDY",
+            "description": "VDDIO2 ready",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDDIO2 is below the threshold of the VDDIO2 voltage monitor."
+              },
+              {
+                "value": "1",
+                "meaning": "VDDIO2 is equal or above the threshold of the VDDIO2 voltage monitor."
+              }
+            ]
+          },
+          {
+            "bits": "15:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "ASV",
+            "description": "VDDA18ADC independent supply valid This bit is used to validate the VDDA18ADC supply for electrical and logical isolation purpose. Setting this bit is mandatory to use the analog to digital converters. If VDDA18ADC is not always present in the application, the VDDA18ADC voltage monitor can be used to determine whether this supply is ready or not. This bit is reset on any system reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDDA18ADC is not present. Logical and electrical isolation is applied to ignore this supply."
+              },
+              {
+                "value": "1",
+                "meaning": "VDDA18ADC is valid."
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "USB33SV",
+            "description": "VDD33USB independent supply valid This bit is used to validate the VDD33USB supply for electrical and logical isolation purpose. Setting this bit is mandatory to use the USB2 HS PHYs. If VDD33USB is not always present in the application, the VDD33USB voltage monitor can be used to determine whether this supply is ready or not. This bit is reset on any system reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDD33USB is not present. Logical and electrical isolation is applied to ignore this supply."
+              },
+              {
+                "value": "1",
+                "meaning": "VDD33USB is valid."
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "VDDIO3SV",
+            "description": "VDDIO3 independent supply valid This bit is used to validate the VDDIO3 supply for electrical and logical isolation purpose. Setting this bit is mandatory to use PN[12:0] I/Os. If VDDIO3 is not always present in the application, the VDDIO3 voltage monitor can be used to determine whether this supply is ready or not. This bit is reset on any system reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDDIO3 is not present. Logical and electrical isolation is applied to ignore this supply."
+              },
+              {
+                "value": "1",
+                "meaning": "VDDIO3 is valid."
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "VDDIO2SV",
+            "description": "VDDIO2 independent supply valid. This bit is used to validate the VDDIO2 supply for electrical and logical isolation purpose. Setting this bit is mandatory to use PO[5:0] and PP[15:0] I/Os. If VDDIO2 is not always present in the application, the VDDIO2 voltage monitor can be used to determine whether this supply is ready or not. This bit is reset on any system reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDDIO2 is not present. Logical and electrical isolation is applied to ignore this supply."
+              },
+              {
+                "value": "1",
+                "meaning": "VDDIO2 is valid."
+              }
+            ]
+          },
+          {
+            "bits": "7:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "AVMEN",
+            "description": "VDDA18ADC independent ADC voltage monitor enable This bit is reset on any system reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDDA18ADC voltage monitor disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "VDDA18ADC voltage monitor enabled"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "USB33VMEN",
+            "description": "VDD33USB independent USB 33 voltage monitor enable. This bit is reset on any system reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDD33USB voltage monitor disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "VDD33USB voltage monitor enabled"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "VDDIO3VMEN",
+            "description": "VDDIO3 independent voltage monitor enable This bit is reset on any system reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDDIO3 voltage monitor disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "VDDIO3 voltage monitor enabled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "VDDIO2VMEN",
+            "description": "VDDIO2 independent voltage monitor enable This bit is reset on any system reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "VDDIO2 voltage monitor disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "VDDIO2 voltage monitor enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.7.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.7.4",
+      "section_title": "Downsize",
+      "level": 3,
+      "parent_section": "39.7",
+      "page": 1864,
+      "page_end": 1866,
+      "semantic_type": "generic",
+      "features": [
+        "downsize"
+      ],
+      "chars": 1655,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1864",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.7.4 \"Downsize\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1864.",
+      "section_content": "This module implements a downsize based on box filtering, which allows ratios from 1x to\n8x, independently, in both X and Y directions.\nThe box filter has properties close to a bilinear filter for small ratios (from 1x to 2x), but\nprovides the advantage of avoiding some Moiré effect for higher ratios (from 2x to 8x)\nthanks to using all the samples.\nFunctionality\n• Features:\n– Integer + decimal ratio, different vertically and horizontally.\n– Ratio: 1.0x to 8x\n– Limited to a maximum output buffer width of 2688 pixels due to the needed\nlinebuffer.\n• Operations:\n– Increments defined with 3.13 precision (<1 pixel error after maximum width of\n4094)\n– Internal computations for filter defined with 3.3 precision\n– Accumulates skipped pixels to allow ratio up to 8x with saturation on 11 bits\n– Weighting of shared pixels, to allow good quality at ratio close to 1\n– Independent H filter, then V filter\n– Init phase: left of left-most pixel is aligned on input pixel (see below Pi0, Po0)\nSoftware configuration\n[Table 355. DCMIPP_PxDSCR, DCMIPP_PxDSRTIOR, DCMIPP_PxDSSZR]\nFigure406 shows the principle of the computations:\n• Po0 = (1.00 x Pi0 + 1.00 x Pi1 + 0.25 Pi2) / 2.25\n• Po1 = (0.75 x Pi2 + 1.00 x Pi3 + 0.50 Pi4) / 2.25\n• Po2 = (0.50 x Pi4 + 1.00 x Pi5 + 0.75 Pi6) / 2.25\n[Figure 406. Downsize with coverage filtering]\nOutput pixels\nConfiguration example\n• ENABLE = 1 to activate the downsize\n• Downsize ratio 1x: HRATIO = VRATIO = 8192, HDIV = VDIV = 1023\n• Downsize ratio 2x: HRATIO = VRATIO = 16384, HDIV = VDIV = 512\n• Downsize ratio 3x: HRATIO = VRATIO = 24576, HDIV = VDIV = 341\n• Downsize ratio 8x: HRATIO = VRATIO = 65535, HDIV = VDIV = 128",
+      "semantic": {}
+    }
+  ]
+}

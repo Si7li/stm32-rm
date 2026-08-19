@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S21.3.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "21",
+      "chapter_title": "Chrom-ART Accelerator controller (DMA2D)",
+      "section": "21.3.5",
+      "section_title": "DMA2D foreground and background PFC",
+      "level": 3,
+      "parent_section": "21.3",
+      "page": 1034,
+      "page_end": 1036,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "dma2d",
+        "pfc"
+      ],
+      "chars": 2540,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1034",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.3.5 \"DMA2D foreground and background PFC\" in chapter 21 (Chrom-ART Accelerator controller (DMA2D)), RM0486 Rev 4, page 1034.",
+      "section_content": "DMA2D foreground pixel format converter (PFC) and background pixel format converter\nperform the pixel format conversion to generate a 32-bit per pixel value. The PFC can also\nmodify the alpha channel.\nThe first PFC stage converts the color format. The original color format of the foreground\nand background pixels are configured through CM[3:0] in DMA2D_FGPFCCR and\nDMA2D_BGPFCCR, respectively.\nThe supported input formats are given in the table below.\n[Table 114. Supported color mode in input]\nThe color format are coded as follows:\n• Alpha value field: transparency\n0xFF value corresponds to an opaque pixel and 0x00 to a transparent one.\n• R field for Red\n• G field for Green\n• B field for Blue\n• L field: luminance\nThis field is the index to a CLUT to retrieve the three/four RGB/ARGB components.\nIf the original format was direct color mode (ARGB/RGB), the extension to 8-bit per channel\nis performed by copying the MSBs into the LSBs. This ensures a perfect linearity of the\nconversion.\nIf the original format does not include an alpha channel, the alpha value is automatically\nsetto 0xFF (opaque).\nIf the original format is indirect color mode (L/AL), a CLUT is required, and each pixel format\nconverter is associated with a 256 entry 32-bit CLUT.\nFor the specific alpha mode A4 and A8, no color information is stored nor indexed. The color\nto be used for the image generation is fixed and defined in DMA2D_FGCOLR for foreground\npixels, and in DMA2D_BGCOLR for background pixels.\nThe order of the fields in the system memory is defined in the table below.\n[Table 115. Data order in memory]\nThe 24-bit RGB888 aligned on 32-bit is supported through the ARGB8888 mode.\nOnce the 32-bit value is generated, the alpha channel can be modified according to AM[1:0]\nin DMA2D_FGPFCCR or DMA2D_BGPFCCR, as shown in Table116.\nOne of the following happens for the alpha channel:\n• It is kept as it is (no modification).\n• It is replaced by ALPHA[7:0] value i nDMA2D_FGPFCCR/DMA2D_BGPFCCR.\n• It is replaced by the original alpha value multiplied by ALPHA[7:0] in\nDMA2D_FGPFCCR/DMA2D_BGPFCCR divided by 255.\n[Table 116. Alpha mode configuration]\nNote: To support the alternate format, the incoming alpha value can be inverted setting AI in\nDMA2D_FGPFCCR or DMA2D_BGPFCCR. This applies also to the Alpha value stored in\nthe DMA2D_FGPFCCR or DMA2D_BGPFCCR, and in the CLUT.\nThe R and B fields can also be swapped setting RBS in DMA2D_FGPFCCR or\nDMA2D_BGPFCCR. This applies also to the RGB order used in the CLUT, and in\nDMA2D_FGCOLR or DMA2D_BGCOLR.",
+      "semantic": {}
+    }
+  ]
+}

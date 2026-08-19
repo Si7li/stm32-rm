@@ -1,0 +1,186 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.8.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.8.6",
+      "section_title": "LPDMA channel x status register (LPDMA_CxSR)",
+      "level": 3,
+      "parent_section": "14.8",
+      "page": 425,
+      "page_end": 426,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "dtef",
+        "htf",
+        "idlef",
+        "lpdma",
+        "memory",
+        "power",
+        "suspf",
+        "tcf",
+        "tof",
+        "ulef",
+        "usef"
+      ],
+      "chars": 1937,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=425",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.8.6 \"LPDMA channel x status register (LPDMA_CxSR)\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 425.",
+      "section_content": "Address offset: 0x060 + 0x80 * x (x=0 to 7)\nReset value: 0x0000 0001\nThis is a read register, reporting the channel status.\nThis register is privileged or unprivileged, depending on the privileged state of the channel\n(LPDMA_PRIVCFGR.PRIVx).\nBits 31:15 Reserved, must be kept at reset value.\nBit 14 TOF: trigger overrun flag clear\n0: no effect\n1: clears the corresponding TOF flag\nBit 13 SUSPF: completed suspension flag\n0: no completed suspension event\n1: a completed suspension event occurred\nBit 12 USEF: user setting error flag\n0: no user setting error event\n1: a user setting error event occurred\nBit 11 ULEF: update link transfer error flag\n0: no update link transfer error event\n1: a master bus error event occurred while updating a linked-list register from memory\nBit 10 DTEF: data transfer error flag\n0: no data transfer error event\n1: a master bus error event occurred on a data transfer\nBit 9 HTF: half-transfer flag\n0: no half-transfer event\n1: a half-transfer event occurred\nA half-transfer event is a half-block transfer that occurs when half of the bytes of the source\nblock size (rounded-up integer of LPDMA_CxBR1.BNDT[15:0]/2) has been transferred to\nthe destination.\nBit 8 TCF: transfer complete flag\n0: no transfer complete event\n1: a transfer complete event occurred\nA transfer complete event is a block transfer complete or a LLI transfer complete including\nthe upload of the next LLI if any, or the full linked-list completion, depending on the transfer\ncomplete event mode LPDMA_CxTR2.TCEM[1:0].\nBits 7:1 Reserved, must be kept at reset value.\nBit 0 IDLEF: idle flag\n0: channel not in idle state\n1: channel in idle state\nThis idle flag is de-asserted by hardware when the channel is enabled\n(LPDMA_CxCR.EN=1) with a valid channel configuration (no USEF to be immediately\nreported).\nThis idle flag is asserted after hard reset or by hardware when the channel is back in idle\nstate (in suspended or disabled state).",
+      "semantic": {
+        "register": "LPDMA_CxSR",
+        "address_offset": "0x060 + 0x80 * x (x=0 to 7)",
+        "reset_value": "0x0000 0001",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "TOF",
+            "description": "trigger overrun flag clear",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no effect"
+              },
+              {
+                "value": "1",
+                "meaning": "clears the corresponding TOF flag"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "SUSPF",
+            "description": "completed suspension flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no completed suspension event"
+              },
+              {
+                "value": "1",
+                "meaning": "a completed suspension event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "USEF",
+            "description": "user setting error flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no user setting error event"
+              },
+              {
+                "value": "1",
+                "meaning": "a user setting error event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "ULEF",
+            "description": "update link transfer error flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no update link transfer error event"
+              },
+              {
+                "value": "1",
+                "meaning": "a master bus error event occurred while updating a linked-list register from memory"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "DTEF",
+            "description": "data transfer error flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no data transfer error event"
+              },
+              {
+                "value": "1",
+                "meaning": "a master bus error event occurred on a data transfer"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "HTF",
+            "description": "half-transfer flag A half-transfer event is a half-block transfer that occurs when half of the bytes of the source block size (rounded-up integer of LPDMA_CxBR1.BNDT[15:0]/2) has been transferred to the destination.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no half-transfer event"
+              },
+              {
+                "value": "1",
+                "meaning": "a half-transfer event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "TCF",
+            "description": "transfer complete flag A transfer complete event is a block transfer complete or a LLI transfer complete including the upload of the next LLI if any, or the full linked-list completion, depending on the transfer complete event mode LPDMA_CxTR2.TCEM[1:0].",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no transfer complete event"
+              },
+              {
+                "value": "1",
+                "meaning": "a transfer complete event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "7:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "IDLEF",
+            "description": "idle flag This idle flag is de-asserted by hardware when the channel is enabled (LPDMA_CxCR.EN=1) with a valid channel configuration (no USEF to be immediately reported). This idle flag is asserted after hard reset or by hardware when the channel is back in idle state (in suspended or disabled state).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "channel not in idle state"
+              },
+              {
+                "value": "1",
+                "meaning": "channel in idle state"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

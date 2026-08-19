@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S5.3.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "5",
+      "chapter_title": "RAMs configuration controller (RAMCFG)",
+      "section": "5.3.2",
+      "section_title": "Error code correction (SRAM2)",
+      "level": 3,
+      "parent_section": "5.3",
+      "page": 115,
+      "page_end": 116,
+      "semantic_type": "generic",
+      "features": [
+        "sram2"
+      ],
+      "chars": 2603,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=115",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 5.3.2 \"Error code correction (SRAM2)\" in chapter 5 (RAMs configuration controller (RAMCFG)), RM0522 Rev 1, page 115.",
+      "section_content": "The ECC is supported by SRAM2 when enabled with the SRAM2_ECC user option bits.\nRefer to Section6: Embedded flash memory (FLASH) for more details.\nSeven ECC bits are added per 32 bits of SRAM, allowing 2-bit error detection and 1-bit error\ncorrection on memory read access.\nAs the ECC is calculated and checked for a 32-bit word, byte and half-word write accesses\nare managed by the SRAM interface by first reading the whole word, then write the word\nagain with the new byte/half-word value. ECC double errors are also detected during these\nbytes or half-word AHB write accesses (read/modify/write done by interface). The byte or\nhalf-word write access latency is two AHB clock cycles.\nCaution: In case of a byte or half-word write on SRAM with ECC, the read/modify/write operation is\ndone in a buffer. The buffer content is written into the SRAM two AHB clock cycles after the\nSRAM AHB is released (when the SRAM is no more accessed).\nSingle and double ECC errors\nWhen a single error is detected, it is automatically corrected and the SEDC/CSEDC bits are\nset in RAMCFG_MxISR and RAMCFG_MxICR respectively. An interrupt is generated if\nenabled by the SEIE bit in RAMCFG_MxIER. The failing address is stored\ninRAMCFG_MxSEAR if the ALE bit is set in RAMCFG_MxCR.\nCaution: Single errors cannot be detected when the SEDC bit is set.\nWhen a double error is detected, the DED and CDED bits are set in RAMCFG_MxISR and\nRAMCFG_MxICR respectively. An interrupt or NMI is generated if enabled by the DEIE or\nECCNMI bit in RAMCFG_MxIER. The failing address is stored in RAMCFG_MxDEAR if the\nALE bit is set in RAMCFG_MxCR.\nCaution: Double errors cannot be detected when the DED bit is set.\nSRAM2 with ECC memory map\nWhen the ECC is enabled for SRAM2, the full SRAM2 has ECC.\nThe figure below shows the SRAM areas, when ECC is enabled for both SRAM1 and\nSRAM2.\n[Table 16. SRAM with ECC memory map]\nWhen ECC is enabled by user option bits, the ECCE bit is automatically set after system\nreset in the related RAMCFG_MxCR.\nThe ECC can be deactivated by executing the following software sequence:\n1. Write 0xAE in RAMCFG_MxECCKEYR.\n2. Write 0x75 in RAMCFG_MxECCKEYR.\n3. Write 0 in RAMCFG_MxCR.\nTesting ECC mechanism\nTo test the ECC mechanism, 1 or 2 bits by word for single- or double-error test respectively.\nThe procedure to check ECC is the following:\n1. On an erased memory, write data with ECC ON.\n2. Disable ECC.\n3. Write the same data with 1- or 2-bit modification (for single or double error test\nrespectively).\n4. Enable ECC.\n5. Read the data. Enabled interrupt is generated because of a single or double error.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S53.3.32",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "53",
+      "chapter_title": "Advanced-control timers (TIM1/TIM8)",
+      "section": "53.3.32",
+      "section_title": "ADC synchronization",
+      "level": 3,
+      "parent_section": "53.3",
+      "page": 2569,
+      "page_end": 2570,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "timer"
+      ],
+      "chars": 2297,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2569",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 53.3.32 \"ADC synchronization\" in chapter 53 (Advanced-control timers (TIM1/TIM8)), RM0486 Rev 4, page 2569.",
+      "section_content": "The timer operation can be synchronized to the ADC clock to trigger jitter-free ADC\nsampling. This function is enabled using the ADSYNC bit in the TIMx_CR2 register.\nThis feature is useful when the timers and the ADCs are operating with semisynchronous\nclocks (clocks derived from a same source with integer ratio tim_ker_ck/adc_ker_ck), for\ninstance adc_ker_ck=75MHz and tim_ker_ck=150MHz or 300MHz.\nADSYNC must also be set when both peripherals are operating at the same frequency from\nthe same clock source, when jitter-free operation is needed.\nADSYNC must not be set and jitter-free operation is not supported in the following cases:\n• when the clock ratio is not an integer (for example adc_ker_ck = 75MHz and\ntim_ker_ck=100MHz): in this case, the sampling point jitter due to the timer to ADC\nsignal resynchronization is 1 adc_ker_ck period maximum\n• when the ADC is operating in asynchronous mode (adc_ker_ck uncorrelated with\ntim_ker_ck): in this case, the sampling point jitter due to the timer to ADC signal\nresynchronization is 1 adc_ker_ck period maximum.\nWhen ADSYNC=1, the timer operation is slightly changed: the counter enable and counter\nreset events are aligned to the adc_ker_ck ADC clock, to avoid any phase shift due to\nclocks enable in the RCC.\nJitter-free operation is guaranteed only when one of the two requirements below is met\n(depending on the selected trigger source).\n1. The counter period must be a multiple of the ADC clock period:\n(TIMx_PSC+1)× (TIMx_ARR+1)× Ttim_ker_ck = n× Tadc_ker_ck\n2. The compare value must be a multiple of the ADC clock period:\n(TIMx_PSC+1)× TIMx_CMPy× Ttim_ker_ck = m× Tadc_ker_ck\nNote: If none of the two above requirements are met, the trigger is still generated, but the latency\nis not constant and varies with the timer and ADC clocks phase shift.\nProgramming guidelines\nThe ADC synchronization feature must not be modified during run-time, once the counter is\nenabled and once the ADC has been configured for receiving triggers from the timer.\nIt is mandatory to follow the procedure below to use the ADC synchronization:\n1. Enable the destination ADC clock.\n2. Configure the timer and set the ADSYNC bit.\n3. Configure the ADC and enable it (using ADSTART and/or JADSTART bits).\n4. Start the timer (with the CEN counter enable bit).",
+      "semantic": {}
+    }
+  ]
+}

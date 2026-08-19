@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.4.12",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.4.12",
+      "section_title": "XSPI memory-mapped mode",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 1313,
+      "page_end": 1314,
+      "semantic_type": "generic",
+      "features": [
+        "memory",
+        "spi",
+        "xspi"
+      ],
+      "chars": 3281,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1313",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.12 \"XSPI memory-mapped mode\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1313.",
+      "section_content": "When configured in memory-mapped mode, the external SPI device is seen as an internal\nmemory.\nNote: No more than 256Mbytes can be addressed even if the external device capacity is larger.\nIf an access is made to an address outside of the range defined by DEVSIZE[4:0] but still\nwithin the 256-Mbyte range, then an AXI error is given. The effect of this error depends on\nthe AXI master that attempted the access:\n• If it is the Cortex CPU, a hard-fault interrupt is generated.\n• If it is a DMA, a DMA transfer error is generated, and the corresponding DMA channel\nis automatically disabled.\nByte, half-word, and word access types are all supported.\nA support for execute in place (XIP) operation is implemented, where the XSPI continues to\nload the bytes to the addresses following the most recent access. If subsequent accesses\nare continuous to the bytes that follow, then these operations end up quickly since their\nresults were prefetched.\nBy default, the XSPI never stops its prefetch operation, it either keeps the previous read\noperation active with the NCS maintained low or it relaunches a new transfer, even if no\naccess to the external device occurs for a long time. This prefetch feature can be disabled\nby setting the NOPREF bit in XSPI_CR. Disabling the prefetch can be beneficial for\nperformance when the transfer requests are short and jumping frequently between\nnon-consecutive addresses.\nSince external devices tend to consume more power when the NCS is held low, the\napplication may want to activate the timeout counter (TCEN=1 in XSPI_CR): the NCS is\nreleased after a period defined by TIMEOUT[15:0] in XSPI_LPTR, when x cycles have\nelapsed without an access since the clock is inactive.\nBUSY goes high as soon as the first memory-mapped access occurs. Because of the\nprefetch operations, BUSY does not fall until there is an abort, or the peripheral is disabled.\nIt is not recommended to program the flash memory using the memory-mapped writes. The\nindirect-write mode fulfills this operation.\nHowever, if the application requires the use of the MCE for encryption (check MCE product\navailability), the memory-mapped write mode may be used to program encrypted data to\nexternal flash memory under the following conditions:\n• Prefetch must be enabled.\n• In block cipher mode, the CPU must write a complete 128-bit data block to prevent the\nMCE from initiating read-modify-write operations when only a few bytes need to be\nprogrammed. This precaution avoids incorrect programming operations. There are no\nspecific constraints to respect if the MCE is used in stream cipher mode.\n• Apply the abort sequence to exit memory-mapped mode when the data linked to the\npage has been written in the external memory buffers. The abort sequence triggers the\nstart of the page programming.\n• Switch to the automatic status-polling mode to monitor the completion of the page\nprograming phase.\n• Relaunch the write enable command in indirect mode, then switch back to the memory-\nmapped mode configuration to continue to program additional pages if any.\nIt is recommended to add a synchronization barrier between the end of the controller\nregisters configuration and the first memory-mapped access to the external memory when\nthe controller is configured in memory-mapped mode.",
+      "semantic": {}
+    }
+  ]
+}

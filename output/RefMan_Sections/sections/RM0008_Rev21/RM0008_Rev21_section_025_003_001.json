@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.3.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.3.1",
+      "section_title": "General description",
+      "level": 3,
+      "parent_section": "25.3",
+      "page": 702,
+      "page_end": 705,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 5416,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=702",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.3.1 \"General description\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 702.",
+      "section_content": "The block diagram of the SPI is shown in Figure238.\n[Figure 238. SPI block diagram]\nMOSI\nMISO Shift register\nLSB first SPI_SR\nWrite\n0\nCommunication control\n1\nSCK Baud rate generator BR[2:0]\nSPI_CR1\nNSS\nUsually, the SPI is connected to external devices through four pins:\n• MISO: Master In / Slave Out data. This pin can be used to transmit data in slave mode\nand receive data in master mode.\n• MOSI: Master Out / Slave In data. This pin can be used to transmit data in master\nmode and receive data in slave mode.\n• SCK: Serial Clock output for SPI masters and input for SPI slaves.\n• NSS: Slave select. This is an optional pin to select a slave device. This pin acts as a\n‘chip select’ to let the SPI master communicate with slaves individually and to avoid\ncontention on the data lines. Slave NSS inputs can be driven by standard IO ports on\nthe master device. The NSS pin may also be used as an output if enabled (SSOE bit)\nand driven low if the SPI is in master configuration. In this manner, all NSS pins from\ndevices connected to the Master NSS pin see a low level and become slaves when\nthey are configured in NSS hardware mode. When configured in master mode with\nNSS configured as an input (MSTR=1 and SSOE=0) and if NSS is pulled low, the SPI\nenters the master mode fault state: the MSTR bit is automatically cleared and the\ndevice is configured in slave mode (refer to Section25.3.10).\nA basic example of interconnections between a single master and a single slave is\nillustrated in Figure239.\n[Figure 239. Single master/ single slave application]\n1. Here, the NSS pin is configured as an input.\nThe MOSI pins are connected together and the MISO pins are connected together. In this\nway data is transferred serially between master and slave (most significant bit first).\nThe communication is always initiated by the master. When the master device transmits\ndata to a slave device via the MOSI pin, the slave device responds via the MISO pin. This\nimplies full-duplex communication with both data out and data in synchronized with the\nsame clock signal (which is provided by the master device via the SCK pin).\nSlave select (NSS) pin management\nHardware or software slave select management can be set using the SSM bit in the\nSPI_CR1 register.\n• Software NSS management (SSM = 1)\nThe slave select information is driven internally by the value of the SSI bit in the\nSPI_CR1 register. The external NSS pin remains free for other application uses.\n• Hardware NSS management (SSM = 0)\nTwo configurations are possible depending on the NSS output configuration (SSOE bit\nin register SPI_CR2).\n– NSS output enabled (SSM = 0, SSOE = 1)\nThis configuration is used only when the device operates in master mode. The\nNSS signal is driven low when the master starts the communication and is kept\nlow until the SPI is disabled.\n– NSS output disabled (SSM = 0, SSOE = 0)\nThis configuration allows multimaster capability for devices operating in master\nmode. For devices set as slave, the NSS pin acts as a classical NSS input: the\nslave is selected when NSS is low and deselected when NSS high.\nClock phase and clock polarity\nFour possible timing relationships may be chosen by software, using the CPOL and CPHA\nbits in the SPI_CR1 register. The CPOL (clock polarity) bit controls the steady state value of\nthe clock when no data is being transferred. This bit affects both master and slave modes. If\nCPOL is reset, the SCK pin has a low-level idle state. If CPOL is set, the SCK pin has a\nhigh-level idle state.\nIf the CPHA (clock phase) bit is set, the second edge on the SCK pin (falling edge if the\nCPOL bit is reset, rising edge if the CPOL bit is set) is the MSBit capture strobe. Data are\nlatched on the occurrence of the second clock transition. If the CPHA bit is reset, the first\nedge on the SCK pin (falling edge if CPOL bit is set, rising edge if CPOL bit is reset) is the\nMSBit capture strobe. Data are latched on the occurrence of the first clock transition.\nThe combination of the CPOL (clock polarity) and CPHA (clock phase) bits selects the data\ncapture clock edge.\nFigure240, shows an SPI transfer with the four combinations of the CPHA and CPOL bits.\nThe diagram may be interpreted as a master or slave timing diagram where the SCK pin,\nthe MISO pin, the MOSI pin are directly connected between the master and the slave\ndevice.\nNote: Prior to changing the CPOL/CPHA bits the SPI must be disabled by resetting the SPE bit.\nMaster and slave must be programmed with the same timing mode.\nThe idle state of SCK must correspond to the polarity selected in the SPI_CR1 register (by\npulling up SCK if CPOL=1 or pulling down SCK if CPOL=0).\nThe Data Frame Format (8- or 16-bit) is selected through the DFF bit in SPI_CR1 register,\nand determines the data length during transmission/reception.\n[Figure 240. Data clock timing diagram]\nMOSI MSBit LSBit\nMISO MSBit LSBit\nNSS\n(to slave)\nCapture strobe\nCPHA =0\nCPOL = 1\nCPOL = 0\nMOSI MSBit LSBit\nMISO MSBit LSBit\nNSS\n(to slave)\nCapture strobe\n1. These timings are shown with the LSBFIRST bit reset in the SPI_CR1 register.\nData frame format\nData can be shifted out either MSB-first or LSB-first depending on the value of the\nLSBFIRST bit in the SPI_CR1 register.\nEach data frame is 8 or 16 bits long depending on the size of the data programmed using\nthe DFF bit in the SPI_CR1 register. The selected data frame format is applicable for\ntransmission and/or reception.",
+      "semantic": {}
+    }
+  ]
+}

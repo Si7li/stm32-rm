@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.14",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.14",
+      "section_title": "Dithering",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2109,
+      "page_end": 2109,
+      "semantic_type": "generic",
+      "features": [
+        "dithering"
+      ],
+      "chars": 1474,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2109",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.14 \"Dithering\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2109.",
+      "section_content": "The dithering operator allows a clean conversion of the RGB888 output into a reduced pixel\nformat, like RGB565 or RGB666, and so avoiding the usual artifact of flat area that occurs\nwhen no dithering is available.\nThe dithering is based on a LFSR (polynomial generating random) and adds\npseudo-random noise on the LSB of each of the displayed component (bit 2 in case of\nanRGB666), and makes that the average of the local pixels represents the information\ncontent of the full 8-component value.\nOnce the LTDC is enabled, the LFSR starts running with the first active pixel and it is kept\nrunning even during blanking periods and when dithering is switched off. If the LTDC is\ndisabled, the LFSR is reset.\nParameters in LTDC_GCR\n• DEN: dithering enable\n• DRW: bit-id of LSB of the displayed Red component (among 8 bits)\n• DGW: bit-id of LSB of the displayed Green component (among 8 bits)\n• DBW: bit-id of LSB of the displayed Blue component (among 8 bits)\nExample\nTo dither from RGB888 to RGB565 (assuming a RGB565 display panel):\n• The LTDC outputs the Red component on pins LCD_R[7:0].\n• The display panel probes the five MSB bits LCD_R[7:3].\n• The red bit to dither, using its two following LSB as decimals, is the bit 3.\n• DRW must be configured to 3.\n• DGW=2 and DBW=3.\nSimilarly, a dithering to RGB666 requires DRW=DGW=DBW=2.\nDefault configuration\nThe dithering is disabled with the default configuration after reset, with DEN=0, allowing\nadefault RGB888 to be output.",
+      "semantic": {}
+    }
+  ]
+}

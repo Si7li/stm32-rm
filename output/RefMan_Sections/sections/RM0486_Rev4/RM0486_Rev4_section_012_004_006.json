@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S12.4.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "12",
+      "chapter_title": "AXI cache (CACHEAXI)",
+      "section": "12.4.6",
+      "section_title": "Cacheable accesses",
+      "level": 3,
+      "parent_section": "12.4",
+      "page": 330,
+      "page_end": 331,
+      "semantic_type": "generic",
+      "features": [
+        "accesses",
+        "cacheable"
+      ],
+      "chars": 4631,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=330",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.4.6 \"Cacheable accesses\" in chapter 12 (AXI cache (CACHEAXI)), RM0486 Rev 4, page 330.",
+      "section_content": "When the CACHEAXI receives a cacheable transaction from the AXI master peripheral\non its slave cache port, it checks if the requested address and the compartment ID are\npresent in its TAG memory, and if the corresponding cache line is valid. Regarding the\nhit/miss check, the compartment ID can be seen as a 3-bit extension of the address. In\nthe next paragraphs, the address considered for the comparison with the TAG\naddresses is made of both the address itself and of the CID: the address matches if\nboth the actual address and the CID match; the address mismatches if one of them\nmismatches.\nFor read transaction, the following alternatives exist:\n• The address matches the one of a valid cache line TAG: cache read hit, the data is\nread from the cache and provided to the master peripheral.\n• The address does not match a valid cache line TAG: cache read miss, the data is read\nfrom the main memory and provided to the master peripheral.\nDepending on the read transaction allocate attribute, a cache line refill is performed, or\nnot. If the allocation must be done, the read request to main memory has the cache line\nsize. If not, the read request to main memory has simply the size of the input request\n(propagated from slave cache port to master port).\nThe AXI protection attribute and CID/prefetch user-defined attributes are also\npropagated from the slave cache port to the master port, for the (nonallocated) simple\ndata access or cache line refill request.\nNote: The first read transaction that misses, blocks the cache slave port: no further\ncacheable transaction makes a lookup in cache lines TAG until missing read is served\nby the CACHEAXI (data read, and if a read-allocate, cache line refilled).\nFor write-back transaction (write transaction, with cacheable write-back allocate\nattributes, the following alternatives exist:\n• The address matches the one of a valid cache line TAG: cache write-back hit, the\ndata is written in cache (in the matching cache line).\n• The address does not match a valid cache line TAG: cache write-back miss.\nA line allocation is performed by reading the entire cache line data from main memory.\nThe AXI protection attribute and the user-defined attribute for the cache line refill\nrequest are propagated from the slave cache port to the master port.\nOnce the refilled line has been written in the CACHEAXI, the initial data provided on\nslave cache port is written in the CACHEAXI (it overwrites a part of the cache line that\nwas refilled just before).\nNote: The first write-back transaction that misses, blocks the cache slave port: no\nfurther cacheable transaction makes a lookup in cache lines TAG until missing\nwrite-back is served by the CACHEAXI (cache line refilled and data written).\nFor write-through transaction (write transaction, with cacheable write-through nonallocate\nattributes, the following alternatives exist:\n• Address matches the one of a valid cache line TAG: cache write-through hit, the data\nis written both in cache and in main memory (through master port).\n• Address does not match a valid cache line TAG: cache write-through miss, the data\nincoming at slave cache port is written only in main memory (unlike the write-back\nmiss, there is no line allocation and data is not written in cache).\nIn case of cache refill (due to cache miss), the CACHEAXI selects which cache line is\nwritten with the refill data: as an n-way set associative cache, one line among n can be used\n(the line pointed by the address index, in each of the n ways). The way selection is based on\na pLRU-t replacement algorithm. This algorithm points, for each index, on the way\ncandidate for the next refill.\nIf ever the cache line where the refill data must be written is already valid, the targeted\ncache line must be evicted first:\n• If the dirty tag of this line equals 0 (a clean cache line), the line is simply invalidated.\n• If the dirty tag of this line equals 1 (a dirty cache line), the evicted cache line is written\ninto an eviction buffer, before to be written back in the main memory\n(seeSection12.4.7).\nThe CACHEAXI generates an AXI burst write transaction on its master port, with burst\ntype set to INCR and with AXI memory transaction attribute signals set as detailed\nbelow:\n– privileged=evicted line TAG privilege bit (P)\n– data (not instruction)\n– CID[2:0]=evicted line TAG CID bits (C[2:0])\nThese AXI attributes cannot be propagated from the slave port (as it is the case for all\nother transactions emitted on CACHEAXI master port) because the evicting transaction\nhas no relation with the initial missing transaction (that made the refill of the cache line\nto evict).",
+      "semantic": {}
+    }
+  ]
+}

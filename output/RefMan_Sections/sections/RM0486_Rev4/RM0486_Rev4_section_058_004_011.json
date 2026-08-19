@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S58.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "58",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "58.4.11",
+      "section_title": "Register update",
+      "level": 3,
+      "parent_section": "58.4",
+      "page": 2940,
+      "page_end": 2940,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "timer"
+      ],
+      "chars": 1452,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2940",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 58.4.11 \"Register update\" in chapter 58 (Low-power timer (LPTIM)), RM0486 Rev 4, page 2940.",
+      "section_content": "The LPTIM_ARR register, the LPTIM_RCR register and the LPTIM_CCRx register are\nupdated immediately after the APB bus write operation or in synchronization with the next\nLPTIM update event if the timer is already started.\nThe PRELOAD bit controls how the LPTIM_ARR, the LPTIM_RCR and the LPTIM_CCRx\nregisters are updated:\n• When the PRELOAD bit is reset to 0, the LPTIM_ARR, the LPTIM_RCR and the\nLPTIM_CCRx registers are immediately updated after any write access.\n• When the PRELOAD bit is set to 1, the LPTIM_ARR, the LPTIM_RCR and the\nLPTIM_CCRx registers are updated at next LPTIM update event, if the timer has been\nalready started.\nThe LPTIM APB interface and the LPTIM kernel logic use different clocks, so there is some\nlatency between the APB write and the moment when these values are available to the\ncounter comparator. Within this latency period, any additional write into these registers must\nbe avoided.\nThe ARROK flag, the REPOK flag and the CMPxOK flag in the LPTIM_ISR register indicate\nwhen the write operation is completed to respectively the LPTIM_ARR register, the\nLPTIM_RCR register and the LPTIM_CCRx register.\nAfter a write to the LPTIM_ARR, the LPTIM_RCR or the LPTIM_CCRx register, a new write\noperation to the same register can only be performed when the previous write operation is\ncompleted. Any successive write before respectively the ARROK flag, the REPOK flag or\nthe CMPxOK flag be set, leads to unpredictable results.",
+      "semantic": {}
+    }
+  ]
+}

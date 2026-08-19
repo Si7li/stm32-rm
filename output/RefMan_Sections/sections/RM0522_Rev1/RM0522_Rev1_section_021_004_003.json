@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S21.4.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "21",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "21.4.3",
+      "section_title": "ADC clocks",
+      "level": 3,
+      "parent_section": "21.4",
+      "page": 567,
+      "page_end": 568,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "clock"
+      ],
+      "chars": 2062,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=567",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.4.3 \"ADC clocks\" in chapter 21 (Analog-to-digital converters (ADC)), RM0522 Rev 1, page 567.",
+      "section_content": "Dual clock domain architecture\nThe dual clock-domain architecture means that the ADC kernel clock is independent from\nthe AHB bus clock that is used to access ADC registers.\nThe adc_ker_ck input clock can be selected between different clock sources (see Figure86:\nADC clock scheme). This selection is done in the RCC (refer to section Reset and clock\ncontrol (RCC) for more information):\n1. The ADC clock can be provided by an internal or external clock source, which is\nindependent and asynchronous from the AHB clock.\n2. The ADC clock can be derived from AHB clock (selected in RCC).\nOption 1 has the advantage of achieving the maximum ADC clock frequency whatever the\nAHB clock scheme selected.\nOption 2 corresponds to a pseudosynchronous clock. This can be useful when the ADC is\ntriggered by a timer and the application requires that the ADC is accurately triggered without\nany uncertainty (otherwise, an uncertainty of the trigger instant time is added by the\nresynchronizations between the two clock domains). This accurate trigger is supported only\nby trgo or trgo2 timer triggers.\nFor further details on the synchronization between ADC and timers, refer to section ADC\nsynchronization in each timer section, and to section Peripheral clock distribution in the\nRCC section.\nThe clock is configured through the RCC and must be compliant with the operating\nfrequency specified in the device datasheet.\n[Figure 86. ADC clock scheme]\nClock ratio constraint between ADC clock and AHB clock\nThere are no constraints to respect for the ratio between the ADC clock and the AHB clock.\nHowever, the ratio must be carefully chosen to avoid any overrun especially if the clock AHB\nis much slower than the ADC clock.\nWhen adc_hclk operates at a higher frequency than adc_ker_ck, writing to the AHB register\ndoes not immediately update the ADC configuration due to clock domain crossing delays.\nTo guarantee that the configuration is properly applied within the adc_ker_ck domain, it is\nnecessary to wait for four adc_ker_ck clock cycles after the AHB register update.",
+      "semantic": {}
+    }
+  ]
+}

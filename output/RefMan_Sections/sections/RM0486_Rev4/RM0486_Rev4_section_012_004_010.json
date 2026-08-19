@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S12.4.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "12",
+      "chapter_title": "AXI cache (CACHEAXI)",
+      "section": "12.4.10",
+      "section_title": "CACHEAXI maintenance",
+      "level": 3,
+      "parent_section": "12.4",
+      "page": 332,
+      "page_end": 333,
+      "semantic_type": "generic",
+      "features": [
+        "cacheaxi"
+      ],
+      "chars": 4565,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=332",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.4.10 \"CACHEAXI maintenance\" in chapter 12 (AXI cache (CACHEAXI)), RM0486 Rev 4, page 332.",
+      "section_content": "The CACHEAXI features several maintenance operations that the software can program in\nCACHEAXI_CR1 and CACHEAXI_CR2 control registers:\n• Full invalidate: invalidates the whole cache, noninterruptible task.\nThe software can invalidate the whole CACHEAXI content by programming\nCACHEINV in CACHEAXI_CR1.\nWhen CACHEINV is set, the CACHEAXI control logic sets the BUSYF flag in\nCACHEAXI_SR, and performs the operation of cache invalidation, in each cache line\nTAG, reseting:\n– the valid bit (V = 0)\n– the dirty bit (D = 0)\n– the privilege bit (P = 0)\n– the compartment ID bits (C[2:0] = 000)\nto prevent unknown values at next cache line validation.\nCACHEINV in CACHEAXI_CR1 is automatically cleared.\nOnce the full invalidate operation is finished, the CACHEAXI automatically clears\nBUSYF and sets BSYENDF in CACHEAXI_SR.\nIf enabled on this flag condition (BSYENDIE=1 in CACHEAXI_IER), the CACHEAXI\ninterrupt is raised, on cacheaxi_it signal. The (empty) cache is available again.\nThis full invalidate operation is not interruptible, meaning that the cache does not treat\nany cacheable request while BUSYF is set (the incoming request is blocked until the\nfull invalidate is finished). However, the noncacheable traffic is treated (since the\nrequest address is not compared to TAG ones) as the CACHEAXI is bypassed in the\nsame clock cycle (same behavior as when CACHEAXI cache mode is disabled).\n• Clean range: cleans a certain range of addresses in the cache, background task\n(interruptible).\nCleaning a cache line means making sure that main memory content is up-to-date with\nthe data which may have been modified in cache. The clean operation consists in\nperforming the write-back in main memory of the cache lines that are tagged as “dirty”\n(the ones with TAG dirty bit set).\nThe software can clean a given data region in the CACHEAXI by programming\nSTARTCMD=1, and CACHECMD=0b01 in CACHEAXI_CR2, after the address\nrange was programmed into CACHEAXI_CMDRSADDRR (range start address) and\nCACHEAXI_CMDREADDRR (range end address).\nThe CACHEAXI control logic then parses the whole TAG memory. If the read line\naddress (TAG address + line index) falls in the programmed address range\n(CACHEAXI_CMDRSADDRR ≤ Line Addr ≤ CACHEAXI_CMDREADDRR) and the\ncorresponding line is dirty, this line is cleaned: the whole cache line is written-back in\nmemory through the CACHEAXI master port, and its TAG dirty bit is cleared.\nWhen STARTCMD is set, the CACHEAXI control logic sets BUSYCMDF in\nCACHEAXI_SR, and launches the clean range operation. STARTCMD in\nCACHEAXI_CR2 is also automatically cleared.\nOnce the operation is finished (all TAG memory parsed), the CACHEAXI automatically\nclears BUSYCMDF and sets CMDENDF in CACHEAXI_SR.\nIf enabled on this flag condition (CMDENDIE=1 in CACHEAXI_IER), the CACHEAXI\ninterrupt is raised, on cacheaxi_it signal.\nDuring this clean range operation, the CACHEAXI is interruptible: it can accept new\nincoming requests that take higher priority than the cleaning process. The TAG\nmemory is accessed for clean range operation only if not already accessed by an\nexternal cache request. This implies that clean range execution is usually not\nperformed in one go, but can be interrupted.\nIt is under the software responsibility that no bus initiator attempts to change the\ncontent of the region being cleaned until the clean range is completed. The software\nmust take advantage of BUSYCMDF in CACHEAXI_SR, and polls this flag to prevent\nany spurious access to the area being cleaned. Alternatively the software can also rely\non the command end flag (CMDENDF) or on the CACHEAXI interrupt to detect the end\nof the clean range execution.\n• Clean and invalidate range: cleans and invalidates a certain range of addresses in\nthe cache, background task (interruptible).\nThis operation cleans the “dirty” cache lines that belong to the operation address range\n(the same as clean range operation), and also invalidates all the (valid) cache lines that\nbelong to this address range (whether they are dirty or not).\nNote: When a cache line is invalidated, the pLRU-t pointer (for this cache line index) is\nupdated to point to the way that was just invalidated (best candidate for the next\nallocation).\nThe software can launch this clean and invalidate range operation, by programming\nSTARTCMD=1, and CACHECMD=0b11 in CACHEAXI_CR2, after the address\nrange was programmed into CACHEAXI_CMDRSADDRR (range start address) and\nCACHEAXI_CMDREADDRR (range end address).\nThis sets and clears the same flags, and potentially the same interrupt as clean range\noperation.",
+      "semantic": {}
+    }
+  ]
+}

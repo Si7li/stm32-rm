@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.4.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.4.16",
+      "section_title": "Discontinuous mode (DISCEN, DISCNUM, JDISCEN)",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1485,
+      "page_end": 1486,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "discen",
+        "discnum",
+        "jdiscen"
+      ],
+      "chars": 3371,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1485",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.16 \"Discontinuous mode (DISCEN, DISCNUM, JDISCEN)\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1485.",
+      "section_content": "Regular group mode\nThis mode is enabled by setting the DISCEN and CONT = 0 bit in the ADC_CFGR1 register.\nIt is used to convert a short sequence (subgroup) of n conversions (n≤8) that is part of the\nsequence of conversions selected in the ADC_SQRy registers. The value of n is specified\nby writing to the DISCNUM[2:0] bits in the ADC_CFGR1 register.\nWhen an external trigger occurs, it starts the next n conversions selected in the ADC_SQRy\nregisters until all the conversions in the sequence are done. The total sequence length is\ndefined by the LEN[3:0] bits in the ADC_SQR1 register.\nExample:\n• DISCEN=1, n=3, channels to be converted=1, 2, 3, 6, 7, 8, 9, 10, 11\n– First trigger: channels converted are 1, 2, 3 (an EOC event is generated at the end\nof each conversion).\n– Second trigger: channels converted are 6, 7, 8 (an EOC event is generated at the\nend of each conversion).\n– Third trigger: channels converted are 9, 10, 11 (an EOC event is generated at the\nend of each conversion) and an EOS event is generated after the conversion of\nchannel 11.\n– Fourth trigger: channels converted are 1, 2, 3 (an EOC event is generated at the\nend of each conversion).\n– ...\n• DISCEN=0, channels to be converted = 1, 2, 3, 6, 7, 8, 9, 10,11\n– First trigger: the complete sequence is converted: channel 1, then 2, 3, 6, 7, 8, 9,\n10 and 11. Each conversion generates an EOC event and the last one also\ngenerates an EOS event.\n– All the next trigger events relaunch the complete sequence.\nNote: The channel numbers referred to in the above example might not be available on all\ndevices.\nWhen a regular group is converted in discontinuous mode, no rollover occurs (the last\nsubgroup of the sequence can have less than n conversions).\nWhen all subgroups are converted, the next trigger starts the conversion of the first\nsubgroup. In the example above, the fourth trigger reconverts the channels 1, 2 and 3 in the\nfirst subgroup.\nIt is not possible to have both discontinuous mode and continuous mode enabled. In this\ncase (if DISCEN=1, CONT=1), the ADC behaves as if continuous mode was disabled.\nInjected group mode\nThis mode is enabled by setting the JDISCEN bit in the ADC_CFGR1 register. It converts\nthe sequence selected in the ADC_JSQR register, channel by channel, after an external\ninjected trigger event. This is equivalent to discontinuous mode for regular channels with\nDISCNUM = 0.\nWhen an external trigger occurs, it starts the next channel conversions selected in the\nADC_JSQR registers until all the conversions in the sequence are done. The total sequence\nlength is defined by the JLEN[1:0] bits in the ADC_JSQR register.\nExample:\n• JDISCEN=1, channels to be converted = 1, 2, 3\n– First trigger: channel 1 converted (a JEOC event is generated)\n– Second trigger: channel 2 converted (a JEOC event is generated)\n– Third trigger: channel 3 converted and a JEOC event + a JEOS event are\ngenerated\n– ...\nNote: The channel numbers referred to in the above example might not be available on all\ndevices.\nWhen all injected channels have been converted, the next trigger starts the conversion of\nthe first injected channel. In the example above, the fourth trigger reconverts the first\ninjected channel 1.\nIt is not possible to use both autoinjection mode and discontinuous mode simultaneously:\nthe bits DISCEN and JDISCEN must be kept cleared by software when JAUTO is set.",
+      "semantic": {}
+    }
+  ]
+}

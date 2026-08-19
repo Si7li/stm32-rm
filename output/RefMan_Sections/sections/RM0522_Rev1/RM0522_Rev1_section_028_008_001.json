@@ -1,0 +1,331 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S28.8.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "28",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "28.8.1",
+      "section_title": "SAES control register (SAES_CR)",
+      "level": 3,
+      "parent_section": "28.8",
+      "page": 878,
+      "page_end": 880,
+      "semantic_type": "register_description",
+      "features": [
+        "chmod",
+        "cphase",
+        "datatype",
+        "dma",
+        "dmainen",
+        "dmaouten",
+        "iprst",
+        "keysel",
+        "keysize",
+        "kmod",
+        "kshareid",
+        "mode",
+        "npblb",
+        "saes",
+        "saes-cr"
+      ],
+      "chars": 6803,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=878",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.8.1 \"SAES control register (SAES_CR)\" in chapter 28 (Secure AES coprocessor (SAES)), RM0522 Rev 1, page 878.",
+      "section_content": "Address offset: 0x000\nReset value: 0x0000 0000\nBit 31 IPRST: SAES peripheral software reset\nSetting the bit resets the SAES peripheral, putting all registers to their default values, except the\nIPRST bit itself. Hence, any key-relative data are lost. For this reason, it is recommended to set the\nbit before handing over the SAES to a less secure application.\nThe bit must be kept low while writing any configuration registers.\nBits 30:28 KEYSEL[2:0]: Key selection\nThe bitfield defines the source of the key information to use in the AES cryptographic core.\n0x0: Software key, loaded in key registers SAES_KEYx\n0x1: Derived hardware unique key (DHUK)\n0x2: Boot hardware key (BHK)\n0x4: XOR of DHUK and BHK\nOthers: Reserved (if used, unfreeze SAES with IPRST)\nWhen KEYSEL[2:0] is different from zero, selected key value is available in key registers when\nBUSY bit is cleared and KEYVALID is set in the SAES_SR register. Otherwise, the key error flag\nKEIF is set. Repeated writing of KEYSEL[2:0] with the same non-zero value only triggers the loading\nof DHUK or BHK when KEYVALIDis cleared.\nWhen the application software changes the key selection by writing the KEYSEL[2:0] bitfield, the\nkey registers are immediately erased and the KEYVALID flag cleared.\nAt the end of the decryption process, if KMOD[1:0] is other than zero, KEYSEL[2:0] is cleared.\nAttempts to write the bitfield are ignored when the BUSY flag of SAES_SR register is set, as well as\nwhen the EN bit of the SAES_CR register is set before the write access and it is not cleared by that\nwrite access.\nBits 27:26 KSHAREID[1:0]: Key share identification\nThis bitfield defines, at the end of a decryption process with KMOD[1:0] at 0x2 (shared key), which\ntarget can read the SAES key registers using a dedicated hardware bus.\n0x0: AES peripheral\nOthers: Reserved\nAttempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the\nwrite access and it is not cleared by that write access.\nBits 25:24 KMOD[1:0]: Key mode selection\nThe bitfield defines how the SAES key can be used by the application. KEYSIZE must be correctly\ninitialized when setting KMOD[1:0] different from zero.\n0x0: Normal key mode. Key registers are freely usable and no specific use or protection applies to\nSAES_DINR and SAES_DOUTR registers.\n0x1: Wrapped key for SAES mode. Key loaded in key registers can only be used to encrypt or\ndecrypt AES keys. Hence, when a decryption is selected, read-as-zero SAES_DOUTR register is\nautomatically loaded into SAES key registers after a successful decryption process.\n0x2: Shared key mode. After a successful decryption process (unwrapping), SAES key registers are\nshared with the peripheral described in KSHAREID[1:0] bitfield. This sharing is valid only while\nKMOD[1:0] at 0x2 and KEYVALID=1. When a decryption is selected, read-as-zero SAES_DOUTR\nregister is automatically loaded into SAES key registers after a successful decryption process.\nOthers: Reserved\nAttempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the\nwrite access and it is not cleared by that write access.\nBits 23:20 NPBLB[3:0]: Number of padding bytes in last block\nThis padding information must be filled by software before processing the last block of GCM payload\nencryption or CCM payload decryption, otherwise authentication tag computation is incorrect.\n0x0: All bytes are valid (no padding)\n0x1: Padding for the last LSB byte\n...\n0xF: Padding for the 15 LSB bytes of last block.\nBit 19 Reserved, must be kept at reset value.\nBit 18 KEYSIZE: Key size selection\nThis bitfield defines the key length in bits of the key used by SAES.\n0: 128-bit\n1: 256-bit\nWhen KMOD[1:0] is at 0x1 or 0x2, KEYSIZE also defines the length of the key to encrypt or decrypt.\nAttempts to write the bit are ignored when BUSY is set, as well as when the EN is set before the\nwrite access and it is not cleared by that write access.\nBit 17 Reserved, must be kept at reset value.\nBit 15 Reserved, must be kept at reset value.\nBits 14:13 CPHASE[1:0]: Chaining phase selection\nThis bitfield selects the phase, applicable only with GCM, GMAC or CCM chaining modes.\n0x0: Initialization phase\n0x1: Header phase\n0x2: Payload phase\n0x3: Final phase\nBit 12 DMAOUTEN: DMA output enable\nThis bit enables automatic generation of DMA requests during the data phase, for outgoing data\ntransfers from SAES via DMA.\n0: Disable\n1: Enable\nSetting this bit is ignored when MODE[1:0] is at 0x1 (key derivation).\nBit 11 DMAINEN: DMA input enable\nThis bit enables automatic generation of DMA requests during the data phase, for incoming data\ntransfers to SAES via DMA.\n0: Disable\n1: Enable\nSetting this bit is ignored when MODE[1:0] is at 0x1 (key derivation).\nBits 10:7 Reserved, must be kept at reset value.\nBits 16, 6:5 CHMOD[2:0]: Chaining mode\nThis bitfield selects the AES chaining mode:\n0x0: Electronic codebook (ECB)\n0x1: Cipher-block chaining (CBC)\n0x2: Counter mode (CTR)\n0x3: Galois counter mode (GCM) and Galois message authentication code (GMAC)\n0x4: Counter with CBC-MAC (CCM)\nothers: Reserved\nAttempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the\nwrite access and it is not cleared by that write access.\nBits 4:3 MODE[1:0]: Operating mode\nThis bitfield selects the SAES operating mode:\n0x0: Encryption\n0x1: Key derivation (or key preparation), for ECB/CBC decryption only\n0x2: Decryption\n0x3: Reserved\nAttempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the\nwrite access and it is not cleared by that write access.\nBits 2:1 DATATYPE[1:0]: Data type\nThis bitfield defines the format of data written in the SAES_DINR register or read from the\nSAES_DOUTR register, through selecting the mode of data swapping. This swapping is defined in\nSection28.4.16: SAES data registers and data swapping.\n0x0: No swapping (32-bit data).\n0x1: Half-word swapping (16-bit data)\n0x2: Byte swapping (8-bit data)\n0x3: Bit-level swapping\nAttempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the\nwrite access and it is not cleared by that write access.\nBit 0 EN: Enable\nThis bit enables/disables the SAES peripheral.\n0: Disable\n1: Enable\nAt any moment, clearing then setting the bit re-initializes the SAES peripheral. When KMOD[1:0] is\ndifferent from 0x0, using IPRST bit is recommended instead.\nThis bit is automatically cleared by hardware upon the completion of the key preparation\n(MODE[1:0] at 0x1) and upon the completion of GCM/GMAC/CCM initialization phase.\nThe bit cannot be set as long as KEYVALIDis cleared, or when SAES is in one of the following\nconfigurations:\n– KMOD[1:0] at 0x1 (wrap), CHMOD[2:0] at 0x3 (GCM)\n– KMOD[1:0] at 0x1 (wrap), CHMOD[2:0] at 0x2 (CTR), MODE[1:0] at 0x0 (encryption).",
+      "semantic": {
+        "register": "SAES_CR",
+        "address_offset": "0x000",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "IPRST",
+            "description": "SAES peripheral software reset Setting the bit resets the SAES peripheral, putting all registers to their default values, except the IPRST bit itself. Hence, any key-relative data are lost. For this reason, it is recommended to set the bit before handing over the SAES to a less secure application. The bit must be kept low while writing any configuration registers.",
+            "values": []
+          },
+          {
+            "bits": "30:28",
+            "name": "KEYSEL[2:0]",
+            "description": "Key selection The bitfield defines the source of the key information to use in the AES cryptographic core. When KEYSEL[2:0] is different from zero, selected key value is available in key registers when BUSY bit is cleared and KEYVALID is set in the SAES_SR register. Otherwise, the key error flag KEIF is set. Repeated writing of KEYSEL[2:0] with the same non-zero value only triggers the loading of DHUK or BHK when KEYVALIDis cleared. When the application software changes the key selection by writing the KEYSEL[2:0] bitfield, the key registers are immediately erased and the KEYVALID flag cleared. At the end of the decryption process, if KMOD[1:0] is other than zero, KEYSEL[2:0] is cleared. Attempts to write the bitfield are ignored when the BUSY flag of SAES_SR register is set, as well as when the EN bit of the SAES_CR register is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Software key, loaded in key registers SAES_KEYx"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Derived hardware unique key (DHUK)"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Boot hardware key (BHK)"
+              },
+              {
+                "value": "0x4",
+                "meaning": "XOR of DHUK and BHK"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved (if used, unfreeze SAES with IPRST)"
+              }
+            ]
+          },
+          {
+            "bits": "27:26",
+            "name": "KSHAREID[1:0]",
+            "description": "Key share identification This bitfield defines, at the end of a decryption process with KMOD[1:0] at 0x2 (shared key), which target can read the SAES key registers using a dedicated hardware bus. Attempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "AES peripheral"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "25:24",
+            "name": "KMOD[1:0]",
+            "description": "Key mode selection The bitfield defines how the SAES key can be used by the application. KEYSIZE must be correctly initialized when setting KMOD[1:0] different from zero. SAES_DINR and SAES_DOUTR registers. decrypt AES keys. Hence, when a decryption is selected, read-as-zero SAES_DOUTR register is automatically loaded into SAES key registers after a successful decryption process. shared with the peripheral described in KSHAREID[1:0] bitfield. This sharing is valid only while KMOD[1:0] at 0x2 and KEYVALID=1. When a decryption is selected, read-as-zero SAES_DOUTR register is automatically loaded into SAES key registers after a successful decryption process. Attempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Normal key mode. Key registers are freely usable and no specific use or protection applies to"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Wrapped key for SAES mode. Key loaded in key registers can only be used to encrypt or"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Shared key mode. After a successful decryption process (unwrapping), SAES key registers are"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "23:20",
+            "name": "NPBLB[3:0]",
+            "description": "Number of padding bytes in last block This padding information must be filled by software before processing the last block of GCM payload encryption or CCM payload decryption, otherwise authentication tag computation is incorrect. ...",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "All bytes are valid (no padding)"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Padding for the last LSB byte"
+              },
+              {
+                "value": "0xF",
+                "meaning": "Padding for the 15 LSB bytes of last block."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "KEYSIZE",
+            "description": "Key size selection This bitfield defines the key length in bits of the key used by SAES. When KMOD[1:0] is at 0x1 or 0x2, KEYSIZE also defines the length of the key to encrypt or decrypt. Attempts to write the bit are ignored when BUSY is set, as well as when the EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "128-bit"
+              },
+              {
+                "value": "1",
+                "meaning": "256-bit"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14:13",
+            "name": "CPHASE[1:0]",
+            "description": "Chaining phase selection This bitfield selects the phase, applicable only with GCM, GMAC or CCM chaining modes.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Initialization phase"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Header phase"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Payload phase"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Final phase"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "DMAOUTEN",
+            "description": "DMA output enable This bit enables automatic generation of DMA requests during the data phase, for outgoing data transfers from SAES via DMA. Setting this bit is ignored when MODE[1:0] is at 0x1 (key derivation).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "DMAINEN",
+            "description": "DMA input enable This bit enables automatic generation of DMA requests during the data phase, for incoming data transfers to SAES via DMA. Setting this bit is ignored when MODE[1:0] is at 0x1 (key derivation).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "10:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16, 6:5",
+            "name": "CHMOD[2:0]",
+            "description": "Chaining mode This bitfield selects the AES chaining mode: Attempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Electronic codebook (ECB)"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Cipher-block chaining (CBC)"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Counter mode (CTR)"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Galois counter mode (GCM) and Galois message authentication code (GMAC)"
+              },
+              {
+                "value": "0x4",
+                "meaning": "Counter with CBC-MAC (CCM)"
+              },
+              {
+                "value": "others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "4:3",
+            "name": "MODE[1:0]",
+            "description": "Operating mode This bitfield selects the SAES operating mode: Attempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Encryption"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Key derivation (or key preparation), for ECB/CBC decryption only"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Decryption"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "2:1",
+            "name": "DATATYPE[1:0]",
+            "description": "Data type This bitfield defines the format of data written in the SAES_DINR register or read from the SAES_DOUTR register, through selecting the mode of data swapping. This swapping is defined in Section28.4.16: SAES data registers and data swapping. Attempts to write the bitfield are ignored when BUSY is set, as well as when EN is set before the write access and it is not cleared by that write access.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "No swapping (32-bit data)."
+              },
+              {
+                "value": "0x1",
+                "meaning": "Half-word swapping (16-bit data)"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Byte swapping (8-bit data)"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Bit-level swapping"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EN",
+            "description": "Enable This bit enables/disables the SAES peripheral. At any moment, clearing then setting the bit re-initializes the SAES peripheral. When KMOD[1:0] is different from 0x0, using IPRST bit is recommended instead. This bit is automatically cleared by hardware upon the completion of the key preparation (MODE[1:0] at 0x1) and upon the completion of GCM/GMAC/CCM initialization phase. The bit cannot be set as long as KEYVALIDis cleared, or when SAES is in one of the following configurations: – KMOD[1:0] at 0x1 (wrap), CHMOD[2:0] at 0x3 (GCM) – KMOD[1:0] at 0x1 (wrap), CHMOD[2:0] at 0x2 (CTR), MODE[1:0] at 0x0 (encryption).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

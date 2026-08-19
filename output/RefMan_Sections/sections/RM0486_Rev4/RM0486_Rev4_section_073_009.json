@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.9",
+      "section_title": "OTG low-power modes",
+      "level": 2,
+      "parent_section": null,
+      "page": 3774,
+      "page_end": 3775,
+      "semantic_type": "generic",
+      "features": [
+        "otg",
+        "power"
+      ],
+      "chars": 1653,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3774",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.9 \"OTG low-power modes\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3774.",
+      "section_content": "Table739 below defines the STM32 low power modes and their compatibility with the OTG.\n[Table 739. Compatibility of STM32 low power modes with the OTG]\nThe following bits and procedures reduce power consumption.\nPower reduction techniques are available while in the USB suspended state, when the USB\nsession is not yet valid or the device is disconnected.\n• Stop PHY clock (STPPCLK bit in OTG_PCGCCTL)\nWhen setting the stop PHY clock bit in the clock gating control register, most of the\ntransceiver is disabled, and only the part in charge of detecting the asynchronous\nresume or remote wake-up event is kept alive.\n• Gate HCLK (GATEHCLK bit in OTG_PCGCCTL)\nWhen setting the Gate HCLK bit in the clock gating control register, most of the system\nclock domain internal to the OTG core is switched off by clock gating. Only the register\nread and write interface is kept alive. The dynamic power consumption due to the USB\nclock switching activity is cut even if the system clock is kept running by the application\nfor other purposes.\n• USB system stop\nWhen the OTG is in the USB suspended state, the application may decide to drastically\nreduce the overall power consumption by a complete shut down of all the clock sources\nin the system. USB System Stop is activated by first setting the Stop PHY clock bit and\nthen configuring the system deep sleep mode in the power control system module\n(PWR).\nThe OTG core automatically reactivates both system and USB clocks by asynchronous\ndetection of remote wake-up (as an host) or resume (as a device) signaling on the\nUSB.\nTo save dynamic power, the USB data FIFO is clocked only when accessed by the OTG\ncore.",
+      "semantic": {}
+    }
+  ]
+}

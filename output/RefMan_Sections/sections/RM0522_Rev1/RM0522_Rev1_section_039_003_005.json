@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S39.3.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "39",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "39.3.5",
+      "section_title": "Clock and prescalers",
+      "level": 3,
+      "parent_section": "39.3",
+      "page": 1557,
+      "page_end": 1558,
+      "semantic_type": "generic",
+      "features": [
+        "clock"
+      ],
+      "chars": 2628,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1557",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.3.5 \"Clock and prescalers\" in chapter 39 (Real-time clock (RTC)), RM0522 Rev 1, page 1557.",
+      "section_content": "The RTC clocks must respect this ratio: frequency(PCLK) ≥ 2 × frequency(RTCCLK).\nFor more information on the RTC clock (RTCCLK) source configuration, refer to “Reset and\nclock control (RCC)”.\nBCD mode (BIN=00)\nA programmable prescaler stage generates a 1Hz clock which is used to update the\ncalendar. To minimize power consumption, the prescaler is split into 2 programmable\nprescalers (see Figure561: RTC block diagram):\n• A 7-bit asynchronous prescaler configured through the PREDIV_A bits of the\nRTC_PRER register.\n• A 15-bit synchronous prescaler configured through the PREDIV_S bits of the\nRTC_PRER register.\nNote: When both prescalers are used, it is recommended to configure the asynchronous prescaler\nto a high value to minimize consumption.\nThe asynchronous prescaler division factor is set to 128, and the synchronous division\nfactor to 256, to obtain an internal clock frequency of 1Hz (ck_spre) with an LSE frequency\nof 32.768kHz.\nThe minimum division factor is 1 and the maximum division factor is 222.\nThis corresponds to a maximum input frequency of around 4MHz.\nfck_apre is given by the following formula:\nf --R--\n--T--\n-C-\n---C-\n--L-\n--K----\n----\n-----\n-----\nfCK_APRE =\n1\nThe ck_apre clock is used to clock the binary RTC_SSR subsecond downcounter. When it\nreaches 0, RTC_SSR is reloaded with the content of PREDIV_S.\nfck_spre is given by the following formula:\n--- f --\nR----) T---C ×----C--(--L\n--K--\nfCK_SPRE = (---\n----\n----\n----\n-----\n----\n----\n-----\n-----\n----\n----\n----\n---\n------\n-----\n---)-\n1\n1\nThe ck_spre clock can be used either to update the calendar or as timebase for the 16-bit\nwake-up auto-reload timer. To obtain short timeout periods, the 16-bit wake-up auto-reload\ntimer can also run with the RTCCLK divided by the programmable 4-bit asynchronous\nprescaler (see Section39.3.9: Periodic auto-wake-up for details).\nBinary mode (BIN=01)\nThe SSR binary down-counter is extended to 32-bit length and is free running. The time and\ndate calendar BCD registers are not functional.\nThis down-counter is clocked by ck_apre: the output of the 7-bit asynchronous prescaler\nconfigured through the PREDIV_A bits of the RTC_PRER register.\nPREDIV_S value is don’t care.\nMixed mode (BIN=10 or 11)\nThe SSR binary down-counter is extended to 32-bit length and is free running. The time and\ndate calendar BCD registers are also available.\nThis down-counter is clocked by ck_apre: the output of the 7-bit asynchronous prescaler\nconfigured through the PREDIV_A bits of the RTC_PRER register. The bits BCDU[2:0] are\nused to define when the calendar is incremented by 1 second, using the SSR least\nsignificant bits.",
+      "semantic": {}
+    }
+  ]
+}

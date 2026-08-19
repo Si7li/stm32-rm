@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.3.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.3.2",
+      "section_title": "FLASH signals",
+      "level": 3,
+      "parent_section": "6.3",
+      "page": 127,
+      "page_end": 128,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory"
+      ],
+      "chars": 2085,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=127",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.3.2 \"FLASH signals\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 127.",
+      "section_content": "The flash memory has two AHB connections: the flash AHB register interface and the main\nAHB interface.\nFLASH AHB register interface\n• Data size is 32 bits.\n• Except for some registers (FLASH_KEYR and FLASH_OPTKEYR that are used to\ninsert unlock sequences for control and option registers and can be written in 32 bits), it\nis possible to read and write all registers in 8, 16, and 32 bits.\n• When an unlock sequence for control and option registers is incorrect, a bus error is\nraised. Otherwise, no read or write errors are generated on the bus.\nMain AHB interface\nThe AHB data bus size is 128 bits. This interface is used to handle two different targets:\n• Code placed in user and system memory. 128-bit data are protected by 9bits of ECC.\n• OTP, user data flash, and read only memory. 16-bit data are protected by 6bits of ECC.\nThe main AHB interface is implemented as follows:\n• User and system memory:\n– Supports multiple length: 128-, 64-, 32-, 16-, and 8-bit data width.\n– There is a read buffer of 128bits for each bank where the last data read is stored.\nIf the data is available in the read buffer, no read access is done to the flash\nmemory. Buffer is flushed when write access, OTP access, flash data area access\nuser option change request or erase operation occurs\n– There is a prefetch of the same size as the read buffer.\n– A 9-bit ECC is associated to each 128-bit data flash memory word\n• OTP, user data flash and read only\n– Two dedicated data buffer of 137bits are used to manage 16-bit data with 6-bit\nECC.\n– Reading two times the same address triggers two FLASH read accesses.\n– During a read access, two wait states are added in addition of the memory wait\nstates. These wait states are necessary to parse the data buffer\n– Each write access triggers a write in the flash memory.\n– 6-bit ECC is associated to each 16-bit data.\nCaution: By default, all the AHB memory range is cacheable. For regions where caching is not\npermitted (OTP, RO, data area), MPU has to be used to disable local cacheability. An\nattempt to cache these regions will generate a Hard Fault.",
+      "semantic": {}
+    }
+  ]
+}

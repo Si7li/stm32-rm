@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.4.5",
+      "section_title": "Clock generator (CKGEN)",
+      "level": 3,
+      "parent_section": "35.4",
+      "page": 1636,
+      "page_end": 1638,
+      "semantic_type": "generic",
+      "features": [
+        "ckgen",
+        "clock"
+      ],
+      "chars": 3559,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1636",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.4.5 \"Clock generator (CKGEN)\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1636.",
+      "section_content": "The RCC (reset and clock controller) provides the following clocks to the MDF:\n• AHB clock (mdf_hclk) used for the register interface\n• kernel clock (mdf_ker_ck) mainly used by all other parts of the circuit via the CKGEN\nThose clocks are not supposed to be phase locked, so all signals crossing those clock\ndomains are resynchronized.\nThe clock generator (CKGEN) is responsible of the generation of the processing clock, and\nthe clock provided to the MDF_CCK0 and MDF_CCK1 pins. All those clocks are generated\nfrom the mdf_ker_ck.\nThe processing clock (mdf_proc_ck) is used to run all the signals processing and to re-\nsample the incoming serial or parallel stream.\nNote: The reshape filter (RSFLT) needs up to 24 cycles of mdf_proc_ck clock to process a\nsample.\nTo adapt the kernel clock frequency provided by the RCC, the following dividers are\navailable:\n• PROCDIV[6:0] used to adapt the kernel clock frequency to the constraints of the\nparallel and serial interfaces, and to the processing blocks\n• CCKDIV[3:0] used to adapt the frequency of the MDF_CCK0 and MDF_CCK1 clocks\nPROCDIV[6:0] and CCKDIV[3:0] must be programmed when no clock is provided to the\ndividers (CKGDEN = 0).\nThe mdf_proc_ck generation is controlled by CKGDEN.\nIn addition, the CKGMOD bit allows the application to define the way to trigger the CCKDIV\ndivider:\n• When CKGMOD = 0, the CCKDIV divider is started as soon as CKGDEN is set to 1.\n• When CKGMOD = 1, the CCKDIV divider is started when CKGDEN is set to 1 and the\nprogrammed trigger condition occurred.\nAll bits and fields controlling the CKGEN are in MDF_CKGCR.\n[Figure 326. CKGEN overview]\nMDF\nCKGEN\nmdf_proc_ck DFLTx, SAD,\nInterfaces:\nADCITF[2:1],\nSITFx\nCKGDEN PROCDIV[6:0] CKGMOD CCKDIV[3:0] CCK0DIR\nCCK0EN\nmdf_ker_ck ÷ 1 to 128 0 ÷ 1 to 16 MDF_CCK0\n1\ncck_trg\n(from TRIG_CK) MDF_CCK1\nCCK1EN\nCCK1DIR\nThe trigger logic for CKGEN is handled by the TRG_CK block. As shown in Figure335, the\nCCKDIV divider can be triggered on the rising or falling edge of one of the 16 trigger\nsources. When the proper trigger condition occurs, the cck_trg signal goes to high, allowing\nthe CCKDIV divider to start. The TRG_CK logic is reset when CKGDEN is set to 0.\nThis feature can be helpful to synchronize the MDF_CCKy (y = 0,1) clock of several MDF\ninstances, or to synchronize the clock generation to a timer event.\nThe application can control the activation of the MDF_CCK0 or MDF_CCK1 pin\nCCK0EN/CCK1EN and CCK0DIR/CCK1DIR bits:\n• CCKyEN is used to enable the CCKDIV, and thus generates a clock for the external\nsensors.\n• CCKyDIR is used to control the direction of the ADF_CCKy pin (input or output)\n[Table 279. Control of the common clock generation(1)]\nWhen CCKyDIR = 1, as soon as the CCKyEN bit is set to 1, a clock is generated to the\ncorresponding output without any spurs.\nNote: The mdf_proc_ck must be enabled (by CKGDEN = 1) before enabling other blocks (such as\nSITFx or DFLTx).\nCKGEN activation sequence example\n1. Set CKGDEN to 0.\n2. Wait for CKGACTIVE = 0. If CKGDEN was previously enabled, this phase can take two\nperiods of mdf_hclk and two periods of mdf_proc_ck.\n3. Program PROCDIV[6:0], CKGMOD, CCKDIV[3:0], TRGSRC[3:0] and TRGSENS.\n4. Set CKGDEN to 1.\n5. Set CCKxDIR to 1 (optional).\n6. Set CCKxEN to 1 (optional).\nWhen needed, at any moment, the CCK0EN or CCK1EN value can be changed without\ndisabling the clock generator.\nClock frequency constraints\nThe table below shows the frequency constraints to receive and process properly the\nsamples.\n[Table 280. Clock constraints with respect to the incoming stream(1)]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.6.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.6.13",
+      "section_title": "SAI slot register (SAI_BSLOTR)",
+      "level": 3,
+      "parent_section": "68.6",
+      "page": 3558,
+      "page_end": 3559,
+      "semantic_type": "register_description",
+      "features": [
+        "fboff",
+        "nbslot",
+        "sai",
+        "sai-bslotr",
+        "sloten",
+        "slotsz"
+      ],
+      "chars": 2021,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3558",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.6.13 \"SAI slot register (SAI_BSLOTR)\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3558.",
+      "section_content": "Address offset: 0x30\nReset value: 0x0000 0000\nNote: This register has no meaning in AC’97 and SPDIF audio protocol.\nBits 31:16 SLOTEN[15:0]: Slot enable.\nThese bits are set and cleared by software.\nEach SLOTEN bit corresponds to a slot position from 0 to 15 (maximum 16 slots).\n0: Inactive slot.\n1: Active slot.\nThe slot must be enabled when the audio block is disabled.\nThey are ignored in AC’97 or SPDIF mode.\nBits 15:12 Reserved, must be kept at reset value.\nBits 11:8 NBSLOT[3:0]: Number of slots in an audio frame.\nThese bits are set and cleared by software.\nThe value set in this bitfield represents the number of slots in the audio frame (including the number\nof inactive slots). The maximum number of slots is 16.\nThe number of slots must be even if FSDEF bit in the SAI_xFRCR register is set.\nThe number of slots must be configured when the audio block is disabled.\nThey are ignored in AC’97 or SPDIF mode.\n0000: Number of slots is 1.\n0001: Number of slots is 2.\n...\n1111: Number of slots is 16.\nBits 7:6 SLOTSZ[1:0]: Slot size\nThis bits is set and cleared by software.\nThe slot size must be higher or equal to the data size. If this condition is not respected, the behavior\nof the SAI is undetermined.\nRefer to Output data line management on an inactive slot for information on how to drive SD line.\nThese bits must be set when the audio block is disabled.\nThey are ignored in AC’97 or SPDIF mode.\n00: The slot size is equivalent to the data size (specified in DS[3:0] in the SAI_xCR1 register).\n01: 16-bit\n10: 32-bit\n11: Reserved\nBit 5 Reserved, must be kept at reset value.\nBits 4:0 FBOFF[4:0]: First bit offset\nThese bits are set and cleared by software.\nThe value set in this bitfield defines the position of the first data transfer bit in the slot. It represents\nan offset value. In transmission mode, the bits outside the data field are forced to 0. In reception\nmode, the extra received bits are discarded.\nThese bits must be set when the audio block is disabled.\nThey are ignored in AC’97 or SPDIF mode.",
+      "semantic": {
+        "register": "SAI_BSLOTR",
+        "address_offset": "0x30",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "SLOTEN[15:0]",
+            "description": "Slot enable. These bits are set and cleared by software. Each SLOTEN bit corresponds to a slot position from 0 to 15 (maximum 16 slots). The slot must be enabled when the audio block is disabled. They are ignored in AC’97 or SPDIF mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Inactive slot."
+              },
+              {
+                "value": "1",
+                "meaning": "Active slot."
+              }
+            ]
+          },
+          {
+            "bits": "15:12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11:8",
+            "name": "NBSLOT[3:0]",
+            "description": "Number of slots in an audio frame. These bits are set and cleared by software. The value set in this bitfield represents the number of slots in the audio frame (including the number of inactive slots). The maximum number of slots is 16. The number of slots must be even if FSDEF bit in the SAI_xFRCR register is set. The number of slots must be configured when the audio block is disabled. They are ignored in AC’97 or SPDIF mode. ...",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Number of slots is 1."
+              },
+              {
+                "value": "0001",
+                "meaning": "Number of slots is 2."
+              },
+              {
+                "value": "1111",
+                "meaning": "Number of slots is 16."
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "SLOTSZ[1:0]",
+            "description": "Slot size This bits is set and cleared by software. The slot size must be higher or equal to the data size. If this condition is not respected, the behavior of the SAI is undetermined. Refer to Output data line management on an inactive slot for information on how to drive SD line. These bits must be set when the audio block is disabled. They are ignored in AC’97 or SPDIF mode.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "The slot size is equivalent to the data size (specified in DS[3:0] in the SAI_xCR1 register)."
+              },
+              {
+                "value": "01",
+                "meaning": "16-bit"
+              },
+              {
+                "value": "10",
+                "meaning": "32-bit"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4:0",
+            "name": "FBOFF[4:0]",
+            "description": "First bit offset These bits are set and cleared by software. The value set in this bitfield defines the position of the first data transfer bit in the slot. It represents an offset value. In transmission mode, the bits outside the data field are forced to 0. In reception mode, the extra received bits are discarded. These bits must be set when the audio block is disabled. They are ignored in AC’97 or SPDIF mode.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.6.5",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.6.5",
+      "section_title": "Managing converted data using the DMA",
+      "level": 3,
+      "parent_section": "16.6",
+      "page": 311,
+      "page_end": 312,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "dma"
+      ],
+      "chars": 2613,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=311",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.6.5 \"Managing converted data using the DMA\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 311.",
+      "section_content": "Since all converted channel values are stored in a single data register, it is efficient to use\nDMA when converting more than one channel. This avoids losing the conversion data\nresults stored in the ADC_DR register.\nWhen DMA mode is enabled (DMAEN bit set in the ADC_CFGR1 register), a DMA request\nis generated after the conversion of each channel. This allows the transfer of the converted\ndata from the ADC_DR register to the destination location selected by the software.\nNote: The DMAEN bit in the ADC_CFGR1 register must be set after the ADC calibration phase.\nDespite this, if an overrun occurs (OVR = 1) because the DMA could not serve the DMA\ntransfer request in time, the ADC stops generating DMA requests and the data\ncorresponding to the new conversion is not transferred by the DMA. Which means that all\nthe data transferred to the RAM can be considered as valid.\nDepending on the configuration of OVRMOD bit, the data is either preserved or overwritten\n(refer to Section 16.6.2: ADC overrun (OVR, OVRMOD) on page 309).\nThe DMA transfer requests are blocked until the software clears the OVR bit.\nTwo different DMA modes are proposed depending on the application use and are\nconfigured with bit DMACFG in the ADC_CFGR1 register:\n• DMA one shot mode (DMACFG = 0).\nThis mode should be selected when the DMA is programmed to transfer a fixed\nnumber of data words.\n• DMA circular mode (DMACFG = 1)\nThis mode should be selected when programming the DMA in circular mode or double\nbuffer mode.\nDMA one shot mode (DMACFG = 0)\nIn this mode, the ADC generates a DMA transfer request each time a new conversion data\nword is available and stops generating DMA requests once the DMA has reached the last\nDMA transfer (when a transfer complete interrupt occurs, see Section 11: Direct memory\naccess controller (DMA) on page 223) even if a conversion has been started again.\nWhen the DMA transfer is complete (all the transfers configured in the DMA controller have\nbeen done):\n• The content of the ADC data register is frozen.\n• Any ongoing conversion is aborted and its partial result discarded\n• No new DMA request is issued to the DMA controller. This avoids generating an\noverrun error if there are still conversions which are started.\n• The scan sequence is stopped and reset\n• The DMA is stopped\nDMA circular mode (DMACFG = 1)\nIn this mode, the ADC generates a DMA transfer request each time a new conversion data\nword is available in the data register, even if the DMA has reached the last DMA transfer.\nThis allows the DMA to be configured in circular mode to handle a continuous analog input\ndata stream.",
+      "semantic": {}
+    }
+  ]
+}

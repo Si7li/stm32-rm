@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S31.3.14",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "31",
+      "chapter_title": "Advanced-control timers (TIM1/TIM8)",
+      "section": "31.3.14",
+      "section_title": "Asymmetric PWM mode",
+      "level": 3,
+      "parent_section": "31.3",
+      "page": 997,
+      "page_end": 1000,
+      "semantic_type": "generic",
+      "features": [
+        "pwm",
+        "timer"
+      ],
+      "chars": 3034,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=997",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.3.14 \"Asymmetric PWM mode\" in chapter 31 (Advanced-control timers (TIM1/TIM8)), RM0522 Rev 1, page 997.",
+      "section_content": "Asymmetric mode allows two center-aligned PWM signals to be generated with a\nprogrammable phase shift. While the frequency is determined by the value of the TIM_ARR\nregister, the duty cycle and the phase-shift are determined by a pair of TIM_CCRx register.\nOne register controls the PWM during up-counting, the second during down counting, so\nthat PWM is adjusted every half PWM cycle, for instance:\n– tim_oc1refc is controlled by TIM_CCR1 and TIM_CCR2\n– tim_oc3refc is controlled by TIM_CCR3 and TIM_CCR4\n– ...\nFigure258 represents an example of signals that can be generated using asymmetric PWM\nmode (channels 1 to 4 are configured in asymmetric PWM mode 2). Together with the\ndeadtime generator, this allows a full-bridge phase-shifted DC to DC converter to be\ncontrolled.\n[Figure 258. Generation of 2 phase-shifted PWM signals with 50% duty cycle]\n[Table 294. CCR register change dithering pattern in center-aligned PWM mode]\ntim_oc1refc\nCCR1=0\nCCR2=8\ntim_oc3refc\nCCR3=3\nCCR4=5\nMultiple asymmetric PWM modes are available to combine different pairs of TIM_CCRx\nregisters and generate the required waveform, as listed in Table295. The selection is done\nwith the OCxM[4:0] bitfield in TIM_CCMRx registers. For each pair of TIM_CCRx registers,\ntwo options are given (e.g. Asymmetric PWM mode 3 and 4), one being in PWM mode 1\n(channel active as long as the counter is below the TIM_CCRx value), the other one in PWM\nmode 2 (channel active when the counter is above the TIM_CCRx value).\nFor the asymmetric PWM modes 1 to 6, it is mandatory to have the same PWM mode for\nboth channels. For instance, it is mandatory to have OC1M[4:0] = OC2M[4:0] = 00110 for\nthe asymmetric PWM mode 1 on oc1refc.\nFor the asymmetric PWM modes 7 to 10, it is mandatory to have opposite PWM mode for\nboth channels (one being in PWM mode 1 and the other in PWM mode 2). Refer to the\nTable295 for configuration.\nNote: The OCxM[4:0] bitfield is split into two parts for compatibility reasons, the most significant\nbits are not contiguous with the three least significant ones.\nWhen a given channel is used as asymmetric PWM channel, its complementary channel\ncan also be used. For instance, if an tim_oc1refc signal is generated on channel 1\n(Asymmetric PWM mode 1), it is possible to output either the regular tim_oc2ref signal on\nchannel 2 or a tim_oc2refc signal resulting from asymmetric PWM mode 1.\n[Table 295. Asymmetric PWM modes]\nThe Figure259 represents an example suitable for single-shunt current sensing techniques\nrequiring phase-shifted PWMs, for 3-phase motor control. This is done using asymmetric\nPWM mode 3 and 5:\n– Channel 1 is configured in asymmetric PWM mode 4\n– Channel 2 is configured in asymmetric PWM mode 5\n– Channel 3 is configured in regular PWM mode 2\n– Compare 4 and 7 are available for ADC triggering purpose\n[Figure 259. Asymmetric mode example for single-shunt current sensing]\nThe Figure260 represents an example of the waveforms that can be generated with\nasymmetric modes 7 to 10.\n[Figure 260. Asymmetric mode 8 example]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S36.8.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "36",
+      "chapter_title": "Audio digital filter (ADF)",
+      "section": "36.8.5",
+      "section_title": "ADF digital filter control register 0 (ADF_DFLT0CR)",
+      "level": 3,
+      "parent_section": "36.8",
+      "page": 1768,
+      "page_end": 1770,
+      "semantic_type": "register_description",
+      "features": [
+        "acqmod",
+        "adf",
+        "adf-dflt0cr",
+        "dfltactive",
+        "dflten",
+        "dfltrun",
+        "dma",
+        "dmaen",
+        "fth",
+        "nbdis",
+        "trgsens",
+        "trgsrc"
+      ],
+      "chars": 3600,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1768",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.8.5 \"ADF digital filter control register 0 (ADF_DFLT0CR)\" in chapter 36 (Audio digital filter (ADF)), RM0486 Rev 4, page 1768.",
+      "section_content": "Address offset: 0x088\nReset value: 0x0000 0000\nBit 31 DFLTACTIVE: DFLT0 active flag\nThis bit is set and cleared by hardware. It indicates if DFLT0 is active: can be running or\nwaiting for events.\n0: DFLT0 not active (can be re-enabled again, via DFLTEN bit, if needed)\n1: DFLT0 active\nBit 30 DFLTRUN: DFLT0 run status flag\nThis bit is set and cleared by hardware. It indicates if DFLT0 is running or not.\n0: DFLT0 not running and ready to accept a new trigger event\n1: DFLT0running\nBits 29:28 Reserved, must be kept at reset value.\nBits 27:20 NBDIS[7:0]: Number of samples to be discarded\nThis bitfield is set and cleared by software. It is used to define the number of samples to be\ndiscarded every time DFLT0 is re-started.\n0: No sample discarded\n1: 1 sample discarded\n2: 2 samples discarded\n...\n255: 255 samples discarded\nNote: This bitfield can be write-protected (see Section36.4.13: Register protection for details).\nBits 19:16 Reserved, must be kept at reset value.\nBits 15:12 TRGSRC[3:0]: DFLT0 trigger signal selection\nThis bitfield is set and cleared by software. It is used to select which external signals trigger\nDFLT0.\n0000: TRGO selected\n0010: adf_trgi selected\nOthers: Reserved\nNote: This bitfield can be write-protected (see Section36.4.13: Register protection for details).\nBits 11:9 Reserved, must be kept at reset value.\nBit 8 TRGSENS: DFLT0 trigger sensitivity selection\nThis bitfield is set and cleared by software. It is used to select the trigger sensitivity of the\nexternal signals\n0: A rising edge event triggers the acquisition.\n1: A falling edge even triggers the acquisition.\nNote: When the trigger source is TRGO, TRGSENS value is not taken into account. When\nTRGO is selected, the sensitivity is forced to falling edge.\nThis bit can be write-protected (see Section36.4.13: Register protection for details).\nBit 7 Reserved, must be kept at reset value.\nBits 6:4 ACQMOD[2:0]: DFLT0 trigger mode\nThis bitfield is set and cleared by software. It is used to select the filter trigger mode.\n000: Asynchronous continuous acquisition mode\n001: Asynchronous single-shot acquisition mode\n010: Synchronous continuous acquisition mode\n011: Synchronous single-shot acquisition mode\n100: Window continuous acquisition mode\nOthers: Same as 000\nNote: This bitfield can be write-protected (see Section36.4.13: Register protection for details).\nBit 3 Reserved, must be kept at reset value.\nBit 2 FTH: RXFIFO threshold selection\nThis bit is set and cleared by software. It is used to select the RXFIFO threshold.\n0: RXFIFO threshold event generated when the RXFIFO is not empty\n1: RXFIFO threshold event generated when the RXFIFO is half-full\nNote: This bit can be write-protected (see Section36.4.13: Register protection for details).\nBit 1 DMAEN: DMA requests enable\nThis bit is set and cleared by software. It is used to control the generation of DMA request to\ntransfer the processed samples into the memory.\n0: DMA interface for the corresponding digital filter disabled\n1: DMA interface for the corresponding digital filter enabled\nNote: This bit can be write-protected (see Section36.4.13: Register protection for details).\nBit 0 DFLTEN: DFLT0 enable\nThis bit is set and cleared by software. It is used to control the start of acquisition of the\nDFLT0 path. This bit behavior depends on ACQMOD[2:0] and external events. The serial or\nparallel interface delivering the samples must be enabled as well.\n0: Acquisition immediately stopped\n1: Acquisition immediately started if ACQMOD[2:0] = 00x or 101, or acquisition started when\nthe proper trigger event occurs if ACQMOD[2:0] = 01x.",
+      "semantic": {
+        "register": "ADF_DFLT0CR",
+        "address_offset": "0x088",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "DFLTACTIVE",
+            "description": "DFLT0 active flag This bit is set and cleared by hardware. It indicates if DFLT0 is active: can be running or waiting for events.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DFLT0 not active (can be re-enabled again, via DFLTEN bit, if needed)"
+              },
+              {
+                "value": "1",
+                "meaning": "DFLT0 active"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "DFLTRUN",
+            "description": "DFLT0 run status flag This bit is set and cleared by hardware. It indicates if DFLT0 is running or not.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DFLT0 not running and ready to accept a new trigger event"
+              },
+              {
+                "value": "1",
+                "meaning": "DFLT0running"
+              }
+            ]
+          },
+          {
+            "bits": "29:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27:20",
+            "name": "NBDIS[7:0]",
+            "description": "Number of samples to be discarded This bitfield is set and cleared by software. It is used to define the number of samples to be discarded every time DFLT0 is re-started. ... Note: This bitfield can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No sample discarded"
+              },
+              {
+                "value": "1",
+                "meaning": "1 sample discarded"
+              },
+              {
+                "value": "2",
+                "meaning": "2 samples discarded"
+              },
+              {
+                "value": "255",
+                "meaning": "255 samples discarded"
+              }
+            ]
+          },
+          {
+            "bits": "19:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:12",
+            "name": "TRGSRC[3:0]",
+            "description": "DFLT0 trigger signal selection This bitfield is set and cleared by software. It is used to select which external signals trigger DFLT0. Note: This bitfield can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "TRGO selected"
+              },
+              {
+                "value": "0010",
+                "meaning": "adf_trgi selected"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "11:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "TRGSENS",
+            "description": "DFLT0 trigger sensitivity selection This bitfield is set and cleared by software. It is used to select the trigger sensitivity of the external signals Note: When the trigger source is TRGO, TRGSENS value is not taken into account. When TRGO is selected, the sensitivity is forced to falling edge. This bit can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "A rising edge event triggers the acquisition."
+              },
+              {
+                "value": "1",
+                "meaning": "A falling edge even triggers the acquisition."
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6:4",
+            "name": "ACQMOD[2:0]",
+            "description": "DFLT0 trigger mode This bitfield is set and cleared by software. It is used to select the filter trigger mode. Note: This bitfield can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Asynchronous continuous acquisition mode"
+              },
+              {
+                "value": "001",
+                "meaning": "Asynchronous single-shot acquisition mode"
+              },
+              {
+                "value": "010",
+                "meaning": "Synchronous continuous acquisition mode"
+              },
+              {
+                "value": "011",
+                "meaning": "Synchronous single-shot acquisition mode"
+              },
+              {
+                "value": "100",
+                "meaning": "Window continuous acquisition mode"
+              },
+              {
+                "value": "Others",
+                "meaning": "Same as 000"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "FTH",
+            "description": "RXFIFO threshold selection This bit is set and cleared by software. It is used to select the RXFIFO threshold. Note: This bit can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RXFIFO threshold event generated when the RXFIFO is not empty"
+              },
+              {
+                "value": "1",
+                "meaning": "RXFIFO threshold event generated when the RXFIFO is half-full"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "DMAEN",
+            "description": "DMA requests enable This bit is set and cleared by software. It is used to control the generation of DMA request to transfer the processed samples into the memory. Note: This bit can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA interface for the corresponding digital filter disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA interface for the corresponding digital filter enabled"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "DFLTEN",
+            "description": "DFLT0 enable This bit is set and cleared by software. It is used to control the start of acquisition of the DFLT0 path. This bit behavior depends on ACQMOD[2:0] and external events. The serial or parallel interface delivering the samples must be enabled as well. the proper trigger event occurs if ACQMOD[2:0] = 01x.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Acquisition immediately stopped"
+              },
+              {
+                "value": "1",
+                "meaning": "Acquisition immediately started if ACQMOD[2:0] = 00x or 101, or acquisition started when"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

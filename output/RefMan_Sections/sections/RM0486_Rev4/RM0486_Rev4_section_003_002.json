@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.2",
+      "section_title": "Secure boot",
+      "level": 2,
+      "parent_section": null,
+      "page": 183,
+      "page_end": 183,
+      "semantic_type": "generic",
+      "features": [
+        "boot"
+      ],
+      "chars": 2234,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=183",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.2 \"Secure boot\" in chapter 3 (System security), RM0486 Rev 4, page 183.",
+      "section_content": "On an application reset, the Cortex-M55 always boots from the start of an on-chip ROM.\nThis ROM code is used to authenticate and decrypt images loaded into the internal memory\nfrom an external flash memory, or through UART, USB, I2C, SPI, FDCAN, or JTAG.\nThe lifecycle state of the device is represented in the values of specific fuses. Transforming\nfrom one lifecycle state to the next always involves blowing fuses. The boot ROM acts in\naccordance with what it finds to be the current lifecycle state.\nLifecycle states can be partitioned into two underlying categories: BSEC-open or\nBSEC-closed (refer to Section4.3.7: Lifecycle management for more details). This is\ndetermined by hardware on every system reset by examining the state of the lifecycle fuses.\nIf the hardware determines at power-up that the device is BSEC-open, it immediately\nenables debug, and disables any access to fused secrets and secure parts of the ROM.\nThis is referred to as nonsecure boot. The device is in a BSEC-open lifecycle state at the\nstart of manufacturing. It can be transformed back into a BSEC-open lifecycle state if there\nis a fault requiring the part to be returned for analysis.\nIf the hardware determines that the device is BSEC-closed, the debug remains disabled.\nThe secure boot from ROM is then enforced, and the boot ROM then consults additional\nfuses to determine the precise lifecycle state.\nDevices are delivered to customers in a BSEC-closed state, so the boot ROM execution\nisenforced.\nOn a BSEC-closed device, if the secure_boot fuse bit (see Section5: OTP mapping (OTP))\nis still unblown, then the boot ROM behavior depends on the DEV_BOOT pin:\n• If the DEV_BOOT pin is set, the boot ROM disables the access to secrets, and opens\nthe debug to allow customer development.\n• If the DEV_BOOT pin is not set, the boot ROM executes the boot image regardless\nofwhether it is correctly signed.\nHowever, on a BSEC-closed device, once the secure_boot fuse bit is blown, authenticated\nsecure boot is enforced.\nSTMicroelectronics supplies signing tools to allow customers to create signed and\nencrypted boot images. The boot image is sometimes referred as an FSBL (first-stage\nbootloader), or as an uRoT (updatable root-of-trust firmware).",
+      "semantic": {}
+    }
+  ]
+}

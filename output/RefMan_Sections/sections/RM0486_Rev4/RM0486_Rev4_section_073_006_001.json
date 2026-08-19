@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.6.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.6.1",
+      "section_title": "Peripheral states",
+      "level": 3,
+      "parent_section": "73.6",
+      "page": 3766,
+      "page_end": 3767,
+      "semantic_type": "generic",
+      "features": [
+        "peripheral",
+        "states"
+      ],
+      "chars": 2372,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3766",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.6.1 \"Peripheral states\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3766.",
+      "section_content": "Powered state\nExternal circuitry should be used to detect presence of a voltage on the VBUS connector\npin. Refer to AN4879 \"Introduction to USB hardware and PCB guidelines using STM32\nMCUs\" for recommended components. The B-peripheral VBUS detection should be\noverridden with OTG_GOTGCTL.BVALOEN=1. The result of this detection should be\nmaintained by writing the current value to OTG_GOTGCTL.BVALOVAL.\nIn the powered state, the OTG expects to receive some reset signaling from the host. No\nother USB operation is possible. When a reset signaling is received the reset detected\ninterrupt (USBRST in OTG_GINTSTS) is generated. When the reset signaling is complete,\nthe enumeration done interrupt (ENUMDNE bit in OTG_GINTSTS) is generated and the\nOTG enters the Default state.\nSoft disconnect\nThe powered state can be exited by software with the soft disconnect feature. The DP pull-\nup resistor is removed by setting the soft disconnect bit in the device control register (SDIS\nbit in OTG_DCTL), causing a device disconnect detection interrupt on the host side even\nthough the USB cable was not really removed from the host port.\nDefault state\nIn the Default state the OTG expects to receive a SET_ADDRESS command from the host.\nNo other USB operation is possible. When a valid SET_ADDRESS command is decoded on\nthe USB, the application writes the corresponding number into the device address field in\nthe device configuration register (DAD bit in OTG_DCFG). The OTG then enters the\naddress state and is ready to answer host transactions at the configured USB address.\nSuspended state\nThe OTG peripheral constantly monitors the USB activity. After counting 3ms of USB\nidleness, the early suspend interrupt (ESUSP bit in OTG_GINTSTS) is issued, and\nconfirmed 3ms later, if appropriate, by the suspend interrupt (USBSUSP bit in\nOTG_GINTSTS). The device suspend bit is then automatically set in the device status\nregister (SUSPSTS bit in OTG_DSTS) and the OTG enters the suspended state.\nThe suspended state may optionally be exited by the device itself. In this case the\napplication sets the remote wake-up signaling bit in the device control register (RWUSIG bit\nin OTG_DCTL) and clears it after 1 to 15 ms.\nWhen a resume signaling is detected from the host, the resume interrupt (WKUPINT bit in\nOTG_GINTSTS) is generated and the device suspend bit is automatically cleared.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.5.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.5.11",
+      "section_title": "Flow control",
+      "level": 3,
+      "parent_section": "76.5",
+      "page": 4088,
+      "page_end": 4091,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 5855,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4088",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.5.11 \"Flow control\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4088.",
+      "section_content": "The transmit flow control involves transmitting Pause packets in Full-duplex mode and back-\npressure in Half-duplex mode to control the flow of packets from the remote end. This sec-\ntion describes the flow control for transmit and receive paths.\nFlow control in Full-duplex mode\nIn Full-duplex mode, the MAC uses IEEE 802.3x Pause packets for flow control. Table810\ndescribes the fields of a Pause packet.\n[Table 810. Pause packet fields]\nWhen the FCB bit is set, the MAC generates and transmits a single Pause packet. If the\nFCB bit is set again after the Pause packet transmission is complete, the MAC sends\nanother Pause packet irrespective of whether the pause time is complete or not. To extend\nthe pause or terminate the pause prior to the time specified in the previously-transmitted\nPause packet, the application should program the Pause Time register with appropriate\nvalue and then again set the FCB bit.\nFlow control in Half-duplex mode\nIn Half-duplex mode, the MAC uses the deferral mechanism for the flow control (backpres-\nsure). When the application requests to stop receiving packets, the MAC sends a JAM pat-\ntern of 32 bytes when it senses a packet reception, provided the transmit flow control is\nenabled. This results in a collision and the remote station backs off. If the application\nrequests a packet to be transmitted, it is scheduled and transmitted even when the back-\npressure is activated. If the backpressure is kept activated for a long time (and more than 16\nconsecutive collision events occur), the remote stations abort the transmission because of\nexcessive collisions.\nTable811 describes the flow control in the Tx path for Queue 0 based on the setting of the\nfollowing bits:\n• EHFC bit of Rx queue x operating mode register (ETH_MTLRXQxOMR)\n• TFE bit of Tx Queue 0 flow control register (ETH_MACQ0TXFCR)\n• DM bit of Operating mode configuration register (ETH_MACCR)\nFlow control is similar for all queues.\n[Table 811. Tx MAC flow control]\nTransmit flow control\nThe transmit flow control is enabled when TFE bit is set in Tx Queue 0 flow control register\n(ETH_MACQ0TXFCR).\nFlow control trigger\nThe application can request the MAC to send a Pause packet or initiate back-pressure by\nsetting the FCB bit in the corresponding Tx Queue 0 flow control register (ETH_MACQ0TX-\nFCR).\nThe flow control is also triggered based on Rx Queue Threshold: the flow control operation\nof the MAC is enabled when the EHFC bit in the corresponding Rx queue x operating mode\nregister (ETH_MTLRXQxOMR) is set. The flow control signal to the MAC is asserted when\nthe fill level of the Rx queue crosses the threshold configured in RFA field of Rx queue x\noperating mode register (ETH_MTLRXQxOMR). This flow control signal is de-asserted\nwhen the fill-level of the queue is lower than the threshold configured in the RFD field.\nNote: The RFA sets the threshold at which the flow control is triggered and the MAC schedules to\nsend a PAUSE frame to be sent by the local transmitter.\nThe remote transmitter can continue to send packets until it receives this PAUSE packet. As\na results, the RXQ needs space to take in this data even after the flow control is triggered, in\norder to avoid overflow and loss of packets.\nThe maximum space required is calculated theoretically. It can be 2 max-sized packets + a\nlittle more assuming that the read from the RxFIFO is not occurring during this whole time.\nTheoretically, this makes RFA=4 or more, which implies that RxQ must have a minimum\nsize of 4Kbytes.\nPractically, the system works with RFA=2 (full size – 2Kbytes, with very little probability of\noverflow).\nThe RFA bitfield in Rx queue x operating mode register (ETH_MTLRXQxOMR) is used for\nactivating the flow control. These bits control the threshold (fill-level of Rx queue) at which\nthe flow control is activated.\nWith an RXQ size of 4Kbytes, RFA must be set to 2Kbytes to receive the whole packet.\nReceive flow control\nIn the receive path, the flow control is functional only in full-duplex mode. If any Pause\npacket is received in half-duplex mode, the packet is considered as a normal control packet.\nDescription of receive flow control\nTable812 describes the flow control in the Rx path based on the setting of the following bits:\n• RFE bit of Rx flow control register (ETH_MACRXFCR)\n• DM bit of Operating mode configuration register (ETH_MACCR)\n[Table 812. Rx MAC flow control]\nThe following sequence describes the Rx flow control:\n1. The MAC checks the destination address (DA) of the received Pause packet for either\nof the following:\n– Multicast destination address: the DA matches the unique multicast address\nspecified for the control packet (0x0180C2000001).\n– Unicast destination address: the DA matches the content of the MAC Address 0\nregisters (MAC address 0 high register (ETH_MACA0HR) and MAC address x low\nregister (ETH_MACAxLR)) and the UP bit of Rx flow control register\n(ETH_MACRXFCR) is set.\nIf the UP bit is set, the MAC processes Pause packets with unicast destination\naddress in addition to the unique multicast address.\n2. The MAC decodes the following fields of the received packet:\n– Type field: this field is checked for 0x8808.\n– Opcode field: this field is checked for 0x0001 (Pause packet).\n– Pause time: the Pause time (for Pause packet) is captured to determine the time\nfor which the transmitter needs to be blocked.\n3. If the byte count of the status indicates 64 bytes and there is no CRC error, the MAC\ntransmitter pauses the transmission of any data packet for the duration of the decoded\nPause Time value multiplied by the slot time (64 byte times).\nIf subsequent Pause packets are received before the earlier Pause Time expires, the MAC\nupdates the Pause Timer with new value.\nEnabling receive flow control\nSet the RFE bit in the Rx flow control register (ETH_MACRXFCR) to enable the Pause flow\ncontrol.",
+      "semantic": {}
+    }
+  ]
+}

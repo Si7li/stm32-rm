@@ -1,0 +1,256 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.30",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.30",
+      "section_title": "OTG host port control and status register (OTG_HPRT)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3826,
+      "page_end": 3828,
+      "semantic_type": "register_description",
+      "features": [
+        "otg",
+        "otg-hprt",
+        "pcdet",
+        "pcsts",
+        "pena",
+        "penchng",
+        "plsts",
+        "poca",
+        "pocchng",
+        "ppwr",
+        "pres",
+        "prst",
+        "pspd",
+        "psusp",
+        "ptctl"
+      ],
+      "chars": 5521,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3826",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.30 \"OTG host port control and status register (OTG_HPRT)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3826.",
+      "section_content": "This register is available only in host mode. Currently, the OTG host supports only one port.\nA single register holds USB port-related information such as USB reset, enable, suspend,\nresume, connect status, and test mode for each port. It is shown in Figure990. The rc_w1\nbits in this register can trigger an interrupt to the application through the host port interrupt\nbit of the core interrupt register (HPRTINT bit in OTG_GINTSTS). On a port interrupt, the\napplication must read this register and clear the bit that caused the interrupt. For the rc_w1\nbits, the application must write a 1 to the bit to clear the interrupt.\nAddress offset: 0x440\nReset value: 0x00000000\nBits 31:19 Reserved, must be kept at reset value.\nBits 18:17 PSPD[1:0]: Port speed\nIndicates the speed of the device attached to this port.\n01: Full speed\n10: Low speed\n11: Reserved\n00: High speed\nBits 16:13 PTCTL[3:0]: Port test control\nThe application writes a nonzero value to this field to put the port into a Test mode, and the\ncorresponding pattern is signaled on the port.\n0000: Test mode disabled\n0001: Test_J mode\n0010: Test_K mode\n0011: Test_SE0_NAK mode\n0100: Test_Packet mode\n0101: Test_Force_Enable\nOthers: Reserved\nBit 12 PPWR: Port power\nThe application uses this field to control power to this port, and the core clears this bit on an\novercurrent condition. Note that this bit does not directly activate the voltage on the\nconnector VBUS.\n0: Power off\n1: Power on\nBits 11:10 PLSTS[1:0]: Port line status\nIndicates the current logic level USB data lines\nBit 10: Logic level of OTGx_HSDP\nBit 11: Logic level of OTGx_HSDM\nBit 9 Reserved, must be kept at reset value.\nBit 8 PRST: Port reset\nWhen the application sets this bit, a reset sequence is started on this port. The application\nmust time the reset period and clear this bit after the reset sequence is complete.\n0: Port not in reset\n1: Port in reset\nThe application must leave this bit set for a minimum duration of at least 10ms to start a\nreset on the port. The application can leave it set for another 10 ms in addition to the required\nminimum duration, before clearing the bit, even though there is no maximum limit set by the\nUSB standard.\nHigh speed: 50ms\nFull speed/Low speed: 10ms\nBit 7 PSUSP: Port suspend\nThe application sets this bit to put this port in suspend mode. The core only stops sending\nSOFs when this is set. To stop the PHY clock, the application must set the port clock stop bit,\nwhich asserts the suspend input pin of the PHY.\nThe read value of this bit reflects the current suspend status of the port. This bit is cleared by\nthe core after a remote wake-up signal is detected or the application sets the port reset bit or\nport resume bit in this register or the resume/remote wake-up detected interrupt bit or\ndisconnect detected interrupt bit in the core interrupt register (WKUPINT or DISCINT in\nOTG_GINTSTS, respectively).\n0: Port not in suspend mode\n1: Port in suspend mode\nBit 6 PRES: Port resume\nThe application sets this bit to drive resume signaling on the port. The core continues to drive\nthe resume signal until the application clears this bit.\nIf the core detects a USB remote wake-up sequence, as indicated by the port resume/remote\nwake-up detected interrupt bit of the core interrupt register (WKUPINT bit in\nOTG_GINTSTS), the core starts driving resume signaling without application intervention\nand clears this bit when it detects a disconnect condition. The read value of this bit indicates\nwhether the core is currently driving resume signaling.\n0: No resume driven\n1: Resume driven\nWhen LPM is enabled and the core is in L1 state, the behavior of this bit is as follow:\n1. The application sets this bit to drive resume signaling on the port.\n2. The core continues to drive the resume signal until a predetermined time specified in\nBESLTHRS[3:0] field of OTG_GLPMCFG register.\n3. If the core detects a USB remote wake-up sequence, as indicated by the port\nL1Resume/Remote L1wake-up detected interrupt bit of the core interrupt register (WKUPINT\nin OTG_GINTSTS), the core starts driving resume signaling without application intervention\nand clears this bit at the end of resume.This bit can be set or cleared by both the core and\nthe application. This bit is cleared by the core even if there is no device connected to the\nhost.\nBit 5 POCCHNG: Port overcurrent change\nThe core sets this bit when the status of the port overcurrent active bit (bit 4) in this register\nchanges.\nBit 4 POCA: Port overcurrent active\nIndicates the overcurrent condition of the port.\n0: No overcurrent condition\n1: Overcurrent condition\nBit 3 PENCHNG: Port enable/disable change\nThe core sets this bit when the status of the port enable bit 2 in this register changes.\nBit 2 PENA: Port enable\nA port is enabled only by the core after a reset sequence, and is disabled by an overcurrent\ncondition, a disconnect condition, or by the application clearing this bit. The application\ncannot set this bit by a register write. It can only clear it to disable the port. This bit does not\ntrigger any interrupt to the application.\n0: Port disabled\n1: Port enabled\nBit 1 PCDET: Port connect detected\nThe core sets this bit when a device connection is detected to trigger an interrupt to the\napplication using the host port interrupt bit in the core interrupt register (HPRTINT bit in\nOTG_GINTSTS). The application must write a 1 to this bit to clear the interrupt.\nBit 0 PCSTS: Port connect status\n0: No device is attached to the port\n1: A device is attached to the port",
+      "semantic": {
+        "register": "OTG_HPRT",
+        "address_offset": "0x440",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18:17",
+            "name": "PSPD[1:0]",
+            "description": "Port speed Indicates the speed of the device attached to this port.",
+            "values": [
+              {
+                "value": "01",
+                "meaning": "Full speed"
+              },
+              {
+                "value": "10",
+                "meaning": "Low speed"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "High speed"
+              }
+            ]
+          },
+          {
+            "bits": "16:13",
+            "name": "PTCTL[3:0]",
+            "description": "Port test control The application writes a nonzero value to this field to put the port into a Test mode, and the corresponding pattern is signaled on the port.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Test mode disabled"
+              },
+              {
+                "value": "0001",
+                "meaning": "Test_J mode"
+              },
+              {
+                "value": "0010",
+                "meaning": "Test_K mode"
+              },
+              {
+                "value": "0011",
+                "meaning": "Test_SE0_NAK mode"
+              },
+              {
+                "value": "0100",
+                "meaning": "Test_Packet mode"
+              },
+              {
+                "value": "0101",
+                "meaning": "Test_Force_Enable"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "PPWR",
+            "description": "Port power The application uses this field to control power to this port, and the core clears this bit on an overcurrent condition. Note that this bit does not directly activate the voltage on the connector VBUS.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Power off"
+              },
+              {
+                "value": "1",
+                "meaning": "Power on"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "PLSTS[1:0]",
+            "description": "Port line status Indicates the current logic level USB data lines Bit 10: Logic level of OTGx_HSDP Bit 11: Logic level of OTGx_HSDM",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "PRST",
+            "description": "Port reset When the application sets this bit, a reset sequence is started on this port. The application must time the reset period and clear this bit after the reset sequence is complete. The application must leave this bit set for a minimum duration of at least 10ms to start a reset on the port. The application can leave it set for another 10 ms in addition to the required minimum duration, before clearing the bit, even though there is no maximum limit set by the USB standard. High speed: 50ms Full speed/Low speed: 10ms",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Port not in reset"
+              },
+              {
+                "value": "1",
+                "meaning": "Port in reset"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "PSUSP",
+            "description": "Port suspend The application sets this bit to put this port in suspend mode. The core only stops sending SOFs when this is set. To stop the PHY clock, the application must set the port clock stop bit, which asserts the suspend input pin of the PHY. The read value of this bit reflects the current suspend status of the port. This bit is cleared by the core after a remote wake-up signal is detected or the application sets the port reset bit or port resume bit in this register or the resume/remote wake-up detected interrupt bit or disconnect detected interrupt bit in the core interrupt register (WKUPINT or DISCINT in OTG_GINTSTS, respectively).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Port not in suspend mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Port in suspend mode"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "PRES",
+            "description": "Port resume The application sets this bit to drive resume signaling on the port. The core continues to drive the resume signal until the application clears this bit. If the core detects a USB remote wake-up sequence, as indicated by the port resume/remote wake-up detected interrupt bit of the core interrupt register (WKUPINT bit in OTG_GINTSTS), the core starts driving resume signaling without application intervention and clears this bit when it detects a disconnect condition. The read value of this bit indicates whether the core is currently driving resume signaling. When LPM is enabled and the core is in L1 state, the behavior of this bit is as follow: 1. The application sets this bit to drive resume signaling on the port. 2. The core continues to drive the resume signal until a predetermined time specified in BESLTHRS[3:0] field of OTG_GLPMCFG register. 3. If the core detects a USB remote wake-up sequence, as indicated by the port L1Resume/Remote L1wake-up detected interrupt bit of the core interrupt register (WKUPINT in OTG_GINTSTS), the core starts driving resume signaling without application intervention and clears this bit at the end of resume.This bit can be set or cleared by both the core and the application. This bit is cleared by the core even if there is no device connected to the host.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No resume driven"
+              },
+              {
+                "value": "1",
+                "meaning": "Resume driven"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "POCCHNG",
+            "description": "Port overcurrent change The core sets this bit when the status of the port overcurrent active bit (bit 4) in this register changes.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "POCA",
+            "description": "Port overcurrent active Indicates the overcurrent condition of the port.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No overcurrent condition"
+              },
+              {
+                "value": "1",
+                "meaning": "Overcurrent condition"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "PENCHNG",
+            "description": "Port enable/disable change The core sets this bit when the status of the port enable bit 2 in this register changes.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "PENA",
+            "description": "Port enable A port is enabled only by the core after a reset sequence, and is disabled by an overcurrent condition, a disconnect condition, or by the application clearing this bit. The application cannot set this bit by a register write. It can only clear it to disable the port. This bit does not trigger any interrupt to the application.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Port disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Port enabled"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "PCDET",
+            "description": "Port connect detected The core sets this bit when a device connection is detected to trigger an interrupt to the application using the host port interrupt bit in the core interrupt register (HPRTINT bit in OTG_GINTSTS). The application must write a 1 to this bit to clear the interrupt.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "PCSTS",
+            "description": "Port connect status",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No device is attached to the port"
+              },
+              {
+                "value": "1",
+                "meaning": "A device is attached to the port"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

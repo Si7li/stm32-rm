@@ -1,0 +1,38 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S29.5.7",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "29",
+      "chapter_title": "Universal serial bus full-speed host/device interface (USB)",
+      "section": "29.5.7",
+      "section_title": "Suspend/resume events",
+      "level": 3,
+      "parent_section": "29.5",
+      "page": 972,
+      "page_end": 975,
+      "semantic_type": "generic",
+      "features": [
+        "events",
+        "resume",
+        "suspend"
+      ],
+      "chars": 5629,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=972",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.5.7 \"Suspend/resume events\" in chapter 29 (Universal serial bus full-speed host/device interface (USB)), RM0490 Rev 6, page 972.",
+      "section_content": "The USB standard defines a special peripheral state, called SUSPEND, in which the\naverage current drawn from the USB bus must not be greater than 2.5 mA. This\nrequirement is of fundamental importance for bus-powered devices, while self-powered\ndevices are not required to comply to this strict power consumption constraint. In suspend\nmode, the host PC sends the notification by not sending any traffic on the USB bus for more\nthan 3 ms: since a SOF packet must be sent every 1 ms during normal operations, the USB\nperipheral detects the lack of 3 consecutive SOF packets as a suspend request from the\nhost PC and set the SUSP bit to 1 in USB_ISTR register, causing an interrupt if enabled.\nOnce the device is suspended, its normal operation can be restored by a so called\nRESUME sequence, which can be started from the host PC or directly from the peripheral\nitself, but it is always terminated by the host PC. The suspended USB peripheral must be\nanyway able to detect a RESET sequence, reacting to this event as a normal USB reset\nevent.\nThe actual procedure used to suspend the USB peripheral is device dependent since\naccording to the device composition, different actions may be required to reduce the total\nconsumption.\nA brief description of a typical suspend procedure is provided below, focused on the USB-\nrelated aspects of the application software routine responding to the SUSP notification of\nthe USB peripheral:\n1. Set the SUSPEN bit in the USB_CNTR register to 1. This action activates the suspend\nmode within the USB peripheral. As soon as the suspend mode is activated, the check\non SOF reception is disabled to avoid any further SUSP interrupts being issued while\nthe USB is suspended.\n2. Remove or reduce any static power consumption in blocks different from the USB\nperipheral.\n3. Set SUSPRDY bit in USB_CNTR register to 1 to remove static power consumption in\nthe analog USB transceivers but keeping them able to detect resume activity.\n4. Optionally turn off external oscillator to stop any activity inside the device.\nWhen an USB event occurs while the device is in SUSPEND mode, the RESUME\nprocedure must be invoked to restore nominal clocks and regain normal USB behavior.\nParticular care must be taken to ensure that this process does not take more than 10 ms\nwhen the wakening event is an USB reset sequence (see “Universal Serial Bus\nSpecification” for more details). The start of a resume or reset sequence, while the USB\nperipheral is suspended, clears the SUSPRDY bit in USB_CNTR register asynchronously.\nEven if this event can trigger a WKUP interrupt if enabled, the use of an interrupt response\nroutine must be carefully evaluated because of the long latency due to system clock restart;\nto have the shorter latency before re-activating the nominal clock it is suggested to put the\nresume procedure just after the end of the suspend one, so its code is immediately\nexecuted as soon as the system clock restarts. To prevent ESD discharges or any other kind\nof noise from waking-up the system (the exit from suspend mode is an asynchronous\nevent), a suitable analog filter on data line status is activated during suspend; the filter width\nis about 70 ns.\nThe following is a list of actions a resume procedure must address:\n1. Optionally turn on external oscillator.\n2. Clear SUSPEN bit of USB_CNTR register.\n3. If the resume triggering event has to be identified, bits RXDP and RXDM in the\nUSB_FNR register can be used according to Table 162, which also lists the intended\nsoftware action in all the cases. If required, the end of resume or reset sequence can\nbe detected monitoring the status of the above mentioned bits by checking when they\nreach the “10” configuration, which represent the idle bus state; moreover at the end of\na reset sequence the RST_DCON bit in USB_ISTR register is set to 1, issuing an\ninterrupt if enabled, which must be handled as usual.\n[Table 162. Resume event detection]\nA device may require to exit from suspend mode as an answer to particular events not\ndirectly related to the USB protocol (for example a mouse movement wakes up the whole\nsystem). In this case, the resume sequence can be started by setting the L2RES bit in the\nUSB_CNTR register to 1 and resetting it to 0 after an interval between 1 ms and 15 ms (this\ninterval can be timed using ESOF interrupts, occurring with a 1 ms period when the system\nclock is running at nominal frequency). Once the L2RES bit is clear, the resume sequence is\ncompleted by the host PC and its end can be monitored again using the RXDP and RXDM\nbits in the USB_FNR register.\nNote: The L2RES bit must be anyway used only after the USB peripheral has been put in suspend\nmode, setting the SUSPEN bit in USB_CNTR register to 1.\nSuspend and resume in Host mode\nThe basics of the suspend and resume mechanism has been described in the previous\nsection.\nFrom the host stand-point, suspend is entered by writing the SUSPEN bit in USB_CNTR.\nWhen suspend entry is confirmed, SUSPRDY (also in USB_CNTR) is set.\nOnce in suspend, and when the application want to resume the bus, this can be done by\nsetting the L2RES bit in USB_CNTR to 1.\nBelow in Table 163, the different actions recommended after a wake-up event are indicated.\nAccording to the different line states after a wake-up event, the interpretation of the event\nand the suggested behavior are shown. Note that, this table here is somewhat expanded\nwhen compared to the previously shown device table, as the host may encounter both full\nspeed and low speed devices which use different line states for both suspend and resume.\n[Table 163. Resume event detection for host]",
+      "semantic": {}
+    }
+  ]
+}

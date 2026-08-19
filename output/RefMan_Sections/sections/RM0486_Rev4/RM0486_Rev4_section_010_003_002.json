@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S10.3.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "10",
+      "chapter_title": "SRAM configuration controller (RAMCFG)",
+      "section": "10.3.2",
+      "section_title": "FLEXRAM control",
+      "level": 3,
+      "parent_section": "10.3",
+      "page": 289,
+      "page_end": 292,
+      "semantic_type": "generic",
+      "features": [
+        "flexram"
+      ],
+      "chars": 2000,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=289",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 10.3.2 \"FLEXRAM control\" in chapter 10 (SRAM configuration controller (RAMCFG)), RM0486 Rev 4, page 289.",
+      "section_content": "STM32N6x5/x7xx devices include a Cortex-M55 core that exposes a TCM interface.\nThisTCM interface is spread in one 39-bit (32 effective data bits + 7 ECC protection bits) I-\nTCM (instruction TCM interface), and four parallel 39-bit D-TCMs (data TCM interfaces).\nSTM32N6x5/x7xx devices also embed 4096 Kbytes of RAM accessible on the AXI\ninterconnect. The first half (FLEXRAM, AXISRAM1/2) is in the CPU frequency domain, and\nis preferably used for CPU storage. The second half of this memory (AXISRAM3/4/5/6/7) is\nin the NPU frequency domain, and is preferably used for the AI computing storage.\nTo let customers tailor the SRAM use to their needs, the FLEXMEM offers the possibility to\nallocate part of the CPU side SRAM (FLEXRAM part) as extended TCM, both on I-TCM and\nD-TCM interfaces. Table35 lists the supported allocations.\n[Table 35. FLEXRAM supported configurations]\nThe retention regions are detailed in Table36 and Figure10, sharing the same color code.\n[Table 36. FLEXMEM versus retention]\n[Figure 10. FLEXMEM versus retention]\nNote: AXISRAM1 start address is 0x2406 4000 (aliased at 0x3406 4000 in secure boundary),\nwhatever the FLEXMEM configuration.\nThe FLEXMEM configuration depends upon CFGDTCMSZ[3:0] and CFGITCMSZ[3:0] in\nSYSCFG_CM55TCMCR. Its configuration cannot be changed at runtime, a reboot is\nneeded.\nUse in low-power modes\nThe I-TCM and D-TCM baselines can be kept in retention when the device is in Standby\nmode. This allows the CPU to restart from the TCM content.\nThe first 64 Kbytes (+16 Kbytes for ECC) of extended I-TCM through the FLEXMEM can\nalso be kept in retention. This allows a maximum of 128 Kbytes of I-TCM in retention.\nWhen only the I-TCM baseline is used for the Cortex-M55, 80 Kbytes of the AXI RAM can\nbe kept in retention.\nThe total amount of TCM that can be kept in retention is 320 Kbytes:\n• 64 Kbytes of I-TCM baseline (+ 16 Kbytes for ECC)\n• 64 Kbytes of I-TCM extended (+ 16 Kbytes for ECC)\n• 4 x 32 Kbytes of D-TCM baseline (+ 4 x 8 Kbytes for ECC)",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.11",
+      "section_title": "Display composition - blending",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2106,
+      "page_end": 2108,
+      "semantic_type": "generic",
+      "features": [
+        "blending",
+        "composition",
+        "display"
+      ],
+      "chars": 2692,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2106",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.11 \"Display composition - blending\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2106.",
+      "section_content": "The Alpha blending stage is used to blend together the 2 input layers, on top of a\nbackground color.\nIt is possible to select the sequence of the layers (foreground, middle, and background), to\napply a global multiplicative Alpha per-layer, and to define an underlying background color.\nThe blending computation is performed from back to front, sequentially, as shown the\nfollowing figure.\n[Figure 447. Blending two layers]\nThe general formula for a 2-to-1 blending is CR = (BF1 x C1) + (BF2 x C2) where:\n• CR: resulting blended color\n• BF1: blending-factor of current layer\n• C1: layer-color of the current layer\n• BF2: blend-factor of underlying pixels\n• C2: layer-color of the underlying pixels\nBoth blending factor, BF1 and BF2, can be defined as one of the following:\n• Pure per-pixel Alpha value\n• Mix of per-pixel Alpha and a global per-layer Alpha (the mix is multiplicative)\nParameters\n• CONSTA in LTDC_LxCACR: global multiplicative Alpha value of the current layer\n• BOR in LTDC_LxBFCR: blending order of the current layer\n• BF1 in LTDC_LxBFCR: blending factor for the current layer\n• BF2 in LTDC_LxBFCR: blending factor for the underlying layer\nThe background color is defined by the following bitfields in LTDC_BCCR:\n• BCRED: background Red component\n• BCGREEN: background Green component\n• BCBLUE: background Blue component\nNote: For secure purposes, in case of an inconsistent configuration, the blending order falls back\nto a fixed order, with the layer 2 on the foreground, and layer 1 in background, followed by\nthe underlying background color.\nThe inconsistent fallback is setup to protect a potential secure layer: If a secure software\nconfigures the secure layer2 to be on the foreground, and a malware tries to place that\nanother layer on the foreground, the inconsistency is detected, and the secure layer\nisautomatically forced on the foreground, guaranteeing that it is visible.\nConfiguration example\nOnly layer 1 is enabled, BF1 configured to constant alpha. BF2 configured to 1-constant\nalpha. The constant alpha programmed in LTDC_LxCACR is 240 (0xF0). Thus, the constant\nalpha value is 240/255=0.94. C:current layer color is 128. Cs:background color is 48.\nLayer 1 is blended with the background color.\nBC=constantalphaxC+(1-constant alpha)xCs=0.94x128+(1-0.94)x48=123.\nDefault configuration\nAll active layers can be made visible and blended by keeping the following configuration\nvalues after reset:\n• CONSTA: keep as reset CONSTA = 255.\n• BOR: keep as reset BOR (layer) = LayerID-1.\n• BF1: keep as reset BF1 = 6 for default mixed Alpha.\n• BF12: keep as reset BF2 = 7 for default mixed 1-Alpha.\n• Background color: keep as reset (black), although any color is ok.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S20.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "20",
+      "chapter_title": "Window watchdog (WWDG)",
+      "section": "20.3",
+      "section_title": "WWDG functional description",
+      "level": 2,
+      "parent_section": null,
+      "page": 500,
+      "page_end": 502,
+      "semantic_type": "generic",
+      "features": [
+        "wwdg"
+      ],
+      "chars": 4446,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=500",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 20.3 \"WWDG functional description\" in chapter 20 (Window watchdog (WWDG)), RM0008 Rev 21, page 500.",
+      "section_content": "If the watchdog is activated (the WDGA bit is set in the WWDG_CR register) and when the\n7-bit downcounter (T[6:0] bits) rolls over from 0x40 to 0x3F (T6 becomes cleared), it initiates\na reset. If the software reloads the counter while the counter is greater than the value stored\nin the window register, then a reset is generated.\n[Figure 183. Watchdog block diagram]\n(cid:53)(cid:40)(cid:54)(cid:40)(cid:55) (cid:58)(cid:68)(cid:87)(cid:70)(cid:75)(cid:71)(cid:82)(cid:74)(cid:3)(cid:70)(cid:82)(cid:81)(cid:73)(cid:76)(cid:74)(cid:88)(cid:85)(cid:68)(cid:87)(cid:76)(cid:82)(cid:81)(cid:3)(cid:85)(cid:72)(cid:74)(cid:76)(cid:86)(cid:87)(cid:72)(cid:85)(cid:3)(cid:11)(cid:58)(cid:58)(cid:39)(cid:42)(cid:66)(cid:38)(cid:41)(cid:53)(cid:12)\n(cid:70)(cid:82)(cid:80)(cid:83)(cid:68)(cid:85)(cid:68)(cid:87)(cid:82)(cid:85)\n(cid:32)(cid:20)(cid:3)(cid:90)(cid:75)(cid:72)(cid:81)\n(cid:55)(cid:25)(cid:29)(cid:19)(cid:3)(cid:33)(cid:3)(cid:58)(cid:25)(cid:29)(cid:19)\n(cid:58)(cid:85)(cid:76)(cid:87)(cid:72)(cid:3)(cid:58)(cid:58)(cid:39)(cid:42)(cid:66)(cid:38)(cid:53)\n(cid:58)(cid:68)(cid:87)(cid:70)(cid:75)(cid:71)(cid:82)(cid:74)(cid:3)(cid:70)(cid:82)(cid:81)(cid:87)(cid:85)(cid:82)(cid:79)(cid:3)(cid:85)(cid:72)(cid:74)(cid:76)(cid:86)(cid:87)(cid:72)(cid:85)(cid:3)(cid:11)(cid:58)(cid:58)(cid:39)(cid:42)(cid:66)(cid:38)(cid:53)(cid:12)\n(cid:26)(cid:16)(cid:69)(cid:76)(cid:87)(cid:3)(cid:71)(cid:82)(cid:90)(cid:81)(cid:70)(cid:82)(cid:88)(cid:81)(cid:87)(cid:72)(cid:85)(cid:3)(cid:11)(cid:38)(cid:49)(cid:55)(cid:12)\n(cid:51)(cid:38)(cid:47)(cid:46)(cid:20)\n(cid:11)(cid:73)(cid:85)(cid:82)(cid:80)(cid:3)(cid:53)(cid:38)(cid:38)(cid:3)(cid:70)(cid:79)(cid:82)(cid:70)(cid:78)(cid:3)(cid:70)(cid:82)(cid:81)(cid:87)(cid:85)(cid:82)(cid:79)(cid:79)(cid:72)(cid:85)(cid:12)\n(cid:18)(cid:23)(cid:19)(cid:28)(cid:25) (cid:58)(cid:39)(cid:42)(cid:3)(cid:83)(cid:85)(cid:72)(cid:86)(cid:70)(cid:68)(cid:79)(cid:72)(cid:85)\n(cid:11)(cid:58)(cid:39)(cid:42)(cid:55)(cid:37)(cid:12)\n(cid:48)(cid:54)(cid:89)(cid:22)(cid:26)(cid:21)(cid:21)(cid:25)(cid:57)(cid:21)\nThe application program must write in the WWDG_CR register at regular intervals during\nnormal operation to prevent an MCU reset. This operation must occur only when the counter\nvalue is lower than the window register value. The value to be stored in the WWDG_CR\nregister must be between 0xFF and 0xC0.\nEnabling the watchdog\nThe watchdog is always disabled after a reset. It is enabled by setting the WDGA bit in the\nWWDG_CR register, then it cannot be disabled again except by a reset.\nControlling the downcounter\nThis downcounter is free-running, counting down even if the watchdog is disabled. When\nthe watchdog is enabled, the T6 bit must be set to prevent generating an immediate reset.\nThe T[5:0] bits contain the number of increments which represents the time delay before the\nwatchdog produces a reset. The timing varies between a minimum and a maximum value\ndue to the unknown status of the prescaler when writing to the WWDG_CR register (see\nFigure184). The Configuration register (WWDG_CFR) contains the high limit of the window:\nTo prevent a reset, the downcounter must be reloaded when its value is lower than the\nwindow register value and greater than 0x3F. Figure184 describes the window watchdog\nprocess.\nNote: The T6 bit can be used to generate a software reset (the WDGA bit is set and the T6 bit is\ncleared).\nAdvanced watchdog interrupt feature\nThe Early Wakeup Interrupt (EWI) can be used if specific safety operations or data logging\nmust be performed before the actual reset is generated. The EWI interrupt is enabled by\nsetting the EWI bit in the WWDG_CFR register. When the downcounter reaches the value\n0x40, an EWI interrupt is generated and the corresponding interrupt service routine (ISR)\ncan be used to trigger specific actions (such as communications or data logging), before\nresetting the device.\nIn some applications, the EWI interrupt can be used to manage a software system check\nand/or system recovery/graceful degradation, without generating a WWDG reset. In this\ncase, the corresponding interrupt service routine (ISR) should reload the WWDG counter to\navoid the WWDG reset, then trigger the required actions.\nThe EWI interrupt is cleared by writing '0' to the EWIF bit in the WWDG_SR register.\nNote: When the EWI interrupt cannot be served, e.g. due to a system lock in a higher priority task,\nthe WWDG reset will eventually be generated.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S28.8",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "28",
+      "chapter_title": "USB on-the-go full-speed (OTG_FS)",
+      "section": "28.8",
+      "section_title": "OTG low-power modes",
+      "level": 2,
+      "parent_section": null,
+      "page": 844,
+      "page_end": 845,
+      "semantic_type": "generic",
+      "features": [
+        "otg",
+        "power"
+      ],
+      "chars": 2489,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=844",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.8 \"OTG low-power modes\" in chapter 28 (USB on-the-go full-speed (OTG_FS)), RM0008 Rev 21, page 844.",
+      "section_content": "Table200 below defines the STM32 low power modes and their compatibility with the OTG.\n[Table 200. Compatibility of STM32 low power modes with the OTG]\nThe power consumption of the OTG PHY is controlled by three bits in the general core\nconfiguration register:\n• PHY power down (GCCFG/PWRDWN)\nIt switches on/off the full-speed transceiver module of the PHY. It must be preliminarily\nset to allow any USB operation.\n• A-VBUS sensing enable (GCCFG/VBUSASEN)\nIt switches on/off the VBUS comparators associated with A-device operations. It must\nbe set when in A-device (USB host) mode and during HNP.\n• B-VBUS sensing enable (GCCFG/VBUSASEN)\nIt switches on/off the VBUS comparators associated with B-device operations. It must\nbe set when in B-device (USB peripheral) mode and during HNP.\nPower reduction techniques are available while in the USB suspended state, when the USB\nsession is not yet valid or the device is disconnected.\n• Stop PHY clock (STPPCLK bit in OTG_FS_PCGCCTL)\nWhen setting the stop PHY clock bit in the clock gating control register, most of the\n48MHz clock domain internal to the OTG full-speed core is switched off by clock\ngating. The dynamic power consumption due to the USB clock switching activity is cut\neven if the 48MHz clock input is kept running by the application\nMost of the transceiver is also disabled, and only the part in charge of detecting the\nasynchronous resume or remote wakeup event is kept alive.\n• Gate HCLK (GATEHCLK bit in OTG_FS_PCGCCTL)\nWhen setting the Gate HCLK bit in the clock gating control register, most of the system\nclock domain internal to the OTG_FS core is switched off by clock gating. Only the\nregister read and write interface is kept alive. The dynamic power consumption due to\nthe USB clock switching activity is cut even if the system clock is kept running by the\napplication for other purposes.\n• USB system stop\nWhen the OTG_FS is in the USB suspended state, the application may decide to\ndrastically reduce the overall power consumption by a complete shut down of all the\nclock sources in the system. USB System Stop is activated by first setting the Stop\nPHY clock bit and then configuring the system deep sleep mode in the power control\nsystem module (PWR).\nThe OTG_FS core automatically reactivates both system and USB clocks by\nasynchronous detection of remote wakeup (as an host) or resume (as a device)\nsignaling on the USB.\nTo save dynamic power, the USB data FIFO is clocked only when accessed by the OTG_FS\ncore.",
+      "semantic": {}
+    }
+  ]
+}

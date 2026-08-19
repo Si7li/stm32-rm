@@ -1,0 +1,299 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.8.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.8.10",
+      "section_title": "GPDMA channel x transfer register 1 (GPDMA_CxTR1)",
+      "level": 3,
+      "parent_section": "19.8",
+      "page": 988,
+      "page_end": 992,
+      "semantic_type": "register_description",
+      "features": [
+        "dap",
+        "dbl-1",
+        "dbx",
+        "ddw-log2",
+        "dhx",
+        "dinc",
+        "dma",
+        "dsec",
+        "gpdma",
+        "memory",
+        "pam",
+        "sap",
+        "sbl-1",
+        "sbx",
+        "sdw-log2",
+        "sinc",
+        "ssec"
+      ],
+      "chars": 8776,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=988",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.8.10 \"GPDMA channel x transfer register 1 (GPDMA_CxTR1)\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 988.",
+      "section_content": "Address offset: 0x90 + 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(GPDMA_SECCFGR.SECx) except for secure DSEC and SSEC, privileged or unprivileged,\ndepending on the privileged state of the channel x in GPDMA_PRIVCFGR.PRIVx.\nThis register controls the transfer of a channel x.\nThis register must be written when GPDMA_CxCR.EN = 0.\nThis register is read-only when GPDMA_CxCR.EN = 1.\nThis register must be written when the channel is completed. Then the hardware has\ndeasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block, 2D/repeated block, LLI or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by GPDMA\nfrom the memory if GPDMA_CxLLR.UT1 = 1.\nBit 31 DSEC: security attribute of the GPDMA transfer to the destination\nIf GPDMA_SECCFGR.SECx = 1 and the access is secure:\n0: GPDMA transfer nonsecure\n1: GPDMA transfer secure\nThis is a secure register bit. This bit can only be read by a secure software. This bit must be\nwritten by a secure software when GPDMA_SECCFGR.SECx = 1. A secure write is ignored\nwhen GPDMA_SECCFGR.SECx = 0.\nWhen GPDMA_SECCFGR.SECx is deasserted, this DSEC bit is also deasserted by\nhardware (on a secure reconfiguration of the channel as nonsecure), and the GPDMA\ntransfer to the destination is nonsecure.\nBit 30 DAP: destination allocated port\nThis bit is used to allocate the master port for the destination transfer\n0: port 0 (AHB) allocated\n1: port 1 (AHB) allocated\nNote: This bit must be written when EN = 0. This bit is read-only when EN = 1.\nBits 29:28 Reserved, must be kept at reset value.\nBit 27 DHX: destination half-word exchange\nIf the destination data size is shorter than a word, this bit is ignored.\nIf the destination data size is a word:\n0: no halfword-based exchanged within word\n1: the two consecutive (post PAM) half-words are exchanged in each destination word.\nBit 26 DBX: destination byte exchange\nIf the destination data size is a byte, this bit is ignored.\nIf the destination data size is not a byte:\n0:no byte-based exchange within half-word\n1: the two consecutive (post PAM) bytes are exchanged in each destination half-word.\nBits 25:20 DBL_1[5:0]: destination burst length minus 1, between 0 and 63\nThe burst length unit is one data named beat within a burst. If DBL_1[5:0] = 0, the burst can\nbe named as single. Each data/beat has a width defined by the destination data width\nDDW_LOG2[1:0].\nNote: If a burst transfer crossed a 1-Kbyte address boundary on a AHB transfer, the GPDMA\nmodifies and shortens the programmed burst into singles or bursts of lower length, to be\ncompliant with the AHB protocol.\nIf a burst transfer is of length greater than the FIFO size of the channel x, the GPDMA\nmodifies and shortens the programmed burst into singles or bursts of lower length, to be\ncompliant with the FIFO size. Transfer performance is lower, with GPDMA re-arbitration\nbetween effective and lower singles/bursts, but the data integrity is guaranteed.\nBit 19 DINC: destination incrementing burst\n0: fixed burst\n1: contiguously incremented burst\nThe destination address, pointed by GPDMA_CxDAR, is kept constant after a burst\nbeat/single transfer, or is incremented by the offset value corresponding to a contiguous data\nafter a burst beat/single transfer.\nBit 18 Reserved, must be kept at reset value.\nBits 17:16 DDW_LOG2[1:0]: binary logarithm of the destination data width of a burst, in bytes\n00: byte\n01: half-word (2 bytes)\n10: word (4 bytes)\n11: user setting error reported and no transfer issued\nNote: A destination burst transfer must have an aligned address with its data width (start\naddress GPDMA_CxDAR[2:0] and if present address offset GPDMA_CxTR3.DAO[2:0],\nversus DDW_LOG2[1:0]). Otherwise a user setting error is reported and no transfer is\nissued.\nWhen configured in packing mode (PAM[1] = 1 and destination data width different from\nsource data width), a source block size must be a multiple of the destination data width\n(see GPDMA_CxBR1.BNDT[2:0] versus DDW_LOG2[1:0]). Else a user setting error is\nreported and none transfer is issued.\nSetting a 8-byte data width causes a user setting error to be reported and none transfer\nis issued.\nBit 15 SSEC: security attribute of the GPDMA transfer from the source\nIf GPDMA_SECCFGR.SECx = 1 and the access is secure:\n0: GPDMA transfer nonsecure\n1: GPDMA transfer secure\nThis is a secure register bit. This bit can only be read by a secure software. This bit must be\nwritten by a secure software when GPDMA_SECCFGR.SECx = 1. A secure write is ignored\nwhen GPDMA_SECCFGR.SECx = 0.\nWhen GPDMA_SECCFGR.SECx is deasserted, this SSEC bit is also deasserted by\nhardware (on a secure reconfiguration of the channel as nonsecure), and the GPDMA\ntransfer from the source is nonsecure.\nBit 14 SAP: source allocated port\nThis bit is used to allocate the master port for the source transfer\n0: port 0 (AHB) allocated\n1: port 1 (AHB) allocated\nNote: This bit must be written when EN = 0. This bit is read-only when EN = 1.\nBit 13 SBX: source byte exchange within the unaligned half-word of each source word\nIf the source data width is shorter than a word, this bit is ignored.\nIf the source data width is a word:\n0:no byte-based exchange within the unaligned half-word of each source word\n1: the two consecutive bytes within the unaligned half-word of each source word are\nexchanged.\nBits 12:11 PAM[1:0]: padding/alignment mode\nIf DDW_LOG2[1:0] = SDW_LOG2[1:0]: if the data width of a burst destination transfer is\nequal to the data width of a burst source transfer, these bits are ignored.\nElse, in the following enumerated values, the condition PAM_1 is when destination data width\nis higher than source data width, and the condition PAM_2 is when source data width is\nhigher than destination data width.\nCondition: PAM_1\n00: source data is transferred as right aligned, padded with 0s up to the destination data\nwidth\n01: source data is transferred as right aligned, sign extended up to the destination data width\n10-11: successive source data are FIFO queued and packed at the destination data width, in\na left (LSB) to right (MSB) order (named little endian), before a destination transfer\nCondition: PAM_2\n00: source data is transferred as right aligned, left-truncated down to the destination data\nwidth\n01: source data is transferred as left-aligned, right-truncated down to the destination data\nwidth\n10-11: source data is FIFO queued and unpacked at the destination data width, to be\ntransferred in a left (LSB) to right (MSB) order (named little endian) to the destination\nNote: If the transfer from the source peripheral is configured with peripheral flow-control mode\n(SWREQ = 0 and PFREQ = 1 and DREQ = 0), and if the destination data width > the\nsource data width, packing is not supported.\nBit 10 Reserved, must be kept at reset value.\nBits 9:4 SBL_1[5:0]: source burst length minus 1, between 0 and 63\nThe burst length unit is one data named beat within a burst. If SBL_1[5:0] = 0, the burst can\nbe named as single. Each data/beat has a width defined by the destination data width\nSDW_LOG2[1:0].\nNote: If a burst transfer crossed a 1-Kbyte address boundary on a AHB transfer, the GPDMA\nmodifies and shortens the programmed burst into singles or bursts of lower length, to be\ncompliant with the AHB protocol.\nIf a burst transfer is of length greater than the FIFO size of the channel x, the GPDMA\nmodifies and shortens the programmed burst into singles or bursts of lower length, to be\ncompliant with the FIFO size. Transfer performance is lower, with GPDMA re-arbitration\nbetween effective and lower singles/bursts, but the data integrity is guaranteed.\nBit 3 SINC: source incrementing burst\n0: fixed burst\n1: contiguously incremented burst\nThe source address, pointed by GPDMA_CxSAR, is kept constant after a burst beat/single\ntransfer or is incremented by the offset value corresponding to a contiguous data after a burst\nbeat/single transfer.\nBit 2 Reserved, must be kept at reset value.\nBits 1:0 SDW_LOG2[1:0]: binary logarithm of the source data width of a burst in bytes\n00: byte\n01: half-word (2 bytes)\n10: word (4 bytes)\n11: user setting error reported and no transfer issued\nNote: A source block size must be a multiple of the source data width\n(GPDMA_CxBR1.BNDT[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error\nis reported and no transfer is issued.\nA source burst transfer must have an aligned address with its data width (start address\nGPDMA_CxSAR[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is\nreported and none transfer is issued.\nSetting a 8-byte data width causes a user setting error to be reported and no transfer is\nissued.",
+      "semantic": {
+        "register": "GPDMA_CxTR1",
+        "address_offset": "0x90 + 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "DSEC",
+            "description": "security attribute of the GPDMA transfer to the destination If GPDMA_SECCFGR.SECx = 1 and the access is secure: This is a secure register bit. This bit can only be read by a secure software. This bit must be written by a secure software when GPDMA_SECCFGR.SECx = 1. A secure write is ignored when GPDMA_SECCFGR.SECx = 0. When GPDMA_SECCFGR.SECx is deasserted, this DSEC bit is also deasserted by hardware (on a secure reconfiguration of the channel as nonsecure), and the GPDMA transfer to the destination is nonsecure.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "GPDMA transfer nonsecure"
+              },
+              {
+                "value": "1",
+                "meaning": "GPDMA transfer secure"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "DAP",
+            "description": "destination allocated port This bit is used to allocate the master port for the destination transfer Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "port 0 (AHB) allocated"
+              },
+              {
+                "value": "1",
+                "meaning": "port 1 (AHB) allocated"
+              }
+            ]
+          },
+          {
+            "bits": "29:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "DHX",
+            "description": "destination half-word exchange If the destination data size is shorter than a word, this bit is ignored. If the destination data size is a word:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no halfword-based exchanged within word"
+              },
+              {
+                "value": "1",
+                "meaning": "the two consecutive (post PAM) half-words are exchanged in each destination word."
+              }
+            ]
+          },
+          {
+            "bits": "26",
+            "name": "DBX",
+            "description": "destination byte exchange If the destination data size is a byte, this bit is ignored. If the destination data size is not a byte:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no byte-based exchange within half-word"
+              },
+              {
+                "value": "1",
+                "meaning": "the two consecutive (post PAM) bytes are exchanged in each destination half-word."
+              }
+            ]
+          },
+          {
+            "bits": "25:20",
+            "name": "DBL_1[5:0]",
+            "description": "destination burst length minus 1, between 0 and 63 The burst length unit is one data named beat within a burst. If DBL_1[5:0] = 0, the burst can be named as single. Each data/beat has a width defined by the destination data width DDW_LOG2[1:0]. Note: If a burst transfer crossed a 1-Kbyte address boundary on a AHB transfer, the GPDMA modifies and shortens the programmed burst into singles or bursts of lower length, to be compliant with the AHB protocol. If a burst transfer is of length greater than the FIFO size of the channel x, the GPDMA modifies and shortens the programmed burst into singles or bursts of lower length, to be compliant with the FIFO size. Transfer performance is lower, with GPDMA re-arbitration between effective and lower singles/bursts, but the data integrity is guaranteed.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "DINC",
+            "description": "destination incrementing burst The destination address, pointed by GPDMA_CxDAR, is kept constant after a burst beat/single transfer, or is incremented by the offset value corresponding to a contiguous data after a burst beat/single transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "fixed burst"
+              },
+              {
+                "value": "1",
+                "meaning": "contiguously incremented burst"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17:16",
+            "name": "DDW_LOG2[1:0]",
+            "description": "binary logarithm of the destination data width of a burst, in bytes Note: A destination burst transfer must have an aligned address with its data width (start address GPDMA_CxDAR[2:0] and if present address offset GPDMA_CxTR3.DAO[2:0], versus DDW_LOG2[1:0]). Otherwise a user setting error is reported and no transfer is issued. When configured in packing mode (PAM[1] = 1 and destination data width different from source data width), a source block size must be a multiple of the destination data width (see GPDMA_CxBR1.BNDT[2:0] versus DDW_LOG2[1:0]). Else a user setting error is reported and none transfer is issued. Setting a 8-byte data width causes a user setting error to be reported and none transfer is issued.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "byte"
+              },
+              {
+                "value": "01",
+                "meaning": "half-word (2 bytes)"
+              },
+              {
+                "value": "10",
+                "meaning": "word (4 bytes)"
+              },
+              {
+                "value": "11",
+                "meaning": "user setting error reported and no transfer issued"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "SSEC",
+            "description": "security attribute of the GPDMA transfer from the source If GPDMA_SECCFGR.SECx = 1 and the access is secure: This is a secure register bit. This bit can only be read by a secure software. This bit must be written by a secure software when GPDMA_SECCFGR.SECx = 1. A secure write is ignored when GPDMA_SECCFGR.SECx = 0. When GPDMA_SECCFGR.SECx is deasserted, this SSEC bit is also deasserted by hardware (on a secure reconfiguration of the channel as nonsecure), and the GPDMA transfer from the source is nonsecure.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "GPDMA transfer nonsecure"
+              },
+              {
+                "value": "1",
+                "meaning": "GPDMA transfer secure"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "SAP",
+            "description": "source allocated port This bit is used to allocate the master port for the source transfer Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "port 0 (AHB) allocated"
+              },
+              {
+                "value": "1",
+                "meaning": "port 1 (AHB) allocated"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "SBX",
+            "description": "source byte exchange within the unaligned half-word of each source word If the source data width is shorter than a word, this bit is ignored. If the source data width is a word: exchanged.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no byte-based exchange within the unaligned half-word of each source word"
+              },
+              {
+                "value": "1",
+                "meaning": "the two consecutive bytes within the unaligned half-word of each source word are"
+              }
+            ]
+          },
+          {
+            "bits": "12:11",
+            "name": "PAM[1:0]",
+            "description": "padding/alignment mode If DDW_LOG2[1:0] = SDW_LOG2[1:0]: if the data width of a burst destination transfer is equal to the data width of a burst source transfer, these bits are ignored. Else, in the following enumerated values, the condition PAM_1 is when destination data width is higher than source data width, and the condition PAM_2 is when source data width is higher than destination data width. Condition: PAM_1 width 10-11: successive source data are FIFO queued and packed at the destination data width, in a left (LSB) to right (MSB) order (named little endian), before a destination transfer Condition: PAM_2 width width 10-11: source data is FIFO queued and unpacked at the destination data width, to be transferred in a left (LSB) to right (MSB) order (named little endian) to the destination Note: If the transfer from the source peripheral is configured with peripheral flow-control mode (SWREQ = 0 and PFREQ = 1 and DREQ = 0), and if the destination data width > the source data width, packing is not supported.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "source data is transferred as right aligned, padded with 0s up to the destination data"
+              },
+              {
+                "value": "01",
+                "meaning": "source data is transferred as right aligned, sign extended up to the destination data width"
+              },
+              {
+                "value": "00",
+                "meaning": "source data is transferred as right aligned, left-truncated down to the destination data"
+              },
+              {
+                "value": "01",
+                "meaning": "source data is transferred as left-aligned, right-truncated down to the destination data"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9:4",
+            "name": "SBL_1[5:0]",
+            "description": "source burst length minus 1, between 0 and 63 The burst length unit is one data named beat within a burst. If SBL_1[5:0] = 0, the burst can be named as single. Each data/beat has a width defined by the destination data width SDW_LOG2[1:0]. Note: If a burst transfer crossed a 1-Kbyte address boundary on a AHB transfer, the GPDMA modifies and shortens the programmed burst into singles or bursts of lower length, to be compliant with the AHB protocol. If a burst transfer is of length greater than the FIFO size of the channel x, the GPDMA modifies and shortens the programmed burst into singles or bursts of lower length, to be compliant with the FIFO size. Transfer performance is lower, with GPDMA re-arbitration between effective and lower singles/bursts, but the data integrity is guaranteed.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "SINC",
+            "description": "source incrementing burst The source address, pointed by GPDMA_CxSAR, is kept constant after a burst beat/single transfer or is incremented by the offset value corresponding to a contiguous data after a burst beat/single transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "fixed burst"
+              },
+              {
+                "value": "1",
+                "meaning": "contiguously incremented burst"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1:0",
+            "name": "SDW_LOG2[1:0]",
+            "description": "binary logarithm of the source data width of a burst in bytes Note: A source block size must be a multiple of the source data width (GPDMA_CxBR1.BNDT[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is reported and no transfer is issued. A source burst transfer must have an aligned address with its data width (start address GPDMA_CxSAR[2:0] versus SDW_LOG2[1:0]). Otherwise, a user setting error is reported and none transfer is issued. Setting a 8-byte data width causes a user setting error to be reported and no transfer is issued.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "byte"
+              },
+              {
+                "value": "01",
+                "meaning": "half-word (2 bytes)"
+              },
+              {
+                "value": "10",
+                "meaning": "word (4 bytes)"
+              },
+              {
+                "value": "11",
+                "meaning": "user setting error reported and no transfer issued"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

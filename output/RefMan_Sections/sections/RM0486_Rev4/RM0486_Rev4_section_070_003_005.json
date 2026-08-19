@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S70.3.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "70",
+      "chapter_title": "Management data input/output (MDIOS)",
+      "section": "70.3.5",
+      "section_title": "MDIOS data",
+      "level": 3,
+      "parent_section": "70.3",
+      "page": 3606,
+      "page_end": 3607,
+      "semantic_type": "generic",
+      "features": [
+        "mdios"
+      ],
+      "chars": 4172,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3606",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 70.3.5 \"MDIOS data\" in chapter 70 (Management data input/output (MDIOS)), RM0486 Rev 4, page 3606.",
+      "section_content": "From the point of view of the MDIO master, there are 32 16-bit MDIOS registers in the\nMDIOS, which can be written and read. In reality, for each MDIOS register ‘x’ there are two\nsets of registers: MDIOS_DINRx and MDIOS_DOUTRx.\nInput data\nWhen the MDIO master transmits a frame, which writes to MDIOS register ‘x’ in the MDIOS,\nit is MDIOS_DINRx, which is updated with the incoming data. The registers MDIOS_DINR0\nto MDIOS_DINR31 can be read by the firmware, but they can be written only by the MDIO\nmaster via the MDIO bus.\nThe contents of MDIOS_DINRx change immediately after the MDC rising edge when the\nlast data bit is sampled.\nIf the firmware happens to read the contents of MDIOS_DINRx at the moment that it is being\nupdated, there is a possibility that the value read is corrupted (a bit-by-bit cross between the\nold value and the new value). For this reason, the firmware must assure that two\nsubsequent reads from the same MDIOS_DINRx give the same value and assure that\nthe data is stable when it is read. In the very worst case, the firmware needs to read four\ntimes MDIOS_DINRx to:\n1. Get the old value\n2. Get an incoherent value (when reading at the moment the register changes)\n3. Get the new value\n4. Confirm the new value\nIf the firmware uses the WRF interrupt and can guarantee that it reads the MDIOS_DINRx\nregister before any new MDIOS write frame completes, the firmware can perform a single\nread.\nIf the MDIO master performs a write operation with a register address, which is greater\nthan31, the MDIOS ignores the frame (the data is not saved and no flag is set).\nOutput data\nWhen the MDIOS receives a frame, which requests to read register ‘x’, it returns the value\nfound in MDIOS_DOUTRx. Thus, if the MDIO master expects to read the same value, which\nit previously wrote to MDIOS register ‘x’, the firmware must copy the data from\nMDIOS_DINRx to MDIOS_DOUTRx each time new data is written to MDIOS_DINRx. For\ncorrect operation, the firmware must copy the data to the MDIOS_DOUTRx register within a\npreamble (if the master sends preambles before each frame) plus 15 cycles time.\nWhen an MDIOS register is read via the MDIO bus, the MDIOS passes the 16-bit value\n(from the corresponding MDIOS_DOUTRx) to the MDIOS clock domain during the 15th\ncycle of the read frame. If the firmware attempts to write MDIOS_DOUTRx while the MDIO\nmaster is currently reading MDIOS register ‘x’, the firmware write operation is ignored if it\noccurs during the 15th cycle of the frame (during a one-MDC-cycle window). Therefore,\nafter writing MDIOS_DOUTRx, the firmware must read back the same\nMDIOS_DOUTRx and confirm that the value was actually written. If MDIOS_DOUTRx\ndoes not contain the value, which was written, the firmware can simply try writing and\nrereading again.\nIf the MDIOS frequency is very slow compared to the mdios_pclk frequency, it is better not\nto tie up the CPU by continuously writing and rereading MDIOS_DOUTRx.\nNote: The read flag (RDFx) is set as soon as the MDIOS_DOUTRx DOUT[15:0] value is\npassed to the MDIOS clock domain. Thus, when a write to MDIOS_DOUTRx is ignored\n(when the value read back is not the value, which was just written), the firmware can use a\nread interrupt to know when it is able to write MDIOS_DOUTRx.\nRespect the following procedure if the MDC clock is very slow:\n1. Write MDIOS_DOUTRx.\n2. Assure that all of the read flags are zero (MDIOS_RDFR = 0x0000). Clear the flags if\nnecessary using MDIOS_CRDFR.\n3. Read back the same MDIOS_DOUTRx and compare the value with the value, which\nwas written in step 1.\n4. If the values are the same, the procedure is done. Otherwise, continue to step 5.\n5. Enable read interrupts by setting the RDIE bit in MDIOS_CR1.\n6. In the interrupt routine, assure that RDFx is set (no other read flags are set before\nbitx).\n7. There is a 31cycle + preamble time window (if the master sends a preamble before\neach frame) to write MDIOS_DOUTRx safely without doing a read-back and compare.\nIf this maximum delay cannot be guaranteed, go back to step 1.\nIf the MDIO master performs a read operation with a register address, which is greater\nthan31, the MDIOS returns a data value of all zeros.",
+      "semantic": {}
+    }
+  ]
+}

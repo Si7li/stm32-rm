@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S42.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "42",
+      "chapter_title": "Display subsystem",
+      "section": "42.4.4",
+      "section_title": "Display subsystem security",
+      "level": 3,
+      "parent_section": "42.4",
+      "page": 2088,
+      "page_end": 2091,
+      "semantic_type": "generic",
+      "features": [
+        "display",
+        "security",
+        "subsystem"
+      ],
+      "chars": 6202,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2088",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.4.4 \"Display subsystem security\" in chapter 42 (Display subsystem), RM0486 Rev 4, page 2088.",
+      "section_content": "This section is an application of RIF security architecture (see Section3.5.3: RIF\ninfrastructure). The security of the display subsystem is based on the protection of its\nregister map and its master access to the system interconnect, based on default RISUP and\nRIMU respectively.\nThe RISUP differentiates the access right of accesses performed toward the following\nRIFprotected peripheral ID (see Table20: RISUP indexes):\n• LTDC common: LTDC common registers, about panel info, synchronization, interface\n• LTDC_L1 (layer 1): for the window of a default application\n• LTDC_L2 (layer 2): LTDC layer 2, for the window of a potentially secure application\nThe RIMU (RIMU_AXI_LTDC) differentiates the bus transactions emitted by the following\nAXI masters:\n• RIMU_L1: read access only for layer 1, always non-protected\n• RIMU_L2: read access only for layer 2, potentially protected\nSecurity configuration of devices with never-secure display content\nThe security setup of devices that are never required to display any secure content is\ndetailed below (the display subsystem works by default in a non-protected mode):\n• The display subsystem configuration space is set as non-protected.\nThe default operating system (OS) software has a full access and can configure/handle\nall peripherals of the display subsystem.\n• The layer 2 (which has a hardware secure capability) can be reused as a default layer,\nlike layer 1, and can display the content of any application.\nNote: Layer 2 is not fully featured, and lacks the resize and multi-planar capabilities of layer 1.\n• The LTDC AXI-master emits by default non-protected accesses.\nThe AXI CID=DISP S and P can be associated to the two AXI clients, via the RIMU,\ntotag that the AXI transaction contains pixels.\nSecurity configuration of devices with a temporary secure content\nFor devices that temporarily display a secure content, it is expected that the secure content\nis displayed during short periods.\nThe working principle of the display subsystem is to segregate configuration spaces:\n• The secure layer 2 is always protected.\n• Never-secure layer 1 is always non-protected.\n• The intermediate common features (such as panel data, synchronization) are usually\nnon-protected and handled by the OS (when no secure content is displayed), but\ntemporarily protected (with no OS access) during the short period when a secure\ncontent is displayed via layer 2. Removing the access of the non-protected OS\nguarantees that a malware does not impact the stability of the displayed protected\ncontent.\n• A few minor items get specifically protected or open, as detailed below.\nThe configuration of the display subsystem for a secure content is the following:\n• Layer 2 is set permanently protected:\n– RIF LTDC_L2 RISUP peripheral ID must be set as protected (S and/or P flags).\n– RIF LTDC_L2 RIMU AXI-Master emits protected transactions (tagged as S a/o P),\nwhich allow it to retrieve the protected layer 2 pixels from their protected memory\nbuffer. The RIMU must be updated by a trusted domain application using\nRIFSC_RIMC_ATTR11.\nThe recommendation is to use a secure, privileged (optional), and CID=0x4\nsetup. With this secure setup, the application must make sure that CID4 has\naccess to the secure pixels area.\n– Only a secure software is able to configure the layer 2 parameters (such as width,\nheight, buffer address), so that the characteristics of the layer 2 are guaranteed.\n– The interrupt bank B is associated automatically with the layer 2, and gets\npermanently protected and devoted to the secure software handling layer 2.\nThesecure software must thus handle and be driven by that interrupt bank B.\n– The LTDC features that must allow data-evasion get also protected (automatically,\nas associated with the layer 2 rights), with an access allowed only to the secure\nsoftware. These features are the CRC (which allows the displayed frames to be\nsigned mainly for test purposes), the blend-order (which is used to hide the\nprotected content below some malware layer faking the protected content).\n• Layer 1 is set permanently as non-protected:\n– RIF LTDC_L1 RISUP peripheral ID is set as not protected.\n– RIF LTDC_L1 RIMU AXI-master keeps its initial setup inRIFSC_RIMC_ATTR10,\nand emits only non-protected transactions which is enough to retrieve pixels from\nany application buffer.\n– The default OS drivers handle the layer 1 parameters (such as width, height,\nbuffer address).\n– The interrupt bank A is associated automatically with layer 1, and keeps an non-\nprotected open access. The OS must then handle and be driven by that Interrupt\nbank A to globally drive the display.\n• Common registers must be set at boot as non-protected, temporarily:\n– RIF LTDC common non-layer peripheral indexes is concerned.\n– This allows the default OS to boot the display subsystem, and to handle it.\n• Common registers must be set as protected when displaying a protected content:\n– The RIF LTDC common must be set protected before starting to display a\nprotected content, and be unprotected after the protected content has finished to\nbe updated. The LTDC common configuration spaces keep a permanent read\naccess for nonsecure or unprivileged software.\n– The protection restricts the write accesses only: it removes the access of the\nnon-protected OS, and so guarantees that a malware does not impact the stability\nof the displayed protected content. The LTDC common configuration spaces keep\na permanent read-access for nonsecure or unprivileged software.\n– The protection does not restrict the read accesses: the OS is usually unaware of\nthe status of the protected layer 2 that is handled by a different, secure, software.\nThe read access capability for the OS allow the display drivers to remain.\nsomehow stable, although the write access of the display drivers is not performed.\nTable379 lists vertically all the functional blocks of the display subsystem, and horizontally\nlists the associated RIF peripheral ID.\nNote: Table color legend for recommended settings:\n- green for a permanently non-protected setting\n- blue for a temporarily protected versus non-protected\n- purple for a permanently protected state\n[Table 379. Display subsystem RIF peripheral ID]",
+      "semantic": {}
+    }
+  ]
+}

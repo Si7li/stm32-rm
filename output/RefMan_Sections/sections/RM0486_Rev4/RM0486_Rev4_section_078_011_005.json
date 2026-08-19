@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.11.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.11.5",
+      "section_title": "Cortex-M55 performance monitoring unit (PMU)",
+      "level": 3,
+      "parent_section": "78.11",
+      "page": 4437,
+      "page_end": 4438,
+      "semantic_type": "generic",
+      "features": [
+        "m55",
+        "pmu"
+      ],
+      "chars": 1902,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4437",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.11.5 \"Cortex-M55 performance monitoring unit (PMU)\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4437.",
+      "section_content": "The PMU enables software to get information about events that are taking place\nintheprocessor, and can be used for performance analysis and system debug.\nThe PMU supports eight 16-bit event counters, and one 32-bit cycle counter. Each event\ncounter can count one event from the list of PMU events in the Arm Cortex-M55 Processor\nTechnical Reference Manual [4]. The PMU also supports a chain function, which allows\nthePMU to cascade two of the 16-bit counters into one 32-bit counter. Only odd event\ncounters support the chain feature. PMU counters increment if the corresponding enable bit\nis set in PMU_CNTENSET.\nThe PMU cycle counter PMU_CCNTR is an alias of the DWT_CYCCNT register. All derived\nfunctions of the counter are available whenever either the DWT or the PMU enables\nthecycle counter.\nGenerating interrupts\nIf a counter is configured to generate an interrupt when it overflows, a debug monitor\nexception becomes pending: MON_PEND bit is set to 1 in the Debug Exception and Monitor\nControl Register (DEMCR) of the Cortex-M55 core debug registers. At the same time,\nthePMU bit in the Cortex-M55 Debug Fault Status Register (DFSR) is set to 1.\nTheassociated overflow bit programmed by PMU_OVSSET and PMU_OVSCLR indicates\nwhich counter triggered the exception.\nThe interrupts are enabled if their corresponding bit programmed by PMU_INTENSET, and\nPMU_INTENCLR is set and DEMCR.MON_EN is 1.\nExporting trace\nThe PMU can export trace whenever the lower 8 bits of the counters overflow. The PMU\nissues an event counter packet with the appropriate counter flag set to 1. This occurs on\ncounter increment only, not on software or debugger write. For each counter n, if the lower\n8bits of that counter overflows, the associated OVn bit of the event counter packet is set.\nIfmultiple counters overflow during the same period, multiple bits may be set.\nThe PMU can serve as an event source for the CTI.",
+      "semantic": {}
+    }
+  ]
+}

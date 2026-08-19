@@ -1,0 +1,384 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S65.8.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "65",
+      "chapter_title": "Universal synchronous/asynchronous receiver transmitter (USART/UART)",
+      "section": "65.8.3",
+      "section_title": "USART control register 2 (USART_CR2)",
+      "level": 3,
+      "parent_section": "65.8",
+      "page": 3338,
+      "page_end": 3342,
+      "semantic_type": "register_description",
+      "features": [
+        "abren",
+        "abrmod",
+        "add",
+        "addm7",
+        "clken",
+        "cpha",
+        "cpol",
+        "datainv",
+        "dis-nss",
+        "lbcl",
+        "lbdie",
+        "lbdl",
+        "linen",
+        "msbfirst",
+        "rtoen",
+        "rxinv",
+        "slven",
+        "stop",
+        "swap",
+        "txinv",
+        "uart",
+        "usart",
+        "usart-cr2"
+      ],
+      "chars": 9447,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3338",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 65.8.3 \"USART control register 2 (USART_CR2)\" in chapter 65 (Universal synchronous/asynchronous receiver transmitter (USART/UART)), RM0486 Rev 4, page 3338.",
+      "section_content": "Address offset: 0x04\nReset value: 0x00000000\nBits 31:24 ADD[7:0]: Address of the USART node\nThese bits give the address of the USART node in mute mode or a character code to be recognized\nin low-power or Run mode:\n– In mute mode: they are used in multiprocessor communication to wake up from mute mode\nwith 4-bit/7-bit address mark detection. The MSB of the character sent by the transmitter is\nequal to 1. In 4-bit address mark detection, only ADD[3:0] bits are used.\n– In low-power mode: they are used for wake up from low-power mode on character match.\nWhen WUS[1:0] is programmed to 0b00 (WUF active on address match), the wake-up\nfrom low-power mode is performed when the received character corresponds to the\ncharacter programmed through ADD[6:0] or ADD[3:0] bitfield (depending on ADDM7 bit),\nand WUF interrupt is enabled by setting WUFIE bit. The MSB of the character sent by\ntransmitter is equal to 1.\n– In Run mode with mute mode inactive (for example, end-of-block detection in ModBus\nprotocol): the whole received character (8 bits) is compared to ADD[7:0] value and CMF\nflag is set on match. An interrupt is generated if the CMIE bit is set.\nThese bits can only be written when the USART is disabled (UE=0).\nBit 23 RTOEN: Receiver timeout enable\nThis bit is set and cleared by software.\n0: Receiver timeout feature disabled.\n1: Receiver timeout feature enabled.\nWhen this feature is enabled, the RTOF flag in the USART_ISR register is set if the RX line is idle\n(no reception) for the duration programmed in the RTOR (receiver timeout register).\nNote: If the USART does not support the Receiver timeout feature, this bit is reserved and must be\nkept at reset value. Refer to Section65.4: USART implementation.\nBits 22:21 ABRMOD[1:0]: Auto baud rate mode\nThese bits are set and cleared by software.\n00: Measurement of the start bit is used to detect the baud rate.\n01: Falling edge to falling edge measurement (the received frame must start with a single bit = 1 ->\nFrame = Start10xxxxxx)\n10: 0x7F frame detection.\n11: 0x55 frame detection\nThis bitfield can only be written when ABREN = 0 or the USART is disabled (UE=0).\nNote: If DATAINV=1 and/or MSBFIRST=1 the patterns must be the same on the line, for example\n0xAA for MSBFIRST)\nIf the USART does not support the auto baud rate feature, this bit is reserved and must be kept\nat reset value. Refer to Section65.4: USART implementation.\nBit 20 ABREN: Auto baud rate enable\nThis bit is set and cleared by software.\n0: Auto baud rate detection is disabled.\n1: Auto baud rate detection is enabled.\nNote: If the USART does not support the auto baud rate feature, this bit is reserved and must be kept\nat reset value. Refer to Section65.4: USART implementation.\nBit 19 MSBFIRST: Most significant bit first\nThis bit is set and cleared by software.\n0: data is transmitted/received with data bit 0 first, following the start bit.\n1: data is transmitted/received with the MSB (bit 7/8) first, following the start bit.\nThis bitfield can only be written when the USART is disabled (UE=0).\nBit 18 DATAINV: Binary data inversion\nThis bit is set and cleared by software.\n0: Logical data from the data register are send/received in positive/direct logic. (1=H, 0=L)\n1: Logical data from the data register are send/received in negative/inverse logic. (1=L, 0=H).\nThe parity bit is also inverted.\nThis bitfield can only be written when the USART is disabled (UE=0).\nBit 17 TXINV: TX pin active level inversion\nThis bit is set and cleared by software.\n0: TX pin signal works using the standard logic levels (VDD=1/idle, Gnd=0/mark)\n1: TX pin signal values are inverted. ((VDD=0/mark, Gnd=1/idle).\nThis enables the use of an external inverter on the TX line.\nThis bitfield can only be written when the USART is disabled (UE=0).\nBit 16 RXINV: RX pin active level inversion\nThis bit is set and cleared by software.\n0: RX pin signal works using the standard logic levels (VDD=1/idle, Gnd=0/mark)\n1: RX pin signal values are inverted. ((VDD=0/mark, Gnd=1/idle).\nThis enables the use of an external inverter on the RX line.\nThis bitfield can only be written when the USART is disabled (UE=0).\nBit 15 SWAP: Swap TX/RX pins\nThis bit is set and cleared by software.\n0: TX/RX pins are used as defined in standard pinout\n1: The TX and RX pins functions are swapped. This enables to work in the case of a cross-wired\nconnection to another UART.\nThis bitfield can only be written when the USART is disabled (UE=0).\nBit 14 LINEN: LIN mode enable\nThis bit is set and cleared by software.\n0: LIN mode disabled\n1: LIN mode enabled\nThe LIN mode enables the capability to send LIN synchronous breaks (13 low bits) using the\nSBKRQ bit in the USART_CR1 register, and to detect LIN Sync breaks.\nThis bitfield can only be written when the USART is disabled (UE=0).\nNote: If the USART does not support LIN mode, this bit is reserved and must be kept at reset value.\nRefer to Section65.4: USART implementation.\nBits 13:12 STOP[1:0]: Stop bits\nThese bits are used for programming the stop bits.\n00: 1 stop bit\n01: 0.5 stop bit.\n10: 2 stop bits\n11: 1.5 stop bits\nThis bitfield can only be written when the USART is disabled (UE=0).\nBit 11 CLKEN: Clock enable\nThis bit enables the user to enable the CK pin.\n0: CK pin disabled\n1: CK pin enabled\nNote: If neither synchronous mode nor smartcard mode is supported, this bit is reserved and must\nbe kept at reset value. Refer to Section65.4: USART implementation.\nIn smartcard mode, in order to provide correctly the CK clock to the smartcard, the steps below\nmust be respected:\nUE = 0\nSCEN = 1\nGTPR configuration\nCLKEN= 1\nUE = 1\nBit 10 CPOL: Clock polarity\nThis bit enables the user to select the polarity of the clock output on the CK pin in synchronous\nmode. It works in conjunction with the CPHA bit to produce the desired clock/data relationship\n0: Steady low value on CK pin outside transmission window\n1: Steady high value on CK pin outside transmission window\nThis bit can only be written when the USART is disabled (UE=0).\nNote: If synchronous mode is not supported, this bit is reserved and must be kept at reset value.\nRefer to Section65.4: USART implementation.\nBit 9 CPHA: Clock phase\nThis bit is used to select the phase of the clock output on the CK pin in synchronous mode. It works\nin conjunction with the CPOL bit to produce the desired clock/data relationship (see Figure846 and\nFigure847)\n0: The first clock transition is the first data capture edge\n1: The second clock transition is the first data capture edge\nThis bit can only be written when the USART is disabled (UE=0).\nNote: If synchronous mode is not supported, this bit is reserved and must be kept at reset value.\nRefer to Section65.4: USART implementation.\nBit 8 LBCL: Last bit clock pulse\nThis bit is used to select whether the clock pulse associated with the last data bit transmitted (MSB)\nhas to be output on the CK pin in synchronous mode.\n0: The clock pulse of the last data bit is not output to the CK pin\n1: The clock pulse of the last data bit is output to the CK pin\nCaution: The last bit is the 7th or 8th or 9th data bit transmitted depending on the 7 or 8 or 9 bit\nformat selected by the M bit in the USART_CR1 register.\nThis bit can only be written when the USART is disabled (UE=0).\nNote: If synchronous mode is not supported, this bit is reserved and must be kept at reset value.\nRefer to Section65.4: USART implementation.\nBit 7 Reserved, must be kept at reset value.\nBit 6 LBDIE: LIN break detection interrupt enable\nBreak interrupt mask (break detection using break delimiter).\n0: Interrupt is inhibited\n1: An interrupt is generated whenever LBDF=1 in the USART_ISR register\nNote: If LIN mode is not supported, this bit is reserved and must be kept at reset value. Refer to\nSection65.4: USART implementation.\nBit 5 LBDL: LIN break detection length\nThis bit is for selection between 11 bit or 10 bit break detection.\n0: 10-bit break detection\n1: 11-bit break detection\nThis bit can only be written when the USART is disabled (UE=0).\nNote: If LIN mode is not supported, this bit is reserved and must be kept at reset value. Refer to\nSection65.4: USART implementation.\nBit 4 ADDM7: 7-bit address detection/4-bit address detection\nThis bit is for selection between 4-bit address detection or 7-bit address detection.\n0: 4-bit address detection\n1: 7-bit address detection (in 8-bit data mode)\nThis bit can only be written when the USART is disabled (UE=0)\nNote: In 7-bit and 9-bit data modes, the address detection is done on 6-bit and 8-bit address\n(ADD[5:0] and ADD[7:0]) respectively.\nBit 3 DIS_NSS:\nWhen the DIS_NSS bit is set, the NSS pin input is ignored.\n0: SPI slave selection depends on NSS input pin.\n1: SPI slave is always selected and NSS input pin is ignored.\nThis bitfield can only be written when the USART is disabled (UE=0).\nNote: When SPI slave mode is not supported, this bit is reserved and must be kept at reset value.\nRefer to Section65.4: USART implementation.\nBits 2:1 Reserved, must be kept at reset value.\nBit 0 SLVEN: Synchronous slave mode enable\nWhen the SLVEN bit is set, the synchronous slave mode is enabled.\n0: Slave mode disabled.\n1: Slave mode enabled.\nThis bitfield can only be written when the USART is disabled (UE=0).\nNote: When SPI slave mode is not supported, this bit is reserved and must be kept at reset value.\nRefer to Section65.4: USART implementation.\nNote: The CPOL, CPHA, and LBCL bits must not be written while the transmitter is enabled.",
+      "semantic": {
+        "register": "USART_CR2",
+        "address_offset": "0x04",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "ADD[7:0]",
+            "description": "Address of the USART node These bits give the address of the USART node in mute mode or a character code to be recognized in low-power or Run mode: – In mute mode: they are used in multiprocessor communication to wake up from mute mode with 4-bit/7-bit address mark detection. The MSB of the character sent by the transmitter is equal to 1. In 4-bit address mark detection, only ADD[3:0] bits are used. – In low-power mode: they are used for wake up from low-power mode on character match. When WUS[1:0] is programmed to 0b00 (WUF active on address match), the wake-up from low-power mode is performed when the received character corresponds to the character programmed through ADD[6:0] or ADD[3:0] bitfield (depending on ADDM7 bit), and WUF interrupt is enabled by setting WUFIE bit. The MSB of the character sent by transmitter is equal to 1. – In Run mode with mute mode inactive (for example, end-of-block detection in ModBus protocol): the whole received character (8 bits) is compared to ADD[7:0] value and CMF flag is set on match. An interrupt is generated if the CMIE bit is set. These bits can only be written when the USART is disabled (UE=0).",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "RTOEN",
+            "description": "Receiver timeout enable This bit is set and cleared by software. When this feature is enabled, the RTOF flag in the USART_ISR register is set if the RX line is idle (no reception) for the duration programmed in the RTOR (receiver timeout register). Note: If the USART does not support the Receiver timeout feature, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Receiver timeout feature disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "Receiver timeout feature enabled."
+              }
+            ]
+          },
+          {
+            "bits": "22:21",
+            "name": "ABRMOD[1:0]",
+            "description": "Auto baud rate mode These bits are set and cleared by software. Frame = Start10xxxxxx) This bitfield can only be written when ABREN = 0 or the USART is disabled (UE=0). Note: If DATAINV=1 and/or MSBFIRST=1 the patterns must be the same on the line, for example 0xAA for MSBFIRST) If the USART does not support the auto baud rate feature, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Measurement of the start bit is used to detect the baud rate."
+              },
+              {
+                "value": "01",
+                "meaning": "Falling edge to falling edge measurement (the received frame must start with a single bit = 1 ->"
+              },
+              {
+                "value": "10",
+                "meaning": "0x7F frame detection."
+              },
+              {
+                "value": "11",
+                "meaning": "0x55 frame detection"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "ABREN",
+            "description": "Auto baud rate enable This bit is set and cleared by software. Note: If the USART does not support the auto baud rate feature, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Auto baud rate detection is disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "Auto baud rate detection is enabled."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "MSBFIRST",
+            "description": "Most significant bit first This bit is set and cleared by software. This bitfield can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "data is transmitted/received with data bit 0 first, following the start bit."
+              },
+              {
+                "value": "1",
+                "meaning": "data is transmitted/received with the MSB (bit 7/8) first, following the start bit."
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "DATAINV",
+            "description": "Binary data inversion This bit is set and cleared by software. The parity bit is also inverted. This bitfield can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Logical data from the data register are send/received in positive/direct logic. (1=H, 0=L)"
+              },
+              {
+                "value": "1",
+                "meaning": "Logical data from the data register are send/received in negative/inverse logic. (1=L, 0=H)."
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "TXINV",
+            "description": "TX pin active level inversion This bit is set and cleared by software. This enables the use of an external inverter on the TX line. This bitfield can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "TX pin signal works using the standard logic levels (VDD=1/idle, Gnd=0/mark)"
+              },
+              {
+                "value": "1",
+                "meaning": "TX pin signal values are inverted. ((VDD=0/mark, Gnd=1/idle)."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "RXINV",
+            "description": "RX pin active level inversion This bit is set and cleared by software. This enables the use of an external inverter on the RX line. This bitfield can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RX pin signal works using the standard logic levels (VDD=1/idle, Gnd=0/mark)"
+              },
+              {
+                "value": "1",
+                "meaning": "RX pin signal values are inverted. ((VDD=0/mark, Gnd=1/idle)."
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "SWAP",
+            "description": "Swap TX/RX pins This bit is set and cleared by software. connection to another UART. This bitfield can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "TX/RX pins are used as defined in standard pinout"
+              },
+              {
+                "value": "1",
+                "meaning": "The TX and RX pins functions are swapped. This enables to work in the case of a cross-wired"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "LINEN",
+            "description": "LIN mode enable This bit is set and cleared by software. The LIN mode enables the capability to send LIN synchronous breaks (13 low bits) using the SBKRQ bit in the USART_CR1 register, and to detect LIN Sync breaks. This bitfield can only be written when the USART is disabled (UE=0). Note: If the USART does not support LIN mode, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "LIN mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "LIN mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "STOP[1:0]",
+            "description": "Stop bits These bits are used for programming the stop bits. This bitfield can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "1 stop bit"
+              },
+              {
+                "value": "01",
+                "meaning": "0.5 stop bit."
+              },
+              {
+                "value": "10",
+                "meaning": "2 stop bits"
+              },
+              {
+                "value": "11",
+                "meaning": "1.5 stop bits"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "CLKEN",
+            "description": "Clock enable This bit enables the user to enable the CK pin. Note: If neither synchronous mode nor smartcard mode is supported, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation. In smartcard mode, in order to provide correctly the CK clock to the smartcard, the steps below must be respected: UE = 0 SCEN = 1 GTPR configuration CLKEN= 1 UE = 1",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CK pin disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "CK pin enabled"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "CPOL",
+            "description": "Clock polarity This bit enables the user to select the polarity of the clock output on the CK pin in synchronous mode. It works in conjunction with the CPHA bit to produce the desired clock/data relationship This bit can only be written when the USART is disabled (UE=0). Note: If synchronous mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Steady low value on CK pin outside transmission window"
+              },
+              {
+                "value": "1",
+                "meaning": "Steady high value on CK pin outside transmission window"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "CPHA",
+            "description": "Clock phase This bit is used to select the phase of the clock output on the CK pin in synchronous mode. It works in conjunction with the CPOL bit to produce the desired clock/data relationship (see Figure846 and Figure847) This bit can only be written when the USART is disabled (UE=0). Note: If synchronous mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The first clock transition is the first data capture edge"
+              },
+              {
+                "value": "1",
+                "meaning": "The second clock transition is the first data capture edge"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "LBCL",
+            "description": "Last bit clock pulse This bit is used to select whether the clock pulse associated with the last data bit transmitted (MSB) has to be output on the CK pin in synchronous mode. Caution: The last bit is the 7th or 8th or 9th data bit transmitted depending on the 7 or 8 or 9 bit format selected by the M bit in the USART_CR1 register. This bit can only be written when the USART is disabled (UE=0). Note: If synchronous mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The clock pulse of the last data bit is not output to the CK pin"
+              },
+              {
+                "value": "1",
+                "meaning": "The clock pulse of the last data bit is output to the CK pin"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "LBDIE",
+            "description": "LIN break detection interrupt enable Break interrupt mask (break detection using break delimiter). Note: If LIN mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt is inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt is generated whenever LBDF=1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "LBDL",
+            "description": "LIN break detection length This bit is for selection between 11 bit or 10 bit break detection. This bit can only be written when the USART is disabled (UE=0). Note: If LIN mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "10-bit break detection"
+              },
+              {
+                "value": "1",
+                "meaning": "11-bit break detection"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "ADDM7",
+            "description": "7-bit address detection/4-bit address detection This bit is for selection between 4-bit address detection or 7-bit address detection. This bit can only be written when the USART is disabled (UE=0) Note: In 7-bit and 9-bit data modes, the address detection is done on 6-bit and 8-bit address (ADD[5:0] and ADD[7:0]) respectively.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "4-bit address detection"
+              },
+              {
+                "value": "1",
+                "meaning": "7-bit address detection (in 8-bit data mode)"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "DIS_NSS",
+            "description": "When the DIS_NSS bit is set, the NSS pin input is ignored. This bitfield can only be written when the USART is disabled (UE=0). Note: When SPI slave mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SPI slave selection depends on NSS input pin."
+              },
+              {
+                "value": "1",
+                "meaning": "SPI slave is always selected and NSS input pin is ignored."
+              }
+            ]
+          },
+          {
+            "bits": "2:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "SLVEN",
+            "description": "Synchronous slave mode enable When the SLVEN bit is set, the synchronous slave mode is enabled. This bitfield can only be written when the USART is disabled (UE=0). Note: When SPI slave mode is not supported, this bit is reserved and must be kept at reset value. Refer to Section65.4: USART implementation. Note: The CPOL, CPHA, and LBCL bits must not be written while the transmitter is enabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Slave mode disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "Slave mode enabled."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

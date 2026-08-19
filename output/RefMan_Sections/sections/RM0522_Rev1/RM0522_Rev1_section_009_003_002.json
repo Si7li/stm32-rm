@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S9.3.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "9",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "9.3.2",
+      "section_title": "System reset",
+      "level": 3,
+      "parent_section": "9.3",
+      "page": 252,
+      "page_end": 253,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "chars": 2142,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=252",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.3.2 \"System reset\" in chapter 9 (Reset and clock control (RCC)), RM0522 Rev 1, page 252.",
+      "section_content": "A system reset sets all registers to their reset values, except the reset flags in RCC_RSR,\nand the registers in the RTC domain.\nA system reset is generated when one of the following events occurs:\n• A low level on the NRST pin (external reset)\n• A window watchdog event (WWDG reset)\n• An independent watchdog event (IWDG reset)\n• A software reset (SW reset) (see Software reset)\n• A low-power mode security reset (see Low-power mode security reset)\n• A POR reset\nThe reset source can be identified by checking the reset flags in RCC_RSR.\nThese sources act on the NRST pin and this pin is always kept low during the delay phase.\nThe reset service routine vector is selected depending on RDP level, on Boot option bytes\nor on both.\nThe system reset signal provided to the device is output on the NRST pin. The pulse\ngenerator guarantees a minimum reset pulse duration of 20µs for each internal reset\nsource. In case of an external reset, the reset pulse is generated while the NRST pin is\nasserted low.\nIn case of an internal reset, the internal pull-up RPU is deactivated to save the power\nconsumption through the pull-up resistor.\n[Figure 24. Simplified diagram of the reset circuit]\nSoftware reset\nThe SYSRESETREQ bit in Cortex-M33 application interrupt and reset control register must\nbe set to force a software reset on the device.\nLow-power mode security reset\nTo avoid that critical applications mistakenly enter a low-power mode, the following\nlow-power mode security resets are available. If enabled in option bytes, the resets are\ngenerated in any of the following conditions:\n• Entering Standby mode: this type of reset is enabled by resetting NRST_STDBY bit in\nuser option bytes. In this case, whenever a Standby mode entry sequence is\nsuccessfully executed, the device is reset instead of entering Standby mode.\n• Entering Stop mode: this type of reset is enabled by resetting NRST_STOP bit in user\noption bytes. In this case, whenever a Stop mode entry sequence is successfully\nexecuted, the device is reset instead of entering Stop mode.\nFor further information on the user option bytes, refer to Section6.4: FLASH option bytes.",
+      "semantic": {}
+    }
+  ]
+}

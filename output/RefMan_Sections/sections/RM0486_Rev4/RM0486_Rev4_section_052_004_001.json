@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S52.4.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "52",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "52.4.1",
+      "section_title": "Introduction",
+      "level": 3,
+      "parent_section": "52.4",
+      "page": 2459,
+      "page_end": 2460,
+      "semantic_type": "generic",
+      "features": [
+        "introduction"
+      ],
+      "chars": 2463,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2459",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 52.4.1 \"Introduction\" in chapter 52 (Public key accelerator (PKA)), RM0486 Rev 4, page 2459.",
+      "section_content": "The operations supported by the PKA are detailed in the following subsections, which define\nthe format of both input data and results stored in the PKA RAM.\nWarning: Before starting any operation, ensure that all input\nparameters to the PKA are valid and consistent, as the PKA\nassumes their correctness. Additionally, input parameters\nmust not exceed the operand sizes specified in the operation\ntables.\nThe following information applies to all PKA operations:\n• The PKA core processes 64-bit words in its RAM. Accordingly, in the PKA section of\nthis document, 'word' denotes a 64-bit unit.\n• When writing an element as input in the PKA RAM, append an additional 64-bit word of\nzeros after the most significant word, except when the operand size is fixed at one\nword.\n• All RAM storage addresses refer to the least significant word of the data. To obtain the\nactual address, the application must add the base address of the PKA to the indicated\noffset.\n• Supported operand sizes are:\n– ROS (RSA operand size): Data size is calculated as (rsa_size/64)+1 words,\nwhere rsa_size is the modulus length in bits. For example, a 1024-bit RSA\noperand corresponds to 17 words (1088 bits).\n– EOS (ECC operand size): Data size is (ecc_size/64)+1 words, where ecc_size\nis the prime modulus length in bits. For example, a 192-bit ECC operand\ncorresponds to four words (256 bits).\nNote: Both ROS and EOS include the additional zero word.\n• Unless indicated otherwise, all operands in the tables are integers.\nNote: Any fractional results in the formulas must be rounded to the nearest integer, as the PKA\ncore processes data in 64-bit words.\nNote: The maximum ROS is 66 words (4160-bit maximum exponent size), while the maximum\nEOS is 11 words (640-bit max operand size).\nExample 1: Understanding endianness in PKA memory during ECC Fp scalar multiplication\npreparation\nWrite the x-coordinate of point P for an ECC P256 curve (EOS = 5 words) by placing the\nleast significant bit at bit 0 of the word at address offset 0x578, and the most significant bit at\nbit 63 of the word at address offset 0x590. Then, write a zero word (0x0000000000000000)\nat address offset 0x598.\nExample 2: Writing the curve coefficient ‘a’ for ECC Fp scalar multiplication\nTo write the value a = -3 for a curve with a modulus length of 224 bits (rounded up to five\n64-bit words), write the PKA memory with data as in the following table:\n[Table 443. Example of ‘a’ curve coefficient for ECC Fp scalar]",
+      "semantic": {}
+    }
+  ]
+}

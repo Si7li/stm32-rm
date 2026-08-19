@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.4.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.4.13",
+      "section_title": "Disabling the SPI",
+      "level": 3,
+      "parent_section": "67.4",
+      "page": 3449,
+      "page_end": 3450,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 4456,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3449",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.4.13 \"Disabling the SPI\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3449.",
+      "section_content": "To disable the SPI, it is mandatory to follow the disable procedures described in this\nparagraph.\nIn the master mode, it is important to do this before the system enters a low-power mode\nwhen the peripheral clock is stopped, otherwise, ongoing transfers may be corrupted.\nIn slave mode, the SPI communication can continue when the spi_pclk and spi_ker_ck\nclocks are stopped, without interruption, until any end of communication or data service\nrequest condition is reached. The spi_pclk can generally be stopped by setting the system\ninto Stop mode. Refer to the RCC section for further information.\nThe master in full-duplex or transmit-only mode can finish any transfers when it stops\nproviding data for transmission. In this case, the clock stops after the last data transfer. TXC\nflag can be polled (or interrupt enabled with EOTIE = 1) in order to wait for the last data\nframe to be sent.\nWhen the master is in any receive-only mode, to stop the peripheral, the SPI communication\nmust first be suspended, by setting the CSUSP bit.\nThe data received but not read remain stored in RxFIFO when the SPI is suspended.\nAfter such a software suspension, SPI must always be disabled to restart the internal state\nmachine properly.\nWhen SPI is disabled, RxFIFO is flushed. To prevent losing unread data, the user must\nensure that RxFIFO is empty when disabling the SPI, by reading all remaining data (as\nindicated by the RXP, RXWNE, and RXPLVL fields in the SPI_SR register).\nThe standard disable procedure is based on polling EOT and/or TXC status to check if a\ntransmission session is (fully) completed. This check can be done in specific cases, too,\nwhen it is necessary to identify the end of ongoing transfers, for example:\n• When the master handles the NSS signal by a GPIO not related to SPI (for example at\ncase of multislave star topology) and it has to provide a proper end-of-NSS pulse for\nthe slave, or\n• When transfers from DMA or FIFO are completed while the last data frame or CRC\nframe transfer is still ongoing in the peripheral bus.\nWhen TSIZE>0, EOT and TXC signals are equal so polling of EOT is reliable at whatever\nSPI communication mode to check the end of the bus activity. When TSIZE=0, the user\nhas to check TXC, SUSP, or FIFO occupancy flags according to the applied SPI mode and\nthe way of the data flow termination.\nThe correct disable procedure in master mode, except when receive-only mode is used, is:\n1. Wait until TXC=1 and/or EOT = 1 (no more data to transmit and last data frame sent).\nWhen CRC is used, it is sent automatically after the last data in the block is processed.\nTXC/EOT is set when the CRC frame is complete in this case. When a transmission is\nsuspended the software has to wait until the CSTART bit is cleared.\n2. Read all RxFIFO data (until RXWNE=0 and RXPLVL=00).\n3. Disable the SPI (SPE=0).\nThe correct disable procedure for master receive-only modes is:\n1. Wait on EOT or break the receive flow by suspending SPI (CSUSP=1).\n2. Wait until SUSP=1 (the last data frame is processed) if the receive flow is suspended.\n3. Read all RxFIFO data (until RXWNE=0 and RXPLVL=00).\n4. Disable the SPI (SPE=0).\nIn slave mode, any ongoing data are lost when disabling the SPI.\nControlling the I/Os\nAs soon as the SPI is disabled, the associated and enabled AF outputs can still be driven by\nthe device depending on the AFCNTR bit of the SPI_CFG2 register. When active output\ncontrol is applied (AFCNTR=1) and SPI has just been disabled (SPE=0), the enabled\noutputs associated with SPI control signals (like NSS and SCK at master and RDY at slave)\ncan immediately toggle to inactive level (according to SSIOP and CPOL settings at master\nand RDIOP at slave respectively). Instead, the data line output (MOSI at master and MISO\nat slave) can immediately change its level depending on the actual TxFIFO content, with the\neffect of potentially making invalid and no more guaranteed the value of the latest\ntransferred bit on the bus. If necessary, the user has to take care about proper data hold\ntime at the data line and avoid any eventual fast SPI disable just after the last data transfer\nis complete.\nNote: Despite stability of the latest bit is guaranteed by design during the sampling edge of the\nclock, some devices can require even extension of this data bit stability interval during the\nsampling. It can be done, for example by inserting a small software delay between EOT\nevent occurrence and SPI disable action.",
+      "semantic": {}
+    }
+  ]
+}

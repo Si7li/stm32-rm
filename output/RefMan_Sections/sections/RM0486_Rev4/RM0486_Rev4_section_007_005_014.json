@@ -1,0 +1,170 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S7.5.14",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "7",
+      "chapter_title": "Resource isolation slave unit for address space protection (full version) (RISAF)",
+      "section": "7.5.14",
+      "section_title": "RISAF region x subregion B configuration register (RISAF_REGx_BCFGR)",
+      "level": 3,
+      "parent_section": "7.5",
+      "page": 274,
+      "page_end": 275,
+      "semantic_type": "register_description",
+      "features": [
+        "priv",
+        "rden",
+        "risaf",
+        "rlock",
+        "sec",
+        "srcid",
+        "sren",
+        "wren"
+      ],
+      "chars": 3058,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=274",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 7.5.14 \"RISAF region x subregion B configuration register (RISAF_REGx_BCFGR)\" in chapter 7 (Resource isolation slave unit for address space protection (full version) (RISAF)), RM0486 Rev 4, page 274.",
+      "section_content": "Address offset: 0x060 + 0x40 * (x - 1) (x = 1 to 15)\nReset value: 0x00000000\nUnprivileged writes are ignored. Nonsecure writes are ignored if SEC = 1 in\nRISAF_REGx_CFGR, or if DCEN = 0 in RISAF_REGx_BNESTR. Any read access is\nallowed to this register. Writes are ignored if RLOCK = 1 or SREN = 1 in\nRISAF_REGx_BCFGR.\nWhen the delegated configuration is enabled (DCEN = 1 in RISAF_REGx_BNESTR), only\nthe compartment DCCID defined in RISAF_REGx_BNESTR can write to this register. When\nthe delegation is disabled (DCEN = 0), only the secure privileged software can program this\nregister.\nRefer to Section7.3 to verify the number of base regions and subregions supported by this\nRISAF instance.\nCaution: Check Section7.3 before programming SRCID[2:0] bitfield.\nBits 31:14 Reserved, must be kept at reset value.\nBit 13 WREN: Write enable\nThis bit is taken into account only if SREN = 1 in this register.\n0: Any write to subregion B of region x is ignored\n1: Subregion B of region x can be written\nBit 12 RDEN: Read enable\nThis bit is taken into account only if SREN = 1 in this register.\n0: Any read to subregion B of region x returns 0\n1: Subregion B of region x can be read\nBits 11:10 Reserved, must be kept at reset value.\nBit 9 PRIV: Privileged subregion\nThis bit is taken into account only if SREN = 1 in this register.\n0: Privileged and unprivileged accesses are granted in subregion B of region x\n1: Only privileged accesses are granted in subregion B of region x\nNote: When base region x is defined as unprivileged for the SCID compartment (PRIVCy = 0\nin RISAF_REGx_CFGR, with SRCID = Cy), unprivileged accesses to subregion B are\nalways granted.\nBit 8 SEC: Secure subregion\nThis bit is taken into account only if SREN = 1 in this register. Nonsecure modification to it are\ndiscarded.\n0: Only nonsecure requests can access subregion B of region x\n1: Only secure requests can access subregion B of region x\nNote: When base region x is defined as nonsecure (SEC = 0 in RISAF_REGx_CFGR), only\nnonsecure accesses to subregion B are granted.\nBit 7 Reserved, must be kept at reset value.\nBits 6:4 SRCID[2:0]: Subregion CID\nWhen SREN = 1 in this register, SRCID[2:0] defines which compartment has access to\nsubregion B of RISAF region x.\nBits 3:2 Reserved, must be kept at reset value.\nBit 1 RLOCK: Resource lock\nWhen this bit is set, the subregion resource is locked.\n0: RISAF_REGx_BCFGR, RISAF_REGx_BSTARTR, and RISAF_REGx_BENDR are\nwritable\n1: Writes to RISAF_REGx_BCFGR, RISAF_REGx_BSTARTR, and RISAF_REGx_BENDR\nare ignored\nNote: This bit is set once, cleared only by RISAF reset. It cannot be set if GLOCK = 0 in\nRISAF_CR.\nBit 0 SREN: Subregion enable\n0: Subregion B of region x is disabled. Access control of base region x applies to any access\nbetween this subregion start and end addresses.\n1: Subregion B of region x is enabled. Access control defined in subregion B applies to any\naccess between subregion B start and end addresses.\nNote: The filtering starts from address RISAF_REGx_BSTARTR (included), and ends at\naddress RISAF_REGx_BENDR (included).",
+      "semantic": {
+        "register": "RISAF_REGx_BCFGR",
+        "address_offset": "0x060 + 0x40 * (x - 1) (x = 1 to 15)",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "WREN",
+            "description": "Write enable This bit is taken into account only if SREN = 1 in this register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Any write to subregion B of region x is ignored"
+              },
+              {
+                "value": "1",
+                "meaning": "Subregion B of region x can be written"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "RDEN",
+            "description": "Read enable This bit is taken into account only if SREN = 1 in this register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Any read to subregion B of region x returns 0"
+              },
+              {
+                "value": "1",
+                "meaning": "Subregion B of region x can be read"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "PRIV",
+            "description": "Privileged subregion This bit is taken into account only if SREN = 1 in this register. Note: When base region x is defined as unprivileged for the SCID compartment (PRIVCy = 0 in RISAF_REGx_CFGR, with SRCID = Cy), unprivileged accesses to subregion B are always granted.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Privileged and unprivileged accesses are granted in subregion B of region x"
+              },
+              {
+                "value": "1",
+                "meaning": "Only privileged accesses are granted in subregion B of region x"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "SEC",
+            "description": "Secure subregion This bit is taken into account only if SREN = 1 in this register. Nonsecure modification to it are discarded. Note: When base region x is defined as nonsecure (SEC = 0 in RISAF_REGx_CFGR), only nonsecure accesses to subregion B are granted.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Only nonsecure requests can access subregion B of region x"
+              },
+              {
+                "value": "1",
+                "meaning": "Only secure requests can access subregion B of region x"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6:4",
+            "name": "SRCID[2:0]",
+            "description": "Subregion CID When SREN = 1 in this register, SRCID[2:0] defines which compartment has access to subregion B of RISAF region x.",
+            "values": []
+          },
+          {
+            "bits": "3:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "RLOCK",
+            "description": "Resource lock When this bit is set, the subregion resource is locked. writable are ignored Note: This bit is set once, cleared only by RISAF reset. It cannot be set if GLOCK = 0 in RISAF_CR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RISAF_REGx_BCFGR, RISAF_REGx_BSTARTR, and RISAF_REGx_BENDR are"
+              },
+              {
+                "value": "1",
+                "meaning": "Writes to RISAF_REGx_BCFGR, RISAF_REGx_BSTARTR, and RISAF_REGx_BENDR"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "SREN",
+            "description": "Subregion enable between this subregion start and end addresses. access between subregion B start and end addresses. Note: The filtering starts from address RISAF_REGx_BSTARTR (included), and ends at address RISAF_REGx_BENDR (included).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Subregion B of region x is disabled. Access control of base region x applies to any access"
+              },
+              {
+                "value": "1",
+                "meaning": "Subregion B of region x is enabled. Access control defined in subregion B applies to any"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

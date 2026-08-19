@@ -46,6 +46,16 @@ def _slot(url: str) -> str:
     return f"{safe}-{digest}"
 
 
+def _post_slot(url: str, body: bytes) -> str:
+    """Cache filename for a POST: the response depends on the body too.
+
+    ST's ``products-excel-download`` export is a POST, so a url-only slot
+    would let one selector's workbook answer for another.
+    """
+    digest = hashlib.sha256(url.encode("utf-8") + b"|" + body).hexdigest()[:16]
+    return f"post-{digest}"
+
+
 @dataclass
 class Fetcher:
     """Rate-limited, retrying, caching HTTP GET against st.com."""
@@ -140,3 +150,57 @@ class Fetcher:
             slot = self.cache_dir / _slot(url)
             slot.unlink(missing_ok=True)
             raise FetchError(f"GET {url} returned non-JSON ({exc})") from exc
+
+    def post_form_bytes(
+        self, url: str, data: dict[str, str], *, referer: str | None = None
+    ) -> bytes:
+        """POST ``urlencoded`` form data, cached under the URL **and** the body.
+
+        Only this package's one POST (the Excel export) uses it, so the
+        semantics are kept deliberately small. A cached response makes a
+        second run with the same payload fully offline.
+        """
+        body = json.dumps(data, sort_keys=True, ensure_ascii=False)
+        path = self.cache_dir / _post_slot(url, body.encode("utf-8"))
+        fail = path.with_suffix(".err")
+        if self.use_cache and path.exists():
+            self.hits += 1
+            logger.debug("cache hit POST %s", url)
+            return path.read_bytes()
+        if self.use_cache and fail.exists():
+            self.hits += 1
+            raise FetchError(f"POST {url} -> {fail.read_text().strip()} (cached)")
+        if self.offline:
+            raise FetchError(f"offline and not cached: {url}")
+
+        headers = {}
+        if referer:
+            headers["Referer"] = referer
+
+        last: Exception | None = None
+        resp = None
+        for attempt in range(1, MAX_RETRIES + 1):
+            self._throttle()
+            self.calls += 1
+            try:
+                resp = self.session.post(
+                    url, data=data, headers=headers, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT)
+                )
+            except Exception as exc:  # noqa: BLE001 -- transport errors are all retryable
+                last = exc
+                logger.warning("POST %s attempt %d/%d raised: %s", url, attempt, MAX_RETRIES, exc)
+            else:
+                if resp.status_code == 200:
+                    path.write_bytes(resp.content)
+                    return resp.content
+                if resp.status_code not in RETRYABLE_STATUS:
+                    fail.write_text(f"HTTP {resp.status_code}")
+                    raise FetchError(f"POST {url} -> HTTP {resp.status_code}")
+                logger.warning(
+                    "POST %s attempt %d/%d -> HTTP %d", url, attempt, MAX_RETRIES, resp.status_code
+                )
+            if attempt < MAX_RETRIES:
+                time.sleep(min(2**attempt, 60))
+        if last is not None:
+            raise FetchError(f"POST {url} failed: {last}") from last
+        raise FetchError(f"POST {url} -> HTTP {resp.status_code if resp else '?'} after retries")

@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S3.3.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "3",
+      "chapter_title": "Memory and bus architecture",
+      "section": "3.3.2",
+      "section_title": "Bit banding",
+      "level": 3,
+      "parent_section": "3.3",
+      "page": 53,
+      "page_end": 53,
+      "semantic_type": "generic",
+      "features": [
+        "memory"
+      ],
+      "chars": 1601,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=53",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.3.2 \"Bit banding\" in chapter 3 (Memory and bus architecture), RM0008 Rev 21, page 53.",
+      "section_content": "The Cortex®-M3 memory map includes two bit-band regions. These regions map each word\nin an alias region of memory to a bit in a bit-band region of memory. Writing to a word in the\nalias region has the same effect as a read-modify-write operation on the targeted bit in the\nbit-band region.\nIn the STM32F10xxx both peripheral registers and SRAM are mapped in a bit-band region.\nThis allows single bit-band write and read operations to be performed. The operations are\nonly available for Cortex®-M3 accesses, not from other bus masters (e.g. DMA).\nA mapping formula shows how to reference each word in the alias region to a corresponding\nbit in the bit-band region. The mapping formula is:\nbit_word_addr = bit_band_base + (byte_offset x 32) + (bit_number × 4)\nwhere:\nbit_word_addr is the address of the word in the alias memory region that maps to the\ntargeted bit.\nbit_band_base is the starting address of the alias region\nbyte_offset is the number of the byte in the bit-band region that contains the targeted\nbit\nbit_number is the bit position (0-7) of the targeted bit.\nExample:\nThe following example shows how to map bit 2 of the byte located at SRAM address\n0x20000300 in the alias region:\n0x22006008 = 0x22000000 + (0x300*32) + (2*4).\nWriting to address 0x22006008 has the same effect as a read-modify-write operation on bit\n2 of the byte at SRAM address 0x20000300.\nReading address 0x22006008 returns the value (0x01 or 0x00) of bit 2 of the byte at SRAM\naddress 0x20000300 (0x01: bit set; 0x00: bit reset).\nFor more information on Bit-Banding refer to the Cortex®-M3 Technical Reference Manual.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "table_id": "RM0522-T195",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "195",
+      "title": "Blob use steps for modular exponentiation (CCOP = 0b01000101)",
+      "page": 766,
+      "section": "25.5.4",
+      "section_title": "RSA modular exponentiation",
+      "semantic_type": "generic",
+      "features": [
+        "ccop",
+        "opstep"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=766",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "OPSTEP",
+        "MODE in PKA",
+        "GCMPH in SAES",
+        "Coupling or chaining operations",
+        "End-step event(1)",
+        "CPU action"
+      ],
+      "text_helper": "Table 195, \"Blob use steps for modular exponentiation (CCOP = 0b01000101)\", in section 25.5.4 (RSA modular exponentiation) on page 766. Columns: OPSTEP, MODE in PKA, GCMPH in SAES, Coupling or chaining operations, End-step event(1), CPU action. 9 data row(s). Notes: 1. The application must clear and/or perform described event for CCB to automatically go to the next step.; 2. SAES cannot be used for any operations, for security reasons.",
+      "table_content": {
+        "headers": [
+          "OPSTEP",
+          "MODE in PKA",
+          "GCMPH in SAES",
+          "Coupling or chaining operations",
+          "End-step event(1)",
+          "CPU action"
+        ],
+        "rows": [
+          [
+            "0x1",
+            "N/A",
+            "N/A",
+            "N/A",
+            "AES GCM \nselected, \nGCMPH=0x0",
+            "– Enable the PKA in the correct mode, writing in \nPKA_CR MODE= 0x3 and EN=1 (repeat if EN bit \nstays clear). Wait for INITOK=1 in PKA_SR.\n– Optionally decrypt blob encryption key in the SAES, \nusing DHUK in 256-bit wrapped key mode.\n– Set up AES-GCM in decryption mode with DHUK or \nthe decrypted key in register (if applicable).\n– Write operand A in the PKA RAM. Write constant K as \noperand A defined in Table 194 when verifying the \ncreated blob."
+          ],
+          [
+            "0x12",
+            "0x03",
+            "0x0",
+            "N/A",
+            "GCMPH=0x1 \n(following GCM \ninitialization)",
+            "– Complete GCM initialization in decryption mode, using \nsaved random IV.\n– Write reference tag in CCB_REFTAGR."
+          ],
+          [
+            "0x13",
+            "0x03",
+            "0x1",
+            "CPU –> PKA \n+ SAES",
+            "GCMPH=0x2",
+            "Write protected modular exponentiation parameters \n(PKA mode 0x3) in the PKA RAM, clearing CCF flags in \nthe SAES, triggered after each-bit write. "
+          ],
+          [
+            "0x14",
+            "0x03",
+            "0x2",
+            "SAES –> PKA",
+            "DATAOKF set",
+            "– Write encrypted e in SAES_DINR, and runs AES \ndecryption round.\n– Write incrementally exponent e in the PKA, using \n0xCCB magic number. \n– Repeat for each 16-byte block of data."
+          ],
+          [
+            "0x15",
+            "0x03",
+            "0x2",
+            "SAES –> PKA",
+            "DATAOKF set, \nGCMPH=0x3",
+            "– Write encrypted phi in SAES_DINR, and runs AES \ndecryption round.\n– Write incrementally phi in the PKA, using 0xCCB \nmagic number. \n– Repeat for each 16-byte block of data."
+          ],
+          [
+            "0x17",
+            "0x03",
+            "0x3",
+            "SAES –> \nCCB",
+            "Tag matches \nREFTAGR?",
+            "– Complete GCM final.\n– Read computed tag in the SAES (returns 0)."
+          ],
+          [
+            "0x18",
+            "0x03",
+            "N/A",
+            "N/A",
+            "START=0x1",
+            "Start the operation in PKA setting START bit in \nPKA_CR."
+          ],
+          [
+            "0x19(2)",
+            "0x03",
+            "N/A",
+            "N/A",
+            "PROCENDF set",
+            "The PKA computes the operation, PKA RAM is read as \n0."
+          ],
+          [
+            "0x1A",
+            "0x03",
+            "N/A",
+            "N/A",
+            "N/A",
+            "Read Ae mod n in the PKA RAM. If the result is Ke mod \nn verify it matches the reference computed in Table194 \nbefore saving the created blob in non-volatile memory."
+          ]
+        ],
+        "notes": [
+          "1. The application must clear and/or perform described event for CCB to automatically go to the next step.",
+          "2. SAES cannot be used for any operations, for security reasons."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

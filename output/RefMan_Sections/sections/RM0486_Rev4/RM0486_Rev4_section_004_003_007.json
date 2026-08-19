@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S4.3.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "4",
+      "chapter_title": "Boot and security control (BSEC)",
+      "section": "4.3.7",
+      "section_title": "Lifecycle management",
+      "level": 3,
+      "parent_section": "4.3",
+      "page": 208,
+      "page_end": 209,
+      "semantic_type": "generic",
+      "features": [
+        "boot"
+      ],
+      "chars": 3933,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=208",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.3.7 \"Lifecycle management\" in chapter 4 (Boot and security control (BSEC)), RM0486 Rev 4, page 208.",
+      "section_content": "BSEC state initialization\nFollowing a cold or warm reset BSEC can be in the following possible security states,\ndefined in Table12.\n[Table 12. BSEC states definition]\nErrors following a BSEC initialization are detailed in Section4.3.6. Details about reset\nmanagement can be found in Section4.3.17.\nWhen neither BSEC-open nor BSEC-closed state (NVSTATE different than 0x16 or 0x0D),\nthe security state is considered invalid, and the most conservative security configuration is\napplied: that is, fuse programming is disabled, upper fuses read as 0, debug is disabled,\nROM is partially unmapped and shadow registers are read only. When NVSTATE=0x23,\naconfirmed tamper is active in the device (see Section4.3.17).\nNote: On any reset, including hot reset, if the state is BSEC-closed, the BSEC_UNMAPR register\nis set to 0xA1C0DE0D, ensuring the whole boot ROM is visible.\nOpening BSEC\nBSEC can transition from BSEC-closed to BSEC-open only if the user enters the\nprogrammed 128-bit password via JTAG, and then performs a global reset (JTAG + device),\nclearing all secrets.\nThe recommended JTAG password programming sequence is:\n1. Write the four password words to upper fuses words 256 to 259 with PPLOCK bit\ncleared in BSEC_OTPCR. JTAG_PSWD0 is stored in word 256, while JTAG_PSWD3\nis stored in word 259.\n2. Read back password value to verify it is correct\n3. Write 0x0 to the same fuse words 256 to 259, with PPLOCK bit set in BSEC_OTPCR.\nAfter this, password words cannot be read nor programmed anymore by the\napplication.\nThe BSEC opening sequence is described below:\n1. Bring the device TAP out of reset, and enter the device secret password sequentially\nusing the JTAG commands 0100 (SET_JTAG_PSWD0), 0101 (SET_JTAG_PSWD1),\n0110 (SET_JTAG_PSWD2) then 0111 (SET_JTAG_PSWD3).\n2. Trigger a device reset, without causing a TAP reset. When BSEC emerges from reset,\nit blows the RMA fuse word with adequate values.\n3. Trigger a TAP reset to destroy any record of the entered password, and after the next\ncold or warm reset, the BSEC changes its NVSTATE to “BSEC-open” in BSEC_SR. It\ncan be verified using the JTAG command 0011 (READ_SEC). BSEC returns 0x1 for an\nBSEC-open device, 0x2 for a BSEC-closed device.\n4. Ship the device to STMicroelectronics for field return analysis (RMA)\nOnce the device has been opened it can be closed again by blowing to 0xF the next\nunblown 4-bit nibble in BSEC_FVR1 (see Closing BSEC). At most four device re-opening\nattempts are allowed, regardless of whether they are successful or unsuccessful.\nBy blowing at least one bit in BSEC_FVR1[27:24], the application can reduce the number of\nre-opening cycles to only one.\nIf the application blows at least one bit in BSEC_FVR1[31:28] a closed device can never be\nre-opened.\nThe application can also ensure that if a closed device is ever re-opened, it is not possible to\nsubsequently re-close it again. It is done by blowing the permanent programming lock\n(PPLOCK) of fuse word 1, writing 0x00000000 to BSEC_WDR then writing 0x00006001 to\nBSEC_OTPCR.\nNote: By default BSEC opening password is 0x0. It is advised to change it.\nClosing BSEC\nBSEC can transition from BSEC-open to BSEC-closed by blowing some bits such that s[7:0]\nbecomes greater than r[7:0], or s[7]=1. Bytes s[7:0] and r[7:0] are defined as follows:\ns[7:0] = OR(BSEC_FVR1[31:28]) | OR(BSEC_FVR1[27:24]) | ... |\nOR(BSEC_FVR1[3:0])\nr[7:0] = AND(BSEC_FVR2[31:28]) | AND(BSEC_FVR2[27:24]) | ... |\nAND(BSEC_FVR2[3:0])\nWith the following conventions:\n• “|” is concatenation operand\n• OR(bits[1:0])= bit[1] OR bit[0]\n• AND(bits[1:0])= bit[1] AND bit[0]\nWhen the device is being closed, the application can limit re-opening cycles to only one\nattempt by blowing at least one bit in BSEC_FVR1[27:24]. To reduce re-opening cycles to\nzero, the application must blow at least one bit in BSEC_FVR1[31:28].\nNote: For the device to become BSEC-closed, the application must perform a BSEC cold or warm\nreset.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S26.5.20",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "26",
+      "chapter_title": "Universal synchronous receiver transmitter (USART)",
+      "section": "26.5.20",
+      "section_title": "RS232 hardware flow control and RS485 Driver Enable",
+      "level": 3,
+      "parent_section": "26.5",
+      "page": 787,
+      "page_end": 789,
+      "semantic_type": "generic",
+      "features": [
+        "rs232",
+        "rs485",
+        "usart"
+      ],
+      "chars": 2805,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=787",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.5.20 \"RS232 hardware flow control and RS485 Driver Enable\" in chapter 26 (Universal synchronous receiver transmitter (USART)), RM0490 Rev 6, page 787.",
+      "section_content": "It is possible to control the serial data flow between 2 devices by using the CTS input and\nthe RTS output. The Figure274 shows how to connect 2 devices in this mode:\n[Figure 274. Hardware flow control between 2 USARTs]\nRS232 RTS and CTS flow control can be enabled independently by writing the RTSE and\nCTSE bits to ‘1’ in the USART_CR3 register.\nRS232 RTS flow control\nIf the RTS flow control is enabled (RTSE=1), then RTS is deasserted (tied low) as long as\nthe USART receiver is ready to receive a new data. When the receive register is full, RTS is\nasserted, indicating that the transmission is expected to stop at the end of the current frame.\nFigure275 shows an example of communication with RTS flow control enabled.\n[Figure 275. RS232 RTS flow control]\nRX S b ta it rt Data 1 S b to it pIdle S b ta it rt Data 2 S b to it p\nNote: When FIFO mode is enabled, RTS is asserted only when RXFIFO is full.\nRS232 CTS flow control\nIf the CTS flow control is enabled (CTSE=1), then the transmitter checks the CTS input\nbefore transmitting the next frame. If CTS is deasserted (tied low), then the next data is\ntransmitted (assuming that data is to be transmitted, in other words, if TXE/TXFE=0), else\nthe transmission does not occur. When CTS is asserted during a transmission, the current\ntransmission is completed before the transmitter stops.\nWhen CTSE=1, the CTSIF status bit is automatically set by hardware as soon as the CTS\ninput toggles. It indicates when the receiver becomes ready or not ready for communication.\nAn interrupt is generated if the CTSIE bit in the USART_CR3 register is set. Figure276\nshows an example of communication with CTS flow control enabled.\n[Figure 276. RS232 CTS flow control]\nCTS\nNote: For correct behavior, CTS must be deasserted at least 3 USART clock source periods\nbefore the end of the current character. In addition it should be noted that the CTSCF flag\nmay not be set for pulses shorter than 2 x PCLK periods.\nRS485 driver enable\nThe driver enable feature is enabled by setting bit DEM in the USART_CR3 control register.\nThis enables the user to activate the external transceiver control, through the DE (Driver\nEnable) signal. The assertion time is the time between the activation of the DE signal and\nthe beginning of the start bit. It is programmed using the DEAT [4:0] bitfields in the\nUSART_CR1 control register. The deassertion time is the time between the end of the last\nstop bit, in a transmitted message, and the de-activation of the DE signal. It is programmed\nusing the DEDT [4:0] bitfields in the USART_CR1 control register. The polarity of the DE\nsignal can be configured using the DEP bit in the USART_CR3 control register.\nIn USART, the DEAT and DEDT are expressed in sample time units (1/8 or 1/16 bit time,\ndepending on the oversampling rate).",
+      "semantic": {}
+    }
+  ]
+}

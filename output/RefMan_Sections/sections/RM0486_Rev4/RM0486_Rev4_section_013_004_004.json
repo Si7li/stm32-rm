@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S13.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "13",
+      "chapter_title": "Power control (PWR)",
+      "section": "13.4.4",
+      "section_title": "Backup domain",
+      "level": 3,
+      "parent_section": "13.4",
+      "page": 357,
+      "page_end": 358,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2451,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=357",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.4.4 \"Backup domain\" in chapter 13 (Power control (PWR)), RM0486 Rev 4, page 357.",
+      "section_content": "To retain the content of the backup domain (RTC, backup registers, and backup RAM) when\nVDD is turned off, the VBAT pin can be connected to an optional voltage supplied from a\nbattery or from another source.\nThe switching to VBAT is controlled by the power-down reset (PDR) embedded in the reset\nblock that monitors the VDD supply.\nWarning: During tRSTTEMPO (temporization at VDD startup), or after a\nPDR is detected, the power switch between VBAT and VDD\nremains connected to VBAT.\nDuring the startup phase, if VDD is established in less than\ntRSTTEMPO (see the datasheet for the value of tRSTTEMPO), and\nVDD > VBAT + 0.6 V, a current may be injected into VBAT\nthrough an internal diode connected between VDD and the\npower switch (VBAT).\nIf the power supply/battery connected to the VBAT pin cannot\nsupport this current injection, it is strongly recommended to\nconnect an external low-drop diode between this power\nsupply and the VBAT pin.\nWhen the VDD supply is present, the backup domain is supplied from VDD, to save VBAT\npower supply battery life time. If no external battery is used in the application, it is\nrecommended to connect VBAT externally to VDD, and add a 100nF external ceramic\ncapacitor between VBAT and VSS.\nWhen the backup domain is supplied by VBAT (analog switch connected to VBAT),\nthefollowing pins are available:\n• PC13, PC14, and PC15, which can be configured by RTC or LSE (see Section61.3:\nRTC functional description).\n• PC13, PQ7 (TAMP_IN/OUT), and PD8, PH4 (only TAMP_IN) when they are configured\nby the TAMP peripheral as tamper pins.\nAccessing the backup domain\nAfter reset, the backup domain (RCC_BDCR, RCC_RTC, TAMP registers, backup\nregisters, and backup RAM) is protected against possible unwanted write accesses.\nToenable access to the backup domain, set DBP in PWR_DBPCR.\nFor more detail on RTC and backup RAM access, refer to Section14: Reset and clock\ncontrol (RCC).\nBackup RAM (BKPSRAM)\nThe backup domain includes 8Kbytes of BKPSRAM accessible in 32-, 16-, or 8-bit data\nmode.\n• In Run and Stop (SVOS high) modes, the BKPSRAM is supplied from VCORE supply.\n• In Stop (SVOS low) mode, the BKPSRAM is supplied through the backup regulator in\nVSW domain.\n• In Standby and VBAT modes, the BKPSRAM can be supplied through the backup\nregulator in VSW domain.\nWhen the backup supply is enabled through BKPRBSEN in PWR_BDCR2, the BKPSRAM\ncontent is retained even in Standby and/or VBAT mode.\n[Figure 20. Backup domain]",
+      "semantic": {}
+    }
+  ]
+}

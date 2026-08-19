@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.5.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.5.3",
+      "section_title": "Crop/statistics selection/suppression",
+      "level": 3,
+      "parent_section": "39.5",
+      "page": 1841,
+      "page_end": 1842,
+      "semantic_type": "generic",
+      "features": [
+        "crop",
+        "selection",
+        "statistics",
+        "suppression"
+      ],
+      "chars": 2698,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1841",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.5.3 \"Crop/statistics selection/suppression\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1841.",
+      "section_content": "The dump pipe (Pipe0) has the capability to handle 2-D crop processing. The vertical\ncropping is based on line, thanks to HSYNC event (from the physical IOs or the embedded\ncode detection if selected). It can be extracted from the CSI-2 packet information (each\npacket is one line wide by protocol).\nThe horizontal area on which the crop is applied is based on data (32-bit wide), and not on\npixels since this pipe is not directly considering the pixels. It handles the data flow with 32-bit\ngranularity. The CROP functionality is not supported when the pipe is convoying JPEG\nformat. The ENABLE bit must be kept cleared into DCMIPP_P0SCSZR to avoid any\nunpredictable behavior.\nThe area to be captured within the frame has to be specified configuring the registers\nDCMIPP_P0SCSTR and DCMIPP_P0SCSZR. The starting point on the two axis are set\naccordingly as well as the width in both directions. It is possible to take the data inside or\noutside this area by means of bit POSNEG in the DCMIPP_P0SCSZR register. Some\nsensors can send sensor configuration data and statistics (histogram) on the very first and\nlast lines of a frame. By specifying active the area outside of this window selection\n(POSNEG = 1), only statistic data are extracted by the way, and the software can decide to\napply some processing on the data to correct, such as contrast or exposure.\nFeatures\n• 2D-Crop operation with granularity:\n– Lines in the vertical axis\n– 32-bit data in the horizontal axis\n• Possibility to capture data inside or outside the defined window (valid image data or\nstatistic data)\n• Cropping with 0 value for HSIZE[11:0] or VSIZE[11:0] has no crop effect to the\ndimension for which the 0 value has been applied (vertical or horizontal axis).\nSoftware configuration\nRegisters DCMIPP_P0SCSTR and DCMIPP_P0SCSZR have to be configured to set the\ncrop feature into the dump pipe:\n1. Configure the cropped horizontal starting point with HSTART[11:0] and the width with\nHSIZE[11:0] (both with a 32-bit data granularity).\n2. Configure the cropped lines, starting at line VSTART[11:0] and with a height of\nVSIZE[11:0] (both with a line granularity)\n3. If any value HSIZE or VSIZE is set to 0, the hardware does not consider crop operation\nin the vertical or horizontal dimension for which the 0 value has been applied, so that all\nthe pixels in that dimension are sampled.\n4. Select the inner or the outer part of the window for the data capture by configuring\nPOSNEG bit.\n5. Enable the crop feature setting ENABLE bit. This bit must be cleared when JPEG is\nselected as the input format for Pipe0.\nNote: Cropping out the picture size (with too large HSTART or VSTART) leads to a not guaranteed\nprocessed frame.",
+      "semantic": {}
+    }
+  ]
+}

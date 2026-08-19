@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.11.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.11.3",
+      "section_title": "FIFO RAM allocation",
+      "level": 3,
+      "parent_section": "73.11",
+      "page": 3779,
+      "page_end": 3780,
+      "semantic_type": "generic",
+      "features": [
+        "fifo",
+        "ram"
+      ],
+      "chars": 3507,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3779",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.11.3 \"FIFO RAM allocation\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3779.",
+      "section_content": "Device mode\nReceive FIFO RAM allocation: the application must allocate RAM for SETUP packets:\n• 10 locations must be reserved in the receive FIFO to receive SETUP packets on\ncontrol endpoint. The core does not use these locations, which are reserved for SETUP\npackets, to write any other data.\n• One location is to be allocated for Global OUT NAK.\n• Status information is written to the FIFO along with each received packet. Therefore, a\nminimum space of (largest packet size / 4) + 1 must be allocated to receive packets. If\nmultiple isochronous endpoints are enabled, then at least two (largest packet size / 4) +\n1 spaces must be allocated to receive back-to-back packets. Typically, two (largest\npacket size / 4) + 1 spaces are recommended so that when the previous packet is\nbeing transferred to the CPU, the USB can receive the subsequent packet.\n• Along with the last packet for each endpoint, transfer complete status information is\nalso pushed to the FIFO. One location for each OUT endpoint is recommended.\nDevice RxFIFO =\n(5 * number of control endpoints + 8) + ((largest USB packet used / 4) + 1 for status\ninformation) + (2 * number of OUT endpoints) + 1 for Global NAK\nExample: The MPS is 1,024 bytes for a periodic USB packet and 512 bytes for a non-\nperiodic USB packet. There are three OUT endpoints, three IN endpoints, one control\nendpoint, and three host channels.\nDevice RxFIFO = (5 * 1 + 8) + ((1,024 / 4) +1) + (2 * 4) + 1 = 279\nTransmit FIFO RAM allocation: the minimum RAM space required for each IN endpoint\nTransmit FIFO is the maximum packet size for that particular IN endpoint.\nNote: More space allocated in the transmit IN endpoint FIFO results in better performance on the\nUSB.\nHost mode\nReceive FIFO RAM allocation:\nStatus information is written to the FIFO along with each received packet. Therefore, a\nminimum space of (largest packet size / 4) + 1 must be allocated to receive packets. If\nmultiple isochronous channels are enabled, then at least two (largest packet size / 4) + 1\nspaces must be allocated to receive back-to-back packets. Typically, two (largest packet\nsize / 4) + 1 spaces are recommended so that when the previous packet is being transferred\nto the CPU, the USB can receive the subsequent packet.\nAlong with the last packet in the host channel, transfer complete status information is also\npushed to the FIFO. So one location must be allocated for this.\nHost RxFIFO = (largest USB packet used / 4) + 1 for status information + 1 transfer\ncomplete\nExample: Host RxFIFO = ((1,024 / 4) + 1) + 1 = 258\nTransmit FIFO RAM allocation:\nThe minimum amount of RAM required for the host Non-periodic Transmit FIFO is the\nlargest maximum packet size among all supported non-periodic OUT channels.\nTypically, two largest packet sizes worth of space is recommended, so that when the current\npacket is under transfer to the USB, the CPU can get the next packet.\nNon-Periodic TxFIFO = largest non-periodic USB packet used / 4\nExample: Non-Periodic TxFIFO = (512 / 4) = 128\nThe minimum amount of RAM required for host periodic Transmit FIFO is the largest\nmaximum packet size out of all the supported periodic OUT channels. If there is at least one\nisochronous OUT endpoint, then the space must be at least two times the maximum packet\nsize of that channel.\nHost Periodic TxFIFO = largest periodic USB packet used / 4\nExample: Host Periodic TxFIFO = (1,024 / 4) = 256\nNote: More space allocated in the Transmit Non-periodic FIFO results in better performance on\nthe USB.",
+      "semantic": {}
+    }
+  ]
+}

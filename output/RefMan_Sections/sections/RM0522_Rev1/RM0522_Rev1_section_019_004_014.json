@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S19.4.14",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "19",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "19.4.14",
+      "section_title": "XSPI device configuration",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 517,
+      "page_end": 519,
+      "semantic_type": "generic",
+      "features": [
+        "spi",
+        "xspi"
+      ],
+      "chars": 4204,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=517",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.14 \"XSPI device configuration\" in chapter 19 (Extended-SPI interface (XSPI)), RM0522 Rev 1, page 517.",
+      "section_content": "The parameters related to the external device targeted are configured through XSPI_DCR1\nand XSPI_DCR2.The user must program:\n• the device size with DEVSIZE[4:0]\n• the chip-select minimum high time with CSHT[5:0]\n• the clock mode with FRCK and CKMODE\n• the associated delay block DLYB connected externally to the peripheral\n• the device frequency with PRESCALER[7:0]\nDEVSIZE[4:0] defines the size of external memory using the following formula:\nNumber of bytes in the device=2[DEVSIZE+1]\nwhere DEVSIZE+1 is the number of address bits required to address the external device.\nThe external device capacity can go up to 4Gbytes (addressed using 32bits) in indirect\nmode, but the addressable space in memory-mapped mode is limited to 256Mbytes.\nIf DMM=1, DEVSIZE[4:0] must reflect the total capacity of the two devices together\nconsidering the above formula (DEVSIZE[4:0] value is so equal to one of the two memory\ncapacities).\nWhen the XSPI executes two commands, one immediately after the other, it raises the\nchip-select signal (NCS) high between the two commands for at least one CLK cycle by\ndefault.\nIf the external device requires more time between commands, CSHT[5:0] can be used to\nspecify the minimum number of CLK cycles for which the NCS must remain high.\nCKMODE indicates the level that the CLK takes between commands (when NCS=1).\nIn HyperBus protocol, the device timing (tACC and tRWR) and the latency mode must be\nconfigured in XSPI_HLCR.\nMemory types\nExternal memory providers may present some architecture and slight data formatting\ndifferences between them. The bitfield MTYP[2:0] into the XSPI_CR register allows\ntargeting the right controller configuration depending on the associated memory type\nselected in the application. This is the responsibility of the software developer to align the\ncontroller configuration to fit with the targeted memory type.\nThe memory types are grouped in a such way:\n• D0/D1 data ordering in octal-SPI data mode (DMODE[2:0] = 100) in DTR mode by\nconfiguring MTYP[2:0] = 000. For instance, Micron is using such data ordering. In this\nconfiguration, the DQS is sent with a polarity inverted respect to the clock polarity.\n[Figure 79. D0/D1 data ordering in octal-SPI DTR mode (Micron) - Read access]\nNCS\nCLK\nDQS\nIO[7:0]\nWord Word unit unit\nAddress Dummy\n• D1/D0 data ordering in octal-SPI data mode (DMODE[2:0] = 100) in DTR mode by\nconfiguring MTYP[2:0] = 001. For instance, Macronix is using this reverse data\nordering in its Octaflash portfolio (this configuration is not adapted to its OctaRAM™\nmemories). DQS is keeping the same polarity as the clock when reading data from the\nmemory. Refer to Figure70: DTR read in octal-SPI mode with DQS (Macronix mode)\nexample.\n• D1/D0 data ordering in octal-SPI data mode (DMODE[2:0] = 100) in DTR mode by\nconfiguring MTYP[2:0] = 011 with specific address phase built with row and column to\nfit with Macronix OctaRAM™ memories requirement (refer to Table129: OctaRAM\ncommand address bit assignment (based on 64Mb OctaRAM). This is the controller\nwhich translates internally the targeted address provided by the software in row/column\naddress formatting to sent to the memory. DQS is keeping the same polarity as the\nclock one when reading data from the memory.\n[Figure 80. OctaRAM read operation with reverse data ordering D1/D0]\nDQS\nIO[7:0] D1 D0 D3 D2\nWord Unit Word Unit\nCommand Raw address Column address\nCommand & Address\n(based on 64Mb(1) OctaRAM)\n[Table 129. OctaRAM command address bit assignment]\n• HyperBus memories need to be selected when targeted by the application. The\nconfiguration to set depends on the access type:\n– HyperBus memory mode: The protocol follows the HyperBus specification.\nMTYP[2:0] = 100 is the configuration to use to access the memory space.\n– HyperBus register mode (addressing register space): the memory-mapped\naccesses in this mode must be noncacheable, or the indirect read/write modes\nmust be used. The configuration to be set for this particular register space access\nis MTYP[2:0] = 101.\n• Standard mode. It is the mode to use whenever the targeted memory is not\ncorresponding to any other configurations described in this section. MTYP[2:0] = 010\nfor this standard mode.",
+      "semantic": {}
+    }
+  ]
+}

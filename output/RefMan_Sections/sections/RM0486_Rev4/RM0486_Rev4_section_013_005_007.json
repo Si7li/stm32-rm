@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S13.5.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "13",
+      "chapter_title": "Power control (PWR)",
+      "section": "13.5.7",
+      "section_title": "Peripheral voltage monitoring (PVM)",
+      "level": 3,
+      "parent_section": "13.5",
+      "page": 365,
+      "page_end": 366,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "pvm"
+      ],
+      "chars": 4459,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=365",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.5.7 \"Peripheral voltage monitoring (PVM)\" in chapter 13 (Power control (PWR)), RM0486 Rev 4, page 365.",
+      "section_content": "Only VDD is monitored by default, as it is the only supply required for all system-related\nfunctions. The other supplies (VDDIO2, VDDIO3, VDDIO4, VDDIO5, VDD33USB, and\nVDDA18ADC) can be independent from VDD, and can be monitored with six peripheral\nvoltages (PVM):\n• VDDIO2VM monitors the PO[5:0] and PP[15:0] I/Os supply VDDIO2. VDDIO2RDY\nindicates if VDDIO2 is higher or lower than the VIO2VM threshold.\n• VDDIO3VM monitors the PN[12:0] I/Os supply VDDIO3. VDDIO3RDY indicates if\nVDDIO3 is higher or lower than the VIO3VM threshold.\n• VDDIO4VM monitors PC[1], PC[12:6], and PH[9,2] I/Os supply VDDIO4. VDDIO4RDY\nindicates if VDDIO4 is higher or lower than the VIO4VM threshold.\n• VDDIO5VM monitors the PC[0], PC[5:2] and PE[4] I/Os supply VDDIO5. VDDIO5RDY\nindicates if VDDIO5 is higher or lower than the VIO5VM threshold.\n• USB33VM monitors the USB supply VDD33USB. USB33RDY indicates if VDD33USB is\nhigher or lower than the VUSB33VM threshold.\n• AVM monitors the ADC supply VDDA18ADC. ARDY indicates if VDDA18ADC is higher or\nlower than the VAVM threshold.\nThe VIO2VM, VIO3VM, VIO4VM, VIO5VM, VUSB33VM, and VAVM thresholds are based\non internal voltage comparators. Their threshold values are fixed by design and are not\nconfigurable by the user.\nEach PVM output is connected to an EXTI line, and can generate an interrupt if enabled\nthrough the EXTI registers. The EXTI_PVM_x output interrupt is generated when\ntheindependent power supply drops below the PVM threshold, and/or when it rises above\nthe PVM threshold, depending on EXTI line rising/falling edge configuration.\nThe PVM is not available in Standby mode.\nThe independent supplies (VDDIO2, VDDIO3, VDDIO4, VDDIO5, VDD33USB, and VDDA18ADC) are\nnot considered as present by default, and a logical and electrical isolation is applied to\nignore any information coming from the peripherals supplied by these dedicated supplies.\n• If these supplies are shorted externally to VDD, the application must assume they are\navailable without enabling any peripheral voltage monitoring, and the power isolation\ncan be removed by setting the corresponding supply valid bits.\n• If these supplies are independent from VDD, the PVM can be enabled to confirm\nwhether the supply is present or not.\nThe following sequence must be done before using the USB HS PHYs:\n1. If VDD33USB is independent from VDD:\na) Enable the USB33VM by setting USB33VMEN in PWR_SVMCR3.\nb) Wait until USB33RDY is set in PWR_SVMCR3.\nc) Optional: Disable the USB33VM for consumption saving.\n2. Set USB33SV in PWR_SVMCR3 to remove the VDD33USB power isolation.\nThe following sequence must be done before using the analog-to-digital converters:\n1. If VDDA18ADC is independent from VDD:\na) Enable the AVM by setting AVMEN in PWR_SVMCR3.\nb) Wait until ARDY is set in PWR_SVMCR3.\nc) Optional: Disable the AVM for consumption saving.\n2. Set ASV in PWR_SVMCR3 to remove the VDDA18ADC power isolation.\nGPIOs can work in the 1.8 V or 3.3 V power supply ranges. It is needed to select the supply\nrange of the I/Os before using them (the 3.3 V range is selected by default). The voltage\nrange configuration for VDD, VDDIO2, and VDDIO3 is retained in Standby mode.\nThe configuration can be retained for VDDIO4 and VDDIO5 in Standby mode when\nVDDIO4VRSTBY is set in PWR_SVMCR1(and VDDIO5VRSTBY in PWR_SVMCR2). The\nvoltage range must not be retained if the supply range may change when exiting Standby\nmode (SD card).\nThe following sequence must be done before using VDDIO4 I/Os:\n1. If VDDIO4 is independent from VDD:\na) Enable the VDDIO4VM by setting VDDIO4VMEN in PWR_SVMCR1.\nb) Wait until VDDIO4RDY is set in PWR_SVMCR1.\nc) Optional: Disable the VDDIO4VM for consumption saving.\nd) If VDDIO4 is in 1.8 V range: Set the VDDIO4 voltage range by setting\nVDDIO4VRSEL in PWR_SVMCR1.\ne) Optional: Retain VDDIO4VRSEL configuration by setting VDDIO4VRSTBY\ninPWR_SVMCR1.\n2. Set VDDIO4SV in PWR_SVMCR1 to remove the VDDIO4 power isolation.\nSame sequence must be done for VDDIO5 I/Os.\nThe following sequence must be done before using VDDIO2 I/Os:\n1. If VDDIO2 is independent from VDD:\na) Enable the VDDIO2VM by setting VDDIO2VMEN in PWR_SVMCR3.\nb) Wait until VDDIO2RDY is set in PWR_SVMCR3.\nc) Optional: Disable the VDDIO2VM for consumption saving.\nd) If VDDIO2 is in 1.8 V range: Set the VDDIO2 voltage range by setting\nVDDIO2VRSEL in PWR_SVMCR3.\n2. Set VDDIO2SV in PWR_SVMCR3 to remove the VDDIO2 power isolation.\nSame sequence must be done for the VDDIO3 I/Os.",
+      "semantic": {}
+    }
+  ]
+}

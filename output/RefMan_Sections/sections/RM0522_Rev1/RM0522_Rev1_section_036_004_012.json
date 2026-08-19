@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S36.4.12",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "36",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "36.4.12",
+      "section_title": "Counter mode",
+      "level": 3,
+      "parent_section": "36.4",
+      "page": 1494,
+      "page_end": 1495,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "timer"
+      ],
+      "chars": 1951,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1494",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.4.12 \"Counter mode\" in chapter 36 (Low-power timer (LPTIM)), RM0522 Rev 1, page 1494.",
+      "section_content": "The LPTIM counter can be used to count external events on the LPTIM input1 or it can be\nused to count internal clock cycles. The CKSEL and COUNTMODE bits control which\nsource is used for updating the counter.\nIn case the LPTIM is configured to count external events on Input1, the counter can be\nupdated following a rising edge, falling edge or both edges depending on the value written\nto the CKPOL[1:0] bits.\nThe count modes below can be selected, depending on CKSEL and COUNTMODE values:\n• CKSEL = 0: the LPTIM is clocked by an internal clock source\n– COUNTMODE = 0\nThe LPTIM is configured to be clocked by an internal clock source and the LPTIM\ncounter is configured to be updated following each internal clock pulse.\n– COUNTMODE = 1\nThe LPTIM external Input1 is sampled with the internal clock provided to the\nLPTIM.\nConsequently, in order not to miss any event, the frequency of the changes on the\nexternal Input1 signal must never exceed the frequency of the internal clock\nprovided to the LPTIM. Also, the internal clock provided to the LPTIM must not be\nprescaled (PRESC[2:0] = 000).\n• CKSEL = 1: the LPTIM is clocked by an external clock source\nCOUNTMODE value is don’t care.\nIn this configuration, the LPTIM has no need for an internal clock source (except if the\nglitch filters are enabled). The signal injected on the LPTIM external input1 is used as\nsystem clock for the LPTIM. This configuration is suitable for operation modes where\nno embedded oscillator is enabled.\nFor this configuration, the LPTIM counter can be updated either on rising edges or\nfalling edges of the input1 clock signal but not on both rising and falling edges.\nSince the signal injected on the LPTIM external input1 is also used to clock the LPTIM\nkernel logic, there is some initial latency (after the LPTIM is enabled) before the counter\nis incremented. More precisely, the first five active edges on the LPTIM external Input1\n(after LPTIM is enable) are lost.",
+      "semantic": {}
+    }
+  ]
+}

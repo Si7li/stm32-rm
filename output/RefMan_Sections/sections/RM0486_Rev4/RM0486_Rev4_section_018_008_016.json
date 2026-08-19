@@ -1,0 +1,51 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.8.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.8.16",
+      "section_title": "HPDMA channel x source address register (HPDMA_CxSAR)",
+      "level": 3,
+      "parent_section": "18.8",
+      "page": 918,
+      "page_end": 919,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 2958,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=918",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.8.16 \"HPDMA channel x source address register (HPDMA_CxSAR)\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 918.",
+      "section_content": "Address offset: 0x09C + 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(HPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of channel x (HPDMA_PRIVCFGR.PRIVx).\nThis register is CID-filtered depending on the CID configuration of the channel x\n(HPDMA_CxCIDCFGR.CFEN = 1). If the debug domain feature is activated, an access to\nthis register is granted to the debug domain CID, regardless of any CID filtering.\nThis register configures the source start address of a transfer.\nThis register must be written when HPDMA_CxCR.EN = 0.\nThis register is read-only when HPDMA_CxCR.EN = 1, and continuously updated by\nhardware, in order to reflect the address of the next burst transfer from the source.\nThis register must be written when the channel is completed (then the hardware has\ndeasserted HPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block, 2D/repeated block, LLI, or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by the\nHPDMA from the memory if HPDMA_CxLLR.USA = 1.\nBits 31:0 SA[31:0]: Source address\nThis bitfield is the pointer to the address from which the next data is read.\nDuring the channel activity, depending on the source addressing mode\n(HPDMA_CxTR1.SINC), this bitfield is kept fixed or incremented by the data width\n(HPDMA_CxTR1.SDW_LOG2[1:0]) after each burst source data, reflecting the next address\nfrom which data is read.\nDuring the channel activity, this address is updated after each completed source burst,\nconsequently to:\n– The programmed source burst; either in fixed addressing mode or in contiguous-\ndata incremented mode. If contiguously incremented (HPDMA_CxTR1.SINC = 1),\nthen the additional address offset value is the programmed burst size, as defined by\nHPDMA_CxTR1.SBL_1[5:0] and HPDMA_CxTR1.SDW_LOG2[1:0]\n– The additional source incremented/decremented offset value as programmed by\nHPDMA_CxBR1.SDEC and HPDMA_CxTR3.SAO[12:0]\n– Once/if completed source block transfer, for a channel x with 2D addressing\ncapability (x = 12 to 15). additional block repeat source incremented/decremented\noffset value as programmed by HPDMA_CxBR1.BRSDEC and\nHPDMA_CxBR2.BRSAO[15:0]\nIn linked-list mode, after a LLI data transfer is completed, this register is automatically\nupdated by HPDMA from the memory, provided the LLI is set with HPDMA_CxLLR.USA = 1.\nNote: A source address must be aligned with the programmed data width of a source burst\n(SA versus HPDMA_CxTR1.SDW_LOG2). Else, a user setting error is reported and no\ntransfer is issued.\nWhen the source block size is not a multiple of the source burst size and is a multiple of\nthe source data width, the last programmed source burst is not completed and is\ninternally shorten to match the block size. In this case, the additional\nHPDMA_CxTR3.SAO[12:0] is not applied.",
+      "semantic": {
+        "register": "HPDMA_CxSAR",
+        "address_offset": "0x09C + 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:0",
+            "name": "SA[31:0]",
+            "description": "Source address This bitfield is the pointer to the address from which the next data is read. During the channel activity, depending on the source addressing mode (HPDMA_CxTR1.SINC), this bitfield is kept fixed or incremented by the data width (HPDMA_CxTR1.SDW_LOG2[1:0]) after each burst source data, reflecting the next address from which data is read. During the channel activity, this address is updated after each completed source burst, consequently to: – The programmed source burst; either in fixed addressing mode or in contiguous- data incremented mode. If contiguously incremented (HPDMA_CxTR1.SINC = 1), then the additional address offset value is the programmed burst size, as defined by HPDMA_CxTR1.SBL_1[5:0] and HPDMA_CxTR1.SDW_LOG2[1:0] – The additional source incremented/decremented offset value as programmed by HPDMA_CxBR1.SDEC and HPDMA_CxTR3.SAO[12:0] – Once/if completed source block transfer, for a channel x with 2D addressing capability (x = 12 to 15). additional block repeat source incremented/decremented offset value as programmed by HPDMA_CxBR1.BRSDEC and HPDMA_CxBR2.BRSAO[15:0] In linked-list mode, after a LLI data transfer is completed, this register is automatically updated by HPDMA from the memory, provided the LLI is set with HPDMA_CxLLR.USA = 1. Note: A source address must be aligned with the programmed data width of a source burst (SA versus HPDMA_CxTR1.SDW_LOG2). Else, a user setting error is reported and no transfer is issued. When the source block size is not a multiple of the source burst size and is a multiple of the source data width, the last programmed source burst is not completed and is internally shorten to match the block size. In this case, the additional HPDMA_CxTR3.SAO[12:0] is not applied.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

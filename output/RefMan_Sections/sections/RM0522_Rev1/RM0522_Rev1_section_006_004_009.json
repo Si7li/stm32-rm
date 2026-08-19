@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.4.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.4.9",
+      "section_title": "Specific rules for modifying option bytes",
+      "level": 3,
+      "parent_section": "6.4",
+      "page": 154,
+      "page_end": 155,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "option-byte"
+      ],
+      "chars": 1534,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=154",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.4.9 \"Specific rules for modifying option bytes\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 154.",
+      "section_content": "Besides the OPTLOCK bit and register access rules, there are additional protection means\nfor selected security-sensitive option byte fields.\nMultiple option bytes can be modified simultaneously, but if they rely on each other for\nprotection, both states are checked.\nWith few exceptions listed in this section, failing to uphold the rules results in raising\nOPTCHANGEERR flag (Section6.8.6 for additional details).\n[Table 30. Specific OB modifying rules overview]\nEven in the closed RDP_LEVEL progression, some OBs can still be modified, if all the other\nconstraints are satisfied. An overview is presented in the table below.\n[Table 31. OBs modifiable in L2 product]\nSpecific rules must be respected to update the following OBs:\n• RDP_LEVEL: its transitions follow a state machine with two types of transition. Locking\ndown the product is allowed without restriction. Opening the product is only possible\nunder the condition that OEM key were provisioned ahead. The regression to L0\nRDP_LEVEL results in the erasing of the protected content (see Section6.5.8).\n• HDP: Can only be modified in HDPL0 and HDPL1.\n• BOOTADD: Can only be changed in Open RDP L0 (open).\n• LOCKBL: Can only be changed freely in one direction. A permanent irreversible\nswitch.\n• SWAP_BANK: Cannot be modified when BOOT_LOCK is active (0xB4).\n• BOOT_LOCK: Can only be changed freely in locking direction. Unlock is possible\ninL0.\nNote: For all user option bytes above, default values are loaded and Tamper is signaled when a\ndouble ECC error occurs during OBL.",
+      "semantic": {}
+    }
+  ]
+}

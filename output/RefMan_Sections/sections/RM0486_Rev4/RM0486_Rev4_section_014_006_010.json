@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S14.6.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "14",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "14.6.10",
+      "section_title": "Peripheral allocation",
+      "level": 3,
+      "parent_section": "14.6",
+      "page": 469,
+      "page_end": 470,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "chars": 2311,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=469",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.6.10 \"Peripheral allocation\" in chapter 14 (Reset and clock control (RCC)), RM0486 Rev 4, page 469.",
+      "section_content": "The CPU can allocate a peripheral (and hence control its kernel and bus interface clock) by\nsetting the dedicated PERxEN bit to 1. The CPU can control the peripheral clock gating\nwhen it is in Sleep mode via PERxLPENbits.\nThe peripheral allocation bits (PERxEN bits) are used by the hardware to provide the kernel\nand bus interface clocks to the peripherals. Theses bits are also used to link peripherals to\nthe CPU. The hardware can then safely gate peripheral clocks and bus matrix clocks,\naccording to CPU states.\nClock switches and gating\n• Clock switching delays\nThe input selected by the clock switches can be changed dynamically without\ngenerating spurs or timing violation. For example, if PERxSEL (in Figure64) goes\nfrom0 to 1, the switch first disables the clock output using the currently selected clock\n(in0_ck), and enables again the clock output using the new selected clock (in1_ck).\nDisable and enable commands are re-synchronized to their respective clocks. If one\nofthe two clocks are not present, the sequence cannot be completed, and no clock is\noutput. To recover from this situation, the user must either provide a valid clock to\nin1_ck input, or set back PERxSEL to 0.\nDuring the transition from one input to another, the kernel clock provided to the\nperipheral is gated, in the worst case, during two or three clock cycles of the new\nselected clock.\nAs shown in Figure64, both input clocks must be present during transition time.\n[Figure 64. Kernel clock switching]\n• Clock enabling delays\nIn the same way, the clock gating logic synchronizes the enable command (coming\ngenerally from a kernel clock request, or PERxEN bits) with the selected clock, in order\nto avoid generation of spurious:\n– A maximum delay of two periods of the enabled clock can occur between the\nenable command and the first rising edge of the clock. The enable command can\nbe the rising edge of PERxEN in RCC_xxxxENR, or a kernel clock request\nasserted by a peripheral.\n– A maximum delay of 1.5 periods of the disabled clock can occur between the\ndisable command and the last falling edge of the clock. The disable command can\nbe the falling edge of PERxEN in RCC_xxxxENR, or a kernel clock request\nreleased by a peripheral.\nNote: Both kernel and bus interface clocks are affected by this re-synchronization delay.",
+      "semantic": {}
+    }
+  ]
+}

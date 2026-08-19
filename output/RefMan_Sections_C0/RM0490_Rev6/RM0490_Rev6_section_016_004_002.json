@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.4.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.4.2",
+      "section_title": "ADC voltage regulator (ADVREGEN)",
+      "level": 3,
+      "parent_section": "16.4",
+      "page": 292,
+      "page_end": 292,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "advregen"
+      ],
+      "chars": 1609,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=292",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.4.2 \"ADC voltage regulator (ADVREGEN)\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 292.",
+      "section_content": "The ADC has a specific internal voltage regulator which must be enabled and stable before\nusing the ADC.\nThe ADC internal voltage regulator can be enabled by setting ADVREGEN bit to 1 in the\nADC_CR register. The software must wait for the ADC voltage regulator startup time\n(tADCVREG_STUP) before launching a calibration or enabling the ADC. This delay must be\nmanaged by software (for details on tADCVREG_STUP, refer to the device datasheet).\nAfter ADC operations are complete, the ADC is disabled (ADEN = 0). To keep power\nconsumption low, it is important to disable the ADC voltage regulator before entering low-\npower mode (LPRun, LPSleep or Stop mode). Refer to Section : ADC voltage regulator\ndisable sequence).\nNote: When the internal voltage regulator is disabled, the internal analog calibration is kept.\nAnalog reference from the power control unit\nThe internal ADC voltage regulator internally uses an analog reference delivered by the\npower control unit through a buffer. This buffer is always enabled when the main voltage\nregulator of the power control unit operates in normal Run mode (refer to Reset and clock\ncontrol and power control sections).\nIf the main voltage regulator enters low-power mode (such as Low-power run mode), this\nbuffer is disabled and the ADC cannot be used.\nADC Voltage regulator enable sequence\nTo enable the ADC voltage regulator, set ADVREGEN bit to 1 in ADC_CR register.\nADC voltage regulator disable sequence\nTo disable the ADC voltage regulator, follow the sequence below:\n1. Make sure that the ADC is disabled (ADEN = 0).\n2. Clear ADVREGEN bit in ADC_CR register.",
+      "semantic": {}
+    }
+  ]
+}

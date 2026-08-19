@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.7.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.7.2",
+      "section_title": "Block gap hardware flow control",
+      "level": 3,
+      "parent_section": "30.7",
+      "page": 1425,
+      "page_end": 1426,
+      "semantic_type": "generic",
+      "features": [
+        "block",
+        "control",
+        "flow",
+        "hardware"
+      ],
+      "chars": 2120,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1425",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.7.2 \"Block gap hardware flow control\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1425.",
+      "section_content": "The block gap hardware flow control functionality is used to avoid FIFO underrun (TX mode)\nand overrun (RX mode) errors in SDR50, SDR104, HS200 and DDR50 mode\n(BUSSPEED=1).\nWhen transmitting, the behavior is to delay the start of a new write block and freeze the\nSDMMC state machines. The start of a new write block is delayed until the FIFO holds\nenough data according to the threshold. Only the state machines clocked by SDMMC_CK\nare frozen, the AHB interfaces are still alive. The FIFO can thus be filled even if flow control\nis activated.\nWhen receiving, the behavior is to stop SDMMC_CK during the read block gap and freeze\nthe SDMMC state machines. The start of a new block transfer is stalled, due to stopped\nclock, until the FIFO has enough free space according to the threshold. Only the state\nmachines clocked by SDMMC_CK are frozen, the AHB interfaces are still alive. The FIFO\ncan thus be emptied even if flow control is activated.\n[Figure 258. Read block gap hardware flow timing]\nWarning: When variable delay is used and block gap hardware flow\ncontrol is enabled, sending commands during multiple block\nread may disturb the command response reception (CMD12\nis not impacted by this).\n[Table 229. Data block gap hardware flow control behavior]\nOn an IDMA linked list transfer error, the hardware flow control is disabled. As a\nconsequence, depending on when the IDMA linked list transfer error occurs, an underrun or\noverrun error may also occur (see Section: IDMA transfer error management).\nThe block gap hardware flow control is only enabled when HWFC_EN is set to 1,\nBUSSPEED = 1 and the THR FIFO threshold is different than 0. When BUSSPEED = 0 or\nFIFO threshold is set to 0, the hardware flow control is used during the data transfer. After\nreset, the hardware flow control is disabled.\n[Table 230. Hardware flow control selection]\nBlock gap hardware flow control must be used when the SDMMC_Dn receive data are not\ncycle-aligned with the SDMMC_CK. This is whenever the sdmmc_fb_ck from the DLYB\ndelay block is used, for example in the case of SDR104 receive mode with a tOP and DtOP\ndelay > 1 cycle.",
+      "semantic": {}
+    }
+  ]
+}

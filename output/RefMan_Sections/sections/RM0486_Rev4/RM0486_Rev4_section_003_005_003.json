@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.5.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.5.3",
+      "section_title": "RIF infrastructure",
+      "level": 3,
+      "parent_section": "3.5",
+      "page": 186,
+      "page_end": 187,
+      "semantic_type": "generic",
+      "features": [
+        "rif"
+      ],
+      "chars": 2945,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=186",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.5.3 \"RIF infrastructure\" in chapter 3 (System security), RM0486 Rev 4, page 186.",
+      "section_content": "Thanks to hardware mechanisms in the bus, the secure OS ensures that resources and\ndata are available only to agents that operate in the appropriate world, and at the\nappropriate privilege level. This infrastructure is named RIF (resource isolation framework).\nThe RIF consists of five components:\n• RIMU: placed on AXI bus initiators to determine which attributes are attached to\naccesses\n• RISUP: firewalls placed in front of peripheral bus targets to determine which security\nand privilege level is allowed to access that peripheral\n• RIFSC: centralized block that contains the configuration registers controlling all RIMUs\nand RISUPs, and determining other general RIF parameters\n• RISAF: firewalls placed in front of each memory target, with self-contained (local)\nconfiguration registers\n• IAC (interrupt access controller): recording all security violation events from all firewalls\naround the device, in order to present a single interrupt to the CPU\nSome peripherals have built-in firewalls, which are configured locally inside the peripheral.\nTheseperipherals are called RIF-aware.\nThe IAC has room for 256 interrupt sources, each corresponding to an IAC index from0 to\n255. Interrupts from the RISUPs occupy most of the first 128 indexes. Interrupts from\nRIF-aware peripherals and RISAFs occupy indexes from 128 onwards. RISUP and IAC\nindexes are aligned. The RISUP associated with the IAC index 32 x + y is programmed to\nbe secure by setting RISC_SECCFGx[y]. It is programmed to be privileged by setting\nRISC_PRIVCFGx[y].\nFor all RIF firewalling, the security setting of a resource can be configured only by a secure\nprivileged access: the secure OS can assign a RISAF base region to the nonsecure OS.\nThe nonsecure OS determines the position, privilege, and readability of subregions within\nthe base region.\nIf the resource is set to secure, nonsecure accesses to this resource are blocked. If the\nresource is set to nonsecure, secure accesses to memories are blocked (no restrictions\nforperipherals).\nFor all RIF firewalling, the privilege setting of a resource is only configurable by a privileged\naccess: if the resource has already been configured to be secure, the access must also be\nsecure. If a resource is set to privileged, only privileged accesses are allowed (no restriction\nif set to unprivileged).\nBy default, the reset condition for peripheral firewalls is nonsecure unprivileged, for\nmemories is secure privileged. In any case, the Cortex-55 boots in secure mode: the secure\nsoftware can immediately establish a security regime.\nOn detecting a violation, a RISAF records locally the attributes of the violating access, and\nsets an output error signal: its rising edge is captured in the IAC, which can then interrupt\nthe CPU. The handler must first clear the associated flag in the IAC, then clear the error\ncondition recorded in the RISAF.\nAn illegal access generates a bus error only if it is an instruction fetch.",
+      "semantic": {}
+    }
+  ]
+}

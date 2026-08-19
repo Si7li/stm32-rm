@@ -1,0 +1,211 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S75.8.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "75",
+      "chapter_title": "USB Type-C®/USB Power Delivery interface (UCPD)",
+      "section": "75.8.1",
+      "section_title": "UCPD configuration register 1 (UCPD_CFGR1)",
+      "level": 3,
+      "parent_section": "75.8",
+      "page": 3956,
+      "page_end": 3957,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "hbitclkdiv",
+        "ifrgap",
+        "power",
+        "psc-ucpdclk",
+        "rxdmaen",
+        "rxordseten",
+        "transwin",
+        "txdmaen",
+        "ucpd",
+        "ucpd-cfgr1",
+        "ucpden"
+      ],
+      "chars": 2792,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3956",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 75.8.1 \"UCPD configuration register 1 (UCPD_CFGR1)\" in chapter 75 (USB Type-C®/USB Power Delivery interface (UCPD)), RM0486 Rev 4, page 3956.",
+      "section_content": "Address offset: 0x000\nReset value: 0x0000 0000\nGeneral configuration of the peripheral. Writing to this register is only effective when UCPD\nis disabled (UCPDEN = 0).\nBit 31 UCPDEN: UCPD peripheral enable\nGeneral enable of the UCPD peripheral.\n0: Disable\n1: Enable\nUpon disabling, the peripheral instantly quits any ongoing activity and all control bits and\nbitfields default to their reset values. They must be set to their desired values each time the\nperipheral transits from disabled to enabled state.\nBit 30 RXDMAEN: Reception DMA mode enable\nWhen set, the bit enables DMA mode for reception.\n0: Disable\n1: Enable\nBit 29 TXDMAEN: Transmission DMA mode enable\nWhen set, the bit enables DMA mode for transmission.\n0: Disable\n1: Enable\nBits 28:20 RXORDSETEN[8:0]: Receiver ordered set enable\nThe bitfield determines the types of ordered sets that the receiver must detect. When\nset/cleared, each bit enables/disables a specific function:\n0bXXXXXXXX1: SOP detect enabled\n0bXXXXXXX1X: SOP' detect enabled\n0bXXXXXX1XX: SOP'' detect enabled\n0bXXXXX1XXX: Hard Reset detect enabled\n0bXXXX1XXXX: Cable Detect reset enabled\n0bXXX1XXXXX: SOP'_Debug enabled\n0bXX1XXXXXX: SOP''_Debug enabled\n0bX1XXXXXXX: SOP extension#1 enabled\n0b1XXXXXXXX: SOP extension#2 enabled\nBits 19:17 PSC_UCPDCLK[2:0]: Pre-scaler division ratio for generating ucpd_clk\nThe bitfield determines the division ratio of a kernel clock pre-scaler producing UCPD\nperipheral clock (ucpd_clk).\n0x0: 1 (bypass)\n0x1: 2\n0x2: 4\n0x3: 8\n0x4: 16\nIt is recommended to use the pre-scaler so as to set the ucpd_clk frequency in the range\nfrom 6 to 9 MHz.\nBit 16 Reserved, must be kept at reset value.\nBits 15:11 TRANSWIN[4:0]: Transition window duration\nThe bitfield determines the division ratio (the bitfield value minus one) of a hbit_clk divider\nproducing tTransitionWindow interval.\n0x00: Not supported\n0x01: 2\n0x09: 10 (recommended)\n0x1F: 32\nSet a value that produces an interval of 12 to 20 us, taking into account the ucpd_clk\nfrequency and the HBITCLKDIV[5:0] bitfield setting.\nBits 10:6 IFRGAP[4:0]: Division ratio for producing inter-frame gap timer clock\nThe bitfield determines the division ratio (the bitfield value minus one) of a ucpd_clk divider\nproducing inter-frame gap timer clock (tInterFrameGap).\n0x00: Not supported\n0x01: 2\n0x0D: 14\n0x0E: 15\n0x0F: 16\n0x1F: 32\nThe division ratio 15 is to apply for Tx clock at the USB PD 2.0 specification nominal value.\nThe division ratios below 15 are to apply for Tx clock below nominal, and the division ratios\nabove 15 for Tx clock above nominal.\nBits 5:0 HBITCLKDIV[5:0]: Division ratio for producing half-bit clock\nThe bitfield determines the division ratio (the bitfield value plus one) of a ucpd_clk divider\nproducing half-bit clock (hbit_clk).\n0x00: 1 (bypass)\n0x1A: 27\n0x3F: 64",
+      "semantic": {
+        "register": "UCPD_CFGR1",
+        "address_offset": "0x000",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "UCPDEN",
+            "description": "UCPD peripheral enable General enable of the UCPD peripheral. Upon disabling, the peripheral instantly quits any ongoing activity and all control bits and bitfields default to their reset values. They must be set to their desired values each time the peripheral transits from disabled to enabled state.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "RXDMAEN",
+            "description": "Reception DMA mode enable When set, the bit enables DMA mode for reception.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "TXDMAEN",
+            "description": "Transmission DMA mode enable When set, the bit enables DMA mode for transmission.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "28:20",
+            "name": "RXORDSETEN[8:0]",
+            "description": "Receiver ordered set enable The bitfield determines the types of ordered sets that the receiver must detect. When set/cleared, each bit enables/disables a specific function: 0bXXXXXXXX1: SOP detect enabled 0bXXXXXXX1X: SOP' detect enabled 0bXXXXXX1XX: SOP'' detect enabled 0bXXXXX1XXX: Hard Reset detect enabled 0bXXXX1XXXX: Cable Detect reset enabled 0bXXX1XXXXX: SOP'_Debug enabled 0bXX1XXXXXX: SOP''_Debug enabled 0bX1XXXXXXX: SOP extension#1 enabled 0b1XXXXXXXX: SOP extension#2 enabled",
+            "values": []
+          },
+          {
+            "bits": "19:17",
+            "name": "PSC_UCPDCLK[2:0]",
+            "description": "Pre-scaler division ratio for generating ucpd_clk The bitfield determines the division ratio of a kernel clock pre-scaler producing UCPD peripheral clock (ucpd_clk). It is recommended to use the pre-scaler so as to set the ucpd_clk frequency in the range from 6 to 9 MHz.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "1 (bypass)"
+              },
+              {
+                "value": "0x1",
+                "meaning": "2"
+              },
+              {
+                "value": "0x2",
+                "meaning": "4"
+              },
+              {
+                "value": "0x3",
+                "meaning": "8"
+              },
+              {
+                "value": "0x4",
+                "meaning": "16"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:11",
+            "name": "TRANSWIN[4:0]",
+            "description": "Transition window duration The bitfield determines the division ratio (the bitfield value minus one) of a hbit_clk divider producing tTransitionWindow interval. Set a value that produces an interval of 12 to 20 us, taking into account the ucpd_clk frequency and the HBITCLKDIV[5:0] bitfield setting.",
+            "values": [
+              {
+                "value": "0x00",
+                "meaning": "Not supported"
+              },
+              {
+                "value": "0x01",
+                "meaning": "2"
+              },
+              {
+                "value": "0x09",
+                "meaning": "10 (recommended)"
+              },
+              {
+                "value": "0x1F",
+                "meaning": "32"
+              }
+            ]
+          },
+          {
+            "bits": "10:6",
+            "name": "IFRGAP[4:0]",
+            "description": "Division ratio for producing inter-frame gap timer clock The bitfield determines the division ratio (the bitfield value minus one) of a ucpd_clk divider producing inter-frame gap timer clock (tInterFrameGap). The division ratio 15 is to apply for Tx clock at the USB PD 2.0 specification nominal value. The division ratios below 15 are to apply for Tx clock below nominal, and the division ratios above 15 for Tx clock above nominal.",
+            "values": [
+              {
+                "value": "0x00",
+                "meaning": "Not supported"
+              },
+              {
+                "value": "0x01",
+                "meaning": "2"
+              },
+              {
+                "value": "0x0D",
+                "meaning": "14"
+              },
+              {
+                "value": "0x0E",
+                "meaning": "15"
+              },
+              {
+                "value": "0x0F",
+                "meaning": "16"
+              },
+              {
+                "value": "0x1F",
+                "meaning": "32"
+              }
+            ]
+          },
+          {
+            "bits": "5:0",
+            "name": "HBITCLKDIV[5:0]",
+            "description": "Division ratio for producing half-bit clock The bitfield determines the division ratio (the bitfield value plus one) of a ucpd_clk divider producing half-bit clock (hbit_clk).",
+            "values": [
+              {
+                "value": "0x00",
+                "meaning": "1 (bypass)"
+              },
+              {
+                "value": "0x1A",
+                "meaning": "27"
+              },
+              {
+                "value": "0x3F",
+                "meaning": "64"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.3.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.3.2",
+      "section_title": "SDIO AHB interface",
+      "level": 3,
+      "parent_section": "22.3",
+      "page": 580,
+      "page_end": 581,
+      "semantic_type": "generic",
+      "features": [
+        "ahb",
+        "sdio"
+      ],
+      "chars": 2273,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=580",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.3.2 \"SDIO AHB interface\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 580.",
+      "section_content": "The AHB interface generates the interrupt and DMA requests, and accesses the SDIO\nadapter registers and the data FIFO. It consists of a data path, register decoder, and\ninterrupt/DMA logic.\nSDIO interrupts\nThe interrupt logic generates an interrupt request signal that is asserted when at least one\nof the selected status flags is high. A mask register is provided to allow selection of the\nconditions that will generate an interrupt. A status flag generates the interrupt request if a\ncorresponding mask flag is set.\nSDIO/DMA interface: procedure for data transfers between the SDIO and\nmemory\nIn the example shown, the transfer is from the SDIO host controller to an MMC (512 bytes\nusing CMD24 (WRITE_BLOCK). The SDIO FIFO is filled by data stored in a memory using\nthe DMA controller.\n1. Do the card identification process\n2. Increase the SDIO_CK frequency\n3. Select the card by sending CMD7\n4. Configure the DMA2 as follows:\na) Enable DMA2 controller and clear any pending interrupts\nb) Program the DMA2_Channel4 source address register with the memory location’s\nbase address and DMA2_Channel4 destination address register with the\nSDIO_FIFO register address\nc) Program DMA2_Channel4 control register (memory increment, not peripheral\nincrement, peripheral and source width is word size)\nd) Enable DMA2_Channel4\n5. Send CMD24 (WRITE_BLOCK) as follows:\na) Program the SDIO data length register (SDIO data timer register should be\nalready programmed before the card identification process)\nb) Program the SDIO argument register with the address location of the card where\ndata is to be transferred\nc) Program the SDIO command register: CmdIndex with 24 (WRITE_BLOCK);\nWaitResp with ‘1’ (SDIO card host waits for a response); CPSMEN with ‘1’ (SDIO\ncard host enabled to send a command). Other fields are at their reset value.\nd) Wait for SDIO_STA[6] = CMDREND interrupt, then program the SDIO data control\nregister: DTEN with ‘1’ (SDIO card host enabled to send data); DTDIR with ‘0’\n(from controller to card); DTMODE with ‘0’ (block data transfer); DMAEN with ‘1’\n(DMA enabled); DBLOCKSIZE with 0x9 (512 bytes). Other fields are don’t care.\ne) Wait for SDIO_STA[10] = DBCKEND\n6. Check that no channels are still enabled by polling the DMA Enabled Channel Status\nregister.",
+      "semantic": {}
+    }
+  ]
+}

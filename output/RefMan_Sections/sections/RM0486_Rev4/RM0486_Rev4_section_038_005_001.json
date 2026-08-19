@@ -1,0 +1,325 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S38.5.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "38",
+      "chapter_title": "Digital camera interface (DCMI)",
+      "section": "38.5.1",
+      "section_title": "DCMI control register (DCMI_CR)",
+      "level": 3,
+      "parent_section": "38.5",
+      "page": 1804,
+      "page_end": 1806,
+      "semantic_type": "register_description",
+      "features": [
+        "bsm",
+        "capture",
+        "crop",
+        "dcmi",
+        "dcmi-cr",
+        "edm",
+        "enable",
+        "ess",
+        "fcrc",
+        "hspol",
+        "jpeg",
+        "lsm",
+        "oebs",
+        "oels",
+        "pckpol",
+        "vspol"
+      ],
+      "chars": 4556,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1804",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 38.5.1 \"DCMI control register (DCMI_CR)\" in chapter 38 (Digital camera interface (DCMI)), RM0486 Rev 4, page 1804.",
+      "section_content": "Address offset: 0x00\nReset value: 0x00000000\n[Table 326. DCMI interrupts]\nBits 31:21 Reserved, must be kept at reset value.\nBit 20 OELS: Odd/Even Line Select (Line Select Start)\nThis bit works in conjunction with the LSM field (LSM = 1).\n0: Interface captures first line after the frame start, second one being dropped.\n1: Interface captures second line from the frame start, first one being dropped.\nBit 19 LSM: Line Select mode\n0: Interface captures all received lines.\n1: Interface captures one line out of two.\nBit 18 OEBS: Odd/Even Byte Select (Byte Select Start)\nThis bit works in conjunction with BSM field (BSM ≠ 00).\n0: Interface captures first data (byte or double byte) from the frame/line start, second one\nbeing dropped.\n1: Interface captures second data (byte or double byte) from the frame/line start, first one\nbeing dropped.\nBits 17:16 BSM[1:0]: Byte Select mode\n00: Interface captures all received data.\n01: Interface captures every other byte from the received data.\n10: Interface captures one byte out of four.\n11: Interface captures two bytes out of four.\nNote: This mode only works for EDM[1:0]=00. For all other EDM values, this field must be\nprogrammed to the reset value.\nBit 15 Reserved, must be kept at reset value.\nBit 14 ENABLE: DCMI enable\n0: DCMI disabled\n1: DCMI enabled\nNote: The DCMI configuration registers must be programmed correctly before enabling this\nbit.\nBits 13:12 Reserved, must be kept at reset value.\nBits 11:10 EDM[1:0]: Extended data mode\n00: Interface captures 8-bit data on every pixel clock.\n01: Interface captures 10-bit data on every pixel clock.\n10: Interface captures 12-bit data on every pixel clock.\n11: Interface captures 14-bit data on every pixel clock.\nBits 9:8 FCRC[1:0]: Frame capture rate control\nThese bits define the frequency of frame capture. They are meaningful only in Continuous\ngrab mode. They are ignored in snapshot mode.\n00: All frames are captured.\n01: Every alternate frame captured (50% bandwidth reduction)\n10: One frame out of four captured (75% bandwidth reduction)\n11: reserved\nBit 7 VSPOL: Vertical synchronization polarity\nThis bit indicates the level on the DCMI_VSYNC pin when the data are not valid on the\nparallel interface.\n0: DCMI_VSYNC active low\n1: DCMI_VSYNC active high\nBit 6 HSPOL: Horizontal synchronization polarity\nThis bit indicates the level on the DCMI_HSYNC pin when the data are not valid on the\nparallel interface.\n0: DCMI_HSYNC active low\n1: DCMI_HSYNC active high\nBit 5 PCKPOL: Pixel clock polarity\nThis bit configures the capture edge of the pixel clock.\n0: Falling edge active\n1: Rising edge active\nBit 4 ESS: Embedded synchronization select\n0: Hardware synchronization data capture (frame/line start/stop) is synchronized with the\nDCMI_HSYNC/DCMI_VSYNC signals.\n1: Embedded synchronization data capture is synchronized with synchronization codes\nembedded in the data flow.\nNote: Valid only for 8-bit parallel data. HSPOL/VSPOL are ignored when the ESS bit is set.\nThis bit is disabled in JPEG mode.\nBit 3 JPEG: JPEG format\n0: Uncompressed video format\n1: This bit is used for JPEG data transfers. The DCMI_HSYNC signal is used as data enable.\nThe crop and embedded synchronization features (ESS bit) cannot be used in this mode.\nBit 2 CROP: Crop feature\n0: The full image is captured. In this case the total number of bytes in an image frame must\nbe a multiple of four.\n1: Only the data inside the window specified by the crop register is captured. If the size of the\ncrop window exceeds the picture size, then only the picture size is captured.\nBit 1 CM: Capture mode\n0: Continuous grab mode - The received data are transferred into the destination memory\nthrough the DMA. The buffer location and mode (linear or circular buffer) is controlled\nthrough the system DMA.\n1: Snapshot mode (single frame) - Once activated, the interface waits for the start of frame\nand then transfers a single frame through the DMA. At the end of the frame, the CAPTURE\nbit is automatically reset.\nBit 0 CAPTURE: Capture enable\n0: Capture disabled\n1: Capture enabled\nThe camera interface waits for the first start of frame, then a DMA request is generated to\ntransfer the received data into the destination memory.\nIn snapshot mode, the CAPTURE bit is automatically cleared at the end of the first frame\nreceived.\nIn continuous grab mode, if the software clears this bit while a capture is ongoing, the bit is\neffectively cleared after the frame end.\nNote: The DMA controller and all DCMI configuration registers must be programmed correctly\nbefore enabling this bit.",
+      "semantic": {
+        "register": "DCMI_CR",
+        "address_offset": "0x00",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "OELS",
+            "description": "Odd/Even Line Select (Line Select Start) This bit works in conjunction with the LSM field (LSM = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interface captures first line after the frame start, second one being dropped."
+              },
+              {
+                "value": "1",
+                "meaning": "Interface captures second line from the frame start, first one being dropped."
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "LSM",
+            "description": "Line Select mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interface captures all received lines."
+              },
+              {
+                "value": "1",
+                "meaning": "Interface captures one line out of two."
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "OEBS",
+            "description": "Odd/Even Byte Select (Byte Select Start) This bit works in conjunction with BSM field (BSM ≠ 00). being dropped. being dropped.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interface captures first data (byte or double byte) from the frame/line start, second one"
+              },
+              {
+                "value": "1",
+                "meaning": "Interface captures second data (byte or double byte) from the frame/line start, first one"
+              }
+            ]
+          },
+          {
+            "bits": "17:16",
+            "name": "BSM[1:0]",
+            "description": "Byte Select mode Note: This mode only works for EDM[1:0]=00. For all other EDM values, this field must be programmed to the reset value.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Interface captures all received data."
+              },
+              {
+                "value": "01",
+                "meaning": "Interface captures every other byte from the received data."
+              },
+              {
+                "value": "10",
+                "meaning": "Interface captures one byte out of four."
+              },
+              {
+                "value": "11",
+                "meaning": "Interface captures two bytes out of four."
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "ENABLE",
+            "description": "DCMI enable Note: The DCMI configuration registers must be programmed correctly before enabling this bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DCMI disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DCMI enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11:10",
+            "name": "EDM[1:0]",
+            "description": "Extended data mode",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Interface captures 8-bit data on every pixel clock."
+              },
+              {
+                "value": "01",
+                "meaning": "Interface captures 10-bit data on every pixel clock."
+              },
+              {
+                "value": "10",
+                "meaning": "Interface captures 12-bit data on every pixel clock."
+              },
+              {
+                "value": "11",
+                "meaning": "Interface captures 14-bit data on every pixel clock."
+              }
+            ]
+          },
+          {
+            "bits": "9:8",
+            "name": "FCRC[1:0]",
+            "description": "Frame capture rate control These bits define the frequency of frame capture. They are meaningful only in Continuous grab mode. They are ignored in snapshot mode.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "All frames are captured."
+              },
+              {
+                "value": "01",
+                "meaning": "Every alternate frame captured (50% bandwidth reduction)"
+              },
+              {
+                "value": "10",
+                "meaning": "One frame out of four captured (75% bandwidth reduction)"
+              },
+              {
+                "value": "11",
+                "meaning": "reserved"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "VSPOL",
+            "description": "Vertical synchronization polarity This bit indicates the level on the DCMI_VSYNC pin when the data are not valid on the parallel interface.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DCMI_VSYNC active low"
+              },
+              {
+                "value": "1",
+                "meaning": "DCMI_VSYNC active high"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "HSPOL",
+            "description": "Horizontal synchronization polarity This bit indicates the level on the DCMI_HSYNC pin when the data are not valid on the parallel interface.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DCMI_HSYNC active low"
+              },
+              {
+                "value": "1",
+                "meaning": "DCMI_HSYNC active high"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "PCKPOL",
+            "description": "Pixel clock polarity This bit configures the capture edge of the pixel clock.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Falling edge active"
+              },
+              {
+                "value": "1",
+                "meaning": "Rising edge active"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "ESS",
+            "description": "Embedded synchronization select DCMI_HSYNC/DCMI_VSYNC signals. embedded in the data flow. Note: Valid only for 8-bit parallel data. HSPOL/VSPOL are ignored when the ESS bit is set. This bit is disabled in JPEG mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Hardware synchronization data capture (frame/line start/stop) is synchronized with the"
+              },
+              {
+                "value": "1",
+                "meaning": "Embedded synchronization data capture is synchronized with synchronization codes"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "JPEG",
+            "description": "JPEG format The crop and embedded synchronization features (ESS bit) cannot be used in this mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Uncompressed video format"
+              },
+              {
+                "value": "1",
+                "meaning": "This bit is used for JPEG data transfers. The DCMI_HSYNC signal is used as data enable."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "CROP",
+            "description": "Crop feature be a multiple of four. crop window exceeds the picture size, then only the picture size is captured.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The full image is captured. In this case the total number of bytes in an image frame must"
+              },
+              {
+                "value": "1",
+                "meaning": "Only the data inside the window specified by the crop register is captured. If the size of the"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CM",
+            "description": "Capture mode through the DMA. The buffer location and mode (linear or circular buffer) is controlled through the system DMA. and then transfers a single frame through the DMA. At the end of the frame, the CAPTURE bit is automatically reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Continuous grab mode - The received data are transferred into the destination memory"
+              },
+              {
+                "value": "1",
+                "meaning": "Snapshot mode (single frame) - Once activated, the interface waits for the start of frame"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CAPTURE",
+            "description": "Capture enable The camera interface waits for the first start of frame, then a DMA request is generated to transfer the received data into the destination memory. In snapshot mode, the CAPTURE bit is automatically cleared at the end of the first frame received. In continuous grab mode, if the software clears this bit while a capture is ongoing, the bit is effectively cleared after the frame end. Note: The DMA controller and all DCMI configuration registers must be programmed correctly before enabling this bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Capture disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Capture enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

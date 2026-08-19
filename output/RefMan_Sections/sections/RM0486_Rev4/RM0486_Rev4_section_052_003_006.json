@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S52.3.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "52",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "52.3.6",
+      "section_title": "PKA procedure to perform an operation",
+      "level": 3,
+      "parent_section": "52.3",
+      "page": 2457,
+      "page_end": 2458,
+      "semantic_type": "generic",
+      "features": [
+        "pka"
+      ],
+      "chars": 3062,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2457",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 52.3.6 \"PKA procedure to perform an operation\" in chapter 52 (Public key accelerator (PKA)), RM0486 Rev 4, page 2457.",
+      "section_content": "Enabling/disabling PKA\nSetting the EN bit in the PKA_CR register enables the PKA peripheral. The PKA becomes\navailable when the INITOK bit is set in the PKA_SR register. When EN = 0, the PKA\nperipheral is kept under reset, with its memory still accessible by the application through the\nAHB interface.\nNote: When the PKA is in the process of clearing its memory, the EN bit cannot be set.\nWhen setting the EN bit in PKA_CR, make sure that the MODE[5:0] bitfield value\ncorresponds to an authorized PKA operation (see OPERRF in Section52.3.7).\nClearing the EN bit while a calculation is in progress aborts the operation. In this case, the\ncontent of the PKA memory is not guaranteed, with the exception of the PKA modes 0x03,\n0x20 and 0x24. For these operations, the PKA memory is cleared after abort, making the\nmemory unavailable for 667 cycles. During this clearing time only the PKA registers can be\naccessed, with writes to EN bits ignored.\nIf the INITOK bit stays at 0, make sure that the RNG peripheral is clocked and properly\ninitialized, then try to enable the PKA again.\nData formats\nThe format of the input data and the results in the PKA RAM are specified, for each\noperation, in Section52.4.\nExecuting a PKA operation\nTo execute any of the supported PKA operations, proceed as follows:\n1. Load initial data into the PKA internal RAM, which is located at address offset 0x400.\n2. Write in the MODE[5:0] bitfield of PKA_CR register, specifying the operation which is to\nbe executed and then assert the START bit, also in PKA_CR register.\n3. Wait until the PROCENDF bit in the PKA_SR register is set, indicating that the\ncomputation is complete.\n4. Read the result data from the PKA internal RAM, then clear PROCENDF bit by setting\nPROCENDFC bit in PKA_CLRFR.\nNote: When PKA is busy (BUSY = 1), any access by the application to PKA RAM is ignored, and\nthe RAMERRF flag is set in PKA_SR.\nSelecting an illegal or unknown operation in step 2 triggers an OPERRF error and prevents\nthe PROCENDF flag from being set and the procedure step 3 from being completed. See\nSection52.3.7 for details.\nUsing precomputed Montgomery parameters (PKA fast mode)\nAs explained in Section52.3.4, when computing many operations with the same modulus, it\ncan be beneficial for the application to compute the corresponding Montgomery parameter\nonly once (see, for example, Section52.4.5). This is referred to as fast mode.\nTo use the PKA peripheral in fast mode, follow this recommended procedure:\n1. Load the modulus size and value information into the PKA RAM. Refer to\nSection52.5.1 for detail.\n2. Configure the PKA_CR register to Montgomery parameter computation mode\n(MODE[5:0]=0x1), then assert the START bit.\n3. Wait until the PROCENDF bit in the PKA_SR register is set. Then, read the\ncorresponding Montgomery parameter from the PKA memory and clear the\nPROCENDF bit by setting PROCENDFC in PKA_CLRFR.\n4. Continue with the required PKA operation, loading the Montgomery information\nR2modm on top of the regular input data. Relevant addresses are provided in\nSection52.4.",
+      "semantic": {}
+    }
+  ]
+}

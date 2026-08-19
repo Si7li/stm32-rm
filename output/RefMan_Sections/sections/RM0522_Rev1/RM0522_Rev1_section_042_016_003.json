@@ -1,0 +1,416 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.3",
+      "section_title": "I3C configuration register (I3C_CFGR)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1754,
+      "page_end": 1759,
+      "semantic_type": "register_description",
+      "features": [
+        "cdmaen",
+        "cflush",
+        "crinit",
+        "dma",
+        "exitptrn",
+        "fcfdis",
+        "hjack",
+        "hksdaen",
+        "i3c",
+        "i3c-cfgr",
+        "noarbh",
+        "rstptrn",
+        "rxdmaen",
+        "rxflush",
+        "rxthres",
+        "sdmaen",
+        "sflush",
+        "smode",
+        "tmode",
+        "tsfset",
+        "txdmaen",
+        "txflush",
+        "txthres"
+      ],
+      "chars": 13451,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1754",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.3 \"I3C configuration register (I3C_CFGR)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1754.",
+      "section_content": "Address offset: 0x004\nReset value: 0x00000000\nThis register is used to configure:\n• features that apply when the I3C acts as controller or target: RX-FIFO and TX-FIFO\nmanagement (RXDMAEN, RXTHRES, RXFLUSH, TXDMAEN, TXTHRES, TXFLUSH),\nI3C peripheral role (CRINIT)\n• dedicated features when the I3C acts as a controller: frame-based control-word\ntriggering (TSFSET), FIFOs management (TMODE, SMODE, SFLUSH, SDMAEN,\nCDMAEN), and miscellaneous ones (HJACK, HKSDAEN, EXITPTRN, RSTPATRN,\nNOARBH, FCFDIS)\nThe configuration fields CRINIT, HKSDAEN can be modified only when EN=0. This\ncondition is respected if they are modified at the same time when EN is set to 1 (it is not\nnecessary to set EN later on, with another write operation).\nBit 31 Reserved, must be kept at reset value.\nBit 30 TSFSET: Frame transfer set (software trigger) (when I3C acts as controller)\nThis bit can only be written. When I3C acts as I3C controller:\n0: no action\n1: setting this bit initiates a frame transfer by causing the hardware to assert the flag CFNFF\nin the I3C_EVR register (C-FIFO not full and a control word is needed)\nNote: If this bit is not set, the other alternative for the software to initiate a frame transfer is to\ndirectly write the first control word register (I3C_CR) while C-FIFO is empty (CFEF = 1 in\nthe I3C_EVR register). Then, if the first written control word is not tagged as a message\nend (MEND = 0 in the I3C_CR register), it causes the hardware to assert CFNFF.\nBits 29:24 Reserved, must be kept at reset value.\nBit 23 FCFDIS: FCF generation disable (when I3C acts as controller)\nWhen the IP acts as controller, the generation of the FCF flag in the register I3C_EVR can be\ndisabled. The software can avoid clearing this flag between two generated I3C frames (by\nwriting 1 into CFCF in the I3C_CEVR register), especially in hardware-triggered autonomous\nmode.\n0: enable the generation of the flag FCF in the I3C_EVR register\n1: disable the generation of the flag FCF in the I3C_EVR register\nBit 22 Reserved, must be kept at reset value.\nBit 21 CFLUSH: C-FIFO flush (when I3C acts as controller)\nThis bit can only be written.\n0: no action\n1: flush C-FIFO\nBit 20 CDMAEN: C-FIFO DMA request enable (when I3C acts as controller)\nWhen I3C acts as controller:\n0: DMA mode is disabled for C-FIFO\n- Software writes and pushes control word(s) into C-FIFO (writes I3C_CR register), as\nneeded for a given frame\n- A next control word transfer can be written by software either via polling on the flag\nCFNFF = 1 in the I3C_EVR register, or via interrupt notification (enabled by CFNFIE = 1 in\nthe I3C_IER register).\n1: DMA mode is enabled for C-FIFO\n- DMA writes and pushes control word(s) into C-FIFO (writes I3C_CR register), as needed\nfor a given frame.\n- A next control word transfer is automatically written by the programmed hardware (via\nthe asserted C-FIFO DMA request from the I3C and the programmed DMA channel).\nBit 19 TMODE: Transmit mode (when I3C acts as controller)\nWhen I3C acts as controller, this bit is used for the C-FIFO and TX-FIFO management vs. the\nemitted frame on the I3C bus.\n0: C-FIFO and TX-FIFO are not preloaded before starting to emit a frame transfer.\nA frame transfer starts as soon as the first control word is present in C-FIFO.\n1: C-FIFO and TX-FIFO are first preloaded (also TX-FIFO if needed, depending on the frame\nformat) before starting to emit a frame transfer. Refer to Section42.10.2 for more details.\nBit 18 SMODE: S-FIFO enable / status receive mode (when I3C acts as controller)\nWhen I3C acts as controller, this bit is used to enable the FIFO for the status (S-FIFO) of the\nexchanged message on the I3C bus.\nWhen I3C acts as target, this bit must be cleared.\n0: S-FIFO is disabled\n- Status register (I3C_SR) is used without FIFO mechanism.\n- There is no SCL stalling if a new status register content is not read.\n- Status register must be read before being overwritten by the hardware.\n- Must have SDMAEN = 0 in the I3C_CFGR register.\n1: S-FIFO is enabled.\n- Each message status must be read.\n- There is SCL stalling when the S-FIFO is full and a next message status must be read.\n- S-FIFO overrun error is reported after the maximum SCL clock stalling time.\nBit 17 SFLUSH: S-FIFO flush (when I3C acts as controller)\nThis bit can be written and used only when I3C acts as controller.\n0: no action\n1: flush S-FIFO\nBit 16 SDMAEN: S-FIFO DMA request enable (when I3C acts as controller)\nThis bit must be cleared if SMODE = 0 in the I3C_CFGR register (S-FIFO is disabled). In\nother words, DMA mode cannot be used if S-FIFO is disabled. Then the status register\nI3C_SR can be read or not.\nThis bit can be set or cleared if SMODE = 1 (S-FIFO is enabled). In other words, status\nregister I3C_SR must be read for each message, either by software, or via an allocated DMA\nchannel.\n0: DMA mode is disabled for reading status register I3C_SR\n- SMODE = 0: software can read the I3C_SR register after a completed frame (FCF = 1 in\nthe I3C_EVR register) or an error (ERRF = 1 in the I3C_EVR register). Via polling on\nthese register flags or via interrupt notification (enabled by FCIE = 1 and ERRIE=1 in the\nI3C_IER register).\n- SMODE = 1: software must read and pop a status word from S-FIFO (read I3C_SR\nregister) after each asserted flag SFNEF = 1. Via polling on this register flag or via\ninterrupt notification (enabled by SFNEIE = 1 in the I3C_IER register).\n1: DMA mode is enabled for reading status register I3C_SR\n- Must have SMODE = 1 in the I3C_CFGR register (S-FIFO enabled)\n- DMA reads and pops status word(s) from S-FIFO (it reads I3C_SR register)\n- Status word(s) are automatically read by the programmed hardware (via the asserted\nS-FIFO DMA request from the I3C and the programmed DMA channel).\nBit 15 Reserved, must be kept at reset value.\nBit 14 TXTHRES: TX-FIFO threshold (whatever I3C acts as controller/target)\nThis threshold defines, compared to the TX-FIFO level, when the TXFNFF flag is set in the\nI3C_EVR register (and consequently if TXDMAEN = 1 when is asserted a DMA TX request).\n0: 1-byte threshold\nTXFNFF is set when 1 byte must be written in TX-FIFO (in I3C_TDR).\n1: 1-word / 4-byte threshold\nTXFNFF is set when 1 word / 4 bytes must be written in TX-FIFO (in the I3C_TDWR\nregister). If the a number of the last transmitted data is not a multiple of 4 bytes\n(XDCNT[1:0] = 00 in the I3C_SR register), only the relevant 1, 2, or 3 valid LSB bytes of\nthe last word are taken into account by the hardware, and sent on the I3C bus.\nBit 13 TXFLUSH: TX-FIFO flush (whatever I3C acts as controller/target)\nThis bit can only be written.\nWhen the I3C acts as target, this bit can be used to flush the TX-FIFO on a private read if the\ncontroller has aborted the data read (driven low the T bit), and there is/are remaining data in\nthe TX-FIFO (ABT = 1, and XDCNT[15:0] in the I3C_SR register < TGTTDCNT[15:0] in the\nI3C_TGTTDR register).\n0: no action\n1: flush TX-FIFO\nBit 12 TXDMAEN: TX-FIFO DMA request enable (whatever I3C acts as controller/target)\n0: DMA mode is disabled for TX-FIFO\n- Software writes and pushes a data byte/word into TX-FIFO (writes I3C_TDR or\nI3C_TDWR register), to be transmitted over the I3C bus.\n- A next data byte/word must be written by the software either via polling on the flag\nTXFNFF = 1 or via interrupt notification (enabled by TXFNFIE = 1).\n1: DMA mode is enabled for TX-FIFO\n- DMA writes and pushes data byte(s)/word(s) into TX-FIFO (writes I3C_TDR or\nI3C_TDWR register).\n- A next data byte/word transfer is automatically pushed by the programmed hardware\n(via the asserted TX-FIFO DMA request from the I3C and the programmed DMA\nchannel).\nBit 11 Reserved, must be kept at reset value.\nBit 10 RXTHRES: RX-FIFO threshold (whatever I3C acts as controller/target)\nThis threshold defines, compared to the RX-FIFO level, when the RXFNEF flag in the\nI3C_EVR register is set (and consequently if RXDMAEN = 1 when is asserted a DMA RX\nrequest).\n0: 1-byte threshold\nRXFNEF is set when 1 byte must be read in RX-FIFO (in the I3C_RDR register).\n1: 1-word/4-bytes threshold\nRXFNEF is set when 1 word / 4 bytes is/are to be read in RX-FIFO (in I3C_RDWR). In the\ncase of a number of last received data being not a multiple of 4 bytes, only the relevant 1,\n2 or 3 valid LSB bytes of the last word are to be considered by the software. The number\nof effective received data bytes is reported by XDCNT[15:0] in the I3C_SR register.\nBit 9 RXFLUSH: RX-FIFO flush (whatever I3C acts as controller/target)\nThis bit can only be written.\n0: no action\n1: flush RX-FIFO\nBit 8 RXDMAEN: RX-FIFO DMA request enable (whatever I3C acts as controller/target)\n0: DMA mode is disabled for RX-FIFO\n- Software reads and pops a data byte/word from RX-FIFO (it reads I3C_RDR or\nI3C_RDWR register).\n- A next data byte/word must be read by the software either via polling flag RXFNEF = 1 in\nthe I3C_EVR register, or via interrupt notification (enabled by RXFNEIE = 1 in the\nI3C_IER register).\n1: DMA mode is enabled for RX-FIFO\n- DMA reads and pops data byte(s)/word(s) from RX-FIFO (reads I3C_RDR or\nI3C_RDWR register).\n- A next data byte/word is automatically read by the programmed hardware (via the\nasserted RX-FIFO DMA request from the I3C and the programmed DMA channel).\nBit 7 HJACK: Hot-join request acknowledge (when I3C acts as a controller)\n0: hot-join request is not acknowledged\nAfter the NACK, the controller continues as initially programmed (the hot-joining target is\naware of the NACK and must emit another hot-join request later on).\n1: hot-join request is acknowledged\nAfter the ACK, the controller continues as initially programmed. The software is notified by\nthe HJ interrupt (flag HJF is set in the I3C_EVR register), and must initiate the ENTDAA\nsequence later on, potentially preventing other hot-join requests with a disable target events\ncommand (DISEC, with DISHJ = 1).\nBit 6 Reserved, must be kept at reset value.\nBit 5 HKSDAEN: High-keeper enable on SDA line (when I3C acts as a controller)\n0: High-keeper is disabled\n1: High-keeper is enabled, and the weak pull-up is effective on the T bit, instead of the open-\ndrain class pull-up.\nNote: This bit can be modified only when EN = 0 in the I3C_CFGR register.\nBit 4 EXITPTRN: HDR exit pattern enable (when I3C acts as a controller)\nThis bit can be modified only when there is no on-going frame.\n0: HDR exit pattern is not sent after the issued message header (MTYPE[3:0]=0001 in the\nI3C_CR register). This is used to send the header, to test ownership of the bus when there is\na suspicion of a problem after controller-role hand-off (new controller did not assert its\ncontroller-role by accessing the previous one in less than the delay defined by the activity\nstate).\n1: HDR exit pattern is sent after the issued message header (MTYPE[3:0]=0001). This is\nused on a controller error detection and escalation handling, in case of a not responding\ntarget to a private message or a direct read CCC.\nThe HDR exit pattern is sent whatever the message header {S/Sr + 0x7E addr + W} is ACK-\ned or NACK-ed..\nBit 3 RSTPTRN: HDR reset pattern enable (when I3C acts as a controller)\nThis bit can be modified only when there is no on-going frame.\n0: standard stop emitted at the end of a frame\n1: HDR reset pattern is inserted before the stop of any emitted frame that includes a RSTACT\nCCC command\nAdditionally, if RSTPTRN = 1 and EXITPTRN = 0, a reset pattern is sent after the issued\nmessage header (MTYPE[3:0] = 0001 in the I3C_CR register), whatever the message\nheader is ACK-ed or NACK-ed.\nBit 2 NOARBH: No arbitrable header after a start (when I3C acts as a controller)\nThis bit can be modified only when there is no on-going frame.\n0: An arbitrable header (0b111_1110 + RnW = 0) is emitted after a start and before a legacy\nI2C message or an I3C SDR private read/write message (default).\n1: No arbitrable header\n- The target address is emitted directly after a start in case of a legacy I2C message or an I3C\nSDR private read/write message.\n- This is a more performing option (when the emission of the 0x7E arbitrable header is\nuseless), but must be used only when the controller is sure that the addressed target device\ncannot emit concurrently an IBI or a controller-role request (to ensure no misinterpretation\nand no potential conflict between the address emitted by the controller in open-drain mode\nand the same address a target device can emit after a start, for IBI or MR).\nBit 1 CRINIT: Initial controller/target role\nThis bit can be modified only when EN=0 in the I3C_CFGR register.\n0: target role\nOnce enabled by setting EN=1, the I3C peripheral initially acts as a target. I3C does not\ndrive SCL line and does not enable SDA pull-up, until it eventually acquires the controller\nrole.\n1: controller role\nOnce enabled by setting EN=1, the I3C peripheral initially acts as a controller. It has the I3C\ncontroller role, so drives SCL line and enables SDA pull-up, until it eventually offers the\ncontroller role to an I3C secondary controller.\nBit 0 EN: I3C enable (whatever I3C acts as controller/target)\n0: I3C is disabled\n- Except registers, the I3C peripheral is under reset (partial reset).\n- Before clearing EN, when I3C acts as a controller, all the possible target requests must\nbe disabled using DISEC CCC.\n- When I3C acts as a target, software must not disable the I3C, unless a partial reset is\nneeded.\n1: I3C is enabled\nIn this state, some register fields cannot be modified (like CRINIT, HKSDAEN for the\nI3C_CFGR)",
+      "semantic": {
+        "register": "I3C_CFGR",
+        "address_offset": "0x004",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "TSFSET",
+            "description": "Frame transfer set (software trigger) (when I3C acts as controller) This bit can only be written. When I3C acts as I3C controller: in the I3C_EVR register (C-FIFO not full and a control word is needed) Note: If this bit is not set, the other alternative for the software to initiate a frame transfer is to directly write the first control word register (I3C_CR) while C-FIFO is empty (CFEF = 1 in the I3C_EVR register). Then, if the first written control word is not tagged as a message end (MEND = 0 in the I3C_CR register), it causes the hardware to assert CFNFF.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no action"
+              },
+              {
+                "value": "1",
+                "meaning": "setting this bit initiates a frame transfer by causing the hardware to assert the flag CFNFF"
+              }
+            ]
+          },
+          {
+            "bits": "29:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "FCFDIS",
+            "description": "FCF generation disable (when I3C acts as controller) When the IP acts as controller, the generation of the FCF flag in the register I3C_EVR can be disabled. The software can avoid clearing this flag between two generated I3C frames (by writing 1 into CFCF in the I3C_CEVR register), especially in hardware-triggered autonomous mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "enable the generation of the flag FCF in the I3C_EVR register"
+              },
+              {
+                "value": "1",
+                "meaning": "disable the generation of the flag FCF in the I3C_EVR register"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "CFLUSH",
+            "description": "C-FIFO flush (when I3C acts as controller) This bit can only be written.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no action"
+              },
+              {
+                "value": "1",
+                "meaning": "flush C-FIFO"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "CDMAEN",
+            "description": "C-FIFO DMA request enable (when I3C acts as controller) When I3C acts as controller: - Software writes and pushes control word(s) into C-FIFO (writes I3C_CR register), as needed for a given frame - A next control word transfer can be written by software either via polling on the flag CFNFF = 1 in the I3C_EVR register, or via interrupt notification (enabled by CFNFIE = 1 in the I3C_IER register). - DMA writes and pushes control word(s) into C-FIFO (writes I3C_CR register), as needed for a given frame. - A next control word transfer is automatically written by the programmed hardware (via the asserted C-FIFO DMA request from the I3C and the programmed DMA channel).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for C-FIFO"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for C-FIFO"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "TMODE",
+            "description": "Transmit mode (when I3C acts as controller) When I3C acts as controller, this bit is used for the C-FIFO and TX-FIFO management vs. the emitted frame on the I3C bus. A frame transfer starts as soon as the first control word is present in C-FIFO. format) before starting to emit a frame transfer. Refer to Section42.10.2 for more details.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "C-FIFO and TX-FIFO are not preloaded before starting to emit a frame transfer."
+              },
+              {
+                "value": "1",
+                "meaning": "C-FIFO and TX-FIFO are first preloaded (also TX-FIFO if needed, depending on the frame"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "SMODE",
+            "description": "S-FIFO enable / status receive mode (when I3C acts as controller) When I3C acts as controller, this bit is used to enable the FIFO for the status (S-FIFO) of the exchanged message on the I3C bus. When I3C acts as target, this bit must be cleared. - Status register (I3C_SR) is used without FIFO mechanism. - There is no SCL stalling if a new status register content is not read. - Status register must be read before being overwritten by the hardware. - Must have SDMAEN = 0 in the I3C_CFGR register. - Each message status must be read. - There is SCL stalling when the S-FIFO is full and a next message status must be read. - S-FIFO overrun error is reported after the maximum SCL clock stalling time.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "S-FIFO is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "S-FIFO is enabled."
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "SFLUSH",
+            "description": "S-FIFO flush (when I3C acts as controller) This bit can be written and used only when I3C acts as controller.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no action"
+              },
+              {
+                "value": "1",
+                "meaning": "flush S-FIFO"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "SDMAEN",
+            "description": "S-FIFO DMA request enable (when I3C acts as controller) This bit must be cleared if SMODE = 0 in the I3C_CFGR register (S-FIFO is disabled). In other words, DMA mode cannot be used if S-FIFO is disabled. Then the status register I3C_SR can be read or not. This bit can be set or cleared if SMODE = 1 (S-FIFO is enabled). In other words, status register I3C_SR must be read for each message, either by software, or via an allocated DMA channel. - SMODE = 0: software can read the I3C_SR register after a completed frame (FCF = 1 in the I3C_EVR register) or an error (ERRF = 1 in the I3C_EVR register). Via polling on these register flags or via interrupt notification (enabled by FCIE = 1 and ERRIE=1 in the I3C_IER register). - SMODE = 1: software must read and pop a status word from S-FIFO (read I3C_SR register) after each asserted flag SFNEF = 1. Via polling on this register flag or via interrupt notification (enabled by SFNEIE = 1 in the I3C_IER register). - Must have SMODE = 1 in the I3C_CFGR register (S-FIFO enabled) - DMA reads and pops status word(s) from S-FIFO (it reads I3C_SR register) - Status word(s) are automatically read by the programmed hardware (via the asserted S-FIFO DMA request from the I3C and the programmed DMA channel).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for reading status register I3C_SR"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for reading status register I3C_SR"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "TXTHRES",
+            "description": "TX-FIFO threshold (whatever I3C acts as controller/target) This threshold defines, compared to the TX-FIFO level, when the TXFNFF flag is set in the I3C_EVR register (and consequently if TXDMAEN = 1 when is asserted a DMA TX request). TXFNFF is set when 1 byte must be written in TX-FIFO (in I3C_TDR). TXFNFF is set when 1 word / 4 bytes must be written in TX-FIFO (in the I3C_TDWR register). If the a number of the last transmitted data is not a multiple of 4 bytes (XDCNT[1:0] = 00 in the I3C_SR register), only the relevant 1, 2, or 3 valid LSB bytes of the last word are taken into account by the hardware, and sent on the I3C bus.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "1-byte threshold"
+              },
+              {
+                "value": "1",
+                "meaning": "1-word / 4-byte threshold"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "TXFLUSH",
+            "description": "TX-FIFO flush (whatever I3C acts as controller/target) This bit can only be written. When the I3C acts as target, this bit can be used to flush the TX-FIFO on a private read if the controller has aborted the data read (driven low the T bit), and there is/are remaining data in the TX-FIFO (ABT = 1, and XDCNT[15:0] in the I3C_SR register < TGTTDCNT[15:0] in the I3C_TGTTDR register).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no action"
+              },
+              {
+                "value": "1",
+                "meaning": "flush TX-FIFO"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "TXDMAEN",
+            "description": "TX-FIFO DMA request enable (whatever I3C acts as controller/target) - Software writes and pushes a data byte/word into TX-FIFO (writes I3C_TDR or I3C_TDWR register), to be transmitted over the I3C bus. - A next data byte/word must be written by the software either via polling on the flag TXFNFF = 1 or via interrupt notification (enabled by TXFNFIE = 1). - DMA writes and pushes data byte(s)/word(s) into TX-FIFO (writes I3C_TDR or I3C_TDWR register). - A next data byte/word transfer is automatically pushed by the programmed hardware (via the asserted TX-FIFO DMA request from the I3C and the programmed DMA channel).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for TX-FIFO"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for TX-FIFO"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "RXTHRES",
+            "description": "RX-FIFO threshold (whatever I3C acts as controller/target) This threshold defines, compared to the RX-FIFO level, when the RXFNEF flag in the I3C_EVR register is set (and consequently if RXDMAEN = 1 when is asserted a DMA RX request). RXFNEF is set when 1 byte must be read in RX-FIFO (in the I3C_RDR register). RXFNEF is set when 1 word / 4 bytes is/are to be read in RX-FIFO (in I3C_RDWR). In the case of a number of last received data being not a multiple of 4 bytes, only the relevant 1, 2 or 3 valid LSB bytes of the last word are to be considered by the software. The number of effective received data bytes is reported by XDCNT[15:0] in the I3C_SR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "1-byte threshold"
+              },
+              {
+                "value": "1",
+                "meaning": "1-word/4-bytes threshold"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "RXFLUSH",
+            "description": "RX-FIFO flush (whatever I3C acts as controller/target) This bit can only be written.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no action"
+              },
+              {
+                "value": "1",
+                "meaning": "flush RX-FIFO"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "RXDMAEN",
+            "description": "RX-FIFO DMA request enable (whatever I3C acts as controller/target) - Software reads and pops a data byte/word from RX-FIFO (it reads I3C_RDR or I3C_RDWR register). - A next data byte/word must be read by the software either via polling flag RXFNEF = 1 in the I3C_EVR register, or via interrupt notification (enabled by RXFNEIE = 1 in the I3C_IER register). - DMA reads and pops data byte(s)/word(s) from RX-FIFO (reads I3C_RDR or I3C_RDWR register). - A next data byte/word is automatically read by the programmed hardware (via the asserted RX-FIFO DMA request from the I3C and the programmed DMA channel).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for RX-FIFO"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for RX-FIFO"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "HJACK",
+            "description": "Hot-join request acknowledge (when I3C acts as a controller) After the NACK, the controller continues as initially programmed (the hot-joining target is aware of the NACK and must emit another hot-join request later on). After the ACK, the controller continues as initially programmed. The software is notified by the HJ interrupt (flag HJF is set in the I3C_EVR register), and must initiate the ENTDAA sequence later on, potentially preventing other hot-join requests with a disable target events command (DISEC, with DISHJ = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "hot-join request is not acknowledged"
+              },
+              {
+                "value": "1",
+                "meaning": "hot-join request is acknowledged"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "HKSDAEN",
+            "description": "High-keeper enable on SDA line (when I3C acts as a controller) drain class pull-up. Note: This bit can be modified only when EN = 0 in the I3C_CFGR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "High-keeper is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "High-keeper is enabled, and the weak pull-up is effective on the T bit, instead of the open-"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "EXITPTRN",
+            "description": "HDR exit pattern enable (when I3C acts as a controller) This bit can be modified only when there is no on-going frame. I3C_CR register). This is used to send the header, to test ownership of the bus when there is a suspicion of a problem after controller-role hand-off (new controller did not assert its controller-role by accessing the previous one in less than the delay defined by the activity state). used on a controller error detection and escalation handling, in case of a not responding target to a private message or a direct read CCC. The HDR exit pattern is sent whatever the message header {S/Sr + 0x7E addr + W} is ACK- ed or NACK-ed..",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "HDR exit pattern is not sent after the issued message header (MTYPE[3:0]=0001 in the"
+              },
+              {
+                "value": "1",
+                "meaning": "HDR exit pattern is sent after the issued message header (MTYPE[3:0]=0001). This is"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "RSTPTRN",
+            "description": "HDR reset pattern enable (when I3C acts as a controller) This bit can be modified only when there is no on-going frame. CCC command Additionally, if RSTPTRN = 1 and EXITPTRN = 0, a reset pattern is sent after the issued message header (MTYPE[3:0] = 0001 in the I3C_CR register), whatever the message header is ACK-ed or NACK-ed.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "standard stop emitted at the end of a frame"
+              },
+              {
+                "value": "1",
+                "meaning": "HDR reset pattern is inserted before the stop of any emitted frame that includes a RSTACT"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "NOARBH",
+            "description": "No arbitrable header after a start (when I3C acts as a controller) This bit can be modified only when there is no on-going frame. I2C message or an I3C SDR private read/write message (default). - The target address is emitted directly after a start in case of a legacy I2C message or an I3C SDR private read/write message. - This is a more performing option (when the emission of the 0x7E arbitrable header is useless), but must be used only when the controller is sure that the addressed target device cannot emit concurrently an IBI or a controller-role request (to ensure no misinterpretation and no potential conflict between the address emitted by the controller in open-drain mode and the same address a target device can emit after a start, for IBI or MR).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "An arbitrable header (0b111_1110 + RnW = 0) is emitted after a start and before a legacy"
+              },
+              {
+                "value": "1",
+                "meaning": "No arbitrable header"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CRINIT",
+            "description": "Initial controller/target role This bit can be modified only when EN=0 in the I3C_CFGR register. Once enabled by setting EN=1, the I3C peripheral initially acts as a target. I3C does not drive SCL line and does not enable SDA pull-up, until it eventually acquires the controller role. Once enabled by setting EN=1, the I3C peripheral initially acts as a controller. It has the I3C controller role, so drives SCL line and enables SDA pull-up, until it eventually offers the controller role to an I3C secondary controller.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "target role"
+              },
+              {
+                "value": "1",
+                "meaning": "controller role"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EN",
+            "description": "I3C enable (whatever I3C acts as controller/target) - Except registers, the I3C peripheral is under reset (partial reset). - Before clearing EN, when I3C acts as a controller, all the possible target requests must be disabled using DISEC CCC. - When I3C acts as a target, software must not disable the I3C, unless a partial reset is needed. In this state, some register fields cannot be modified (like CRINIT, HKSDAEN for the I3C_CFGR)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "I3C is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "I3C is enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

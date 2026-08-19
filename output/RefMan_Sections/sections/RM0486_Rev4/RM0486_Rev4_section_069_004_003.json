@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.4.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.4.3",
+      "section_title": "Handling of interrupts coming from DMA",
+      "level": 3,
+      "parent_section": "69.4",
+      "page": 3592,
+      "page_end": 3592,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "interrupt"
+      ],
+      "chars": 1488,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3592",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.4.3 \"Handling of interrupts coming from DMA\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3592.",
+      "section_content": "If an interrupt comes from the DMA channel used of the channel status (SPDIFRX_CSR):\nIf no error occurred (that is PERR), the CPU can start the decoding of channel\ninformation. For example bit 1 of the channel status informs the user if the current\nstream is linear or not. This information is very important in order to set-up the proper\nprocessing chain. In the same way, bits 24 to 27 of the channel status give the\nsampling frequency of the stream incoming stream.\nThanks to that information, the user can then configure the RXSTEO bit and DRFMT\nfield prior to start the data reception. For example if the current stream is non linear\nPCM then RXSTEO is set to 0, and DRFMT is set to 10. Then the user can enable the\ndata reception by setting SPDIFRXEN to 11.\nThe SOB bit, when set to 1 indicates the start of a new block. This information helps the\nsoftware to identify the bit 0 of the channel status. Note that if the DMA generates an\ninterrupt every time 24 values are transferred into the memory, then the first word\nalways corresponds to the start of a new block.\nIf an interrupt comes from the DMA channel used of the audio samples\n(SPDIFRX_FMTx_DR):\nThe process performed here depends of the data type (linear or non-linear), and on the\ndata format selected.\nFor example in linear mode, if PE or V bit is set a special processing can be performed\nlocally in order to avoid spurs on output. In non-linear mode those bits are not important\nas data frame have their own checksum.",
+      "semantic": {}
+    }
+  ]
+}

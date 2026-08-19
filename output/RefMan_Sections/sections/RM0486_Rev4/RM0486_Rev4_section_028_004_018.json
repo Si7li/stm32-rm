@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.4.18",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.4.18",
+      "section_title": "XSPI error management",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 1321,
+      "page_end": 1321,
+      "semantic_type": "generic",
+      "features": [
+        "spi",
+        "xspi"
+      ],
+      "chars": 1457,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1321",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.18 \"XSPI error management\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1321.",
+      "section_content": "The following errors set the TEF flag in XSPI_SR and generates an interrupt if enabled\n(TEIE = 1 in XSPI_CR):\n• in indirect or automatic status-polling mode, when a wrong address has been\nprogrammed in XSPI_AR (according to the device size defined by DEVSIZE[4:0]).\n• in indirect mode, if the address plus the data length exceed the device size. TEF is set\nas soon as the access is triggered.\nIn memory-mapped mode, the XSPI generates an AXI slave error in the following situations:\n• The memory-mapped mode is disabled and an AXI read or write request occurs.\n• Read or write address exceeds the size of the external memory.\n• Abort is received while a read or write burst is ongoing when the abort condition is\npresent at the moment of transfer phases preceding the data phase (In incremental or\nwrap burst type modes). To avoid the error, refer to Section28.4.20: XSPI BUSY and\nABORT.\n• The XSPI is disabled while a read or write burst is requested.\n• A write wrap burst is received.\n• A write request is received while DQSE=0 in XSPI_WCCR in octal DTR mode, in\ndual-memory configuration, in hyperbus mode or 16-bit mode.\n• A read or write request is received while DMODE[2:0]=000 (no data phase), except\nwhen MTYP[2:0] is HyperBus.\n• Illegal access size when wrap read burst. This means AXI Bus transfer size (ARSIZE)\nis different from 8bytes (only for memory-mapped mode).\n• Bit DMM is set in XSPI_CR (dual-memory configuration) and 16-bit mode is set.",
+      "semantic": {}
+    }
+  ]
+}

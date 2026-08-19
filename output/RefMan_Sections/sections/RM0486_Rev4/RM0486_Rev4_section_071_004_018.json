@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.4.18",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.4.18",
+      "section_title": "Synchronization to external time schedule",
+      "level": 3,
+      "parent_section": "71.4",
+      "page": 3670,
+      "page_end": 3671,
+      "semantic_type": "generic",
+      "features": [
+        "external",
+        "schedule",
+        "synchronization",
+        "time"
+      ],
+      "chars": 1736,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3670",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.4.18 \"Synchronization to external time schedule\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3670.",
+      "section_content": "This feature can be used to synchronize the phase of the FDCAN schedule to an external\nschedule (for example that of a second TTCAN network or FlexRay network). It is applicable\nonly when the FDCAN is current time master (FDCAN_TTOST.MS = 11).\nExternal synchronization is controlled by event trigger input pin fdcan_evt. If bit\nFDCAN_TTOCN.ESCN is set, a rising edge at event trigger pin fdcan_evt the FDCAN\ncompares its actual cycle time with the target phase value configured by\nFDCAN_TTGTP.CTP.\nBefore setting FDCAN_TTOCN.ESCN the user must adapt the phases of the two time\nschedules for example by using the FDCAN gap control (see Section71.4.11). When the\nuser sets FDCAN_TTOCN.ESCN, FDCAN_TTOSTSPL is set.\nIf the difference between the cycle time and the target phase value FDCAN_TTGTP.CTP at\nthe rising edge at event trigger pin fdcan_evt is greater than 9 NTU, the phase lock bit\nFDCAN_TTOST.SPL is reset, and interrupt flag FDCAN_TTIR.CSM is set.\nFDCAN_TTOST.SPL is also reset (and FDCAN_TTIR.CSM is set), when another node\nbecomes time master.\nIf both FDCAN_TTOST.SPL and FDCAN_TTOCN.ESCN are set, and if the difference\nbetween the cycle time and the target phase value FDCAN_TTGTP.CTP at the rising edge\nat event trigger pin fdcan_evt is lower or equal to nine NTU, the phase lock bit\nFDCAN_TTOST.SPL remains set, and the measured difference is used as the reference\ntrigger offset value to adjust the phase at the next transmitted reference message.\nNote: The rising edge detection at event trigger pin fdcan_evt is enabled with the start of each\nbasic cycle. The first rising edge triggers the compare of the actual cycle time with\nFDCAN_TTGTP.CTP. All further edges until the beginning of the next basic cycle are\nignored.",
+      "semantic": {}
+    }
+  ]
+}

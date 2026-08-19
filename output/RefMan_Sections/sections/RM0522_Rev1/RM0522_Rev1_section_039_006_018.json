@@ -1,0 +1,103 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S39.6.18",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "39",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "39.6.18",
+      "section_title": "RTC alarm B subsecond register (RTC_ALRMBSSR)",
+      "level": 3,
+      "parent_section": "39.6",
+      "page": 1590,
+      "page_end": 1590,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "maskss",
+        "rtc",
+        "rtc-alrmbssr",
+        "ssclr"
+      ],
+      "chars": 1815,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1590",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.6.18 \"RTC alarm B subsecond register (RTC_ALRMBSSR)\" in chapter 39 (Real-time clock (RTC)), RM0522 Rev 1, page 1590.",
+      "section_content": "This register can be written only when ALRBE is reset in RTC_CR register.\nThis register can be protected against unprivileged access. Refer to Section39.3.4: RTC\nprivilege protection modes.\nAddress offset: 0x4C\nRTC domain reset value: 0x0000 0000\nSystem reset: not affected\nBit 31 SSCLR: Clear synchronous counter on alarm (Binary mode only)\n0: The synchronous binary counter (SS[31:0] in RTC_SSR) is free-running.\n1: The synchronous binary counter (SS[31:0] in RTC_SSR) is running from 0xFFFFFFFF to\nRTC_ALRBBINR.SS[31:0] value and is automatically reloaded with 0xFFFFFFFF one\nck_apre cycle after reaching RTC_ALRBBINR.SS[31:0].\nNote: SSCLR must be kept to 0 when BCD or mixed mode is used (BIN = 00, 10 or 11).\nBit 30 Reserved, must be kept at reset value.\nBits 29:24 MASKSS[5:0]: Mask the most-significant bits starting at this bit\n0: No comparison on subseconds for Alarm B. The alarm is set when the seconds unit is\nincremented (assuming that the rest of the fields match).\n1: SS[31:1] are don’t care in Alarm B comparison. Only SS[0] is compared.\n2: SS[31:2] are don’t care in Alarm B comparison. Only SS[1:0] are compared.\n...\n31: SS[31] is don’t care in Alarm B comparison. Only SS[30:0] are compared.\nFrom 32 to 63: All 32 SS bits are compared and must match to activate alarm.\nNote: In BCD mode (BIN=00)The overflow bits of the synchronous counter (bits 15) is never\ncompared. This bit can be different from 0 only after a shift operation.\nBits 23:15 Reserved, must be kept at reset value.\nBits 14:0 SS[14:0]: Subseconds value\nThis value is compared with the contents of the synchronous prescaler counter to determine\nif alarm B is to be activated. Only bits 0 up to MASKSS-1 are compared.\nThis field is the mirror of SS[14:0] in the RTC_ALRBBINR, and so can also be read or written\nthrough RTC_ALRBBINR.",
+      "semantic": {
+        "register": "RTC_ALRMBSSR",
+        "address_offset": "0x4C",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "SSCLR",
+            "description": "Clear synchronous counter on alarm (Binary mode only) RTC_ALRBBINR.SS[31:0] value and is automatically reloaded with 0xFFFFFFFF one ck_apre cycle after reaching RTC_ALRBBINR.SS[31:0]. Note: SSCLR must be kept to 0 when BCD or mixed mode is used (BIN = 00, 10 or 11).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The synchronous binary counter (SS[31:0] in RTC_SSR) is free-running."
+              },
+              {
+                "value": "1",
+                "meaning": "The synchronous binary counter (SS[31:0] in RTC_SSR) is running from 0xFFFFFFFF to"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29:24",
+            "name": "MASKSS[5:0]",
+            "description": "Mask the most-significant bits starting at this bit incremented (assuming that the rest of the fields match). ... From 32 to 63: All 32 SS bits are compared and must match to activate alarm. Note: In BCD mode (BIN=00)The overflow bits of the synchronous counter (bits 15) is never compared. This bit can be different from 0 only after a shift operation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No comparison on subseconds for Alarm B. The alarm is set when the seconds unit is"
+              },
+              {
+                "value": "1",
+                "meaning": "SS[31:1] are don’t care in Alarm B comparison. Only SS[0] is compared."
+              },
+              {
+                "value": "2",
+                "meaning": "SS[31:2] are don’t care in Alarm B comparison. Only SS[1:0] are compared."
+              },
+              {
+                "value": "31",
+                "meaning": "SS[31] is don’t care in Alarm B comparison. Only SS[30:0] are compared."
+              }
+            ]
+          },
+          {
+            "bits": "23:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14:0",
+            "name": "SS[14:0]",
+            "description": "Subseconds value This value is compared with the contents of the synchronous prescaler counter to determine if alarm B is to be activated. Only bits 0 up to MASKSS-1 are compared. This field is the mirror of SS[14:0] in the RTC_ALRBBINR, and so can also be read or written through RTC_ALRBBINR.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

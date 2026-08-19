@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.5",
+      "section_title": "YUV-to-RGB color conversion",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2102,
+      "page_end": 2103,
+      "semantic_type": "generic",
+      "features": [
+        "rgb",
+        "yuv"
+      ],
+      "chars": 2681,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2102",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.5 \"YUV-to-RGB color conversion\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2102.",
+      "section_content": "This operator handles the YUV-to-RGB color conversion of the YUV planar pixels. The color\nconversion is activated automatically, simultaneously with the YUV planar handling.\nThe color conversion is based on a semi-flexible 3x3 matrix multiplication:\n• It is restricted to YUV-to-RGB conversion due to some frozen coefficients (see next).\n• It handles the most used YUV references (ITU-R BT.601 and ITU-R BT.709) thanks to\nsome configurable coefficients.\n• It supports the full versus reduced dynamic of the input pixel (luminance defined either\nin 0 to 255, or in 16 to 235), by extending a potential reduced-range input\ntoafullrange.\nParameters\n• YCEN in LTDC_LxPCR: activates the color conversion, same bit as for planar.\n• YREN in LTDC_LxPCR: if active, extends a reduced range to a full range.\n• CR2R in LTDC_LxCYR0R: matrix coefficient from Cr to Red\n• CB2B in LTDC_LxCYR0R: matrix coefficient from Cb to Blue\n• CR2G in LTDC_LxCYR0R: matrix coefficient from Cr to Green\n• CB2G in LTDC_LxCYR0R: matrix coefficient from Cb to Green\nThe full matrix computation, to convert from YCbCr to RGB, is defined as the following:\n( R ) ( CR2R 256 0 ) ( Cr - 128 )\n( G ) = ( - CR2G 256 - CB2G ) x ( Y )\n( B ) ( 0 256 CB2B ) ( Cb - 128 )\nThe CR2R, CB2B, CR2G, and CB2G coefficients are defined on 10 bits unsigned: as the\noperator works with 8-bit components, the coefficients are thus equivalent, in fixed-point,\nto2-bit integer and 8-bit decimals.\nThe CR2G and CB2G coefficients are configured as unsigned positive, but are set negative\nin the hardware computation, as shown in the above matrix where a “-” is mentioned.\nWhen the luminance scaling is active (YREN=1, thus where the YCbCr input is assumed\ninthe range of 16 to 235/240, and RGB in 0 to 255), then the Y input value is first scaled in\nhardware to Y’=255/219*(Y-16). That first result is then inserted as input to the above\nmatrix multiplication.\nConfiguration examples\nTo read an ITU-R BT.601 layer and to convert its YCbCr (assuming a default reduced\ndynamic in 16 to 235/240) to RGB (with full dynamic in 0 to 255), the recommended\ncoefficients are:\n• YCEN=1: to activate the conversion\n• YREN=1: to select the reduced dynamic range\n• CR2R=409: specific coefficient set for ITU-R BT.601\n• CR2G = 208\n• CB2G = 100\n• CB2B = 516\nTo read an ITU-R BT.709 layer and to convert its YCbCr (assuming a default reduced\ndynamic in 16 to 235/240) to RGB (with full dynamic in 0 to 255), the recommended values\nto configure coefficients are:\n• YCEN = 1: to activate the conversion\n• YREN = 1: to select the reduced dynamic range\n• CR2R = 459: specific following coefficient set is for ITU-R BT.709\n• CR2G = 136\n• CB2G = 55\n• CB2B = 541",
+      "semantic": {}
+    }
+  ]
+}

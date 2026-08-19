@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.9.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.9.5",
+      "section_title": "Stopping and starting transmission",
+      "level": 3,
+      "parent_section": "76.9",
+      "page": 4126,
+      "page_end": 4126,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 1368,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4126",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.9.5 \"Stopping and starting transmission\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4126.",
+      "section_content": "Complete the following steps to pause the transmission for some time:\n1. Disable the Transmit DMA (if applicable) by clearing Bit 0 (ST) of ETH_DMAC0TXCR\nregister (see Channel x transmit control register (ETH_DMACxTXCR)).\n2. Wait for any previous frame transmissions to complete. You can check this by reading\nthe appropriate bits of Tx queue x debug register (ETH_MTLTXQxDR) (TRCSTS[1:0] is\nnot 01 and TXQSTS=0).\n3. Disable the MAC transmitter and MAC receiver by clearing RE and TE bits of the\nOperating mode configuration register (ETH_MACCR) Register.\n4. Disable the Receive DMA (if applicable), after making sure that the data in the Rx FIFO\nis transferred to the system memory (by reading the appropriate bits of Tx queue x\ndebug register (ETH_MTLTXQxDR), PRXQ=0 and RXQSTS[1:0]=00).\n5. Make sure that both Tx queue and Rx queue are empty (TXQSTS is 0 in Tx queue x\ndebug register (ETH_MTLTXQxDR) and RXQSTS[1:0] is set to 00.\n6. To restart the operation, first start the DMAs, and then enable the MAC transmitter and\nreceiver.\nNote: Do not change the configuration (such as duplex mode, speed, port, or loopback) when the\nMAC is actively transmitting or receiving. These parameters are changed by software only\nwhen the MAC transmitter and receiver are not active.\nSimilarly, do not change the DMA-related configuration when transmit and receive DMA are\nactive.",
+      "semantic": {}
+    }
+  ]
+}

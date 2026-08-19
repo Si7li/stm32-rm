@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S27.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "27",
+      "chapter_title": "Flexible memory controller (FMC)",
+      "section": "27.8",
+      "section_title": "NOR flash/PSRAM controller",
+      "level": 2,
+      "parent_section": null,
+      "page": 1186,
+      "page_end": 1187,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "nor",
+        "psram"
+      ],
+      "chars": 2425,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1186",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.8 \"NOR flash/PSRAM controller\" in chapter 27 (Flexible memory controller (FMC)), RM0486 Rev 4, page 1186.",
+      "section_content": "The FMC generates the appropriate signal timings to drive the following types of memories:\n• Asynchronous SRAM, FRAM and ROM\n– 8 bits\n– 16 bits\n– 32 bits\n• PSRAM (CellularRAM™)\n– Asynchronous mode\n– Burst mode for synchronous accesses with configurable option to split burst\naccess when crossing boundary page for CRAM 1.5.\n– Multiplexed or non-multiplexed\n• NOR flash memory\n– Asynchronous mode\n– Burst mode for synchronous accesses\n– Multiplexed or non-multiplexed\nThe FMC outputs a unique Chip Select signal, NE[4:1], per memory region. All the other\nsignals (addresses, data and control) are shared.\nThe FMC supports a wide range of devices through a programmable timings among which:\n• Programmable wait-states (up to 15)\n• Programmable bus turnaround cycles (up to 15)\n• Programmable output enable and write enable delays (up to 15)\n• Independent read and write timings and protocol to support the widest variety of\nmemories and timings\n• Programmable continuous clock (FMC_CLK) output.\nThe FMC output Clock (FMC_CLK) is a submultiple of the fmc_ker_ck clock. It can be\ndelivered to the selected external device either during synchronous accesses only or during\nasynchronous and synchronous accesses depending on the CCKEN bit configuration in the\nFMC_BCR1 register:\n• If the CCLKEN bit is reset, the FMC generates the clock (FMC_CLK) only during\nsynchronous accesses (Read/write transactions).\n• If the CCLKEN bit is set, the FMC generates a continuous clock during asynchronous\nand synchronous accesses. To generate the FMC_CLK continuous clock, memory\nregion 1 must be configured in synchronous mode (see Section27.8.6: NOR/PSRAM\ncontroller registers). Since the same clock is used for all synchronous memories, when\na continuous output clock is generated and synchronous accesses are performed, the\nAXI data size has to be the same as the memory data width (MWID[1:0]) otherwise the\nFMC_CLK frequency is changed depending on AXI data transaction (refer to\nSection27.8.5: Synchronous transactions for FMC_CLK divider ratio formula).\nThe size of each memory region is fixed and equal to 64Mbytes. Each memory region is\nconfigured through dedicated registers (see Section27.8.6: NOR/PSRAM controller\nregisters).\nThe programmable memory parameters include access times (see Table158) and support\nfor wait management (for PSRAM and NOR flash accessed in burst mode).\n[Table 158. Programmable NOR/PSRAM access parameters]",
+      "semantic": {}
+    }
+  ]
+}

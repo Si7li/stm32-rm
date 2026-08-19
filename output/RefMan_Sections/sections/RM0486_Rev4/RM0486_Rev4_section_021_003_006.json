@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S21.3.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "21",
+      "chapter_title": "Chrom-ART Accelerator controller (DMA2D)",
+      "section": "21.3.6",
+      "section_title": "DMA2D foreground and background CLUT interface",
+      "level": 3,
+      "parent_section": "21.3",
+      "page": 1036,
+      "page_end": 1037,
+      "semantic_type": "generic",
+      "features": [
+        "clut",
+        "dma",
+        "dma2d"
+      ],
+      "chars": 1602,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1036",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.3.6 \"DMA2D foreground and background CLUT interface\" in chapter 21 (Chrom-ART Accelerator controller (DMA2D)), RM0486 Rev 4, page 1036.",
+      "section_content": "The CLUT interface manages the CLUT memory access and the automatic loading of\ntheCLUT.\nThree kinds of accesses are possible:\n• CLUT read by the PFC during pixel format conversion operation\n• CLUT accessed through the AHB slave port when the CPU is reading or writing data\ninto the CLUT\n• CLUT written through the AXI master port when an automatic loading of the CLUT\nisperformed\nThe CLUT memory loading can be done in two different ways:\n• Automatic loading\nThe following sequence must be followed to load the CLUT:\na) Program the CLUT address into DMA2D_FGCMAR (foreground CLUT) or\nDMA2D_BGCMAR (background CLUT).\nb) Program the CLUT size with CS[7:0] field in DMA2D_FGPFCCR (foreground\nCLUT), or DMA2D_BGPFCCR (background CLUT).\nc) Set START in DMA2D_FGPFCCR (foreground CLUT) or DMA2D_BGPFCCR\n(background CLUT) to start the transfer. During this automatic loading process,\nthe CLUT is not accessible by the CPU. If a conflict occurs, a CLUT access error\ninterrupt is raised assuming CAEIE = 1 in DMA2D_CR.\n• Manual loading\nThe application has to program the CLUT manually through the DMA2D AHB slave\nport to which the local CLUT memory is mapped.The foreground CLUT (FGCLUT)\nislocated at address offset 0x0400 and the background CLUT (BGCLUT) at address\noffset 0x0800.\nThe CLUT format can be 24 or 32 bits. It is configured through CCM in DMA2D_FGPFCCR\n(foreground CLUT) or DMA2D_BGPFCCR (background CLUT) as shown in table below.\n[Table 117. Supported CLUT color mode]\nThe way the CLUT data are organized in the system memory is specified in the table below.\n[Table 118. CLUT data order in memory]",
+      "semantic": {}
+    }
+  ]
+}

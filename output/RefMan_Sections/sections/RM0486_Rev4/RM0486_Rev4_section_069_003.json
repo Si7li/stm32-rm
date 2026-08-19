@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.3",
+      "section_title": "SPDIFRX functional description",
+      "level": 2,
+      "parent_section": null,
+      "page": 3569,
+      "page_end": 3570,
+      "semantic_type": "generic",
+      "features": [
+        "spdifrx"
+      ],
+      "chars": 2032,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3569",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.3 \"SPDIFRX functional description\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3569.",
+      "section_content": "The SPDIFRX peripheral, is designed to receive an S/PDIF flow compliant with IEC-60958\nand IEC-61937. These standards support simple stereo streams up to high sample rate,\nand compressed multi-channel surround sound, such as those defined by Dolby or DTS.\nThe receiver provides all the necessary features to detect the symbol rate, and decode the\nincoming data. It is possible to use a dedicated path for the user and channel information in\norder to ease the interface handling. Figure936 shows a simplified block diagram.\nThe SPDIFRX_DC block is responsible of the decoding of the S/PDIF stream received from\nSPDIFRX_IN[3:0] inputs. This block re-sample the incoming signal, decode the manchester\nstream, recognize frames, sub-frames and blocks elements. It delivers to the REG_IF part,\ndecoded data, and associated status flags.\nThis peripheral can be fully controlled via the APB bus, and can handle two DMA channels:\n• A DMA channel dedicated to the transfer of audio samples\n• A DMA channel dedicated to the transfer of IEC60958 channel status and user\ninformation\nInterrupt services are also available either as an alternative function to the DMA, or for\nsignaling error or key status of the peripheral.\nThe SPDIFRX also offers a signal named spdifrx_frame_sync, which toggles every time that\na sub-frame’s preamble is detected. So the duty cycle is 50%, and the frequency equal to\nthe frame rate.\nThis signal can be connected to timer events, in order to compute frequency drift.\na. Check the RCC capabilities in order to verify which sampling rates can be supported.\nIn addition the SPDIFRX also provides a signal named spdifrx_symb_ck toggling at the\nsymbol rate.\n[Figure 936. SPDIFRX block diagram]\nspdifrx_ker_ck SPDIFRX_DC\nspdifrx_pclk\nRX_BUF 32 bits\ndata\nSPDIFRX_IN[x]\nctrl ch. CNYS SPDIFRX_IN[x+1] SPDIFRX_SR SPDIFRX_IN[x+n] (1)\nspdifrx_it\nspdifrx_symb_ck\nspdifrx_dat_dma\nspdifrx_frame_sync\nc s l p o d c i k fr d x_ o p m c a lk in spdif_ker_ck clock domain\nspdifrx_ctrl_dma\n1. 'n' is fixed to 3, and 'x' is set to 0.",
+      "semantic": {}
+    }
+  ]
+}

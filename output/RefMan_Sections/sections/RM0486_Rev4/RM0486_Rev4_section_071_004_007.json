@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.4.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.4.7",
+      "section_title": "Application",
+      "level": 3,
+      "parent_section": "71.4",
+      "page": 3648,
+      "page_end": 3648,
+      "semantic_type": "generic",
+      "features": [
+        "application"
+      ],
+      "chars": 2789,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3648",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.4.7 \"Application\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3648.",
+      "section_content": "Clock calibration bypassed\nThe CCU internal clock divider is configured for division by one\n(FDCAN_CCFG.CDIV=0x0000). In this operation mode the input clock fdcan_ker_ck is\ndirectly routed to the clock output fdcan_tq_ck. In this case fdcan_tq_ck is independent from\nthe configuration and status of FDCAN1and FDCAN2 connected to the CCU. CAN FD\noperation is possible with an FDCAN_ker_ck above 80MHz.\nSoftware calibration\nThe clock calibration on CAN unit also supports software calibration of fdcan_ker_ck by\ntrimming of an on-chip oscillator. For calculation of the trimming values the user must read\nthe CCU state from FDCAN_CCU_CSTAT. The clock from fdcan_ker_ck is routed to output\nfdcan_tq_ck (FDCAN_CCFG.BCC= 1).\nThe input clock fdcan_ker_ck must be at least 80 MHz. The clock divider of CCU must be\nconfigured via FDCAN_CCFG.CDIV to bring fdcan_tq_ck to a valid range. All other\nconfiguration parameters must be set via FDCAN_CCFG. For correct operation of FDCAN1\nand FDCAN2, the APB clock fdcan_pclk needs to be equal to or higher than the time quanta\nclock (fdcan_tq_ck). CAN FD operation is not possible.\nFor startup FDCAN modules must be both configured for restricted operation\n(FDCAN_CCCR.ASM = 1) before FDCAN_CCCR.INIT is reset. The input clock\nfdcan_ker_ck must be adjusted until the clock calibration on CAN unit has reached state\nPrecision_Calibrated. Now the software can reset FDCAN_CCCR.ASM, and the CANFD1\nand CANFD2 can start normal operation.\nDuring operation the software must check regularly whether the clock calibration on CAN\nunit is still in state Precision_Calibrated. In case the clock calibration on CAN unit has left\nstate Precision_Calibrated due to drift of fdcan_ker_ck, FDCAN modules must be set into\nrestricted operation mode by programming FDCAN_CCCR.INIT, FDCAN_CCCR.CCE, and\nFDCAN_CCCR.ASM to 1. After fdcan_ker_ck has been adjusted successfully (clock\ncalibration on CAN unit is in state Precision_Calibrated), FDCAN modules can resume\nnormal operation.\nNote: Trimming accuracy must be to sufficient to meet the CAN clock tolerance requirements for\nthe configured bitrate.\nClock calibration active\nThis operation mode is entered by resetting FDCAN_CCFG.BCC to 0. In this operation\nmode the fdcan_ker_ck is controlled by the CCU.\nThe generation of CCU output signal fdcan_tq_ck depends upon the state of the FDCAN1.\nInput clock fdcan_ker_ck must be above 80 MHz. Configuration of the CCU and FDCAN1 is\nrequired. CAN FD operation is not possible.\nIf FDCAN1 turns to Bus_Off or when its INIT bit is set by the user command\n(FDCAN_CCCR.INIT = 1), the CCU enters state Not_Calibrated. CANFD1 and CANFD2\nenter restricted operation mode.\nNote: This is the default operation mode after reset in case the reset value of FDCAN_CCFG.BCC\nis configured to 0.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,285 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.8.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.8.11",
+      "section_title": "HPDMA channel x control register (HPDMA_CxCR)",
+      "level": 3,
+      "parent_section": "18.8",
+      "page": 903,
+      "page_end": 905,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "dteie",
+        "hpdma",
+        "htie",
+        "lap",
+        "lsm",
+        "memory",
+        "prio",
+        "reset",
+        "spi",
+        "susp",
+        "suspie",
+        "tcie",
+        "toie",
+        "uleie",
+        "useie"
+      ],
+      "chars": 4724,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=903",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.8.11 \"HPDMA channel x control register (HPDMA_CxCR)\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 903.",
+      "section_content": "Address offset: 0x064 + 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(HPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of the channel x (HPDMA_PRIVCFGR.PRIVx).\nThis register is CID-filtered depending on the CID configuration of the channel x\n(HPDMA_CxCIDCFGR.CFEN = 1). If the debug domain feature is activated, an access to\nthis register is granted to the debug domain CID, regardless of any CID filtering.\nThis register is used to control a channel (activate, suspend, abort or disable it).\nBits 31:24 Reserved, must be kept at reset value.\nBits 23:22 PRIO[1:0]: Priority level of the channel x HPDMA transfer versus others\n00: Low priority, low weight\n01: Low priority, mid weight\n10: Low priority, high weight\n11: High priority\nNote: This bit must be written when EN = 0. This bit is read-only when EN = 1.\nBits 21:18 Reserved, must be kept at reset value.\nBit 17 LAP: Linked-list allocated port\nThis bit is used to allocate the master port for the update of the HPDMA linked-list registers\nfrom the memory.\n0: Port 0 (AXI) allocated\n1: Port 1 (AHB) allocated\nNote: This bit must be written when EN = 0. This bit is read-only when EN = 1.\nBit 16 LSM: Link step mode\n0: Channel executed for the full linked-list and completed at the end of the last LLI\n(HPDMA_CxLLR = 0). The 16 low-significant bits of the link address are null (LA[15:0] = 0)\nand all the update bits are null (UT1 = UB1 = UT2 = USA = UDA = ULL = 0 and\nUT3 = UB2 = 0 if present). Then HPDMA_CxBR1.BNDT[15:0] = 0 and\nHPDMA_CxBR1.BRC[10:0] = 0 if present.\n1: Channel executed once for the current LLI\nFirst the (possible 1D/repeated) block transfer is executed as defined by the current internal\nregister file until HPDMA_CxBR1.BNDT[15:0] = 0 and HPDMA_CxBR1.BRC[10:0] = 0,\nif present. Secondly the next linked-list data structure is conditionally uploaded from memory\nas defined by HPDMA_CxLLR. Then channel execution is completed.\nNote: This bit must be written when EN = 0. This bit is read-only when EN = 1.\nBit 15 Reserved, must be kept at reset value.\nBit 14 TOIE: Trigger overrun interrupt enable\n0: Interrupt disabled\n1: Interrupt enabled\nBit 13 SUSPIE: Completed suspension interrupt enable\n0: Interrupt disabled\n1: Interrupt enabled\nBit 12 USEIE: User setting error interrupt enable\n0: Interrupt disabled\n1: Interrupt enabled\nBit 11 ULEIE: Update link transfer error interrupt enable\n0: Interrupt disabled\n1: Interrupt enabled\nBit 10 DTEIE: Data transfer error interrupt enable\n0: Interrupt disabled\n1: Interrupt enabled\nBit 9 HTIE: Half-transfer complete interrupt enable\n0: Interrupt disabled\n1: Interrupt enabled\nBit 8 TCIE: Transfer complete interrupt enable\n0: Interrupt disabled\n1: Interrupt enabled\nBits 7:3 Reserved, must be kept at reset value.\nBit 2 SUSP: Suspend\nWriting 1 to RESET in this register causes the hardware to deassert this SUSP bit, whatever\nis written into this SUSP. Else:\nSoftware must write 1 in order to suspend an active channel (a channel with an ongoing\nHPDMA transfer over its master ports).\nThe software must write 0 in order to resume a suspended channel, following the\nprogramming sequence detailed in Figure74.\n0: Write: resume channel, read: channel not suspended\n1: Write: suspend channel, read: channel suspended\nBit 1 RESET: Reset\nThis bit is write only. Writing 0 has no impact. Writing 1 implies the reset of the following: the\nFIFO, the channel internal state, SUSP and EN bits (whatever is written receptively in bit 2\nand bit 0).\nThe reset is effective when the channel is in steady state, meaning one of the following:\n- active channel in suspended state (HPDMA_CxSR.SUSPF = 1 and\nHPDMA_CxSR.IDLEF = HPDMA_CxCR.EN = 1)\n- channel in disabled state (HPDMA_CxSR.IDLEF = 1 and HPDMA_CxCR.EN = 0).\nAfter writing a RESET, to continue using this channel, the user must explicitly reconfigure the\nchannel including the hardware-modified configuration registers (HPDMA_CxBR1,\nHPDMA_CxSAR and HPDMA_CxDAR) before enabling again the channel (see the\nprogramming sequence in Figure75).\n0: No channel reset\n1: Channel reset\nBit 0 EN: Enable\nWriting 1 to RESET in this register causes the hardware to deassert this EN bit, whatever is\nwritten into this bit 0. Else:\nThis bit is deasserted by hardware when there is a transfer error (master bus error or user\nsetting error) or when there is a channel transfer complete (channel ready to be configured,\nfor example if LSM = 1 at the end of a single execution of the LLI).\nElse, this bit can be asserted by software.\nWriting 0 into this EN bit is ignored.\n0: Write: ignored, read: channel disabled\n1: Write: enable channel, read: channel enabled",
+      "semantic": {
+        "register": "HPDMA_CxCR",
+        "address_offset": "0x064 + 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:22",
+            "name": "PRIO[1:0]",
+            "description": "Priority level of the channel x HPDMA transfer versus others Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Low priority, low weight"
+              },
+              {
+                "value": "01",
+                "meaning": "Low priority, mid weight"
+              },
+              {
+                "value": "10",
+                "meaning": "Low priority, high weight"
+              },
+              {
+                "value": "11",
+                "meaning": "High priority"
+              }
+            ]
+          },
+          {
+            "bits": "21:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "LAP",
+            "description": "Linked-list allocated port This bit is used to allocate the master port for the update of the HPDMA linked-list registers from the memory. Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Port 0 (AXI) allocated"
+              },
+              {
+                "value": "1",
+                "meaning": "Port 1 (AHB) allocated"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "LSM",
+            "description": "Link step mode (HPDMA_CxLLR = 0). The 16 low-significant bits of the link address are null (LA[15:0] = 0) and all the update bits are null (UT1 = UB1 = UT2 = USA = UDA = ULL = 0 and UT3 = UB2 = 0 if present). Then HPDMA_CxBR1.BNDT[15:0] = 0 and HPDMA_CxBR1.BRC[10:0] = 0 if present. First the (possible 1D/repeated) block transfer is executed as defined by the current internal register file until HPDMA_CxBR1.BNDT[15:0] = 0 and HPDMA_CxBR1.BRC[10:0] = 0, if present. Secondly the next linked-list data structure is conditionally uploaded from memory as defined by HPDMA_CxLLR. Then channel execution is completed. Note: This bit must be written when EN = 0. This bit is read-only when EN = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Channel executed for the full linked-list and completed at the end of the last LLI"
+              },
+              {
+                "value": "1",
+                "meaning": "Channel executed once for the current LLI"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "TOIE",
+            "description": "Trigger overrun interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "SUSPIE",
+            "description": "Completed suspension interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "USEIE",
+            "description": "User setting error interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "ULEIE",
+            "description": "Update link transfer error interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "DTEIE",
+            "description": "Data transfer error interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "HTIE",
+            "description": "Half-transfer complete interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "TCIE",
+            "description": "Transfer complete interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "7:3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "SUSP",
+            "description": "Suspend Writing 1 to RESET in this register causes the hardware to deassert this SUSP bit, whatever is written into this SUSP. Else: Software must write 1 in order to suspend an active channel (a channel with an ongoing HPDMA transfer over its master ports). The software must write 0 in order to resume a suspended channel, following the programming sequence detailed in Figure74.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Write: resume channel, read: channel not suspended"
+              },
+              {
+                "value": "1",
+                "meaning": "Write: suspend channel, read: channel suspended"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "RESET",
+            "description": "Reset This bit is write only. Writing 0 has no impact. Writing 1 implies the reset of the following: the FIFO, the channel internal state, SUSP and EN bits (whatever is written receptively in bit 2 and bit 0). The reset is effective when the channel is in steady state, meaning one of the following: - active channel in suspended state (HPDMA_CxSR.SUSPF = 1 and HPDMA_CxSR.IDLEF = HPDMA_CxCR.EN = 1) - channel in disabled state (HPDMA_CxSR.IDLEF = 1 and HPDMA_CxCR.EN = 0). After writing a RESET, to continue using this channel, the user must explicitly reconfigure the channel including the hardware-modified configuration registers (HPDMA_CxBR1, HPDMA_CxSAR and HPDMA_CxDAR) before enabling again the channel (see the programming sequence in Figure75).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No channel reset"
+              },
+              {
+                "value": "1",
+                "meaning": "Channel reset"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "EN",
+            "description": "Enable Writing 1 to RESET in this register causes the hardware to deassert this EN bit, whatever is written into this bit 0. Else: This bit is deasserted by hardware when there is a transfer error (master bus error or user setting error) or when there is a channel transfer complete (channel ready to be configured, for example if LSM = 1 at the end of a single execution of the LLI). Else, this bit can be asserted by software. Writing 0 into this EN bit is ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Write: ignored, read: channel disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Write: enable channel, read: channel enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

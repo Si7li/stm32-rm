@@ -1,0 +1,263 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.14.18",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.14.18",
+      "section_title": "DCMIPP common status register 2 (DCMIPP_CMSR2)",
+      "level": 3,
+      "parent_section": "39.14",
+      "page": 1914,
+      "page_end": 1916,
+      "semantic_type": "register_description",
+      "features": [
+        "atxerrf",
+        "dcmipp",
+        "dcmipp-cmsr2",
+        "p0framef",
+        "p0limitf",
+        "p0linef",
+        "p0ovrf",
+        "p0vsyncf",
+        "p1framef",
+        "p1linef",
+        "p1ovrf",
+        "p1vsyncf",
+        "p2framef",
+        "p2linef",
+        "p2ovrf",
+        "p2vsyncf",
+        "prerrf"
+      ],
+      "chars": 6248,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1914",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.14.18 \"DCMIPP common status register 2 (DCMIPP_CMSR2)\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1914.",
+      "section_content": "Address offset: 0x3F8\nReset value: 0x00000000\nBit 31 P2OVRF: Overrun raw interrupt status for Pipe2\n0: No data buffer overrun occurred\n1: A data buffer overrun occurred, and this frame data are corrupted\nThis bit is cleared by writing 1 to the CP2OVRF bit in DCMIPP_CMFCR.\nBits 30:28 Reserved, must be kept at reset value.\nBit 27 Reserved, must be kept at reset value.\nBit 26 P2VSYNCF: VSYNC raw interrupt status for Pipe2\nThis bit is set when the VSYNC signal changes from the inactive state to the active state.\nIn the case of embedded synchronization, this bit is set only if the CAPTURE bit is set in the\nDCMIPP_CR register. It is cleared by writing 1 to the CP2VSYNCF bit in the DCMIPP_CMFCR\nregister.\nBit 25 P2FRAMEF: Frame capture completed raw interrupt status for Pipe2\n0: No capture or ongoing capture\n1: All data of a frame have been captured\nThis bit is set when all data of a frame or window have been captured.\nIn case of a cropped window, this bit is set at the end of line of the last line in the crop. It is set\neven if the captured frame is empty (for example window cropped outside the frame).\nThis bit is cleared by writing 1 to the CP2FRAMEF bit in the DCMIPP_CMFCR.\nBit 24 P2LINEF: Multi-line capture completed raw interrupt status for Pipe2\nThis bit is set when at least a line has been completed, and cleared by writing 1 to the\nCP2LINEF bit in the DCMIPP_CMFCR register.\nThe periodicity of LINEF event is configured by LINEMULT bits of the DCMIPP_P2PPCR\nregister. When reaching end of frame, this event is triggered out to allow software action even\nif the LINEMULT value set is not a multiple of the total lines frame. For embedded\nsynchronization, this bit is set only if the CAPTURE bit in the DCMIPP_CR register is set.\nBit 23 P1OVRF: Overrun raw interrupt status for Pipe1\n0: No data buffer overrun occurred\n1: A data buffer overrun occurred and this frame data are corrupted\nThis bit is cleared by writing 1 to the CP1OVRF bit in the DCMIPP_CMFCR register.\nBits 22:20 Reserved, must be kept at reset value.\nBit 19 Reserved, must be kept at reset value.\nBit 18 P1VSYNCF: VSYNC raw interrupt status for Pipe1\nThis bit is set when the VSYNC signal changes from inactive to active state. In the case of\nembedded synchronization, this bit is set only if the CAPTURE bit is set in the DCMIPP_CR\nregister. It is cleared by writing 1 to the CP1VSYNCF bit in the DCMIPP_CMFCR register.\nBit 17 P1FRAMEF: Frame capture completed raw interrupt status for Pipe1\n0: No capture or ongoing capture\n1: All data of a frame have been captured\nThis bit is set when all data of a frame or window have been captured. In case of a cropped\nwindow, this bit is set at the end of line of the last line in the crop. It is set even if the captured\nframe is empty (for example window cropped outside the frame). This bit is cleared by writing 1\nto the CP1FRAMEF bit in the DCMIPP_CMFCR register.\nBit 16 P1LINEF: Multi-line capture completed raw interrupt status for Pipe1\nThis bit is set when one/more lines have been completed. The periodicity of LINEF event is\nconfigured by LINEMULT bits into DCMIPP_P1PPCR register. When reaching end of frame,\nthis event is triggered out to allow software action even if the LINEMULT value set is not a\nmultiple of the total lines frame. In the case of embedded synchronization, this bit is set only if\nthe CAPTURE bit in DCMIPP_CR is set. It is cleared by writing 1 to the CP1LINEF bit in the\nDCMIPP_CMFCR register.\nBit 15 P0OVRF: Overrun raw interrupt status for Pipe0\n0: No data buffer overrun occurred\n1: A data buffer overrun occurred and this frame data are corrupted\nThis bit is cleared by writing 1 to the CP0OVRF bit in the DCMIPP_CMFCR register.\nBit 14 P0LIMITF: Limit raw interrupt status for Pipe0\nThis bit is set when the data counter DCMIPP_P0DCCNT reaches its maximum value\nDCMIPP_P0DCLIMIT. It is cleared by writing 1 to the CP0LIMITF bit in the DCMIPP_CMFCR\nregister.\nBits 13:11 Reserved, must be kept at reset value.\nBit 10 P0VSYNCF: VSYNC raw interrupt status for Pipe0\nThis bit is set when the VSYNC signal changes from the inactive state to the active state.\nIn the case of embedded synchronization, this bit is set only if the CAPTURE bit is set in\nDCMIPP_CR. It is cleared by writing 1 to the CP0VSYNCF bit in the DCMIPP_CMFCR\nregister.\nBit 9 P0FRAMEF: Frame capture completed raw interrupt status for Pipe0\n0: No capture or ongoing capture\n1: All data of a frame have been captured\nThis bit is set when all data of a frame or window have been captured.\nIn case of a cropped window, this bit is set at the end of line of the last line in the crop, even if\nthe captured frame is empty (for example window cropped outside the frame).\nThis bit is cleared by writing 1 to the CP0FRAMEF bit in the DCMIPP_CMFCR register.\nBit 8 P0LINEF: Multi-line capture completed raw interrupt status for Pipe0\nThis bit is set when one/more lines have been completed. The periodicity of LINEF event is\nconfigured by LINEMULT bits into DCMIPP_P0PPCR register. When reaching end of frame,\nthis event is triggered out to allow software action even if the LINEMULT value set is not a\nmultiple of the total lines frame.\nIn the case of embedded synchronization, this bit is set only if the CAPTURE bit in the\nDCMIPP_CR register is set. It is cleared by writing 1 to the CP0LINEF bit in the\nDCMIPP_CMFCR register.\nBit 7 Reserved, must be kept at reset value.\nBit 6 PRERRF: Synchronization error raw interrupt status for the parallel interface.\n0: No synchronization error detected\n1: Embedded synchronization characters are not received in the correct order.\nThis bit is valid only in the embedded synchronization mode. It is cleared by writing 1 to the\nCPRERRF bit in the DCMIPP_CMFCR register.\nThis bit is available only in embedded synchronization mode.\nBit 5 ATXERRF: AXI transfer error interrupt status flag for the IP-Plug.\n0: No AXI transfer error detected\n1: AXI transfer error occurred on an AXI client. This bit signals an error on a client without any\nspecific hardware action, the software must handle the situation (normally used when\ndebugging software application code).\nThis bit is cleared by writing 1 to CATXERRF bit in the DCMIPP_CMFCR register.\nBits 4:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "DCMIPP_CMSR2",
+        "address_offset": "0x3F8",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "P2OVRF",
+            "description": "Overrun raw interrupt status for Pipe2 This bit is cleared by writing 1 to the CP2OVRF bit in DCMIPP_CMFCR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No data buffer overrun occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "A data buffer overrun occurred, and this frame data are corrupted"
+              }
+            ]
+          },
+          {
+            "bits": "30:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "P2VSYNCF",
+            "description": "VSYNC raw interrupt status for Pipe2 This bit is set when the VSYNC signal changes from the inactive state to the active state. In the case of embedded synchronization, this bit is set only if the CAPTURE bit is set in the DCMIPP_CR register. It is cleared by writing 1 to the CP2VSYNCF bit in the DCMIPP_CMFCR register.",
+            "values": []
+          },
+          {
+            "bits": "25",
+            "name": "P2FRAMEF",
+            "description": "Frame capture completed raw interrupt status for Pipe2 This bit is set when all data of a frame or window have been captured. In case of a cropped window, this bit is set at the end of line of the last line in the crop. It is set even if the captured frame is empty (for example window cropped outside the frame). This bit is cleared by writing 1 to the CP2FRAMEF bit in the DCMIPP_CMFCR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No capture or ongoing capture"
+              },
+              {
+                "value": "1",
+                "meaning": "All data of a frame have been captured"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "P2LINEF",
+            "description": "Multi-line capture completed raw interrupt status for Pipe2 This bit is set when at least a line has been completed, and cleared by writing 1 to the CP2LINEF bit in the DCMIPP_CMFCR register. The periodicity of LINEF event is configured by LINEMULT bits of the DCMIPP_P2PPCR register. When reaching end of frame, this event is triggered out to allow software action even if the LINEMULT value set is not a multiple of the total lines frame. For embedded synchronization, this bit is set only if the CAPTURE bit in the DCMIPP_CR register is set.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "P1OVRF",
+            "description": "Overrun raw interrupt status for Pipe1 This bit is cleared by writing 1 to the CP1OVRF bit in the DCMIPP_CMFCR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No data buffer overrun occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "A data buffer overrun occurred and this frame data are corrupted"
+              }
+            ]
+          },
+          {
+            "bits": "22:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "P1VSYNCF",
+            "description": "VSYNC raw interrupt status for Pipe1 This bit is set when the VSYNC signal changes from inactive to active state. In the case of embedded synchronization, this bit is set only if the CAPTURE bit is set in the DCMIPP_CR register. It is cleared by writing 1 to the CP1VSYNCF bit in the DCMIPP_CMFCR register.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "P1FRAMEF",
+            "description": "Frame capture completed raw interrupt status for Pipe1 This bit is set when all data of a frame or window have been captured. In case of a cropped window, this bit is set at the end of line of the last line in the crop. It is set even if the captured frame is empty (for example window cropped outside the frame). This bit is cleared by writing 1 to the CP1FRAMEF bit in the DCMIPP_CMFCR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No capture or ongoing capture"
+              },
+              {
+                "value": "1",
+                "meaning": "All data of a frame have been captured"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "P1LINEF",
+            "description": "Multi-line capture completed raw interrupt status for Pipe1 This bit is set when one/more lines have been completed. The periodicity of LINEF event is configured by LINEMULT bits into DCMIPP_P1PPCR register. When reaching end of frame, this event is triggered out to allow software action even if the LINEMULT value set is not a multiple of the total lines frame. In the case of embedded synchronization, this bit is set only if the CAPTURE bit in DCMIPP_CR is set. It is cleared by writing 1 to the CP1LINEF bit in the DCMIPP_CMFCR register.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "P0OVRF",
+            "description": "Overrun raw interrupt status for Pipe0 This bit is cleared by writing 1 to the CP0OVRF bit in the DCMIPP_CMFCR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No data buffer overrun occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "A data buffer overrun occurred and this frame data are corrupted"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "P0LIMITF",
+            "description": "Limit raw interrupt status for Pipe0 This bit is set when the data counter DCMIPP_P0DCCNT reaches its maximum value DCMIPP_P0DCLIMIT. It is cleared by writing 1 to the CP0LIMITF bit in the DCMIPP_CMFCR register.",
+            "values": []
+          },
+          {
+            "bits": "13:11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "P0VSYNCF",
+            "description": "VSYNC raw interrupt status for Pipe0 This bit is set when the VSYNC signal changes from the inactive state to the active state. In the case of embedded synchronization, this bit is set only if the CAPTURE bit is set in DCMIPP_CR. It is cleared by writing 1 to the CP0VSYNCF bit in the DCMIPP_CMFCR register.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "P0FRAMEF",
+            "description": "Frame capture completed raw interrupt status for Pipe0 This bit is set when all data of a frame or window have been captured. In case of a cropped window, this bit is set at the end of line of the last line in the crop, even if the captured frame is empty (for example window cropped outside the frame). This bit is cleared by writing 1 to the CP0FRAMEF bit in the DCMIPP_CMFCR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No capture or ongoing capture"
+              },
+              {
+                "value": "1",
+                "meaning": "All data of a frame have been captured"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "P0LINEF",
+            "description": "Multi-line capture completed raw interrupt status for Pipe0 This bit is set when one/more lines have been completed. The periodicity of LINEF event is configured by LINEMULT bits into DCMIPP_P0PPCR register. When reaching end of frame, this event is triggered out to allow software action even if the LINEMULT value set is not a multiple of the total lines frame. In the case of embedded synchronization, this bit is set only if the CAPTURE bit in the DCMIPP_CR register is set. It is cleared by writing 1 to the CP0LINEF bit in the DCMIPP_CMFCR register.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "PRERRF",
+            "description": "Synchronization error raw interrupt status for the parallel interface. This bit is valid only in the embedded synchronization mode. It is cleared by writing 1 to the CPRERRF bit in the DCMIPP_CMFCR register. This bit is available only in embedded synchronization mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No synchronization error detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Embedded synchronization characters are not received in the correct order."
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "ATXERRF",
+            "description": "AXI transfer error interrupt status flag for the IP-Plug. specific hardware action, the software must handle the situation (normally used when debugging software application code). This bit is cleared by writing 1 to CATXERRF bit in the DCMIPP_CMFCR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No AXI transfer error detected"
+              },
+              {
+                "value": "1",
+                "meaning": "AXI transfer error occurred on an AXI client. This bit signals an error on a client without any"
+              }
+            ]
+          },
+          {
+            "bits": "4:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.4.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.4.2",
+      "section_title": "HPDMA channel state and direct programming without",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 845,
+      "page_end": 846,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 1229,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=845",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.2 \"HPDMA channel state and direct programming without\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 845.",
+      "section_content": "any linked-list\nAfter an HPDMA reset, an HPDMA channel x is in idle state. When the software writes 1 into\nthe HPDMA_CxCR.EN enable control bit, the channel takes into account the value of the\ndifferent channel configuration registers (HPDMA_CxXXX), switches to the active/non-idle\nstate, and starts to execute the corresponding requested data transfers.\nAfter enabling/starting an HPDMA channel transfer by writing 1 into HPDMA_CxCR.EN,\nanHPDMA channel interrupt on a complete transfer notifies the software that the HPDMA\nchannel is back in idle state (EN is then deasserted by hardware), and that the channel is\nready to be reconfigured then enabled again.\nThe figure below illustrates this HPDMA direct programming without any linked-list\n(HPDMA_CxLLR=0).\n[Figure 73. HPDMA channel direct programming without linked-list (HPDMA_CxLLR=0)]\nChannel state = Idle\nInitialize DMA channel Reconfigure DMA channel\n(keeping DMA_CxLLR[31:0] = 0) (keeping DMA_CxLLR[31:0] = 0)\nEnable DMA channel\nChannel state = Active\nValid user\nsetting ? N\nSetting USEF = 1\nDisabling DMA channel\nExecuting the data transfer\nfrom the register file\nNo transfer\nerror ? N\nY Setting DTEF = 1\nDisabling DMA channel\nSetting TCF = 1\nDisabling DMA channel\nEnd",
+      "semantic": {}
+    }
+  ]
+}

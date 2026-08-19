@@ -1,0 +1,60 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S61.6.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "61",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "61.6.6",
+      "section_title": "RTC wake-up timer register (RTC_WUTR)",
+      "level": 3,
+      "parent_section": "61.6",
+      "page": 3032,
+      "page_end": 3032,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "rtc",
+        "rtc-wutr",
+        "timer",
+        "wut",
+        "wutoclr"
+      ],
+      "chars": 1325,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3032",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 61.6.6 \"RTC wake-up timer register (RTC_WUTR)\" in chapter 61 (Real-time clock (RTC)), RM0486 Rev 4, page 3032.",
+      "section_content": "This register can be written only when WUTWF is set to 1 in RTC_ICSR.\nThis register can be protected against nonsecure access. Refer to Section61.3.4: RTC\nsecure protection modes.\nThis register can be protected against unprivileged access. Refer to Section61.3.5: RTC\nprivilege protection modes.\nAddress offset: 0x14\nBackup domain reset value: 0x0000 FFFF\nSystem reset: not affected\nBits 31:16 WUTOCLR[15:0]: Wake-up auto-reload output clear value\nWhen WUTOCLR[15:0] is different from 0x0000, WUTF is set by hardware when the auto-\nreload down-counter reaches 0 and is cleared by hardware when the auto-reload\ndowncounter reaches WUTOCLR[15:0].\nWhen WUTOCLR[15:0] = 0x0000, WUTF is set by hardware when the WUT down-counter\nreaches 0 and is cleared by software.\nBits 15:0 WUT[15:0]: Wake-up auto-reload value bits\nWhen the wake-up timer is enabled (WUTE set to 1), the WUTF flag is set every\n(WUT[15:0]+1) ck_wut cycles. The ck_wut period is selected through WUCKSEL[2:0] bits\nof the RTC_CR register.\nWhen WUCKSEL[2] = 1, the wake-up timer becomes 17-bits and WUCKSEL[1] effectively\nbecomes WUT[16] the most-significant bit to be reloaded into the timer.\nThe first assertion of WUTF occurs between WUT and (WUT + 2) ck_wut cycles after WUTE\nis set. Setting WUT[15:0] to 0x0000 with WUCKSEL[2:0] = 011 (RTCCLK/2) is forbidden.",
+      "semantic": {
+        "register": "RTC_WUTR",
+        "address_offset": "0x14",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "WUTOCLR[15:0]",
+            "description": "Wake-up auto-reload output clear value When WUTOCLR[15:0] is different from 0x0000, WUTF is set by hardware when the auto- reload down-counter reaches 0 and is cleared by hardware when the auto-reload downcounter reaches WUTOCLR[15:0]. When WUTOCLR[15:0] = 0x0000, WUTF is set by hardware when the WUT down-counter reaches 0 and is cleared by software.",
+            "values": []
+          },
+          {
+            "bits": "15:0",
+            "name": "WUT[15:0]",
+            "description": "Wake-up auto-reload value bits When the wake-up timer is enabled (WUTE set to 1), the WUTF flag is set every (WUT[15:0]+1) ck_wut cycles. The ck_wut period is selected through WUCKSEL[2:0] bits of the RTC_CR register. When WUCKSEL[2] = 1, the wake-up timer becomes 17-bits and WUCKSEL[1] effectively becomes WUT[16] the most-significant bit to be reloaded into the timer. The first assertion of WUTF occurs between WUT and (WUT + 2) ck_wut cycles after WUTE is set. Setting WUT[15:0] to 0x0000 with WUCKSEL[2:0] = 011 (RTCCLK/2) is forbidden.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

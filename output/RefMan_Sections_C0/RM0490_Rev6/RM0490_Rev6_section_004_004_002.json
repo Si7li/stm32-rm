@@ -1,0 +1,38 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.4.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.4.2",
+      "section_title": "FLASH option byte programming",
+      "level": 3,
+      "parent_section": "4.4",
+      "page": 67,
+      "page_end": 69,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "option-byte"
+      ],
+      "chars": 4555,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=67",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.4.2 \"FLASH option byte programming\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 67.",
+      "section_content": "After reset, the option related bits of the FLASH control register (FLASH_CR) are write-\nprotected. To run any operation on the option byte page, the option lock bit OPTLOCK of the\nFLASH control register (FLASH_CR) must be cleared. The following sequence is used to\nunlock this register:\n1. Unlock the FLASH_CR with the LOCK clearing sequence (refer to Unlocking the flash\nmemory)\n2. Write OPTKEY1 = 0x0819 2A3B of the FLASH option key register\n(FLASH_OPTKEYR)\n3. Write OPTKEY2 = 0x4C5D 6E7F of the FLASH option key register\n(FLASH_OPTKEYR)\nAny wrong sequence locks up the flash memory option registers until the next system reset.\nIn the case of a wrong key sequence, a bus error is detected and a Hard Fault interrupt is\ngenerated.\nThe user options can be protected against unwanted erase/program operations by setting\nthe OPTLOCK bit by software.\nNote: If LOCK is set by software, OPTLOCK is automatically set as well.\nModifying user options\nThe option bytes are programmed differently from a main flash memory user address.\nTo modify the value of user options, follow the procedure below:\n1. Clear the OPTLOCK bit with the previously described clearing sequence\n2. Write the desired values in the FLASH option registers.\n3. Check that no flash memory operation is ongoing, by checking the BSY1 bit of the\nFLASH status register (FLASH_SR).\n4. Check that the CFGBSY bit of the FLASH status register (FLASH_SR) is cleared.\n5. Set the OPTSTRT bit of the FLASH control register (FLASH_CR).\n6. Wait until the BSY1 bit is cleared.\nNote: Any modification of the value of one option is automatically performed by erasing user\noption byte pages first, and then programming all the option bytes with the values contained\nin the flash memory option registers.\nThe complementary values are automatically computed and written into the complemented\noption bytes upon setting the OPTSTRT bit.\nCaution: Upon an option byte programming failure (for any reason, such as loss of power or a reset\nduring the option byte change sequence), the mismatch values of the option bytes are\nloaded after reset. Those mismatch values force a secure configuration that might block the\ncode execution. To prevent this, only program option bytes in a safe environment – safe\nsupply, no pending watchdog, and clean reset line.\nOption byte loading\nAfter the BSY1 bit is cleared, all new options are updated into the flash memory, but not\napplied to the system. A read from the option registers still returns the last loaded option\nbyte values, the new options has effect on the system only after they are loaded.\nOption byte loading is performed in two cases:\n– when OBL_LAUNCH bit of the FLASH control register (FLASH_CR) is set\n– after a power reset (BOR reset or exit from Standby/Shutdown modes)\nOption byte loader performs a read of the options block and stores the data into internal\noption registers. These internal registers configure the system and can be read by software.\nSetting OBL_LAUNCH generates a reset so the option byte loading is performed under\nsystem reset.\nEach option bit has also its complement in the same double word. During option loading, a\nverification of the option bit and its complement allows to check the loading has correctly\ntaken place.\nDuring option byte loading, the options are read by double word.\nIf the word and its complement are matching, the option word/byte is copied into the option\nregister.\nIf the comparison between the word and its complement fails, a status bit OPTVERR is set.\nMismatch values are forced into the option registers:\n– For USR OPT option, the value of mismatch is 1 for all option bits, except the\nBOR_EN bit that is 0 (BOR disabled).\n– For WRP option, the value of mismatch is the default value “No protection”.\n– For RDP option, the value of mismatch is the default value “level 1”.\n– For PCROP, the value of mismatch is “all memory protected”.\n– For BOOT_LOCK, the value of mismatch is “boot forced from main flash memory”.\nNote: In this situation (mismatch of option bytes), setting both BOOT_LOCK and RDP level 1 does\nnot disable the debug capabilities, to allow the part reprogramming.\nUpon system reset, the option bytes are copied into the following option registers that can\nbe read and written by software:\n• FLASH_OPTR\n• FLASH_PCROP1xSR (x = A or B)\n• FLASH_PCROP1xER (x = A or B)\n• FLASH_WRP1xR (x = A or B)\n• FLASH_SECR\nThese registers are also used to modify options. If these registers are not modified by user,\nthey reflect the options states of the system. See Modifying user options for more details.",
+      "semantic": {}
+    }
+  ]
+}

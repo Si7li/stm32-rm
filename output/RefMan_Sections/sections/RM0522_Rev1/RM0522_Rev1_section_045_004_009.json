@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.4.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.4.9",
+      "section_title": "Communication formats",
+      "level": 3,
+      "parent_section": "45.4",
+      "page": 1960,
+      "page_end": 1962,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 3380,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1960",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.4.9 \"Communication formats\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1960.",
+      "section_content": "During SPI communication, receive and transmit operations are performed simultaneously.\nThe serial clock (SCK) synchronizes the shifting and sampling of the information on the data\nlines. The communication format depends on the clock phase, the clock polarity, and the\ndata frame format. To be able to communicate together, the master and slave devices must\nfollow the same communication format and be synchronized correctly.\nClock phase and polarity controls\nFour possible timing relationships can be chosen by software, using the CPOL and CPHA\nbits in the SPI_CFG2 register. The CPOL (clock polarity) bit controls the idle state value of\nthe clock when no data is being transferred. This bit affects both master and slave modes. If\nCPOL is reset, the SCK pin has a low-level idle state. If CPOL is set, the SCK pin has a\nhigh-level idle state.\nIf the CPHA bit is set, the second edge on the SCK pin captures the first data bit transferred\n(falling edge if the CPOL bit is reset, rising edge if the CPOL bit is set). Data are latched on\neach occurrence of this clock transition type. If the CPHA bit is reset, the first edge on the\nSCK pin captures the first data bit transferred (falling edge if the CPOL bit is set, rising edge\nif the CPOL bit is reset). Data are latched on each occurrence of this clock transition type.\nThe combination of the CPOL (clock polarity) and CPHA (clock phase) bits selects the data\ncapture clock edges (dotted lines in Figure670).\nFigure670 shows an SPI full-duplex transfer with the four combinations of the CPHA and\nCPOL bits.\nNote: Prior to changing the CPOL/CPHA bits the SPI must be disabled by resetting the SPE bit.\nThe idle state of SCK must correspond to the polarity selected in the SPI_CFG2 register (by\npulling the SCK pin up if CPOL = 1 or pulling it down if CPOL = 0).\n[Figure 670. Data clock timing diagram]\nMOSI(1) MSBit LSBit\nMISO(1) MSBit LSBit\nNSS (to slave)\nCPHA =0\nCPOL = 1\nCPOL = 0\nMOSI(1) MSBit LSBit\nMISO(1) MSBit LSBit\nNSS (to slave)\n1. The order of data bits depends on the LSBFRST bit setting.\n2. The input data sampling can be postponed by a half SCK cycle on the master MISO input (refer to the\ndescription of the DRDS bit of the SPI_CFG1 register).\nData frame format\nThe SPI shift register can be set up to shift out MSB-first or LSB-first, depending on the\nvalue of the LSBFRST bit of the SPI_CFG2 register.\nThe data frame size is configured through the DSIZE bitfield of the SPI_CFG1 register to a\nrange that depends on the SPI instance (see Section45.3: SPI implementation). The setting\napplies to both transmission and reception. The data bits in the SPI_TXDR/SPI_RXDR\nregisters are right-aligned with 8, 16, or 32 bits, depending on the data size (see\nFigure671). These registers can consequently be accessed by bytes, half-words, or words.\nFIFO accesses smaller than a single data are forbidden. When the FIFO occupancy flag is\nraised, a FIFO access greater than the FIFO threshold can lead to spurious data being read\nor written data being lost. When the access to/from the SPI_TXDR/SPI_RXDR registers is a\nmultiple of the configured data size, data packing is applied automatically, while the lowest\nsignificant bits/bytes are communicated first. For more details, see Section45.4.12: SPI\ndata transmission and reception procedures.\n[Figure 671. Data alignment when data size is not equal to 8, 16 or 32 bits]",
+      "semantic": {}
+    }
+  ]
+}

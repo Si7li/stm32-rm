@@ -1,0 +1,126 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S27.8.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "27",
+      "chapter_title": "AES hardware accelerator (AES)",
+      "section": "27.8.2",
+      "section_title": "AES status register (AES_SR)",
+      "level": 3,
+      "parent_section": "27.8",
+      "page": 827,
+      "page_end": 828,
+      "semantic_type": "register_description",
+      "features": [
+        "aes",
+        "aes-sr",
+        "busy",
+        "keyvalid",
+        "rderrf",
+        "wrerrf"
+      ],
+      "chars": 2360,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=827",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.8.2 \"AES status register (AES_SR)\" in chapter 27 (AES hardware accelerator (AES)), RM0522 Rev 1, page 827.",
+      "section_content": "Address offset: 0x004\nReset value: 0x0000 0000\nBits 31:8 Reserved, must be kept at reset value.\nBit 7 KEYVALID: Key valid flag\nThis bit is set by hardware when the key of size defined by KEYSIZE is loaded in AES_KEYRx key\nregisters.\n0: Key not valid\n1: Key valid\nThe EN bit can only be set when KEYVALID is set.\nIn normal mode when KMOD[1:0] is at zero, the key must be written in the key registers in the\ncorrect sequence, otherwise the KEIF flag is set and KEYVALID remains cleared.\nWhen KMOD[1:0] is different from zero, the BUSY flag is automatically set by AES. When the key is\nloaded successfully, BUSY is cleared and KEYVALID set. Upon an error, KEIF is usually set, BUSY\ncleared and KEYVALID remains cleared.\nIf set, KEIF must be cleared through the AES_ICR register, otherwise KEYVALID cannot be set. See\nthe KEIF flag description for more details.\nFor further information on key loading, refer to Section27.4.16: AES key registers.\nBits 6:4 Reserved, must be kept at reset value.\nBit 3 BUSY: Busy\nThis flag indicates whether AES is idle or busy.\n0: Idle\n1: Busy\nAES is flagged as idle when disabled (when EN is low) or when the last processing is completed.\nAES is flagged as busy when processing a block data, preparing a key (ECB or CBC decryption\nonly), or transferring a shared key from the SAES peripheral.\nWhen GCM encryption payload phase is selected, this flag must be at zero before suspending\ncurrent process to manage a higher-priority message.\nBit 2 WRERRF: Write error flag\nThis bit is set when an unexpected write to the AES_DINR register occurred. When set WRERRF bit\nhas no impact on the AES operations.\n0: No error\n1: Unexpected write to AES_DINR register occurred during computation or data output phase.\nThe flag setting generates an interrupt if the RWEIE bit of the AES_IER register is set.\nThe flag is cleared by setting the RWEIF bit of the AES_ICR register.\nBit 1 RDERRF: Read error flag\nThis bit is set when an unexpected read to the AES_DOUTR register occurred. When set RDERRF\nbit has no impact on the AES operations.\n0: No error\n1: Unexpected read to AES_DOUTR register occurred during computation or data input phase.\nThe flag setting generates an interrupt if the RWEIE bit of the AES_IER register is set.\nThe flag is cleared by setting the RWEIF bit of the AES_ICR register.\nBit 0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "AES_SR",
+        "address_offset": "0x004",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "KEYVALID",
+            "description": "Key valid flag This bit is set by hardware when the key of size defined by KEYSIZE is loaded in AES_KEYRx key registers. The EN bit can only be set when KEYVALID is set. In normal mode when KMOD[1:0] is at zero, the key must be written in the key registers in the correct sequence, otherwise the KEIF flag is set and KEYVALID remains cleared. When KMOD[1:0] is different from zero, the BUSY flag is automatically set by AES. When the key is loaded successfully, BUSY is cleared and KEYVALID set. Upon an error, KEIF is usually set, BUSY cleared and KEYVALID remains cleared. If set, KEIF must be cleared through the AES_ICR register, otherwise KEYVALID cannot be set. See the KEIF flag description for more details. For further information on key loading, refer to Section27.4.16: AES key registers.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Key not valid"
+              },
+              {
+                "value": "1",
+                "meaning": "Key valid"
+              }
+            ]
+          },
+          {
+            "bits": "6:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "BUSY",
+            "description": "Busy This flag indicates whether AES is idle or busy. AES is flagged as idle when disabled (when EN is low) or when the last processing is completed. AES is flagged as busy when processing a block data, preparing a key (ECB or CBC decryption only), or transferring a shared key from the SAES peripheral. When GCM encryption payload phase is selected, this flag must be at zero before suspending current process to manage a higher-priority message.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Idle"
+              },
+              {
+                "value": "1",
+                "meaning": "Busy"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "WRERRF",
+            "description": "Write error flag This bit is set when an unexpected write to the AES_DINR register occurred. When set WRERRF bit has no impact on the AES operations. The flag setting generates an interrupt if the RWEIE bit of the AES_IER register is set. The flag is cleared by setting the RWEIF bit of the AES_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No error"
+              },
+              {
+                "value": "1",
+                "meaning": "Unexpected write to AES_DINR register occurred during computation or data output phase."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "RDERRF",
+            "description": "Read error flag This bit is set when an unexpected read to the AES_DOUTR register occurred. When set RDERRF bit has no impact on the AES operations. The flag setting generates an interrupt if the RWEIE bit of the AES_IER register is set. The flag is cleared by setting the RWEIF bit of the AES_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No error"
+              },
+              {
+                "value": "1",
+                "meaning": "Unexpected read to AES_DOUTR register occurred during computation or data input phase."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

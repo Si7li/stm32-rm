@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S9.4.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "9",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "9.4.9",
+      "section_title": "Handling clock generators in Stop and Standby modes",
+      "level": 3,
+      "parent_section": "9.4",
+      "page": 262,
+      "page_end": 263,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "chars": 2057,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=262",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.4.9 \"Handling clock generators in Stop and Standby modes\" in chapter 9 (Reset and clock control (RCC)), RM0522 Rev 1, page 262.",
+      "section_content": "When the whole system enters Stop mode, all the clocks (system and kernel clocks) are\nstopped, as well as the following clock sources:\n• HSI oscillator\n• PSI oscillator\n• HSE\nNote: In Stop 0 mode, if HSIKERON or PSIKERON are set, HSI, PSI, or HSE may be kept running\ndepending on clock output enable bits (HSISON, HSIDIV3ON, HSIKON, PSISON,\nPSIDIV3ON, PSIKON) and PSI reference clock source setting. in Stop 1 mode, HSIKERON,\nand PSIKERON have no effect.\nThe content of the RCC registers is not altered except for HSEON set to 0.\nExiting Stop mode\nWhen the system exits this mode via a wake-up event, the application restarts on HSI\noscillator and HSIS or HSIDIV3 clock depending on STOPWUCK bit value.\nDuring Stop mode\nThere are two specific cases where the HSI can be enabled during this mode.\n• When a dedicated peripheral requests the kernel clock the peripheral receives the\nHSIS, HSIK or HSIDIV3 according to the kernel clock source selected for this\nperipheral (using the RCC kernel clock configuration register RCC_CCIPRx)).\n• When the HSIKERON bit in RCC_CR1 is set, the HSI is kept running under Stop 0\nmode. If a clock is enabled thanks to HSISON, HSIDIV3ON or HSIKON it is available\nimmediately when the system exits Stop 0 mode, or when a peripheral requests the\nkernel clock (see Table68 for details). The same applies to the PSI thanks to\nPSIKERON bit. In this case, its reference clock is also kepton.\n[Table 68. HSIKERON and PSIKERON behavior]\nWhen the microcontroller exits Standby mode, HSIDIV3 is selected as the system clock.\nThe RCC registers are reset to their initial values, except for RCC_RSR and RCC_RTCCR.\nNote: The HSI and PSI oscillators provide three clock paths respectively:\n- One path for the system clock (hsis_ck or psis_ck)\n- One path for the peripheral kernel clock (hsik_ck or psik_ck)\n- One path for the peripheral kernel clock divided by 3 (hsidiv3_ck or psidiv3_ck)\nWhen a peripheral requests the kernel clock in system Stop mode, only the path providing\nthe hsik_ck, psik_ck or hsidiv3_ck, psidiv3_ck is activated.",
+      "semantic": {}
+    }
+  ]
+}

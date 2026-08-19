@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.8.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.8.2",
+      "section_title": "Programming sequence error (PGSERR)",
+      "level": 3,
+      "parent_section": "6.8",
+      "page": 167,
+      "page_end": 168,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "pgserr"
+      ],
+      "chars": 2277,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=167",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.8.2 \"Programming sequence error (PGSERR)\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 167.",
+      "section_content": "When the programming sequence is incorrect, the FLASH interface sets the programming\nsequence error flag PGSERR in FLASH_SR.\nMore specifically, PGSERR flag is set when one of below conditions is met:\n• An error like INCERR, WRPERR, PGSERR, STRBERR, OPTCHANGEERR have not\nbeen cleared before requesting a new write or erase operation or options change.\n• For erase, PGSERR is set:\n– If missing erase operation (FLASH_CR): STRT=1 with (MER = 0, PER=0, and\nBER=0)\n– If page and bank erase requested at the same time (STRT and more than one of\nMER, PER and BER)\n– If PG is set during erase operation (it ensures that no erase request and write\nrequest happen at the same time): (STRT=1) with (PG=1)\n– If an erase operation is started while write buffer is waiting for next data:\n(STRT=1) with WBNE=1.\n– If an erase operation is started while DBNE=1.\n• For programming, PGSERR is set:\n– If missing write flag: A write operation is requested but the program enable bit PG\nhas not been set in FLASH_CR prior to the request.\n– If a write operation to flash data area is requested but PG=0.\n– If an AHB write request is received and (PER=1, BER=1, or MER=1)\n– If a 16-bit data access requested while WBNE = 1.\n• For options change, PGSERR is set:\n– If an option change is started while write buffer is waiting for next data:\nOPTSTRT=1 with WBNE=1\n– If OPTSTRT is set with DBNE=1.\nWhen PGSERR flag is raised as consequence of failed write attempt (FLASH\nprogramming), the current program operation is aborted, and nothing is changed in the\ncorresponding bank. The write data buffer is also invalidated.\nNote: When PGSERR flag is raised, there is a risk that the last write operation performed by the\napplication has been lost because of the above protection mechanism. Hence it is\nrecommended to generate interrupts on PGSERR, and to verify in the interrupt handler if the\nlast write operation has been successful by reading back the value in the flash memory.\nThe PGSERR flag also blocks any new program operation. This means that PGSERR must\nbe cleared before starting a new program operation.\nPGSERR flag is cleared by setting CLR_PGSERR bit to 1 in FLASH_CCR.\nIf PGSERRIE bit in FLASH_CR is set to 1, an interrupt is generated when PGSERR flag is\nraised (see Section6.9 for details).",
+      "semantic": {}
+    }
+  ]
+}

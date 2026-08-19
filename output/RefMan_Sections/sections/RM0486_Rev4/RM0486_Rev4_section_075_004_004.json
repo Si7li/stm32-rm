@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S75.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "75",
+      "chapter_title": "USB Type-C®/USB Power Delivery interface (UCPD)",
+      "section": "75.4.4",
+      "section_title": "UCPD BMC transmitter",
+      "level": 3,
+      "parent_section": "75.4",
+      "page": 3946,
+      "page_end": 3947,
+      "semantic_type": "generic",
+      "features": [
+        "bmc",
+        "power",
+        "ucpd"
+      ],
+      "chars": 2075,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3946",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 75.4.4 \"UCPD BMC transmitter\" in chapter 75 (USB Type-C®/USB Power Delivery interface (UCPD)), RM0486 Rev 4, page 3946.",
+      "section_content": "The BMC transmitter comprises 4b5b encoding, CRC generation, and BMC encode, as\nshown in the following figure. Its output goes to the analog PHY through a channel switch.\n[Figure 1018. UCPD BMC transmitter architecture]\nBMC encoder\nThe bi-phase mark coding method is defined in the IEC 60958-1 Digital Audio Interface\nPart:1 General Edition 3.0 2008-09 www.iec.ch specification.\nThe half-bit clock hbit_clk is derived from ucpd_clk through a simple divider controlled by the\nHBITCLKDIV[5:0] bitfield of the UCPD_CFGR1 register. This ensures the same duration of\nhigh and low half-bit periods (if neglecting a small difference due to different rising and\nfalling edge duration and due to jitter), and the same bit duration (if neglecting jitter).\nTransmitter timing and collision avoidance\nHardware support of collision avoidance is made as a function of the half bit time for the\ntransmitter. Two counters are implemented:\n– tInterFrameGap: via IFRGAP (pre-defined value, can be altered)\n– tTransitionWindow: via TRANSWIN (pre-defined value, can be altered)\nThese two counters once set correctly generates the interframe gap.\nHard Reset in transmitter\nIn order to facilitate generation of a Hard Reset, a special code of TXMODE field is used. No\nother fields need to be written.\nOn writing the correct code, the hardware forces Hard Reset Tx under the correct (optimal)\ntimings with respect to an ongoing Tx message, which (if still in progress) is cleanly\nterminated by truncating the current sequence and directly appending an EOP K-code\nsequence. No specific interrupt is generated relating to this truncation event.\nTransmitter behavior in the case of errors\nThe under-run condition (TXUND interrupt) may happen by accident and in this case, the\nUCPD is starved of (the correct) Tx payload and is not able to complete the Tx message\ncorrectly. This is a serious error (for this to happen the software fails to respond in time). As\na result the hardware ensures the CRC is incorrect at the end of the message, thus\nguaranteeing the message to be discarded at the receiver.",
+      "semantic": {}
+    }
+  ]
+}

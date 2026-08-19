@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S28.6.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "28",
+      "chapter_title": "USB on-the-go full-speed (OTG_FS)",
+      "section": "28.6.2",
+      "section_title": "USB host states",
+      "level": 3,
+      "parent_section": "28.6",
+      "page": 839,
+      "page_end": 840,
+      "semantic_type": "generic",
+      "features": [
+        "usb"
+      ],
+      "chars": 4475,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=839",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.6.2 \"USB host states\" in chapter 28 (USB on-the-go full-speed (OTG_FS)), RM0008 Rev 21, page 839.",
+      "section_content": "Host port power\nOn-chip 5 V VBUS generation is not supported. For this reason, a charge pump or, if 5 V are\navailable on the application board, a basic power switch, must be added externally to drive\nthe 5V VBUS line. The external charge pump can be driven by any GPIO output. When the\napplication decides to power on VBUS using the chosen GPIO, it must also set the port\npower bit in the host port control and status register (PPWR bit in OTG_FS_HPRT).\nVBUS valid\nWhen HNP or SRP is enabled the VBUS sensing pin (PA9) pin should be connected to\nVBUS. The VBUS input ensures that valid VBUS levels are supplied by the charge pump\nduring USB operations. Any unforeseen VBUS voltage drop below the VBUS valid threshold\n(4.25V) leads to an OTG interrupt triggered by the session end detected bit (SEDET bit in\nOTG_FS_GOTGINT). The application is then required to remove the VBUS power and clear\nthe port power bit.\nWhen HNP and SRP are both disabled, the VBUS sensing pin (PA9) should not be\nconnected to VBUS. This pin can be can be used as GPIO.\nThe charge pump overcurrent flag can also be used to prevent electrical damage. Connect\nthe overcurrent flag output from the charge pump to any GPIO input and configure it to\ngenerate a port interrupt on the active level. The overcurrent ISR must promptly disable the\nVBUS generation and clear the port power bit.\nHost detection of a peripheral connection\nIf SRP or HNP are enabled, even if USB peripherals or B-devices can be attached at any\ntime, the OTG_FS will not detect any bus connection until the end of the VBUS sensing\n(VBUS over 4.75 V). When VBUS is at a valid level and a remote B-device is attached, the\nOTG_FS core issues a host port interrupt triggered by the device connected bit in the host\nport control and status register (PCDET bit in OTG_FS_HPRT).\nWhen HNP and SRP are both disabled, USB peripherals or B-device are detected as soon\nas they are connected. The OTG_FS core issues a host port interrupt triggered by the\ndevice connected bit in the host port control and status (PCDET bit in OTG_FS_HPRT).\nHost detection of peripheral a disconnection\nThe peripheral disconnection event triggers the disconnect detected interrupt (DISCINT bit\nin OTG_FS_GINTSTS).\nHost enumeration\nAfter detecting a peripheral connection the host must start the enumeration process by\nsending USB reset and configuration commands to the new peripheral.\nBefore starting to drive a USB reset, the application waits for the OTG interrupt triggered by\nthe debounce done bit (DBCDNE bit in OTG_FS_GOTGINT), which indicates that the bus is\nstable again after the electrical debounce caused by the attachment of a pull-up resistor on\nDP (FS) or DM (LS).\nThe application drives a USB reset signaling (single-ended zero) over the USB by keeping\nthe port reset bit set in the host port control and status register (PRST bit in\nOTG_FS_HPRT) for a minimum of 10ms and a maximum of 20ms. The application takes\ncare of the timing count and then of clearing the port reset bit.\nOnce the USB reset sequence has completed, the host port interrupt is triggered by the port\nenable/disable change bit (PENCHNG bit in OTG_FS_HPRT). This informs the application\nthat the speed of the enumerated peripheral can be read from the port speed field in the\nhost port control and status register (PSPD bit in OTG_FS_HPRT) and that the host is\nstarting to drive SOFs (FS) or Keep alives (LS). The host is now ready to complete the\nperipheral enumeration by sending peripheral configuration commands.\nHost suspend\nThe application decides to suspend the USB activity by setting the port suspend bit in the\nhost port control and status register (PSUSP bit in OTG_FS_HPRT). The OTG_FS core\nstops sending SOFs and enters the suspended state.\nThe suspended state can be optionally exited on the remote device’s initiative (remote\nwakeup). In this case the remote wakeup interrupt (WKUPINT bit in OTG_FS_GINTSTS) is\ngenerated upon detection of a remote wakeup signaling, the port resume bit in the host port\ncontrol and status register (PRES bit in OTG_FS_HPRT) self-sets, and resume signaling is\nautomatically driven over the USB. The application must time the resume window and then\nclear the port resume bit to exit the suspended state and restart the SOF.\nIf the suspended state is exited on the host initiative, the application must set the port\nresume bit to start resume signaling on the host port, time the resume window and finally\nclear the port resume bit.",
+      "semantic": {}
+    }
+  ]
+}

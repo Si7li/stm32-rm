@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S14.3.16",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "14",
+      "chapter_title": "Advanced-control timers (TIM1 and TIM8)",
+      "section": "14.3.16",
+      "section_title": "Encoder interface mode",
+      "level": 3,
+      "parent_section": "14.3",
+      "page": 329,
+      "page_end": 331,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 4273,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=329",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.3.16 \"Encoder interface mode\" in chapter 14 (Advanced-control timers (TIM1 and TIM8)), RM0008 Rev 21, page 329.",
+      "section_content": "To select Encoder Interface mode write SMS=‘001’ in the TIMx_SMCR register if the\ncounter is counting on TI2 edges only, SMS=’010’ if it is counting on TI1 edges only and\nSMS=’011’ if it is counting on both TI1 and TI2 edges.\nSelect the TI1 and TI2 polarity by programming the CC1P and CC2P bits in the TIMx_CCER\nregister. When needed, the user can program the input filter as well.\nThe two inputs TI1 and TI2 are used to interface to an incremental encoder. Refer to\nTable81. The counter is clocked by each valid transition on TI1FP1 or TI2FP2 (TI1 and TI2\nafter input filter and polarity selection, TI1FP1=TI1 if not filtered and not inverted,\nTI2FP2=TI2 if not filtered and not inverted) assuming that it is enabled (CEN bit in\nTIMx_CR1 register written to ‘1’). The sequence of transitions of the two inputs is evaluated\nand generates count pulses as well as the direction signal. Depending on the sequence the\ncounter counts up or down, the DIR bit in the TIMx_CR1 register is modified by hardware\naccordingly. The DIR bit is calculated at each transition on any input (TI1 or TI2), whatever\nthe counter is counting on TI1 only, TI2 only or both TI1 and TI2.\nEncoder interface mode acts simply as an external clock with direction selection. This\nmeans that the counter just counts continuously between 0 and the auto-reload value in the\nTIMx_ARR register (0 to ARR or ARR down to 0 depending on the direction). So user must\nconfigure TIMx_ARR before starting. in the same way, the capture, compare, prescaler,\nrepetition counter, trigger output features continue to work as normal. Encoder mode and\nExternal clock mode 2 are not compatible and must not be selected together.\nIn this mode, the counter is modified automatically following the speed and the direction of\nthe incremental encoder and its content, therefore, always represents the encoder’s\nposition. The count direction correspond to the rotation direction of the connected sensor.\nTable81 summarizes the possible combinations, assuming TI1 and TI2 do not switch at the\nsame time.\n[Table 81. Counting direction versus encoder signals]\nAn external incremental encoder can be connected directly to the MCU without external\ninterface logic. However, comparators are normally be used to convert the encoder’s\ndifferential outputs to digital signals. This greatly increases noise immunity. The third\nencoder output which indicate the mechanical zero position, may be connected to an\nexternal interrupt input and trigger a counter reset.\nFigure93 gives an example of counter operation, showing count signal generation and\ndirection control. It also shows how input jitter is compensated where both edges are\nselected. This might occur if the sensor is positioned near to one of the switching points. For\nthis example we assume that the configuration is the following:\n• CC1S=’01’ (TIMx_CCMR1 register, TI1FP1 mapped on TI1).\n• CC2S=’01’ (TIMx_CCMR2 register, TI1FP2 mapped on TI2).\n• CC1P=’0’, and IC1F = ‘0000’ (TIMx_CCER register, TI1FP1 non-inverted,\nTI1FP1=TI1).\n• CC2P=’0’, and IC2F = ‘0000’ (TIMx_CCER register, TI1FP2 non-inverted, TI1FP2=\nTI2).\n• SMS=’011’ (TIMx_SMCR register, both inputs are active on both rising and falling\nedges).\n• CEN=’1’ (TIMx_CR1 register, Counter enabled).\n[Figure 93. Example of counter operation in encoder interface mode]\nFigure94 gives an example of counter behavior when TI1FP1 polarity is inverted (same\nconfiguration as above except CC1P=’1’).\n[Figure 94. Example of encoder interface mode with TI1FP1 polarity inverted]\nThe timer, when configured in Encoder Interface mode provides information on the sensor’s\ncurrent position.The user can obtain dynamic information (speed, acceleration,\ndeceleration) by measuring the period between two encoder events using a second timer\nconfigured in capture mode. The output of the encoder which indicates the mechanical zero\ncan be used for this purpose. Depending on the time between two events, the counter can\nalso be read at regular times. This can be done by latching the counter value into a third\ninput capture register if available (then the capture signal must be periodic and can be\ngenerated by another timer). when available, it is also possible to read its value through a\nDMA request generated by a real-time clock.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.12.1",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.12.1",
+      "section_title": "ADC interrupt and status register (ADC_ISR)",
+      "level": 3,
+      "parent_section": "16.12",
+      "page": 326,
+      "page_end": 327,
+      "semantic_type": "register_description",
+      "features": [
+        "adc",
+        "adc-isr",
+        "adrdy",
+        "awd1",
+        "awd2",
+        "awd3",
+        "ccrdy",
+        "eoc",
+        "eocal",
+        "eos",
+        "eosmp",
+        "interrupt",
+        "ovr"
+      ],
+      "chars": 3915,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=326",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.12.1 \"ADC interrupt and status register (ADC_ISR)\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 326.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000 0000\nBits 31:14 Reserved, must be kept at reset value.\nBit 13 CCRDY: Channel Configuration Ready flag\nThis flag bit is set by hardware when the channel configuration is applied after programming to\nADC_CHSELR register or changing CHSELRMOD or SCANDIR. It is cleared by software by\nprogramming it to it.\n0: Channel configuration update not applied.\n1: Channel configuration update is applied.\nNote: When the software configures the channels (by programming ADC_CHSELR or changing\nCHSELRMOD or SCANDIR), it must wait until the CCRDY flag rises before configuring again\nor starting conversions, otherwise the new configuration (or the START bit) is ignored. Once the\nflag is asserted, if the software needs to configure again the channels, it must clear the CCRDY\nflag before proceeding with a new configuration.\nBit 12 Reserved, must be kept at reset value.\nBit 11 EOCAL: End Of Calibration flag\nThis bit is set by hardware when calibration is complete. It is cleared by software writing 1 to it.\n0: Calibration is not complete\n1: Calibration is complete\nBit 10 Reserved, must be kept at reset value.\nBit 9 AWD3: Analog watchdog 3 flag\nThis bit is set by hardware when the converted voltage crosses the values programmed in\nADC_AWD3TR and ADC_AWD3TR registers. It is cleared by software by programming it to 1.\n0: No analog watchdog event occurred (or the flag event was already acknowledged and cleared by\nsoftware)\n1: Analog watchdog event occurred\nBit 8 AWD2: Analog watchdog 2 flag\nThis bit is set by hardware when the converted voltage crosses the values programmed in\nADC_AWD2TR and ADC_AWD2TR registers. It is cleared by software programming it it.\n0: No analog watchdog event occurred (or the flag event was already acknowledged and cleared by\nsoftware)\n1: Analog watchdog event occurred\nBit 7 AWD1: Analog watchdog 1 flag\nThis bit is set by hardware when the converted voltage crosses the values programmed in ADC_TR1\nand ADC_HR1 registers. It is cleared by software by programming it to 1.\n0: No analog watchdog event occurred (or the flag event was already acknowledged and cleared by\nsoftware)\n1: Analog watchdog event occurred\nBits 6:5 Reserved, must be kept at reset value.\nBit 4 OVR: ADC overrun\nThis bit is set by hardware when an overrun occurs, meaning that a new conversion has complete\nwhile the EOC flag was already set. It is cleared by software writing 1 to it.\n0: No overrun occurred (or the flag event was already acknowledged and cleared by software)\n1: Overrun has occurred\nBit 3 EOS: End of sequence flag\nThis bit is set by hardware at the end of the conversion of a sequence of channels selected by the\nCHSEL bits. It is cleared by software writing 1 to it.\n0: Conversion sequence not complete (or the flag event was already acknowledged and cleared by\nsoftware)\n1: Conversion sequence complete\nBit 2 EOC: End of conversion flag\nThis bit is set by hardware at the end of each conversion of a channel when a new data result is\navailable in the ADC_DR register. It is cleared by software writing 1 to it or by reading the ADC_DR\nregister.\n0: Channel conversion not complete (or the flag event was already acknowledged and cleared by\nsoftware)\n1: Channel conversion complete\nBit 1 EOSMP: End of sampling flag\nThis bit is set by hardware during the conversion, at the end of the sampling phase.It is cleared by\nsoftware by programming it to ‘1’.\n0: Not at the end of the sampling phase (or the flag event was already acknowledged and cleared by\nsoftware)\n1: End of sampling phase reached\nBit 0 ADRDY: ADC ready\nThis bit is set by hardware after the ADC has been enabled (ADEN = 1) and when the ADC reaches\na state where it is ready to accept conversion requests.\nIt is cleared by software writing 1 to it.\n0: ADC not yet ready to start conversion (or the flag event was already acknowledged and cleared\nby software)\n1: ADC is ready to start conversion",
+      "semantic": {
+        "register": "ADC_ISR",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "CCRDY",
+            "description": "Channel Configuration Ready flag This flag bit is set by hardware when the channel configuration is applied after programming to ADC_CHSELR register or changing CHSELRMOD or SCANDIR. It is cleared by software by programming it to it. Note: When the software configures the channels (by programming ADC_CHSELR or changing CHSELRMOD or SCANDIR), it must wait until the CCRDY flag rises before configuring again or starting conversions, otherwise the new configuration (or the START bit) is ignored. Once the flag is asserted, if the software needs to configure again the channels, it must clear the CCRDY flag before proceeding with a new configuration.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Channel configuration update not applied."
+              },
+              {
+                "value": "1",
+                "meaning": "Channel configuration update is applied."
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "EOCAL",
+            "description": "End Of Calibration flag This bit is set by hardware when calibration is complete. It is cleared by software writing 1 to it.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calibration is not complete"
+              },
+              {
+                "value": "1",
+                "meaning": "Calibration is complete"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "AWD3",
+            "description": "Analog watchdog 3 flag This bit is set by hardware when the converted voltage crosses the values programmed in ADC_AWD3TR and ADC_AWD3TR registers. It is cleared by software by programming it to 1. software)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No analog watchdog event occurred (or the flag event was already acknowledged and cleared by"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog watchdog event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "AWD2",
+            "description": "Analog watchdog 2 flag This bit is set by hardware when the converted voltage crosses the values programmed in ADC_AWD2TR and ADC_AWD2TR registers. It is cleared by software programming it it. software)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No analog watchdog event occurred (or the flag event was already acknowledged and cleared by"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog watchdog event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "AWD1",
+            "description": "Analog watchdog 1 flag This bit is set by hardware when the converted voltage crosses the values programmed in ADC_TR1 and ADC_HR1 registers. It is cleared by software by programming it to 1. software)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No analog watchdog event occurred (or the flag event was already acknowledged and cleared by"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog watchdog event occurred"
+              }
+            ]
+          },
+          {
+            "bits": "6:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "OVR",
+            "description": "ADC overrun This bit is set by hardware when an overrun occurs, meaning that a new conversion has complete while the EOC flag was already set. It is cleared by software writing 1 to it.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No overrun occurred (or the flag event was already acknowledged and cleared by software)"
+              },
+              {
+                "value": "1",
+                "meaning": "Overrun has occurred"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "EOS",
+            "description": "End of sequence flag This bit is set by hardware at the end of the conversion of a sequence of channels selected by the CHSEL bits. It is cleared by software writing 1 to it. software)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Conversion sequence not complete (or the flag event was already acknowledged and cleared by"
+              },
+              {
+                "value": "1",
+                "meaning": "Conversion sequence complete"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "EOC",
+            "description": "End of conversion flag This bit is set by hardware at the end of each conversion of a channel when a new data result is available in the ADC_DR register. It is cleared by software writing 1 to it or by reading the ADC_DR register. software)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Channel conversion not complete (or the flag event was already acknowledged and cleared by"
+              },
+              {
+                "value": "1",
+                "meaning": "Channel conversion complete"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "EOSMP",
+            "description": "End of sampling flag This bit is set by hardware during the conversion, at the end of the sampling phase.It is cleared by software by programming it to ‘1’. software)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Not at the end of the sampling phase (or the flag event was already acknowledged and cleared by"
+              },
+              {
+                "value": "1",
+                "meaning": "End of sampling phase reached"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "ADRDY",
+            "description": "ADC ready This bit is set by hardware after the ADC has been enabled (ADEN = 1) and when the ADC reaches a state where it is ready to accept conversion requests. It is cleared by software writing 1 to it. by software)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "ADC not yet ready to start conversion (or the flag event was already acknowledged and cleared"
+              },
+              {
+                "value": "1",
+                "meaning": "ADC is ready to start conversion"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

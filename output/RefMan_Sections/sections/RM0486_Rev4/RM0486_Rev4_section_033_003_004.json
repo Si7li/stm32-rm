@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S33.3.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "33",
+      "chapter_title": "Digital temperature sensor (DTS)",
+      "section": "33.3.4",
+      "section_title": "DTS serial data adapter (SDA)",
+      "level": 3,
+      "parent_section": "33.3",
+      "page": 1580,
+      "page_end": 1586,
+      "semantic_type": "generic",
+      "features": [
+        "dts",
+        "sda"
+      ],
+      "chars": 5833,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1580",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 33.3.4 \"DTS serial data adapter (SDA)\" in chapter 33 (Digital temperature sensor (DTS)), RM0486 Rev 4, page 1580.",
+      "section_content": "The serial data adapter (SDA) allows the TS blocks to be configured and controlled via\nserial data interfaces (SDIF). The purpose of the SDA is to minimize the number of signals\nthat need to be routed from the PVT controller to each TS block.\nA master usually transmits data to all its active PVT slave devices. However, it is possible to\ninhibit the programming of one or more slaves to allow different configuration options to be\napplied. To achieve power saving, it is also possible to disable completely a TS block by\ndisabling its clock and forcing reset.\nThe serial data interface also provides loop-back functionality (shown in red in Figure317)\nto support system integration testing without having to power up the embedded TS block.\nSDA data format\nThe serial data streams consist of an active-high start bit, 3-bit register address\n(SDIF_ADDR[2:0]), register write/not read enable (SDIF_WRN), and 24-bit data field\n(SDIF_WDATA[23:0]). The input and output serial data stream formats are shown in\n[Figure 318. It must be noted that the serial data streams are little endian, meaning that the]\nindividual data fields are shifted LSB first.\n[Figure 318. SDA data format]\nSDA read\nWhen reading data from the SDA slave registers (SDIF_WRN=0), the SLV SDI bit stream\nis shifted to SLV SDO (delayed by one clk_ts cycle) and the register read data value is\noutput on SDIF_RDATA[23:0]. The read data value is then made available in the PVT\ncontroller DTS_TSnSDIFRDATAR register (where n corresponds to the TS instance\nnumber).\nSDA write\nWhen writing data to the SDA slave registers (SDIF_WRN=1), the SLV SDI bit stream is\nautomatically shifted to SLV SDO and SDIF_RDATA[23:0]=SDIF_WDATA[23:0]. The write\ndata loop-back value is then made available in the corresponding PVT controller\nDTS_TSnSDIFRDATAR register.\nA special loop-back mode is available by writing to the (read-only) SDATS_DR register\nwhen SDIF_WRN=1 and SDIF_ADDR[2:0]=0x3. In this mode, the loop-back data value is\nalso written to the PVT controller TS data registers (DTS_TSnSDIFRDATAR). When writing\nloop-back data to the TS data registers, the SDA TS_DATA[23:0] field must be set to 0x0.\nThe DTS_TSnSDIFRDATAR loop-back functionality can be used to verify the integrity of the\nserial data transfer between the PVT controller and remote PVT slave devices.\nThe special DTS_TSnSDIFRDATAR loop-back functionality is provided to test the PVT\ncontroller operation without having to power up the embedded TS block, for example when\na fault or alarm occurs.\nThe loop-back functionality is disabled whenever the PVT slave is configured to automatic\ndata recovery when the TS_AUTO bit of PVT SDATS_CR register is asserted.\nSDA automatic data recovery\nThe automatic data recovery is enabled through TS_AUTO bit of SDATS_CR register.\nIn automatic data recovery mode, the SDIF_LOCK flag is set in the DTS_TSCSDIF_SR\nregister, the SDA interface becomes write-only and all SDA read requests are ignored. In\nthis mode, the SLV automatically streams TS_DATA[23:0] to the PVT controller each time\nnew data samples become available, while setting SDIF_ADDR[2:0] to 0x3 and SDIF_WRN\nto 1. The automatically recovered data are made available in the PVT controller\nDTS_TSnSDIFRDATAR and DTS_TSnSDIFRDATAR registers.\nSDA SDIF programming\nThe SDA slave is accessed via the TS SDIF control register DTS_TSCSDIF_CFGR, by\nsetting the SDIF_WDATA[23:0], the SDIF_ADDR[2:0] and the SDIF_WRN, and asserting\nthe SDIF_PROG bit. This SDA read or write request is normally set up using a single PVT\nregister write access.\nOnce a programming request has been issued, the SDIF_BUSY flag in the\nDTS_TSCSDIF_SR register is set, and any additional read or write programming requests\nis ignored until the current access completes.\nSDA controller operation\nThe SDA slave controller features two operating modes: manual (default) and automatic. In\nboth modes, the embedded TS block is configured through the SDATS_CFGR register.\nIn manual operating mode, when the TS_AUTO bit of SDATS_CR register is de-asserted,\nthe embedded TS block is controlled directly through the SDATS_CR register fields TS_PD,\nTS_RSTN, TS_RUN_ONCE, TS_RUN_CONT and TS_CLOAD. In manual mode, the user\nis responsible for ensuring that the PD, RSTN, CLOAD and RUN signals are applied in the\ncorrect order and at appropriate times. Sample data from the TS block are captured in the\nSDA slave SDATS_DR register at the end of the conversion. The user must either poll the\nSDATS_DR register or leave sufficient time for the conversion to complete before reading\nthe SDATS_DR register in order to recover the sample data from the slave SDA.\nIn automatic mode, when the TS_AUTO bit is asserted in SDATS_CR register, the\nembedded TS block is controlled by the slave SDA. When either TS_RUN_ONCE or\nTS_RUN_CONT bit of the TS_SDATS_CR register is asserted, the slave SDA sequences\nthe PD, RSTN, CLOAD, and RUN signals that drive the TS block to perform one or more\nconversions. In this mode sample data from the TS block are captured in the SDA slave\nSDATS_DR register at the end of the conversion before being automatically streamed to the\nPVT controller.\nIn trigger mode, when a trigger is asserted at DTS top level, this value is compared to the\nvalue programmed in bits 18 to 16 (TRIG[2:0]) of the SDATS_CFGR register. If it is equal,\nthe TS_RUN_ONCE bit is automatically asserted. Sample data from each TS block are\ncaptured in the SDA slave SDATS_DR register at the end of the conversion.\nSDA slave registers\nThe serial data adapter registers are accessible through the SDIF interface of the PVT\ncontroller.\n[Table 259. SDA slave registers]\n[Table 260. SDA TS control register (SDATS_CR)]\n[Table 261. SDA TS configuration register (SDATS_CFGR)]\n[Table 262. SDA TS data register (SDATS_DR)]\n[Table 263. SDA TS timer register (SDATS_TIMERR)]",
+      "semantic": {}
+    }
+  ]
+}

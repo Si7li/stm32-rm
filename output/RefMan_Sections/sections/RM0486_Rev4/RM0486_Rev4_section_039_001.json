@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.1",
+      "section_title": "DCMIPP introduction",
+      "level": 2,
+      "parent_section": null,
+      "page": 1815,
+      "page_end": 1816,
+      "semantic_type": "generic",
+      "features": [
+        "dcmipp"
+      ],
+      "chars": 1965,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1815",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.1 \"DCMIPP introduction\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1815.",
+      "section_content": "The DCMIPP is the pixel pipeline section of a high-resolution camera subsystem: it gets\npixels from a parallel or a CSI interface, and after some processing (such as decimation,\ncropping, downsize, color conversion, gamma correction, auto-exposure) dumps them to\nthe memory.\nDCMIPP supports multiple types of external sensors, among others:\n• dumb sensors (without internal ISP), which output raw Bayer pixels\n• smart sensors (with an internal ISP), which usually output RGB or YUV pixels\n• smart sensors with internal compression, which output a bit-stream (such as\nJPEG,orH264)\n• sensors with interlaced video, which output their odd and even fields sequentially\nThe DCMIPP input interface integrates a parallel interface (up to 16 bits at 120 MHz, with\ninternal/external synchronization), and makes it possible to abut an external CSI-2 host (one\nto two data lanes, up to 2.5 Gbps/lane).\nA first common part of the DCMIPP selects the input exclusively from the parallel or the CSI\ninterfaces. Data go to dedicated pipeline(s) before they are sent to memory for further\nprocessing or display purposes.\n[Table 328. Available pipelines]\nFigure 397 shows the DCMIPP main functions, namely the integrated parallel interface, the\nabutted CSI-2 host, the ISP functions in Pipe1 and shareable with Pipe2, the differentiated\napplicative post-processing pipelines with their crop, downsize, and pixel formatting.\n[Figure 397. DCMIPP overview]\nDCMIPP\nPipe0 AXI\nPipe0\nPipe0: Dump\nSel\nCtrl\nPipe1 Ctrl\nPipe1 ISP Pipe Sel\nPipe1: Post-Processing\nCSI2\nInput\nAXI bus\n64 bits\nPipeDiff=1\nPipe2: Post-Processing\nParallel Input\nPipeDiff=1\nIn the ISP processing, and therefore before the post-processing pipes (Pipe1 and Pipe2),\nthe component dynamic is reduced to 8 bits per component. If the software intends to\nbenefit of the wider dynamic, the input data must be dumped via Pipe0, which keeps the\ninput pixel format (10/12/14 bpp) when storing them in memory.\n[Table 329. Glossary]",
+      "semantic": {}
+    }
+  ]
+}

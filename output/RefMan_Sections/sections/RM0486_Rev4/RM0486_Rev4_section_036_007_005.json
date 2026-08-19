@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S36.7.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "36",
+      "chapter_title": "Audio digital filter (ADF)",
+      "section": "36.7.5",
+      "section_title": "Total ADF gain",
+      "level": 3,
+      "parent_section": "36.7",
+      "page": 1757,
+      "page_end": 1760,
+      "semantic_type": "generic",
+      "features": [
+        "adf"
+      ],
+      "chars": 4053,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1757",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.7.5 \"Total ADF gain\" in chapter 36 (Audio digital filter (ADF)), RM0486 Rev 4, page 1757.",
+      "section_content": "This section details how to compute the signal level provided by the ADF according to the\nfilter settings.\nA signal level may be expressed in dBFS (decibel full scale). A 0 dBFS level is assigned to\nthe maximum possible digital level. For example, a signal that reaches 50 % of the\nmaximum level, has a – 6 dBFS level (6 dB below full scale).\nFor example, for the ADF offering a final data width of 24 bits, a signal having an amplitude\nof 2*106 LSB has a level of:\n20× log10⎝ ⎜ ⎛ -2 2 --- ( - × - 2 --- 4 --1- – --0-- 1 -- 6 -- )⎠ ⎟ ⎞ =–12.45 dBFS\nIn addition, the data size of a signal having an amplitude (Amp) expressed in LSB is given\nby:\nDS = ⎝ ⎛ -l-n---- l ( - n --A--(--m 2 ----)-p---- ) -+1⎠ ⎞ bits\nOne bit need to be added for negative values.\nSo a signal having an amplitude of 2*106 LSB, has a data size of 21.9 bits.\nCIC gain\nThe CIC gain (GCIC and GdBCIC) can be deduced from the following formula giving data\nsize in bits (DSCIC).\nDSCIC = (N× log2 (D1))+DSin\nwhere N represents the CIC order (selected by CICMOD[2:0]), and D1 is the decimation\nratio (given by MCICD[8:0]).\nDSin represents the data size (in bits) of the signal at CIC input.\nWarning: DSCIC is very important for CIC filter. In order to work fine,\nDSCIC must not exceed 26 bits.\nThe CIC gain GCIC is given by:\nGCIC= (D1)N\nwhich gives in decibels:\nGdBCIC = 20× log10 ((D1)N)\nData size at SCALE output\nThe data size at SCALE output (including the CIC gain), is a key information as the RSFLT\nstarts to have some saturations, if the peak-to-peak signal amplitude at SCALE output is\nhigher than 22 bits.\nIf the RSFLT is bypassed, then a peak-to-peak signal amplitude of 24 bits is accepted.\nThe signal amplitude at SCALE output is:\n-G-----d---B-----S---C---A---L---E--\nAsoutSCALE = D1N× 10 20 × AsinDFLT\nGdBSCALE represents the gain selected by SCALE[5:0], in dB.\nAsoutSCALE is the signal amplitude at SCALE output (in LSB), and AsinDFLT is the signal\namplitude at CIC input (LSB).\nDSSCALE = - l - n ---- ( --- A ---- s ---\n--S--)-C----A---L---E----- ) +1\no -\n--- u -(--- t\n2\nThe data size at SCALE output (DSSCALE) is expressed in bits.\nRSFLT gain\nThe RSFLT gain in the useful bandwidth is typically 9.5 dB, but due to ripple a margin of\nabout ± 0.41 dB must be considered.\n9----.--5--- --d---B---\nGRSFLT = 10 20 = 2.98 typical\nNote: The HPF filter has a gain of 0 dB.\nSAD gain\nThe SAD is using only the 16 MSB on the signal, as a consequence, from the SAD point of\nview, the truncation from 24 to 16 bits can be seen as an attenuation.\nGdBSAD= – 48.1dB\nand\nGSAD= 0.003906\nThe Figure384 shows a simplified view of the filter path and gives, for each significant\ncomponent, the expression of the bit growth and the gain.\n[Figure 384. Simplified DFLT view with gain information]\nTable313 summarizes of the final data size for different filter configurations.\n[Table 313. Output signal levels]\nExample using the main filter chain\nIf the ADF filter is programmed as follows:\n• The input signal is coming from a serial interface (DsinRSFLT = 1 bit).\n• CIC order = 5 (N), with a decimation value of 24 (D1).\n• SCALE[5:0] is set to - 12 dB.\n• RSFLT enabled, and the decimation by four is enabled.\n• HPF is enabled.\nCheck first the data size at CIC output:\nDSCIC = (5× log2 (24))+1 bit = 23.92 bits\nThe size is lower than 26 bits, so the CIC works in good conditions.\nThe data size at CIC output is very close to 24 bits, so the SCALE must be adjusted in order\nto provide a 22-bit max signal to the RSFLT. An attenuation of 12 dB is needed.\nThen the signal level provided to the RSFLT is:\n–----1---2--\nAsoutSCALE = 245× 1020 × 1= 2.106\n---0-)-- 6 --- ) -+1= 21.93 bits\nDSSCALE = -l-n---- (\n-2---( .--1\n2\nIf a higher gain is used, the RSFLT may saturate the output signal for strong input signals.\nAt the end, the final signal amplitude is:\n–----1---2-- 9----.-5---\nAsoutHPF = 245× 1020 × 1020 × 1= 5.9711× 106\nDsoutHPF= ⎝ ⎛ -l-n---- ( ---5---.--9--- l 7- n --1--(--1 2 ----) × ------1----0--- 6 --- ) -+1⎠ ⎞ = 23.51 bits\nor:\n⎛2----\n2\n3\n5\n1\nSDBOUT = 20× log10⎝ ⎜\n---\n= –2.84 dBFS\n2\n4\n2",
+      "semantic": {}
+    }
+  ]
+}

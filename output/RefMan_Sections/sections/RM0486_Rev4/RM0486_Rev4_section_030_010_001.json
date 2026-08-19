@@ -1,0 +1,123 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.10.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.10.1",
+      "section_title": "SDMMC power control register (SDMMC_POWER)",
+      "level": 3,
+      "parent_section": "30.10",
+      "page": 1431,
+      "page_end": 1431,
+      "semantic_type": "register_description",
+      "features": [
+        "dirpol",
+        "power",
+        "pwrctrl",
+        "sdmmc",
+        "sdmmc-power",
+        "vswitch",
+        "vswitchen"
+      ],
+      "chars": 1960,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1431",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.10.1 \"SDMMC power control register (SDMMC_POWER)\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1431.",
+      "section_content": "Address offset: 0x000\nReset value: 0x00000000\nBits 31:5 Reserved, must be kept at reset value.\nBit 4 DIRPOL: Data and command direction signals polarity selection\nThis bit can only be written when the SDMMC is in the power-off state (PWRCTRL = 00).\n0: Voltage transceiver I/Os driven as output when direction signal is low.\n1: Voltage transceiver I/Os driven as output when direction signal is high.\nBit 3 VSWITCHEN: Voltage switch procedure enable\nThis bit can only be written by firmware when CPSM is disabled (CPSMEN = 0).\nThis bit is used to stop the SDMMC_CK after the voltage switch command response:\n0: SDMMC_CK clock kept unchanged after successfully received command response.\n1: SDMMC_CK clock stopped after successfully received command response.\nBit 2 VSWITCH: Voltage switch sequence start\nThis bit is used to start the timing critical section of the voltage switch sequence:\n0: Voltage switch sequence not started and not active.\n1: Voltage switch sequence started or active.\nBits 1:0 PWRCTRL[1:0]: SDMMC state control bits\nThese bits can only be written when the SDMMC is not in the power-on state\n(PWRCTRL≠11).\nThese bits are used to define the functional state of the SDMMC signals:\n00: After reset, Reset: the SDMMC is disabled and the clock to the Card is stopped,\nSDMMC_D[7:0], and SDMMC_CMD are HiZ and SDMMC_CK is driven low.\nWhen written 00, power-off: the SDMMC is disabled and the clock to the card is\nstopped, SDMMC_D[7:0], SDMMC_CMD and SDMMC_CK are driven high.\n01: Reserved (When written 01, PWRCTRL value does not change)\n10: Power-cycle, the SDMMC is disabled and the clock to the card is stopped,\nSDMMC_D[7:0], SDMMC_CMD and SDMMC_CK are driven low.\n11: Power-on: the card is clocked, The first 74 SDMMC_CK cycles the SDMMC is still\ndisabled. After the 74 cycles the SDMMC is enabled and the SDMMC_D[7:0],\nSDMMC_CMD and SDMMC_CK are controlled according the SDMMC operation.\nAny further write is ignored, PWRCTRL value keeps 11.",
+      "semantic": {
+        "register": "SDMMC_POWER",
+        "address_offset": "0x000",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "DIRPOL",
+            "description": "Data and command direction signals polarity selection This bit can only be written when the SDMMC is in the power-off state (PWRCTRL = 00).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Voltage transceiver I/Os driven as output when direction signal is low."
+              },
+              {
+                "value": "1",
+                "meaning": "Voltage transceiver I/Os driven as output when direction signal is high."
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "VSWITCHEN",
+            "description": "Voltage switch procedure enable This bit can only be written by firmware when CPSM is disabled (CPSMEN = 0). This bit is used to stop the SDMMC_CK after the voltage switch command response:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SDMMC_CK clock kept unchanged after successfully received command response."
+              },
+              {
+                "value": "1",
+                "meaning": "SDMMC_CK clock stopped after successfully received command response."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "VSWITCH",
+            "description": "Voltage switch sequence start This bit is used to start the timing critical section of the voltage switch sequence:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Voltage switch sequence not started and not active."
+              },
+              {
+                "value": "1",
+                "meaning": "Voltage switch sequence started or active."
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "PWRCTRL[1:0]",
+            "description": "SDMMC state control bits These bits can only be written when the SDMMC is not in the power-on state (PWRCTRL≠11). These bits are used to define the functional state of the SDMMC signals: SDMMC_D[7:0], and SDMMC_CMD are HiZ and SDMMC_CK is driven low. When written 00, power-off: the SDMMC is disabled and the clock to the card is stopped, SDMMC_D[7:0], SDMMC_CMD and SDMMC_CK are driven high. SDMMC_D[7:0], SDMMC_CMD and SDMMC_CK are driven low. disabled. After the 74 cycles the SDMMC is enabled and the SDMMC_D[7:0], SDMMC_CMD and SDMMC_CK are controlled according the SDMMC operation. Any further write is ignored, PWRCTRL value keeps 11.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "After reset, Reset: the SDMMC is disabled and the clock to the Card is stopped,"
+              },
+              {
+                "value": "01",
+                "meaning": "Reserved (When written 01, PWRCTRL value does not change)"
+              },
+              {
+                "value": "10",
+                "meaning": "Power-cycle, the SDMMC is disabled and the clock to the card is stopped,"
+              },
+              {
+                "value": "11",
+                "meaning": "Power-on: the card is clocked, The first 74 SDMMC_CK cycles the SDMMC is still"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,347 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S24.6.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "24",
+      "chapter_title": "Operational amplifier (OPAMP)",
+      "section": "24.6.1",
+      "section_title": "OPAMP control/status register (OPAMP_CSR)",
+      "level": 3,
+      "parent_section": "24.6",
+      "page": 741,
+      "page_end": 743,
+      "semantic_type": "register_description",
+      "features": [
+        "calon",
+        "calout",
+        "calsel",
+        "force-vp",
+        "lock",
+        "opaen",
+        "opahsm",
+        "opaintoen",
+        "opamp",
+        "opamp-csr",
+        "pga-gain",
+        "trimoffsetn",
+        "trimoffsetp",
+        "tstref",
+        "usertrim",
+        "vm-sel",
+        "vp-sel"
+      ],
+      "chars": 4923,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=741",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.6.1 \"OPAMP control/status register (OPAMP_CSR)\" in chapter 24 (Operational amplifier (OPAMP)), RM0522 Rev 1, page 741.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000 0000\nBit 31 LOCK: OPAMP_CSR register lock\nThis bit is write-once. It is set by software. It can only be cleared by a system reset.\nThis bit is used to configure the OPAMP_CSR register as read-only.\n0: OPAMP_CSR is read-write\n1: OPAMP_CSR is read-only\nBit 30 CALOUT: Operational amplifier calibration output\nThis bit reflects the digital value of OPAMP output when OPAINTOEN bit is low. During the\ninput offset calibration procedure, it provides the indication that the target trimming value is\nreached, by transiting from 1 to 0.\nThe bit cannot be used as long as the OPAINTOEN bit is high.\nBit 29 TSTREF: OPAMP calibration reference voltage output control\nThis bit is reserved for test. When set, OPAMP outputs the calibration reference voltage.\n0: Does not output calibration reference voltage\n1: Outputs calibration reference voltage\nBits 28:24 TRIMOFFSETN[4:0]: Trim for NMOS differential pairs\nUpon reset, this bitfield is loaded with the factory trimming value. It can only be modified\nwhen the USERTRIM bit is set.\nBits 23:19 TRIMOFFSETP[4:0]: Trim for PMOS differential pairs\nUpon reset, this bitfield is loaded with the factory trimming value. It can only be modified\nwhen the USERTRIM bit is set.\nBits 18:14 PGA_GAIN[4:0]: Operational amplifier programmable gain and PGA flavor primary control\nThis bitfield selects the programmable gain (bits [2:1]) and the PGA flavor ([bits 4:3]). Positive\nnumbers represent positive gain (noninverting PGA), negative numbers negative gain\n(inverting PGA).\n00000: gain 2\n00001: gain 4\n00010: gain 8\n00011: gain 16\n01000: gain -1 / gain 2 with bias on OPAMP_VINM0\n01001: gain -3 / gain 4 with bias on OPAMP_VINM0\n01010: gain -7 / gain 8 with bias on OPAMP_VINM0\n01011: gain -15 / gain 16 with bias on OPAMP_VINM0\n10000: gain 2 with filtering on OPAMP_VINM0\n10001: gain 4 with filtering on OPAMP_VINM0\n10010: gain 8 with filtering on OPAMP_VINM0\n10011: gain 16 with filtering on OPAMP_VINM0\n11000: gain -1 / gain 2 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1\n11001: gain -3 / gain 4 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1\n11010: gain -7 / gain 8 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1\n11011: gain -15 / gain 16 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1\nOther: Not used\nBits 13:12 CALSEL[1:0]: Calibration selection\nThis bitfield selects the offset calibration reference voltage applied on the operational\namplifier inputs when CALON and FORCE_VP bits are set.\n00: 0.033*VDDA\n01: 0.1*VDDA (for PMOS calibration)\n10: 0.5*VDDA\n11: 0.9*VDDA (for NMOS calibration)\nBit 11 CALON: Calibration mode enable\nThis bitfield disables or enables the calibration mode.\n0: Calibration mode disabled\n1: Calibration mode enabled\nBits 10:9 Reserved, must be kept at reset value.\nBit 8 OPAINTOEN: Operational amplifier internal output enable\nThis bit determines where the operational amplifier output is connected, either to the\nOPAMP_VOUT pin or internally to a COMP channel.\n0: OPAMP_VOUT pin\n1: COMP channel\nBit 7 OPAHSM: Operational amplifier high-speed mode\nThis bit determines the speed (slew rate) of the operational amplifier.\n0: Normal speed\n1: High speed\nOnly change this configuration when OPAMP is disabled.\nBits 6:5 VM_SEL[1:0]: Inverting input primary selection\nThis bitfield determines where the operational amplifier inverting input is connected to.\n00: OPAMP_VINM0 pin\n01: OPAMP_VINM1 pin\n10: Internal resistor divider middle point\n11: Operational amplifier output\nThe setting 10 is for the PGA use cases. With this setting, the connection of the\nOPAMP_VINM0 and OPAMP_VINM1 pins is determined by the PGA_GAIN[4:0] bitfield.\nThe setting 11 sets OPAMP in follower mode. With the other two settings, OPAMP is\nconfigured as a stand-alone operational amplifier.\nBit 4 USERTRIM: User trimming enable\nThis bit enables the user trimming of the operational amplifier input offset. When set, the\nTRIMOFFSETN[4:0] and TRIMOFFSETP[4:0] bitfields, loaded with factory trimming values\nupon reset, become writable. This allows modifying the input offset trimming values by the\nuser.\n0: Disable (trimming by user not possible)\n1: Enable (trimming by user possible)\nBits 3:2 VP_SEL[1:0]: Noninverting input primary selection\nThis bitfield determines where the operational amplifier noninverting input is connected to.\n00: OPAMP_VINP0 pin\n01: OPAMP_VINP1 pin\n10: OPAMP_VINP2 pin\n11: OPAMP_VINP3 pin or DAC output channel\nRefer to Section24.3: OPAMP implementation for OPAMP instance-dependent information.\nBit 1 FORCE_VP: Force internal reference on noninverting input\nThis bit is reserved for test. It allows forcing the calibration reference voltage selected\nthrough the CALSEL[1:0] bitfield on the operational amplifier noninverting input.\n0: Do not force (normal operation)\n1: Force\nBit 0 OPAEN: Operational amplifier enable\nThis bit enables and disables the operational amplifier.\n0: Disable\n1: Enable",
+      "semantic": {
+        "register": "OPAMP_CSR",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "LOCK",
+            "description": "OPAMP_CSR register lock This bit is write-once. It is set by software. It can only be cleared by a system reset. This bit is used to configure the OPAMP_CSR register as read-only.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OPAMP_CSR is read-write"
+              },
+              {
+                "value": "1",
+                "meaning": "OPAMP_CSR is read-only"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "CALOUT",
+            "description": "Operational amplifier calibration output This bit reflects the digital value of OPAMP output when OPAINTOEN bit is low. During the input offset calibration procedure, it provides the indication that the target trimming value is reached, by transiting from 1 to 0. The bit cannot be used as long as the OPAINTOEN bit is high.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "TSTREF",
+            "description": "OPAMP calibration reference voltage output control This bit is reserved for test. When set, OPAMP outputs the calibration reference voltage.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Does not output calibration reference voltage"
+              },
+              {
+                "value": "1",
+                "meaning": "Outputs calibration reference voltage"
+              }
+            ]
+          },
+          {
+            "bits": "28:24",
+            "name": "TRIMOFFSETN[4:0]",
+            "description": "Trim for NMOS differential pairs Upon reset, this bitfield is loaded with the factory trimming value. It can only be modified when the USERTRIM bit is set.",
+            "values": []
+          },
+          {
+            "bits": "23:19",
+            "name": "TRIMOFFSETP[4:0]",
+            "description": "Trim for PMOS differential pairs Upon reset, this bitfield is loaded with the factory trimming value. It can only be modified when the USERTRIM bit is set.",
+            "values": []
+          },
+          {
+            "bits": "18:14",
+            "name": "PGA_GAIN[4:0]",
+            "description": "Operational amplifier programmable gain and PGA flavor primary control This bitfield selects the programmable gain (bits [2:1]) and the PGA flavor ([bits 4:3]). Positive numbers represent positive gain (noninverting PGA), negative numbers negative gain (inverting PGA).",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "gain 2"
+              },
+              {
+                "value": "00001",
+                "meaning": "gain 4"
+              },
+              {
+                "value": "00010",
+                "meaning": "gain 8"
+              },
+              {
+                "value": "00011",
+                "meaning": "gain 16"
+              },
+              {
+                "value": "01000",
+                "meaning": "gain -1 / gain 2 with bias on OPAMP_VINM0"
+              },
+              {
+                "value": "01001",
+                "meaning": "gain -3 / gain 4 with bias on OPAMP_VINM0"
+              },
+              {
+                "value": "01010",
+                "meaning": "gain -7 / gain 8 with bias on OPAMP_VINM0"
+              },
+              {
+                "value": "01011",
+                "meaning": "gain -15 / gain 16 with bias on OPAMP_VINM0"
+              },
+              {
+                "value": "10000",
+                "meaning": "gain 2 with filtering on OPAMP_VINM0"
+              },
+              {
+                "value": "10001",
+                "meaning": "gain 4 with filtering on OPAMP_VINM0"
+              },
+              {
+                "value": "10010",
+                "meaning": "gain 8 with filtering on OPAMP_VINM0"
+              },
+              {
+                "value": "10011",
+                "meaning": "gain 16 with filtering on OPAMP_VINM0"
+              },
+              {
+                "value": "11000",
+                "meaning": "gain -1 / gain 2 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1"
+              },
+              {
+                "value": "11001",
+                "meaning": "gain -3 / gain 4 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1"
+              },
+              {
+                "value": "11010",
+                "meaning": "gain -7 / gain 8 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1"
+              },
+              {
+                "value": "11011",
+                "meaning": "gain -15 / gain 16 with bias on OPAMP_VINM0 and filtering on OPAMP_VINM1"
+              },
+              {
+                "value": "Other",
+                "meaning": "Not used"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "CALSEL[1:0]",
+            "description": "Calibration selection This bitfield selects the offset calibration reference voltage applied on the operational amplifier inputs when CALON and FORCE_VP bits are set.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "0.033*VDDA"
+              },
+              {
+                "value": "01",
+                "meaning": "0.1*VDDA (for PMOS calibration)"
+              },
+              {
+                "value": "10",
+                "meaning": "0.5*VDDA"
+              },
+              {
+                "value": "11",
+                "meaning": "0.9*VDDA (for NMOS calibration)"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "CALON",
+            "description": "Calibration mode enable This bitfield disables or enables the calibration mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calibration mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Calibration mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "10:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "OPAINTOEN",
+            "description": "Operational amplifier internal output enable This bit determines where the operational amplifier output is connected, either to the OPAMP_VOUT pin or internally to a COMP channel.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OPAMP_VOUT pin"
+              },
+              {
+                "value": "1",
+                "meaning": "COMP channel"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "OPAHSM",
+            "description": "Operational amplifier high-speed mode This bit determines the speed (slew rate) of the operational amplifier. Only change this configuration when OPAMP is disabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal speed"
+              },
+              {
+                "value": "1",
+                "meaning": "High speed"
+              }
+            ]
+          },
+          {
+            "bits": "6:5",
+            "name": "VM_SEL[1:0]",
+            "description": "Inverting input primary selection This bitfield determines where the operational amplifier inverting input is connected to. The setting 10 is for the PGA use cases. With this setting, the connection of the OPAMP_VINM0 and OPAMP_VINM1 pins is determined by the PGA_GAIN[4:0] bitfield. The setting 11 sets OPAMP in follower mode. With the other two settings, OPAMP is configured as a stand-alone operational amplifier.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "OPAMP_VINM0 pin"
+              },
+              {
+                "value": "01",
+                "meaning": "OPAMP_VINM1 pin"
+              },
+              {
+                "value": "10",
+                "meaning": "Internal resistor divider middle point"
+              },
+              {
+                "value": "11",
+                "meaning": "Operational amplifier output"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "USERTRIM",
+            "description": "User trimming enable This bit enables the user trimming of the operational amplifier input offset. When set, the TRIMOFFSETN[4:0] and TRIMOFFSETP[4:0] bitfields, loaded with factory trimming values upon reset, become writable. This allows modifying the input offset trimming values by the user.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable (trimming by user not possible)"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable (trimming by user possible)"
+              }
+            ]
+          },
+          {
+            "bits": "3:2",
+            "name": "VP_SEL[1:0]",
+            "description": "Noninverting input primary selection This bitfield determines where the operational amplifier noninverting input is connected to. Refer to Section24.3: OPAMP implementation for OPAMP instance-dependent information.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "OPAMP_VINP0 pin"
+              },
+              {
+                "value": "01",
+                "meaning": "OPAMP_VINP1 pin"
+              },
+              {
+                "value": "10",
+                "meaning": "OPAMP_VINP2 pin"
+              },
+              {
+                "value": "11",
+                "meaning": "OPAMP_VINP3 pin or DAC output channel"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "FORCE_VP",
+            "description": "Force internal reference on noninverting input This bit is reserved for test. It allows forcing the calibration reference voltage selected through the CALSEL[1:0] bitfield on the operational amplifier noninverting input.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Do not force (normal operation)"
+              },
+              {
+                "value": "1",
+                "meaning": "Force"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "OPAEN",
+            "description": "Operational amplifier enable This bit enables and disables the operational amplifier.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

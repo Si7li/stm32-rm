@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.3.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.3.4",
+      "section_title": "Configuring the SPI for half-duplex communication",
+      "level": 3,
+      "parent_section": "25.3",
+      "page": 707,
+      "page_end": 708,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 1844,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=707",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.3.4 \"Configuring the SPI for half-duplex communication\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 707.",
+      "section_content": "The SPI is capable of operating in half-duplex mode in 2 configurations.\n• 1 clock and 1 bidirectional data wire\n• 1 clock and 1 data wire (receive-only or transmit-only)\n1 clock and 1 bidirectional data wire (BIDIMODE = 1)\nThis mode is enabled by setting the BIDIMODE bit in the SPI_CR1 register. In this mode\nSCK is used for the clock and MOSI in master or MISO in slave mode is used for data\ncommunication. The transfer direction (Input/Output) is selected by the BIDIOE bit in the\nSPI_CR1 register. When this bit is 1, the data line is output otherwise it is input.\n1 clock and 1 unidirectional data wire (BIDIMODE = 0)\nIn this mode, the application can use the SPI either in transmit-only mode or in receive-only\nmode.\n• Transmit-only mode is similar to full-duplex mode (BIDIMODE=0, RXONLY=0): the\ndata are transmitted on the transmit pin (MOSI in master mode or MISO in slave mode)\nand the receive pin (MISO in master mode or MOSI in slave mode) can be used as a\ngeneral-purpose IO. In this case, the application just needs to ignore the Rx buffer (if\nthe data register is read, it does not contain the received value).\n• In receive-only mode, the application can disable the SPI output function by setting the\nRXONLY bit in the SPI_CR1 register. In this case, it frees the transmit IO pin (MOSI in\nmaster mode or MISO in slave mode), so it can be used for other purposes.\nTo start the communication in receive-only mode, configure and enable the SPI:\n• In master mode, the communication starts immediately and stops when the SPE bit is\ncleared and the current reception stops. There is no need to read the BSY flag in this\nmode. It is always set when an SPI communication is ongoing.\n• In slave mode, the SPI continues to receive as long as the NSS is pulled down (or the\nSSI bit is cleared in NSS software mode) and the SCK is running.",
+      "semantic": {}
+    }
+  ]
+}

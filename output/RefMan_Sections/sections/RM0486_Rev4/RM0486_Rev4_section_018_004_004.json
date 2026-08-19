@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.4.4",
+      "section_title": "HPDMA channel abort and restart",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 847,
+      "page_end": 848,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 1383,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=847",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.4 \"HPDMA channel abort and restart\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 847.",
+      "section_content": "Alternatively, like for aborting a continuous HPDMA transfer with a circular buffering or a\ndouble buffering, the software can abort, on its own, a still active channel with the following\nsequence:\n1. The software writes 1 into the HPDMA_CxCR.SUSP bit.\n2. The software polls suspended flag HPDMA_CxSR.SUSPF until SUSPF=1, or waits\nfor an interrupt previously enabled by writing 1 to HPDMA_CxCR.SUSPIE. Wait for the\nchannel to be effectively in suspended state means wait for the completion of any\nongoing HPDMA transfer over its master port.\n3. The software resets the channel by writing 1 to HPDMA_CxCR.RESET. This causes\nthe reset of the FIFO, the reset of the channel internal state, the reset of the\nHPDMA_CxCR.EN bit, and the reset of the HPDMA_CxCR.SUSP bit.\n4. The software safely reconfigures the channel. The software must reprogram\nhardware-modified HPDMA_CxBR1, HPDMA_CxSAR, and HPDMA_CxDAR.\n5. In order to restart the aborted then reprogrammed channel, the software enables it\nagain by writing 1 to the HPDMA_CxCR.EN bit.\n[Figure 75. HPDMA channel abort and restart sequence]\nChannel state = Active\nSuspend the DMA channel\n(write 1 to CxCR.SUSP)\nSUSPF=1 ?\nChannel state = Suspended Y\nR e c e iv in g (and Idle)\nsuspended\ninterrupt\nReset the DMA channel\n(write 1 to CxCR.RESET)\nChannel state = Idle\nReconfigure the DMA channel\nEnable the DMA channel\nChannel state = Active",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.4.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.4.3",
+      "section_title": "Clock generator",
+      "level": 3,
+      "parent_section": "25.4",
+      "page": 731,
+      "page_end": 735,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "spi"
+      ],
+      "chars": 2339,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=731",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.4.3 \"Clock generator\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 731.",
+      "section_content": "The I2S bitrate determines the dataflow on the I2S data line and the I2S clock signal\nfrequency.\nI2S bitrate = number of bits per channel × number of channels × sampling audio frequency\nFor a 16-bit audio, left and right channel, the I2S bitrate is calculated as follows:\nI2S bitrate = 16 × 2 × FS\nIt will be: I2S bitrate = 32 x 2 x FS if the packet length is 32-bit wide.\n[Figure 267. Audio sampling frequency definition]\nWhen the master mode is configured, a specific action needs to be taken to properly\nprogram the linear divider in order to communicate with the desired audio frequency.\n[Figure 268. I2S clock generator architecture]\n1. Where x could be 2 or 3.\nFigure267 presents the communication clock architecture. . The I2SxCLK source is the\nsystem clock (provided by the HSI, the HSE or the PLL, and sourcing the AHB clock). For\nconnectivity line devices, tThe I2SxCLK source can be either SYSCLK or the PLL3 VCO\n(2× PLL3CLK) clock in order to achieve the maximum accuracy. This selection is made\nusing the I2S2SRC and I2S3SRC bits in the RCC_CFGR2 register.\nThe audio sampling frequency can be 96 kHz, 48 kHz, 44.1 kHz, 32 kHz, 22.05 kHz,\n16kHz, 11.025 kHz or 8 kHz (or any other value within this range). In order to reach the\ndesired frequency, the linear divider needs to be programmed according to the formulas\nbelow:\nWhen the master clock is generated (MCKOE in the SPI_I2SPR register is set):\nFS = I2SxCLK / [(16*2)*((2*I2SDIV)+ODD)*8)] when the channel frame is 16-bit wide\nFS = I2SxCLK / [(32*2)*((2*I2SDIV)+ODD)*4)] when the channel frame is 32-bit wide\nWhen the master clock is disabled (MCKOE bit cleared):\nFS = I2SxCLK / [(16*2)*((2*I2SDIV)+ODD))] when the channel frame is 16-bit wide\nFS = I2SxCLK / [(32*2)*((2*I2SDIV)+ODD))] when the channel frame is 32-bit wide\nTable183, Table184 and Table185 provide example precision values for different clock\nconfigurations.\nNote: Other configurations are possible that allow optimum clock precision.\n(high- density and XL-density devices only)\n[Table 183. Audio-frequency precision using standard 8MHz HSE]\n(high- density and XL-density devices only) (continued)\n(connectivity line devices only)\n[Table 184. Audio-frequency precision using standard 25MHz and PLL3]\n(connectivity line devices only)\n[Table 185. Audio-frequency precision using standard 14.7456 MHz and PLL3]",
+      "semantic": {}
+    }
+  ]
+}

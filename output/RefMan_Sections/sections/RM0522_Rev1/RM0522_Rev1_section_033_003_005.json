@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S33.3.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "33",
+      "chapter_title": "Basic timers (TIM6/TIM7)",
+      "section": "33.3.5",
+      "section_title": "Counting mode",
+      "level": 3,
+      "parent_section": "33.3",
+      "page": 1263,
+      "page_end": 1270,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 4782,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1263",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 33.3.5 \"Counting mode\" in chapter 33 (Basic timers (TIM6/TIM7)), RM0522 Rev 1, page 1263.",
+      "section_content": "The counter counts from 0 to the autoreload value (contents of the TIM_ARR register), then\nrestarts from 0 and generates a counter overflow event.\nAn update event can be generate at each counter overflow or by setting the UG bit in the\nTIM_EGR register (by software or by using the slave mode controller).\nThe UEV event can be disabled by software by setting the UDIS bit in the TIM_CR1 register.\nThis avoids updating the shadow registers while writing new values into the preload\nregisters. In this way, no update event occurs until the UDIS bit has been written to 0,\nhowever, the counter and the prescaler counter both restart from 0 (but the prescale rate\ndoes not change). In addition, if the URS (update request selection) bit in the TIM_CR1\nregister is set, setting the UG bit generates an update event UEV, but the UIF flag is not set\n(so no interrupt or DMA request is sent).\nWhen an update event occurs, all the registers are updated and the update flag (UIF bit in\nthe TIM_SR register) is set (depending on the URS bit):\n• The buffer of the prescaler is reloaded with the preload value (contents of the TIM_PSC\nregister).\n• The autoreload shadow register is updated with the preload value (TIM_ARR).\nThe following figures show some examples of the counter behavior for different clock\nfrequencies when TIM_ARR = 0x36.\n[Figure 422. Counter timing diagram, internal clock divided by 1]\n[Figure 423. Counter timing diagram, internal clock divided by 2]\nCounter register 0034 0035 0036 0000 0001 0002 0003\nCounter overflow\nUpdate event (UEV)\nUpdate interrupt flag\n(UIF)\n[Figure 424. Counter timing diagram, internal clock divided by 4]\n[Figure 425. Counter timing diagram, internal clock divided by N]\nCounter register 1F 20 00\nCounter overflow\nUpdate event (UEV)\nUpdate interrupt flag\n(UIF)\n[Figure 426. Counter timing diagram, update event when ARPE = 0 (TIM_ARR not]\npreloaded)\ntim_psc_ck\nCEN\ntim_cnt_ck\nCounter overflow\nUpdate event (UEV)\nUpdate interrupt flag (UIF)\nAuto-reload preload register FF 36\nWrite a new value in TIM_ARR\n[Figure 427. Counter timing diagram, update event when ARPE = 1 (TIM_ARR]\npreloaded)\ntim_psc_ck\nCEN\ntim_cnt_ck\nCounter overflow\nUpdate event (UEV)\nUpdate interrupt flag\n(UIF)\nAuto-reload preload F5 36\nregister\nAuto-reload shadow\nWrite a new value in TIM_ARR\nDithering mode\nThe time base effective resolution can be increased by enabling the dithering mode, using\nthe DITHEN bit in the TIM_CR1 register. This affects the way the TIM_ARR is behaving, and\nis useful for adjusting the average counter period when the timer is used as a trigger\n(typically for a DAC).\nThe operating principle is to have the actual ARR value slightly changed (adding or not one\ntimer clock period) over 16 consecutive counting periods, with predefined patterns. This\nallows a 16-fold resolution increase, considering the average counting period.\nFigure428 presents the dithering principle applied to four consecutive counting periods.\n[Figure 428. Dithering principle]\nAverage period 12 12 12 12\nT = 12\nT = 12+¼\nT = 12+½\nT = 12+¾\nT = 13\nWhen the dithering mode is enabled, the register coding is changed as follows (see\nFigure429 for example):\n• The four LSBs are coding for the enhanced resolution part (fractional part).\n• The MSBs are left-shifted to the bits 19:4 and are coding for the base value.\nNote: The following sequence must be followed when resetting the DITHEN bit:\n1. CEN and ARPE bits must be reset\n2. The DITHEN bit must be reset\n3. The CEN bit can be set (eventually with ARPE = 1).\n[Figure 429. Data format and register coding in dithering mode]\nb19 b0\nb19 b0\nExample\nBase compare value is 20 during 16 periods Additional 6 cycles are spread over the\n16 periods\nThe minimum frequency is given by the following formula:\n-- F --\nF ----\n-T--\n--i-m-\nT--\n-i--m\n---⇒ FpwmMin =\n------\n----\n---\n---\nResolution =\n--- F -\n---T\n---i-\nm---\nDithering mode disabled: FpwmMin =\n6\n5\n5\n3\n6\n-- F -\n---T-\n--i--m-\n----\n---\n-----\nDithering mode enabled: FpwmMin =\n1-\n-5\n6\n5\n5\n3\n5\n16\nNote: The maximum TIM_ARR value is limited to 0xFFFEF in dithering mode (corresponds to\n65534 for the integer part and 15 for the dithered part).\nAs shown on Figure430, the dithering mode is used to increase the PWM resolution\nwhatever the PWM frequency.\n[Figure 430. FCnt resolution vs frequency]\nThe period changes are spread over 16 consecutive periods, as described in Figure431.\n[Figure 431. PWM dithering pattern]\nARR value 643\nAuto-Reload\nvalue 41 40 40 40 41 40 40 40 41 40 40 40 40 40 40 40\nThe autoreload and compare values increments are spread following the specific patterns\ndescribed in Table329. The dithering sequence is done to have increments distributed as\nevenly as possible and minimize the overall ripple.\n[Table 329. TIM_ARR register change dithering pattern]",
+      "semantic": {}
+    }
+  ]
+}

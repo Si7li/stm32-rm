@@ -1,0 +1,144 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S26.6.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "26",
+      "chapter_title": "Inter-integrated circuit (I2C) interface",
+      "section": "26.6.2",
+      "section_title": "I2C Control register 2 (I2C_CR2)",
+      "level": 3,
+      "parent_section": "26.6",
+      "page": 774,
+      "page_end": 775,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "dmaen",
+        "freq",
+        "i2c",
+        "i2c-cr2",
+        "itbufen",
+        "iterren",
+        "itevten",
+        "last"
+      ],
+      "chars": 1700,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=774",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.6.2 \"I2C Control register 2 (I2C_CR2)\" in chapter 26 (Inter-integrated circuit (I2C) interface), RM0008 Rev 21, page 774.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0000\nBits 15:13 Reserved, must be kept at reset value\nBit 12 LAST: DMA last transfer\n0: Next DMA EOT is not the last transfer\n1: Next DMA EOT is the last transfer\nNote: This bit is used in master receiver mode to permit the generation of a NACK on the last\nreceived data.\nBit 11 DMAEN: DMA requests enable\n0: DMA requests disabled\n1: DMA request enabled when TxE=1 or RxNE =1\nBit 10 ITBUFEN: Buffer interrupt enable\n0: TxE = 1 or RxNE = 1 does not generate any interrupt.\n1: TxE = 1 or RxNE = 1 generates Event Interrupt (whatever the state of DMAEN)\nBit 9 ITEVTEN: Event interrupt enable\n0: Event interrupt disabled\n1: Event interrupt enabled\nThis interrupt is generated when:\n– SB = 1 (Master)\n– ADDR = 1 (Master/Slave)\n– ADD10= 1 (Master)\n– STOPF = 1 (Slave)\n– BTF = 1 with no TxE or RxNE event\n– TxE event to 1 if ITBUFEN = 1\n– RxNE event to 1if ITBUFEN = 1\nBit 8 ITERREN: Error interrupt enable\n0: Error interrupt disabled\n1: Error interrupt enabled\nThis interrupt is generated when:\n– BERR = 1\n– ARLO = 1\n– AF = 1\n– OVR = 1\n– PECERR = 1\n– TIMEOUT = 1\n– SMBALERT = 1\nBits 7:6 Reserved, must be kept at reset value\nBits 5:0 FREQ[5:0]: Peripheral clock frequency\nThe FREQ bits must be configured with the APB clock frequency value (I2C peripheral\nconnected to APB). The FREQ field is used by the peripheral to generate data setup and\nhold times compliant with the I2C specifications. The minimum allowed frequency is 2MHz,\nthe maximum frequency is limited by the maximum APB frequency and cannot exceed\n50MHz (peripheral intrinsic maximum limit).\n0b000000: Not allowed\n0b000001: Not allowed\n0b000010: 2 MHz\n...\n0b110010: 50 MHz\nHigher than 0b101010: Not allowed",
+      "semantic": {
+        "register": "I2C_CR2",
+        "address_offset": "0x04",
+        "reset_value": "0x0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "15:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "LAST",
+            "description": "DMA last transfer Note: This bit is used in master receiver mode to permit the generation of a NACK on the last received data.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Next DMA EOT is not the last transfer"
+              },
+              {
+                "value": "1",
+                "meaning": "Next DMA EOT is the last transfer"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "DMAEN",
+            "description": "DMA requests enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA requests disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA request enabled when TxE=1 or RxNE =1"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "ITBUFEN",
+            "description": "Buffer interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "TxE = 1 or RxNE = 1 does not generate any interrupt."
+              },
+              {
+                "value": "1",
+                "meaning": "TxE = 1 or RxNE = 1 generates Event Interrupt (whatever the state of DMAEN)"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "ITEVTEN",
+            "description": "Event interrupt enable This interrupt is generated when: – SB = 1 (Master) – ADDR = 1 (Master/Slave) – ADD10= 1 (Master) – STOPF = 1 (Slave) – BTF = 1 with no TxE or RxNE event – TxE event to 1 if ITBUFEN = 1 – RxNE event to 1if ITBUFEN = 1",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Event interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Event interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "ITERREN",
+            "description": "Error interrupt enable This interrupt is generated when: – BERR = 1 – ARLO = 1 – AF = 1 – OVR = 1 – PECERR = 1 – TIMEOUT = 1 – SMBALERT = 1",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Error interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Error interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value",
+            "values": []
+          },
+          {
+            "bits": "5:0",
+            "name": "FREQ[5:0]",
+            "description": "Peripheral clock frequency The FREQ bits must be configured with the APB clock frequency value (I2C peripheral connected to APB). The FREQ field is used by the peripheral to generate data setup and hold times compliant with the I2C specifications. The minimum allowed frequency is 2MHz, the maximum frequency is limited by the maximum APB frequency and cannot exceed 50MHz (peripheral intrinsic maximum limit). 0b000000: Not allowed 0b000001: Not allowed 0b000010: 2 MHz ... 0b110010: 50 MHz Higher than 0b101010: Not allowed",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

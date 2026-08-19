@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.5.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.5.2",
+      "section_title": "Source address and VLAN insertion, replacement, or deletion",
+      "level": 3,
+      "parent_section": "76.5",
+      "page": 4005,
+      "page_end": 4006,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "vlan"
+      ],
+      "chars": 3486,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4005",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.5.2 \"Source address and VLAN insertion, replacement, or deletion\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4005.",
+      "section_content": "Source address insertion or replacement\nThe software can use the SA (source address) insertion or replacement feature to instruct\nthe MAC to do the following for Tx packets:\n• Insert the content of the MAC Address registers in the SA field\n• Replace the content of the SA field with the content of the MAC Address registers\nWhen SA insertion is enabled, the application must ensure that the packets sent to the MAC\ndo not have the SA field. The MAC does not check whether the SA field is present in the\nTransmit packet and it inserts the content of MAC Address Registers in the SA field.\nSimilarly, when SA replacement is enabled, the application must ensure that the SA field is\npresent in the packets sent to the MAC. The MAC replaces the six bytes following the\nDestination Address field in the Transmit packet with the content of the MAC Address\nRegisters.\nSA insertion or replacement feature can be enabled for all Transmit packets or selective\npackets:\n• Enabling SA insertion or replacement for all packets\nTo enable this feature for all packets, program the SARC field of the Operating mode\nconfiguration register (ETH_MACCR).\n• Enabling SA insertion or replacement for selective packets\nTo enable this feature for selective packets, use the following program the SA Insertion\nControl field (bits[25:23] of transmit descriptor Word 3/TDES3, refer to Section76.10.3:\nTransmit descriptor) in the first Transmit descriptor of the packet. When Bit 25 of\nTDES3 is set, the SA Insertion Control field indicates insertion or replacement by MAC\nAddress1 registers. When bit 25 of TDES3 is reset, it indicates insertion or replacement\nby MAC Address 0 registers.\nIf MAC Address1 registers are not enabled, the MAC Address0 registers are used for\ninsertion or replacement whatever of the value of the most-significant bit of the SA Insertion\nControl field.\nVLAN insertion, replacement, or deletion\nThe software can use the VLAN insertion, replacement, or deletion feature to instruct the\nMAC to do the following for Tx packets:\n• Delete the VLAN Type and VLAN Tag fields\n• Insert or replace the VLAN Type and VLAN Tag fields\nInsertion or replacement is performed based on the setting of VLTI bit in the VLAN\ninclusion register (ETH_MACVIR) as described in Table773: VLAN insertion or\nreplacement based on VLTI bit.\n[Table 773. VLAN insertion or replacement based on VLTI bit]\nWhen VLAN replacement or deletion is enabled, the MAC checks if the VLAN Type field\n(0x8100 or 0x88A8) is present after the DA and SA fields in the Transmit packet. The\nreplace or delete operation does not occur if the VLAN Type field is not detected in two\nbytes following the DA and SA fields. However, when VLAN insertion is enabled, the MAC\ndoes not check the presence of VLAN Type field in the Transmit packet and just inserts the\nVLAN Type and VLAN Tag fields.\nYou can enable the VLAN insertion, replacement, or deletion feature for all Tx packets or\nselective packets:\n• To enable this feature for all packets, program the VLC and VLP fields of VLAN\ninclusion register (ETH_MACVIR).\n• To enable this feature for selective packets, program the VTIR field of TDES2 Normal\nDescriptor (see Table823: TDES2 normal descriptor (read format)).\nIn addition, the VLP (VLAN Priority control) bit must be reset in VLAN inclusion register\n(ETH_MACVIR) (for outer VLAN) and Inner VLAN inclusion register (ETH_MACIVIR)\n(in inner VLAN) for the MAC to take the control inputs from the host, depending on the\nconfiguration.",
+      "semantic": {}
+    }
+  ]
+}

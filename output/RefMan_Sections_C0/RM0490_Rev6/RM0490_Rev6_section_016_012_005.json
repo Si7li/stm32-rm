@@ -1,0 +1,216 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.12.5",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.12.5",
+      "section_title": "ADC configuration register 2 (ADC_CFGR2)",
+      "level": 3,
+      "parent_section": "16.12",
+      "page": 334,
+      "page_end": 335,
+      "semantic_type": "register_description",
+      "features": [
+        "adc",
+        "adc-cfgr2",
+        "ckmode",
+        "lftrig",
+        "ovse",
+        "ovsr",
+        "ovss",
+        "tovs"
+      ],
+      "chars": 2551,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=334",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.12.5 \"ADC configuration register 2 (ADC_CFGR2)\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 334.",
+      "section_content": "Address offset: 0x10\nReset value: 0x0000 0000\nThe software is allowed to program ADC_CFGR2 only when ADEN is cleared in ADC_CR.\nBits 31:30 CKMODE[1:0]: ADC clock mode\nThese bits are set and cleared by software to define how the analog ADC is clocked:\n00: ADCCLK (Asynchronous clock mode), generated at product level (refer to RCC section)\n01: PCLK/2 (Synchronous clock mode)\n10: PCLK/4 (Synchronous clock mode)\n11: PCLK (Synchronous clock mode). This configuration must be enabled only if PCLK has a 50%\nduty clock cycle (APB prescaler configured inside the RCC must be bypassed and the system clock\nmust by 50% duty cycle)\nIn all synchronous clock modes, there is no jitter in the delay from a timer trigger to the start of a\nconversion.\nNote: The software is allowed to write these bits only when the ADC is disabled (ADCAL = 0,\nADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).\nBit 29 LFTRIG: Low frequency trigger mode enable\nThis bit is set and cleared by software.\n0: Low Frequency Trigger Mode disabled\n1: Low Frequency Trigger Mode enabled\nNote: The software is allowed to write this bit only when ADEN bit is cleared.\nBits 28:10 Reserved, must be kept at reset value.\nBit 9 TOVS: Triggered Oversampling\nThis bit is set and cleared by software.\n0: All oversampled conversions for a channel are done consecutively after a trigger\n1: Each oversampled conversion for a channel needs a trigger\nNote: The software is allowed to write this bit only when ADEN bit is cleared.\nBits 8:5 OVSS[3:0]: Oversampling shift\nThis bit is set and cleared by software.\n0000: No shift\n0001: Shift 1-bit\n0010: Shift 2-bits\n0011: Shift 3-bits\n0100: Shift 4-bits\n0101: Shift 5-bits\n0110: Shift 6-bits\n0111: Shift 7-bits\n1000: Shift 8-bits\nOthers: Reserved\nNote: The software is allowed to write this bit only when ADEN bit is cleared.\nBits 4:2 OVSR[2:0]: Oversampling ratio\nThis bit filed defines the number of oversampling ratio.\n000: 2x\n001: 4x\n010: 8x\n011: 16x\n100: 32x\n101: 64x\n110: 128x\n111: 256x\nStarting from 32x, it is mandatory to use OVSS[3:0] to reduce the data size to less than 16 bits to fit\nto the ADC_DR register. For example, if OVSR[2:0] is configured to 32x, the data width is 17 bits,\nand OVSS[3:0] must be set to 1-bit shift.\nNote: The software is allowed to write this bit only when ADEN bit is cleared.\nBit 1 Reserved, must be kept at reset value.\nBit 0 OVSE: Oversampler Enable\nThis bit is set and cleared by software.\n0: Oversampler disabled\n1: Oversampler enabled\nNote: The software is allowed to write this bit only when ADEN bit is cleared.",
+      "semantic": {
+        "register": "ADC_CFGR2",
+        "address_offset": "0x10",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "CKMODE[1:0]",
+            "description": "ADC clock mode These bits are set and cleared by software to define how the analog ADC is clocked: duty clock cycle (APB prescaler configured inside the RCC must be bypassed and the system clock must by 50% duty cycle) In all synchronous clock modes, there is no jitter in the delay from a timer trigger to the start of a conversion. Note: The software is allowed to write these bits only when the ADC is disabled (ADCAL = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "ADCCLK (Asynchronous clock mode), generated at product level (refer to RCC section)"
+              },
+              {
+                "value": "01",
+                "meaning": "PCLK/2 (Synchronous clock mode)"
+              },
+              {
+                "value": "10",
+                "meaning": "PCLK/4 (Synchronous clock mode)"
+              },
+              {
+                "value": "11",
+                "meaning": "PCLK (Synchronous clock mode). This configuration must be enabled only if PCLK has a 50%"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "LFTRIG",
+            "description": "Low frequency trigger mode enable This bit is set and cleared by software. Note: The software is allowed to write this bit only when ADEN bit is cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Low Frequency Trigger Mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Low Frequency Trigger Mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "28:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "TOVS",
+            "description": "Triggered Oversampling This bit is set and cleared by software. Note: The software is allowed to write this bit only when ADEN bit is cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "All oversampled conversions for a channel are done consecutively after a trigger"
+              },
+              {
+                "value": "1",
+                "meaning": "Each oversampled conversion for a channel needs a trigger"
+              }
+            ]
+          },
+          {
+            "bits": "8:5",
+            "name": "OVSS[3:0]",
+            "description": "Oversampling shift This bit is set and cleared by software. Note: The software is allowed to write this bit only when ADEN bit is cleared.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "No shift"
+              },
+              {
+                "value": "0001",
+                "meaning": "Shift 1-bit"
+              },
+              {
+                "value": "0010",
+                "meaning": "Shift 2-bits"
+              },
+              {
+                "value": "0011",
+                "meaning": "Shift 3-bits"
+              },
+              {
+                "value": "0100",
+                "meaning": "Shift 4-bits"
+              },
+              {
+                "value": "0101",
+                "meaning": "Shift 5-bits"
+              },
+              {
+                "value": "0110",
+                "meaning": "Shift 6-bits"
+              },
+              {
+                "value": "0111",
+                "meaning": "Shift 7-bits"
+              },
+              {
+                "value": "1000",
+                "meaning": "Shift 8-bits"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "4:2",
+            "name": "OVSR[2:0]",
+            "description": "Oversampling ratio This bit filed defines the number of oversampling ratio. Starting from 32x, it is mandatory to use OVSS[3:0] to reduce the data size to less than 16 bits to fit to the ADC_DR register. For example, if OVSR[2:0] is configured to 32x, the data width is 17 bits, and OVSS[3:0] must be set to 1-bit shift. Note: The software is allowed to write this bit only when ADEN bit is cleared.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "2x"
+              },
+              {
+                "value": "001",
+                "meaning": "4x"
+              },
+              {
+                "value": "010",
+                "meaning": "8x"
+              },
+              {
+                "value": "011",
+                "meaning": "16x"
+              },
+              {
+                "value": "100",
+                "meaning": "32x"
+              },
+              {
+                "value": "101",
+                "meaning": "64x"
+              },
+              {
+                "value": "110",
+                "meaning": "128x"
+              },
+              {
+                "value": "111",
+                "meaning": "256x"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "OVSE",
+            "description": "Oversampler Enable This bit is set and cleared by software. Note: The software is allowed to write this bit only when ADEN bit is cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Oversampler disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Oversampler enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

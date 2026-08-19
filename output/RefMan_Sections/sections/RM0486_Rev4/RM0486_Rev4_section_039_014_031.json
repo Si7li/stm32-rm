@@ -1,0 +1,157 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.14.31",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.14.31",
+      "section_title": "DCMIPP Pipe0 status register (DCMIPP_P0SR)",
+      "level": 3,
+      "parent_section": "39.14",
+      "page": 1925,
+      "page_end": 1926,
+      "semantic_type": "register_description",
+      "features": [
+        "cptact",
+        "dcmipp",
+        "dcmipp-p0sr",
+        "framef",
+        "limitf",
+        "linef",
+        "lstfrm",
+        "lstline",
+        "ovrf",
+        "vsyncf"
+      ],
+      "chars": 2709,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1925",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.14.31 \"DCMIPP Pipe0 status register (DCMIPP_P0SR)\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1925.",
+      "section_content": "Address offset: 0x5F8\nReset value: 0x00000000\nBits 31:24 Reserved, must be kept at reset value.\nBit 23 CPTACT: Capture immediate status\n0: Capture currently inactive\n1: Capture currently active\nThis bit is automatically reset at the end of frame capture complete event (after all the data of\nthat frame have been captured and the IP-Plug has started to emit the last burst on the AXI,\nusually before the next VSync).\nBits 22:20 Reserved, must be kept at reset value.\nBits 19:18 Reserved, must be kept at reset value.\nBit 17 LSTFRM: Last frame LSB bit, sampled at frame capture complete event.\nThe information is extracted from the frame data number that can be delivered by the camera\nthrough the CSI2 interface.\nBit 16 LSTLINE: Last line LSB bit, sampled at frame capture complete event.\nBits 15:8 Reserved, must be kept at reset value.\nBit 7 OVRF: Overrun raw interrupt status\n0: No data buffer overrun occurred\n1: A data buffer overrun occurred and this frame data are corrupted\nThis bit is cleared by writing 1 to the COVRF bit in the DCMIPP_P0FCR register.\nBit 6 LIMITF: Limit raw interrupt status\nThis bit is set when the data counter DCMIPP_PxDCCNTR reaches its maximum value\nDCMIPP_PxDCLIMITR.\nIt is cleared by writing 1 to the CLIMITF bit in the DCMIPP_P0FCR register.\nBits 5:3 Reserved, must be kept at reset value.\nBit 2 VSYNCF: VSYNC raw interrupt status\nThis bit is set when the VSYNC signal changes from the inactive state to the active state. In\ncase of embedded synchronization, this bit is set only if the CAPTURE bit is set in\nDCMIPP_CR.\nIt is cleared by writing 1 to the CVSYNCF bit in the DCMIPP_P0FCR register.\nBit 1 FRAMEF: Frame capture completed raw interrupt status\n0: No capture or ongoing capture\n1: All data of a frame have been captured\nThis bit is set when all data of a frame or window have been captured. In case of a cropped\nwindow, this bit is set at the end of line of the last line in the crop. It is set even if the captured\nframe is empty (for example window cropped outside the frame).\nThis bit is cleared by writing 1 to the CFRAMEF bit in DCMIPP_P0FCR.\nBit 0 LINEF: Multi-line capture completed raw interrupt status\nThis bit is set when one/more lines have been completed. For the JPEG mode, this bit is raised\nat the end of the frame.\nThe periodicity of LINEF event is configured by LINEMULT bits into DCMIPP_P0PPCR\nregister. When reaching end of frame, this event is triggered out to allow software action even\nif the LINEMULT value set is not a multiple of the total lines frame.\nIn case of embedded synchronization, this bit is set only if the CAPTURE bit in the\nDCMIPP_CR register is set. It is cleared by writing 1 to the CLINEF bit in the DCMIPP_P0FCR\nregister.",
+      "semantic": {
+        "register": "DCMIPP_P0SR",
+        "address_offset": "0x5F8",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "CPTACT",
+            "description": "Capture immediate status This bit is automatically reset at the end of frame capture complete event (after all the data of that frame have been captured and the IP-Plug has started to emit the last burst on the AXI, usually before the next VSync).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Capture currently inactive"
+              },
+              {
+                "value": "1",
+                "meaning": "Capture currently active"
+              }
+            ]
+          },
+          {
+            "bits": "22:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "LSTFRM",
+            "description": "Last frame LSB bit, sampled at frame capture complete event. The information is extracted from the frame data number that can be delivered by the camera through the CSI2 interface.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "LSTLINE",
+            "description": "Last line LSB bit, sampled at frame capture complete event.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "OVRF",
+            "description": "Overrun raw interrupt status This bit is cleared by writing 1 to the COVRF bit in the DCMIPP_P0FCR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No data buffer overrun occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "A data buffer overrun occurred and this frame data are corrupted"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "LIMITF",
+            "description": "Limit raw interrupt status This bit is set when the data counter DCMIPP_PxDCCNTR reaches its maximum value DCMIPP_PxDCLIMITR. It is cleared by writing 1 to the CLIMITF bit in the DCMIPP_P0FCR register.",
+            "values": []
+          },
+          {
+            "bits": "5:3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "VSYNCF",
+            "description": "VSYNC raw interrupt status This bit is set when the VSYNC signal changes from the inactive state to the active state. In case of embedded synchronization, this bit is set only if the CAPTURE bit is set in DCMIPP_CR. It is cleared by writing 1 to the CVSYNCF bit in the DCMIPP_P0FCR register.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "FRAMEF",
+            "description": "Frame capture completed raw interrupt status This bit is set when all data of a frame or window have been captured. In case of a cropped window, this bit is set at the end of line of the last line in the crop. It is set even if the captured frame is empty (for example window cropped outside the frame). This bit is cleared by writing 1 to the CFRAMEF bit in DCMIPP_P0FCR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No capture or ongoing capture"
+              },
+              {
+                "value": "1",
+                "meaning": "All data of a frame have been captured"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "LINEF",
+            "description": "Multi-line capture completed raw interrupt status This bit is set when one/more lines have been completed. For the JPEG mode, this bit is raised at the end of the frame. The periodicity of LINEF event is configured by LINEMULT bits into DCMIPP_P0PPCR register. When reaching end of frame, this event is triggered out to allow software action even if the LINEMULT value set is not a multiple of the total lines frame. In case of embedded synchronization, this bit is set only if the CAPTURE bit in the DCMIPP_CR register is set. It is cleared by writing 1 to the CLINEF bit in the DCMIPP_P0FCR register.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

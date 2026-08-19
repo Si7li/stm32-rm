@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S43.5.11",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "43",
+      "chapter_title": "Universal synchronous/asynchronous receiver transmitter (USART/UART)",
+      "section": "43.5.11",
+      "section_title": "USART multiprocessor communication",
+      "level": 3,
+      "parent_section": "43.5",
+      "page": 1821,
+      "page_end": 1823,
+      "semantic_type": "generic",
+      "features": [
+        "uart",
+        "usart"
+      ],
+      "chars": 4072,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1821",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.5.11 \"USART multiprocessor communication\" in chapter 43 (Universal synchronous/asynchronous receiver transmitter (USART/UART)), RM0522 Rev 1, page 1821.",
+      "section_content": "It is possible to perform USART multiprocessor communications (with several USARTs\nconnected in a network). For instance one of the USARTs can be the master with its TX\noutput connected to the RX inputs of the other USARTs, while the others are slaves with\ntheir respective TX outputs logically ANDed together and connected to the RX input of the\nmaster.\nIn multiprocessor configurations, it is often desirable that only the intended message\nrecipient actively receives the full message contents, thus reducing redundant USART\nservice overhead for all non addressed receivers.\nThe non-addressed devices can be placed in mute mode by means of the muting function.\nTo use the mute mode feature, the MME bit must be set in the USART_CR1 register.\nNote: When FIFO management is enabled and MME is already set, MME bit must not be cleared\nand then set again quickly (within two usart_ker_ck cycles), otherwise mute mode might\nremain active.\nWhen the mute mode is enabled:\n• none of the reception status bits can be set;\n• all the receive interrupts are inhibited;\n• the RWU bit in USART_ISR register is set to 1. RWU can be controlled automatically\nby hardware or by software, through the MMRQ bit in the USART_RQR register, under\ncertain conditions.\nThe USART can enter or exit from mute mode using one of two methods, depending on the\nWAKE bit in the USART_CR1 register:\n• Idle line detection if the WAKE bit is reset,\n• Address mark detection if the WAKE bit is set.\nIdle line detection (WAKE = 0)\nThe USART enters mute mode when the MMRQ bit is written to 1 and the RWU is\nautomatically set.\nThe USART wakes up when an Idle frame is detected. The RWU bit is then cleared by\nhardware but the IDLE bit is not set in the USART_ISR register. An example of mute mode\nbehavior using Idle line detection is given in Figure627.\n[Figure 627. Mute mode using Idle line detection]\nNote: If the MMRQ is set while the IDLE character has already elapsed, mute mode is not entered\n(RWU is not set).\nIf the USART is activated while the line is idle, the idle state is detected after the duration of\none IDLE frame (not only after the reception of one character frame).\n4-bit/7-bit address mark detection (WAKE = 1)\nIn this mode, bytes are recognized as addresses if their MSB is a 1, otherwise they are\nconsidered as data. In an address byte, the address of the targeted receiver is put in the 4\nor 7 LSBs. The choice of 7 or 4 bit address detection is done using the ADDM7 bit. This 4-\nbit/7-bit word is compared by the receiver with its own address which is programmed in the\nADD bits in the USART_CR2 register.\nNote: In 7-bit and 9-bit data modes, address detection is done on 6-bit and 8-bit addresses\n(ADD[5:0] and ADD[7:0]) respectively.\nThe USART enters mute mode when an address character is received which does not\nmatch its programmed address. In this case, the RWU bit is set by hardware. The RXNE\nflag is not set for this address byte and no interrupt or DMA request is issued when the\nUSART enters mute mode. When FIFO management is enabled, the software must ensure\nthat there is at least one empty location in the RXFIFO before entering mute mode.\nThe USART also enters mute mode when the MMRQ bit is written to 1. The RWU bit is also\nautomatically set in this case.\nThe USART exits from mute mode when an address character is received which matches\nthe programmed address. Then the RWU bit is cleared and subsequent bytes are received\nnormally. The RXNE/RXFNE bit is set for the address character since the RWU bit has been\ncleared.\nNote: When FIFO management is enabled, when MMRQ is set while the receiver is sampling last\nbit of a data, this data may be received before effectively entering in mute mode\nAn example of mute mode behavior using address mark detection is given in Figure628.\n[Figure 628. Mute mode using address mark detection]\nIn this example, the current address of the receiver is 1\n(programmed in the USART_CR2 register)\nRWU Mute mode Normal mode Mute mode\nMMRQ written to 1 Matching address Non-matching address\n(RXNE was cleared)\nNon-matching address",
+      "semantic": {}
+    }
+  ]
+}

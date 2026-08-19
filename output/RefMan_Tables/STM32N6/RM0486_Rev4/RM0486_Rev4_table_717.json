@@ -1,0 +1,91 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T717",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "717",
+      "title": "Extended message ID filter element field description",
+      "page": 3678,
+      "section": "71.4.23",
+      "section_title": "FDCAN extended message ID filter element",
+      "semantic_type": "generic",
+      "features": [
+        "element",
+        "extended",
+        "filter",
+        "message"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3678",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Field",
+        "Description",
+        ""
+      ],
+      "text_helper": "Table 717, \"Extended message ID filter element field description\", in section 71.4.23 (FDCAN extended message ID filter element) on page 3678. Columns: Field, Description, . 8 data row(s).",
+      "table_content": {
+        "headers": [
+          "Field",
+          "Description",
+          ""
+        ],
+        "rows": [
+          [
+            "F0 bits 31:29\nEFEC[2:0]",
+            "Extended filter element configuration\nAll enabled filter elements are used for acceptance filtering of extended frames. \nAcceptance filtering stops at the first matching enabled filter element or when the end \nof the filter list is reached. If EFEC = 100, 101, or 110 a match sets interrupt flag \nFDCAN_IR.HPM and, if enabled, an interrupt is generated. In this case register \nFDCAN_HPMS is updated with the status of the priority match.\n– 000: Disable filter element\n– 001: Store in Rx FIFO 0 if filter matches\n– 010: Store in Rx FIFO 1 if filter matches\n– 011: Reject ID if filter matches\n– 100: Set priority if filter matches\n– 101: Set priority and store in FIFO 0 if filter matches\n– 110: Set priority and store in FIFO 1 if filter matches\n– 111: Store into Rx buffer, configuration of EFT[1:0] ignored",
+            ""
+          ],
+          [
+            "F0 bits 28:0\nEFID1[28:0]",
+            "Extended filter ID 1\nFirst ID of extended ID filter element.\nWhen filtering for Rx buffers or for debug messages this field defines the ID of an \nextended message to be stored. The received identifiers must match exactly, only \nFDCAN_XIDAM masking mechanism.",
+            ""
+          ],
+          [
+            "F1 bits 31:30\nEFT[1:0]",
+            "Extended filter type\n– 00: Range filter from EF1ID to EF2ID (EF2ID ≥ EF1ID)\n– 01: Dual ID filter for EF1ID or EF2ID\n– 10: Classic filter: EF1ID = filter, EF2ID = mask\n– 11: Range filter from EF1ID to EF2ID (EF2ID ≥ EF1ID), FDCAN_XIDAM mask not \napplied",
+            ""
+          ],
+          [
+            "Field",
+            "Field",
+            "Description"
+          ],
+          [
+            "F1 bits 28:0",
+            "EFID2[10:0]",
+            "Extended filter ID 2\nThis bit field has a different meaning depending on the configuration of EFEC:\n– SFEC = 001 ... 110 Second ID of extended ID filter element\n– SFEC = 111 Filter for Rx buffers or for debug messages"
+          ],
+          [
+            "F1 bits 28:0",
+            "EFID2[10:9]",
+            "Decides whether the received message is stored into an Rx buffer or treated as \nmessage A, B, or C of the debug message sequence.\n– 00: Store message into an Rx buffer\n– 01: Debug message A\n– 10: Debug message B\n– 11: Debug message C"
+          ],
+          [
+            "F1 bits 28:0",
+            "EFID2[8:6]",
+            "Is used to control the filter event pins at the Extension Interface. A 1 at the respective \nbit position enables generation of a pulse at the related filter event pin with the \nduration of one fdcan_pclk period in case the filter matches.\nEFID2[8] interface is used by the calibration unit."
+          ],
+          [
+            "F1 bits 28:0",
+            "EFID2[5:0]",
+            "Defines the offset to the Rx buffer start address FDCAN_RXBC.RBSA for storage of \na matching message."
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

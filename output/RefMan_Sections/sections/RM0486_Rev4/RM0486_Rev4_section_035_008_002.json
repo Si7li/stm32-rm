@@ -1,0 +1,265 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.8.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.8.2",
+      "section_title": "MDF clock generator control register (MDF_CKGCR)",
+      "level": 3,
+      "parent_section": "35.8",
+      "page": 1685,
+      "page_end": 1687,
+      "semantic_type": "register_description",
+      "features": [
+        "cck0dir",
+        "cck0en",
+        "cck1dir",
+        "cck1en",
+        "cckdiv",
+        "ckgactive",
+        "ckgden",
+        "ckgmod",
+        "clock",
+        "mdf",
+        "mdf-ckgcr",
+        "procdiv",
+        "trgsens",
+        "trgsrc"
+      ],
+      "chars": 5024,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1685",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.8.2 \"MDF clock generator control register (MDF_CKGCR)\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1685.",
+      "section_content": "Address offset: 0x004\nReset value: 0x0000 0000\nThis register is used to control the clock generator. The mdf_proc_ck clock must be enabled\nbefore enabling other MDF parts.\nBit 31 CKGACTIVE: Clock generator active flag\nThis bit is set and cleared by hardware. This flag must be used by the application to check if\nthe clock generator is effectively enabled (active) or not. The protected fields of this function\ncan only be updated when CKGACTIVE = 0 (refer to Section35.4.15 for details). The delay\nbetween a transition on CKGDEN and a transition on CKGACTIVE is two periods of AHB\nclock and two periods of mdf_proc_ck.\n0: The clock generator is not active and can be configured if needed.\n1: The clock generator is active and protected fields cannot be configured.\nBits 30:24 PROCDIV[6:0]: Divider to control the serial interface clock\nThis bitfield is set and reset by software. It is used to adjust the frequency of the clock\nprovided to the SITF.\n- F ----m\n----d-\n--f--_-\n-k---e\n--r\n--_--c--\n-k----\nFmdf_itf_ck = (---\n----\n----)-\n1\nThis bitfield must not be changed if one of the filters is enabled (DFTEN = 1).\n0: mdf_ker_ck provided to the SITF\n1: mdf_ker_ck/2 provided to the SITF\n2: mdf_ker_ck/3 provided to the SITF\n...\n127: mdf_ker_ck/128 provided to the SITF\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 23:20 Reserved, must be kept at reset value.\nBits 19:16 CCKDIV[3:0]: Divider to control the MDF_CCK clock\nThis bitfield is set and reset by software. It is used to adjust the frequency of the MDF_CCK\nclock. The input clock of this divider is the clock provided to the SITF. More globally, the\nfrequency of the MDF_CCK is given by the following formula:\n--- F ---\n-m----\nd---f-)-_--× k---e--r-(-_-\n--c--k-\nFMDF_CCK = (---\n----\n-----\n-----\n-----\n----\n-----\n----\n-----\n-----\n-----\n----)-\n1\n1\nThis bitfield must not be changed if one of the filters is enabled (DFTEN = 1).\n0000: The MDF_CCK clock is mdf_proc_ck.\n0001: The MDF_CCK clock is mdf_proc_ck / 2.\n0010: The MDF_CCK clock is mdf_proc_ck / 3.\n...\n1111: The MDF_CCK clock is mdf_proc_ck / 16.\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 15:12 TRGSRC[3:0]: Digital filter trigger signal selection\nThis bitfield is set and cleared by software.It is used to select which external signals trigger\nfor the corresponding filter. This bitfield is not significant if CKGMOD = 0.\n000x: TRGO selected\n0010: mdf_trg[0] selected\n0011: mdf_trg[1] selected\n...\n1111: mdf_trg[13] selected\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details.)\nBits 11:9 Reserved, must be kept at reset value.\nBit 8 TRGSENS: CKGEN trigger sensitivity selection\nThis bit is set and cleared by software. It is used to select the trigger sensitivity of the trigger\nsignals. This bit is not significant if the CKGMOD = 0.\n0: A rising edge event triggers the activation of CKGEN dividers.\n1: A falling edge even triggers the activation of CKGEN dividers.\nNote: When the trigger source is TRGO, TRGSENS value is not taken into account. When\nTRGO is selected, the sensitivity is forced to falling edge. This bit can be write-protected\n(refer to Section35.4.15 for details).\nBit 7 Reserved, must be kept at reset value.\nBit 6 CCK1DIR: MDF_CCK1 direction\nThis bit is set and reset by software.It is used to control the direction of the MDF_CCK1 pin.\n0: MDF_CCK1 pin direction is in input.\n1: MDF_CCK1 pin direction is in output.\nNote: This bit can be write-protected (refer to Section35.4.15 for details).\nBit 5 CCK0DIR: MDF_CCK0 direction\nThis bit is set and reset by software.It is used to control the direction of the MDF_CCK0.\n0: MDF_CCK0 pin direction is in input.\n1: MDF_CCK0 pin direction is in output.\nNote: This bit can be write-protected (refer to Section35.4.15 for details).\nBit 4 CKGMOD: Clock generator mode\nThis bit is set and reset by software. It is used to define the way the clock generator is\nenabled. This bit must not be changed if one of the filters is enabled (DFTEN = 1).\n0: The kernel clock is provided to the dividers as soon as CKGDEN is set to 1.\n1: The kernel clock is provided to the dividers when CKGDEN is set to 1 and the trigger\ncondition met.\nNote: This bit can be write-protected (refer to Section35.4.15 for details).\nBit 3 Reserved, must be kept at reset value.\nBit 2 CCK1EN: MDF_CCK1 clock enable\nThis bit is set and reset by software. It is used to control the generation of the bitstream clock\non the MDF_CCK1 pin.\n0: Bitstream clock not generated\n1: Bitstream clock generated on the MDF_CCK1 pad\nBit 1 CCK0EN: MDF_CCK0 clock enable\nThis bit is set and reset by software.It is used to control the generation of the bitstream clock\non the MDF_CCK0 pin.\n0: Bitstream clock not generated\n1: Bitstream clock generated on the MDF_CCK0 pad\nBit 0 CKGDEN: CKGEN dividers enable\nThis bit is set and reset by software. It is used to enable/disable the clock dividers of the\nCKGEN: PROCDIV and CCKDIV.\n0: CKGEN dividers disabled\n1: CKGEN dividers enabled",
+      "semantic": {
+        "register": "MDF_CKGCR",
+        "address_offset": "0x004",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "CKGACTIVE",
+            "description": "Clock generator active flag This bit is set and cleared by hardware. This flag must be used by the application to check if the clock generator is effectively enabled (active) or not. The protected fields of this function can only be updated when CKGACTIVE = 0 (refer to Section35.4.15 for details). The delay between a transition on CKGDEN and a transition on CKGACTIVE is two periods of AHB clock and two periods of mdf_proc_ck.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The clock generator is not active and can be configured if needed."
+              },
+              {
+                "value": "1",
+                "meaning": "The clock generator is active and protected fields cannot be configured."
+              }
+            ]
+          },
+          {
+            "bits": "30:24",
+            "name": "PROCDIV[6:0]",
+            "description": "Divider to control the serial interface clock This bitfield is set and reset by software. It is used to adjust the frequency of the clock provided to the SITF. - F ----m ----d- --f--_- -k---e --r --_--c-- -k---- Fmdf_itf_ck = (--- ---- ----)- 1 This bitfield must not be changed if one of the filters is enabled (DFTEN = 1). ... Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "mdf_ker_ck provided to the SITF"
+              },
+              {
+                "value": "1",
+                "meaning": "mdf_ker_ck/2 provided to the SITF"
+              },
+              {
+                "value": "2",
+                "meaning": "mdf_ker_ck/3 provided to the SITF"
+              },
+              {
+                "value": "127",
+                "meaning": "mdf_ker_ck/128 provided to the SITF"
+              }
+            ]
+          },
+          {
+            "bits": "23:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:16",
+            "name": "CCKDIV[3:0]",
+            "description": "Divider to control the MDF_CCK clock This bitfield is set and reset by software. It is used to adjust the frequency of the MDF_CCK clock. The input clock of this divider is the clock provided to the SITF. More globally, the frequency of the MDF_CCK is given by the following formula: --- F --- -m---- d---f-)-_--× k---e--r-(-_- --c--k- FMDF_CCK = (--- ---- ----- ----- ----- ---- ----- ---- ----- ----- ----- ----)- 1 1 This bitfield must not be changed if one of the filters is enabled (DFTEN = 1). ... Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "The MDF_CCK clock is mdf_proc_ck."
+              },
+              {
+                "value": "0001",
+                "meaning": "The MDF_CCK clock is mdf_proc_ck / 2."
+              },
+              {
+                "value": "0010",
+                "meaning": "The MDF_CCK clock is mdf_proc_ck / 3."
+              },
+              {
+                "value": "1111",
+                "meaning": "The MDF_CCK clock is mdf_proc_ck / 16."
+              }
+            ]
+          },
+          {
+            "bits": "15:12",
+            "name": "TRGSRC[3:0]",
+            "description": "Digital filter trigger signal selection This bitfield is set and cleared by software.It is used to select which external signals trigger for the corresponding filter. This bitfield is not significant if CKGMOD = 0. 000x: TRGO selected ... Note: This bitfield can be write-protected (refer to Section35.4.15 for details.)",
+            "values": [
+              {
+                "value": "0010",
+                "meaning": "mdf_trg[0] selected"
+              },
+              {
+                "value": "0011",
+                "meaning": "mdf_trg[1] selected"
+              },
+              {
+                "value": "1111",
+                "meaning": "mdf_trg[13] selected"
+              }
+            ]
+          },
+          {
+            "bits": "11:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "TRGSENS",
+            "description": "CKGEN trigger sensitivity selection This bit is set and cleared by software. It is used to select the trigger sensitivity of the trigger signals. This bit is not significant if the CKGMOD = 0. Note: When the trigger source is TRGO, TRGSENS value is not taken into account. When TRGO is selected, the sensitivity is forced to falling edge. This bit can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "A rising edge event triggers the activation of CKGEN dividers."
+              },
+              {
+                "value": "1",
+                "meaning": "A falling edge even triggers the activation of CKGEN dividers."
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "CCK1DIR",
+            "description": "MDF_CCK1 direction This bit is set and reset by software.It is used to control the direction of the MDF_CCK1 pin. Note: This bit can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "MDF_CCK1 pin direction is in input."
+              },
+              {
+                "value": "1",
+                "meaning": "MDF_CCK1 pin direction is in output."
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "CCK0DIR",
+            "description": "MDF_CCK0 direction This bit is set and reset by software.It is used to control the direction of the MDF_CCK0. Note: This bit can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "MDF_CCK0 pin direction is in input."
+              },
+              {
+                "value": "1",
+                "meaning": "MDF_CCK0 pin direction is in output."
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "CKGMOD",
+            "description": "Clock generator mode This bit is set and reset by software. It is used to define the way the clock generator is enabled. This bit must not be changed if one of the filters is enabled (DFTEN = 1). condition met. Note: This bit can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The kernel clock is provided to the dividers as soon as CKGDEN is set to 1."
+              },
+              {
+                "value": "1",
+                "meaning": "The kernel clock is provided to the dividers when CKGDEN is set to 1 and the trigger"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "CCK1EN",
+            "description": "MDF_CCK1 clock enable This bit is set and reset by software. It is used to control the generation of the bitstream clock on the MDF_CCK1 pin.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Bitstream clock not generated"
+              },
+              {
+                "value": "1",
+                "meaning": "Bitstream clock generated on the MDF_CCK1 pad"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CCK0EN",
+            "description": "MDF_CCK0 clock enable This bit is set and reset by software.It is used to control the generation of the bitstream clock on the MDF_CCK0 pin.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Bitstream clock not generated"
+              },
+              {
+                "value": "1",
+                "meaning": "Bitstream clock generated on the MDF_CCK0 pad"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CKGDEN",
+            "description": "CKGEN dividers enable This bit is set and reset by software. It is used to enable/disable the clock dividers of the CKGEN: PROCDIV and CCKDIV.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CKGEN dividers disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "CKGEN dividers enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

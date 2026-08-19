@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S29.6.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "29",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "29.6.4",
+      "section_title": "Buffer size calculations",
+      "level": 3,
+      "parent_section": "29.6",
+      "page": 1012,
+      "page_end": 1013,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 2131,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=1012",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.6.4 \"Buffer size calculations\" in chapter 29 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0008 Rev 21, page 1012.",
+      "section_content": "The DMA does not update the size fields in the transmit and receive descriptors. The DMA\nupdates only the status fields (xDES0) of the descriptors. The driver has to calculate the\nsizes. The transmit DMA transfers the exact number of bytes (indicated by buffer size field in\nTDES1) towards the MAC core. If a descriptor is marked as first (FS bit in TDES0 is set),\nthen the DMA marks the first transfer from the buffer as the start of frame. If a descriptor is\nmarked as last (LS bit in TDES0), then the DMA marks the last transfer from that data buffer\nas the end of frame. The receive DMA transfers data to a buffer until the buffer is full or the\nend of frame is received. If a descriptor is not marked as last (LS bit in RDES0), then the\nbuffer(s) that correspond to the descriptor are full and the amount of valid data in a buffer is\naccurately indicated by the buffer size field minus the data buffer pointer offset when the\ndescriptor’s FS bit is set. The offset is zero when the data buffer pointer is aligned to the\ndatabus width. If a descriptor is marked as last, then the buffer may not be full (as indicated\nby the buffer size in RDES1). To compute the amount of valid data in this final buffer, the\ndriver must read the frame length (FL bits in RDES0[29:16]) and subtract the sum of the\nbuffer sizes of the preceding buffers in this frame. The receive DMA always transfers the\nstart of next frame with a new descriptor.\nNote: Even when the start address of a receive buffer is not aligned to the system databus width\nthe system should allocate a receive buffer of a size aligned to the system bus width. For\nexample, if the system allocates a 1024 byte (1 KB) receive buffer starting from address\n0x1000, the software can program the buffer start address in the receive descriptor to have\na 0x1002 offset. The receive DMA writes the frame to this buffer with dummy data in the first\ntwo locations (0x1000 and 0x1001). The actual frame is written from location 0x1002. Thus,\nthe actual useful space in this buffer is 1022 bytes, even though the buffer size is\nprogrammed as 1024 bytes, due to the start address offset.",
+      "semantic": {}
+    }
+  ]
+}

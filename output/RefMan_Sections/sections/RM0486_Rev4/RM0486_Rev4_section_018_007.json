@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.7",
+      "section_title": "HPDMA interrupts",
+      "level": 2,
+      "parent_section": null,
+      "page": 892,
+      "page_end": 893,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "interrupt",
+        "memory"
+      ],
+      "chars": 2700,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=892",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.7 \"HPDMA interrupts\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 892.",
+      "section_content": "There is one HPDMA interrupt line for each channel, and separately for each CPU\n(ifseveral ones in the devices).\n[Table 94. HPDMA interrupt requests]\nAn HPDMA channel x event can be:\n• A transfer complete\n• A half-transfer complete\n• A transfer error, due to either:\n– A data transfer error\n– An update link error\n– A user setting error completed suspension\n• A trigger overrun\nNote: When a channel x transfer complete event occurs, the output signal hpdma_chx_tc is\ngenerated as a high pulse of one clock cycle.\nAn interrupt is generated following any xx event, provided that both:\n• The corresponding interrupt event xx is enabled (HPDMA_CxCR.xxIE=1)\n• The corresponding event flag is cleared (HPDMA_CxSR.xxF= 0). This means that,\nafter a previous same xx event occurrence, a software agent must have written 1 into\nthe corresponding xx flag clear control bit (write 1 into HPDMA_CxFCR.xxF).\nTCF (transfer complete) and HTF (half transfer) events generation is controlled by\nHPDMA_CxTR2.TCEM[1:0] as follows:\n• A transfer-complete event is a block transfer complete, a 2D/repeated block transfer\ncomplete, or a LLI transfer complete including the upload of the next LLI if any, or the\nfull linked-list completion, depending on the transfer complete event mode\nHPDMA_CxTR2.TCEM[1:0].\n• A half-transfer event is a half-block transfer, or a half 2D/repeated block transfer,\ndepending on the transfer complete event mode HPDMA_CxTR2.TCEM[1:0].\nA half-block transfer occurs when half of the source block size bytes (rounded-up\ninteger of HPDMA_CxBR1.BNDT[15:0]/2) is transferred to the destination.\nA half 2D/repeated block transfer occurs when half of the repeated blocks (rounded-up\ninteger of (HPDMA_CxBR1.BRC[10:0]+1)/2) is transferred to the destination.\nSee HPDMA channel x transfer register 2 (HPDMA_CxTR2) for more details.\nNote: The interrupt mode must be used (not the polling mode) to be notified on a half transfer\nwhen the write data transaction has been completed over the AXI destination allocated port\n(written at the destination memory-mapped address), and not just before when has been\nissued, at HPDMA level, this AXI burst transaction.\nA transfer error rises in one of the following situations:\n• During a single/burst data transfer from the source or to the destination (DTEF)\n• During an update of an HPDMA channel register from the programmed LLI in memory\n(ULEF)\n• During a tentative execution of an HPDMA channel with an unauthorized setting\n(USEF)\nThe user must perform a debug session to correct the HPDMA channel programming\nversus the USEF root causes list (see Section18.4.17).\nA trigger overrun is described in Trigger hit memorization and trigger overrun flag\ngeneration.",
+      "semantic": {}
+    }
+  ]
+}

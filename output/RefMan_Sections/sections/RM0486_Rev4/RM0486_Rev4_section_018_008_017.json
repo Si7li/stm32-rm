@@ -1,0 +1,51 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.8.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.8.17",
+      "section_title": "HPDMA channel x destination address register (HPDMA_CxDAR)",
+      "level": 3,
+      "parent_section": "18.8",
+      "page": 920,
+      "page_end": 921,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 2729,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=920",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.8.17 \"HPDMA channel x destination address register (HPDMA_CxDAR)\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 920.",
+      "section_content": "Address offset: 0x0A0 + 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(HPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of channel x (HPDMA_PRIVCFGR.PRIVx).\nThis register is CID-filtered depending on the CID configuration of the channel x\n(HPDMA_CxCIDCFGR.CFEN = 1). If the debug domain feature is activated, an access to\nthis register is granted to the debug domain CID, regardless of any CID filtering.\nThis register configures the destination start address of a transfer.\nThis register must be written when HPDMA_CxCR.EN = 0.\nThis register is read-only when HPDMA_CxCR.EN = 1, and continuously updated by\nhardware, in order to reflect the address of the next burst transfer to the destination.\nThis register must be written when the channel is completed (then the hardware has\ndeasserted HPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block, 2D/repeated block, LLI, or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by HPDMA\nfrom the memory if HPDMA_CxLLR.UDA = 1.\nBits 31:0 DA[31:0]: destination address\nThis bitfield is the pointer to the address from which the next data is written.\nDuring the channel activity, depending on the destination addressing mode\n(HPDMA_CxTR1.DINC), this bitfield is kept fixed or incremented by the data width\n(HPDMA_CxTR1.DDW_LOG2[1:0]) after each burst destination data, reflecting the next\naddress from which data is written.\nDuring the channel activity, this address is updated after each completed destination burst,\nconsequently to:\n– the programmed destination burst; either in fixed addressing mode or in contiguous-data\nincremented mode. If contiguously incremented (HPDMA_CxTR1.DINC = 1), then the\nadditional address offset value is the programmed burst size, as defined by\nHPDMA_CxTR1.DBL_1[5:0] and HPDMA_CxTR1.DDW_LOG2[1:0]\n– the additional destination incremented/decremented offset value as programmed by\nHPDMA_CxBR1.DDEC and HPDMA_CxTR3.DAO[12:0]\n– once/if completed destination block transfer, for a channel x with 2D addressing capability ,\nthe additional block repeat destination incremented/decremented offset value as\nprogrammed by HPDMA_CxBR1.BRDDEC and HPDMA_CxBR2.BRDAO[15:0]\nIn linked-list mode, after a LLI data transfer is completed, this register is automatically\nupdated by the HPDMA from the memory, provided the LLI is set with\nHPDMA_CxLLR.UDA = 1.\nNote: A destination address must be aligned with the programmed data width of a destination\nburst (DA versus HPDMA_CxTR1.DDW_LOG2). Else, a user setting error is reported\nand no transfer is issued.",
+      "semantic": {
+        "register": "HPDMA_CxDAR",
+        "address_offset": "0x0A0 + 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:0",
+            "name": "DA[31:0]",
+            "description": "destination address This bitfield is the pointer to the address from which the next data is written. During the channel activity, depending on the destination addressing mode (HPDMA_CxTR1.DINC), this bitfield is kept fixed or incremented by the data width (HPDMA_CxTR1.DDW_LOG2[1:0]) after each burst destination data, reflecting the next address from which data is written. During the channel activity, this address is updated after each completed destination burst, consequently to: – the programmed destination burst; either in fixed addressing mode or in contiguous-data incremented mode. If contiguously incremented (HPDMA_CxTR1.DINC = 1), then the additional address offset value is the programmed burst size, as defined by HPDMA_CxTR1.DBL_1[5:0] and HPDMA_CxTR1.DDW_LOG2[1:0] – the additional destination incremented/decremented offset value as programmed by HPDMA_CxBR1.DDEC and HPDMA_CxTR3.DAO[12:0] – once/if completed destination block transfer, for a channel x with 2D addressing capability , the additional block repeat destination incremented/decremented offset value as programmed by HPDMA_CxBR1.BRDDEC and HPDMA_CxBR2.BRDAO[15:0] In linked-list mode, after a LLI data transfer is completed, this register is automatically updated by the HPDMA from the memory, provided the LLI is set with HPDMA_CxLLR.UDA = 1. Note: A destination address must be aligned with the programmed data width of a destination burst (DA versus HPDMA_CxTR1.DDW_LOG2). Else, a user setting error is reported and no transfer is issued.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T758",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "758",
+      "title": "Type-C sequence (source: 3A); cable/sink connected (Rd on CC1; Ra on CC2)",
+      "page": 3952,
+      "section": "75.5.2",
+      "section_title": "Type-C state machine handling",
+      "semantic_type": "generic",
+      "features": [
+        "cc1",
+        "cc2",
+        "ccenable",
+        "phyccsel",
+        "rdch"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3952",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Type-C state",
+        "ANAMODE; ANASUBMO DE[1:0]",
+        "CCENABL E",
+        "PHYCCSE L",
+        "RDCH",
+        "CC[x] VCONN EN(1)",
+        "Event => go to next line",
+        "Comments"
+      ],
+      "text_helper": "Table 758, \"Type-C sequence (source: 3A); cable/sink connected (Rd on CC1; Ra on CC2)\", in section 75.5.2 (Type-C state machine handling) on page 3952. Columns: Type-C state, ANAMODE; ANASUBMO DE[1:0], CCENABL E, PHYCCSE L, RDCH, CC[x] VCONN EN(1), Event => go to next line, Comments. 8 data row(s). Notes: 1. Two GPIOs to enable VCONN through external load switch components.",
+      "table_content": {
+        "headers": [
+          "Type-C state",
+          "ANAMODE; ANASUBMO DE[1:0]",
+          "CCENABL E",
+          "PHYCCSE L",
+          "RDCH",
+          "CC[x] VCONN EN(1)",
+          "Event => go to next line",
+          "Comments"
+        ],
+        "rows": [
+          [
+            "Unattached.\nSRC",
+            "0:Source; \n11:Rp3A0",
+            "11:both \nenabled",
+            "0 (don’t \ncare)",
+            "0: \n[Norm\nal]",
+            "00: \n[neither]",
+            "PHYEVT\n1: [VRd-\n3A0]",
+            "Wait for sink attach \ndetect ; seen on CC1 \n[EVT1]"
+          ],
+          [
+            "Attachwait.\nSRC",
+            "0:Source; \n11:Rp3A0",
+            "11:both \nenabled",
+            "0 \n[Rd on \nCC1]",
+            "0: \n[Norm\nal]",
+            "00: \n[neither]",
+            "PHYEVT\n2: [VRa]",
+            "Attachwait started (100-\n200ms) ; now also see \nthe Ra => requesting \nVCONN"
+          ],
+          [
+            "Attached.\nSRC\n[VCONN => \nCC2]",
+            "0:Source; \n11:Rp3A0\n[SinkTxOK]",
+            "01: CC2 \ndisable\n(possible \nand \nrecommend\ned due to \nexternal \nVCONN \nswitch)",
+            "0 \n[Rd on \nCC1]",
+            "0: \n[Norm\nal]",
+            "10: [CC2 \nactive]",
+            " Timer \n(100 ms) \nand no \nPHYEVT\nx",
+            "Local CC2 disconnected \nfrom PHY (VCONN \nswitch connects VCONN \nsource to CC2 \nexternally;\nContinue to monitor \nPHYEVT1"
+          ],
+          [
+            "Attached.\nSRC\n[VCONN => \nCC2]",
+            "0:Source; \n10:Rp1A5\n[SinkTxNG]",
+            "01: CC2 \ndisable\n(possible \nand \nrecommend\ned due to \nexternal \nVCONN \nswitch)",
+            "0 \n[Rd on \nCC1]",
+            "0: \n[Norm\nal]",
+            "10: [CC2 \nactive]",
+            "SW \ntimers \n(SinkTxN\nG)",
+            "Source wants to initiate \nmessage sequence \n(SinkTxNG condition set \nfirst)"
+          ],
+          [
+            "Attached.\nSRC\n[VCONN => \nCC2]",
+            "0:Source; \n11:Rp3A0\n[SinkTxOK]",
+            "01: CC2 \ndisable\n(possible \nand \nrecommend\ned due to \nexternal \nVCONN \nswitch)",
+            "0 \n[Rd on \nCC1]",
+            "0: \n[Norm\nal]",
+            "10: [CC2 \nactive]",
+            "SW \ntimers \n(SinkTxN\nG)",
+            "Source finished \nmessage sequence \n(SinkTxOK condition \nafterwards)"
+          ],
+          [
+            "Attached.\nSRC\n[VCONN => \nCC2]",
+            "0:Source; \n11:Rp3A0\n[SinkTxOK]",
+            "01: CC2 \ndisable\n(possible \nand \nrecommend\ned due to \nexternal \nVCONN \nswitch)",
+            "0 \n[Rd on \nCC1]",
+            "0: \n[Norm\nal]",
+            "10: [CC2 \nactive]",
+            "PHYEVT\n1: \n[VOpen-\n3A0]",
+            "Wait for Sink \ndisconnected (Vopen on \nCC1)"
+          ],
+          [
+            "Unattached \nwait.\nSRC",
+            "0:Source; \n11:Rp3A0\n[SinkTxOK]",
+            "11:both \nenabled",
+            "0 (do not \ncare)",
+            "1: \n[discha\nrge]",
+            "00: \n[neither]",
+            ">0.8V \ndetection",
+            "Discharge VCONN \n[CC2] actively [Rdch]; \nto<0.8V"
+          ],
+          [
+            "Unattached.\nSRC",
+            "0:Source; \n11:Rp3A0",
+            "11:both \nenabled",
+            "0 (do not \ncare)",
+            "0: \n[Norm\nal]",
+            "00: \n[neither]",
+            "",
+            "[Details as first line of \ntable]"
+          ]
+        ],
+        "notes": [
+          "1. Two GPIOs to enable VCONN through external load switch components"
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

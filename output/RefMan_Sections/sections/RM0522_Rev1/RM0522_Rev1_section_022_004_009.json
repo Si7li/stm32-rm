@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S22.4.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "22",
+      "chapter_title": "Digital-to-analog converter (DAC)",
+      "section": "22.4.9",
+      "section_title": "DMA requests",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 680,
+      "page_end": 681,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 2841,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=680",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.9 \"DMA requests\" in chapter 22 (Digital-to-analog converter (DAC)), RM0522 Rev 1, page 680.",
+      "section_content": "Each DAC channel has a DMA capability. Two DMA channels are used to service DAC\nchannel DMA requests.\nWhen an external trigger (but not a software trigger) occurs while the DMAENx bit is set, the\nvalue of the DAC_DHRx register is transferred into the DAC_DORx register when the\ntransfer is complete, and a DMA request is generated.\nIn dual mode, if both DMAENx bits are set, two DMA requests are generated. If only one\nDMA request is needed, only the corresponding DMAENx bit must be set. In this way, the\napplication can manage both DAC channels in dual mode by using one DMA request and a\nunique DMA channel.\nAs DAC_DHRx to DAC_DORx data transfer occurred before the DMA request, the very first\ndata has to be written to the DAC_DHRx before the first trigger event occurs.\nDMA underrun\nThe DAC DMA request is not queued so that if a second external trigger arrives before the\nacknowledgment for the first external trigger is received (first request), then no new request\nis issued and the DMA channelx underrun flag DMAUDRx in the DAC_SR register is set,\nreporting the error condition. The DAC channelx continues to convert old data.\nThe software must clear the DMAUDRx flag by writing 1, clear the DMAEN bit of the used\nDMA stream and re-initialize both DMA and DAC channelx to restart the transfer correctly.\nThe software must modify the DAC trigger conversion frequency or lighten the DMA\nworkload to avoid a new DMA underrun. Finally, the DAC conversion can be resumed\nbyenabling both DMA data transfer and conversion trigger.\nFor each DAC channelx, an interrupt is also generated if its corresponding DMAUDRIEx bit\nin the DAC_CR register is enabled.\nDMA double data mode\nWhen the DMA controller is used in normal mode, only 12-bit (or 8-bit) data are transferred\nby a DMA request. As the AHB width is 32 bits, two 12-bit data may be transferred\nsimultaneously. To use this mode, set the DMADOUBLEx bit of DAC_MCR register.\nA DAC DMA request is generated every two external triggers (except for software triggers)\nwhen the DMAENx bit is set:\n1. When the first trigger is detected, the value of the DAC_DHRx and DAC_DHRBx\nregisters are transferred into the DAC_DORx and DAC_DORBx registers. The actual\nDAC data is loaded into the DAC_DORx register. A DMA request is then generated.\nThe DMA writes the new data to the DAC_DHRx and DAC_DHRBx data registers.\n2. When the next trigger is detected, the actual DAC data is loaded into the DAC_DHRBx\nregister. This second trigger does not generate any DMA request. The DORSTATx bit\nindicates which DOR data is actually loaded into the analog DAC input.\nDMA underrun function is also supported in DMA double data mode.\nThe following conditions must be met to change from double data to single data mode or\nvice versa:\n• The DAC must be disabled.\n• DMAEN bit must be cleared (ENx=0 and DMAEN=0).",
+      "semantic": {}
+    }
+  ]
+}

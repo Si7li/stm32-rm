@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S12.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "12",
+      "chapter_title": "AXI cache (CACHEAXI)",
+      "section": "12.4.11",
+      "section_title": "CACHEAXI performance monitoring",
+      "level": 3,
+      "parent_section": "12.4",
+      "page": 334,
+      "page_end": 335,
+      "semantic_type": "generic",
+      "features": [
+        "cacheaxi"
+      ],
+      "chars": 3298,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=334",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.4.11 \"CACHEAXI performance monitoring\" in chapter 12 (AXI cache (CACHEAXI)), RM0486 Rev 4, page 334.",
+      "section_content": "The CACHEAXI provides the following monitors for performance analysis:\n• The read-hit monitor counts the cacheable AXI read transactions on the slave cache\nport that hit the CACHEAXI content.\n• The write-hit monitor counts the cacheable AXI write transactions on slave cache port\nthat hit the CACHEAXI content.\n• The read-miss monitor counts the cacheable AXI read transactions on slave cache port\nthat miss the CACHEAXI content.\n• The write-miss monitor counts the cacheable AXI write transactions on slave cache\nport that miss the CACHEAXI content.\nThe hit and miss monitors above actually count the number of lookups (in the\nCACHEAXI TAG memory) implied by the AXI transactions:\n– when an AXI burst transaction results in several data transfers (or beats) that\ntarget the same cache line address range, only one lookup occurs, and the hit or\nmiss monitor only increments by 1.\n– when the data transfers (or beats) of a given AXI burst target several cache line\naddress ranges, the hit/miss monitor increment globally by the number of\nlooked-up cache lines (some can hit, others can miss).\n• The read-allocate-miss monitor counts the cache line refill operations (main memory\nreads) implied by cacheable AXI read-allocate transactions that miss.\n• The write-allocate-miss monitor counts the cache line refill operations (main memory\nreads) implied by cacheable AXI write-back transactions, that miss (and then allocate).\n• The write-through monitor counts the total amount of main memory write operations\nimplied by cacheable AXI write-through transactions (whether they hit or miss).\n• The eviction monitor counts:\n– the total amount of (dirty) cache lines evicted by the refill operations resulting from\neither read-allocate misses or write-allocate (write-back) misses,\n– and also, the amount of cache lines ‘evicted’ by a clean operation, meaning the\nnumber of dirty lines with an address included in the address range specified by a\ngiven 'clean range' or 'clean and invalidate range' maintenance operation, and that\nare dirty.\nOnly dirty cache lines written back to main memory are counted; eviction of non dirty\ncache lines, that are simply invalidated, are not counted.\nThe monitors count is effective only when the CACHEAXI is enabled (in cache mode).\nNoncacheable read or write transactions are not counted.\nUpon reaching their maximum values, the monitors do not wrap over.\nThe software can perform the following tasks:\n• Enable/stop the read (write) hit monitor, through R(W)HITMEN in CACHEAXI_CR1.\n• Reset the read (write) hit monitor, by setting R(W)HITMRST in CACHEAXI_CR1.\n• Enable/stop the read (write) miss monitor, through R(W)MISSMEN\ninCACHEAXI_CR1.\n• Reset the read (write) miss monitor, by setting R(W)MISSMRST in CACHEAXI_CR1.\n• Enable/stop the read-allocate (write-allocate) miss monitor, through R(W)AMMEN\ninCACHEAXI_CR1.\n• Reset the read-allocate (write-allocate) miss monitor, by setting R(W)AMMRST\ninCACHEAXI_CR1.\n• Enable/stop the write-through monitor, through WTMEN in CACHEAXI_CR1.\n• Reset the write-through monitor, by setting WTMRST in CACHEAXI_CR1.\n• Enable/stop the eviction monitor, through EVIMEN in CACHEAXI_CR1.\n• Reset the eviction monitor, by setting EVIMRST in CACHEAXI_CR1.\nTo reduce power consumption, these monitors are disabled (stopped) by default.",
+      "semantic": {}
+    }
+  ]
+}

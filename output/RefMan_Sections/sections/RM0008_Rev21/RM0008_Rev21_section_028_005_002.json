@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S28.5.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "28",
+      "chapter_title": "USB on-the-go full-speed (OTG_FS)",
+      "section": "28.5.2",
+      "section_title": "Peripheral states",
+      "level": 3,
+      "parent_section": "28.5",
+      "page": 835,
+      "page_end": 836,
+      "semantic_type": "generic",
+      "features": [
+        "peripheral",
+        "states"
+      ],
+      "chars": 2809,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=835",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.5.2 \"Peripheral states\" in chapter 28 (USB on-the-go full-speed (OTG_FS)), RM0008 Rev 21, page 835.",
+      "section_content": "Powered state\nThe VBUS input detects the B-Session valid voltage by which the USB peripheral is allowed\nto enter the powered state (see USB2.0 par9.1). The OTG_FS then automatically connects\nthe DP pull-up resistor to signal full-speed device connection to the host and generates the\nsession request interrupt (SRQINT bit in OTG_FS_GINTSTS) to notify the powered state.\nThe VBUS input also ensures that valid VBUS levels are supplied by the host during USB\noperations. If a drop in VBUS below B-session valid happens to be detected (for instance\nbecause of a power disturbance or if the host port has been switched off), the OTG_FS\nautomatically disconnects and the session end detected (SEDET bit in\nOTG_FS_GOTGINT) interrupt is generated to notify that the OTG_FS has exited the\npowered state.\nIn the powered state, the OTG_FS expects to receive some reset signaling from the host.\nNo other USB operation is possible. When a reset signaling is received the reset detected\ninterrupt (USBRST in OTG_FS_GINTSTS) is generated. When the reset signaling is\ncomplete, the enumeration done interrupt (ENUMDNE bit in OTG_FS_GINTSTS) is\ngenerated and the OTG_FS enters the Default state.\nSoft disconnect\nThe powered state can be exited by software with the soft disconnect feature. The DP pull-\nup resistor is removed by setting the soft disconnect bit in the device control register (SDIS\nbit in OTG_FS_DCTL), causing a device disconnect detection interrupt on the host side\neven though the USB cable was not really removed from the host port.\nDefault state\nIn the Default state the OTG_FS expects to receive a SET_ADDRESS command from the\nhost. No other USB operation is possible. When a valid SET_ADDRESS command is\ndecoded on the USB, the application writes the corresponding number into the device\naddress field in the device configuration register (DAD bit in OTG_FS_DCFG). The\nOTG_FS then enters the address state and is ready to answer host transactions at the\nconfigured USB address.\nSuspended state\nThe OTG_FS peripheral constantly monitors the USB activity. After counting 3ms of USB\nidleness, the early suspend interrupt (ESUSP bit in OTG_FS_GINTSTS) is issued, and\nconfirmed 3ms later, if appropriate, by the suspend interrupt (USBSUSP bit in\nOTG_FS_GINTSTS). The device suspend bit is then automatically set in the device status\nregister (SUSPSTS bit in OTG_FS_DSTS) and the OTG_FS enters the suspended state.\nThe suspended state may optionally be exited by the device itself. In this case the\napplication sets the remote wakeup signaling bit in the device control register (RWUSIG bit\nin OTG_FS_DCTL) and clears it after 1 to 15 ms.\nWhen a resume signaling is detected from the host, the resume interrupt (WKUPINT bit in\nOTG_FS_GINTSTS) is generated and the device suspend bit is automatically cleared.",
+      "semantic": {}
+    }
+  ]
+}

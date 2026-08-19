@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S41.4.15",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "41",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "41.4.15",
+      "section_title": "SMBus controller mode",
+      "level": 3,
+      "parent_section": "41.4",
+      "page": 1665,
+      "page_end": 1668,
+      "semantic_type": "generic",
+      "features": [
+        "i2c"
+      ],
+      "chars": 3650,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1665",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 41.4.15 \"SMBus controller mode\" in chapter 41 (Inter-integrated circuit interface (I2C)), RM0522 Rev 1, page 1665.",
+      "section_content": "In addition to I2C controller transfer management (refer to Section41.4.9: I2C controller\nmode), this section provides extra software flowcharts to support SMBus.\nSMBus controller transmitter\nWhen the SMBus controller wants to transmit the PEC, the PECBYTE bit must be set and\nthe number of bytes must be loaded in the NBYTES[7:0] bitfield, before setting the START\nbit. In this case, the total number of TXIS interrupts is NBYTES[7:0]-1. So if the PECBYTE\nbit is set when NBYTES[7:0]=0x1, the content of the I2C_PECR register is automatically\ntransmitted.\nIf the SMBus controller wants to send a STOP condition after the PEC, the automatic end\nmode must be selected (AUTOEND = 1). In this case, the STOP condition automatically\nfollows the PEC transmission.\nWhen the SMBus controller wants to send a RESTART condition after the PEC, the\nsoftware mode must be selected (AUTOEND=0). In this case, once NBYTES[7:0]-1 are\ntransmitted, the I2C_PECR register content is transmitted. The TC flag is set after the PEC\ntransmission, stretching the SCL line low. The RESTART condition must be programmed in\nthe TC interrupt subroutine.\nCaution: The PECBYTE bit has no effect when the RELOAD bit is set.\n[Figure 594. Bus transfer diagrams for SMBus controller transmitter]\nExampleSMBuscontrollertransmitter2bytes+PEC,automaticendmode(STOP)\nTXISTXIS legend:\nreception\nINIT EV1 EV2\nSCLstretch\nTXE\nNBYTES xx 3\nINIT:programtargetaddress,programNBYTES=3,AUTOEND=1,setPECBYTE,setSTART\nEV1:TXISISR:wrdata1\nEV2:TXISISR:wrdata2\nExampleSMBuscontroller transmitter2bytes+PEC,softwareendmode(RESTART)\nTXIS TXIS TC legend:\ntransmission\nINIT EV1 EV2 EV3 SCLstretch\nxx 3 N\nNBYTES\nINIT: p rogramtargetaddress,programNBYTES=3,AUTOEND=0,set P ECBYTE,setSTART\nEV1:TXISISR:wrdata1\nEV2:TXISISR:wrdata2\nEV3:TCISR:programtargetaddress,programNBYTES=N,setSTART\nSMBus controller receiver\nWhen the SMBus controller wants to receive, at the end of the transfer, the PEC followed by\na STOP condition, the automatic end mode can be selected (AUTOEND = 1). The\nPECBYTE bit must be set and the target address programmed before setting the START bit.\nIn this case, after the receipt of NBYTES[7:0]-1 data bytes, the next received byte is\nautomatically checked versus the I2C_PECR register content. A NACK response is given to\nthe PEC byte, followed by a STOP condition.\nWhen the SMBus controller receiver wants to receive, at the end of the transfer, the PEC\nbyte followed by a RESTART condition, the software mode must be selected (AUTOEND =\n0). The PECBYTE bit must be set and the target address programmed before setting the\nSTART bit. In this case, after the receipt of NBYTES[7:0]-1 data bytes, the next received\nbyte is automatically checked versus the I2C_PECR register content. The TC flag is set\nafter the PEC byte reception, stretching the SCL line low. The RESTART condition can be\nprogrammed in the TC interrupt subroutine.\nCaution: The PECBYTE bit has no effect when the RELOAD bit is set.\n[Figure 595. Bus transfer diagrams for SMBus controller receiver]\nExampleSMBuscontroller receiver2bytes+PEC,automaticendmode(STOP)\nRXNE RXNE RXNE\nlegend:\nreception\nINIT EV1 EV2 EV3\nSCLstretch\nNBYTES xx 3\nINIT:programtarget address,programNBYTES=3,AUTOEND=1,setPECBYTE,setSTART\nEV1:RXNEISR: r ddata1\nEV2:RXNEISR: r ddata2\nEV3: R XNEISR: r dPEC\nExampleSMBuscontroller receiver2bytes+PEC,softwareendmode(RESTART)\nRXNE RXNE RXNE TC legend:\ntransmission\nINIT EV1 EV2 EV3 EV4 SCLstretch\nNBYTES\nxx 3 N\nINIT: p rogramtargetaddress,programNBYTES=3,AUTOEND = 0,set P ECBYTE,setSTART\nEV1:RXNEISR:rddata1\nEV2:RXNEISR:rddata2\nEV3:RXNEISR:readPEC\nEV4:TCISR:programtarget address,programNBYTES=N,setSTART",
+      "semantic": {}
+    }
+  ]
+}

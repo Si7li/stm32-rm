@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S70.3.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "70",
+      "chapter_title": "Management data input/output (MDIOS)",
+      "section": "70.3.8",
+      "section_title": "MDIOS error management",
+      "level": 3,
+      "parent_section": "70.3",
+      "page": 3608,
+      "page_end": 3609,
+      "semantic_type": "generic",
+      "features": [
+        "mdios"
+      ],
+      "chars": 3025,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3608",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 70.3.8 \"MDIOS error management\" in chapter 70 (Management data input/output (MDIOS)), RM0486 Rev 4, page 3608.",
+      "section_content": "There are three types of errors with their corresponding error flags:\n• Preamble error: PERF (bit 0 of MDIOS_SR)\n• Start error: SERF (bit 1 of MDIOS_SR)\n• Turnaround error: TERF (bit 2 of MDIOS_SR)\nEach error flag is set by hardware when the corresponding error condition occurs. Each flag\ncan be cleared by writing ‘1’ to the corresponding bit in the clear flag register\n(MDIOS_CLRFR).\nAn interrupt occurs if any of the three error flags is set while EIE=1 (MDIOS_CR).\nBesides, setting an error flag, the MDIOS performs no action for a frame in which an error is\ndetected: MDIOS_DINRx are not updated and the MDIO line is not forced during the data\nphase.\nFor a given frame, errors do not accumulate. For example, if a preamble error is detected,\nno check is done for a start error or a turnaround error for the rest of the current frame.\nWhen DPC=0, following a detected error, all new frames, and errors are ignored until a\ncomplete full preamble has been detected.\nWhen DPC=1 (disable preamble check, MDIOS_CR[7]), all frames and new errors are\nignored as long as one of the error flags is set. As soon as the error bit is cleared, the\nMDIOS starts looking for a start sequence. Thus, the application must clear the error flag\nonly when it is sure that no frame is currently in progress. Otherwise, the MDIOS likely\nmisinterprets the bits being sent and becomes desynchronized with the master.\nPreamble errors\nA preamble error occurs when a start sequence begins (with MDIO sampled at 0) without\nbeing immediately preceded by a preamble (MDIO sampled at 1 for at least 32 consecutive\nclocks).\nPreamble errors are not reported after the MDIOS is first enabled (EN=1 in MDIOS_CR)\nuntil after a full preamble is received. This is to avoid an error condition when the peripheral\nframe detection is enabled while a preamble or frame is already in progress. In this case,\nthe MDIOS ignores the first frame (since it did not first detect a full preamble), but does not\nset PERF.\nIf the DPC bit (disable preamble check, MDIOS_CR[7]) is set, the MDIO master can send\nframes without preceding preambles and no preamble error is signaled. WhenDPC=1, the\napplication must assure that the master is not in the process of sending a frame at the\nmoment that the MDIOS is enabled (EN is set). Otherwise, the slave might become\ndesynchronized with the master.\nStart errors\nA start error occurs when an illegal start sequence occurs or if an illegal command is given.\nThe start sequence must always be 01, and the command must be either 01 (write) or\n10(read).\nAs with preamble errors, start errors are not reported until after a full preamble is received.\nTurnaround errors\nA turnaround error occurs when an error is detected in the turnaround bits of write frames.\nThe 15th bit of the write frame must be 1 and the 16th bit must be 0.\nTurnaround errors are only reported after a full preamble is received, there is no start error,\nthe port address in the current frame matches, and the register address is in the supported\nrange 0 to 31.",
+      "semantic": {}
+    }
+  ]
+}

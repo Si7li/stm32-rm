@@ -1,0 +1,73 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.20",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.20",
+      "section_title": "I3C timing register 0 (I3C_TIMINGR0)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3265,
+      "page_end": 3265,
+      "semantic_type": "register_description",
+      "features": [
+        "i2c",
+        "i3c",
+        "i3c-timingr0",
+        "sclh-i2c",
+        "sclh-i3c",
+        "scll-od",
+        "scll-pp"
+      ],
+      "chars": 1930,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3265",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.20 \"I3C timing register 0 (I3C_TIMINGR0)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3265.",
+      "section_content": "Address offset: 0x0A0\nReset value: 0x00000000\nWhen the I3C acts as controller, this register is used to configure the SCL clock signal\nwaveform.\nThis register can be written by the software when EN = 0 in the I3C_CFGR register.\nBits 3 1 :24 SCLH_I2C[7:0]: SCL high duration, used for legacy I2C messages, in number of kernel clocks\ncycles:\ntSCLH_I2C=(SCLH_I2C+1)xtI3CCLK\nNote: SCLH_I2C is used to generate tDIG_H (I2C) timing when communicating with I2C\ndevices.\nNote: With I2C Fm+ device tDIG_Hmin = 260 ns, with I2C Fm+ device tDIG_Hmin = 600 ns.\nBits 23:16 SCLL_OD[7:0]: SCL low duration in open-drain phases, used for legacy I2C messages and for\nI3C open-drain phases (address phase following a start, ACK phase during controller-initiated\nmessages, and T bit phase during direct/private/IBI payload), in number of kernel clocks cycles:\ntSCLL_OD=(SCLL_OD+1)xtI3CCLK\nNote: SCLL_OD is used to generate both tDIG_L (I2C) and tDIG_OD_L(I3C) timings.\nNote: With I2C Fm+ device tDIG_Lmin = 500 ns, with I2C Fm device tDIG_Lmin = 1320 ns.\nNote: I3C messages: tDIG_OD_Lmin = 200 ns.\nNote: If a single I3C frame is gathering I2C and I3C messages, the SCL low duration during\nI3C open-drain phases is increased to fit I2C timings.\nBits 15:8 SCLH_I3C[7:0]: SCL high duration, used for I3C messages (both in push-pull and open-drain\nphases), in number of kernel clocks cycles:\ntSCLH_I3C=(SCLH_I3C+1)xtI3CCLK\nNote: SCLH_I3C is used to generate both tDIG_H (I3C) and tDIG_H_MIXED timings.\nNote: For mixed bus (with at least one I2C target): tDIG_H_MIXEDmin = 32 ns and\ntDIG_H_MIXEDmax = 45 ns (due to I2C 50 ns spike filter).\nNote: For pure I3C bus (with no I2C targets): tDIG_Hmin = 32 ns.\nBits 7:0 SCLL_PP[7:0]: SCL low duration in I3C push-pull phases, in number of kernel clocks cycles:\ntSCLL_PP=(SCLL_PP+1)xtI3CCLK\nNote: SCLL_PP is used to generate tDIG_L (I3C in PP) timing.\nNote: tDIG_Lmin = 32 ns (max 40/60 duty cycle at 12.5 MHz).",
+      "semantic": {
+        "register": "I3C_TIMINGR0",
+        "address_offset": "0x0A0",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "SCLH_I2C[7:0]",
+            "description": "SCL high duration, used for legacy I2C messages, in number of kernel clocks cycles: tSCLH_I2C=(SCLH_I2C+1)xtI3CCLK Note: SCLH_I2C is used to generate tDIG_H (I2C) timing when communicating with I2C devices. Note: With I2C Fm+ device tDIG_Hmin = 260 ns, with I2C Fm+ device tDIG_Hmin = 600 ns.",
+            "values": []
+          },
+          {
+            "bits": "23:16",
+            "name": "SCLL_OD[7:0]",
+            "description": "SCL low duration in open-drain phases, used for legacy I2C messages and for I3C open-drain phases (address phase following a start, ACK phase during controller-initiated messages, and T bit phase during direct/private/IBI payload), in number of kernel clocks cycles: tSCLL_OD=(SCLL_OD+1)xtI3CCLK Note: SCLL_OD is used to generate both tDIG_L (I2C) and tDIG_OD_L(I3C) timings. Note: With I2C Fm+ device tDIG_Lmin = 500 ns, with I2C Fm device tDIG_Lmin = 1320 ns. Note: I3C messages: tDIG_OD_Lmin = 200 ns. Note: If a single I3C frame is gathering I2C and I3C messages, the SCL low duration during I3C open-drain phases is increased to fit I2C timings.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "SCLH_I3C[7:0]",
+            "description": "SCL high duration, used for I3C messages (both in push-pull and open-drain phases), in number of kernel clocks cycles: tSCLH_I3C=(SCLH_I3C+1)xtI3CCLK Note: SCLH_I3C is used to generate both tDIG_H (I3C) and tDIG_H_MIXED timings. Note: For mixed bus (with at least one I2C target): tDIG_H_MIXEDmin = 32 ns and tDIG_H_MIXEDmax = 45 ns (due to I2C 50 ns spike filter). Note: For pure I3C bus (with no I2C targets): tDIG_Hmin = 32 ns.",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "SCLL_PP[7:0]",
+            "description": "SCL low duration in I3C push-pull phases, in number of kernel clocks cycles: tSCLL_PP=(SCLL_PP+1)xtI3CCLK Note: SCLL_PP is used to generate tDIG_L (I3C in PP) timing. Note: tDIG_Lmin = 32 ns (max 40/60 duty cycle at 12.5 MHz).",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S38.3.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "38",
+      "chapter_title": "Digital camera interface (DCMI)",
+      "section": "38.3.6",
+      "section_title": "DCMI synchronization",
+      "level": 3,
+      "parent_section": "38.3",
+      "page": 1797,
+      "page_end": 1799,
+      "semantic_type": "generic",
+      "features": [
+        "dcmi"
+      ],
+      "chars": 4212,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1797",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 38.3.6 \"DCMI synchronization\" in chapter 38 (Digital camera interface (DCMI)), RM0486 Rev 4, page 1797.",
+      "section_content": "The digital camera interface supports embedded or hardware (DCMI_HSYNC and\nDCMI_VSYNC) synchronization. When embedded synchronization is used, it is up to the\ndigital camera module to make sure that the 0x00 and 0xFF values are used ONLY for\nsynchronization (not in data). Embedded synchronization codes are supported only for the\n8-bit parallel data interface width (that is, in the DCMI_CR register, the EDM[1:0] bits must\nbe cleared).\nFor compressed data, the DCMI supports only the hardware synchronization mode. In this\ncase, DCMI_VSYNC is used as a start/end of the image, and DCMI_HSYNC is used as a\nData Valid signal. Figure391 shows the corresponding timing diagram.\n[Figure 391. Timing diagram]\n[Table 321. Positioning of captured data bytes in 32-bit words (14-bit width)]\nJPEG data\nEnd of JPEG stream\nDCMI_HSYNC\nDCMI_VSYNC\nPacket dispatching depends on the image content.\nThis results in a variable blanking duration.\nJPEG packet data\nHardware synchronization mode\nIn hardware synchronization mode, the two synchronization signals\n(DCMI_HSYNC/DCMI_VSYNC) are used.\nDepending on the camera module/mode, data may be transmitted during horizontal/vertical\nsynchronization periods. The DCMI_HSYNC/DCMI_VSYNC signals act like blanking\nsignals since all the data received during DCMI_HSYNC/DCMI_VSYNC active periods are\nignored.\nIn order to correctly transfer images into the DMA/RAM buffer, data transfer is synchronized\nwith the DCMI_VSYNC signal. When the hardware synchronization mode is selected, and\ncapture is enabled (CAPTURE bit set in DCMI_CR), data transfer is synchronized with the\ndeactivation of the DCMI_VSYNC signal (next start of frame).\nTransfer can then be continuous, with successive frames transferred by DMA to successive\nbuffers or the same/circular buffer. To allow the DMA management of successive frames, a\nVSIF (Vertical synchronization interrupt flag) is activated at the end of each frame.\nEmbedded data synchronization mode\nIn this synchronization mode, the data flow is synchronized using 32-bit codes embedded in\nthe data flow. These codes use the 0x00/0xFF values that are not used in data anymore.\nThere are 4 types of codes, all with a 0xFF0000XY format. The embedded synchronization\ncodes are supported only in 8-bit parallel data width capture (in the DCMI_CR register, the\nEDM[1:0] bits must be cleared). For other data widths, this mode generates unpredictable\nresults and must not be used.\nNote: Camera modules can have 8 such codes (in interleaved mode). For this reason, the\ninterleaved mode is not supported by the camera interface (otherwise, every other\nhalf-frame would be discarded).\n• Mode 2\nFour embedded codes signal the following events\n– Frame start (FS)\n– Frame end (FE)\n– Line start (LS)\n– Line end (LE)\nThe XY values in the 0xFF0000XY format of the four codes are programmable (see\nSection38.5.7: DCMI embedded synchronization code register (DCMI_ESCR)).\nA 0xFF value programmed as a “frame end” means that all the unused codes are\ninterpreted as valid frame end codes.\nIn this mode, once the camera interface has been enabled, the frame capture starts\nafter the first occurrence of the frame end (FE) code followed by a frame start (FS)\ncode.\n• Mode 1\nAn alternative coding is the camera mode 1. This mode is ITU656 compatible.\nThe codes signal another set of events:\n– SAV (active line) - line start\n– EAV (active line) - line end\n– SAV (blanking) - end of line during interframe blanking period\n– EAV (blanking) - end of line during interframe blanking period\nThis mode can be supported by programming the following codes:\n• FS≤0xFF\n• FE≤0xFF\n• LS ≤ SAV (active)\n• LE ≤ EAV (active)\nAn embedded unmask code is also implemented for frame/line start and frame/line end\ncodes. Using it, it is possible to compare only the selected unmasked bits with the\nprogrammed code. A bit can therefore be selected to compare in the embedded code and\ndetect a frame/line start or frame/line end. This means that there can be different codes for\nthe frame/line start and frame/line end with the unmasked bit position remaining the same.\nExample\nFS = 0xA5\nUnmask code for FS = 0x10\nIn this case the frame start code is embedded in the bit 4 of the frame start code.",
+      "semantic": {}
+    }
+  ]
+}

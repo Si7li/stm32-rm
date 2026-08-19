@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S17.3.22",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "17",
+      "chapter_title": "Advanced-control timer (TIM1)",
+      "section": "17.3.22",
+      "section_title": "Encoder interface mode",
+      "level": 3,
+      "parent_section": "17.3",
+      "page": 395,
+      "page_end": 397,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 5069,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=395",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 17.3.22 \"Encoder interface mode\" in chapter 17 (Advanced-control timer (TIM1)), RM0490 Rev 6, page 395.",
+      "section_content": "To select Encoder Interface mode write SMS=‘001’ in the TIMx_SMCR register if the\ncounter is counting on TI2 edges only, SMS=’010’ if it is counting on TI1 edges only and\nSMS=’011’ if it is counting on both TI1 and TI2 edges.\nSelect the TI1 and TI2 polarity by programming the CC1P and CC2P bits in the TIMx_CCER\nregister. When needed, the input filter can be programmed as well. CC1NP and CC2NP\nmust be kept low.\nThe two inputs TI1 and TI2 are used to interface to a quadrature encoder. Refer to Table80.\nThe counter is clocked by each valid transition on TI1FP1 or TI2FP2 (TI1 and TI2 after input\nfilter and polarity selection, TI1FP1=TI1 if not filtered and not inverted, TI2FP2=TI2 if not\nfiltered and not inverted) assuming that it is enabled (CEN bit in TIMx_CR1 register written\nto ‘1’). The sequence of transitions of the two inputs is evaluated and generates count\npulses as well as the direction signal. Depending on the sequence the counter counts up or\ndown, the DIR bit in the TIMx_CR1 register is modified by hardware accordingly. The DIR bit\nis calculated at each transition on any input (TI1 or TI2), whatever the counter is counting on\nTI1 only, TI2 only or both TI1 and TI2.\nEncoder interface mode acts simply as an external clock with direction selection. This\nmeans that the counter just counts continuously between 0 and the auto-reload value in the\nTIMx_ARR register (0 to ARR or ARR down to 0 depending on the direction). So the\nTIMx_ARR must be configured before starting. In the same way, the capture, compare,\nrepetition counter, trigger output features continue to work as normal. Encoder mode and\nExternal clock mode 2 are not compatible and must not be selected together.\nNote: The prescaler must be set to zero when encoder mode is enabled\nIn this mode, the counter is modified automatically following the speed and the direction of\nthe quadrature encoder and its content, therefore, always represents the encoder’s position.\nThe count direction correspond to the rotation direction of the connected sensor. The table\nsummarizes the possible combinations, assuming TI1 and TI2 do not switch at the same\ntime.\n[Table 80. Counting direction versus encoder signals]\nA quadrature encoder can be connected directly to the MCU without external interface logic.\nHowever, comparators are normally be used to convert the encoder’s differential outputs to\ndigital signals. This greatly increases noise immunity. The third encoder output which\nindicate the mechanical zero position, may be connected to an external interrupt input and\ntrigger a counter reset.\nThe Figure109 gives an example of counter operation, showing count signal generation\nand direction control. It also shows how input jitter is compensated where both edges are\nselected. This might occur if the sensor is positioned near to one of the switching points. For\nthis example we assume that the configuration is the following:\n• CC1S=’01’ (TIMx_CCMR1 register, TI1FP1 mapped on TI1).\n• CC2S=’01’ (TIMx_CCMR1 register, TI2FP2 mapped on TI2)\n• CC1P=’0’ and CC1NP=’0’ (TIMx_CCER register, TI1FP1 non-inverted, TI1FP1=TI1).\n• CC2P=’0’ and CC2NP=’0’ (TIMx_CCER register, TI1FP2 non-inverted, TI1FP2= TI2).\n• SMS=’011’ (TIMx_SMCR register, both inputs are active on both rising and falling\nedges).\n• CEN=’1’ (TIMx_CR1 register, Counter enabled).\n[Figure 109. Example of counter operation in encoder interface mode]\nFigure110 gives an example of counter behavior when TI1FP1 polarity is inverted (same\nconfiguration as above except CC1P=’1’).\n[Figure 110. Example of encoder interface mode with TI1FP1 polarity inverted]\nThe timer, when configured in Encoder Interface mode provides information on the sensor’s\ncurrent position. Dynamic information can be obtained (speed, acceleration, deceleration)\nby measuring the period between two encoder events using a second timer configured in\ncapture mode. The output of the encoder which indicates the mechanical zero can be used\nfor this purpose. Depending on the time between two events, the counter can also be read\nat regular times. This can be done by latching the counter value into a third input capture\nregister if available (then the capture signal must be periodic and can be generated by\nanother timer). when available, it is also possible to read its value through a DMA request.\nThe IUFREMAP bit in the TIMx_CR1 register forces a continuous copy of the update\ninterrupt flag (UIF) into the timer counter register’s bit 31 (TIMxCNT[31]). This allows both\nthe counter value and a potential roll-over condition signaled by the UIFCPY flag to be read\nin an atomic way. It eases the calculation of angular speed by avoiding race conditions\ncaused, for instance, by a processing shared between a background task (counter reading)\nand an interrupt (update interrupt).\nThere is no latency between the UIF and UIFCPY flag assertions.\nIn 32-bit timer implementations, when the IUFREMAP bit is set, bit 31 of the counter is\noverwritten by the UIFCPY flag upon read access (the counter’s most significant bit is only\naccessible in write mode).",
+      "semantic": {}
+    }
+  ]
+}

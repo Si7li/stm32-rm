@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S31.3.23",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "31",
+      "chapter_title": "Advanced-control timers (TIM1/TIM8)",
+      "section": "31.3.23",
+      "section_title": "Clearing the tim_ocxref signal on an external event",
+      "level": 3,
+      "parent_section": "31.3",
+      "page": 1018,
+      "page_end": 1021,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 3069,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1018",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.3.23 \"Clearing the tim_ocxref signal on an external event\" in chapter 31 (Advanced-control timers (TIM1/TIM8)), RM0522 Rev 1, page 1018.",
+      "section_content": "The tim_ocxref signal of a given channel can be cleared when a high level is applied on the\ntim_ocref_clr_int input (OCxCE enable bit in the corresponding TIM_CCMRx register set to\n1). tim_ocxref remains low until the next transition to the active state, on the following PWM\ncycle. This function can only be used in Output compare and PWM modes. It must not be\nused in Forced mode. tim_ocref_clr_int input can be selected between the tim_ocref_clr\ninput and tim_etrf (tim_etr_in after the filter) by configuring the OCCS bit in the TIM_SMCR\nregister.\nThe tim_ocref_clr input can be selected among several inputs, using the\nOCRSEL[3:0] bitfield in the TIM_AF2 register, as shown on the Figure277 below. Refer to\nSection31.3.2: TIM1/TIM8 pins and internal signals for a list of sources available in the\nproduct.\n[Figure 277. tim_ocref_clr input selection multiplexer]\nWhen tim_etrf is chosen, tim_etr_in must be configured as follows:\n1. The external trigger prescaler must be kept off: bits ETPS[1:0] of the TIM_SMCR\nregister set to 00.\n2. The external clock mode 2 must be disabled: bit ECE of the TIM_SMCR register set to\n0.\n3. The external trigger polarity (ETP) and the external trigger filter (ETF) can be\nconfigured according to application needs (as per polarity of the source connected to\nthe trigger and eventual need to remove noise using the filter).\nFigure278 shows the behavior of the tim_ocxref signal when the tim_etrf input becomes\nhigh, for both values of the enable bit OCxCE. In this example, the timer TIMx is\nprogrammed in PWM mode.\n[Figure 278. Clearing TIMx tim_ocxref]\nCounter (CNT)\ntim_etrf\ntim_ocxref\n(OCxCE = ‘0’)\ntim_ocxref\n(OCxCE = ‘1’)\ntim_ocref_clr_int tim_ocref_clr_int\nbecomes high still high\nNote: In case of a PWM with a 100% duty cycle (if CCRx>ARR), then tim_ocxref is enabled again\nat the next counter overflow.\nThis feature is also supported in combined and asymmetric modes. In this case, it is\nmandatory to have the OCxCE bit enabled for the channel, the OCxCE bit of the\ncomplementary channel (e.g. OC2CE = X for oc2ref in Figure279) is ignored in this case.\nFigure279 to Figure282 are describing the output waveforms for some use cases, when\nthe ocref_clr_int signal is asserted.\n[Figure 279. Asymmetric PWM mode 1]\n[Figure 280. Asymmetric PWM mode 2]\n[Figure 281. Asymmetric PWM mode 7 (OC1refc = oc1ref OR oc5ref)]\n[Figure 282. Combined PWM mode 1]\n(OC1CE = 1 OC2CE = X)\nocref_clr_int\noc1refc\n(OC1CE = 1 OC2CE = X)\nocref_clr_int\noc1refc\n(OC1CE = 1 OC2CE = X)\nConditions of use\nThis feature is intended to support cycle-by-cycle current control loops, typically with a\ncomparator shortening the PWM on-time when a current threshold is exceeded.\nIt cannot be used for the following modes, where the OCxCE bit must be cleared:\n• PWM toggle mode (OCxM[4:0] = 0x03)\n• One pulse mode with PWM active on match (OPM=1 and OCxM[4:0] = 0x06, 0x08,\n0x0C, 0x0E, 0x10, 0x12, 0x14, 0x16, 0x18)\n• Combined 3-phase modes (GC5Cx or GC5CxO = 1)\n• Combined PWM mode 1 or 3 in center aligned mode (CMS[1:0] = 1,2,3 and OCxM[4:0]\n= 0x0C or 0x10)",
+      "semantic": {}
+    }
+  ]
+}

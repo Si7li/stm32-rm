@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S26.5.7",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "26",
+      "chapter_title": "Universal synchronous receiver transmitter (USART)",
+      "section": "26.5.7",
+      "section_title": "USART baud rate generation",
+      "level": 3,
+      "parent_section": "26.5",
+      "page": 762,
+      "page_end": 763,
+      "semantic_type": "generic",
+      "features": [
+        "usart"
+      ],
+      "chars": 1939,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=762",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.5.7 \"USART baud rate generation\" in chapter 26 (Universal synchronous receiver transmitter (USART)), RM0490 Rev 6, page 762.",
+      "section_content": "The baud rate for the receiver and transmitter (Rx and Tx) are both set to the value\nprogrammed in the USART_BRR register.\nEquation 1: baud rate for standard USART (SPI mode included) (OVER8 = ‘0’ or ‘1’)\nIn case of oversampling by 16, the baud rate is given by the following formula:\nTx/Rx baud = u----s----a---r---t--_---k---e---r--_----c---k---_---p---r--e----s--\nUSARTDIV\nIn case of oversampling by 8, the baud rate is given by the following formula:\nTx/Rx baud = 2----- × ------u----s---a----r--t--_----k---e---r--_---c---k---_----p---r--e---s--\nUSARTDIV\nEquation 2: baud rate in smartcard, LIN and IrDA modes (OVER8 = 0)\nThe baud rate is given by the following formula:\nTx/Rx baud = u----s----a---r---t--_---k---e---r--_----c---k---_---p---r--e----s--\nUSARTDIV\nUSARTDIV is an unsigned fixed point number that is coded on the USART_BRR register.\n• When OVER8 = 0, BRR = USARTDIV.\n• When OVER8 = 1\n– BRR[2:0] = USARTDIV[3:0] shifted 1 bit to the right.\n– BRR[3] must be kept cleared.\n– BRR[15:4] = USARTDIV[15:4]\nNote: The baud counters are updated to the new value in the baud registers after a write operation\nto USART_BRR. Hence the baud rate register value should not be changed during\ncommunication.\nIn case of oversampling by 16 and 8, USARTDIV must be greater than or equal to 16.\nHow to derive USARTDIV from USART_BRR register values\nExample 1\nTo obtain 9600 baud with usart_ker_ck_pres= 8MHz:\n• In case of oversampling by 16:\nUSARTDIV = 8 000 000/9600\nBRR = USARTDIV = 0d833 = 0x0341\n• In case of oversampling by 8:\nUSARTDIV = 2 * 8 000 000/9600\nUSARTDIV = 1666,66 (0d1667 = 0x683)\nBRR[3:0] = 0x3>>1 = 0x1\nBRR = 0x681\nExample 2\nTo obtain 921.6Kbaud with usart_ker_ck_pres = 48MHz:\n• In case of oversampling by 16:\nUSARTDIV = 48 000 000/921 600\nBRR = USARTDIV = 0d52 = 0x34\n• In case of oversampling by 8:\nUSARTDIV = 2 * 48 000 000/921 600\nUSARTDIV = 104 (0d104 = 0x68)\nBRR[3:0] = USARTDIV[3:0] >> 1 = 0x8 >> 1 = 0x4\nBRR = 0x64",
+      "semantic": {}
+    }
+  ]
+}

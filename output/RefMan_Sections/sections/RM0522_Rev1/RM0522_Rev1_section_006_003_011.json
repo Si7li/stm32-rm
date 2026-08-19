@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.3.11",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.3.11",
+      "section_title": "FLASH bank swapping",
+      "level": 3,
+      "parent_section": "6.3",
+      "page": 142,
+      "page_end": 147,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory"
+      ],
+      "chars": 2630,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=142",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.3.11 \"FLASH bank swapping\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 142.",
+      "section_content": "The FLASH bank1 and bank2 can be swapped for the user FLASH. This feature can be\nused after a firmware upgrade to restart the device on the new firmware. Bank swapping is a\nuser option-byte flag controlled by the SWAP_BANK bit inFLASH_OPTCR register.\nBank specific settings for data area and security attributes follow the original bank and its\ncontents. The control bit BKSEL always refers to physical bank, not the SWAP_BANK\nsetting.\nTable24 shows the memory map that can be accessed depending on the SWAP_BANK bit\nconfiguration.\n[Table 24. Memory map and the swapping option (STM32C53x/542 devices)]\n[Table 25. Memory map and the swapping option (STM32C55x/562 devices)]\n[Table 26. Memory map and the swapping option (STM32C59x/5A3 devices)]\nThe SWAP_BANK bit in FLASH_OPTCR register is loaded from the SWAP_BANK option\nbit only after system reset or POR.\nTo change the SWAP_BANK bit (for example to apply a new firmware update), respect the\nsequence below:\n1. Check that no flash memory operation is ongoing by checking the BSY and DBNE bits\nin FLASH_SR, and that the write buffer is empty by checking the WBNE bit in the same\nregister.\n2. Clear all error flags due to a previous operation.\n3. Unlock OPTLOCK bit, if not already unlocked.\n4. Set the new desired SWAP_BANK value in the FLASH_OPTSR_PRG register.\n5. Start the option-byte change sequence by setting the OPTSTRT bit in FLASH_OPTCR.\n6. Once the option-byte change has completed, FLASH_OPTSR_CUR contains the\nexpected SWAP_BANK value, but SWAP_BANK bit in FLASH_OPTCR has not yet\nbeen modified, and the bank swapping is not yet effective\n7. Force a system reset or a POR. When the reset rises up, the bank swapping is\neffective (SWAP_BANK value updated in FLASH_OPTCR) and the new firmware must\nbe executed.\nNote: The SWAP_BANK bit in FLASH_OPTCR is read-only and cannot be modified by the\napplication software.\nThe SWAP_BANK option bit in FLASH_OPTSR_PRG can be modified whatever the RDP\nlevel. Instead of being locked by RDP_LEVEL, it is locked by BOOT_LOCK User OB.\nThe figure below gives an overview of the bank swapping sequence.\n[Figure 13. FLASH bank swapping sequence]\nBegin\nUpdate new firmware in\nuser FLASH bank 1/2\nFLASH_OPTSR_PRG\nSet/unset BANK\nSWAP_BANK_OPT OPT\noption-bit in\nFLASH_OPTSR_PRG Option-byte\nprogramming\nNonvolatile\nWrite START bit in memory\nFLASH_OPTCR to start FLASH_OPTSR_CUR\noption-byte change\nSystem reset\nSWAP_BANK of Option-byte reload\nFLASH_OPTSR_CUR is FLASH_OPTCR\ncopied to\nSWAP_BANK_OPT bit in SWAP\nUser\nmemory\nflash\nNew swap bank1\nmemory\nEnd policy effective\nExecution of SWAP Nonvolatile\nnew firmware AHB bus logic memory\nbank2",
+      "semantic": {}
+    }
+  ]
+}

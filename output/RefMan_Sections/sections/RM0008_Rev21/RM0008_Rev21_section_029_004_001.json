@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S29.4.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "29",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "29.4.1",
+      "section_title": "Station management interface: SMI",
+      "level": 3,
+      "parent_section": "29.4",
+      "page": 972,
+      "page_end": 975,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "smi"
+      ],
+      "chars": 4755,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=972",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.4.1 \"Station management interface: SMI\" in chapter 29 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0008 Rev 21, page 972.",
+      "section_content": "The station management interface (SMI) allows the application to access any PHY registers\nthrough a 2-wire clock and data lines. The interface supports accessing up to 32 PHYs.\nThe application can select one of the 32 PHYs and one of the 32 registers within any PHY\nand send control data or receive status information. Only one register in one PHY can be\naddressed at any given time.\nBoth the MDC clock line and the MDIO data line are implemented as alternate function I/O\nin the microcontroller:\n• MDC: a periodic clock that provides the timing reference for the data transfer at the\nmaximum frequency of 2.5 MHz. The minimum high and low times for MDC must be\n160ns each, and the minimum period for MDC must be 400 ns. In idle state the SMI\nmanagement interface drives the MDC clock signal low.\n• MDIO: data input/output bitstream to transfer status information to/from the PHY device\nsynchronously with the MDC clock signal\n[Figure 328. SMI interface signals]\nMDC External\nMDIO PHY\nSMI frame format\nThe frame structure related to a read or write operation is shown in Table 13, the order of bit\ntransmission must be from left to right.\n[Table 210. Management frame format]\nThe management frame consists of eight fields:\n• Preamble: each transaction (read or write) can be initiated with the preamble field that\ncorresponds to 32 contiguous logic one bits on the MDIO line with 32 corresponding\ncycles on MDC. This field is used to establish synchronization with the PHY device.\n• Start: the start of frame is defined by a <01> pattern to verify transitions on the line\nfrom the default logic one state to zero and back to one.\n• Operation: defines the type of transaction (read or write) in progress.\n• PADDR: the PHY address is 5 bits, allowing 32 unique PHY addresses. The MSB bit of\nthe address is the first transmitted and received.\n• RADDR: the register address is 5 bits, allowing 32 individual registers to be addressed\nwithin the selected PHY device. The MSB bit of the address is the first transmitted and\nreceived.\n• TA: the turn-around field defines a 2-bit pattern between the RADDR and DATA fields\nto avoid contention during a read transaction. For a read transaction the MAC controller\ndrives high-impedance on the MDIO line for the 2 bits of TA. The PHY device must\ndrive a high-impedance state on the first bit of TA, a zero bit on the second one.\nFor a write transaction, the MAC controller drives a <10> pattern during the TA field.\nThe PHY device must drive a high-impedance state for the 2 bits of TA.\n• Data: the data field is 16-bit. The first bit transmitted and received must be bit 15 of the\nETH_MIID register.\n• Idle: the MDIO line is driven in high-impedance state. All three-state drivers must be\ndisabled and the PHY’s pull-up resistor keeps the line at logic one.\nSMI write operation\nWhen the application sets the MII Write and Busy bits (in Ethernet MAC MII address register\n(ETH_MACMIIAR)), the SMI initiates a write operation into the PHY registers by transferring\nthe PHY address, the register address in PHY, and the write data (in Ethernet MAC MII data\nregister (ETH_MACMIIDR). The application should not change the MII Address register\ncontents or the MII Data register while the transaction is ongoing. Write operations to the MII\nAddress register or the MII Data register during this period are ignored (the Busy bit is high),\nand the transaction is completed without any error. After the Write operation has completed,\nthe SMI indicates this by resetting the Busy bit.\nFigure329 shows the frame format for the write operation.\n[Figure 329. MDIO timing and frame structure - Write cycle]\nSMI read operation\nWhen the user sets the MII Busy bit in the Ethernet MAC MII address register\n(ETH_MACMIIAR) with the MII Write bit at 0, the SMI initiates a read operation in the PHY\nregisters by transferring the PHY address and the register address in PHY. The application\nshould not change the MII Address register contents or the MII Data register while the\ntransaction is ongoing. Write operations to the MII Address register or MII Data register\nduring this period are ignored (the Busy bit is high) and the transaction is completed without\nany error. After the read operation has completed, the SMI resets the Busy bit and then\nupdates the MII Data register with the data read from the PHY.\nFigure330 shows the frame format for the read operation.\n[Figure 330. MDIO timing and frame structure - Read cycle]\nSMI clock selection\nThe MAC initiates the Management Write/Read operation. The SMI clock is a divided clock\nwhose source is the application clock (AHB clock). The divide factor depends on the clock\nrange setting in the MII Address register.\nTable211 shows how to set the clock ranges.\n[Table 211. Clock range]",
+      "semantic": {}
+    }
+  ]
+}

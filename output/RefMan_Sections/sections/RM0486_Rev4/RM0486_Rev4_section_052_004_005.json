@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S52.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "52",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "52.4.5",
+      "section_title": "Modular and Montgomery multiplication",
+      "level": 3,
+      "parent_section": "52.4",
+      "page": 2461,
+      "page_end": 2462,
+      "semantic_type": "generic",
+      "features": [
+        "modular",
+        "montgomery",
+        "multiplication"
+      ],
+      "chars": 1861,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2461",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 52.4.5 \"Modular and Montgomery multiplication\" in chapter 52 (Public key accelerator (PKA)), RM0486 Rev 4, page 2461.",
+      "section_content": "To be more efficient when performing a sequence of multiplications, the PKA accelerates a\nmultiplication that has at least one input in the Montgomery domain. The two main uses of\nthis operation are:\n• Map a value from natural domain to Montgomery domain and vice-versa\n• Perform a modular multiplication A×B mod n\nThe method to perform these operations is described next. The x function is this operation,\nand the A, B, and C operands are in the natural domain.\n1. Inward or outward conversion to or from the Montgomery domain\na) Assuming that A is an integer in the natural domain:\n– Compute r2modn using Montgomery parameter computation.\n– The result of AR=A×r2modnmodn is A in the Montgomery domain.\nb) Assuming that BR is an integer in the Montgomery domain:\n– The result of B=BR×1modn is B in the natural domain.\n– Similarly, the AR value computed in a) can be converted into the natural\ndomain by computing A=AR×1modn.\n2. Simple modular multiplication A×Bmodn\na) Compute r2modn using Montgomery parameter computation.\nb) Compute AR=A×r2modnmodn. The output is in the Montgomery domain.\nc) Compute AB=AR×Bmodn. The output is in the natural domain.\n3. Multiple modular multiplication A×B×Cmodn\na) Compute r2modn using Montgomery parameter computation.\nb) Compute AR=A×r2modnmodn. The output is in the Montgomery domain.\nc) Compute BR=B×r2modnmodn. The output is in the Montgomery domain.\nd) Compute ABR=AR×BRmodn. The output is in the Montgomery domain.\ne) Compute CR=C×r2modnmodn. The output is in the Montgomery domain.\nf) Compute ABCR=ABR×CRmodn. The output is in the Montgomery domain.\ng) (optional) Repeat the two previous steps if multiplying with additional operands is\nrequired.\nh) Compute ABC=ABCR×1modn to retrieve the result in the natural domain.\nThe following table summarizes the operation instructions.\n[Table 447. Montgomery multiplication]",
+      "semantic": {}
+    }
+  ]
+}

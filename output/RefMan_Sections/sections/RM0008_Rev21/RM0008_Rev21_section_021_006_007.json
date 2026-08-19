@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S21.6.7",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "21",
+      "chapter_title": "Flexible static memory controller (FSMC)",
+      "section": "21.6.7",
+      "section_title": "PC Card/CompactFlash operations",
+      "level": 3,
+      "parent_section": "21.6",
+      "page": 555,
+      "page_end": 557,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory"
+      ],
+      "chars": 2990,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=555",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.6.7 \"PC Card/CompactFlash operations\" in chapter 21 (Flexible static memory controller (FSMC)), RM0008 Rev 21, page 555.",
+      "section_content": "Address spaces and memory accesses\nThe FSMC supports Compact Flash storage or PC Cards in Memory Mode and I/O Mode\n(True IDE mode is not supported).\nThe Compact Flash storage and PC Cards are made of 3 memory spaces:\n• Common Memory Space\n• Attribute Space\n• I/O Memory Space\nThe nCE2 and nCE1 pins (FSMC_NCE4_2 and FSMC_NCE4_1 respectively) select the\ncard and indicate whether a byte or a word operation is being performed: nCE2 accesses\nthe odd byte on D15-8 and nCE1 accesses the even byte on D7-0 if A0=0 or the odd byte on\nD7-0 if A0=1. The full word is accessed on D15-0 if both nCE2 and nCE1 are low.\nThe memory space is selected by asserting low nOE for read accesses or nWE for write\naccesses, combined with the low assertion of nCE2/nCE1 and nREG.\n• If pin nREG=1 during the memory access, the common memory space is selected\n• If pin nREG=0 during the memory access, the attribute memory space is selected\nThe I/O Space is selected by asserting low nIORD for read accesses or nIOWR for write\naccesses [instead of nOE/nWE for memory Space], combined with nCE2/nCE1. Note that\nnREG must also be asserted low during accesses to I/O Space.\nThree type of accesses are allowed for a 16-bit PC Card:\n• Accesses to Common Memory Space for data storage can be either 8-bit accesses at\neven addresses or 16 bit AHB accesses.\nNote that 8-bit accesses at odd addresses are not supported and will not lead to the\nlow assertion of nCE2. A 32-bit AHB request is translated into two 16-bit memory\naccesses.\n• Accesses to Attribute Memory Space where the PC Card stores configuration\ninformation are limited to 8-bit AHB accesses at even addresses.\nNote that a 16-bit AHB access will be converted into a single 8-bit memory transfer:\nnCE1 will be asserted low, nCE2 will be asserted high and only the even Byte on D7-\nD0 will be valid. Instead a 32-bit AHB access will be converted into two 8-bit memory\ntransfers at even addresses: nCE1 will be asserted low, NCE2 will be asserted high\nand only the even bytes will be valid.\n• Accesses to I/O Space can be performed either through AHB 8-bit or 16-bit accesses.\n[Table 134. 16-bit PC-Card signals and access type]\nThe FSMC Bank 4 gives access to those 3 memory spaces as described in Section21.4.2:\nNAND/PC Card address mapping and Table102: Memory mapping and timing registers.\nWait Feature\nThe CompactFlash Storage or PC Card may request the FSMC to extend the length of the\naccess phase programmed by MEMWAITx/ATTWAITx/IOWAITx bits, asserting the nWAIT\nsignal after nOE/nWE or nIORD/nIOWR activation if the wait feature is enabled through the\nPWAITEN bit in the FSMC_PCRx register. In order to detect the nWAIT assertion correctly,\nthe MEMWAITx/ATTWAITx/IOWAITx bits must be programmed as follows:\nxxWAITx >= 4 + max_wait_assertion_time/HCLK\nWhere max_wait_assertion_time is the maximum time taken by NWAIT to go low once\nnOE/nWE or nIORD/nIOWR is low.\nAfter the de-assertion of nWAIT, the FSMC extends the WAIT phase for 4 HCLK clock\ncycles.",
+      "semantic": {}
+    }
+  ]
+}

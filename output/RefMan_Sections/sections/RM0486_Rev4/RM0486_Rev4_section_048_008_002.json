@@ -1,0 +1,126 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S48.8.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "48",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "48.8.2",
+      "section_title": "SAES status register (SAES_SR)",
+      "level": 3,
+      "parent_section": "48.8",
+      "page": 2346,
+      "page_end": 2347,
+      "semantic_type": "register_description",
+      "features": [
+        "busy",
+        "keyvalid",
+        "rderrf",
+        "saes",
+        "saes-sr",
+        "wrerrf"
+      ],
+      "chars": 2474,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2346",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.8.2 \"SAES status register (SAES_SR)\" in chapter 48 (Secure AES coprocessor (SAES)), RM0486 Rev 4, page 2346.",
+      "section_content": "Address offset: 0x004\nReset value: 0x0000 0000\nBits 31:8 Reserved, must be kept at reset value.\nBit 7 KEYVALID: Key valid flag\nThis bit is set by hardware when the key of size defined by KEYSIZE is loaded in SAES_KEYRx key\nregisters.\n0: Key not valid\n1: Key valid\nThe EN bit can only be set when KEYVALID is set.\nIn normal mode when KEYSEL[2:0] is at zero, the key must be written in the key registers in the\ncorrect sequence, otherwise the KEIF flag is set and KEYVALID remains cleared.\nWhen KEYSEL[2:0] is different from zero, the BUSY flag is automatically set by SAES. When the\nkey is loaded successfully, BUSY is cleared and KEYVALID set. Upon an error, KEIF is set, BUSY\ncleared and KEYVALID remains cleared.\nIf set, KEIF must be cleared through the SAES_ICR register, otherwise KEYVALID cannot be set.\nSee the KEIF flag description for more details.\nFor further information on key loading, refer to Section48.4.17: SAES key registers.\nBits 6:4 Reserved, must be kept at reset value.\nBit 3 BUSY: Busy\nThis flag indicates whether SAES is idle or busy.\n0: Idle\n1: Busy\nSAES is flagged as idle when disabled (when EN is low) or when the last processing is completed.\nSAES is flagged as busy when processing a block data, preparing a key (ECB or CBC decryption\nonly), fetching random number from the RNG, or transferring a shared key to the target peripheral.\nWhen GCM encryption payload phase is selected, this flag must be at zero before suspending\ncurrent process to manage a higher-priority message. BUSY must also be cleared before selecting\nthe GCM final phase.\nBit 2 WRERRF: Write error flag\nThis bit is set when an unexpected write to the SAES_DINR register occurred. When set WRERRF\nbit has no impact on the SAES operations.\n0: No error\n1: Unexpected write to SAES_DINR register occurred during computation or data output phase.\nThe flag setting generates an interrupt if the RWEIE bit of the SAES_IER register is set.\nThe flag is cleared by setting the RWEIF bit of the SAES_ICR register.\nBit 1 RDERRF: Read error flag\nThis bit is set when an unexpected read to the SAES_DOUTR register occurred. When set\nRDERRF bit has no impact on the SAES operations.\n0: No error\n1: Unexpected read to SAES_DOUTR register occurred during computation or data input phase.\nThe flag setting generates an interrupt if the RWEIE bit of the SAES_IER register is set.\nThe flag is cleared by setting the RWEIF bit of the SAES_ICR register.\nBit 0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "SAES_SR",
+        "address_offset": "0x004",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "KEYVALID",
+            "description": "Key valid flag This bit is set by hardware when the key of size defined by KEYSIZE is loaded in SAES_KEYRx key registers. The EN bit can only be set when KEYVALID is set. In normal mode when KEYSEL[2:0] is at zero, the key must be written in the key registers in the correct sequence, otherwise the KEIF flag is set and KEYVALID remains cleared. When KEYSEL[2:0] is different from zero, the BUSY flag is automatically set by SAES. When the key is loaded successfully, BUSY is cleared and KEYVALID set. Upon an error, KEIF is set, BUSY cleared and KEYVALID remains cleared. If set, KEIF must be cleared through the SAES_ICR register, otherwise KEYVALID cannot be set. See the KEIF flag description for more details. For further information on key loading, refer to Section48.4.17: SAES key registers.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Key not valid"
+              },
+              {
+                "value": "1",
+                "meaning": "Key valid"
+              }
+            ]
+          },
+          {
+            "bits": "6:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "BUSY",
+            "description": "Busy This flag indicates whether SAES is idle or busy. SAES is flagged as idle when disabled (when EN is low) or when the last processing is completed. SAES is flagged as busy when processing a block data, preparing a key (ECB or CBC decryption only), fetching random number from the RNG, or transferring a shared key to the target peripheral. When GCM encryption payload phase is selected, this flag must be at zero before suspending current process to manage a higher-priority message. BUSY must also be cleared before selecting the GCM final phase.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Idle"
+              },
+              {
+                "value": "1",
+                "meaning": "Busy"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "WRERRF",
+            "description": "Write error flag This bit is set when an unexpected write to the SAES_DINR register occurred. When set WRERRF bit has no impact on the SAES operations. The flag setting generates an interrupt if the RWEIE bit of the SAES_IER register is set. The flag is cleared by setting the RWEIF bit of the SAES_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No error"
+              },
+              {
+                "value": "1",
+                "meaning": "Unexpected write to SAES_DINR register occurred during computation or data output phase."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "RDERRF",
+            "description": "Read error flag This bit is set when an unexpected read to the SAES_DOUTR register occurred. When set RDERRF bit has no impact on the SAES operations. The flag setting generates an interrupt if the RWEIE bit of the SAES_IER register is set. The flag is cleared by setting the RWEIF bit of the SAES_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No error"
+              },
+              {
+                "value": "1",
+                "meaning": "Unexpected read to SAES_DOUTR register occurred during computation or data input phase."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

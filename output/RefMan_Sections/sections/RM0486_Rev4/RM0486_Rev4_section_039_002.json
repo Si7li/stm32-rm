@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.2",
+      "section_title": "DCMIPP main features",
+      "level": 2,
+      "parent_section": null,
+      "page": 1818,
+      "page_end": 1819,
+      "semantic_type": "generic",
+      "features": [
+        "dcmipp"
+      ],
+      "chars": 4504,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1818",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.2 \"DCMIPP main features\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1818.",
+      "section_content": "• Parallel input interface:\n– Pixel rate: up to 16 bits in parallel, 100 Mpixel/s (typically 1080p30, maximum\n2048x2048 on processing pipelines after decimation).\n– Pixel format: RGB565, RGB888, YUV422, raw Bayer/Mono 8/10/12/14, and\nByteStream (JPEG)\n• CSI-2 host input interface:\n– Pixel rate: 32 bits in parallel at 200 Mpixel/s (typically 5 MPixel x30), supports\nMIPI® CSI-2 v1.3\n– Pixel format: all MIPI CSI-2 v1.3, among others RGB565, RGB888, YUV422, raw\nBayer (see Table335)\n– Abutted CSI-2 host IP: 1-to-2 DL at up to 2.5 Gbps/lane\n– Features: Interleaved packets, four virtual channels\n• Pipeline maximum resolution:\n– Dimensioned for 5 Mpixel (typically 2560 x 2048 or 2688 x 1944) before\ndecimation\n– Maximum pipe resolution: 4094 x 4094\n– Maximum demosaicing or downsize or YUV420 width: 2688 pixels\n• Pipe pixel rate: 200 Mpixel/s peak (150 Mpixel/s average + blanking)\n• Maximum frame per second (fps): typical examples are defined with 30 fps, it is\npossible to reach higher rates (for example 120 fps) by decreasing image resolution to\nguarantee the maximum pixel rate constraints.\n• Flow selection and frame control:\n– CSI-2 interleaved packets supported (with some restrictions)\n– Capture mode in Continuous vs. Snapshot mode\n• Byte-to-pixel conversion:\n– Enables the above flexible input pixel formats to be extracted and fed to pipes\n– Non-extracted pixel formats can still be dumped via Pipe0, to allow an ad-hoc\nsoftware extraction\n• Statistic removal:\n– To remove unused metadata (like statistics) from received pictures\n• Bad pixel removal (automatic detection and correction of bad pixels from sensor array)\n• Decimation of one pixel every 1/2/4/8:\n– Decimation to fit the demosaicing (maximum 2688 pixel width)\n– Raw Bayer format support, via a decimation of components (2 by 2)\n• Integrated image processing block, which makes possible to connect very low cost\ncamera modules without any embedded ISP\n– Black level calibration\n– Statistics extraction\n> To extract average R, G, B, L values (for auto exposure and white balance)\n> To sort any R, G, B, L value into 12 dynamic bins (for contrast enhancement)\n– Exposure control (amplifies the exposure up to 256x)\n> To smoothly adapt to dark exposures\n– Raw Bayer to RGB conversion (demosaicing)\n> Mid quality conversion for display and software analysis purposes (high\nquality conversion can be done in software upon trigger, for still-image only)\n> Algorithm with a 4 x 3 heuristic analysis matrix\n– Color conversion to adapt to the sensor and tune the illumination\n> Configurable coefficients, to map any linear tuning\n– Contrast enhancement\n> Non-linear luminance tuning, linearized across eight luminance segments.\n• Decimation on Pipe0 (dump pipe)\n– Pure sub-sampling, ratio 1 vs. 1, 2, 4 in X and ratio 1 vs. 1, 2 in Y (no X if CSI\nsource)\n• Parallel pipelines for parallel applications:\n– Pipe0 (for data dump) for a direct dump without processing\n– Pipe1 (for main usage) with downsize, ColorConv, decimation, multi-planar\n– Pipe2 (for ancillary usage) with downsize, decimation, coplanar\n• Downsize\n– Decimation, optional pre-processing, sub-sampling ratio 1 vs. 1, 2, 4, 8 in X and Y\n– Box-filtering, with any decimal ratio up to 8x8, on Pipe1 and Pipe2\n• Up to eight regions of interest (ROI) can be defined for displaying purpose (only\nsupporting RGB data format)\n– Up to 64 line colors can be selected by the software, per ROI\n– Up to four line widths can be configurable (1, 2, 4, 8 pixels, common to all ROIs)\n– Pipe0 does not support ROI\n• Gamma conversion for display:\n– Non-linear transform, with seven interpolated segments, with static coefficient for\nG=2.2\n• Color conversion 2 for RGB to YUV conversion:\n– to/from YUV: 12 coefficients (BT.601, 709, any), with optional range ext/clamp\n• Output pixel format:\n– Pipe0: any data as-is, Y/Rb: 8/10/12/14 statistics, bit streams\n– Pipe2: 888, 565, 422-1, Y8, ARGB and RGBA (coplanar only)\n– Pipe1: adds 422-2, 420-2, 420-3 (multi-planar possible) to Pipe2 formats\n• AXI master:\n– Output FIFOs to drain pixel/data to the memory (linked to the memory latency)\nfrom the pipe(s)\n– The unique AXI-Master interface implements one client per pipe, with semi- or\nmulti-planar pipes using, respectively, two or three clients\n– Double buffer mode capab/ility per pipe\n– Address wrapping to write into a ping-pong buffer\n• Overrun detection:\n– Notification in case of frame impacted by pixel congestion (no impact on the\nfollowing frame if the congestion cause is solved)",
+      "semantic": {}
+    }
+  ]
+}

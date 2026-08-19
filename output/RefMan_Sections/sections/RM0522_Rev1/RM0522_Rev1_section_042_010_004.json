@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.10.4",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.10.4",
+      "section_title": "S-FIFO management, as controller",
+      "level": 3,
+      "parent_section": "42.10",
+      "page": 1737,
+      "page_end": 1739,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 3036,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1737",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.10.4 \"S-FIFO management, as controller\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1737.",
+      "section_content": "When controller, S-FIFO can be used by the software to be able to read the I3C status\nregister (I3C_SR) for each transferred message.\nReading status register with disabled S-FIFO\nIf SMODE = 0 in the I3C_CFGR register, the S-FIFO is disabled and the status register can\nbe read as a usual register:\n• the register content is overwritten by hardware when is transferee a new message\n• I3C_SR contains the status of the last transferred message\n• SCL clock is not stalled if status register is not read.\nIf SMODE = 0, for the specific case of a private read prematurely ended by the target:\n• the software is notified by the flag RXTGTENDF = 1 in the I3C_EVR register and the\ncorresponding interrupt if enabled.\n• Then, until that the software has cleared the event flag write and set\nCRXTGTENDF=1 in the I3C_CEVR register:\n– no more data byte can be received on the I3C bus and written by the hardware\ninto I3C_RDR/I3C_RDWR registers\n– I3C_SR cannot be updated\n– SCL clock is stalled if needed\nTypically, I3C_SR can be read when FCF = 1, or ERRF = 1, or RXTGTENDF = 1 in the\nI3C_EVR register. XDCNT[15:0] in the I3C_SR register can be read to get the effective\nnumber of received data bytes on a private read, after an early termination from the target\n(refer to Section42.10.3).\nReading status register with enabled S-FIFO\nIf SMODE = 1 in the I3C_CFGR register, the S-FIFO is enabled. Figure615 illustrates the\nmanagement of the S-FIFO for queuing and popping-out a status word for each executed\nmessage on the I3C bus, when the I3C peripheral acts as controller.\n[Figure 615. S-FIFO management, as controller]\nFirst, the software must initialize the S-FIFO management via the SDMAEN field\n(enable/disable DMA mode for S-FIFO) in the I3C_CFGR register. Then, depending on\nSDMAEN, the S-FIFO is read either:\n• directly by the software (if SDMAEN = 0):\n– via polling mode (SFNEIE = 0 in the I3C_IER register): waiting for a next status\nword is requested by the hardware (SFNEF = 1 in the I3C_IER register) before an\nexplicit read to the I3C_SR register\n– via enabled interrupt notification (SFNEIE = 1)\n• by the allocated DMA channel (if SDMAEN = 1) to the corresponding DMA request\nfrom the I3C peripheral (i3c_rs_dma):\n– as configured at DMA block level, the DMA is automatically popping-out/reading\nstatus words from the I3C_SR register and writing them into its memory\ndestination buffer, until the frame completion (a stop is emitted on the I3C bus after\nthe last message of the frame), unless a transfer error occurs.\nEach message status must be read, else an overrun error is asserted by the hardware\n(ERRF = 1 in the I3C_EVR register and COVR = 1 in the I3C_SER register) when the\nS-FIFO is full and a next message status must be written. The corresponding interrupt is\nraised if enabled by ERRIE = 1 in the I3C_IER register.\nThe frame completion (FCF = 1 in the I3C_EVR register) is reported only when the S-FIFO\nis empty.\nThe configuration for the S-FIFO management can be modified when the I3C peripheral is\nnot in active state.",
+      "semantic": {}
+    }
+  ]
+}

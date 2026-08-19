@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.7.8",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.7.8",
+      "section_title": "I2S error flags",
+      "level": 3,
+      "parent_section": "27.7",
+      "page": 874,
+      "page_end": 875,
+      "semantic_type": "generic",
+      "features": [
+        "i2s",
+        "spi"
+      ],
+      "chars": 1916,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=874",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.7.8 \"I2S error flags\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 874.",
+      "section_content": "There are three error flags for the I2S cell.\nUnderrun flag (UDR)\nIn slave transmission mode this flag is set when the first clock for data transmission appears\nwhile the software has not yet loaded any value into SPIx_DR. It is available when the\nI2SMOD bit in the SPIx_I2SCFGR register is set. An interrupt may be generated if the\nERRIE bit in the SPIx_CR2 register is set.\nThe UDR bit is cleared by a read operation on the SPIx_SR register.\nOverrun flag (OVR)\nThis flag is set when data are received and the previous data have not yet been read from\nthe SPIx_DR register. As a result, the incoming data are lost. An interrupt may be generated\nif the ERRIE bit is set in the SPIx_CR2 register.\nIn this case, the receive buffer contents are not updated with the newly received data from\nthe transmitter device. A read operation to the SPIx_DR register returns the previous\ncorrectly received data. All other subsequently transmitted half-words are lost.\nClearing the OVR bit is done by a read operation on the SPIx_DR register followed by a\nread access to the SPIx_SR register.\nFrame error flag (FRE)\nThis flag can be set by hardware only if the I2S is configured in Slave mode. It is set if the\nexternal master is changing the WS line while the slave is not expecting this change. If the\nsynchronization is lost, the following steps are required to recover from this state and\nresynchronize the external master device with the I2S slave device:\n1. Disable the I2S.\n2. Enable it again when the correct level is detected on the WS line (WS line is high in I2S\nmode or low for MSB- or LSB-justified or PCM modes.\nDesynchronization between master and slave devices may be due to noisy environment on\nthe CK communication clock or on the WS frame synchronization line. An error interrupt can\nbe generated if the ERRIE bit is set. The desynchronization flag (FRE) is cleared by\nsoftware when the status register is read.",
+      "semantic": {}
+    }
+  ]
+}

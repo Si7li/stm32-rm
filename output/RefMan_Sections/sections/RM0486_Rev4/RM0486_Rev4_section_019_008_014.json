@@ -1,0 +1,51 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.8.14",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.8.14",
+      "section_title": "GPDMA channel x source address register (GPDMA_CxSAR)",
+      "level": 3,
+      "parent_section": "19.8",
+      "page": 1000,
+      "page_end": 1001,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "gpdma",
+        "memory"
+      ],
+      "chars": 2709,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1000",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.8.14 \"GPDMA channel x source address register (GPDMA_CxSAR)\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 1000.",
+      "section_content": "Address offset: 0x9C + 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of channel x (GPDMA_PRIVCFGR.PRIVx).\nThis register configures the source start address of a transfer.\nThis register must be written when GPDMA_CxCR.EN = 0.\nThis register is read-only when GPDMA_CxCR.EN = 1, and continuously updated by\nhardware, in order to reflect the address of the next burst transfer from the source.\nThis register must be written when the channel is completed (then the hardware has\ndeasserted GPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block, 2D/repeated block, LLI or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by the\nGPDMA from the memory if GPDMA_CxLLR.USA = 1.\nBits 31:0 SA[31:0]: source address\nThis field is the pointer to the address from which the next data is read.\nDuring the channel activity, depending on the source addressing mode\n(GPDMA_CxTR1.SINC), this field is kept fixed or incremented by the data width\n(GPDMA_CxTR1.SDW_LOG2[1:0]) after each burst source data, reflecting the next address\nfrom which data is read.\nDuring the channel activity, this address is updated after each completed source burst,\nconsequently to:\n– the programmed source burst; either in fixed addressing mode or in contiguous-data\nincremented mode. If contiguously incremented (GPDMA_CxTR1.SINC = 1), then the\nadditional address offset value is the programmed burst size, as defined by\nGPDMA_CxTR1.SBL_1[5:0] and GPDMA_CxTR1.SDW_LOG2[1:0]\n– the additional source incremented/decremented offset value as programmed by\nGPDMA_CxBR1.SDEC and GPDMA_CxTR3.SAO[12:0].\n– once/if completed source block transfer, for a channel x with 2D addressing capability\n(x=12to 15). additional block repeat source incremented/decremented offset value as\nprogrammed by GPDMA_CxBR1.BRSDEC and GPDMA_CxBR2.BRSAO[15:0]\nIn linked-list mode, after a LLI data transfer is completed, this register is automatically\nupdated by GPDMA from the memory, provided the LLI is set with GPDMA_CxLLR.USA = 1.\nNote: A source address must be aligned with the programmed data width of a source burst\n(SA[2:0] versus GPDMA_CxTR1.SDW_LOG2[1:0]). Else, a user setting error is\nreported and no transfer is issued.\nWhen the source block size is not a multiple of the source burst size and is a multiple of\nthe source data width, the last programmed source burst is not completed and is\ninternally shorten to match the block size. In this case, the additional\nGPDMA_CxTR3.SAO[12:0] is not applied.",
+      "semantic": {
+        "register": "GPDMA_CxSAR",
+        "address_offset": "0x9C + 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:0",
+            "name": "SA[31:0]",
+            "description": "source address This field is the pointer to the address from which the next data is read. During the channel activity, depending on the source addressing mode (GPDMA_CxTR1.SINC), this field is kept fixed or incremented by the data width (GPDMA_CxTR1.SDW_LOG2[1:0]) after each burst source data, reflecting the next address from which data is read. During the channel activity, this address is updated after each completed source burst, consequently to: – the programmed source burst; either in fixed addressing mode or in contiguous-data incremented mode. If contiguously incremented (GPDMA_CxTR1.SINC = 1), then the additional address offset value is the programmed burst size, as defined by GPDMA_CxTR1.SBL_1[5:0] and GPDMA_CxTR1.SDW_LOG2[1:0] – the additional source incremented/decremented offset value as programmed by GPDMA_CxBR1.SDEC and GPDMA_CxTR3.SAO[12:0]. – once/if completed source block transfer, for a channel x with 2D addressing capability (x=12to 15). additional block repeat source incremented/decremented offset value as programmed by GPDMA_CxBR1.BRSDEC and GPDMA_CxBR2.BRSAO[15:0] In linked-list mode, after a LLI data transfer is completed, this register is automatically updated by GPDMA from the memory, provided the LLI is set with GPDMA_CxLLR.USA = 1. Note: A source address must be aligned with the programmed data width of a source burst (SA[2:0] versus GPDMA_CxTR1.SDW_LOG2[1:0]). Else, a user setting error is reported and no transfer is issued. When the source block size is not a multiple of the source burst size and is a multiple of the source data width, the last programmed source burst is not completed and is internally shorten to match the block size. In this case, the additional GPDMA_CxTR3.SAO[12:0] is not applied.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S49.3.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "49",
+      "chapter_title": "Debug support (DBG)",
+      "section": "49.3.1",
+      "section_title": "JTAG debug port",
+      "level": 3,
+      "parent_section": "49.3",
+      "page": 2420,
+      "page_end": 2422,
+      "semantic_type": "generic",
+      "features": [
+        "jtag"
+      ],
+      "chars": 2407,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2420",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 49.3.1 \"JTAG debug port\" in chapter 49 (Debug support (DBG)), RM0522 Rev 1, page 2420.",
+      "section_content": "The JTAG-DP implements a TAP state machine (TAPSM), shown in the figure below, based\non IEEE Std 1149.1-1990. The state machine controls two scan chains, one associated with\nan instruction register (IR) and the other one with a number of data registers (DR).\n[Figure 746. JTAG TAP state machine]\nJTMS=1\nTest-Logic-\nReset\nJTMS=0\nJTMS=0\nRun-Test/ JTMS=1 Select- JTMS=1 Select-\nIdle DR-Scan IR-Scan JTMS=1\nJTMS=0 JTMS=0\nJTMS=1 Capture- JTMS=1 Capture-\nDR IR\nJTMS=0 JTMS=0\nShift-DR Shift-IR\nJTMS=1 JTMS=0 JTMS=1 JTMS=0\nJTMS=1 JTMS=1\nExit1-DR Exit1-IR\nJTMS=0 JTMS=0\nPa D u R se- Pause-IR\nJTMS=1 JTMS=0 JTMS=1 JTMS=0\nJTMS=0 JTMS=0\nExit2-DR Exit2-IR\nJTMS=1 JTMS=1\nUpdate- Update-\nDR IR\nJTMS=1 JTMS=0 JTMS=1 JTMS=0\nThe operation of the JTAG-DP is as follows:\n1. When the TAPSM goes through the Capture-IR state, 0b0001 is transferred to the\ninstruction register (IR) scan chain. The IR scan chain is connected between JTDI and\nJTDO.\n2. While the TAPSM is in the Shift-IR state, the IR scan chain shifts one bit for each rising\nedge of JTCK. This means that on the first tick:\n– The LSB of the IR scan chain is output on JTDO.\n– Bit[n] of the IR scan chain is transferred to bit[n-1].\n– The value on JTDI is transferred to the MSB of the IR scan chain.\n3. When the TAPSM goes through the Update-IR state, the value scanned into the IR\nscan chain is transferred to the instruction register.\n4. When the TAPSM goes through the Capture-DR state, a value is transferred from one\nof the data registers to one of the DR scan chains, connected between JTDI and JTDO.\n5. The value held in the instruction register determines which data register, and\nassociated DR scan chain, are selected.\n6. This data is then shifted while the TAPSM is in the Shift-DR state, in the same manner\nas the IR shifts in the Shift-IR state.\n7. When the TAPSM goes through the Update-DR state, the value scanned into the DR\nscan chain is transferred to the selected data register.\n8. When the TAPSM is in the Run-Test/Idle state, no special actions occur. The IDCODE\ninstruction is loaded in IR.\nWhen active, the nJTRST signal resets the state machine asynchronously to the\ntest-logic-reset state.\nThe data registers corresponding to the 4-bit IR instructions are listed in the table below.\n[Table 575. JTAG-DP data registers]\nThe DR registers are described in more detail in the Arm Debug Interface Architecture\nSpecification (see Section49.13).",
+      "semantic": {}
+    }
+  ]
+}

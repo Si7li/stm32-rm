@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.7.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.7.5",
+      "section_title": "Total MDF gain",
+      "level": 3,
+      "parent_section": "35.7",
+      "page": 1680,
+      "page_end": 1684,
+      "semantic_type": "generic",
+      "features": [
+        "mdf"
+      ],
+      "chars": 4928,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1680",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.7.5 \"Total MDF gain\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1680.",
+      "section_content": "This section details how to compute the signal level provided by the MDF according to the\nfilter settings. The formula does not take into account the filters transfer function.\nA signal level may be expressed in dBFS (decibel full scale). A 0 dBFS level is assigned to\nthe maximum possible digital level. For example, a signal that reaches 50% of the\nmaximum level, has a -6 dBFS level (6 dB below full scale).\nFor example, for the MDF offering a final data width of 24 bits, a signal having an amplitude\nof 2*106LSB has a level of:\n20× log10⎝ ⎜ ⎛ -2 2 --- ( - × - 2 --- 4 --1- – --0-- 1 -- 6 -- )⎠ ⎟ ⎞ =–12.45 dBFS\nIn addition, the data size of a signal having an amplitude (Amp) expressed in LSB is given\nby:\nDS = ⎝ ⎛ -l-n---- l ( - n --A--(--m 2 ----)-p---- ) -+1⎠ ⎞ bits\nOne bit need to be added for negative values.\nSo a signal having an amplitude of 2*106 LSB, has a data size of 21.9 bits.\nCIC gain\nThe CIC gain (GCIC and GdBCIC) can be deduced from the following formula giving data\nsize in bits (DSCIC).\nDSCIC = (N× log2 (D1))+DSIN\nAnd the bit growth is:\nBGCIC = (N× log2 (D1))\nwhere N represents the CIC order (selected by CICMOD[2:0]), and D1 is the decimation\nratio (given by MCICD).\nDSIN represents the data size (in bits) of the input signal.\nWarning: DSCIC is very important for CIC filters. In order to work fine,\nDSCIC must not exceed 26 bits.\nGCIC = 2 (BGCIC) = (D1)N\nwhich gives, in decibels:\nGdBCIC = 20× log10 ((D1)N)\nNote: The same formulas are valid for the ACIC.\nData size at SCALE output\nThe data size at SCALE output (including the CIC gain) is a key information as the RSFLT\nstarts to have some saturations if the peak-to-peak signal amplitude at SCALE output is\nhigher than 22 bits.\nIf the RSFLT is bypassed, then a peak-to-peak signal amplitude of 24 bits is accepted. The\nresulting data size is given by:\n⎛ -G-----D----B-----S---C---A---L---E--⎞\nDSSCALE = N× log2 (D1)+log2⎝ ⎜10 20\n⎟ +DSIN\nThe data size at SCALE output (DSSCALE) is expressed in bits and GdBSCALE represents\nthe gain selected by SCALE[5:0], in dB.\nRSFLT gain\nThe RSFLT gain in the useful bandwidth is typically 9.5 dB, but due to ripple a margin of\nabout ± 0.5 dB must be considered. Typically, the RSFLT increases the bit size by BGRSFLT:\n9----.-5---- --d---B---\nBGRSFLT = 10 20 = 2.98 = 1.6 bits\nINT gain\nThe INT block can also introduce a gain if the rescaling value is different from the integration\nvalue.\nGINT = I-\n--V\n----A-\n-L---\nand:\nGdBINT = 20× log10⎝ ⎛I-\n--V\n----A-\n-L---⎠ ⎞\nThe bit growth of the INT is then given by the following formula:\nBGINT = log2⎝ ⎛I-\n--V\n----A-\n-L---⎠ ⎞\nIVAL represents the integration value selected by INTVAL[6:0], and IDIV represents the\nintegrator output division selected by INTDIV[1:0].\nNote: The HPF filter has a gain of 0 dB.\nThe figure below shows a simplified view of the filter path, and gives for each significant\ncomponent the expression of the bit growth and the gain.\n[Figure 355. Simplified DFLT view with gain information]\nThe table below summarizes the final data size for different filter configurations.\n[Table 292. Output signal levels]\nExample using the main filter chain\nIf the MDF filter is programmed as follows:\n• The input signal is coming from a serial interface (DSIN = 1 bit).\n• CIC order = 5 (N), with a decimation value of 24 (D1).\n• SCALE[5:0] is set to -12 dB.\n• RSFLT is enabled and the decimation by four is enabled.\n• HPF is enabled.\n• INT is disabled.\nCheck first the data size at CIC output:\nDSCIC = (5× log2 (24))+1 bit = 23.92 bits\nThe size is lower than 26 bits, so the CIC works in good conditions.\nThe data size at CIC output is very close to 24 bits, so the SCALE must be adjusted in order\nto provide a signal 22 bits max to the RSFLT. An attenuation of 12 dB is needed.\nThen the signal level provided to the RSFLT is:\n⎛ –----1---2--⎞\nDSSCALE = DSCIC+log2⎝ ⎜1020\n⎟= 23.92–1.99= 21.93 bits\nAt the end, the final signal amplitude is:\nDSOUT = DSSCALE+1.6 bits = (21.93+1.6)= 23.52 bits\n⎛2----\n2\n3\n5\n2\nSDBOUT = 20× log10⎝ ⎜\n---\n= –2.84 dBFS\n2\n4\n2\nThe RSFLT ripple a margin of about ± 0.41 dB (in this configuration) must be considered.\nExample using the OLD filter chain\nIn the following example, the application wants to trigger an OLD event when the voltage\ncoming from a shunt resistor reaches ± 200 mV.\nHypothesis:\n• The Σ∆ sensor is specified to support a full-scale signal of ± 350 mV.\n• The ACIC decimation ratio (D2) is fixed to 32.\n• The ACIC order (N) is fixed to 3.\nThe Σ∆ sensor provides a full-scale digital signal (amplitude of one bit) for a signal higher or\nequal to ± 350 mV. If the input signal is equal 200 mV, then the digital signal amplitude\nprovided by the sensor is 200/350 = 0.571.\nThe gain of the ACIC filter is:\nGCIC = (D2)N = 323 = 32768\nA signal having an amplitude of 200 mV at sensor input has then an amplitude of about\n32768*0.571 = 18725 LSB at ACIC output.\nOLDTHH must be set to 18725 and OLDTHL must be set to -18725.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.10.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.10.2",
+      "section_title": "SDMMC clock control register (SDMMC_CLKCR)",
+      "level": 3,
+      "parent_section": "30.10",
+      "page": 1432,
+      "page_end": 1434,
+      "semantic_type": "register_description",
+      "features": [
+        "busspeed",
+        "clkdiv",
+        "clock",
+        "ddr",
+        "hwfc-en",
+        "negedge",
+        "pwrsav",
+        "sdmmc",
+        "sdmmc-clkcr",
+        "selclkrx",
+        "widbus"
+      ],
+      "chars": 4588,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1432",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.10.2 \"SDMMC clock control register (SDMMC_CLKCR)\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1432.",
+      "section_content": "Address offset: 0x004\nReset value: 0x00000000\nThis register controls the SDMMC_CK output clock, the sdmmc_rx_ck receive clock, and\nthe bus width.\nBits 31:22 Reserved, must be kept at reset value.\nBits 21:20 SELCLKRX[1:0]: Receive clock selection\nThese bits can only be written when the CPSM and DPSM are not active (CPSMACT = 0\nand DPSMACT = 0)\n00: sdmmc_io_in_ck selected as receive clock\n01: SDMMC_CKIN feedback clock selected as receive clock\n10: sdmmc_fb_ck tuned feedback clock selected as receive clock\n11: Reserved (select sdmmc_io_in_ck)\nBit 19 BUSSPEED: Bus speed for selection of SDMMC operating modes\nThis bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and\nDPSMACT = 0)\n0: DS, HS, SDR12, SDR25, Legacy compatible, High speed SDR, High speed DDR bus\nspeed mode selected\n1: SDR50, DDR50, SDR104, HS200 bus speed mode selected\nBit 18 DDR: Data rate signaling selection\nThis bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and\nDPSMACT = 0)\nDDR rate must only be selected with 4-bit or 8-bit wide bus mode. (WIDBUS > 00). DDR = 1\nhas no effect when WIDBUS = 00 (1-bit wide bus).\nDDR rate must only be selected with clock division > 1 (CLKDIV > 0).\n0: SDR Single data rate signaling\n1: DDR double data rate signaling\nBit 17 HWFC_EN: Hardware flow control enable\nThis bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and\nDPSMACT = 0)\n0: Hardware flow control is disabled\n1: Hardware flow control is enabled\nWhen Hardware flow control is enabled, the meaning of the TXFIFOE and RXFIFOF flags\nchange, see SDMMC status register definition in Section30.10.11.\nBit 16 NEGEDGE: SDMMC_CK dephasing selection bit for data and command\nThis bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and\nDPSMACT = 0).\nWhen clock division = 1 (CLKDIV = 0), this bit has no effect. Data and Command change on\nSDMMC_CK falling edge.\n0:When clock division >1 (CLKDIV > 0) and DDR = 0:\n– Command and data changed on the sdmmc_ker_ck falling edge succeeding the rising\nedge of SDMMC_CK.\n– SDMMC_CK edge occurs on sdmmc_ker_ck rising edge.\nWhen clock division >1 (CLKDIV > 0) and DDR = 1:\n– Command changed on the sdmmc_ker_ck falling edge succeeding the rising edge of\nSDMMC_CK.\n– Data changed on the sdmmc_ker_ck falling edge succeeding a SDMMC_CK edge.\n– SDMMC_CK edge occurs on sdmmc_ker_ck rising edge.\n1: When clock division >1 (CLKDIV > 0) and DDR = 0:\n– Command and data changed on the same sdmmc_ker_ck rising edge generating the\nSDMMC_CK falling edge.\nWhen clock division >1 (CLKDIV > 0) and DDR = 1:\n– Command changed on the same sdmmc_ker_ck rising edge generating the\nSDMMC_CK falling edge.\n– Data changed on the SDMMC_CK falling edge succeeding a SDMMC_CK edge.\n– SDMMC_CK edge occurs on sdmmc_ker_ck rising edge.\nBits 15:14 WIDBUS[1:0]: Wide bus mode enable bit\nThis bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and\nDPSMACT = 0)\n00: Default 1-bit wide bus mode: SDMMC_D0 used (Does not support DDR)\n01: 4-bit wide bus mode: SDMMC_D[3:0] used\n10: 8-bit wide bus mode: SDMMC_D[7:0] used\nBit 13 Reserved, must be kept at reset value.\nBit 12 PWRSAV: Power saving configuration bit\nThis bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and\nDPSMACT = 0)\nFor power saving, the SDMMC_CK clock output can be disabled when the bus is idle by\nsetting PWRSAV:\n0: SDMMC_CK clock is always enabled\n1: SDMMC_CK is only enabled when the bus is active\nBits 11:10 Reserved, must be kept at reset value.\nBits 9:0 CLKDIV[9:0]: Clock divide factor\nThis bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and\nDPSMACT = 0).\nThis field defines the divide factor between the input clock (sdmmc_ker_ck) and the output\nclock (SDMMC_CK): SDMMC_CK frequency = sdmmc_ker_ck / [2 * CLKDIV].\n0x000: SDMMC_CK frequency = sdmmc_ker_ck / 1 (Does not support DDR)\n0x001: SDMMC_CK frequency = sdmmc_ker_ck / 2\n0x002: SDMMC_CK frequency = sdmmc_ker_ck / 4\n0x0XX: ..\n0x080: SDMMC_CK frequency = sdmmc_ker_ck / 256\n0xXXX: ..\n0x3FF: SDMMC_CK frequency = sdmmc_ker_ck / 2046\nNote: While the SD/SDIO card or e•MMC is in identification mode, the SDMMC_CK frequency\nmust be less than 400kHz.\nThe clock frequency can be changed to the maximum card bus frequency when relative\ncard addresses are assigned to all cards.\nAt least seven sdmmc_hclk clock periods are needed between two write accesses to this\nregister. SDMMC_CK can also be stopped during the Read Wait interval for SD I/O cards: in\nthis case the SDMMC_CLKCR register does not control SDMMC_CK.",
+      "semantic": {
+        "register": "SDMMC_CLKCR",
+        "address_offset": "0x004",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21:20",
+            "name": "SELCLKRX[1:0]",
+            "description": "Receive clock selection These bits can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and DPSMACT = 0)",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "sdmmc_io_in_ck selected as receive clock"
+              },
+              {
+                "value": "01",
+                "meaning": "SDMMC_CKIN feedback clock selected as receive clock"
+              },
+              {
+                "value": "10",
+                "meaning": "sdmmc_fb_ck tuned feedback clock selected as receive clock"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved (select sdmmc_io_in_ck)"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "BUSSPEED",
+            "description": "Bus speed for selection of SDMMC operating modes This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and DPSMACT = 0) speed mode selected",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DS, HS, SDR12, SDR25, Legacy compatible, High speed SDR, High speed DDR bus"
+              },
+              {
+                "value": "1",
+                "meaning": "SDR50, DDR50, SDR104, HS200 bus speed mode selected"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "DDR",
+            "description": "Data rate signaling selection This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and DPSMACT = 0) DDR rate must only be selected with 4-bit or 8-bit wide bus mode. (WIDBUS > 00). DDR = 1 has no effect when WIDBUS = 00 (1-bit wide bus). DDR rate must only be selected with clock division > 1 (CLKDIV > 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SDR Single data rate signaling"
+              },
+              {
+                "value": "1",
+                "meaning": "DDR double data rate signaling"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "HWFC_EN",
+            "description": "Hardware flow control enable This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and DPSMACT = 0) When Hardware flow control is enabled, the meaning of the TXFIFOE and RXFIFOF flags change, see SDMMC status register definition in Section30.10.11.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Hardware flow control is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Hardware flow control is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "NEGEDGE",
+            "description": "SDMMC_CK dephasing selection bit for data and command This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and DPSMACT = 0). When clock division = 1 (CLKDIV = 0), this bit has no effect. Data and Command change on SDMMC_CK falling edge. – Command and data changed on the sdmmc_ker_ck falling edge succeeding the rising edge of SDMMC_CK. – SDMMC_CK edge occurs on sdmmc_ker_ck rising edge. When clock division >1 (CLKDIV > 0) and DDR = 1: – Command changed on the sdmmc_ker_ck falling edge succeeding the rising edge of SDMMC_CK. – Data changed on the sdmmc_ker_ck falling edge succeeding a SDMMC_CK edge. – SDMMC_CK edge occurs on sdmmc_ker_ck rising edge. – Command and data changed on the same sdmmc_ker_ck rising edge generating the SDMMC_CK falling edge. When clock division >1 (CLKDIV > 0) and DDR = 1: – Command changed on the same sdmmc_ker_ck rising edge generating the SDMMC_CK falling edge. – Data changed on the SDMMC_CK falling edge succeeding a SDMMC_CK edge. – SDMMC_CK edge occurs on sdmmc_ker_ck rising edge.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "When clock division >1 (CLKDIV > 0) and DDR = 0:"
+              },
+              {
+                "value": "1",
+                "meaning": "When clock division >1 (CLKDIV > 0) and DDR = 0:"
+              }
+            ]
+          },
+          {
+            "bits": "15:14",
+            "name": "WIDBUS[1:0]",
+            "description": "Wide bus mode enable bit This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and DPSMACT = 0)",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Default 1-bit wide bus mode: SDMMC_D0 used (Does not support DDR)"
+              },
+              {
+                "value": "01",
+                "meaning": "4-bit wide bus mode: SDMMC_D[3:0] used"
+              },
+              {
+                "value": "10",
+                "meaning": "8-bit wide bus mode: SDMMC_D[7:0] used"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "PWRSAV",
+            "description": "Power saving configuration bit This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and DPSMACT = 0) For power saving, the SDMMC_CK clock output can be disabled when the bus is idle by setting PWRSAV:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SDMMC_CK clock is always enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "SDMMC_CK is only enabled when the bus is active"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9:0",
+            "name": "CLKDIV[9:0]",
+            "description": "Clock divide factor This bit can only be written when the CPSM and DPSM are not active (CPSMACT = 0 and DPSMACT = 0). This field defines the divide factor between the input clock (sdmmc_ker_ck) and the output clock (SDMMC_CK): SDMMC_CK frequency = sdmmc_ker_ck / [2 * CLKDIV]. 0x0XX: .. 0xXXX: .. Note: While the SD/SDIO card or e•MMC is in identification mode, the SDMMC_CK frequency must be less than 400kHz. The clock frequency can be changed to the maximum card bus frequency when relative card addresses are assigned to all cards. At least seven sdmmc_hclk clock periods are needed between two write accesses to this register. SDMMC_CK can also be stopped during the Read Wait interval for SD I/O cards: in this case the SDMMC_CLKCR register does not control SDMMC_CK.",
+            "values": [
+              {
+                "value": "0x000",
+                "meaning": "SDMMC_CK frequency = sdmmc_ker_ck / 1 (Does not support DDR)"
+              },
+              {
+                "value": "0x001",
+                "meaning": "SDMMC_CK frequency = sdmmc_ker_ck / 2"
+              },
+              {
+                "value": "0x002",
+                "meaning": "SDMMC_CK frequency = sdmmc_ker_ck / 4"
+              },
+              {
+                "value": "0x080",
+                "meaning": "SDMMC_CK frequency = sdmmc_ker_ck / 256"
+              },
+              {
+                "value": "0x3FF",
+                "meaning": "SDMMC_CK frequency = sdmmc_ker_ck / 2046"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

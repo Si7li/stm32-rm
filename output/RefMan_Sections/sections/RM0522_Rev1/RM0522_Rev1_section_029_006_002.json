@@ -1,0 +1,51 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S29.6.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "29",
+      "chapter_title": "Hash processor (HASH)",
+      "section": "29.6.2",
+      "section_title": "HASH data input register (HASH_DIN)",
+      "level": 3,
+      "parent_section": "29.6",
+      "page": 908,
+      "page_end": 909,
+      "semantic_type": "register_description",
+      "features": [
+        "datain",
+        "hash",
+        "hash-din"
+      ],
+      "chars": 1569,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=908",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.6.2 \"HASH data input register (HASH_DIN)\" in chapter 29 (Hash processor (HASH)), RM0522 Rev 1, page 908.",
+      "section_content": "Address offset: 0x004\nReset value: 0x0000 0000\nHASH_DIN is the data input register. It is 32-bit wide. This register is used to enter the\nmessage by blocks defined by the hash algorithm (see Table233: Information on supported\nhash algorithms for details). For example the block size is 64 bytes for SHA2-256.\nWhen the HASH_DIN register is programmed, the value presented on the AHB bus is\n‘pushed’ into the hash core and the register takes the new value presented on the AHB bus.\nTo get a correct message format, the DATATYPE bits must have been previously configured\nin the HASH_CR register.\nWhen a complete block has been written to the HASH_DIN register, an intermediate digest\ncalculation is launched:\n• by writing first data of the next block into the HASH_DIN register, if the DMA is not used\n• automatically, if the DMA is used\nWhen the last block has been written to the HASH_DIN register, the final digest calculation\n(including padding) is launched by setting the DCAL bit in the HASH_STR register (final\ndigest calculation). This operation is automatic if the DMA is used and MDMAT bit is\ncleared.\nReading the HASH_DIN register returns zeros.\nNote: When the HASH is busy, a write access to the HASH_DIN register might stall the AHB bus if\nthe digest calculation (intermediate or final) is not complete.\nBits 31:0 DATAIN[31:0]: Data input\nWriting this register pushes the current register content into the FIFO, and the register takes\nthe new value presented on the AHB bus.\nDo not write to this register when BUSY is set.\nReading this register returns zeros.",
+      "semantic": {
+        "register": "HASH_DIN",
+        "address_offset": "0x004",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:0",
+            "name": "DATAIN[31:0]",
+            "description": "Data input Writing this register pushes the current register content into the FIFO, and the register takes the new value presented on the AHB bus. Do not write to this register when BUSY is set. Reading this register returns zeros.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

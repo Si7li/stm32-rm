@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.3.4",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.3.4",
+      "section_title": "FLASH read operations",
+      "level": 3,
+      "parent_section": "6.3",
+      "page": 131,
+      "page_end": 133,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory"
+      ],
+      "chars": 5055,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=131",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.3.4 \"FLASH read operations\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 131.",
+      "section_content": "Read operation overview\nRead access to main flash memory and system flash memory operates as follows:\n• There is a 128-bit read data buffer associated to each bank, which stores the last data\nread. If several consecutive read accesses request data belonging to the same FLASH\ndata word (128bits), the data are read directly from the current data read buffer,\nwithout triggering additional FLASH read operations. This mechanism occurs each\ntime a read access is granted. When a read access is rejected for security reasons, the\ncorresponding read error response is issued by the FLASH and no read operation to\nflash memory is triggered\n• The read data buffer is disabled when write access or OTP access, user option change\nrequest or other erase operation occurs\nRead access to OTP, RO, and user data flash area operates as follows:\n1. A FLASH data word of 137 bits is read and stored in a temporary buffer.\n2. The interface parses the 137-bit data word, and selects the 16- or 32-bit data\nrequested.\n3. While parsing the 137-bit data word, two wait states are added and the AHB bus is\nstalled.\n4. If the application reads an OTP data or user data FLASH not previously written, a\ndouble ECC error is reported, and only word full of set bits is returned\n(seeSection6.3.9 for details). The read data (in 16bits) is stored in FLASH_ECCDR,\nso that the user can identify if the double ECC error is due to a virgin data or a real ECC\nerror.\n5. Reading two times the same address triggers two reads in the flash memory.\n6. For 8-bit accesses, an AHB bus error is generated.\nNote: The FLASH can perform single-error correction and double-error detection while read\noperations are being executed (see Section6.3.8).\nInstruction prefetch\nThe Cortex-M33 fetches instructions and literal pools (constants/data) over the C-Bus and\nthrough the instruction cache if it is enabled. The prefetch block aims at increasing the\nefficiency of C-Bus accesses when the ICACHE is enabled, by reducing the cache refill\nlatency.\nPrefetch is efficient in case of sequential code; prefetch in the flash memory allows the next\nsequential instruction line to be read from the flash memory, while the current instruction line\nis being filled in the ICACHE and executed by the CPU.\nPrefetch is enabled by setting the PRFTEN bit in FLASH_ACR. PRFTEN must be set only if\nat least one wait state is needed to access the flash memory.\nAdjusting read-timing constraints\nThe FLASH clock must be enabled and running before reading data from a nonvolatile\nmemory.\nTo correctly read data from the flash memory, the number of wait states (LATENCY) must be\ncorrectly programmed in FLASH_ACR, according to the FLASH main AHB interface clock\nfrequency.\nThe table below shows the correspondence between the number of wait states (LATENCY),\nthe programming delay parameter (WRHIGHFREQ) and the FLASH clock frequency.\n[Table 20. FLASH recommended number of wait states and programming delay]\nAdjusting system frequency\nAfter power-on, the FLASH is clocked by the divided by 3 high speed internal oscillator\nHSIDIV3 at 48MHz. As a result, a conservative 7wait-state latency is specified\ninFLASH_ACR register (see the previous table).\nWhen changing the bus frequency, the application software must follow the sequence\ndescribed below, in order to tune the number of wait states required to access the\nnonvolatile memory.\nTo increase the CPU frequency:\n1. If necessary, program LATENCY and WRHIGHFREQ bits to the right value in the\nFLASH_ACR register, as described in Table20.\n2. Check that the new number of wait states is taken into account by reading back the\nFLASH_ACR register.\n3. Modify the FLASH clock source and/or the clock prescaler in the RCC_CFGR register\nof the reset and clock controller (RCC).\n4. Check that the new FLASH clock source and/or the new AHB clock prescaler value are\ntaken in account by reading back the FLASH clock source status and/or the prescaler\nvalue in the RCC_CFGR register of the reset and clock controller (RCC).\nTo decrease the CPU frequency:\n1. Modify the FLASH clock source and/or the clock prescaler in the RCC_CFGR register\nof reset and clock controller (RCC).\n2. Check that the FLASH new clock source and/or the new clock prescaler value are\ntaken in account by reading back the FLASH clock source status and/or the AHB\ninterface prescaler value in the RCC_CFGR register of reset and clock controller\n(RCC).\n3. If necessary, program the LATENCY and WRHIGHFREQ bits to the right value in\nFLASH_ACR register, as described in Table20.\n4. Check that the new number of wait states has been taken into account by reading back\nthe FLASH_ACR register.\nError code correction (ECC)\nThe embedded flash memory embeds an error correction mechanism. Single-error\ncorrection and double-error detection are performed for each read operation. For more\ndetails, refer to Section6.3.8.\nRead errors\nWhen the ECC mechanism is not able to correct the read operation, the embedded flash\nmemory reports read errors as described in Section6.8.5\nRead interrupts\nSee Section6.9 for details.",
+      "semantic": {}
+    }
+  ]
+}

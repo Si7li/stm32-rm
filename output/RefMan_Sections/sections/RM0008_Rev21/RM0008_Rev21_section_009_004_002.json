@@ -1,0 +1,684 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S9.4.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "9",
+      "chapter_title": "General-purpose and alternate-function I/Os (GPIOs and AFIOs)",
+      "section": "9.4.2",
+      "section_title": "AF remap and debug I/O configuration register (AFIO_MAPR)",
+      "level": 3,
+      "parent_section": "9.4",
+      "page": 184,
+      "page_end": 190,
+      "semantic_type": "register_description",
+      "features": [
+        "adc",
+        "adc1-etrginj-remap",
+        "adc1-etrgreg-remap",
+        "adc2-etrginj-remap",
+        "adc2-etrgreg-remap",
+        "afio-mapr",
+        "can-remap",
+        "can1-remap",
+        "can2-remap",
+        "eth-remap",
+        "gpio",
+        "i2c",
+        "i2c1-remap",
+        "mii-rmii-sel",
+        "pd01-remap",
+        "ptp-pps-remap",
+        "spi",
+        "spi1-remap",
+        "spi3-remap",
+        "swj-cfg",
+        "tim1-remap",
+        "tim2-remap",
+        "tim2itr1-iremap",
+        "tim3-remap",
+        "tim4-remap",
+        "tim5ch4-iremap",
+        "usart",
+        "usart1-remap",
+        "usart2-remap",
+        "usart3-remap"
+      ],
+      "chars": 13740,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=184",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.4.2 \"AF remap and debug I/O configuration register (AFIO_MAPR)\" in chapter 9 (General-purpose and alternate-function I/Os (GPIOs and AFIOs)), RM0008 Rev 21, page 184.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0000 0000\nMemory map and bit definitions for low-, medium- high- and XL-density\ndevices:\nBits 31:27 Reserved\nBits 26:24 SWJ_CFG[2:0]: Serial wire JTAG configuration\nThese bits are write-only (when read, the value is undefined). They are used to configure the\nSWJ and trace alternate function I/Os. The SWJ (Serial Wire JTAG) supports JTAG or SWD\naccess to the Cortex® debug port. The default state after reset is SWJ ON without trace.\nThis allows JTAG or SW mode to be enabled by sending a specific sequence on the JTMS /\nJTCK pin.\n000: Full SWJ (JTAG-DP + SW-DP): Reset State\n001: Full SWJ (JTAG-DP + SW-DP) but without NJTRST\n010: JTAG-DP Disabled and SW-DP Enabled\n100: JTAG-DP Disabled and SW-DP Disabled\nOther combinations: no effect\nBits 23:21 Reserved.\nBits 20 ADC2_ETRGREG_REMAP: ADC 2 external trigger regular conversion remapping\nSet and cleared by software. This bit controls the trigger input connected to ADC2 external\ntrigger regular conversion. When this bit is reset, the ADC2 external trigger regular\nconversion is connected to EXTI11. When this bit is set, the ADC2 external event regular\nconversion is connected to TIM8_TRGO.\nBits 19 ADC2_ETRGINJ_REMAP: ADC 2 external trigger injected conversion remapping\nSet and cleared by software. This bit controls the trigger input connected to ADC2 external\ntrigger injected conversion. When this bit is reset, the ADC2 external trigger injected\nconversion is connected to EXTI15. When this bit is set, the ADC2 external event injected\nconversion is connected to TIM8_Channel4.\nBits 18 ADC1_ETRGREG_REMAP: ADC 1 external trigger regular conversion remapping\nSet and cleared by software. This bit controls the trigger input connected to ADC1\nExternal trigger regular conversion. When reset the ADC1 External trigger regular\nconversion is connected to EXTI11. When set the ADC1 External Event regular conversion\nis connected to TIM8 TRGO.\nBits 17 ADC1_ETRGINJ_REMAP: ADC 1 External trigger injected conversion remapping\nSet and cleared by software. This bit controls the trigger input connected to ADC1\nExternal trigger injected conversion. When reset the ADC1 External trigger injected\nconversion is connected to EXTI15. When set the ADC1 External Event injected conversion\nis connected to TIM8 Channel4.\nBits 16 TIM5CH4_IREMAP: TIM5 channel4 internal remap\nSet and cleared by software. This bit controls the TIM5_CH4 internal mapping. When reset\nthe timer TIM5_CH4 is connected to PA3. When set the LSI internal clock is connected to\nTIM5_CH4 input for calibration purpose.\nNote: This bit is available only in high density value line devices.\nBit 15 PD01_REMAP: Port D0/Port D1 mapping on OSC_IN/OSC_OUT\nThis bit is set and cleared by software. It controls the mapping of PD0 and PD1 GPIO\nfunctionality. When the HSE oscillator is not used (application running on internal 8 MHz RC)\nPD0 and PD1 can be mapped on OSC_IN and OSC_OUT. This is available only on 36-, 48-\nand 64-pin packages (PD0 and PD1 are available on 100-pin and 144-pin packages, no\nneed for remapping).\n0: No remapping of PD0 and PD1\n1: PD0 remapped on OSC_IN, PD1 remapped on OSC_OUT,\nBits 14:13 CAN_REMAP[1:0]: CAN alternate function remapping\nThese bits are set and cleared by software. They control the mapping of alternate functions\nCAN_RX and CAN_TX in devices with a single CAN interface.\n00: CAN_RX mapped to PA11, CAN_TX mapped to PA12\n01: Not used\n10: CAN_RX mapped to PB8, CAN_TX mapped to PB9 (not available on 36-pin package)\n11: CAN_RX mapped to PD0, CAN_TX mapped to PD1\nBit 12 TIM4_REMAP: TIM4 remapping\nThis bit is set and cleared by software. It controls the mapping of TIM4 channels 1 to 4 onto\nthe GPIO ports.\n0: No remap (TIM4_CH1/PB6, TIM4_CH2/PB7, TIM4_CH3/PB8, TIM4_CH4/PB9)\n1: Full remap (TIM4_CH1/PD12, TIM4_CH2/PD13, TIM4_CH3/PD14, TIM4_CH4/PD15)\nNote: TIM4_ETR on PE0 is not re-mapped.\nBits 11:10 TIM3_REMAP[1:0]: TIM3 remapping\nThese bits are set and cleared by software. They control the mapping of TIM3 channels 1 to\n4 on the GPIO ports.\n00: No remap (CH1/PA6, CH2/PA7, CH3/PB0, CH4/PB1)\n01: Not used\n10: Partial remap (CH1/PB4, CH2/PB5, CH3/PB0, CH4/PB1)\n11: Full remap (CH1/PC6, CH2/PC7, CH3/PC8, CH4/PC9)\nNote: TIM3_ETR on PE0 is not re-mapped.\nBits 9:8 TIM2_REMAP[1:0]: TIM2 remapping\nThese bits are set and cleared by software. They control the mapping of TIM2 channels 1 to\n4 and external trigger (ETR) on the GPIO ports.\n00: No remap (CH1/ETR/PA0, CH2/PA1, CH3/PA2, CH4/PA3)\n01: Partial remap (CH1/ETR/PA15, CH2/PB3, CH3/PA2, CH4/PA3)\n10: Partial remap (CH1/ETR/PA0, CH2/PA1, CH3/PB10, CH4/PB11)\n11: Full remap (CH1/ETR/PA15, CH2/PB3, CH3/PB10, CH4/PB11)\nBits 7:6 TIM1_REMAP[1:0]: TIM1 remapping\nThese bits are set and cleared by software. They control the mapping of TIM1 channels 1 to\n4, 1N to 3N, external trigger (ETR) and Break input (BKIN) on the GPIO ports.\n00: No remap (ETR/PA12, CH1/PA8, CH2/PA9, CH3/PA10, CH4/PA11, BKIN/PB12,\nCH1N/PB13, CH2N/PB14, CH3N/PB15)\n01: Partial remap (ETR/PA12, CH1/PA8, CH2/PA9, CH3/PA10, CH4/PA11, BKIN/PA6,\nCH1N/PA7, CH2N/PB0, CH3N/PB1)\n10: not used\n11: Full remap (ETR/PE7, CH1/PE9, CH2/PE11, CH3/PE13, CH4/PE14, BKIN/PE15,\nCH1N/PE8, CH2N/PE10, CH3N/PE12)\nBits 5:4 USART3_REMAP[1:0]: USART3 remapping\nThese bits are set and cleared by software. They control the mapping of USART3 CTS,\nRTS,CK,TX and RX alternate functions on the GPIO ports.\n00: No remap (TX/PB10, RX/PB11, CK/PB12, CTS/PB13, RTS/PB14)\n01: Partial remap (TX/PC10, RX/PC11, CK/PC12, CTS/PB13, RTS/PB14)\n10: not used\n11: Full remap (TX/PD8, RX/PD9, CK/PD10, CTS/PD11, RTS/PD12)\nBit 3 USART2_REMAP: USART2 remapping\nThis bit is set and cleared by software. It controls the mapping of USART2 CTS, RTS,CK,TX\nand RX alternate functions on the GPIO ports.\n0: No remap (CTS/PA0, RTS/PA1, TX/PA2, RX/PA3, CK/PA4)\n1: Remap (CTS/PD3, RTS/PD4, TX/PD5, RX/PD6, CK/PD7)\nBit 2 USART1_REMAP: USART1 remapping\nThis bit is set and cleared by software. It controls the mapping of USART1 TX and RX\nalternate functions on the GPIO ports.\n0: No remap (TX/PA9, RX/PA10)\n1: Remap (TX/PB6, RX/PB7)\nBit 1 I2C1_REMAP: I2C1 remapping\nThis bit is set and cleared by software. It controls the mapping of I2C1 SCL and SDA\nalternate functions on the GPIO ports.\n0: No remap (SCL/PB6, SDA/PB7)\n1: Remap (SCL/PB8, SDA/PB9)\nBit 0 SPI1_REMAP: SPI1 remapping\nThis bit is set and cleared by software. It controls the mapping of SPI1 NSS, SCK, MISO,\nMOSI alternate functions on the GPIO ports.\n0: No remap (NSS/PA4, SCK/PA5, MISO/PA6, MOSI/PA7)\n1: Remap (NSS/PA15, SCK/PB3, MISO/PB4, MOSI/PB5)\nMemory map and bit definitions for connectivity line devices:\nBit 31 Reserved, must be kept at reset value.\nBit 30 PTP_PPS_REMAP: Ethernet PTP PPS remapping\nThis bit is set and cleared by software. It enables the Ethernet MAC PPS_PTS to be output\non the PB5 pin.\n0: PTP_PPS not output on PB5 pin.\n1: PTP_PPS is output on PB5 pin.\nNote: This bit is available only in connectivity line devices and is reserved otherwise.\nBit 29 TIM2ITR1_IREMAP: TIM2 internal trigger 1 remapping\nThis bit is set and cleared by software. It controls the TIM2_ITR1 internal mapping.\n0: Connect TIM2_ITR1 internally to the Ethernet PTP output for calibration purposes.\n1: Connect USB OTG SOF (Start of Frame) output to TIM2_ITR1 for calibration purposes.\nNote: This bit is available only in connectivity line devices and is reserved otherwise.\nBit 28 SPI3_REMAP: SPI3/I2S3 remapping\nThis bit is set and cleared by software. It controls the mapping of SPI3_NSS/I2S3_WS,\nSPI3_SCK/I2S3_CK, SPI3_MISO, SPI3_MOSI/I2S3_SD alternate functions on the GPIO\nports.\n0: No remap (SPI_NSS-I2S3_WS/PA15, SPI3_SCK-I2S3_CK/PB3, SPI3_MISO/PB4,\nSPI3_MOSI-I2S3_SD/PB5)\n1: Remap (SPI3_NSS-I2S3_WS/PA4, SPI3_SCK-I2S3_CK/PC10, SPI3_MISO/PC11,\nSPI3_MOSI-I2S3_SD/PC12)\nNote: This bit is available only in connectivity line devices and is reserved otherwise.\nBit 27 Reserved\nBits 26:24 SWJ_CFG[2:0]: Serial wire JTAG configuration\nThese bits are write-only (when read, the value is undefined). They are used to configure the\nSWJ and trace alternate function I/Os. The SWJ (Serial Wire JTAG) supports JTAG or SWD\naccess to the Cortex® debug port. The default state after reset is SWJ ON without trace.\nThis allows JTAG or SW mode to be enabled by sending a specific sequence on the JTMS /\nJTCK pin.\n000: Full SWJ (JTAG-DP + SW-DP): Reset State\n001: Full SWJ (JTAG-DP + SW-DP) but without NJTRST\n010: JTAG-DP Disabled and SW-DP Enabled\n100: JTAG-DP Disabled and SW-DP Disabled\nOther combinations: no effect\nBit 23 MII_RMII_SEL: MII or RMII selection\nThis bit is set and cleared by software. It configures the Ethernet MAC internally for use with\nan external MII or RMII PHY.\n0: Configure Ethernet MAC for connection with an MII PHY\n1: Configure Ethernet MAC for connection with an RMII PHY\nNote: This bit is available only in connectivity line devices and is reserved otherwise.\nBit 22 CAN2_REMAP: CAN2 I/O remapping\nThis bit is set and cleared by software. It controls the CAN2_TX and CAN2_RX pins.\n0: No remap (CAN2_RX/PB12, CAN2_TX/PB13)\n1: Remap (CAN2_RX/PB5, CAN2_TX/PB6)\nNote: This bit is available only in connectivity line devices and is reserved otherwise.\nBit 21 ETH_REMAP: Ethernet MAC I/O remapping\nThis bit is set and cleared by software. It controls the Ethernet MAC connections with the\nPHY.\n0: No remap (RX_DV-CRS_DV/PA7, RXD0/PC4, RXD1/PC5, RXD2/PB0, RXD3/PB1)\n1: Remap (RX_DV-CRS_DV/PD8, RXD0/PD9, RXD1/PD10, RXD2/PD11, RXD3/PD12)\nNote: This bit is available only in connectivity line devices and is reserved otherwise.\nBits 20:17 Reserved\nBits 16 TIM5CH4_IREMAP: TIM5 channel4 internal remap\nSet and cleared by software. This bit controls the TIM5_CH4 internal mapping. When reset\nthe timer TIM5_CH4 is connected to PA3. When set the LSI internal clock is connected to\nTIM5_CH4 input for calibration purpose.\nBit 15 PD01_REMAP: Port D0/Port D1 mapping on OSC_IN/OSC_OUT\nThis bit is set and cleared by software. It controls the mapping of PD0 and PD1 GPIO\nfunctionality. When the HSE oscillator is not used (application running on internal 8 MHz RC)\nPD0 and PD1 can be mapped on OSC_IN and OSC_OUT. This is available only on 36-, 48-\nand 64-pin packages (PD0 and PD1 are available on 100-pin and 144-pin packages, no\nneed for remapping).\n0: No remapping of PD0 and PD1\n1: PD0 remapped on OSC_IN, PD1 remapped on OSC_OUT,\nBits 14:13 CAN1_REMAP[1:0]: CAN1 alternate function remapping\nThese bits are set and cleared by software. They control the mapping of alternate functions\nCAN1_RX and CAN1_TX.\n00: CAN1_RX mapped to PA11, CAN1_TX mapped to PA12\n01: Not used\n10: CAN1_RX mapped to PB8, CAN1_TX mapped to PB9 (not available on 36-pin package)\n11: CAN1_RX mapped to PD0, CAN1_TX mapped to PD1\nBit 12 TIM4_REMAP: TIM4 remapping\nThis bit is set and cleared by software. It controls the mapping of TIM4 channels 1 to 4 onto\nthe GPIO ports.\n0: No remap (TIM4_CH1/PB6, TIM4_CH2/PB7, TIM4_CH3/PB8, TIM4_CH4/PB9)\n1: Full remap (TIM4_CH1/PD12, TIM4_CH2/PD13, TIM4_CH3/PD14, TIM4_CH4/PD15)\nNote: TIM4_ETR on PE0 is not re-mapped.\nBits 11:10 TIM3_REMAP[1:0]: TIM3 remapping\nThese bits are set and cleared by software. They control the mapping of TIM3 channels 1 to\n4 on the GPIO ports.\n00: No remap (CH1/PA6, CH2/PA7, CH3/PB0, CH4/PB1)\n01: Not used\n10: Partial remap (CH1/PB4, CH2/PB5, CH3/PB0, CH4/PB1)\n11: Full remap (CH1/PC6, CH2/PC7, CH3/PC8, CH4/PC9)\nNote: TIM3_ETR on PE0 is not re-mapped.\nBits 9:8 TIM2_REMAP[1:0]: TIM2 remapping\nThese bits are set and cleared by software. They control the mapping of TIM2 channels 1 to\n4 and external trigger (ETR) on the GPIO ports.\n00: No remap (CH1/ETR/PA0, CH2/PA1, CH3/PA2, CH4/PA3)\n01: Partial remap (CH1/ETR/PA15, CH2/PB3, CH3/PA2, CH4/PA3)\n10: Partial remap (CH1/ETR/PA0, CH2/PA1, CH3/PB10, CH4/PB11)\n11: Full remap (CH1/ETR/PA15, CH2/PB3, CH3/PB10, CH4/PB11)\nBits 7:6 TIM1_REMAP[1:0]: TIM1 remapping\nThese bits are set and cleared by software. They control the mapping of TIM1 channels 1 to\n4, 1N to 3N, external trigger (ETR) and Break input (BKIN) on the GPIO ports.\n00: No remap (ETR/PA12, CH1/PA8, CH2/PA9, CH3/PA10, CH4/PA11, BKIN/PB12,\nCH1N/PB13, CH2N/PB14, CH3N/PB15)\n01: Partial remap (ETR/PA12, CH1/PA8, CH2/PA9, CH3/PA10, CH4/PA11, BKIN/PA6,\nCH1N/PA7, CH2N/PB0, CH3N/PB1)\n10: not used\n11: Full remap (ETR/PE7, CH1/PE9, CH2/PE11, CH3/PE13, CH4/PE14, BKIN/PE15,\nCH1N/PE8, CH2N/PE10, CH3N/PE12)\nBits 5:4 USART3_REMAP[1:0]: USART3 remapping\nThese bits are set and cleared by software. They control the mapping of USART3 CTS,\nRTS,CK,TX and RX alternate functions on the GPIO ports.\n00: No remap (TX/PB10, RX/PB11, CK/PB12, CTS/PB13, RTS/PB14)\n01: Partial remap (TX/PC10, RX/PC11, CK/PC12, CTS/PB13, RTS/PB14)\n10: not used\n11: Full remap (TX/PD8, RX/PD9, CK/PD10, CTS/PD11, RTS/PD12)\nBit 3 USART2_REMAP: USART2 remapping\nThis bit is set and cleared by software. It controls the mapping of USART2 CTS, RTS,CK,TX\nand RX alternate functions on the GPIO ports.\n0: No remap (CTS/PA0, RTS/PA1, TX/PA2, RX/PA3, CK/PA4)\n1: Remap (CTS/PD3, RTS/PD4, TX/PD5, RX/PD6, CK/PD7)\nBit 2 USART1_REMAP: USART1 remapping\nThis bit is set and cleared by software. It controls the mapping of USART1 TX and RX\nalternate functions on the GPIO ports.\n0: No remap (TX/PA9, RX/PA10)\n1: Remap (TX/PB6, RX/PB7)\nBit 1 I2C1_REMAP: I2C1 remapping\nThis bit is set and cleared by software. It controls the mapping of I2C1 SCL and SDA\nalternate functions on the GPIO ports.\n0: No remap (SCL/PB6, SDA/PB7)\n1: Remap (SCL/PB8, SDA/PB9)\nBit 0 SPI1_REMAP: SPI1 remapping\nThis bit is set and cleared by software. It controls the mapping of SPI1 NSS, SCK, MISO,\nMOSI alternate functions on the GPIO ports.\n0: No remap (NSS/PA4, SCK/PA5, MISO/PA6, MOSI/PA7)\n1: Remap (NSS/PA15, SCK/PB3, MISO/PB4, MOSI/PB5)",
+      "semantic": {
+        "register": "AFIO_MAPR",
+        "address_offset": "0x04",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:27",
+            "name": "Res.",
+            "description": "Reserved",
+            "values": []
+          },
+          {
+            "bits": "26:24",
+            "name": "SWJ_CFG[2:0]",
+            "description": "Serial wire JTAG configuration These bits are write-only (when read, the value is undefined). They are used to configure the SWJ and trace alternate function I/Os. The SWJ (Serial Wire JTAG) supports JTAG or SWD access to the Cortex® debug port. The default state after reset is SWJ ON without trace. This allows JTAG or SW mode to be enabled by sending a specific sequence on the JTMS / JTCK pin. Other combinations: no effect",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Full SWJ (JTAG-DP + SW-DP): Reset State"
+              },
+              {
+                "value": "001",
+                "meaning": "Full SWJ (JTAG-DP + SW-DP) but without NJTRST"
+              },
+              {
+                "value": "010",
+                "meaning": "JTAG-DP Disabled and SW-DP Enabled"
+              },
+              {
+                "value": "100",
+                "meaning": "JTAG-DP Disabled and SW-DP Disabled"
+              }
+            ]
+          },
+          {
+            "bits": "23:21",
+            "name": "Res.",
+            "description": "Reserved.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "ADC2_ETRGREG_REMAP",
+            "description": "ADC 2 external trigger regular conversion remapping Set and cleared by software. This bit controls the trigger input connected to ADC2 external trigger regular conversion. When this bit is reset, the ADC2 external trigger regular conversion is connected to EXTI11. When this bit is set, the ADC2 external event regular conversion is connected to TIM8_TRGO.",
+            "values": []
+          },
+          {
+            "bits": "19",
+            "name": "ADC2_ETRGINJ_REMAP",
+            "description": "ADC 2 external trigger injected conversion remapping Set and cleared by software. This bit controls the trigger input connected to ADC2 external trigger injected conversion. When this bit is reset, the ADC2 external trigger injected conversion is connected to EXTI15. When this bit is set, the ADC2 external event injected conversion is connected to TIM8_Channel4.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "ADC1_ETRGREG_REMAP",
+            "description": "ADC 1 external trigger regular conversion remapping Set and cleared by software. This bit controls the trigger input connected to ADC1 External trigger regular conversion. When reset the ADC1 External trigger regular conversion is connected to EXTI11. When set the ADC1 External Event regular conversion is connected to TIM8 TRGO.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "ADC1_ETRGINJ_REMAP",
+            "description": "ADC 1 External trigger injected conversion remapping Set and cleared by software. This bit controls the trigger input connected to ADC1 External trigger injected conversion. When reset the ADC1 External trigger injected conversion is connected to EXTI15. When set the ADC1 External Event injected conversion is connected to TIM8 Channel4.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "TIM5CH4_IREMAP",
+            "description": "TIM5 channel4 internal remap Set and cleared by software. This bit controls the TIM5_CH4 internal mapping. When reset the timer TIM5_CH4 is connected to PA3. When set the LSI internal clock is connected to TIM5_CH4 input for calibration purpose. Note: This bit is available only in high density value line devices.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "PD01_REMAP",
+            "description": "Port D0/Port D1 mapping on OSC_IN/OSC_OUT This bit is set and cleared by software. It controls the mapping of PD0 and PD1 GPIO functionality. When the HSE oscillator is not used (application running on internal 8 MHz RC) PD0 and PD1 can be mapped on OSC_IN and OSC_OUT. This is available only on 36-, 48- and 64-pin packages (PD0 and PD1 are available on 100-pin and 144-pin packages, no need for remapping).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remapping of PD0 and PD1"
+              },
+              {
+                "value": "1",
+                "meaning": "PD0 remapped on OSC_IN, PD1 remapped on OSC_OUT,"
+              }
+            ]
+          },
+          {
+            "bits": "14:13",
+            "name": "CAN_REMAP[1:0]",
+            "description": "CAN alternate function remapping These bits are set and cleared by software. They control the mapping of alternate functions CAN_RX and CAN_TX in devices with a single CAN interface.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CAN_RX mapped to PA11, CAN_TX mapped to PA12"
+              },
+              {
+                "value": "01",
+                "meaning": "Not used"
+              },
+              {
+                "value": "10",
+                "meaning": "CAN_RX mapped to PB8, CAN_TX mapped to PB9 (not available on 36-pin package)"
+              },
+              {
+                "value": "11",
+                "meaning": "CAN_RX mapped to PD0, CAN_TX mapped to PD1"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "TIM4_REMAP",
+            "description": "TIM4 remapping This bit is set and cleared by software. It controls the mapping of TIM4 channels 1 to 4 onto the GPIO ports. Note: TIM4_ETR on PE0 is not re-mapped.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (TIM4_CH1/PB6, TIM4_CH2/PB7, TIM4_CH3/PB8, TIM4_CH4/PB9)"
+              },
+              {
+                "value": "1",
+                "meaning": "Full remap (TIM4_CH1/PD12, TIM4_CH2/PD13, TIM4_CH3/PD14, TIM4_CH4/PD15)"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "TIM3_REMAP[1:0]",
+            "description": "TIM3 remapping These bits are set and cleared by software. They control the mapping of TIM3 channels 1 to 4 on the GPIO ports. Note: TIM3_ETR on PE0 is not re-mapped.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No remap (CH1/PA6, CH2/PA7, CH3/PB0, CH4/PB1)"
+              },
+              {
+                "value": "01",
+                "meaning": "Not used"
+              },
+              {
+                "value": "10",
+                "meaning": "Partial remap (CH1/PB4, CH2/PB5, CH3/PB0, CH4/PB1)"
+              },
+              {
+                "value": "11",
+                "meaning": "Full remap (CH1/PC6, CH2/PC7, CH3/PC8, CH4/PC9)"
+              }
+            ]
+          },
+          {
+            "bits": "9:8",
+            "name": "TIM2_REMAP[1:0]",
+            "description": "TIM2 remapping These bits are set and cleared by software. They control the mapping of TIM2 channels 1 to 4 and external trigger (ETR) on the GPIO ports.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No remap (CH1/ETR/PA0, CH2/PA1, CH3/PA2, CH4/PA3)"
+              },
+              {
+                "value": "01",
+                "meaning": "Partial remap (CH1/ETR/PA15, CH2/PB3, CH3/PA2, CH4/PA3)"
+              },
+              {
+                "value": "10",
+                "meaning": "Partial remap (CH1/ETR/PA0, CH2/PA1, CH3/PB10, CH4/PB11)"
+              },
+              {
+                "value": "11",
+                "meaning": "Full remap (CH1/ETR/PA15, CH2/PB3, CH3/PB10, CH4/PB11)"
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "TIM1_REMAP[1:0]",
+            "description": "TIM1 remapping These bits are set and cleared by software. They control the mapping of TIM1 channels 1 to 4, 1N to 3N, external trigger (ETR) and Break input (BKIN) on the GPIO ports. CH1N/PB13, CH2N/PB14, CH3N/PB15) CH1N/PA7, CH2N/PB0, CH3N/PB1) CH1N/PE8, CH2N/PE10, CH3N/PE12)",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No remap (ETR/PA12, CH1/PA8, CH2/PA9, CH3/PA10, CH4/PA11, BKIN/PB12,"
+              },
+              {
+                "value": "01",
+                "meaning": "Partial remap (ETR/PA12, CH1/PA8, CH2/PA9, CH3/PA10, CH4/PA11, BKIN/PA6,"
+              },
+              {
+                "value": "10",
+                "meaning": "not used"
+              },
+              {
+                "value": "11",
+                "meaning": "Full remap (ETR/PE7, CH1/PE9, CH2/PE11, CH3/PE13, CH4/PE14, BKIN/PE15,"
+              }
+            ]
+          },
+          {
+            "bits": "5:4",
+            "name": "USART3_REMAP[1:0]",
+            "description": "USART3 remapping These bits are set and cleared by software. They control the mapping of USART3 CTS, RTS,CK,TX and RX alternate functions on the GPIO ports.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No remap (TX/PB10, RX/PB11, CK/PB12, CTS/PB13, RTS/PB14)"
+              },
+              {
+                "value": "01",
+                "meaning": "Partial remap (TX/PC10, RX/PC11, CK/PC12, CTS/PB13, RTS/PB14)"
+              },
+              {
+                "value": "10",
+                "meaning": "not used"
+              },
+              {
+                "value": "11",
+                "meaning": "Full remap (TX/PD8, RX/PD9, CK/PD10, CTS/PD11, RTS/PD12)"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "USART2_REMAP",
+            "description": "USART2 remapping This bit is set and cleared by software. It controls the mapping of USART2 CTS, RTS,CK,TX and RX alternate functions on the GPIO ports.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (CTS/PA0, RTS/PA1, TX/PA2, RX/PA3, CK/PA4)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (CTS/PD3, RTS/PD4, TX/PD5, RX/PD6, CK/PD7)"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "USART1_REMAP",
+            "description": "USART1 remapping This bit is set and cleared by software. It controls the mapping of USART1 TX and RX alternate functions on the GPIO ports.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (TX/PA9, RX/PA10)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (TX/PB6, RX/PB7)"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "I2C1_REMAP",
+            "description": "I2C1 remapping This bit is set and cleared by software. It controls the mapping of I2C1 SCL and SDA alternate functions on the GPIO ports.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (SCL/PB6, SDA/PB7)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (SCL/PB8, SDA/PB9)"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "SPI1_REMAP",
+            "description": "SPI1 remapping This bit is set and cleared by software. It controls the mapping of SPI1 NSS, SCK, MISO, MOSI alternate functions on the GPIO ports. Memory map and bit definitions for connectivity line devices:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (NSS/PA4, SCK/PA5, MISO/PA6, MOSI/PA7)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (NSS/PA15, SCK/PB3, MISO/PB4, MOSI/PB5)"
+              }
+            ]
+          },
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "PTP_PPS_REMAP",
+            "description": "Ethernet PTP PPS remapping This bit is set and cleared by software. It enables the Ethernet MAC PPS_PTS to be output on the PB5 pin. Note: This bit is available only in connectivity line devices and is reserved otherwise.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PTP_PPS not output on PB5 pin."
+              },
+              {
+                "value": "1",
+                "meaning": "PTP_PPS is output on PB5 pin."
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "TIM2ITR1_IREMAP",
+            "description": "TIM2 internal trigger 1 remapping This bit is set and cleared by software. It controls the TIM2_ITR1 internal mapping. Note: This bit is available only in connectivity line devices and is reserved otherwise.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Connect TIM2_ITR1 internally to the Ethernet PTP output for calibration purposes."
+              },
+              {
+                "value": "1",
+                "meaning": "Connect USB OTG SOF (Start of Frame) output to TIM2_ITR1 for calibration purposes."
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "SPI3_REMAP",
+            "description": "SPI3/I2S3 remapping This bit is set and cleared by software. It controls the mapping of SPI3_NSS/I2S3_WS, SPI3_SCK/I2S3_CK, SPI3_MISO, SPI3_MOSI/I2S3_SD alternate functions on the GPIO ports. SPI3_MOSI-I2S3_SD/PB5) SPI3_MOSI-I2S3_SD/PC12) Note: This bit is available only in connectivity line devices and is reserved otherwise.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (SPI_NSS-I2S3_WS/PA15, SPI3_SCK-I2S3_CK/PB3, SPI3_MISO/PB4,"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (SPI3_NSS-I2S3_WS/PA4, SPI3_SCK-I2S3_CK/PC10, SPI3_MISO/PC11,"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "Res.",
+            "description": "Reserved",
+            "values": []
+          },
+          {
+            "bits": "26:24",
+            "name": "SWJ_CFG[2:0]",
+            "description": "Serial wire JTAG configuration These bits are write-only (when read, the value is undefined). They are used to configure the SWJ and trace alternate function I/Os. The SWJ (Serial Wire JTAG) supports JTAG or SWD access to the Cortex® debug port. The default state after reset is SWJ ON without trace. This allows JTAG or SW mode to be enabled by sending a specific sequence on the JTMS / JTCK pin. Other combinations: no effect",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Full SWJ (JTAG-DP + SW-DP): Reset State"
+              },
+              {
+                "value": "001",
+                "meaning": "Full SWJ (JTAG-DP + SW-DP) but without NJTRST"
+              },
+              {
+                "value": "010",
+                "meaning": "JTAG-DP Disabled and SW-DP Enabled"
+              },
+              {
+                "value": "100",
+                "meaning": "JTAG-DP Disabled and SW-DP Disabled"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "MII_RMII_SEL",
+            "description": "MII or RMII selection This bit is set and cleared by software. It configures the Ethernet MAC internally for use with an external MII or RMII PHY. Note: This bit is available only in connectivity line devices and is reserved otherwise.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Configure Ethernet MAC for connection with an MII PHY"
+              },
+              {
+                "value": "1",
+                "meaning": "Configure Ethernet MAC for connection with an RMII PHY"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "CAN2_REMAP",
+            "description": "CAN2 I/O remapping This bit is set and cleared by software. It controls the CAN2_TX and CAN2_RX pins. Note: This bit is available only in connectivity line devices and is reserved otherwise.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (CAN2_RX/PB12, CAN2_TX/PB13)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (CAN2_RX/PB5, CAN2_TX/PB6)"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "ETH_REMAP",
+            "description": "Ethernet MAC I/O remapping This bit is set and cleared by software. It controls the Ethernet MAC connections with the PHY. Note: This bit is available only in connectivity line devices and is reserved otherwise.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (RX_DV-CRS_DV/PA7, RXD0/PC4, RXD1/PC5, RXD2/PB0, RXD3/PB1)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (RX_DV-CRS_DV/PD8, RXD0/PD9, RXD1/PD10, RXD2/PD11, RXD3/PD12)"
+              }
+            ]
+          },
+          {
+            "bits": "20:17",
+            "name": "Res.",
+            "description": "Reserved",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "TIM5CH4_IREMAP",
+            "description": "TIM5 channel4 internal remap Set and cleared by software. This bit controls the TIM5_CH4 internal mapping. When reset the timer TIM5_CH4 is connected to PA3. When set the LSI internal clock is connected to TIM5_CH4 input for calibration purpose.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "PD01_REMAP",
+            "description": "Port D0/Port D1 mapping on OSC_IN/OSC_OUT This bit is set and cleared by software. It controls the mapping of PD0 and PD1 GPIO functionality. When the HSE oscillator is not used (application running on internal 8 MHz RC) PD0 and PD1 can be mapped on OSC_IN and OSC_OUT. This is available only on 36-, 48- and 64-pin packages (PD0 and PD1 are available on 100-pin and 144-pin packages, no need for remapping).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remapping of PD0 and PD1"
+              },
+              {
+                "value": "1",
+                "meaning": "PD0 remapped on OSC_IN, PD1 remapped on OSC_OUT,"
+              }
+            ]
+          },
+          {
+            "bits": "14:13",
+            "name": "CAN1_REMAP[1:0]",
+            "description": "CAN1 alternate function remapping These bits are set and cleared by software. They control the mapping of alternate functions CAN1_RX and CAN1_TX.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "CAN1_RX mapped to PA11, CAN1_TX mapped to PA12"
+              },
+              {
+                "value": "01",
+                "meaning": "Not used"
+              },
+              {
+                "value": "10",
+                "meaning": "CAN1_RX mapped to PB8, CAN1_TX mapped to PB9 (not available on 36-pin package)"
+              },
+              {
+                "value": "11",
+                "meaning": "CAN1_RX mapped to PD0, CAN1_TX mapped to PD1"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "TIM4_REMAP",
+            "description": "TIM4 remapping This bit is set and cleared by software. It controls the mapping of TIM4 channels 1 to 4 onto the GPIO ports. Note: TIM4_ETR on PE0 is not re-mapped.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (TIM4_CH1/PB6, TIM4_CH2/PB7, TIM4_CH3/PB8, TIM4_CH4/PB9)"
+              },
+              {
+                "value": "1",
+                "meaning": "Full remap (TIM4_CH1/PD12, TIM4_CH2/PD13, TIM4_CH3/PD14, TIM4_CH4/PD15)"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "TIM3_REMAP[1:0]",
+            "description": "TIM3 remapping These bits are set and cleared by software. They control the mapping of TIM3 channels 1 to 4 on the GPIO ports. Note: TIM3_ETR on PE0 is not re-mapped.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No remap (CH1/PA6, CH2/PA7, CH3/PB0, CH4/PB1)"
+              },
+              {
+                "value": "01",
+                "meaning": "Not used"
+              },
+              {
+                "value": "10",
+                "meaning": "Partial remap (CH1/PB4, CH2/PB5, CH3/PB0, CH4/PB1)"
+              },
+              {
+                "value": "11",
+                "meaning": "Full remap (CH1/PC6, CH2/PC7, CH3/PC8, CH4/PC9)"
+              }
+            ]
+          },
+          {
+            "bits": "9:8",
+            "name": "TIM2_REMAP[1:0]",
+            "description": "TIM2 remapping These bits are set and cleared by software. They control the mapping of TIM2 channels 1 to 4 and external trigger (ETR) on the GPIO ports.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No remap (CH1/ETR/PA0, CH2/PA1, CH3/PA2, CH4/PA3)"
+              },
+              {
+                "value": "01",
+                "meaning": "Partial remap (CH1/ETR/PA15, CH2/PB3, CH3/PA2, CH4/PA3)"
+              },
+              {
+                "value": "10",
+                "meaning": "Partial remap (CH1/ETR/PA0, CH2/PA1, CH3/PB10, CH4/PB11)"
+              },
+              {
+                "value": "11",
+                "meaning": "Full remap (CH1/ETR/PA15, CH2/PB3, CH3/PB10, CH4/PB11)"
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "TIM1_REMAP[1:0]",
+            "description": "TIM1 remapping These bits are set and cleared by software. They control the mapping of TIM1 channels 1 to 4, 1N to 3N, external trigger (ETR) and Break input (BKIN) on the GPIO ports. CH1N/PB13, CH2N/PB14, CH3N/PB15) CH1N/PA7, CH2N/PB0, CH3N/PB1) CH1N/PE8, CH2N/PE10, CH3N/PE12)",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No remap (ETR/PA12, CH1/PA8, CH2/PA9, CH3/PA10, CH4/PA11, BKIN/PB12,"
+              },
+              {
+                "value": "01",
+                "meaning": "Partial remap (ETR/PA12, CH1/PA8, CH2/PA9, CH3/PA10, CH4/PA11, BKIN/PA6,"
+              },
+              {
+                "value": "10",
+                "meaning": "not used"
+              },
+              {
+                "value": "11",
+                "meaning": "Full remap (ETR/PE7, CH1/PE9, CH2/PE11, CH3/PE13, CH4/PE14, BKIN/PE15,"
+              }
+            ]
+          },
+          {
+            "bits": "5:4",
+            "name": "USART3_REMAP[1:0]",
+            "description": "USART3 remapping These bits are set and cleared by software. They control the mapping of USART3 CTS, RTS,CK,TX and RX alternate functions on the GPIO ports.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No remap (TX/PB10, RX/PB11, CK/PB12, CTS/PB13, RTS/PB14)"
+              },
+              {
+                "value": "01",
+                "meaning": "Partial remap (TX/PC10, RX/PC11, CK/PC12, CTS/PB13, RTS/PB14)"
+              },
+              {
+                "value": "10",
+                "meaning": "not used"
+              },
+              {
+                "value": "11",
+                "meaning": "Full remap (TX/PD8, RX/PD9, CK/PD10, CTS/PD11, RTS/PD12)"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "USART2_REMAP",
+            "description": "USART2 remapping This bit is set and cleared by software. It controls the mapping of USART2 CTS, RTS,CK,TX and RX alternate functions on the GPIO ports.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (CTS/PA0, RTS/PA1, TX/PA2, RX/PA3, CK/PA4)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (CTS/PD3, RTS/PD4, TX/PD5, RX/PD6, CK/PD7)"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "USART1_REMAP",
+            "description": "USART1 remapping This bit is set and cleared by software. It controls the mapping of USART1 TX and RX alternate functions on the GPIO ports.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (TX/PA9, RX/PA10)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (TX/PB6, RX/PB7)"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "I2C1_REMAP",
+            "description": "I2C1 remapping This bit is set and cleared by software. It controls the mapping of I2C1 SCL and SDA alternate functions on the GPIO ports.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (SCL/PB6, SDA/PB7)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (SCL/PB8, SDA/PB9)"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "SPI1_REMAP",
+            "description": "SPI1 remapping This bit is set and cleared by software. It controls the mapping of SPI1 NSS, SCK, MISO, MOSI alternate functions on the GPIO ports.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (NSS/PA4, SCK/PA5, MISO/PA6, MOSI/PA7)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (NSS/PA15, SCK/PB3, MISO/PB4, MOSI/PB5)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

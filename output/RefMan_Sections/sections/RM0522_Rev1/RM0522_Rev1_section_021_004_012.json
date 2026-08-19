@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S21.4.12",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "21",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "21.4.12",
+      "section_title": "Channel-wise programmable sampling time (SMPR1, SMPR2)",
+      "level": 3,
+      "parent_section": "21.4",
+      "page": 577,
+      "page_end": 578,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "smpr1",
+        "smpr2"
+      ],
+      "chars": 3578,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=577",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.4.12 \"Channel-wise programmable sampling time (SMPR1, SMPR2)\" in chapter 21 (Analog-to-digital converters (ADC)), RM0522 Rev 1, page 577.",
+      "section_content": "Before starting a conversion, the ADC must establish a direct connection between the\nvoltage source under measurement and the embedded sampling capacitor of the ADC. This\nsampling time must be sufficient for the input voltage source to charge the embedded\ncapacitor to the input voltage level.\nEach channel can be sampled with a different sampling time, which is programmable\nthrough the SMP[2:0] bits of the ADC_SMPR1 and ADC_SMPR2 registers. It is therefore\npossible to select among the following sampling time values:\n• SMP=000: 3 ADC clock cycles\n• SMP=001: 5 ADC clock cycles\n• SMP=010: 8 ADC clock cycles\n• SMP=011: 13 ADC clock cycles\n• SMP=100: 25 ADC clock cycles\n• SMP=101: 48 ADC clock cycles\n• SMP=110: 139 ADC clock cycles\n• SMP=111: 289 ADC clock cycles\nThe total conversion time is calculated as follows (12-bit mode):\nTCONV = Sampling time+13 ADC clock cycles\nExample\nWith Fadc_ker_ck=32MHz and a sampling time of 3 ADC clock cycles:\nTCONV = (3+13)× ADC clock cycles = 16 ADC clock cycles = 500 ns\nThe ADC notifies the end of the sampling phase by asserting the EOSMP flag (only for\nregular conversion).\nConstraints on the sampling time\nFor each channel, SMP[2:0] bits must be programmed to respect a minimum and a\nmaximum sampling times as specified in the ADC characteristics section of the datasheets.\nBulb sampling mode\nThe bulb sampling mode enables to obtain longer sampling time.\nWhen the BULB bit is set in the ADC_CFGR2 register, the sampling period starts\nimmediately after the last ADC conversion. A hardware or software trigger starts the\nconversion after the sampling time has been programmed in ADC_SMPRx registers. The\nvery first ADC conversion after the ADC is enabled, is performed with the sampling time\nprogrammed in SMP bits. The bulb mode is effective starting from the second conversion.\nThe maximum sampling time is limited (refer to the ADC characteristics section of the\ndatasheet).\nBulb mode is supported exclusively in regular conversion; dual mode is not supported.\nThe BULB bit can be modified only when the ADEN bit of the ADC_CR register is cleared.\nWhen the BULB bit is set, it is not allowed to set the SMPTRIG bit in ADC_CFGR2.\n[Figure 93. Bulb mode timing diagram]\nSampling time control trigger mode\nWhen the SMPTRIG bit is set, the sampling time programmed through SMPx bits is not\napplicable. The sampling time is controlled by the trigger signal edge.\nWhen a hardware trigger is selected (EXTEN[1:0]=01), each rising edge of the trigger\nsignal starts the sampling period. A falling edge ends the sampling period and starts the\nconversion.\nDue to the synchronization mechanism, the minimum allowed pulse width is seven\nadc_ker_ck periods.\nWhen a software trigger is selected (EXTEN[1:0]=00), the software trigger is not the\nADSTART bit of ADC_CR but the SWTRIG bit. The SWTRIG bit has to be set to start the\nsampling period, and it has to be cleared to end the sampling period and start the\nconversion. In this mode, the minimum sampling time is limited to seven ADC clock cycles.\nThe maximum sampling time is limited (refer to the ADC characteristics section of the\ndatasheet).\nThis mode is only compatible with the discontinuous mode. DISCNUM must be cleared for\nregular conversion mode. It is not supported for injected conversion mode and autoinjection\nmode.\nWhen the SMPTRIG bit is set, setting the BULB bit is not allowed and only regular\nconversion is supported.\nThe sampling time control trigger mode is not compatible with the following dual modes:\nDUAL[4:0]=0b00010, 0b00011, 0b00101, 0b00110, 0b00111, and 0b01001.",
+      "semantic": {}
+    }
+  ]
+}

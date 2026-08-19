@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.4.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.4.7",
+      "section_title": "Slot configuration",
+      "level": 3,
+      "parent_section": "68.4",
+      "page": 3510,
+      "page_end": 3511,
+      "semantic_type": "generic",
+      "features": [
+        "configuration",
+        "slot"
+      ],
+      "chars": 2052,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3510",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.4.7 \"Slot configuration\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3510.",
+      "section_content": "The slot is the basic element in the audio frame. The number of slots in the audio frame is\nequal to NBSLOT[3:0] + 1.\nThe maximum number of slots per audio frame is fixed at 16.\nFor AC’97 protocol or SPDIF (when bit PRTCFG[1:0] = 10 or PRTCFG[1:0] = 01), the\nnumber of slots is automatically set to target the protocol specification, and the value of\nNBSLOT[3:0] is ignored.\nEach slot can be defined as a valid slot, or not, by setting SLOTEN[15:0] bits of the\nSAI_xSLOTR register.\nWhen an invalid slot is transferred, the SD data line is either forced to 0 or released to high-\nZ depending on the TRIS bit configuration (refer to Output data line management on an\ninactive slot) in transmitter mode. In receiver mode, the received value from the end of this\nslot is ignored. Consequently, there is no FIFO access and so no request to read or write the\nFIFO linked to this inactive slot status.\nThe slot size is also configurable as shown in Figure 918. The size of the slots is selected by\nconfiguring the SLOTSZ[1:0] bits in the SAI_xSLOTR register. The size is applied identically\nfor each slot in an audio frame.\n[Figure 918. Slot size configuration with FBOFF = 0 in SAI_xSLOTR]\nIt is possible to choose the position of the first data bit to transfer within the slots. This offset\nis configured by FBOFF[4:0] bits in the SAI_xSLOTR register. 0 values are injected in\ntransmitter mode from the beginning of the slot until this offset position is reached. In\nreception, the bit in the offset phase is ignored. This feature targets the LSB justified\nprotocol (if the offset is equal to the slot size minus the data size).\n[Figure 919. First bit offset]\nIt is mandatory to respect the following conditions to avoid bad SAI behavior:\n• FBOFF ≤ (SLOTSZ - DS)\n• DS ≤ SLOTSZ\n• NBSLOT x SLOTSZ ≤ FRL (frame length)\nThe number of slots must be even when bit FSDEF in the SAI_xFRCR register is set.\nIn AC’97 and SPDIF protocol (bit PRTCFG[1:0] = 10 or PRTCFG[1:0] = 01), the slot size is\nautomatically set as defined in Section68.4.11: AC’97 link controller.",
+      "semantic": {}
+    }
+  ]
+}

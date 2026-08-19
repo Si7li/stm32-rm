@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S36.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "36",
+      "chapter_title": "Audio digital filter (ADF)",
+      "section": "36.4.5",
+      "section_title": "Clock generator (CKGEN)",
+      "level": 3,
+      "parent_section": "36.4",
+      "page": 1716,
+      "page_end": 1718,
+      "semantic_type": "generic",
+      "features": [
+        "ckgen",
+        "clock"
+      ],
+      "chars": 3467,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1716",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.4.5 \"Clock generator (CKGEN)\" in chapter 36 (Audio digital filter (ADF)), RM0486 Rev 4, page 1716.",
+      "section_content": "The RCC (reset and clock controller) provides the following clocks to the ADF:\n• AHB clock (adf_hclk) used for the register interface\n• kernel clock (adf_ker_ck) mainly used by all other parts of the circuit via the CKGEN\nThese clocks are not supposed to be phase locked, so all signals crossing those clock\ndomains are resynchronized.\nThe clock generator (CKGEN) is responsible of the generation of the processing clock, and\nthe clock provided to the ADF_CCK0 and ADF_CCK1 pins. All those clocks are generated\nfrom the adf_ker_ck.\nThe processing clock (adf_proc_ck) is used to run all the signal processing and to re-sample\nthe incoming serial or parallel stream.\nTo adapt the kernel clock frequency provided by the RCC, the following dividers are\navailable:\n• PROCDIV[6:0] used to adapt the kernel clock frequency to the constraints of the\nparallel and serial interfaces, and to the processing blocks\n• CCKDIV[3:0] used to adapt the frequency of the ADF_CCK0 and ADF_CCK1 clocks\nPROCDIV[6:0] and CCKDIV[3:0] must be programmed when no clock is provided to the\ndividers (CKGDEN = 0).\nThe adf_proc_ck generation is controlled by CKGDEN.\nIn addition, the CKGMOD bit allows the application to define the way to trigger the CCKDIV\ndivider:\n• When CKGMOD = 0, the CCKDIV divider is started as soon as CKGDEN is set to 1.\n• When CKGMOD = 1, the CCKDIV divider is started when CKGDEN is set to 1 and the\nprogrammed trigger condition occurred.\nAll the bits and fields controlling the CKGEN are in the ADF clock generator control register\n(ADF_CKGCR).\n[Figure 360. CKGEN overview]\nADF\nCKGEN TRIG0\nTRIG_CK\nadf_proc_ck Digital\nprocessing:\nDFLT0, SAD\nInterfaces:\nADCITF[2:1],\nCKGDEN PROCDIV[6:0] CKGMOD CCKDIV[3:0] CCK0DIR SITF0\nCCK0EN\nadf_ker_ck ÷ 1 to 128 0 ÷ 1 to 16 ADF_CCK0\n1\ncck_trg\n(from TRIG_CK) ADF_CCK1\nCCK1EN\nCCK1DIR\nThe trigger logic for CKGEN is handled by the block TRG_CK. As shown in Figure365, the\nCCKDIV divider can be triggered on the rising or falling edge of an external trigger source.\nWhen the proper trigger condition occurs, the cck_trg signal goes to high, allowing the\nCCKDIV divider to start. The TRG_CK logic is reset when CKGDEN is set to 0.\nThis feature can be helpful to synchronize the ADF_CCKy (y = 0,1) clock of several ADF\ninstances, or to synchronize the clock generation to a timer event.\nThe application can control the activation of the ADF_CCK0 or ADF_CCK1 pin thanks to\nCCK0EN/CCK1EN and CCK0DIR/CCK1DIR bits:\n• CCKyEN is used to enable the CCKDIV, and thus generates a clock for the external\nsensors.\n• CCKyDIR is used to control the direction of the ADF_CCKy pin (input or output)\n[Table 298. Control of the common clock generation(1)]\nNote: The adf_proc_ck must be enabled (by CKGDEN = 1) before enabling other blocks (such as\nSITF0 or DFLT0).\nCKGEN activation sequence example\n1. Set CKGDEN to 0.\n2. Wait for CKGACTIVE = 0. If CKGDEN was previously enabled, this phase can take two\nperiods of adf_hclk, and two periods of adf_proc_ck.\n3. Program PROCDIV[6:0], CKGMOD, CCKDIV[3:0], TRGSRC[3:0], TRGSENS,\nCCK1EN and CCK0EN.\n4. Set CKGDEN to 1.\nWhen needed, at any moment, CCK[1:0]EN bitfield value can be changed without disabling\nthe clock generator.\nClock frequency constraints\nTable299 shows the frequency constraints to receive and process properly the samples.\nNote: The reshape filter (RSFLT) needs up to 24 cycles of adf_proc_ck clock to process one\nsample.\n[Table 299. Clock constraints with respect to the incoming stream(1)]",
+      "semantic": {}
+    }
+  ]
+}

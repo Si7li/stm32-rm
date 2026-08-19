@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.4.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.4.5",
+      "section_title": "Standard multislave communication",
+      "level": 3,
+      "parent_section": "45.4",
+      "page": 1952,
+      "page_end": 1955,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 4313,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1952",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.4.5 \"Standard multislave communication\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1952.",
+      "section_content": "In a configuration with two or more independent slaves, the master uses a star topology with\ndedicated GPIO pins to manage the chip select lines for each slave separately (see Figure\n664.).\nThe master must select one of the slaves individually by pulling low the GPIO connected to\nthe slave NSS input (only one slave can control data on a common MISO line at a given\ntime).\nWhen this is done, a communication between the master and the selected slave is\nestablished. In addition to the simplicity, the advantage of this topology is that a specific SPI\nconfiguration can be applied for each slave as all the communication sessions are\nperformed separately just within a single master-slave pair. Optionally, when there is no\nneed to read any information from slaves, the master can transmit the same information to\nthe multiple slaves.\n[Figure 664. Master and three independent slaves connected in star topology]\n1. The master single NSS pin hardware output functionality cannot support this topology (to be replaced by a\nset of GPIOs under software control). The NSS pin is free for other application uses (such as GPIO or other\nalternate functions). Refer to Section45.4.7 for details.\n2. If the application cannot ensure that no more than a single NSS active signal is provided by the master at a\ngiven time, it is better to configure the MISO pins in an open-drain configuration with an external pull-up on\nthe MISO line to prevent conflicts between the interconnected outputs of the slaves. Else, a push-pull\nconfiguration can be applied without an extra resistor (see I/O alternate function input/output (GPIO)\nsection).\n3. The RDY signals can be read by the master from the slaves optionally.\nThe master can handle the SPI communication with all the slaves at the same time when a\ncircular topology is applied (see Figure665). All the slaves behave like simple shift registers\napplied in serial chain under control of common slave select (NSS) and clock (SCK) signals.\nAll the information is shifted simultaneously around the circle while returning back to the\nmaster. Sessions have fixed the length where the number of data frames transferred by the\nmaster is equal to the number of slaves.\nThen when a first data frame is transferred in the chain, the master just sends the\ninformation dedicated for the last slave node in the chain, via the first slave node input, while\nthe first information received by the master comes from the last node output at this time.\nCorrespondingly, the last transferred data finishing the session is dedicated for the first\nslave node while its first outgoing data just reaches the master input, after its circling around\nthe chain passing through all the other slaves during the session.\nThe data format configuration and clock setting must be the same for all the nodes in the\nchain in this topology. As the receive and transmit shift registers are separated internally, a\ntrick with intentional underrun must be applied to the TxFIFO slaves when the information is\ntransferred between the receiver and the transmitter by hardware.\nIn this case, the transmission underrun feature is configured in a mode repeating the last\nreceived data frame (UDRCFG=1). A session can start optionally with a single data pattern\nwritten into the TxFIFO by each slave (usually slave status information is applied) before the\nsession starts. In this case, the underrun happens in fact after this first data frame is\ntransferred. To be able to clear the internal underrun condition immediately and restart the\nsession by the TxFIFO content again, the user must disable and enable the SPI between\nthe sessions and must fill the TxFIFO by a new single data pattern (to overcome the\npropagating delay of the clearing raised in case the underrun is cleared in a standard way\nby the UDRC bit).\n[Figure 665. Master and three slaves connected in circular (daisy chain) topology]\n1. The underrun feature is used by the slaves in this configuration when the slaves are able to transmit data\nreceived previously into the Rx shift register once their TxFIFOs become empty.\n2. The RDY signals can be read by the master optionally, either separately or configured as open drain\noutputs (while RDIOP=0) and connected with a pull-up resistor as a common chain ready status\noverdriven by the slowest device.",
+      "semantic": {}
+    }
+  ]
+}

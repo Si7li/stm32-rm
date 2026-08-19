@@ -1,0 +1,159 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.8.20",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.8.20",
+      "section_title": "HPDMA channel x linked-list address register (HPDMA_CxLLR)",
+      "level": 3,
+      "parent_section": "18.8",
+      "page": 924,
+      "page_end": 925,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory",
+        "ub1",
+        "uda",
+        "ull",
+        "usa",
+        "ut1",
+        "ut2"
+      ],
+      "chars": 3596,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=924",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.8.20 \"HPDMA channel x linked-list address register (HPDMA_CxLLR)\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 924.",
+      "section_content": "Address offset: 0x0CC + 0x80 * x (x = 0 to 11)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(HPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of channel x (HPDMA_PRIVCFGR.PRIVx).\nThis register is CID-filtered depending on the CID configuration of the channel x\n(HPDMA_CxCIDCFGR.CFEN = 1). If the debug domain feature is activated, a write access\nto this register is granted to the debug domain CID, regardless of any CID filtering.\nThis register configures the data structure of the next LLI in the memory and its address\npointer. A channel transfer is completed when this register is null.\nThis register must be written when HPDMA_CxCR.EN = 0.\nThis register is read-only when HPDMA_CxCR.EN = 1.\nThis register must be written when the channel is completed (then the hardware has\ndeasserted HPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block, 2D/repeated block, LLI, or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by the\nHPDMA from the memory if HPDMA_CxLLR.ULL = 1.\nBit 31 UT1: Update HPDMA_CxTR1 from memory\nThis bit controls the update of HPDMA_CxTR1 from the memory during the link transfer.\n0: No HPDMA_CxTR1 update\n1: HPDMA_CxTR1 update\nBit 30 UT2: Update HPDMA_CxTR2 from memory\nThis bit controls the update of HPDMA_CxTR2 from the memory during the link transfer.\n0: No HPDMA_CxTR2 update\n1: HPDMA_CxTR2 update\nBit 29 UB1: Update HPDMA_CxBR1 from memory\nThis bit controls the update of HPDMA_CxBR1 from the memory during the link transfer.\nIf UB1 = 0 and if HPDMA_CxLLR ≠ 0, the linked-list is not completed.\nHPDMA_CxBR1.BNDT[15:0] is then restored to the programmed value after data transfer is\ncompleted and before the link transfer.\n0: No HPDMA_CxBR1 update from memory (HPDMA_CxBR1.BNDT[15:0] restored if any\nlink transfer)\n1: HPDMA_CxBR1 update\nBit 28 USA: Update HPDMA_CxSAR from memory\nThis bit controls the update of HPDMA_CxSAR from the memory during the link transfer.\n0: No HPDMA_CxSAR update\n1: HPDMA_CxSAR update\nBit 27 UDA: Update HPDMA_CxDAR register from memory\nThis bit is used to control the update of HPDMA_CxDAR from the memory during the link\ntransfer.\n0: No HPDMA_CxDAR update\n1: HPDMA_CxDAR update\nBits 26:17 Reserved, must be kept at reset value.\nBit 16 ULL: Update HPDMA_CxLLR register from memory\nThis bit is used to control the update of HPDMA_CxLLR from the memory during the link\ntransfer.\n0: No HPDMA_CxLLR update\n1: HPDMA_CxLLR update\nBits 15:2 LA[15:2]: Pointer (16-bit low-significant address) to the next linked-list data structure\nIf UT1 = UT2 = UB1 = USA = UDA = ULL = 0 and if LA[15:2] = 0, the current LLI is the last\none. The channel transfer is completed without any update of the linked-list HPDMA\nregister file.\nElse, this bitfield is the pointer to the memory address offset from which the next linked-list\ndata structure is automatically fetched from, once the data transfer is completed, in order to\nconditionally update the linked-list HPDMA internal register file (HPDMA_CxTR1,\nHPDMA_CxTR2, HPDMA_CxBR1, HPDMA_CxSAR, HPDMA_CxDAR, and\nHPDMA_CxLLR).\nCaution:the user must program this pointer not to exceed the 64-Kbyte addressable\nspace defined by the link base address register HPDMA_CxLBAR. The\ncomplete linked-list data structure must be included in the 64-Kbyte\naddressable space.\nNote: The user must program the pointer to be 32-bit aligned. The two low-significant bits are\nwrite ignored.\nBits 1:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "HPDMA_CxLLR",
+        "address_offset": "0x0CC + 0x80 * x (x = 0 to 11)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "UT1",
+            "description": "Update HPDMA_CxTR1 from memory This bit controls the update of HPDMA_CxTR1 from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No HPDMA_CxTR1 update"
+              },
+              {
+                "value": "1",
+                "meaning": "HPDMA_CxTR1 update"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "UT2",
+            "description": "Update HPDMA_CxTR2 from memory This bit controls the update of HPDMA_CxTR2 from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No HPDMA_CxTR2 update"
+              },
+              {
+                "value": "1",
+                "meaning": "HPDMA_CxTR2 update"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "UB1",
+            "description": "Update HPDMA_CxBR1 from memory This bit controls the update of HPDMA_CxBR1 from the memory during the link transfer. If UB1 = 0 and if HPDMA_CxLLR ≠ 0, the linked-list is not completed. HPDMA_CxBR1.BNDT[15:0] is then restored to the programmed value after data transfer is completed and before the link transfer. link transfer)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No HPDMA_CxBR1 update from memory (HPDMA_CxBR1.BNDT[15:0] restored if any"
+              },
+              {
+                "value": "1",
+                "meaning": "HPDMA_CxBR1 update"
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "USA",
+            "description": "Update HPDMA_CxSAR from memory This bit controls the update of HPDMA_CxSAR from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No HPDMA_CxSAR update"
+              },
+              {
+                "value": "1",
+                "meaning": "HPDMA_CxSAR update"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "UDA",
+            "description": "Update HPDMA_CxDAR register from memory This bit is used to control the update of HPDMA_CxDAR from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No HPDMA_CxDAR update"
+              },
+              {
+                "value": "1",
+                "meaning": "HPDMA_CxDAR update"
+              }
+            ]
+          },
+          {
+            "bits": "26:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "ULL",
+            "description": "Update HPDMA_CxLLR register from memory This bit is used to control the update of HPDMA_CxLLR from the memory during the link transfer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No HPDMA_CxLLR update"
+              },
+              {
+                "value": "1",
+                "meaning": "HPDMA_CxLLR update"
+              }
+            ]
+          },
+          {
+            "bits": "15:2",
+            "name": "LA[15:2]",
+            "description": "Pointer (16-bit low-significant address) to the next linked-list data structure If UT1 = UT2 = UB1 = USA = UDA = ULL = 0 and if LA[15:2] = 0, the current LLI is the last one. The channel transfer is completed without any update of the linked-list HPDMA register file. Else, this bitfield is the pointer to the memory address offset from which the next linked-list data structure is automatically fetched from, once the data transfer is completed, in order to conditionally update the linked-list HPDMA internal register file (HPDMA_CxTR1, HPDMA_CxTR2, HPDMA_CxBR1, HPDMA_CxSAR, HPDMA_CxDAR, and HPDMA_CxLLR). Caution:the user must program this pointer not to exceed the 64-Kbyte addressable space defined by the link base address register HPDMA_CxLBAR. The complete linked-list data structure must be included in the 64-Kbyte addressable space. Note: The user must program the pointer to be 32-bit aligned. The two low-significant bits are write ignored.",
+            "values": []
+          },
+          {
+            "bits": "1:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

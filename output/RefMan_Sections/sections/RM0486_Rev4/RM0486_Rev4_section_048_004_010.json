@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S48.4.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "48",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "48.4.10",
+      "section_title": "SAES counter (CTR) mode",
+      "level": 3,
+      "parent_section": "48.4",
+      "page": 2315,
+      "page_end": 2317,
+      "semantic_type": "generic",
+      "features": [
+        "ctr",
+        "saes"
+      ],
+      "chars": 3844,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2315",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.4.10 \"SAES counter (CTR) mode\" in chapter 48 (Secure AES coprocessor (SAES)), RM0486 Rev 4, page 2315.",
+      "section_content": "The CTR mode uses the AES core to generate a key stream. The keys are then XOR-ed\nwith the plaintext to obtain the ciphertext. Unlike with ECB and CBC modes, no key\nscheduling is required for the CTR decryption since the AES core is always used in\nencryption mode.\nA typical message construction in CTR mode is given in Figure463.\n[Figure 463. Message construction in CTR mode]\nThe structure of this message is:\n• A 16-byte initial counter block (ICB), composed of two distinct fields:\n– Initialization vector (IV): a 96-bit value that must be unique for each encryption\ncycle with a given key.\n– Counter: a 32-bit big-endian integer that is incremented each time a block\nprocessing is completed. The initial value of the counter must be set to 1.\n• The plaintext P is encrypted as ciphertext C, with a known length. This length can be\nnon-multiple of 16 bytes, in which case a plaintext padding is required.\nFor more details, refer to NIST Special Publication 800-38A, Recommendation for Block\nCipher Modes of Operation.\nCTR encryption and decryption\nFigure464 describes the counter (CTR) chaining implementation in the SAES peripheral\n(encryption). To select this chaining mode, write CHMOD[2:0] with 0x2.\n[Figure 464. CTR encryption]\ninput DATATYPE[1:0] man S a w g a e p m ent DATATYPE[1:0] man S a w g a e p m ent\noutput\nXOR DOUT (ciphertext C1) DOUT (ciphertext C2)\nInitialization vectors in SAES must be initialized as shown in Table404.\n[Table 404. Counter mode initialization vector definition]\nCTR encryption and decryption process\nThis process is described in Section48.4.5, with the following sequence of events:\n1. Disable the SAES peripheral, by clearing EN.\n2. Wait until BUSY is cleared (no RNG random number fetch in progress).\n3. Initialize the SAES_CR register:\n– Select CTR chaining mode (write CHMOD[2:0] with 0x2) in encryption or\ndecryption mode (write MODE[1:0] with 0x0 or 0x2).\n– Configure the data type, through DATATYPE[1:0].\n– Configure the key size, through KEYSIZE. If the key must not be shared with a\ndifferent security context (different secure attribute), the KEYPROT bit must also\nbe set.\n– Select normal key mode, by writing KMOD[1:0] with 0x0. For the other KMOD[1:0]\nvalues, refer to Section48.4.14 (wrapped keys) and Section48.4.15 (shared\nkeys).\n4. Write the initialization vector into the SAES_IVRx registers according to Table404.\n5. Write the key into the SAES_KEYRx registers. Alternatively, select a key source\ndifferent from the key registers by writing KEYSEL[2:0] with a value different from 0x0.\nRefer to Section48.4.17: SAES key registers for details.\n6. Wait until KEYVALID is set (the key loading completed).\n7. Enable the SAES peripheral, by setting EN.\n8. Append data:\na) If it is the last block and the plaintext (encryption) or ciphertext (decryption) size in\nthe block is less than 16 bytes, pad the remainder of the block with zeros.\nb) Append the data block into SAES as described in Section48.4.5, then read the\nSAES_DOUTR register four times to save the resulting block (MSB first).\nc) Repeat the step b) until the second-last block is processed. For the last block of\nplaintext (encryption only), follow the steps a) and b). For the last block, discard\nthe bits that are not part of the message when the last block is smaller than 16\nbytes.\n9. Finalize the sequence: disable the SAES peripheral, by clearing EN.\nSuspend/resume operations in CTR mode\nLike for the CBC mode, it is possible to interrupt a message to send a higher-priority\nmessage, then resume the interrupted message. Detailed CBC suspend and resume\nsequence is described in Section48.4.9: SAES basic chaining modes (ECB, CBC).\nThe suspend and resume operations are only supported when SAES is used in CPU mode,\nnot in DMA mode.\nNote: Like for CBC mode, the IV registers must be reloaded during the resume operation.",
+      "semantic": {}
+    }
+  ]
+}

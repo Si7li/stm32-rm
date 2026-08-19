@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S59.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "59",
+      "chapter_title": "Independent watchdog (IWDG)",
+      "section": "59.4.4",
+      "section_title": "Window option",
+      "level": 3,
+      "parent_section": "59.4",
+      "page": 2982,
+      "page_end": 2985,
+      "semantic_type": "generic",
+      "features": [
+        "option",
+        "window"
+      ],
+      "chars": 4201,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2982",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 59.4.4 \"Window option\" in chapter 59 (Independent watchdog (IWDG)), RM0486 Rev 4, page 2982.",
+      "section_content": "The IWDG can also work as a window watchdog, by setting the appropriate window in the\nIWDG window register (IWDG_WINR).\nIf the reload operation is performed while the counter is greater than WIN[11:0] + 1, a reset\nis generated. WIN[11:0] is located in the IWDG window register (IWDG_WINR). As shown in\nFigure774, the reset is generated one period of presc_ck after the unexpected refresh\ncommand.\nThe default value of the IWDG window register (IWDG_WINR) is 0x0000 0FFF, so, if not\nupdated, the window option is disabled.\nAs soon as the window value changes, the down-counter (IWDCNT) is reloaded with the\nRL[11:0] value, to ease the estimation for where the next refresh must take place.\n[Figure 774. Reset timing due to refresh in the not allowed area]\nConfiguring the IWDG when the window option is enabled\n1. Enable the IWDG by writing 0x0000CCCC in the IWDG key register (IWDG_KR).\n2. Enable register access by writing 0x00005555 in the IWDG key register (IWDG_KR).\n3. Write the IWDG prescaler by programming IWDG prescaler register (IWDG_PR).\n4. Write the IWDG reload register (IWDG_RLR).\n5. If needed, enable the early wake-up interrupt, and program the early wake-up\ncomparator, by writing the proper values into the IWDG early wake-up interrupt register\n(IWDG_EWCR).\n6. Write to the IWDG window register (IWDG_WINR). This automatically reloads the\nIWDCNT down-counter with the RL[11:0] value.\n7. Wait for the registers to be updated (IWDG_SR = 0x0000 0000).\n8. Write 0x0000 0000 into IWDG key register (IWDG_KR) to write-protect registers.\nNote: Step 7 can be skipped if the application does not intend to disable the APB clock after the\ncompletion of this sequence.\nConfiguring the IWDG when the window option is disabled\nWhen the window option it is not used, the IWDG can be configured as follows:\n1. Enable the IWDG by writing 0x0000 CCCC in the IWDG key register (IWDG_KR).\n2. Enable register access by writing 0x00005555 in the IWDG key register (IWDG_KR).\n3. Write the prescaler by programming the IWDG prescaler register (IWDG_PR).\n4. Write the IWDG reload register (IWDG_RLR).\n5. If needed, enable the early wake-up interrupt, and program the early wake-up\ncomparator, by writing the proper values into the IWDG early wake-up interrupt register\n(IWDG_EWCR).\n6. Wait for the registers to be updated (IWDG_SR = 0x00000000).\n7. Refresh the counter with RL[11:0] value, and write-protect registers by writing\n0x0000AAAA into IWDG key register (IWDG_KR).\nThe figure below shows a sequence example changing the prescaler, the reload value, and\nthen performing a refresh.\n[Figure 775. Changing PR, RL, and performing a refresh(1)]\n1. Refer to Table573: IWDG delays versus actions for details on timing values.\nNote: When the new prescaler value is accepted by the IWDG (falling edge of PVU), the new\ndivision ratio is effective when the current division sequence is completed (N-k in the\ndrawing).\nNote: The timeout delay between the refresh (write 0xAAAA into IWDG_KR) and the watchdog\nreset is increased by TDRefresh.\nIf a refresh command is sent while the previous refresh command is not yet completed, this\nlast refresh command is ignored.\nUpdating the window comparator\nIt is possible to update the window comparator when the IWDG is already running. The\nIWDCNT is reloaded as well. The following sequence can be performed to update the\nwindow comparator:\n1. Enable register access by writing 0x0000 5555 in the IWDG key register (IWDG_KR).\n2. Write to the IWDG window register (IWDG_WINR). This automatically reloads the\nIWDCNT down-counter with RL[11:0] value.\n3. Wait for WVU = 0\n4. Lock registers by writing IWDG_KR to 0x0000 0000\nStep 3 can be skipped if the application does not intend to disable the APB clock after the\ncompletion of this sequence.\nFigure776 shows this sequence. As soon as the IWDG_WINR register is written, the WVU\nflag goes high for TDwvu. After a window comparator update, a refresh is automatically\nperformed. The refresh is effective in the worst case, on the next prescaler clock active\nedge after the falling edge of WVU (TDRefAuto)\n[Figure 776. Window comparator update(1)]\n1. Refer to Table573: IWDG delays versus actions for details on timing values.",
+      "semantic": {}
+    }
+  ]
+}

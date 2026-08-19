@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S19.4.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "19",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "19.4.9",
+      "section_title": "XSPI indirect mode",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 512,
+      "page_end": 514,
+      "semantic_type": "generic",
+      "features": [
+        "spi",
+        "xspi"
+      ],
+      "chars": 5710,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=512",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.9 \"XSPI indirect mode\" in chapter 19 (Extended-SPI interface (XSPI)), RM0522 Rev 1, page 512.",
+      "section_content": "In indirect mode, the commands are started by writing to the XSPI registers, and data are\ntransferred by writing or reading the data register, in a similar way to other communication\nperipherals.\nWhen FMODE[1:0]=00 in XSPI_CR, the XSPI is in indirect-write mode: bytes are sent to\nthe external device during the data phase. Data are provided by writing to XSPI_DR.\nWhen FMODE[1:0]=01, the XSPI is in indirect-read mode: bytes are received from the\nexternal device during the data phase. Data are recovered by reading XSPI_DR.\nIn indirect mode, when the XSPI is configured in DTR mode over eight lanes with DQS\ndisabled, the given starting address and the data length must be even.\nNote: The XSPI_AR register must be updated even if the start address is the same as the start\naddress of the previous indirect access.\nThe number of bytes to be read/written is specified in XSPI_DLR:\n• If DL[31:0]=0xFFFFFFFF, the data length is considered undefined and the XSPI\nsimply continues to transfer data until it reaches the end of the external device (as\ndefined by DEVSIZE). If no bytes are to be transferred, DMODE[2:0] must be set to 0 in\nXSPI_CCR.\n• If DL[31:0]=0xFFFFFFFFF and DEVSIZE[4:0]=0x1F (its maximum value indicating\nat 4-Gbyte device), the transfers continue indefinitely, stopping only after an abort\nrequest or after the XSPI is disabled. After the last memory address is read (at address\n0xFFFFFFFF), reading continues with address=0x00000000.\nWhen the programmed number of bytes to be transmitted or received is reached, the TCF\nbit is set in XSPI_SR, and an interrupt is generated if TCIE=1 in XSPI_CR. In the case of\nan undefined number of data, TCF is set when the limit of the external SPI memory is\nreached, according to the device size defined in XSPI_DCR1.\nTriggering the start of a transfer in regular-command protocol\nDepending on the XSPI configuration, there are three different ways to trigger the start of a\ntransfer in indirect mode when using the regular-command protocol. In general, the start of\ntransfer is triggered as soon as the software gives the last information that is necessary for\nthe command. More specifically in indirect mode, a transfer starts when one of the following\nsequence of events occurs:\n• if no address is necessary (ADMODE[2:0]=000) and if no data need to be provided by\nthe software (FMODE[1:0]=01 or DMODE[2:0]=000), and at the moment when a\nwrite is performed to INSTRUCTION[31:0] in XSPI_IR\n• if an address is necessary (when ADMODE[2:0] ≠ 000) and if no data need to be\nprovided by the software (when FMODE[1:0]=01 or DMODE[2:0]=000), and at the\nmoment when a write is performed to ADDRESS[31:0] in XSPI_AR\n• if data need to be provided by the software (when FMODE[1:0]=00 and\nDMODE[2:0]≠000), and at the moment when a write is performed to DATA[31:0] in\nXSPI_DR\nA write to XSPI_ABR never triggers the communication start. If alternate bytes are required,\nthey must have been programmed before.\nAs soon as a command is started, the BUSY bit is automatically set in XSPI_SR.\nTriggering the start of a transfer in HyperBus protocol\nDepending on the XSPI configuration, there are different ways to trigger the start of a\ncommand in indirect mode. In general, it is triggered as soon as the firmware gives the last\ninformation that is necessary for the transfer to start, and more specifically, a communication\nin indirect mode is triggered by one of the following register settings, when it is the last one\nto be executed:\n• when a write is performed to ADDRESS[31:0] (XSPI_AR) with ADMODE[2:0]≠000 in\nindirect read mode (FMODE[1:0] = 01).\n• when a write is performed to DATA[31:0] (XSPI_DR) in indirect-write mode\n(whenFMODE=00).\n• when a (dummy) write is performed to INSTRUCTION[31:0] (XSPI_IR) for indirect read\nmode (with ADMODE[2:0] = 000 and FMODE = 01).\nAs soon as a transfer is started, the BUSY bit (XSPI_SR[5]) is automatically set.\nFIFO and data management\nData in indirect mode pass through a 32-byte FIFO that is internal to the XSPI. FLEVEL in\nXSPI_SR indicates how many bytes are currently being held in the FIFO.\nAHB burst transactions are supported. Data of the burst are successively written\ninXSPI_DR, and immediately transferred in the internal FIFO.\nIn indirect-write mode (FMODE[1:0]=00), the software adds data to the FIFO when it writes\nin XSPI_DR. A word write adds 4 bytes to the FIFO, a half-word write adds 2bytes, and a\nbyte write adds only 1byte. If the software adds too many bytes to the FIFO (more than\nindicated in DL[31:0]), the extra bytes are flushed from the FIFO at the end of the write\noperation (when TCF is set).\nThe byte/half-word accesses to XSPI_DR must be done only to the least significant\nbyte/halfword of the 32-bit register.\nFTHRES is used to define a FIFO threshold after which point the FIFO threshold flag, FTF,\ngets set. In indirect-read mode, FTF is set when the number of valid bytes to be read from\nthe FIFO is above the threshold. FTF is also set if there is any data left in the FIFO after the\nlast byte is read from the external device, regardless of FTHRES setting. In indirect-write\nmode, the FTF is set when the number of empty bytes in the FIFO is above the threshold.\nIf FTIE=1, there is an interrupt when the FTF is set. If DMAEN=1, a DMA transfer is\ninitiated when the FTF is set. The FTF is cleared by hardware as soon as the threshold\ncondition is no longer true (after enough data has been transferred by the CPU or DMA).\nThe last data read in RX FIFO remains valid as long as there is no request for the next line.\nThis means that, when the application reads several times in a row at the same location, the\ndata is provided from the RX FIFO and not read again from the distant memory.",
+      "semantic": {}
+    }
+  ]
+}

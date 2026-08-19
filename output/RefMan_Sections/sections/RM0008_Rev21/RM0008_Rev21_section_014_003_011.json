@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S14.3.11",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "14",
+      "chapter_title": "Advanced-control timers (TIM1 and TIM8)",
+      "section": "14.3.11",
+      "section_title": "Complementary outputs and dead-time insertion",
+      "level": 3,
+      "parent_section": "14.3",
+      "page": 321,
+      "page_end": 322,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 3134,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=321",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.3.11 \"Complementary outputs and dead-time insertion\" in chapter 14 (Advanced-control timers (TIM1 and TIM8)), RM0008 Rev 21, page 321.",
+      "section_content": "The advanced-control timers (TIM1 and TIM8) can output two complementary signals and\nmanage the switching-off and the switching-on instants of the outputs.\nThis time is generally known as dead-time and it has to be adjust it depending on the\ndevices connected to the outputs and their characteristics (intrinsic delays of level-shifters,\ndelays due to power switches...)\nUser can select the polarity of the outputs (main output OCx or complementary OCxN)\nindependently for each output. This is done by writing to the CCxP and CCxNP bits in the\nTIMx_CCER register.\nThe complementary signals OCx and OCxN are activated by a combination of several\ncontrol bits: the CCxE and CCxNE bits in the TIMx_CCER register and the MOE, OISx,\nOISxN, OSSI and OSSR bits in the TIMx_BDTR and TIMx_CR2 registers. Refer to Table83\nfor more details. In particular, the dead-time is activated when switching to the IDLE state\n(MOE falling down to 0).\nDead-time insertion is enabled by setting both CCxE and CCxNE bits, and the MOE bit if the\nbreak circuit is present. DTG[7:0] bits of the TIMx_BDTR register are used to control the\ndead-time generation for all channels. From a reference waveform OCxREF, it generates 2\noutputs OCx and OCxN. If OCx and OCxN are active high:\n• The OCx output signal is the same as the reference signal except for the rising edge,\nwhich is delayed relative to the reference rising edge.\n• The OCxN output signal is the opposite of the reference signal except for the rising\nedge, which is delayed relative to the reference falling edge.\nIf the delay is greater than the width of the active output (OCx or OCxN) then the\ncorresponding pulse is not generated.\nThe following figures show the relationships between the output signals of the dead-time\ngenerator and the reference signal OCxREF. (we suppose CCxP=0, CCxNP=0, MOE=1,\nCCxE=1 and CCxNE=1 in these examples)\n[Figure 86. Complementary output with dead-time insertion]\n[Figure 87. Dead-time waveforms with delay greater than the negative pulse]\n[Figure 88. Dead-time waveforms with delay greater than the positive pulse]\nThe dead-time delay is the same for each of the channels and is programmable with the\nDTG bits in the TIMx_BDTR register. Refer to Section14.4.18: TIM1 and TIM8 break and\ndead-time register (TIMx_BDTR) for delay calculation.\nRe-directing OCxREF to OCx or OCxN\nIn output mode (forced, output compare or PWM), OCxREF can be re-directed to the OCx\noutput or to OCxN output by configuring the CCxE and CCxNE bits in the TIMx_CCER\nregister.\nThis allows the user to send a specific waveform (such as PWM or static active level) on\none output while the complementary remains at its inactive level. Other possibilities are to\nhave both outputs at inactive level or both outputs active and complementary with\ndead-time.\nNote: When only OCxN is enabled (CCxE=0, CCxNE=1), it is not complemented and becomes\nactive as soon as OCxREF is high. For example, if CCxNP=0 then OCxN=OCxRef. On the\nother hand, when both OCx and OCxN are enabled (CCxE=CCxNE=1) OCx becomes\nactive when OCxREF is high whereas OCxN is complemented and becomes active when\nOCxREF is low.",
+      "semantic": {}
+    }
+  ]
+}

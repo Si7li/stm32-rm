@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.6.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.6.2",
+      "section_title": "CMD12 send timing",
+      "level": 3,
+      "parent_section": "30.6",
+      "page": 1413,
+      "page_end": 1417,
+      "semantic_type": "generic",
+      "features": [
+        "cmd12"
+      ],
+      "chars": 5071,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1413",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.6.2 \"CMD12 send timing\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1413.",
+      "section_content": "CMD12 is used to stop/abort the data transfer, the card data transmission is terminated two\nclock cycles after the end bit of the Stop Transmission command.\n[Table 228. CMD12 use cases]\nAll data write and read commands can be aborted any time by a Stop Transmission\ncommand CMD12. The following data abort procedure applies during an ongoing data\ntransfer:\n1. Load CMD12 Stop Transmission command in registers and set the CMDSTOP bit.\n– This causes the CPSM Abort signal to be generated when the command is sent to\nthe DPSM.\n2. Configure the CPSM to send a command immediately (clear WAITPEND bit).\n– The card, when sending data, stops data transfer 2 cycles after the Stop\nTransmission command end bit.\nThe card when no data is being sent, does not start sending any new data.\n– The host, when sending data, sends one last data bit followed by an end bit after\nthe Stop Transmission command end bit.\nThe host when not sending data, does not start sending any new data.\n3. When IDMAEN = 0, the FIFO need to be reset with FIFORST.\n– When writing data to the card. On the CMDREND flag, firmware must stop writing\ndata to the FIFO. Subsequently the FIFO must be reset with FIFORST, this flushes\nthe FIFO.\n– When reading data from the card. On the CMDREND flag, firmware must read the\nremaining data from the FIFO. Subsequently the FIFO must be reset with\nFIFORST.\n4. When IDMAEN = 1, hardware takes care of the FIFO.\n– When writing data to the card. On the CPSM Abort signal, hardware stops the\nIDMA and subsequently the FIFO is flushed.\n– When reading data from the card. On the CPSM Abort signal, hardware instructs\nthe IDMA to transfer the remaining data from the FIFO to RAM.\n5. When the FIFO is empty/reset the DABORT flag is generated.\nStream operation and CMD12\nTo stop the stream transfer after the last byte to be transfered, the CMD12 end bit timing\nmust be sent aligned with the data stream end of last byte. The following write stream data\nprocedure applies:\n1. Initialize the stream data in the DPSM, DTMODE = MCC stream data transfer.\n2. Send the WRITE_DATA_STREAM command from the CPSM with CMDTRANS = 1.\n3. Preload CMD12 in command registers, with the CMDSTOP bit set.\n4. Configure the CPSM to send a command only after a wait pending (WAITPEND = 1)\nend of last data (according DATALENGTH).\n5. Enabling the CPSM to send the STOP_TRANSMISSION command, the stream data\nend bit and command end bit are aligned.\n– When DATALENGTH > 5 bytes, Command CMD12 is waited in the CPSM to be\naligned with the data transfer end bit.\n– When DATALENGTH < 5 bytes, Command CMD12 is started before and the\nDPSM remains in the Wait_S state to align the data transfer end with the CMD12\nend bit.\n6. The write stream data can be aborted any time by clearing the WAITPEND bit. This\ncauses the Preloaded CMD12 to be sent immediately and stop the write data stream.\n[Figure 251. CMD12 stream timing]\nTo stop the read stream transfer after the last byte, the CMD12 end bit timing must occur\nafter the last data stream byte. The following read stream data procedure applies:\n1. Wait for all data to be received by the DPSM and read from the FIFO (DATAEND flag).\n– The DPSM does not receive more data than indicated by DATALENGTH, even if\nthe card is sending more data.\n2. Send CMD12 by the CPSM.\n– CMD12 stops the card sending data.\nNote: The SDMMC does not receive any more data from the card when DATACOUNT = 0, even\nwhen the card continues sending data.\nBlock operation and CMD12\nTo stop block transfer at the end of the data, the CMD12 end bit must be sent after the last\nblock end bit.\nWhen writing data to the card the CMD12 end bit must be sent after the write data block\nCRC token end bit. This requires the CMD12 sending to be tied to the data block\ntransmission timing. To stop an Open-ended Multiple block write, the following procedure\napplies:\n1. Before starting the data transfer, set DTMODE to “block data transfer ending with\nSTOP_TRANSMISSION command”.\n2. Wait for all data to be sent by the DPSM and the CRC token to be received, (DATAEND\nflag).\n– The DPSM does not send more data than indicated by DATALENGTH.\n3. Send CMD12 by the CPSM.\n– CMD12 sets the card to Idle mode.\nWhen reading data from the card the CMD12 end bit must be sent earliest at the same time\nas the card read data block last data bit. This requires the CMD12 sending to be tied to the\ndata block reception timing. The following stop Open-ended Multiple block read data block\nprocedure applies:\n1. Before starting the data transfer, set DTMODE to “block data transfer ending with\nSTOP_TRANSMISSION command”.\n2. Wait for all data to be received by the DPSM and read from the FIFO (DATAEND flag).\n– The DPSM does not receive more data than indicated by DATALENGTH, even if\nthe card is sending more data.\n3. Send CMD12 with CMDSTOP bit set by the CPSM.\n– CMD12 stops the Card sending more data and set the card to Idle mode. Any\nongoing block transfer is aborted by the Card.\nNote: The SDMMC does not receive any more data from the card when DATACOUNT = 0, even\nwhen the card continues sending data.",
+      "semantic": {}
+    }
+  ]
+}

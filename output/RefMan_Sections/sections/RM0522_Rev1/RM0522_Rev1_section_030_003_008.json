@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S30.3.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "30",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "30.3.8",
+      "section_title": "PKA error management",
+      "level": 3,
+      "parent_section": "30.3",
+      "page": 927,
+      "page_end": 927,
+      "semantic_type": "generic",
+      "features": [
+        "pka"
+      ],
+      "chars": 1648,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=927",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.3.8 \"PKA error management\" in chapter 30 (Public key accelerator (PKA)), RM0522 Rev 1, page 927.",
+      "section_content": "The following error flags in the PKA_SR register are set to indicate errors that may occur\nwhen using the PKA:\n• ADDRERRF flags that the access to PKA RAM falls outside the expected range.\n• RAMERRF flags an AHB access to the PKA RAM occurring while the PKA core uses\nthe PKA RAM. While the flag is set, reads form the PKA RAM return 0 and writes are\nignored.\n• OPERRF flags that the selected operating mode using MODE[5:0] bitfield is not listed\nin PKA operating modes (see the bitfield description), or PKA is running in limited mode\n(see LMF bit in PKA_SR). While the flag is set, writes to the MODE[5:0] bitfield are\nignored.\n• An ongoing chaining mode sequence error raises the chaining mode flag CMF and the\ncorresponding error flag:\n– INCRERRF flags increment error\n– DATAZF flags data zeroed error\n– TRZERRF flags trailing zeros error\n– MDERRF flags mode error\n– RNGERRF flags RNG error\nFor details on each flag and on enabling the chaining mode sequence, see\nSection30.7.2.\nFor each error flag, the PKA generates an interrupt if enabled with the corresponding bit in\nthe PKA_CR register (see Section30.6 for details).\nThe ADDRERRF, OPERRF, and RAMERRF error flags are cleared by setting the\nADDRERRFC, OPERRFC, and RAMERRFC bit in PKA_CLRFR, respectively. The\nOPERRF error flag must be cleared before a new operation is initiated via the PKA_CR\nregister.\nUpon an ongoing chaining mode sequence error, the application must set the CMFC bit in\nthe PKA_CLRFR register, then restart the ongoing protected operation sequence in the\nCCB peripheral.\nNote: The PKA can be re-initialized at any moment by clearing the EN bit in the PKA_CR register.",
+      "semantic": {}
+    }
+  ]
+}

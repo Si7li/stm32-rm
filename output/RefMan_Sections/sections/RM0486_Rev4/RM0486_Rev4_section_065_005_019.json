@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S65.5.19",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "65",
+      "chapter_title": "Universal synchronous/asynchronous receiver transmitter (USART/UART)",
+      "section": "65.5.19",
+      "section_title": "USART IrDA SIR ENDEC block",
+      "level": 3,
+      "parent_section": "65.5",
+      "page": 3317,
+      "page_end": 3319,
+      "semantic_type": "generic",
+      "features": [
+        "endec",
+        "sir",
+        "uart",
+        "usart"
+      ],
+      "chars": 4261,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3317",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 65.5.19 \"USART IrDA SIR ENDEC block\" in chapter 65 (Universal synchronous/asynchronous receiver transmitter (USART/UART)), RM0486 Rev 4, page 3317.",
+      "section_content": "This section is relevant only when IrDA mode is supported. Refer to Section65.4: USART\nimplementation.\nIrDA mode is selected by setting the IREN bit in the USART_CR3 register. In IrDA mode,\nthe following bits must be kept cleared:\n• LINEN, STOP and CLKEN bits in the USART_CR2 register,\n• SCEN and HDSEL bits in the USART_CR3 register.\nThe IrDA SIR physical layer specifies the use of a return-to-zero, inverted (RZI) modulation\nscheme that represents logic 0 as an infrared light pulse (see Figure858).\nThe encoding and decoding of data in IrDA mode is handled by hardware blocks.\nEven if IrDA is a half-duplex protocol, it requires two pins for transmission and reception\n(USART_TX and USART_RX).\nThe SIR transmit encoder modulates the non return-to-zero (NRZ) transmit bit stream\noutput from USART. The output pulse stream is transmitted to an external output driver and\ninfrared LED. USART supports only bit rates up to 115.2 kbauds for the SIR ENDEC. In\nnormal mode the transmitted pulse width is specified as 3/16 of a bit period.\nThe SIR receive decoder demodulates the return-to-zero bit stream from the infrared\ndetector and outputs the received NRZ serial bit stream to the USART. The decoder input is\nnormally high (marking state) in the Idle state. The transmit encoder output has the opposite\npolarity to the decoder input. A start bit is detected when the decoder input is low.\n• IrDA is a half duplex communication protocol. If the Transmitter is busy (when the\nUSART is sending data to the IrDA encoder), any data on the IrDA receive line is\nignored by the IrDA decoder and if the Receiver is busy (when the USART is receiving\ndecoded data from the USART), data on the TX from the USART to IrDA is not\nencoded. While receiving data, transmission must be avoided as the data to be\ntransmitted may be corrupted.\n• A 0 is transmitted as a high pulse and a 1 is transmitted as a 0. The width of the pulse\nis specified as 3/16th of the selected bit period in normal mode (see Figure859).\n• The SIR decoder converts the IrDA compliant receive signal into a bit stream for\nUSART.\n• The SIR receive logic interprets a high state as a logic one and low pulses as logic\nzeros.\n• The transmit encoder output has the opposite polarity to the decoder input. The SIR\noutput is in low state when Idle.\n• The IrDA specification requires the acceptance of pulses greater than 1.41µs. The\nacceptable pulse width is programmable. Glitch detection logic on the receiver end\nfilters out pulses of width less than two periods, where the period equals\nPSC/usart_ker_ck_pres (PSC being the prescaler value programmed in the PSC[7:0]\nbitfield of the USART_GTPR register). Pulses of width less than one period are always\nrejected, but those of width greater than one and less than two periods may be\naccepted or rejected, those greater than two periods are accepted as a pulse. The IrDA\nencoder/decoder does not work when PSC=0.\n• The receiver can communicate with a low-power transmitter.\n• In IrDA mode, the stop bits in the USART_CR2 register must be configured to 1 stop\nbit.\nIrDA low-power mode\n• Transmitter\nIn low-power mode, the pulse width is not maintained at 3/16 of the bit period. Instead,\nthe width of the pulse is three times the IrDA low-power period. The IrDA low-power\nfrequency minimum value is 1.42MHz. Generally, this value is 1.8432MHz\n(1.42MHz<IrDA low-power frequency<2.12MHz). A low-power mode\nprogrammable divisor divides the system clock to achieve this value.\n• Receiver\nReceiving in low-power mode is similar to receiving in normal mode. For glitch\ndetection the USART must discard pulses of duration shorter than one IrDA low-power\nperiod. A valid low is accepted only if its duration is greater than two IrDA low-power\nperiods.\nNote: IrDA low-power period=PSC/usart_ker_ck_pres, where PSC corresponds to the value\nprogrammed in the PSC[7:0] bitfield of the USART_GTPR register.\nA pulse of width less than two and greater than one IrDA low-power period may or may not\nbe rejected.\nThe receiver set-up time must be managed by software. The IrDA physical layer\nspecification specifies a minimum of 10ms delay between transmission and reception.\n[Figure 858. IrDA SIR ENDEC block diagram]\n[Figure 859. IrDA data modulation (3/16) - normal mode]",
+      "semantic": {}
+    }
+  ]
+}

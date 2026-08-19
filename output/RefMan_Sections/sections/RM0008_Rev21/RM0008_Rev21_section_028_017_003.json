@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S28.17.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "28",
+      "chapter_title": "USB on-the-go full-speed (OTG_FS)",
+      "section": "28.17.3",
+      "section_title": "Device initialization",
+      "level": 3,
+      "parent_section": "28.17",
+      "page": 923,
+      "page_end": 924,
+      "semantic_type": "generic",
+      "features": [
+        "device",
+        "initialization"
+      ],
+      "chars": 1149,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=923",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.17.3 \"Device initialization\" in chapter 28 (USB on-the-go full-speed (OTG_FS)), RM0008 Rev 21, page 923.",
+      "section_content": "The application must perform the following steps to initialize the core as a device on power-\nup or after a mode change from host to device.\n1. Program the following fields in the OTG_FS_DCFG register:\n– Device speed\n– Non-zero-length status OUT handshake\n2. Program the OTG_FS_GINTMSK register to unmask the following interrupts:\n– USB reset\n– Enumeration done\n– Early suspend\n– USB suspend\n– SOF\n3. Program the VBUSBSEN bit in the OTG_FS_GCCFG register to enable VBUS sensing\nin “B” device mode and supply the 5 volts across the pull-up resistor on the DP line.\n4. Wait for the USBRST interrupt in OTG_FS_GINTSTS. It indicates that a reset has been\ndetected on the USB that lasts for about 10 ms on receiving this interrupt.\nWait for the ENUMDNE interrupt in OTG_FS_GINTSTS. This interrupt indicates the end of\nreset on the USB. On receiving this interrupt, the application must read the OTG_FS_DSTS\nregister to determine the enumeration speed and perform the steps listed in Endpoint\ninitialization on enumeration completion on page940.\nAt this point, the device is ready to accept SOF packets and perform control transfers on\ncontrol endpoint 0.",
+      "semantic": {}
+    }
+  ]
+}

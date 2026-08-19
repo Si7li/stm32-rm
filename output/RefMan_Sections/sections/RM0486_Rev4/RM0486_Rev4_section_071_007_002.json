@@ -1,0 +1,180 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.7.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.7.2",
+      "section_title": "Calibration configuration register (FDCAN_CCU_CCFG)",
+      "level": 3,
+      "parent_section": "71.7",
+      "page": 3741,
+      "page_end": 3743,
+      "semantic_type": "register_description",
+      "features": [
+        "bcc",
+        "cdiv",
+        "cfl",
+        "fdcan-ccu-ccfg",
+        "ocpm",
+        "swr",
+        "tqbt"
+      ],
+      "chars": 3277,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3741",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.7.2 \"Calibration configuration register (FDCAN_CCU_CCFG)\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3741.",
+      "section_content": "Address offset: 0x0004\nReset value: 0x0000 0004\n[Table 721. FDCAN TT register map and reset values]\nBit 31 SWR: Software reset\nWriting a 1 to this bit resets the calibration FSM to state Not_Calibrated\n(FDCAN_CCU_CSTAT.CALS = 00). The calibration watchdog value CWD.WDV is also reset.\nRegisters FDCAN_CCFG, FDCAN_CCU_CSTAT and the calibration watchdog configuration\nCWD.WDC are unchanged. The bit remains set until reset is completed.\nWrite access by the user to registers/bits marked with “P = Protected Write” is possible only when\nFDCAN control bits FDCAN_CCCR.CCE = 1 AND FDCAN_CCCR.INIT = 1.\nBits 30:20 Reserved, must be kept at reset value.\nBits 19:16 CDIV[3:0]: Clock divider\nThe clock divider must be configured when the clock calibration is bypassed (BCC = 1) to ensure\nthat the FDCAN requirement is fulfilled.\n0000: Divide by 1\n0001: Divide by 2\n0010: Divide by 4\n0011: Divide by 6\n0100: Divide by 8\n0101: Divide by 10\n0110: Divide by 12\n0111: Divide by 14\n1000: Divide by 16\n1001: Divide by 18\n1010: Divide by 20\n1011: Divide by 22\n1100: Divide by 24\n1101: Divide by 26\n1110: Divide by 28\n1111: Divide by 30\nWrite access by the user to registers/bits marked with “P = Protected Write” is possible only when\nFDCAN control bit FDCAN_CCCR.CCE = 1.\nBits 15:8 OCPM[7:0]: Oscillator clock periods minimum\nConfigures the minimum number of periods in two CAN bit times. OCPM is used in basic calibration\nto avoid false measurements in case of glitches on the bus line. The configured number of periods is\nOCPM × 32. The configuration depends on the frequency and the bitrate configured in FDCAN\nmodules (from 125 kbit/s up to 1 Mbit/s). It is recommended to configure a value slightly below two\nCAN bit times. The reset value is 1.6 bit times at 80 MHz fdcan_ker_ck and 1 Mbit/s CAN bitrate.\nWrite access by the user to registers/bits marked with “P = Protected Write” is possible only when\nFDCAN control bits FDCAN_CCCR.CCE = 1 AND FDCAN_CCCR.INIT = 1.\nBit 7 CFL: Calibration field length\n0: Calibration field length is 32 bits\n1: Calibration field length is 64 bits\nWrite access by the user to registers/bits marked with “P = Protected Write” is possible only when\nFDCAN control bits FDCAN_CCCR.CCE = 1 AND FDCAN_CCCR.INIT = 1.\nBit 6 BCC: Bypass clock calibration\nIf this bit is set, the clock input fdcan_ker_ck is routed to the time quanta clock through a clock\ndivider configurable via CDIV. In this case the baudrate prescaler of the connected FDCANs must be\nconfigured to generate the FDCAN internal time quanta clock.\n0: Clock calibration unit generates time quanta clock\n1: Clock calibration unit bypassed (default configuration)\nBit 5 Reserved, must be kept at reset value.\nBits 4:0 TQBT[4:0]: Time quanta per bit time\nConfigures the number of time quanta per bit time. Same value as configured in FDCAN modules.\nThe range of the resulting time quanta clock fdcan_tq_ck is from 0.5 MHz (bitrate of 125 kbit/s with 4\ntq per bit time) to 25 MHz (bitrate of 1 Mbit/s with 25 tq per bit time). Valid values are 4 to 25.\nConfigured values below 4 are interpreted as 4, values above 25 are interpreted as 25.\nWrite access by the user to registers/bits marked with “P = Protected Write” is possible only when\nFDCAN control bits FDCAN_CCCR.CCE = 1 AND FDCAN_CCCR.INIT = 1.",
+      "semantic": {
+        "register": "FDCAN_CCU_CCFG",
+        "address_offset": "0x0004",
+        "reset_value": "0x0000 0004",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "SWR",
+            "description": "Software reset Writing a 1 to this bit resets the calibration FSM to state Not_Calibrated (FDCAN_CCU_CSTAT.CALS = 00). The calibration watchdog value CWD.WDV is also reset. Registers FDCAN_CCFG, FDCAN_CCU_CSTAT and the calibration watchdog configuration CWD.WDC are unchanged. The bit remains set until reset is completed. Write access by the user to registers/bits marked with “P = Protected Write” is possible only when FDCAN control bits FDCAN_CCCR.CCE = 1 AND FDCAN_CCCR.INIT = 1.",
+            "values": []
+          },
+          {
+            "bits": "30:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:16",
+            "name": "CDIV[3:0]",
+            "description": "Clock divider The clock divider must be configured when the clock calibration is bypassed (BCC = 1) to ensure that the FDCAN requirement is fulfilled. Write access by the user to registers/bits marked with “P = Protected Write” is possible only when FDCAN control bit FDCAN_CCCR.CCE = 1.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Divide by 1"
+              },
+              {
+                "value": "0001",
+                "meaning": "Divide by 2"
+              },
+              {
+                "value": "0010",
+                "meaning": "Divide by 4"
+              },
+              {
+                "value": "0011",
+                "meaning": "Divide by 6"
+              },
+              {
+                "value": "0100",
+                "meaning": "Divide by 8"
+              },
+              {
+                "value": "0101",
+                "meaning": "Divide by 10"
+              },
+              {
+                "value": "0110",
+                "meaning": "Divide by 12"
+              },
+              {
+                "value": "0111",
+                "meaning": "Divide by 14"
+              },
+              {
+                "value": "1000",
+                "meaning": "Divide by 16"
+              },
+              {
+                "value": "1001",
+                "meaning": "Divide by 18"
+              },
+              {
+                "value": "1010",
+                "meaning": "Divide by 20"
+              },
+              {
+                "value": "1011",
+                "meaning": "Divide by 22"
+              },
+              {
+                "value": "1100",
+                "meaning": "Divide by 24"
+              },
+              {
+                "value": "1101",
+                "meaning": "Divide by 26"
+              },
+              {
+                "value": "1110",
+                "meaning": "Divide by 28"
+              },
+              {
+                "value": "1111",
+                "meaning": "Divide by 30"
+              }
+            ]
+          },
+          {
+            "bits": "15:8",
+            "name": "OCPM[7:0]",
+            "description": "Oscillator clock periods minimum Configures the minimum number of periods in two CAN bit times. OCPM is used in basic calibration to avoid false measurements in case of glitches on the bus line. The configured number of periods is OCPM × 32. The configuration depends on the frequency and the bitrate configured in FDCAN modules (from 125 kbit/s up to 1 Mbit/s). It is recommended to configure a value slightly below two CAN bit times. The reset value is 1.6 bit times at 80 MHz fdcan_ker_ck and 1 Mbit/s CAN bitrate. Write access by the user to registers/bits marked with “P = Protected Write” is possible only when FDCAN control bits FDCAN_CCCR.CCE = 1 AND FDCAN_CCCR.INIT = 1.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "CFL",
+            "description": "Calibration field length Write access by the user to registers/bits marked with “P = Protected Write” is possible only when FDCAN control bits FDCAN_CCCR.CCE = 1 AND FDCAN_CCCR.INIT = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calibration field length is 32 bits"
+              },
+              {
+                "value": "1",
+                "meaning": "Calibration field length is 64 bits"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "BCC",
+            "description": "Bypass clock calibration If this bit is set, the clock input fdcan_ker_ck is routed to the time quanta clock through a clock divider configurable via CDIV. In this case the baudrate prescaler of the connected FDCANs must be configured to generate the FDCAN internal time quanta clock.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Clock calibration unit generates time quanta clock"
+              },
+              {
+                "value": "1",
+                "meaning": "Clock calibration unit bypassed (default configuration)"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4:0",
+            "name": "TQBT[4:0]",
+            "description": "Time quanta per bit time Configures the number of time quanta per bit time. Same value as configured in FDCAN modules. The range of the resulting time quanta clock fdcan_tq_ck is from 0.5 MHz (bitrate of 125 kbit/s with 4 tq per bit time) to 25 MHz (bitrate of 1 Mbit/s with 25 tq per bit time). Valid values are 4 to 25. Configured values below 4 are interpreted as 4, values above 25 are interpreted as 25. Write access by the user to registers/bits marked with “P = Protected Write” is possible only when FDCAN control bits FDCAN_CCCR.CCE = 1 AND FDCAN_CCCR.INIT = 1.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

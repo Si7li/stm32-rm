@@ -1,0 +1,113 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S38.5.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "38",
+      "chapter_title": "Digital camera interface (DCMI)",
+      "section": "38.5.3",
+      "section_title": "DCMI raw interrupt status register (DCMI_RIS)",
+      "level": 3,
+      "parent_section": "38.5",
+      "page": 1807,
+      "page_end": 1808,
+      "semantic_type": "register_description",
+      "features": [
+        "dcmi",
+        "dcmi-ris",
+        "err-ris",
+        "frame-ris",
+        "interrupt",
+        "line-ris",
+        "ovr-ris",
+        "vsync-ris"
+      ],
+      "chars": 1963,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1807",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 38.5.3 \"DCMI raw interrupt status register (DCMI_RIS)\" in chapter 38 (Digital camera interface (DCMI)), RM0486 Rev 4, page 1807.",
+      "section_content": "DCMI_RIS gives the raw interrupt status and is accessible in read only. When read, this\nregister returns the status of the corresponding interrupt before masking with the DCMI_IER\nregister value.\nAddress offset: 0x08\nReset value: 0x00000000\nBits 31:5 Reserved, must be kept at reset value.\nBit 4 LINE_RIS: Line raw interrupt status\nThis bit gets set when the DCMI_HSYNC signal changes from the inactive state to the\nactive state. It goes high even if the line is not valid.\nIn the case of embedded synchronization, this bit is set only if the CAPTURE bit in\nDCMI_CR is set.\nIt is cleared by setting the LINE_ISC bit of the DCMI_ICR register.\nBit 3 VSYNC_RIS: DCMI_VSYNC raw interrupt status\nThis bit is set when the DCMI_VSYNC signal changes from the inactive state to the active\nstate.\nIn the case of embedded synchronization, this bit is set only if the CAPTURE bit is set in\nDCMI_CR.\nIt is cleared by setting the VSYNC_ISC bit of the DCMI_ICR register.\nBit 2 ERR_RIS: Synchronization error raw interrupt status\n0: No synchronization error detected\n1: Embedded synchronization characters are not received in the correct order.\nThis bit is valid only in the embedded synchronization mode. It is cleared by setting the\nERR_ISC bit of the DCMI_ICR register.\nNote: This bit is available only in embedded synchronization mode.\nBit 1 OVR_RIS: Overrun raw interrupt status\n0: No data buffer overrun occurred\n1: A data buffer overrun occurred and the data FIFO is corrupted.\nThe bit is cleared by setting the OVR_ISC bit of the DCMI_ICR register.\nBit 0 FRAME_RIS: Capture complete raw interrupt status\n0: No new capture\n1: A frame has been captured.\nThis bit is set when a frame or window has been captured.\nIn case of a cropped window, this bit is set at the end of line of the last line in the crop. It is\nset even if the captured frame is empty (for example window cropped outside the frame).\nThe bit is cleared by setting the FRAME_ISC bit of the DCMI_ICR register.",
+      "semantic": {
+        "register": "DCMI_RIS",
+        "address_offset": "0x08",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "LINE_RIS",
+            "description": "Line raw interrupt status This bit gets set when the DCMI_HSYNC signal changes from the inactive state to the active state. It goes high even if the line is not valid. In the case of embedded synchronization, this bit is set only if the CAPTURE bit in DCMI_CR is set. It is cleared by setting the LINE_ISC bit of the DCMI_ICR register.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "VSYNC_RIS",
+            "description": "DCMI_VSYNC raw interrupt status This bit is set when the DCMI_VSYNC signal changes from the inactive state to the active state. In the case of embedded synchronization, this bit is set only if the CAPTURE bit is set in DCMI_CR. It is cleared by setting the VSYNC_ISC bit of the DCMI_ICR register.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "ERR_RIS",
+            "description": "Synchronization error raw interrupt status This bit is valid only in the embedded synchronization mode. It is cleared by setting the ERR_ISC bit of the DCMI_ICR register. Note: This bit is available only in embedded synchronization mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No synchronization error detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Embedded synchronization characters are not received in the correct order."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "OVR_RIS",
+            "description": "Overrun raw interrupt status The bit is cleared by setting the OVR_ISC bit of the DCMI_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No data buffer overrun occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "A data buffer overrun occurred and the data FIFO is corrupted."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "FRAME_RIS",
+            "description": "Capture complete raw interrupt status This bit is set when a frame or window has been captured. In case of a cropped window, this bit is set at the end of line of the last line in the crop. It is set even if the captured frame is empty (for example window cropped outside the frame). The bit is cleared by setting the FRAME_ISC bit of the DCMI_ICR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No new capture"
+              },
+              {
+                "value": "1",
+                "meaning": "A frame has been captured."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

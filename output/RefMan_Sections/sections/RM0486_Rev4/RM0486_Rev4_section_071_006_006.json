@@ -1,0 +1,262 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.6.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.6.6",
+      "section_title": "FDCAN TT operation control register (FDCAN_TTOCN)",
+      "level": 3,
+      "parent_section": "71.6",
+      "page": 3726,
+      "page_end": 3727,
+      "semantic_type": "register_description",
+      "features": [
+        "ecs",
+        "escn",
+        "fdcan",
+        "fdcan-ttocn",
+        "fgp",
+        "gcs",
+        "lckc",
+        "nig",
+        "rtie",
+        "sgt",
+        "swp",
+        "sws",
+        "tmc",
+        "tmg",
+        "ttie"
+      ],
+      "chars": 3796,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3726",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.6.6 \"FDCAN TT operation control register (FDCAN_TTOCN)\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3726.",
+      "section_content": "Address offset: 0x0114\nReset value: 0x0000 0000\nBits 31:16 Reserved, must be kept at reset value.\nBit 15 LCKC: TT operation control register locked.\nSet by a write access to register FDCAN_TTOCN. Reset when the updated configuration has been\nsynchronized into the CAN clock domain.\n0: Write access to FDCAN_TTOCN enabled\n1: Write access to FDCAN_TTOCN locked\nBit 14 Reserved, must be kept at reset value.\nBit 13 ESCN: External synchronization control\nIf enabled the FDCAN synchronizes its cycle time phase to an external event signaled by a rising\nedge at event trigger pin (see Section71.4.18: Synchronization to external time schedule).\n0: External synchronization disabled\n1: External synchronization enabled\nBit 12 NIG: Next is gap.\nThis bit can be set only when the FDCAN is the actual time master and when it is configured for\nexternal event-synchronized time-triggered operation (FDCAN_TTOCF.GEN = 1)\n0: No action, reset by reception of any reference message\n1: Transmit next reference message with Next_is_Gap = 1\nBit 11 TMG: Time mark gap.\n0: Reset by each reference message\n1: Next reference message started when register time mark interrupt FDCAN_TTIR.RTMI is\nactivated\nBit 10 FGP: Finish gap.\nSet by the CPU, reset by each reference message\n0: No reference message requested\n1: Application requested start of reference message\nBit 9 GCS: Gap control select\n0: Gap control independent from event trigger\n1: Gap control by input event trigger pin\nBit 8 TTIE: Trigger time mark interrupt pulse enable\nExternal time mark events are configured by trigger memory element TMEX. A trigger time mark\ninterrupt pulse is generated when the trigger memory element becomes active, and the FDCAN is in\nsynchronization state In_Schedule or In_Gap.\n0: Trigger time mark interrupt output fdcan1_tmp for more than one instance and fdcan_tmp if only\none instance disabled\n1: Trigger time mark interrupt output fdcan1_tmp for more than one instance and fdcan_tmp if only\none instance enabled\nBits 7:6 TMC[1:0]: Register time mark compare.\n00: No register time mark interrupt generated\n01: Register time mark interrupt if time mark = cycle time\n10: Register time mark interrupt if time mark = local time\n11: Register time mark interrupt if time mark = global time\nNote: When changing the time mark reference (cycle, local, global time), it is recommended to first\nwrite TMC = 00, then reconfigure FDCAN_TTTMK, and finally set FDCAN_TMC to the intended\ntime reference.\nBit 5 RTIE: Register time mark interrupt pulse enable.\nRegister time mark interrupts are configured by register FDCAN_TTTMK. A register time mark\ninterrupt pulse with the length of one fdcan_tq_ck period is generated when time referenced by\nFDCAN_TTOCN.TMC (cycle, local, or global) is equal to FDCAN_TTTMK.TM, independently from\nthe synchronization state.\n0: Register time mark interrupt output disabled\n1: Register time mark interrupt output enabled\nBits 4:3 SWS[1:0]: Stop watch source.\n00: Stop watch disabled\n01: Actual value of cycle time is copied to FDCAN_TTCPT.SWV\n10: Actual value of local time is copied to FDCAN_TTCPT.SWV\n11: Actual value of global time is copied to FDCAN_TTCPT.SWV\nBit 2 SWP: Stop watch polarity.\n0: Rising edge trigger\n1: Falling edge trigger\nBit 1 ECS: External clock synchronization.\nWriting a 1 to ECS sets FDCAN_TTOST.WECS if the node is the actual time master. ECS is reset\nafter one APB clock period. The external clock synchronization takes effect at the start of the next\nbasic cycle.\nBit 0 SGT: Set global time.\nWriting a 1 to SGT sets FDCAN_TTOST.WGDT if the node is the actual time master. SGT is reset\nafter one APB clock period. The global time preset takes effect when the node transmits the next\nreference message with the Master_Ref_Mark modified by the preset value written to\nFDCAN_TTGTP.",
+      "semantic": {
+        "register": "FDCAN_TTOCN",
+        "address_offset": "0x0114",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "LCKC",
+            "description": "TT operation control register locked. Set by a write access to register FDCAN_TTOCN. Reset when the updated configuration has been synchronized into the CAN clock domain.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Write access to FDCAN_TTOCN enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Write access to FDCAN_TTOCN locked"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "ESCN",
+            "description": "External synchronization control If enabled the FDCAN synchronizes its cycle time phase to an external event signaled by a rising edge at event trigger pin (see Section71.4.18: Synchronization to external time schedule).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "External synchronization disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "External synchronization enabled"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "NIG",
+            "description": "Next is gap. This bit can be set only when the FDCAN is the actual time master and when it is configured for external event-synchronized time-triggered operation (FDCAN_TTOCF.GEN = 1)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No action, reset by reception of any reference message"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmit next reference message with Next_is_Gap = 1"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "TMG",
+            "description": "Time mark gap. activated",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Reset by each reference message"
+              },
+              {
+                "value": "1",
+                "meaning": "Next reference message started when register time mark interrupt FDCAN_TTIR.RTMI is"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "FGP",
+            "description": "Finish gap. Set by the CPU, reset by each reference message",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No reference message requested"
+              },
+              {
+                "value": "1",
+                "meaning": "Application requested start of reference message"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "GCS",
+            "description": "Gap control select",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Gap control independent from event trigger"
+              },
+              {
+                "value": "1",
+                "meaning": "Gap control by input event trigger pin"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "TTIE",
+            "description": "Trigger time mark interrupt pulse enable External time mark events are configured by trigger memory element TMEX. A trigger time mark interrupt pulse is generated when the trigger memory element becomes active, and the FDCAN is in synchronization state In_Schedule or In_Gap. one instance disabled one instance enabled",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Trigger time mark interrupt output fdcan1_tmp for more than one instance and fdcan_tmp if only"
+              },
+              {
+                "value": "1",
+                "meaning": "Trigger time mark interrupt output fdcan1_tmp for more than one instance and fdcan_tmp if only"
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "TMC[1:0]",
+            "description": "Register time mark compare. Note: When changing the time mark reference (cycle, local, global time), it is recommended to first write TMC = 00, then reconfigure FDCAN_TTTMK, and finally set FDCAN_TMC to the intended time reference.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No register time mark interrupt generated"
+              },
+              {
+                "value": "01",
+                "meaning": "Register time mark interrupt if time mark = cycle time"
+              },
+              {
+                "value": "10",
+                "meaning": "Register time mark interrupt if time mark = local time"
+              },
+              {
+                "value": "11",
+                "meaning": "Register time mark interrupt if time mark = global time"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "RTIE",
+            "description": "Register time mark interrupt pulse enable. Register time mark interrupts are configured by register FDCAN_TTTMK. A register time mark interrupt pulse with the length of one fdcan_tq_ck period is generated when time referenced by FDCAN_TTOCN.TMC (cycle, local, or global) is equal to FDCAN_TTTMK.TM, independently from the synchronization state.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Register time mark interrupt output disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Register time mark interrupt output enabled"
+              }
+            ]
+          },
+          {
+            "bits": "4:3",
+            "name": "SWS[1:0]",
+            "description": "Stop watch source.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Stop watch disabled"
+              },
+              {
+                "value": "01",
+                "meaning": "Actual value of cycle time is copied to FDCAN_TTCPT.SWV"
+              },
+              {
+                "value": "10",
+                "meaning": "Actual value of local time is copied to FDCAN_TTCPT.SWV"
+              },
+              {
+                "value": "11",
+                "meaning": "Actual value of global time is copied to FDCAN_TTCPT.SWV"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "SWP",
+            "description": "Stop watch polarity.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Rising edge trigger"
+              },
+              {
+                "value": "1",
+                "meaning": "Falling edge trigger"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "ECS",
+            "description": "External clock synchronization. Writing a 1 to ECS sets FDCAN_TTOST.WECS if the node is the actual time master. ECS is reset after one APB clock period. The external clock synchronization takes effect at the start of the next basic cycle.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "SGT",
+            "description": "Set global time. Writing a 1 to SGT sets FDCAN_TTOST.WGDT if the node is the actual time master. SGT is reset after one APB clock period. The global time preset takes effect when the node transmits the next reference message with the Master_Ref_Mark modified by the preset value written to FDCAN_TTGTP.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

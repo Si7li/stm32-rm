@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S35.5.18",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "35",
+      "chapter_title": "General purpose timers (TIM15/TIM16/TIM17)",
+      "section": "35.5.18",
+      "section_title": "Delayed break",
+      "level": 3,
+      "parent_section": "35.5",
+      "page": 1382,
+      "page_end": 1384,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 3192,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1382",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.5.18 \"Delayed break\" in chapter 35 (General purpose timers (TIM15/TIM16/TIM17)), RM0522 Rev 1, page 1382.",
+      "section_content": "In Neutral-Point Clamped (NPC) multilevel converter topology, a break strategy with\nimmediate outputs shut-down is not suitable, as it may damage the power switches with\nexcessive voltage levels.\nThe delayed break features provide 2 options delaying the response to a break event, and\nimplement a safe shut-down sequence.\nBKMx[1:0] and BKMxN[1:0] bitfields in TIM_MPR1 provides 3 options for each\ncomplementary outputs (tim_oc1/tim_oc1n to tim_oc2/tim_oc2n), as show on Figure511\nbelow:\n– BKM[1:0] = 00: the break response is immediate\n– BKM[1:0] = 01: Delayed 1 break. The break response is delayed with a delay\ndefined in the DBK1[7:0] bitfield of the TIM_MPR2 register\n– BKM[1:0] = 10: Delayed 2 break. The break response is delayed with a delay\ndefined in the DBK2[7:0] bitfield of the TIM_MPR2 register\n[Figure 511. Immediate break and Delayed 1/2 break modes]\nThe delayed break mode is triggered when:\n• A break event occurs\n• The MOE bit is reset\n• When the microcontroller enters debug mode with DBG_TIMx_STOP=1\nWhen delayed break mode is triggered, the MOE bit is immediately cleared, and cannot be\nset during the delayed break duration. In bidirectional break mode, the break output is reset\nimmediately to indicate the delayed break start to external components. Once the longest of\nthe 2 delays is over, the deadtime generator is enabled to prevent any deadtime violation if\nOISx/OISxN bits are set.\nIf the tim_ocx/tim_ocxn signal is reset before the end of the delayed break (due to a\ncompare match in PWM mode, typically), the signal is not maintained during the full delayed\nbreak period, to maintain the duty cycle, as shown on Figure512 below. Still, the Delayed\nbreak circuitry guarantees that the tim_ocx/tim_ocxn signals cannot be set again once the\nbreak event occurred.\n[Figure 512. Pulse termination during delayed break]\ntim_ocx\nDelayed break\nPulse ends as programmed,\nbefore Delayed Break completion\ntim_ocx\nDelayed break\nPulse is not re-started even if\nshorter than delayed break\ntim_ocx\nDelayed break\nThe Figure513 depicts the behavior when the deadtime generator is enabled, for the 3\ncases:\n– Delayed break triggered when tim_ocx is set\n– Delayed break triggered when tim_ocxn is set\n– Delayed break triggered during deadtime interval\n[Figure 513. Delayed break with deadtime insertion]\nThe delay programming is identical to deadtime generator’s, with 2 user-programmable\ndurations in the TIM_MPR2 register: DBK1[7:0] bitfield for the Delayed 1 break and\nDBK2[7:0] bitfield for the Delayed 2 break.\nDBK1[7:0] and DBK2[7:0] bitfields are preloaded: they can be changed during timer\noperation, and the new value is transferred to the active register when an update event\noccurs.\nThe bits coding for tDTG selection are not preloaded.\nIt is thus recommended to update only the least significant bits to have the expected\nduration value:\n• DBKx[6:0] if DBKx[7]=0\n• DBKx[5:0] if DBKx[7:6]=10\n• DBKx[4:0] if DBKx[7:5]=110or111\nThe BKMx[1:0] and BKMxN[1:0] bits are static, they can only be modified when the counter\nis stopped (CEN=0 in TIM_CR1).\nThe content of the TIM_MPR1 and TIM_MPR2 register can be write protected using the\nLOCK[1:0] bits in the TIM_BDTR register.",
+      "semantic": {}
+    }
+  ]
+}

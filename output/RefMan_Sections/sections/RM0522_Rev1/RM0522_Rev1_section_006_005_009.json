@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.5.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.5.9",
+      "section_title": "OEM key management",
+      "level": 3,
+      "parent_section": "6.5",
+      "page": 161,
+      "page_end": 162,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "oem"
+      ],
+      "chars": 2119,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=161",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.5.9 \"OEM key management\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 161.",
+      "section_content": "The OEM 128-bit key (OEMKEY) can be defined in order to permit the RDP regression.\nOEM lock activation\nThe 128-bit key is coded on four registers: FLASH_OEMKEYR1 to FLASH_OEMKEYR4.\nOEMKEY and BSKEY cannot be read through these registers. They are read as zero.\nCaution: OEMKEY can only be modified in readout protection level 0.\nIn order to activate OEM regression mechanism, the following steps are needed:\n1. Check that the RDP is at L0.\n2. Write a 128-bit key in FLASH_OEMKEYR1 to FLASH_OEMKEYR4.\n3. Launch option modification by setting the OPTSTRT bit in FLASH_CR.\n4. Wait for the BSY bit to be cleared and check that OPTWERR is not set.\n5. Check that OEMLOCK is set.\nNote: Once the OEM KEY has been programmed a first time, the OEMLOCK bit remains set. The\nuser can reprogram the key, but cannot erase it.\nOEM key validation mechanism\nThe OEM RDP lock mechanism is active when the OEMLOCK bit is set. The OEMKEY, can\nbe validated while in RDP L0.\n• Shift OEMKEY[31:0], then OEMKEY[63:32], then OEMKEY[95:64], then\nOEMKEY[127:96] through JTAG or SWD under reset\ninDBGMCU_DBG_AUTH_HOST register.\n• If this key matches the OEMKEY value:\n– A status bit in DBGMCU_DBG_VALR indicates that the adequate key has been\nsuccessfully entered, a power sequence is required to clear the validation status\nbit. Omitting this step will prevent to enter RDP Level 2.\n• If the key does not match the OEMKEY value, a power sequence is required to clear\nthe validation status bit and retry.\nOEM RDP regression mechanism\nThe OEM RDP lock mechanism is active when the OEMLOCK bit is set. It authorizes RDP\nL2 to RDP L0 regression.\n• Shift OEMKEY[31:0,] then OEMKEY[63:32], then OEMKEY[95:64], then\nOEMKEY[127:96] through JTAG or SWD under reset\ninDBGMCU_DBG_AUTH_HOST register.\n• If this key matches the OEMKEY value:\n– The RDP regression is launched by hardware when the reset is released (it is not\npossible to execute instructions when the key is matching).\n– A power-on reset must be applied (cycle VDD power supply off and on).\n• If the key does not match the OEMKEY value, the RDP regression is blocked until next\npower-on reset.",
+      "semantic": {}
+    }
+  ]
+}

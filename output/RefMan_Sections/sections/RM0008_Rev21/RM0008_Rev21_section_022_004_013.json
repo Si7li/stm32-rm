@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.4.13",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.4.13",
+      "section_title": "SD I/O mode",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 596,
+      "page_end": 597,
+      "semantic_type": "generic",
+      "features": [
+        "mode"
+      ],
+      "chars": 3024,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=596",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.13 \"SD I/O mode\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 596.",
+      "section_content": "SD I/O interrupts\nTo allow the SD I/O card to interrupt the MultiMediaCard/SD module, an interrupt function is\navailable on a pin on the SD interface. Pin 8, used as SDIO_D1 when operating in the 4-bit\nSD mode, signals the cards interrupt to the MultiMediaCard/SD module. The use of the\ninterrupt is optional for each card or function within a card. The SD I/O interrupt is level-\nsensitive, which means that the interrupt line must be held active (low) until it is either\nrecognized and acted upon by the MultiMediaCard/SD module or deasserted due to the end\nof the interrupt period. After the MultiMediaCard/SD module has serviced the interrupt, the\ninterrupt status bit is cleared via an I/O write to the appropriate bit in the SD I/O card’s\ninternal registers. The interrupt output of all SD I/O cards is active low and the application\nmust provide pull-up resistors externally on all data lines (SDIO_D[3:0]). The\nMultiMediaCard/SD module samples the level of pin 8 (SDIO_D/IRQ) into the interrupt\ndetector only during the interrupt period. At all other times, the MultiMediaCard/SD module\nignores this value.\nThe interrupt period is applicable for both memory and I/O operations. The definition of the\ninterrupt period for operations with single blocks is different from the definition for multiple-\nblock data transfers.\nSD I/O suspend and resume\nWithin a multifunction SD I/O or a card with both I/O and memory functions, there are\nmultiple devices (I/O and memory) that share access to the MMC/SD bus. To share access\nto the MMC/SD module among multiple devices, SD I/O and combo cards optionally\nimplement the concept of suspend/resume. When a card supports suspend/resume, the\nMMC/SD module can temporarily halt a data transfer operation to one function or memory\n(suspend) to free the bus for a higher-priority transfer to a different function or memory. After\nthis higher-priority transfer is complete, the original transfer is resumed (restarted) where it\nleft off. Support of suspend/resume is optional on a per-card basis. To perform the\nsuspend/resume operation on the MMC/SD bus, the MMC/SD module performs the\nfollowing steps:\n1. Determines the function currently using the SDIO_D [3:0] line(s)\n2. Requests the lower-priority or slower transaction to suspend\n3. Waits for the transaction suspension to complete\n4. Begins the higher-priority transaction\n5. Waits for the completion of the higher priority transaction\n6. Restores the suspended transaction\nSD I/O ReadWait\nThe optional ReadWait (RW) operation is defined only for the SD 1-bit and 4-bit modes. The\nReadWait operation allows the MMC/SD module to signal a card that it is reading multiple\nregisters (IO_RW_EXTENDED, CMD53) to temporarily stall the data transfer while allowing\nthe MMC/SD module to send commands to any function within the SD I/O device. To\ndetermine when a card supports the ReadWait protocol, the MMC/SD module must test\ncapability bits in the internal card registers. The timing for ReadWait is based on the\ninterrupt period.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S25.9.7",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "25",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "25.9.7",
+      "section_title": "I2C interrupt and status register (I2C_ISR)",
+      "level": 3,
+      "parent_section": "25.9",
+      "page": 736,
+      "page_end": 738,
+      "semantic_type": "register_description",
+      "features": [
+        "addcode",
+        "addr",
+        "alert",
+        "arlo",
+        "berr",
+        "busy",
+        "dir",
+        "i2c",
+        "i2c-isr",
+        "interrupt",
+        "nackf",
+        "ovr",
+        "pecerr",
+        "rxne",
+        "stopf",
+        "tcr",
+        "timeout",
+        "txe",
+        "txis"
+      ],
+      "chars": 5461,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=736",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.9.7 \"I2C interrupt and status register (I2C_ISR)\" in chapter 25 (Inter-integrated circuit interface (I2C)), RM0490 Rev 6, page 736.",
+      "section_content": "Address offset: 0x18\nReset value: 0x0000 0001\nAccess: no wait states\nBits 31:24 Reserved, must be kept at reset value.\nBits 23:17 ADDCODE[6:0]: Address match code (target mode)\nThese bits are updated with the received address when an address match event occurs\n(ADDR = 1). In the case of a 10-bit address, ADDCODE provides the 10-bit header followed\nby the two MSBs of the address.\nBit 16 DIR: Transfer direction (target mode)\nThis flag is updated when an address match event occurs (ADDR = 1).\n0: Write transfer, target enters receiver mode.\n1: Read transfer, target enters transmitter mode.\nBit 15 BUSY: Bus busy\nThis flag indicates that a communication is in progress on the bus. It is set by hardware\nwhen a START condition is detected, and cleared by hardware when a STOP condition is\ndetected, or when PE = 0.\nBit 14 Reserved, must be kept at reset value.\nBit 13 ALERT: SMBus alert\nThis flag is set by hardware when SMBHEN = 1 (SMBus host configuration), ALERTEN = 1\nand an SMBALERT# event (falling edge) is detected on SMBA pin. It is cleared by software\nby setting the ALERTCF bit.\nOn the instances of the I2C peripheral that do not support the SMBus feature, this bit is\nreserved and forced by hardware to 0. Refer to Section 25.3.\nNote: This bit is cleared by hardware when PE = 0.\nBit 12 TIMEOUT: Timeout or tLOW detection flag\nThis flag is set by hardware when a timeout or extended clock timeout occurred. It is cleared\nby software by setting the TIMEOUTCF bit.\nOn the instances of the I2C peripheral that do not support the SMBus feature, this bit is\nreserved and forced by hardware to 0. Refer to Section 25.3.\nNote: This bit is cleared by hardware when PE = 0.\nBit 11 PECERR: PEC error in reception\nThis flag is set by hardware when the received PEC does not match with the PEC register\ncontent. A NACK is automatically sent after the wrong PEC reception. It is cleared by\nsoftware by setting the PECCF bit.\nOn the instances of the I2C peripheral that do not support the SMBus feature, this bit is\nreserved and forced by hardware to 0. Refer to Section 25.3.\nNote: This bit is cleared by hardware when PE = 0.\nBit 10 OVR: Overrun/underrun (target mode)\nThis flag is set by hardware in target mode with NOSTRETCH = 1, when an\noverrun/underrun error occurs. It is cleared by software by setting the OVRCF bit.\nNote: This bit is cleared by hardware when PE = 0.\nBit 9 ARLO: Arbitration lost\nThis flag is set by hardware in case of arbitration loss. It is cleared by software by setting the\nARLOCF bit.\nNote: This bit is cleared by hardware when PE = 0.\nBit 8 BERR: Bus error\nThis flag is set by hardware when a misplaced START or STOP condition is detected\nwhereas the peripheral is involved in the transfer. The flag is not set during the address\nphase in target mode. It is cleared by software by setting the BERRCF bit.\nNote: This bit is cleared by hardware when PE = 0.\nBit 7 TCR: Transfer complete reload\nThis flag is set by hardware when RELOAD = 1 and NBYTES data have been transferred. It\nis cleared by software when NBYTES is written to a non-zero value.\nNote: This bit is cleared by hardware when PE = 0.\nThis flag is only for controller mode, or for target mode when the SBC bit is set.\nBit 6 TC: Transfer complete (controller mode)\nThis flag is set by hardware when RELOAD = 0, AUTOEND = 0 and NBYTES data have\nbeen transferred. It is cleared by software when START bit or STOP bit is set.\nNote: This bit is cleared by hardware when PE = 0.\nBit 5 STOPF: STOP detection flag\nThis flag is set by hardware when a STOP condition is detected on the bus and the\nperipheral is involved in this transfer:\n– as a controller, provided that the STOP condition is generated by the peripheral.\n– as a target, provided that the peripheral has been addressed previously during this\ntransfer.\nIt is cleared by software by setting the STOPCF bit.\nNote: This bit is cleared by hardware when PE = 0.\nBit 4 NACKF: Not acknowledge received flag\nThis flag is set by hardware when a NACK is received after a byte transmission. It is cleared\nby software by setting the NACKCF bit.\nNote: This bit is cleared by hardware when PE = 0.\nBit 3 ADDR: Address matched (target mode)\nThis bit is set by hardware as soon as the received target address matched with one of the\nenabled target addresses. It is cleared by software by setting ADDRCF bit.\nNote: This bit is cleared by hardware when PE = 0.\nBit 2 RXNE: Receive data register not empty (receivers)\nThis bit is set by hardware when the received data is copied into the I2C_RXDR register, and\nis ready to be read. It is cleared when I2C_RXDR is read.\nNote: This bit is cleared by hardware when PE = 0.\nBit 1 TXIS: Transmit interrupt status (transmitters)\nThis bit is set by hardware when the I2C_TXDR register is empty and the data to be\ntransmitted must be written in the I2C_TXDR register. It is cleared when the next data to be\nsent is written in the I2C_TXDR register.\nThis bit can be written to 1 by software only when NOSTRETCH = 1, to generate a TXIS\nevent (interrupt if TXIE = 1 or DMA request if TXDMAEN = 1).\nNote: This bit is cleared by hardware when PE = 0.\nBit 0 TXE: Transmit data register empty (transmitters)\nThis bit is set by hardware when the I2C_TXDR register is empty. It is cleared when the next\ndata to be sent is written in the I2C_TXDR register.\nThis bit can be written to 1 by software in order to flush the transmit data register I2C_TXDR.\nNote: This bit is set by hardware when PE = 0.",
+      "semantic": {
+        "register": "I2C_ISR",
+        "address_offset": "0x18",
+        "reset_value": "0x0000 0001",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:17",
+            "name": "ADDCODE[6:0]",
+            "description": "Address match code (target mode) These bits are updated with the received address when an address match event occurs (ADDR = 1). In the case of a 10-bit address, ADDCODE provides the 10-bit header followed by the two MSBs of the address.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "DIR",
+            "description": "Transfer direction (target mode) This flag is updated when an address match event occurs (ADDR = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Write transfer, target enters receiver mode."
+              },
+              {
+                "value": "1",
+                "meaning": "Read transfer, target enters transmitter mode."
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "BUSY",
+            "description": "Bus busy This flag indicates that a communication is in progress on the bus. It is set by hardware when a START condition is detected, and cleared by hardware when a STOP condition is detected, or when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "ALERT",
+            "description": "SMBus alert This flag is set by hardware when SMBHEN = 1 (SMBus host configuration), ALERTEN = 1 and an SMBALERT# event (falling edge) is detected on SMBA pin. It is cleared by software by setting the ALERTCF bit. On the instances of the I2C peripheral that do not support the SMBus feature, this bit is reserved and forced by hardware to 0. Refer to Section 25.3. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "TIMEOUT",
+            "description": "Timeout or tLOW detection flag This flag is set by hardware when a timeout or extended clock timeout occurred. It is cleared by software by setting the TIMEOUTCF bit. On the instances of the I2C peripheral that do not support the SMBus feature, this bit is reserved and forced by hardware to 0. Refer to Section 25.3. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "PECERR",
+            "description": "PEC error in reception This flag is set by hardware when the received PEC does not match with the PEC register content. A NACK is automatically sent after the wrong PEC reception. It is cleared by software by setting the PECCF bit. On the instances of the I2C peripheral that do not support the SMBus feature, this bit is reserved and forced by hardware to 0. Refer to Section 25.3. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "OVR",
+            "description": "Overrun/underrun (target mode) This flag is set by hardware in target mode with NOSTRETCH = 1, when an overrun/underrun error occurs. It is cleared by software by setting the OVRCF bit. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "ARLO",
+            "description": "Arbitration lost This flag is set by hardware in case of arbitration loss. It is cleared by software by setting the ARLOCF bit. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "BERR",
+            "description": "Bus error This flag is set by hardware when a misplaced START or STOP condition is detected whereas the peripheral is involved in the transfer. The flag is not set during the address phase in target mode. It is cleared by software by setting the BERRCF bit. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "TCR",
+            "description": "Transfer complete reload This flag is set by hardware when RELOAD = 1 and NBYTES data have been transferred. It is cleared by software when NBYTES is written to a non-zero value. Note: This bit is cleared by hardware when PE = 0. This flag is only for controller mode, or for target mode when the SBC bit is set.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "TC",
+            "description": "Transfer complete (controller mode) This flag is set by hardware when RELOAD = 0, AUTOEND = 0 and NBYTES data have been transferred. It is cleared by software when START bit or STOP bit is set. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "STOPF",
+            "description": "STOP detection flag This flag is set by hardware when a STOP condition is detected on the bus and the peripheral is involved in this transfer: – as a controller, provided that the STOP condition is generated by the peripheral. – as a target, provided that the peripheral has been addressed previously during this transfer. It is cleared by software by setting the STOPCF bit. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "NACKF",
+            "description": "Not acknowledge received flag This flag is set by hardware when a NACK is received after a byte transmission. It is cleared by software by setting the NACKCF bit. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "ADDR",
+            "description": "Address matched (target mode) This bit is set by hardware as soon as the received target address matched with one of the enabled target addresses. It is cleared by software by setting ADDRCF bit. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "RXNE",
+            "description": "Receive data register not empty (receivers) This bit is set by hardware when the received data is copied into the I2C_RXDR register, and is ready to be read. It is cleared when I2C_RXDR is read. Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "TXIS",
+            "description": "Transmit interrupt status (transmitters) This bit is set by hardware when the I2C_TXDR register is empty and the data to be transmitted must be written in the I2C_TXDR register. It is cleared when the next data to be sent is written in the I2C_TXDR register. This bit can be written to 1 by software only when NOSTRETCH = 1, to generate a TXIS event (interrupt if TXIE = 1 or DMA request if TXDMAEN = 1). Note: This bit is cleared by hardware when PE = 0.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "TXE",
+            "description": "Transmit data register empty (transmitters) This bit is set by hardware when the I2C_TXDR register is empty. It is cleared when the next data to be sent is written in the I2C_TXDR register. This bit can be written to 1 by software in order to flush the transmit data register I2C_TXDR. Note: This bit is set by hardware when PE = 0.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

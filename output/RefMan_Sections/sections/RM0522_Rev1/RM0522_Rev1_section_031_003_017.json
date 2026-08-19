@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S31.3.17",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "31",
+      "chapter_title": "Advanced-control timers (TIM1/TIM8)",
+      "section": "31.3.17",
+      "section_title": "Complementary outputs and dead-time insertion",
+      "level": 3,
+      "parent_section": "31.3",
+      "page": 1004,
+      "page_end": 1007,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 4272,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1004",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.3.17 \"Complementary outputs and dead-time insertion\" in chapter 31 (Advanced-control timers (TIM1/TIM8)), RM0522 Rev 1, page 1004.",
+      "section_content": "The advanced-control timers (TIM1/TIM8) can output two complementary signals and\nmanage the switching-off and the switching-on instants of the outputs.\nThis time is generally known as dead-time and it has to be adjusted depending on the\ndevices that are connected to the outputs and their characteristics (such as intrinsic delays\nof level-shifters, or delays due to power switches).\nThe polarity of the outputs (main output tim_ocx or complementary tim_ocxn) can be\nselected independently for each output. This is done by writing to the CCxP and CCxNP bits\nin the TIM_CCER register.\nThe complementary signals tim_ocx and tim_ocxn are activated by a combination of several\ncontrol bits: the CCxE and CCxNE bits in the TIM_CCER register and the MOE, OISx,\nOISxN, OSSI, and OSSR bits in the TIM_BDTR and TIM_CR2 registers. Refer to Table304:\nOutput control bits for complementary tim_ocx and tim_ocxn channels with break feature for\nmore details. In particular, the dead-time is activated when switching to the idle state (MOE\nfalling down to 0).\nDead-time insertion is enabled by setting both CCxE and CCxNE bits, and the MOE bit if the\nbreak circuit is present. There is one 10-bit dead-time generator for each channel. From a\nreference waveform tim_ocxref, it generates two outputs tim_ocx and tim_ocxn. If tim_ocx\nand tim_ocxn are active high:\n• The tim_ocx output signal is the same as the reference signal except for the rising\nedge, which is delayed relative to the reference rising edge.\n• The tim_ocxn output signal is the opposite of the reference signal except for the rising\nedge, which is delayed relative to the reference falling edge.\nIf the delay is greater than the width of the active output (tim_ocx or tim_ocxn) then the\ncorresponding pulse is not generated.\nThe following figures show the relationships between the output signals of the dead-time\ngenerator and the reference signal tim_ocxref considering CCxP=0, CCxNP=0, MOE=1,\nCCxE=1 and CCxNE=1 in these examples.\n[Figure 264. Complementary output with symmetrical dead-time insertion]\nThe DTAE bit in the TIM_DTR2 is used to differentiate the deadtime values for rising and\nfalling edges of the reference signal, as shown on Figure265.\nIn asymmetrical mode (DTAE = 1), the rising edge-referred deadtime is defined by the\nDTG[7:0] bitfield in the TIM_BDTR register, while the falling edge-referred is defined by the\nDTGF[7:0] bitfield in the TIM_DTR2 register. The DTAE bit must be written before enabling\nthe counter and must not be modified while CEN = 1.\nIt is possible to have the deadtime value updated on-the-fly during pwm operation, using a\npreload mechanism. The deadtime bitfield DTG[7:0] and DTGF[7:0] are preloaded when the\nDTPE bit is set, in the TIM_DTR2 register. The preload value is loaded in the active register\non the next update event.\nNote: If the DTPE bit is enabled while the counter is enabled, any new value written since last\nupdate is discarded and previous value is used.\n[Figure 265. Asymmetrical deadtime]\n[Figure 266. Dead-time waveforms with delay greater than the negative pulse]\n[Figure 267. Dead-time waveforms with delay greater than the positive pulse]\nThe dead-time delay is the same for each of the channels and is programmable with the\nDTG bits in the TIM_BDTR register. Refer to Section31.6.20: TIM break and dead-time\nregister (TIM_BDTR) for delay calculation.\nRedirecting tim_ocxref to tim_ocx or tim_ocxn\nIn output mode (forced, output compare or PWM), tim_ocxref can be redirected to the\ntim_ocx output or to tim_ocxn output by configuring the CCxE and CCxNE bits in the\nTIM_CCER register.\nThis is used to send a specific waveform (such as PWM or static active level) on one output\nwhile the complementary remains at its inactive level. Other alternative possibilities are to\nhave both outputs at inactive level or both outputs active and complementary with dead-\ntime.\nNote: When only tim_ocxn is enabled (CCxE = 0, CCxNE = 1), it is not complemented and\nbecomes active as soon as tim_ocxref is high. For example, if CCxNP = 0 then tim_ocxn =\ntim_ocxref. On the other hand, when both tim_ocx and tim_ocxn are enabled\n(CCxE=CCxNE=1) tim_ocx becomes active when tim_ocxref is high whereas tim_ocxn is\ncomplemented and becomes active when tim_ocxref is low.",
+      "semantic": {}
+    }
+  ]
+}

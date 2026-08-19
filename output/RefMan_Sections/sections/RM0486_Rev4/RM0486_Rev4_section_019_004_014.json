@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.4.14",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.4.14",
+      "section_title": "GPDMA transfer in peripheral flow-control mode",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 974,
+      "page_end": 975,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "gpdma",
+        "memory"
+      ],
+      "chars": 1519,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=974",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.14 \"GPDMA transfer in peripheral flow-control mode\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 974.",
+      "section_content": "A peripheral with the peripheral flow-control mode feature can decide to early terminate a\nGPDMA block transfer, provided that the allocated channel is implemented with this feature\n(see Section19.3.5).\nIf the related GPDMA channel x is also programmed in peripheral flow-control mode\n(GPDMA_CxTR2.PFREQ=1):\n• The GPDMA block transfer starts as follows:\n– If GPDMA_CxBR1.BNDT[15:0]≠0, the programmed value is internally taken into\naccount by the GPDMA hardware.\n– If GPDMA_CxBR1.BNDT[15:0]=0, the GPDMA hardware internally considers a\n64-Kbyte value for the maximum source block size to be transferred.\n• The GPDMA block transfer is completed as soon as the first occurrence of one of the\nfollowing condition occurs:\n– when GPDMA_CxBR1.BNDT[15:0]=0\n– when the peripheral early terminates the block. The complete transfer event is\ngenerated if programmed, depending on GPDMA_CxTR2 (see GPDMA channel x\ntransfer register 2 (GPDMA_CxTR2)). Then the software can read the current\nnumber of transferred bytes from the source (GPDMA_CxBR1.BNDT[15:0]),\nand/or read the current source or destination address of the buffer in memory\n(GPDMA_CxSAR[31:0] or GPDMA_CxDAR[31:0]).\nIn peripheral flow-control mode:\n• a destination peripheral with a hardware requested transfer is not supported:\nmemory-to-peripheral transfer is not supported.\n• Data packing from a source peripheral is not supported.\n• 2D/repeated block is not supported.\n• GPDMA_CxBR1.BNDT[15:0] must be programmed as a multiple of the source\n(peripheral) burst size.",
+      "semantic": {}
+    }
+  ]
+}

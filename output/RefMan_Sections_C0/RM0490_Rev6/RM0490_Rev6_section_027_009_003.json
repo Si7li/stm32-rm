@@ -1,0 +1,241 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.9.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.9.3",
+      "section_title": "SPI status register (SPIx_SR)",
+      "level": 3,
+      "parent_section": "27.9",
+      "page": 880,
+      "page_end": 881,
+      "semantic_type": "register_description",
+      "features": [
+        "bsy",
+        "chside",
+        "crcerr",
+        "fre",
+        "frlvl",
+        "ftlvl",
+        "modf",
+        "ovr",
+        "rxne",
+        "spi",
+        "txe",
+        "udr"
+      ],
+      "chars": 2478,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=880",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.9.3 \"SPI status register (SPIx_SR)\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 880.",
+      "section_content": "Address offset: 0x08\nReset value: 0x0002\nBits 15:13 Reserved, must be kept at reset value.\nBits 12:11 FTLVL[1:0]: FIFO transmission level\nThese bits are set and cleared by hardware.\n00: FIFO empty\n01: 1/4 FIFO\n10: 1/2 FIFO\n11: FIFO full (considered as FULL when the FIFO threshold is greater than 1/2)\nNote: This bit is not used in I2S mode.\nBits 10:9 FRLVL[1:0]: FIFO reception level\nThese bits are set and cleared by hardware.\n00: FIFO empty\n01: 1/4 FIFO\n10: 1/2 FIFO\n11: FIFO full\nNote: These bits are not used in I²S mode and in SPI receive-only mode while CRC\ncalculation is enabled.\nBit 8 FRE: Frame format error\nThis flag is used for SPI in TI slave mode and I2S slave mode. Refer to Section27.5.11: SPI\nerror flags and Section27.7.8: I2S error flags.\nThis flag is set by hardware and reset when SPIx_SR is read by software.\n0: No frame format error\n1: A frame format error occurred\nBit 7 BSY: Busy flag\n0: SPI (or I2S) not busy\n1: SPI (or I2S) is busy in communication or Tx buffer is not empty\nThis flag is set and cleared by hardware.\nNote: The BSY flag must be used with caution: refer to Section27.5.10: SPI status flags and\nProcedure for disabling the SPI on page842.\nBit 6 OVR: Overrun flag\n0: No overrun occurred\n1: Overrun occurred\nThis flag is set by hardware and reset by a software sequence. Refer to I2S error flags on\npage874 for the software sequence.\nBit 5 MODF: Mode fault\n0: No mode fault occurred\n1: Mode fault occurred\nThis flag is set by hardware and reset by a software sequence. Refer to Section: Mode fault\n(MODF) on page852 for the software sequence.\nNote: This bit is not used in I2S mode.\nBit 4 CRCERR: CRC error flag\n0: CRC value received matches the SPIx_RXCRCR value\n1: CRC value received does not match the SPIx_RXCRCR value\nNote: This flag is set by hardware and cleared by software writing 0.\nThis bit is not used in I2S mode.\nBit 3 UDR: Underrun flag\n0: No underrun occurred\n1: Underrun occurred\nThis flag is set by hardware and reset by a software sequence. Refer to I2S error flags on\npage874 for the software sequence.\nNote: This bit is not used in SPI mode.\nBit 2 CHSIDE: Channel side\n0: Channel Left has to be transmitted or has been received\n1: Channel Right has to be transmitted or has been received\nNote: This bit is not used in SPI mode. It has no significance in PCM mode.\nBit 1 TXE: Transmit buffer empty\n0: Tx buffer not empty\n1: Tx buffer empty\nBit 0 RXNE: Receive buffer not empty\n0: Rx buffer empty\n1: Rx buffer not empty",
+      "semantic": {
+        "register": "SPIx_SR",
+        "address_offset": "0x08",
+        "reset_value": "0x0002",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "15:13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12:11",
+            "name": "FTLVL[1:0]",
+            "description": "FIFO transmission level These bits are set and cleared by hardware. Note: This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "FIFO empty"
+              },
+              {
+                "value": "01",
+                "meaning": "1/4 FIFO"
+              },
+              {
+                "value": "10",
+                "meaning": "1/2 FIFO"
+              },
+              {
+                "value": "11",
+                "meaning": "FIFO full (considered as FULL when the FIFO threshold is greater than 1/2)"
+              }
+            ]
+          },
+          {
+            "bits": "10:9",
+            "name": "FRLVL[1:0]",
+            "description": "FIFO reception level These bits are set and cleared by hardware. Note: These bits are not used in I²S mode and in SPI receive-only mode while CRC calculation is enabled.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "FIFO empty"
+              },
+              {
+                "value": "01",
+                "meaning": "1/4 FIFO"
+              },
+              {
+                "value": "10",
+                "meaning": "1/2 FIFO"
+              },
+              {
+                "value": "11",
+                "meaning": "FIFO full"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "FRE",
+            "description": "Frame format error This flag is used for SPI in TI slave mode and I2S slave mode. Refer to Section27.5.11: SPI error flags and Section27.7.8: I2S error flags. This flag is set by hardware and reset when SPIx_SR is read by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No frame format error"
+              },
+              {
+                "value": "1",
+                "meaning": "A frame format error occurred"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "BSY",
+            "description": "Busy flag This flag is set and cleared by hardware. Note: The BSY flag must be used with caution: refer to Section27.5.10: SPI status flags and Procedure for disabling the SPI on page842.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SPI (or I2S) not busy"
+              },
+              {
+                "value": "1",
+                "meaning": "SPI (or I2S) is busy in communication or Tx buffer is not empty"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "OVR",
+            "description": "Overrun flag This flag is set by hardware and reset by a software sequence. Refer to I2S error flags on page874 for the software sequence.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No overrun occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "Overrun occurred"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "MODF",
+            "description": "Mode fault This flag is set by hardware and reset by a software sequence. Refer to Section: Mode fault (MODF) on page852 for the software sequence. Note: This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No mode fault occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "Mode fault occurred"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "CRCERR",
+            "description": "CRC error flag Note: This flag is set by hardware and cleared by software writing 0. This bit is not used in I2S mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CRC value received matches the SPIx_RXCRCR value"
+              },
+              {
+                "value": "1",
+                "meaning": "CRC value received does not match the SPIx_RXCRCR value"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "UDR",
+            "description": "Underrun flag This flag is set by hardware and reset by a software sequence. Refer to I2S error flags on page874 for the software sequence. Note: This bit is not used in SPI mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No underrun occurred"
+              },
+              {
+                "value": "1",
+                "meaning": "Underrun occurred"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "CHSIDE",
+            "description": "Channel side Note: This bit is not used in SPI mode. It has no significance in PCM mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Channel Left has to be transmitted or has been received"
+              },
+              {
+                "value": "1",
+                "meaning": "Channel Right has to be transmitted or has been received"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "TXE",
+            "description": "Transmit buffer empty",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tx buffer not empty"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx buffer empty"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "RXNE",
+            "description": "Receive buffer not empty",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Rx buffer empty"
+              },
+              {
+                "value": "1",
+                "meaning": "Rx buffer not empty"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

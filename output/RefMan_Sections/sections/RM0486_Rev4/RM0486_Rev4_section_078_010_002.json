@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.10.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.10.2",
+      "section_title": "AP1 registers",
+      "level": 3,
+      "parent_section": "78.10",
+      "page": 4400,
+      "page_end": 4404,
+      "semantic_type": "generic",
+      "features": [
+        "ap1"
+      ],
+      "chars": 3924,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4400",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.10.2 \"AP1 registers\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4400.",
+      "section_content": "Access port 1 control/status word register (AP1_CSW)\nAddress offset: 0x0\nReset value: 0x4000 0002\n[Table 867. AP0 register map and reset values]\nBit 31 Reserved, must be kept at reset value.\nBit 30 SPROT: Secure transfer request\nThis bit sets the protection attribute HPROT[6] of the bus transfer.\n0: If spiden is high, secure transfer. If spiden is low, no transfer.\n1: Nonsecure transfer\nBit 29 Reserved, must be kept at reset value.\nBits 28:24 PROT[4:0]: Bus transfer protection\nThis field sets the protection attributes HPROT[4:0] of the bus transfer.\nxxxx0: Instruction fetch\nxxxx1: Data access\nxxx0x: User mode\nxxx1x: Privileged mode\nxx0xx: Non-bufferable\nxx1xx: Bufferable\nx0xxx: Non-cacheable\nx1xxx: Cacheable\n0xxxx: Non-exclusive\n1xxxx: Exclusive\nBit 23 SPISTATUS: Status of spiden authentication signal\nThis bit determines whether the debugger can access secure memory.\n0: Secure AHB transfers not supported\n1: Secure AHB transfers allowed\nBits 22:12 Reserved, must be kept at reset value.\nBits 11:8 MODE[3:0]: Specifies the mode of operation\n0x0: Normal download or upload model\nOthers: reserved\nBit 7 TRINPROG: Transfer in progress\nThis bit indicates that an AP bus transfer is in progress.\n0: No transfer in progress\n1: Bus transfer in progress\nBit 6 DBGSTATUS: Debug status\nIndicates the state of the dbgen authentication signal\n0: No AHB transfers permitted\n1: AHB transfers permitted\nBits 5:4 ADDRINC[1:0]: Auto-increment mode\nThese bits define whether the TAR address is automatically incremented after a transaction.\n0x0: No auto-increment\n0x1: Address incremented by the size in bytes of the transaction (SIZE field)\n0x2: Packed transfers enabled. A 32-bit AP access generates a 1 x 32-bit, 2 x 16-bit, or\n4x8-bit bus transaction corresponding to the programmed transaction size. Data are packed\nor unpacked accordingly.\n0x3: Reserved\nBit 3 Reserved, must be kept at reset value.\nBits 2:0 SIZE[2:0]: Size of next memory access transaction\n0x0: Byte (8-bit)\n0x1: Half-word (16-bit)\n0x2: Word (32-bit)\nOthers: Reserved\nAP1 transfer address register (AP1_TAR)\nAddress offset: 0x04\nReset value: 0x00000000\nBits 31:0 ADDRESS[31:0]: Address of the current transfer\nAP1 data read/write register (AP1_DRW)\nAddress offset: 0x0C\nReset value: 0x00000000\nBits 31:0 DATA[31:0]: Read/write data for current transfer\nIn write mode, this is the write data value. In read mode, this is the read data value.\nAP1 banked data register x (AP1_BDx)\nAddress offset: 0x10 + 0x4 * x (x = 0 to 3)\nReset value: 0x00000000\nBits 31:0 DATA[31:0]: read/write data for current transfer\nThe transaction address is TAR[31:4]<<4+0x4 * x.\nAP1 base address register (AP1_BASE)\nAddress offset: 0xF8\nReset value: 0xE00F E003\nBits 31:12 BASEADDR[19:0]: Base address (bits 31 to 12) of the AP ROM table\nThe twelve LSBs are 0 since the ROM table must be aligned on a 4-Kbyte boundary.\n0xE00FE: ROM table base address is at 0xE00F E000.\nBits 11:2 Reserved, must be kept at reset value.\nBit 1 FORMAT: Base address register format\n1: Arm debug interface v5.\nBit 0 ENTRYPRESENT: Debug component present status\nThis bit indicates that debug components are present on the access port bus:\n1: Debug components are present.\nAP1 identification register (AP1_IDR)\nAddress offset: 0xFC\nReset value: 0x8477 0001 (AP1)\nBits 31:28 REVISION[3:0]: Arm core revision\n0x8: r0p9\nBits 27:24 JEDECBANK[3:0]: JEDEC bank\n0x4: Arm\nBits 23:17 JEDECCODE[6:0]: JEDEC code\n0x3B: Arm\nBit 16 MEMAP: Memory access port\n1: Standard register map\nBits 15:8 Reserved, must be kept at reset value.\nBits 7:0 IDENTITY[7:0]: AP type identification\n0x01: AHB-AP\nAP1 register map\nThese registers are not on the CPU memory bus. They are accessed only through SW-DP\nand JTAG-DP debug interfaces.\nThe access port address is 8-bit wide, defined by APBANKSEL[3:0] in DP_SELECTR, and\nby JTAG-DP register DPACC or SW-DP packet request A[3:2] field.\n[Table 868. AP1 register map and reset values]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.40",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.40",
+      "section_title": "OTG device status register (OTG_DSTS)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3837,
+      "page_end": 3837,
+      "semantic_type": "register_description",
+      "features": [
+        "devlnsts",
+        "eerr",
+        "enumspd",
+        "fnsof",
+        "otg",
+        "otg-dsts",
+        "suspsts"
+      ],
+      "chars": 1541,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3837",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.40 \"OTG device status register (OTG_DSTS)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3837.",
+      "section_content": "This register indicates the status of the core with respect to USB-related events. It must be\nread on interrupts from the device all interrupts (OTG_DAINT) register.\nAddress offset: 0x808\nReset value: 0x00000010\nBits 31:24 Reserved, must be kept at reset value.\nBits 23:22 DEVLNSTS[1:0]: Device line status\nIndicates the current logic level USB data lines.\nBit [23]: Logic level of D+\nBit [22]: Logic level of D-\nBits 21:8 FNSOF[13:0]: Frame number of the received SOF\nBits 7:4 Reserved, must be kept at reset value.\nBit 3 EERR: Erratic error\nThe core sets this bit to report any erratic errors.\nDue to erratic errors, the OTG controller goes into suspended state and an interrupt is\ngenerated to the application with Early suspend bit of the OTG_GINTSTS register (ESUSP\nbit in OTG_GINTSTS). If the early suspend is asserted due to an erratic error, the application\ncan only perform a soft disconnect recover.\nBits 2:1 ENUMSPD[1:0]: Enumerated speed\nIndicates the speed at which the OTG controller has come up after speed detection through\na chirp sequence.\n00: High Speed\n01: Full Speed\n11: Reserved\nOthers: reserved\nBit 0 SUSPSTS: Suspend status\nIn device mode, this bit is set as long as a suspend condition is detected on the USB. The\ncore enters the suspended state when there is no activity on the USB data lines for a period\nof 3ms. The core comes out of the suspend:\n– When there is an activity on the USB data lines\n– When the application writes to the remote wake-up signaling bit in the OTG_DCTL register\n(RWUSIG bit in OTG_DCTL).",
+      "semantic": {
+        "register": "OTG_DSTS",
+        "address_offset": "0x808",
+        "reset_value": "0x00000010",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:22",
+            "name": "DEVLNSTS[1:0]",
+            "description": "Device line status Indicates the current logic level USB data lines. Bit [23]: Logic level of D+ Bit [22]: Logic level of D-",
+            "values": []
+          },
+          {
+            "bits": "21:8",
+            "name": "FNSOF[13:0]",
+            "description": "Frame number of the received SOF",
+            "values": []
+          },
+          {
+            "bits": "7:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "EERR",
+            "description": "Erratic error The core sets this bit to report any erratic errors. Due to erratic errors, the OTG controller goes into suspended state and an interrupt is generated to the application with Early suspend bit of the OTG_GINTSTS register (ESUSP bit in OTG_GINTSTS). If the early suspend is asserted due to an erratic error, the application can only perform a soft disconnect recover.",
+            "values": []
+          },
+          {
+            "bits": "2:1",
+            "name": "ENUMSPD[1:0]",
+            "description": "Enumerated speed Indicates the speed at which the OTG controller has come up after speed detection through a chirp sequence.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "High Speed"
+              },
+              {
+                "value": "01",
+                "meaning": "Full Speed"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "Others",
+                "meaning": "reserved"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "SUSPSTS",
+            "description": "Suspend status In device mode, this bit is set as long as a suspend condition is detected on the USB. The core enters the suspended state when there is no activity on the USB data lines for a period of 3ms. The core comes out of the suspend: – When there is an activity on the USB data lines – When the application writes to the remote wake-up signaling bit in the OTG_DCTL register (RWUSIG bit in OTG_DCTL).",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.3.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.3.2",
+      "section_title": "S/PDIF protocol (IEC-60958)",
+      "level": 3,
+      "parent_section": "69.3",
+      "page": 3571,
+      "page_end": 3573,
+      "semantic_type": "generic",
+      "features": [
+        "iec",
+        "pdif"
+      ],
+      "chars": 2710,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3571",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.3.2 \"S/PDIF protocol (IEC-60958)\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3571.",
+      "section_content": "S/PDIF block\nA S/PDIF frame is composed of two sub-frames (see Figure937). Each sub-frame contains\n32 bits (or time slots):\n• Bits 0 to 3 carry one of the synchronization preambles\n• Bits 4 to 27 carry the audio sample word in linear 2's complement representation. The\nmost significant bit (MSB) is carried by bit 27. When a 20-bit coding range is used, bits\n8 to 27 carry the audio sample word with the LSB in bit 8.\n• Bit 28 (validity bit “V”) indicates if the data is valid (for converting it to analog for\nexample)\n• Bit 29 (user data bit “U”) carries the user data information like the number of tracks of a\nCompact Disk.\n• Bit 30 (channel status bit “C”) carries the channel status information like sample rate\nand protection against copy.\n• Bit 31 (parity bit “P”) carries a parity bit such that bits 4 to 31 inclusive carry an even\nnumber of ones and an even number of zeroes (even parity).\n[Figure 937. S/PDIF sub-frame format]\n[Table 682. SPDIFRX pins]\nFor linear coded audio applications, the first sub-frame (left or “A” channel in stereophonic\noperation and primary channel in monophonic operation) normally starts with preamble “M”.\nHowever, the preamble changes to preamble “B” once every 192 frames to identify the start\nof the block structure used to organize the channel status and user information. The second\nsub-frame (right or “B” channel in stereophonic operation and secondary channel in\nmonophonic operation) always starts with preamble “W”.\nA S/PDIF block contains 192 pairs of sub-frames of 32 bits.\n[Figure 938. S/PDIF block format]\nSynchronization preambles\nThe preambles patterns are inverted or not according to the previous half-bit value. This\nprevious half-bit value is the level of the line before enabling a transfer for the first “B”\npreamble of the first frame. For the others preambles, this previous half-bit value is the\nsecond half-bit of the parity bit of the previous sub-frame. The preambles patterns B, M and\nW are described in the Figure939.\n[Figure 939. S/PDIF preambles]\nCoding of information bits\nIn order to minimize the DC component value on the transmission line, and to facilitate clock\nrecovery from the data stream, bits 4 to 31 are encoded in biphase-mark.\nEach bit to be transmitted is represented by a symbol comprising two consecutive binary\nstates. The first state of a symbol is always different from the second state of the previous\nsymbol. The second state of the symbol is identical to the first if the bit to be transmitted is\nlogical 0. However, it is different if the bit is logical 1. These states are named “UI” (unit\ninterval) in the IEC-60958 specification.\nThe 24 data bits are transferred LSB first.\n[Figure 940. Channel coding example]",
+      "semantic": {}
+    }
+  ]
+}

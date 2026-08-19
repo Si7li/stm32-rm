@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.4.11",
+      "section_title": "TTCAN gap control",
+      "level": 3,
+      "parent_section": "71.4",
+      "page": 3659,
+      "page_end": 3660,
+      "semantic_type": "generic",
+      "features": [
+        "ttcan"
+      ],
+      "chars": 3120,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3659",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.4.11 \"TTCAN gap control\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3659.",
+      "section_content": "All functions related to gap control apply only when the FDCAN is operated in external event\nsynchronized time-triggered mode (FDCAN_TTOCF.GEN = 1). In this operation mode the\nFDCAN message schedule may be interrupted by inserting gaps between the basic cycles\nof the system matrix. All nodes connected to the CAN network must be configured for\nexternal event- synchronized time-triggered operation.\nDuring a gap, all transmissions are stopped and the CAN bus remains idle. A gap is finished\nwhen the next reference message starts a new basic cycle. A gap starts at the end of a\nbasic cycle that itself was started by a reference message with bit Next_is_Gap = 1 for\nexample gaps are initiated by the current time master.\nThe current time master has two options to initiate a gap. A gap can be initiated under\nsoftware control when the application program writes FDCAN_TTOCN.NIG = 1. The\nNext_is_Gap bit is transmitted as 1 with the next reference message. A gap can also be\ninitiated under hardware control when the application program enables the event trigger\ninput pin fdcan_evt by writing FDCAN_TTOCN.GCS = 1. When a reference message is\nstarted and FDCAN_TTOCN.GCS is set, a HIGH level at event trigger pin fdcan_evt sets\nNext_is_Gap = 1.\nAs soon as that reference message is completed, the FDCAN_TTOST.WFE bit announces\nthe gap to the time master as well as to the time slaves. The current basic cycle continues\nuntil its last time window. The time after the last time window is the gap time.\nFor the actual time master and the potential time masters, FDCAN_TTOST.GSI is set when\nthe last basic cycle has finished and the gap time starts. In nodes that are time slaves, bit\nFDCAN_TTOST.GSI remains at 0.\nWhen a potential time master is in synchronization state In_Gap\n(FDCAN_TTOST.SYS=10), it has four options to intentionally finish a gap:\n1. Under software control by writing FDCAN_TTOCN.FGP = 1.\n2. Under hardware control (FDCAN_TTOCN.GCS = 1) an edge from HIGH to LOW at the\nevent-trigger input pin fdcan_evt sets FDCAN_TTOCN.FGP and restarts the schedule.\n3. The third option is a time-triggered restart. When FDCAN_TTOCN.TMG = 1, the next\nregister time mark interrupt (FDCAN_TTIR.RTMI = 1) sets FDCAN_TTOCN.FGP and\nstarts the reference message.\n4. Finally any potential time master finishes a gap when it reaches its\nTx_Ref_Trigger_Gap, assuming that the event to synchronize on did not occur in time.\nNone of these options can cause a basic cycle to be interrupted with a reference message.\nSetting of FDCAN_TTOCN.FGP after the gap time begins starts the transmission of a\nreference message immediately and thereby synchronizes the message schedule. When\nFDCAN_TTOCN.FGP is set before the gap time has started (while the basic cycle is still in\nprogress), the next reference message is started at the end of the basic cycle, at the\nTx_Ref_Trigger – there is no gap time in the message schedule.\nIn strictly time-triggered operation, bit Next_is_Gap = 1 in the reference message is ignored,\nas well as the event-trigger input pin fdcan_evt and the bits FDCAN_TTOCN.NIG,\nFDCAN_TTOCN.FGP, and FDCAN_TTOCN.TMG.",
+      "semantic": {}
+    }
+  ]
+}

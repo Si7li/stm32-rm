@@ -18,7 +18,7 @@ import sys
 from dataclasses import asdict
 from pathlib import Path
 
-from .api import fetch_datasheet_url, fetch_grid
+from .api import download_workbook, fetch_datasheet_url, fetch_grid
 from .compose import ComposedSheet, api_only_sheet, compose_sheet
 from .datasheets import LocalIndex, acquire, st_datasheet_url
 from .diffing import (
@@ -331,6 +331,34 @@ def do_build(args) -> int:
     for stem, level_id in targets.items():
         grid = fetch_grid(fetcher, level_id)
         sheet = sheets.get(stem)
+        workbooks_dir = cache_dir / "originals"
+        cached_original = workbooks_dir / f"{file_stem(stem)} - Products.xlsx"
+        if sheet is None and (cached_original.exists() or getattr(args, "download_originals", False)):
+            # No workbook was shipped for this selector, but ST itself can
+            # produce the original it must be compared against: the site's
+            # Export-to-Excel button downloads the very shape this tool
+            # rebuilds. The file is cached, so re-runs -- and `diff` -- are
+            # offline, and a discovered selector gets a genuine diff instead
+            # of a synthetic one.
+            try:
+                if not cached_original.exists():
+                    workbook_bytes = download_workbook(fetcher, grid)
+                    workbooks_dir.mkdir(parents=True, exist_ok=True)
+                    cached_original.write_bytes(workbook_bytes)
+                sheet = read_original(cached_original)
+                sheet.stem = stem
+                logger.info(
+                    "%-30s ST's own export: %d rows, %d columns",
+                    stem, len(sheet.parts), len(sheet.columns),
+                )
+            except Exception as exc:  # noqa: BLE001 -- FetchError, bad zip, schema drift
+                # A selector whose export is unreachable or not a workbook must
+                # not abort the run: fall back to the synthesised schema.
+                logger.warning(
+                    "%-30s ST export unavailable (%s); synthesising instead",
+                    stem, exc,
+                )
+                sheet = None
         if sheet is None:
             # Discovered, with no workbook to copy: the schema comes from the
             # API's own column metadata. There is nothing to diff against.
@@ -657,6 +685,12 @@ def build_parser() -> argparse.ArgumentParser:
              "in --input, 'discovered' only the ones enumerated from ST, "
              "'all' both, preferring the local workbook where one exists so "
              "its diff is kept",
+    )
+    build.add_argument(
+        "--download-originals", action="store_true",
+        help="for discovered selectors with no shipped workbook, download the "
+             "original from ST's own Export-to-Excel endpoint and diff against "
+             "it; without this the sheet is synthesised and no diff is produced",
     )
     build.set_defaults(func=do_build)
 

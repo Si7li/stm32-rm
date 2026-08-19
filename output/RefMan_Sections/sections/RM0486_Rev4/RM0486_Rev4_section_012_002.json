@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S12.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "12",
+      "chapter_title": "AXI cache (CACHEAXI)",
+      "section": "12.2",
+      "section_title": "CACHEAXI main features",
+      "level": 2,
+      "parent_section": null,
+      "page": 322,
+      "page_end": 323,
+      "semantic_type": "generic",
+      "features": [
+        "cacheaxi"
+      ],
+      "chars": 3843,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=322",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.2 \"CACHEAXI main features\" in chapter 12 (AXI cache (CACHEAXI)), RM0486 Rev 4, page 322.",
+      "section_content": "The main features of the CACHEAXI are described below:\n• Bus interface\n– 64-bit AXI slave port (from AXI interconnect, receiving master requests), with\nindependent read and write channels (read address and data channels; write\naddress, data and response channels)\n– 64-bit AXI master port (to AXI interconnect, accessing main memories), with\nindependent read and write channels (read address and data channels; write\naddress, data, and response channels)\n– 32-bit AHB slave port for control (input from AHB peripherals interconnect, for\nCACHEAXI registers access)\n• The CACHEAXI can be configured to behave as an SRAM:\n– Reuse all data SRAM banks (so same size as in cache mode)\n– Dedicated 64-bit AXI slave SRAM port, to access the CACHEAXI in SRAM mode,\nwith independent read and write channels (read address and data channels; write\naddress, data, and response channels)\n– Pipelined AXI accesses with a deep acceptance capability of up to six requests on\nthe read AXI channel and up to five requests on the write AXI channel\n• Cache access\n– One read or write access per cycle (priority to write access in case of\nsimultaneous read and write requests)\n– Pipelined AXI accesses with a deep acceptance capability of up to 7 requests on\nboth read and write AXI channels\n– Throughput: 1 read or write hit access served per AXI clock cycle\n– N-ways set-associative cache\n– Supports both write-back and write-through policies (selectable with AXI\ntransaction WT/WB attribute)\n– Supports both allocate and nonallocate policies (selectable with AXI transaction\nallocate attribute):\n- Read can allocate or not\n- Write-back always allocate\n- Write-through always nonallocate (write-around)\n– Supports byte (8-bit), half-word (16-bit), word (32-bit), or double-word (64-bit) read\nor write transfer beat sizes\n• Replacement and refill\n– pLRU-t replacement policy (pseudo-least-recently-used, based on binary tree),\nalgorithm with best complexity/performance balance\n– Allocation size: on cache miss, refill request size set as cache line size\n– Prefetch hint forwarded to master port to inform downstream logic/memory to\nprefetch data\n– Two eviction buffers, for missing requests with cache line refill (allocate) not to be\nblocked by potential cache line eviction operation\n• System compartments support:\n– Cache lines tagged by a 3-bit compartment identifier that reflects compartment\nattribute of the input request on slave port, and that is used on eviction or clean\noperation to set compartment attribute at the output master port\n• TrustZone security support\n• Maintenance operations\n– Cache invalidate: full cache invalidation (fast command, noninterruptible)\n– a Cache clean range: cleans cache lines whose address belongs to programmed\nrange (background task, interruptible)\n– Cache clean and invalidate range: cleans and invalidates cache lines whose\naddress belongs to a programmed range (background task, interruptible)\n• Performance counters\n– 2 hit monitor counters (32-bit): number of read hits, number of write hits\n– 2 miss monitor counters (32-bit): number of read misses, number of write misses\n– 2 allocation monitor counters (32-bit): number of read-allocate misses, number of\nwrite-allocate misses\n– Write-through monitor counter: number of write-through transactions\n– Eviction monitor counter: number of dirty cache line evictions (on read-allocate\nmisses or on write-allocate misses).\n• Error management\n– Propagates the AXI bus error on the AXI master cache port back to the\ncorresponding AXI slave cache port (on noncacheable request, or on refill of\ncacheable request with allocation that misses).\n– Detects error for master port request initiated by the CACHEAXI itself (a dirty\ncache line written back into the main memory, because of an eviction or a clean\noperation), flags this error, and optionally raises an interrupt",
+      "semantic": {}
+    }
+  ]
+}

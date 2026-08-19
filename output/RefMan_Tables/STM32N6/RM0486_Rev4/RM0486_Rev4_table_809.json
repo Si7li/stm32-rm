@@ -1,0 +1,64 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T809",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "809",
+      "title": "TSO: TCP and IP header fields",
+      "page": 4083,
+      "section": "76.5.8",
+      "section_title": "TCP segmentation offload",
+      "semantic_type": "generic",
+      "features": [
+        "tcp",
+        "tso"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4083",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Packet sequence",
+        "TCP header",
+        "IP header"
+      ],
+      "text_helper": "Table 809, \"TSO: TCP and IP header fields\", in section 76.5.8 (TCP segmentation offload) on page 4083. Columns: Packet sequence, TCP header, IP header. 3 data row(s).",
+      "table_content": {
+        "headers": [
+          "Packet sequence",
+          "TCP header",
+          "IP header"
+        ],
+        "rows": [
+          [
+            "First packet",
+            "1. The sequence number is not \nupdated. The value provided \nin the header is used.\n2.  If set, the FIN and PSH flags \nare cleared.\n3.  The TCP checksum is \ncalculated again.",
+            "IPv4 Header\n– Total Length = MSS + TCP \nHeader Length + IP Header \nLength\n– Identification field is not modified. \nIt is sent as per the header \nprovided by the software.\n– IPv4 Header Checksum is \nrecalculated.\nIPv6 Header\n– Payload Length = MSS + TCP \nHeader Length + IP Extension \nHeader Length"
+          ],
+          [
+            "Subsequent packets",
+            "1. The sequence number is \nupdated. The MSS value is \nadded to the sequence \nnumber value of previous \nsegment.\n2. If set, the FIN and PSH flags \nare cleared.\n3. The TCP checksum is \ncalculated again.",
+            "IPv4 Header\n– Total Length = MSS + TCP \nHeader Length + IP Header \nLength\n– Identification field = Previous \nIdentification Field + 1\n– IPv4 Header Checksum is \nrecalculated\nIPv6 Header\n– Payload Length = MSS + TCP \nHeader Length + IP Extension \nHeader Length"
+          ],
+          [
+            "Last packet",
+            "1. The sequence number is \nupdated. The MSS value is \nadded to the sequence \nnumber value of previous \nsegment.\n2. If FIN and PSH flags were set \nin original header, these flags \nare set.\n3. The TCP checksum is \ncalculated again.",
+            "IPv4 Header\n– Total Length = Remaining \nPayload + TCP Header Length + \nIP Header Length\n– Identification Field = Previous \nIdentification Field + 1\n– IPv4 header Checksum is \nrecalculated\nIPv6 Header\n– Payload Length = Remaining \nPayload Length + TCP Header \nLength + IP Extension Header \nLength"
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

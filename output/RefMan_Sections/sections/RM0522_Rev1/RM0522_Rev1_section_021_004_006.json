@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S21.4.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "21",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "21.4.6",
+      "section_title": "ADC Deep-power-down mode (DEEPPWD) and ADC voltage regulator (ADVREGEN)",
+      "level": 3,
+      "parent_section": "21.4",
+      "page": 572,
+      "page_end": 572,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "advregen",
+        "deeppwd",
+        "power"
+      ],
+      "chars": 1517,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=572",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.4.6 \"ADC Deep-power-down mode (DEEPPWD) and ADC voltage regulator (ADVREGEN)\" in chapter 21 (Analog-to-digital converters (ADC)), RM0522 Rev 1, page 572.",
+      "section_content": "By default, the ADC is in deep-power-down mode where its supply voltage is internally\nswitched off to reduce the leakage currents (the reset state of the DEEPPWD bit is 1 in the\nADC_CR register).\nTo activate the ADC, first exit the Deep-power-down mode by clearing the DEEPPWD bit.\nThen, it is mandatory to enable the ADC internal voltage regulator by setting the\nADVREGEN bit of the ADC_CR register. The software must wait for the startup time of the\nADC voltage regulator (TADCVREG_STUP) before launching a calibration or enabling the\nADC. This delay must be implemented by software. For the startup time of the ADC voltage\nregulator, refer to the device datasheet for TADCVREG_STUP parameter.\nWhen ADC operations are complete, the ADC can be disabled by clearing the ADEN bit of\nthe ADC_CR register. Power can then be saved by disabling the ADC voltage regulator (by\nclearing ADVREGEN).\nAdditional power can be saved by entering ADC Deep-power-down mode again (by setting\nDEEPPWD of ADC_CR register). This is particularly interesting before entering Stop mode.\nNote: Setting DEEPPWD automatically disables the ADC voltage regulator and the ADVREGEN\nbit is automatically cleared.\nWhen the internal voltage regulator is disabled (ADVREGEN cleared), the internal analog\ncalibration is kept.\nIn ADC Deep-power-down mode (DEEPPWD=1), the internal analog calibration is lost and\nit is necessary to either relaunch a calibration or reapply the calibration factor, which was\npreviously saved (refer to SectionCalibration).",
+      "semantic": {}
+    }
+  ]
+}

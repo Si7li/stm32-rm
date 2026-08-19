@@ -1,0 +1,40 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.5.1",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.5.1",
+      "section_title": "FLASH read protection (RDP)",
+      "level": 3,
+      "parent_section": "4.5",
+      "page": 69,
+      "page_end": 71,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "rdp",
+        "readout-protection",
+        "security"
+      ],
+      "chars": 4217,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=69",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.5.1 \"FLASH read protection (RDP)\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 69.",
+      "section_content": "The read protection is activated by setting the RDP option byte and then, by applying a\nsystem reset to reload the new RDP option byte. The read protection protects the main flash\nmemory, the option bytes.\nThere are three levels of read protection from no protection (level 0) to maximum protection\nor no debug (level 2).\nThe flash memory is protected when the RDP option byte and its complement contain the\npair of values shown in Table 19.\n[Table 19. Flash memory read protection status]\nThe system memory area is read-accessible whatever the protection level. It is never\naccessible for program/erase operation.\nLevel 0: no protection\nRead, program and erase operations within the main flash memory area are possible. The\noption bytes are also accessible by all operations.\nLevel 1: Read protection\nLevel 1 read protection is set when the RDP byte and the RDP complemented byte contain\nany value combinations other than [0xAA, 0x55] and [0xCC, 0x33]. Level 1 is the default\nprotection level when RDP option byte is erased.\n• User mode: Code executing in user mode (boot from user flash memory) can access\nmain flash memory and option bytes with all operations.\n• Debug, boot from SRAM, and boot from system memory modes: In debug mode\nor when code boots from SRAM or system memory, the main flash memory is totally\ninaccessible. In these modes, a read or write access to the flash memory generates a\nbus error and a Hard Fault interrupt.\nCaution: In level 1 with a PCROP area defined, user code to protect by RDP but not by PCROP must\nbe placed outside pages containing a PCROP-protected subpage.\nLevel 2: No debug\nIn this level, the protection level 1 is guaranteed. In addition, the CPU debug port, the boot\nfrom RAM (boot RAM mode) and the boot from system memory (boot loader mode) are no\nmore available. In user execution mode (boot FLASH mode), all operations are allowed on\nthe main flash memory.\nNote: The CPU debug port is also disabled under reset.\nNote: STMicroelectronics is not able to perform analysis on defective parts on which the level 2\nprotection has been set.\nChanging the read protection level\nThe read protection level can change:\n• from level 0 to level 1, upon changing the value of the RDP byte to any value except\n0xCC\n• from level 0 or level 1 to level 2, upon changing the value of the RDP byte to 0xCC\n• from level 1 to level 0, upon changing the value of the RDP byte to 0xAA\nOnce in level 2, it is no more possible to modify the read protection level.\nWhen the read protection is changed from level 0 during or after (since last power on) the\ndebugger is connected or the MCU boot from system memory / SRAM, to reload the option\nbyte, apply a POR (power-on reset) instead of a system reset / OBL_LAUNCH. Otherwise,\nthe internal read out protection is activated and any data read triggers a hard fault. If the\nread protection is programmed through the software, the POR can be done by a transition to\nStandby (or Shutdown) mode followed by a wake-up.\nWith the PCROP_RDP bit of the FLASH PCROP area A end address register\n(FLASH_PCROP1AER) set, the change from level 1 to level 0 triggers full mass erase of\nthe main flash memory. The user options except PCROP protection are set to their previous\nvalues copied from FLASH_OPTR and FLASH_WRP1xR (x = A or B). PCROP is disabled.\nThe OTP area is not affected by mass erase and remains unchanged.\nWith the PCROP_RDP bit cleared, a partial mass erase occurs, only erasing flash memory\npages that do not overlap with PCROP area (do not contain any PCROP-protected\nsubpage). The option bytes are re-programmed with their previous values. This is also true\nfor FLASH_PCROP1xSR and FLASH_PCROP1xER registers (x = A or B).\nTable 20: Mass erase upon RDP regression from level 1 to level 0\nNote: Mass erase (full or partial) is only triggered by the RDP regression from level 1 to level 0.\nRDP level increase (level 0 to level 1, 1 to 2, or 0 to 2) does not cause any mass erase.\nTo validate the protection level change, the option bytes must be reloaded by setting the\nOBL_LAUNCH bit of the FLASH control register (FLASH_CR).\n[Figure 3. Changing read protection (RDP) level]\n[Table 21. Access status versus protection level and execution modes]",
+      "semantic": {}
+    }
+  ]
+}

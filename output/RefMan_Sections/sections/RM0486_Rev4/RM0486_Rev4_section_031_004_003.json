@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S31.4.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "31",
+      "chapter_title": "Delay block (DLYB)",
+      "section": "31.4.3",
+      "section_title": "General description",
+      "level": 3,
+      "parent_section": "31.4",
+      "page": 1460,
+      "page_end": 1460,
+      "semantic_type": "generic",
+      "features": [
+        "general"
+      ],
+      "chars": 2251,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1460",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 31.4.3 \"General description\" in chapter 31 (Delay block (DLYB)), RM0486 Rev 4, page 1460.",
+      "section_content": "The delay block is structured around one master delay line and two slave delay lines (RX\nand TX) and there are two operating modes:\n• Lock mode (dll_bypass_cmd_en = 0)\n– This mode can only be used when the frequency of dll_clk is in the range [50 MHz,\n208 MHz]\n– The delay block is enabled by setting dll_start_lock to ‘1’.\n– The delay block locks on the frequency of the dll_clk input clock and compensates\nfor voltage and temperature variations. This process determines the command to\nbe applied to each of the 32 delay units (a.k.a. tap) of the master delay line for the\ntotal master delay to represent one period of dll_clk. This command is copied to\neach delay unit of the RX and TX delay lines. The command varies with voltage\nand temperature for the DLL to remain locked. This guarantees that each delay\nunit of the RX and TX delay lines represents 1/32th of the input clock period.\n– Independent delay values can be selected for the RX and TX delay lines by\ncontrolling rx_ph_select[5:0] and tx_ph_select[5:0] parameters. The granularity of\nthe delay is 1/32th of the input clock period.\n• Bypass mode (dll_bypass_cmd_en = 1)\n– This mode is required to be able to insert a delay between the rx_ip_clk (resp.\ntx_ip_clk) input clock and the rx_op_clk (resp. tx_op_clk) output clock when the\noperating frequency is lower than the minimum frequency supported by the delay\nblock in lock mode (frequency < 50 MHz).\n– In this mode, delays in the RX and TX delay lines are used as “pure” delays, i.e.\nwithout trying to lock on the frequency of the dll_clk input clock. There is therefore\nno voltage nor temperature compensation in this mode and the RX and TX delay\nvalues vary with voltage and temperature. The command applied to each delay\nunit of the RX and TX delay lines is controlled by dll_bypass_cmd[4:0]. Each delay\nunit includes 24 delay elements. The number of delay elements which are enabled\nin each delay unit depends on the value of dll_bypass_cmd[4:0].\n– Independent delay values can be selected for the RX and TX delay lines by\ncontrolling rx_ph_select[5:0] and tx_ph_select[5:0] parameters. The total delay\ninserted by the RX (resp. TX) delay line depends on rx_ph_select[5:0] (resp.\ntx_ph_select[5:0]) and dll_bypass_cmd[4:0] values.",
+      "semantic": {}
+    }
+  ]
+}

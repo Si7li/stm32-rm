@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S40.6.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "40",
+      "chapter_title": "CSI-2 Host (CSI)",
+      "section": "40.6.2",
+      "section_title": "CSI-2 Host controller setup and data reception start",
+      "level": 3,
+      "parent_section": "40.6",
+      "page": 2033,
+      "page_end": 2033,
+      "semantic_type": "generic",
+      "features": [
+        "csi"
+      ],
+      "chars": 2509,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2033",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 40.6.2 \"CSI-2 Host controller setup and data reception start\" in chapter 40 (CSI-2 Host (CSI)), RM0486 Rev 4, page 2033.",
+      "section_content": "The D-PHY RX software initialization is required to set up the CSI-2 Host controller.\nLane-merger configuration (static configuration)\nThe lane merger must be configured while CSIEN = 0 in CSI_CR, and when the D-PHY_RX\nis not streaming (when it is not providing a clock).\nTo map the physical data lane to the logical data lane, the lane merger needs to be\nconfigured through DL0MAP and DL1MAP in CSI_LMCFGR. In addition, the number of\nvalid data lanes must be configured through LANENB in the same register.\nLLP configuration\n1. Configure the watchdog value in CSI_WDR. This corresponds to the maximum number\nof clock cycles between two packets before an input frame is considered erroneous\nand the transmission failed. It can be left at 0x0 to disable the watchdog feature.\n2. Enable the CSI-2 Host controller with CSIEN = 1 in CSI_CR.\n3. Configure the selected virtual channels in CSI_VCxCFGRy.\nIf all data types must be captured with the same format, in CSI_VCxCFGR1:\n– Set ALLDT = 0x011.\n– Select the format with CDTFT[4:0].\nIf only a few data types are to be captured, or if the format is not identical for all data\ntypes, then up to seven data types can be selected:\n– Set ALLDT = 0x0 in CSI_VCxCFGR1.\n– Set DTyEN = 0x1 (y = 0 to 6) in CSI_VCxCFGR1 for the data types used.\n– Set DTy[5:0] in CSI_VCxCFGRy to the selected data type.\n– Set DTyFT[4:0] in CSI_VCxCFGRy to the selected format.\n4. Depending on application requirements, specific software actions may detect particular\nevents in a frame, and trigger a corresponding interrupt, with the following:\n– Set LINECNT[15:0] and BYTECNT[15:0] in CSI_LBxCFGR to trigger an event\nwhen the data corresponding to a specific byte within a specific line is detected by\nthe LLP. Up to four independent triggers can be programmed and linked to\naselected virtual channel through LBxVC[1:0] in CSI_PRGITR. The selected\ntrigger can be enabled by setting LBxEN in the same register.\n– Set COUNT[24:0] in CSI_TIMxCFGR to trigger an event after a specified number\nof clock cycles (clk_proc) from an SOF or an EO, depending on TIMxEOF and\nTIMxEN inCSI_PRGITR. Up to four independent timer triggers can be\nprogrammed and linked to a selected virtual channel through TIMxVC[1:0]\ninCSI_PRGITR.\n5. Enable interrupt sources for which the code needs to make specific actions,\nbyconfiguring CSI_IER0 and CSI_IER1 registers.\n6. D-PHY_RX lanes can be enabled by setting DL0EN and/or DL1EN, and CLEN\ninCSI_PCR.\n7. Start the virtual channel by setting VCxSTART = 0x1 in CSI_CR.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.14.50",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.14.50",
+      "section_title": "DCMIPP Pipe1 statistics 3 control register (DCMIPP_P1ST3CR)",
+      "level": 3,
+      "parent_section": "39.14",
+      "page": 1939,
+      "page_end": 1940,
+      "semantic_type": "register_description",
+      "features": [
+        "bins",
+        "dcmipp",
+        "dcmipp-p1st3cr",
+        "enable",
+        "mode",
+        "src"
+      ],
+      "chars": 1758,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1939",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.14.50 \"DCMIPP Pipe1 statistics 3 control register (DCMIPP_P1ST3CR)\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1939.",
+      "section_content": "Address offset: 0x858\nReset value: 0x0000 0000\nBits 31:8 Reserved, must be kept at reset value.\nBit 7 MODE: Statistics mode\n0: Average: accumulates the 8-bit component value of the considered pixel components.\nIt is typically used to extract the average value of R, G, B, or luminance across the picture,\nand to drive the exposure control and the white balance.\n1: Bins: accumulates 256 for each considered pixel component fitting a bin dynamic.\nIt is typically used to extract how many pixel components fall into the various dynamic bins.\nIt is usually used to drive the contrast enhancement.\nBits 6:4 SRC[2:0]: Statistics source\n0x0, 0x1, 0x2, 0x3: components are sampled after decimation, and sample, respectively, the\nred, green, blue components, and luminance.\n0x4, 0x5, 0x6, 0x7: components are sampled after the black level calibration and exposure,\nand sample, respectively, the red, green, blue and luminance.\nBits 3:2 BINS[1:0]: Bin definition\nCondition: MODE = Bins\n0x0: LowerBins: Accu0 (1, 2) is incremented of 256 if Component <4 (<8, <16)\n0x1: LowMid Bins: Accu0 (1, 2) is incremented of 256 if Component <32 (<64, <128)\n0x2: UpMid Bins: Accu0 (1, 2) is incremented of 256 if Component >127 (>191, >224)\n0x3: UpBins: Accu0 (1, 2) is incremented of 256 if Component >239 (>247, >251)\nCondition: MODE = Average\n0x0: AllPixels: Accu is incremented of Component, if 0 ≤ Component < 256.\n0x1: NoExt16: Accu is incremented of Component, if 16 ≤ Component < 240.\n0x2: NoExt32: Accu is incremented of Component, if 32 ≤ Component < 224.\n0x3: NoExt64: Accu is incremented of Component, if 64 ≤ Component < 192.\nBit 1 Reserved, must be kept at reset value.\nBit 0 ENABLE:\n0: Disabled: statistics are not accumulated\n1: Enabled: statistics are accumulated",
+      "semantic": {
+        "register": "DCMIPP_P1ST3CR",
+        "address_offset": "0x858",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "MODE",
+            "description": "Statistics mode It is typically used to extract the average value of R, G, B, or luminance across the picture, and to drive the exposure control and the white balance. It is typically used to extract how many pixel components fall into the various dynamic bins. It is usually used to drive the contrast enhancement.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Average: accumulates the 8-bit component value of the considered pixel components."
+              },
+              {
+                "value": "1",
+                "meaning": "Bins: accumulates 256 for each considered pixel component fitting a bin dynamic."
+              }
+            ]
+          },
+          {
+            "bits": "6:4",
+            "name": "SRC[2:0]",
+            "description": "Statistics source 0x0, 0x1, 0x2, 0x3: components are sampled after decimation, and sample, respectively, the red, green, blue components, and luminance. 0x4, 0x5, 0x6, 0x7: components are sampled after the black level calibration and exposure, and sample, respectively, the red, green, blue and luminance.",
+            "values": []
+          },
+          {
+            "bits": "3:2",
+            "name": "BINS[1:0]",
+            "description": "Bin definition Condition: MODE = Bins Condition: MODE = Average",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "LowerBins: Accu0 (1, 2) is incremented of 256 if Component <4 (<8, <16)"
+              },
+              {
+                "value": "0x1",
+                "meaning": "LowMid Bins: Accu0 (1, 2) is incremented of 256 if Component <32 (<64, <128)"
+              },
+              {
+                "value": "0x2",
+                "meaning": "UpMid Bins: Accu0 (1, 2) is incremented of 256 if Component >127 (>191, >224)"
+              },
+              {
+                "value": "0x3",
+                "meaning": "UpBins: Accu0 (1, 2) is incremented of 256 if Component >239 (>247, >251)"
+              },
+              {
+                "value": "0x0",
+                "meaning": "AllPixels: Accu is incremented of Component, if 0 ≤ Component < 256."
+              },
+              {
+                "value": "0x1",
+                "meaning": "NoExt16: Accu is incremented of Component, if 16 ≤ Component < 240."
+              },
+              {
+                "value": "0x2",
+                "meaning": "NoExt32: Accu is incremented of Component, if 32 ≤ Component < 224."
+              },
+              {
+                "value": "0x3",
+                "meaning": "NoExt64: Accu is incremented of Component, if 64 ≤ Component < 192."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "ENABLE",
+            "description": "",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled: statistics are not accumulated"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled: statistics are accumulated"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

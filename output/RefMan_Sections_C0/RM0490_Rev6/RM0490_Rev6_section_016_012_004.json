@@ -1,0 +1,372 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.12.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.12.4",
+      "section_title": "ADC configuration register 1 (ADC_CFGR1)",
+      "level": 3,
+      "parent_section": "16.12",
+      "page": 331,
+      "page_end": 334,
+      "semantic_type": "register_description",
+      "features": [
+        "adc",
+        "adc-cfgr1",
+        "align",
+        "autoff",
+        "awd1ch",
+        "awd1en",
+        "awd1sgl",
+        "chselrmod",
+        "cont",
+        "discen",
+        "dma",
+        "dmacfg",
+        "dmaen",
+        "exten",
+        "extsel",
+        "ovrmod",
+        "scandir",
+        "wait"
+      ],
+      "chars": 5125,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=331",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.12.4 \"ADC configuration register 1 (ADC_CFGR1)\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 331.",
+      "section_content": "Address offset: 0x0C\nReset value: 0x0000 0000\nThe software is allowed to program ADC_CFGR1 only when ADEN is cleared in ADC_CR.\nBit 31 Reserved, must be kept at reset value.\nBits 30:26 AWD1CH[4:0]: Analog watchdog channel selection\nThese bits are set and cleared by software. They select the input channel to be guarded by\nthe analog watchdog.\n00000: ADC analog input Channel 0 monitored by AWD\n00001: ADC analog input Channel 1 monitored by AWD\n.....\n10110: ADC analog input Channel 22 monitored by AWD\nOthers: Reserved\nNote: The channel selected by the AWDCH[4:0] bits must be also set into the CHSELR\nregister.\nBits 25:24 Reserved, must be kept at reset value.\nBit 23 AWD1EN: Analog watchdog enable\nThis bit is set and cleared by software.\n0: Analog watchdog 1 disabled\n1: Analog watchdog 1 enabled\nBit 22 AWD1SGL: Enable the watchdog on a single channel or on all channels\nThis bit is set and cleared by software to enable the analog watchdog on the channel\nidentified by the AWDCH[4:0] bits or on all the channels\n0: Analog watchdog 1 enabled on all channels\n1: Analog watchdog 1 enabled on a single channel\nBit 21 CHSELRMOD: Mode selection of the ADC_CHSELR register\nThis bit is set and cleared by software to control the ADC_CHSELR feature:\n0: Each bit of the ADC_CHSELR register enables an input\n1: ADC_CHSELR register is able to sequence up to 8 channels\nNote: If CCRDY is not yet asserted after channel configuration (writing ADC_CHSELR register\nor changing CHSELRMOD or SCANDIR), the value written to this bit is ignored.\nBits 20:17 Reserved, must be kept at reset value.\nBit 16 DISCEN: Discontinuous mode\nThis bit is set and cleared by software to enable/disable discontinuous mode.\n0: Discontinuous mode disabled\n1: Discontinuous mode enabled\nNote: It is not possible to have both discontinuous mode and continuous mode enabled: it is\nforbidden to set both bits DISCEN = 1 and CONT = 1.\nBit 15 AUTOFF: Auto-off mode\nThis bit is set and cleared by software to enable/disable auto-off mode..\n0: Auto-off mode disabled\n1: Auto-off mode enabled\nBit 14 WAIT: Wait conversion mode\nThis bit is set and cleared by software to enable/disable wait conversion mode..\n0: Wait conversion mode off\n1: Wait conversion mode on\nBit 13 CONT: Single / continuous conversion mode\nThis bit is set and cleared by software. If it is set, conversion takes place continuously until it\nis cleared.\n0: Single conversion mode\n1: Continuous conversion mode\nNote: It is not possible to have both discontinuous mode and continuous mode enabled: it is\nforbidden to set both bits DISCEN = 1 and CONT = 1.\nBit 12 OVRMOD: Overrun management mode\nThis bit is set and cleared by software and configure the way data overruns are managed.\n0: ADC_DR register is preserved with the old data when an overrun is detected.\n1: ADC_DR register is overwritten with the last conversion result when an overrun is\ndetected.\nBits 11:10 EXTEN[1:0]: External trigger enable and polarity selection\nThese bits are set and cleared by software to select the external trigger polarity and enable\nthe trigger.\n00: Hardware trigger detection disabled (conversions can be started by software)\n01: Hardware trigger detection on the rising edge\n10: Hardware trigger detection on the falling edge\n11: Hardware trigger detection on both the rising and falling edges\nBit 9 Reserved, must be kept at reset value.\nBits 8:6 EXTSEL[2:0]: External trigger selection\nThese bits select the external event used to trigger the start of conversion (refer to Table 69:\nExternal triggers for details):\n000: TRG0\n001: TRG1\n010: TRG2\n011: TRG3\n100: TRG4\n101: TRG5\n110: TRG6\n111: TRG7\nBit 5 ALIGN: Data alignment\nThis bit is set and cleared by software to select right or left alignment. Refer to Figure 43:\nData alignment and resolution (oversampling disabled: OVSE = 0) on page 309\n0: Right alignment\n1: Left alignment\nBits 4:3 RES[1:0]: Data resolution\nThese bits are written by software to select the resolution of the conversion.\n00: 12 bits\n01: 10 bits\n10: 8 bits\n11: 6 bits\nBit 2 SCANDIR: Scan sequence direction\nThis bit is set and cleared by software to select the direction in which the channels is scanned\nin the sequence. It is effective only if CHSELMOD bit is cleared.\n0: Upward scan (from CHSEL0 to CHSEL22)\n1: Backward scan (from CHSEL22 to CHSEL0)\nNote: If CCRDY is not yet asserted after channel configuration (writing ADC_CHSELR register\nor changing CHSELRMOD or SCANDIR), the value written to this bit is ignored.\nBit 1 DMACFG: Direct memory access configuration\nThis bit is set and cleared by software to select between two DMA modes of operation and is\neffective only when DMAEN = 1.\n0: DMA one shot mode selected\n1: DMA circular mode selected\nFor more details, refer to Section 16.6.5: Managing converted data using the DMA on\npage 311.\nBit 0 DMAEN: Direct memory access enable\nThis bit is set and cleared by software to enable the generation of DMA requests. This allows\nthe DMA controller to be used to manage automatically the converted data. For more details,\nrefer to Section 16.6.5: Managing converted data using the DMA on page 311.\n0: DMA disabled\n1: DMA enabled",
+      "semantic": {
+        "register": "ADC_CFGR1",
+        "address_offset": "0x0C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30:26",
+            "name": "AWD1CH[4:0]",
+            "description": "Analog watchdog channel selection These bits are set and cleared by software. They select the input channel to be guarded by the analog watchdog. ..... Note: The channel selected by the AWDCH[4:0] bits must be also set into the CHSELR register.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "ADC analog input Channel 0 monitored by AWD"
+              },
+              {
+                "value": "00001",
+                "meaning": "ADC analog input Channel 1 monitored by AWD"
+              },
+              {
+                "value": "10110",
+                "meaning": "ADC analog input Channel 22 monitored by AWD"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "25:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "AWD1EN",
+            "description": "Analog watchdog enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Analog watchdog 1 disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog watchdog 1 enabled"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "AWD1SGL",
+            "description": "Enable the watchdog on a single channel or on all channels This bit is set and cleared by software to enable the analog watchdog on the channel identified by the AWDCH[4:0] bits or on all the channels",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Analog watchdog 1 enabled on all channels"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog watchdog 1 enabled on a single channel"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "CHSELRMOD",
+            "description": "Mode selection of the ADC_CHSELR register This bit is set and cleared by software to control the ADC_CHSELR feature: Note: If CCRDY is not yet asserted after channel configuration (writing ADC_CHSELR register or changing CHSELRMOD or SCANDIR), the value written to this bit is ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Each bit of the ADC_CHSELR register enables an input"
+              },
+              {
+                "value": "1",
+                "meaning": "ADC_CHSELR register is able to sequence up to 8 channels"
+              }
+            ]
+          },
+          {
+            "bits": "20:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "DISCEN",
+            "description": "Discontinuous mode This bit is set and cleared by software to enable/disable discontinuous mode. Note: It is not possible to have both discontinuous mode and continuous mode enabled: it is forbidden to set both bits DISCEN = 1 and CONT = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Discontinuous mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Discontinuous mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "AUTOFF",
+            "description": "Auto-off mode This bit is set and cleared by software to enable/disable auto-off mode..",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Auto-off mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Auto-off mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "WAIT",
+            "description": "Wait conversion mode This bit is set and cleared by software to enable/disable wait conversion mode..",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Wait conversion mode off"
+              },
+              {
+                "value": "1",
+                "meaning": "Wait conversion mode on"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "CONT",
+            "description": "Single / continuous conversion mode This bit is set and cleared by software. If it is set, conversion takes place continuously until it is cleared. Note: It is not possible to have both discontinuous mode and continuous mode enabled: it is forbidden to set both bits DISCEN = 1 and CONT = 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Single conversion mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Continuous conversion mode"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "OVRMOD",
+            "description": "Overrun management mode This bit is set and cleared by software and configure the way data overruns are managed. detected.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "ADC_DR register is preserved with the old data when an overrun is detected."
+              },
+              {
+                "value": "1",
+                "meaning": "ADC_DR register is overwritten with the last conversion result when an overrun is"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "EXTEN[1:0]",
+            "description": "External trigger enable and polarity selection These bits are set and cleared by software to select the external trigger polarity and enable the trigger.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Hardware trigger detection disabled (conversions can be started by software)"
+              },
+              {
+                "value": "01",
+                "meaning": "Hardware trigger detection on the rising edge"
+              },
+              {
+                "value": "10",
+                "meaning": "Hardware trigger detection on the falling edge"
+              },
+              {
+                "value": "11",
+                "meaning": "Hardware trigger detection on both the rising and falling edges"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8:6",
+            "name": "EXTSEL[2:0]",
+            "description": "External trigger selection These bits select the external event used to trigger the start of conversion (refer to Table 69: External triggers for details):",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "TRG0"
+              },
+              {
+                "value": "001",
+                "meaning": "TRG1"
+              },
+              {
+                "value": "010",
+                "meaning": "TRG2"
+              },
+              {
+                "value": "011",
+                "meaning": "TRG3"
+              },
+              {
+                "value": "100",
+                "meaning": "TRG4"
+              },
+              {
+                "value": "101",
+                "meaning": "TRG5"
+              },
+              {
+                "value": "110",
+                "meaning": "TRG6"
+              },
+              {
+                "value": "111",
+                "meaning": "TRG7"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "ALIGN",
+            "description": "Data alignment This bit is set and cleared by software to select right or left alignment. Refer to Figure 43: Data alignment and resolution (oversampling disabled: OVSE = 0) on page 309",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Right alignment"
+              },
+              {
+                "value": "1",
+                "meaning": "Left alignment"
+              }
+            ]
+          },
+          {
+            "bits": "4:3",
+            "name": "Res.",
+            "description": "RES[1:0]: Data resolution These bits are written by software to select the resolution of the conversion.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "12 bits"
+              },
+              {
+                "value": "01",
+                "meaning": "10 bits"
+              },
+              {
+                "value": "10",
+                "meaning": "8 bits"
+              },
+              {
+                "value": "11",
+                "meaning": "6 bits"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "SCANDIR",
+            "description": "Scan sequence direction This bit is set and cleared by software to select the direction in which the channels is scanned in the sequence. It is effective only if CHSELMOD bit is cleared. Note: If CCRDY is not yet asserted after channel configuration (writing ADC_CHSELR register or changing CHSELRMOD or SCANDIR), the value written to this bit is ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Upward scan (from CHSEL0 to CHSEL22)"
+              },
+              {
+                "value": "1",
+                "meaning": "Backward scan (from CHSEL22 to CHSEL0)"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "DMACFG",
+            "description": "Direct memory access configuration This bit is set and cleared by software to select between two DMA modes of operation and is effective only when DMAEN = 1. For more details, refer to Section 16.6.5: Managing converted data using the DMA on page 311.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA one shot mode selected"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA circular mode selected"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "DMAEN",
+            "description": "Direct memory access enable This bit is set and cleared by software to enable the generation of DMA requests. This allows the DMA controller to be used to manage automatically the converted data. For more details, refer to Section 16.6.5: Managing converted data using the DMA on page 311.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

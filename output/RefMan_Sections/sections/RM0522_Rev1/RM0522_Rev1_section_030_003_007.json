@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S30.3.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "30",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "30.3.7",
+      "section_title": "Private keys protection using CCB",
+      "level": 3,
+      "parent_section": "30.3",
+      "page": 923,
+      "page_end": 927,
+      "semantic_type": "generic",
+      "features": [
+        "ccb"
+      ],
+      "chars": 3918,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=923",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.3.7 \"Private keys protection using CCB\" in chapter 30 (Public key accelerator (PKA)), RM0522 Rev 1, page 923.",
+      "section_content": "Chaining modes\nAs shown in Figure217, setting CCOP to a value different from 0 in the CCB peripheral\nautomatically activates a chaining mechanism between PKA, RNG, and SAES, depending\non the OPSTEP value (see Table241), then sets the CCEN bit in the PKA_SR register.\nFor the effect of different OPSTEP values in each protected operation (ECDSA signature,\nscalar multiplication, modular exponentiation), refer to Section30.3.7: Private keys\nprotection using CCB.\n[Figure 217. Chaining of PKA with SAES or RNG]\nCCB\nRNG\nCCOP 0\nSAES\nPKA\nCCEN = 1\n[Table 241. Chaining mode to/from PKA]\nWhen the application uses a PKA protected operation (with its private key), it must load the\nrelated blob information in the PKA RAM and in the SAES_DINR register. If the information\nexactly matches the conditions of the blob generation (the choice and order of writing\nprotected parameters in PKA RAM, the selection of blob encryption key, and the usage of\nthe original encrypted secrets), the CCB allows it to set the START bit in PKA_CR. When\nthe PKA ignores the setting of the START bit, the application must reset the CCB using the\nIPRST bit in CCB_CR, then start the protected operation sequence again.\nA protected application typically uses the PKA in the following sequence composed of three\nphases.\nStep 1: Public phase\nBefore using a protected operation, the application may need to write unprotected\nparameters to the PKA RAM, as defined in Table241.\nStep 2: Integrity protected phase\nTo use a PKA operation, the application must load specific parameters in PKA RAM. When\nCCEN bit is set in PKA_SR, the integrity protected parameters defined in Table242 must\nalways be written in the same way. Integrity protection is enforced in specific OPSTEPs, as\ndefined in Table241.\nTypical issues with integrity of protected operation parameters are:\n• The blob encryption key loaded in SAES registers is not correct.\n• At least one confidentiality protected parameter defined in Table243 has an incorrect\nvalue, or was not properly written (DATAOKF=0 or RNGOKF=0, see PKA status\nregister (PKA_SR)).\n• At least one integrity protected parameter defined in Table242 has an incorrect value,\nis written at an incorrect address, or its write sequence to PKA RAM does not match\nthe sequence used during the blob creation. On this specific point, the application must\nfollow the sequence detailed in Table242 when writing each item described in the\ncolumn Parameters.\nCCB feeds integrity protected parameters to SAES during the header phase of AES-GCM\n(GCMPH=0x1).\n[Table 242. Integrity protected parameters list]\nStep 3: Confidentiality phase\nTo use any PKA protected operation, the application must load confidentiality protected\nparameters in the PKA RAM. When the CCEN bit is set in PKA_SR, the parameters defined\nin Table243 are protected in confidentiality by:\n• Making PKA RAM write-only\n• Triggering a MODE[5:0] error (MDERRF) in PKA_SR when MODE[5:0] bitfiled in\nPKA_CR does not match the expected value when application sets START bit in\nPKA_CR\n• Monitoring the correct management of protected parameters through DATAOKF and\nRNGOKF flags (see PKA status register (PKA_SR))\n• Optionally, generating ECC secrets from the on-chip TRNG when CCOP=0xC2 or\n0x82 and OPSTEP=0x6, and when CCOP=0xC3 and OPSTEP=0x16. The PKA\nperforms a sanity check before accepting this random value (see the RNGERRF flag).\nConfidentiality protected parameters are described in Table243. CCB feeds them to SAES\nduring the payload phase of the AES-GCM (GCMPH = 0x2).\n[Table 243. Confidentiality protected parameter list]\nStep 4: Running PKA protected operation\nSet the START bit in PKA_CR. When the whole sequence executes correctly, the PKA RAM\nbecomes inaccessible for reading and writing. Input parameters are automatically erased\nwhen the PROCENDF flag in PKA_SR is set, or if the application aborts the current\noperation by clearing the EN bit in PKA_CR.",
+      "semantic": {}
+    }
+  ]
+}

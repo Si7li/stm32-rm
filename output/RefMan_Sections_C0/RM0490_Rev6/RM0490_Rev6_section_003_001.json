@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S3.1",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "3",
+      "chapter_title": "Boot modes",
+      "section": "3.1",
+      "section_title": "Boot configuration",
+      "level": 2,
+      "parent_section": null,
+      "page": 53,
+      "page_end": 54,
+      "semantic_type": "generic",
+      "features": [
+        "boot"
+      ],
+      "chars": 2295,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=53",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.1 \"Boot configuration\" in chapter 3 (Boot modes), RM0490 Rev 6, page 53.",
+      "section_content": "The user can select the boot area through the boot configuration pin BOOT0 and bits\nnBOOT1, nBOOT_SEL, and nBOOT0 of the User option byte, as shown in the following\ntable.\n[Table 9. Boot modes]\nThe boot mode configuration is latched after a reset. It is up to the user to set boot mode\nconfiguration related to the required boot mode. The boot mode configuration is also re-\nsampled when exiting Standby mode. Consequently, they must be kept in the required boot\nmode configuration in Standby mode. After this startup delay has elapsed, the CPU fetches\nthe top-of-stack value from the address 0x0000 0000, then starts executing code from the\naddress stored in the boot memory at 0x0000 0004.\nDepending on the selected boot mode, main flash memory, system memory, or SRAM is\naccessible as follows:\n• Boot from main flash memory: the main flash memory is aliased in the boot memory\nspace (0x0000 0000), but still accessible from its original memory space\n(0x0800 0000). In other words, the flash memory contents can be accessed starting\nfrom address 0x0000 0000 or 0x0800 0000.\n• Boot from system memory: the system memory is aliased in the boot memory space\n(0x0000 0000), but still accessible from its original memory space 0x1FFF0000.\n• Boot from the embedded SRAM: the SRAM is aliased in the boot memory space\n(0x0000 0000), but it is still accessible from its original memory space (0x2000 0000).\nCaution: BOOT0 pin shares the same GPIO with serial wire clock (SWCLK) that is used by the\ndebugger to connect with the device, based on the fact that these functionalities can be\nconsidered almost completely disjoint. Nevertheless, to ensure system robustness, the\nSTM32C0 series devices provide a hardware mechanism to force BOOT0 low (boot from\nuser flash memory) if a debugger access is detected (and BOOT0 information is taken from\nthe pin), in order to use SWCLK clock for debugger serial communications and at the same\ntime have a safe boot configuration for the device itself. This configuration is kept until the\nearliest power-on following the debugger access.\nCaution: BOOT0 pin sampling is done on NRST (external reset) rising edge. Refer to NRST (external\nreset) description in Section 6.1.2: System reset for further details on how the PF2-NRST\npin mode impacts the BOOT0 sampling.",
+      "semantic": {}
+    }
+  ]
+}

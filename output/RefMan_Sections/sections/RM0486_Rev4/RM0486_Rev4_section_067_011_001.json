@@ -1,0 +1,199 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.11.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.11.1",
+      "section_title": "SPI/I2S control register 1 (SPI_CR1)",
+      "level": 3,
+      "parent_section": "67.11",
+      "page": 3482,
+      "page_end": 3484,
+      "semantic_type": "register_description",
+      "features": [
+        "crc33-17",
+        "cstart",
+        "csusp",
+        "hddir",
+        "i2s",
+        "iolock",
+        "masrx",
+        "rcrcini",
+        "spe",
+        "spi",
+        "spi-cr1",
+        "ssi",
+        "tcrcini"
+      ],
+      "chars": 4891,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3482",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.11.1 \"SPI/I2S control register 1 (SPI_CR1)\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3482.",
+      "section_content": "Address offset: 0x000\nReset value: 0x0000 0000\n[Table 666. I2S interrupt requests]\nBits 31:17 Reserved, must be kept at reset value.\nBit 16 IOLOCK: locking the AF configuration of associated I/Os\nThis bit can be changed by software only when SPI is disabled (SPE=0). It is cleared by\nhardware if a MODF event occurs\nWhen this bit is set, the SPI_CFG2 register content cannot be modified. This bit is write-\nprotected when SPI is enabled (SPE=1).\n0: AF configuration is not locked\n1: AF configuration is locked\nBit 15 TCRCINI: CRC calculation initialization pattern control for transmitter\n0: all zero pattern is applied\n1: all ones pattern is applied\nBit 14 RCRCINI: CRC calculation initialization pattern control for receiver\n0: All zero pattern is applied\n1: All ones pattern is applied\nBit 13 CRC33_17: Full size (33-bit or 17-bit) CRC polynomial configuration\n0: Full size (33-bit or 17-bit) CRC polynomial is not used\n1: Full size (33-bit or 17-bit) CRC polynomial is used\nBit 12 SSI: Internal slave select signal input level\nThis bit has an effect only when the SSM bit is set. The value of this bit is forced onto the\nperipheral NSS input internally and the I/O value of the NSS pin is ignored.\nBit 11 HDDIR: Rx/Tx direction at half-duplex mode\nIn half-duplex configuration the HDDIR bit establishes the Rx/Tx direction of the data transfer.\nThis bit is ignored in Full-Duplex or any Simplex configuration.\n0: SPI is receiver\n1: SPI is transmitter\nBit 10 CSUSP: master suspend request\nThis bit reads as zero.\nIn master mode, when this bit is set by software, the CSTART bit is reset at the end of the\ncurrent frame and communication is suspended. The user has to check SUSP flag to check\nend of the frame transfer.\nThe master mode communication must be suspended (using this bit or keeping TXDR\nempty) before going to Low-power mode.\nAfter software suspension, SUSP flag must be cleared and SPI disabled and re-enabled\nbefore the next transfer starts.\nBit 9 CSTART: master transfer start\nThis bit can be set by software if SPI is enabled only to start an SPI or I2S/PCM\ncommunication. In SPI mode, it is cleared by hardware when end of transfer (EOT) flag is set\nor when a transfer suspend request is accepted. In I2S/PCM mode, it is also cleared by\nhardware as described in the Section67.9.8: Stop sequence.\nIn SPI mode, the bit is taken into account at master mode only. If transmission is enabled,\ncommunication starts or continues only if any data is available in the transmission FIFO.\n0: master transfer is at idle\n1: master transfer is ongoing or temporary suspended by automatic suspend\nBit 8 MASRX: master automatic suspension in Receive mode\nThis bit is set and cleared by software to control continuous SPI transfer in master receiver\nmode and automatic management in order to avoid overrun condition.\nWhen SPI communication is suspended by hardware automatically, it may happen that few\nbits of next frame are already clocked out due to internal synchronization delay.\nThis is why, the automatic suspension is not quite reliable when size of data drops below 8\nbits. In this case, a safe suspension can be achieved by combination with delay inserted\nbetween data frames applied when MIDI parameter keeps a non zero value; sum of data size\nand the interleaved SPI cycles must always produce interval at length of 8 SPI clock periods\nat minimum. After software clearing of the SUSP bit, the communication resumes and\ncontinues by subsequent bits transfer without any next constraint. Before the SUSP bit is\ncleared, the user must release the RxFIFO space as much as possible by reading out all the\ndata packets available at RxFIFO based on the RXP flag indication to prevent any\nsubsequent suspension.\n0: SPI flow/clock generation is continuous, regardless of overrun condition. (data are lost)\n1: SPI flow is suspended temporary on RxFIFO full condition, before reaching overrun\ncondition. The SUSP flag is set when the SPI communication is suspended.\nBits 7:1 Reserved, must be kept at reset value.\nBit 0 SPE: serial peripheral enable\nThis bit is set by and cleared by software.\nWhen SPE = 1, SPI data transfer is enabled, the SPI_CFG1 and SPI_CFG2 configuration\nregisters, CRCPOLY, UDRDR, IOLOCK bit in the SPI_CR1 register are write protected. They\ncan be changed only when SPE = 0.\nWhen SPE = 0 any SPI operation is stopped and disabled, all the pending requests of the\nevents with enabled interrupt are blocked except the MODF interrupt request (but their\npending still propagates the request of the spi_plck clock), the NSS output is deactivated at\nmaster, the RDY signal keeps not ready status at slave, the internal state machine is reseted,\nall the FIFOs content is flushed, CRC calculation initialized, receive data register is read zero.\nSPE is cleared and cannot be set when MODF error flag is active.\n0: Serial peripheral disabled.\n1: Serial peripheral enabled",
+      "semantic": {
+        "register": "SPI_CR1",
+        "address_offset": "0x000",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "IOLOCK",
+            "description": "locking the AF configuration of associated I/Os This bit can be changed by software only when SPI is disabled (SPE=0). It is cleared by hardware if a MODF event occurs When this bit is set, the SPI_CFG2 register content cannot be modified. This bit is write- protected when SPI is enabled (SPE=1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "AF configuration is not locked"
+              },
+              {
+                "value": "1",
+                "meaning": "AF configuration is locked"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "TCRCINI",
+            "description": "CRC calculation initialization pattern control for transmitter",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "all zero pattern is applied"
+              },
+              {
+                "value": "1",
+                "meaning": "all ones pattern is applied"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "RCRCINI",
+            "description": "CRC calculation initialization pattern control for receiver",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "All zero pattern is applied"
+              },
+              {
+                "value": "1",
+                "meaning": "All ones pattern is applied"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "CRC33_17",
+            "description": "Full size (33-bit or 17-bit) CRC polynomial configuration",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Full size (33-bit or 17-bit) CRC polynomial is not used"
+              },
+              {
+                "value": "1",
+                "meaning": "Full size (33-bit or 17-bit) CRC polynomial is used"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "SSI",
+            "description": "Internal slave select signal input level This bit has an effect only when the SSM bit is set. The value of this bit is forced onto the peripheral NSS input internally and the I/O value of the NSS pin is ignored.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "HDDIR",
+            "description": "Rx/Tx direction at half-duplex mode In half-duplex configuration the HDDIR bit establishes the Rx/Tx direction of the data transfer. This bit is ignored in Full-Duplex or any Simplex configuration.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SPI is receiver"
+              },
+              {
+                "value": "1",
+                "meaning": "SPI is transmitter"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "CSUSP",
+            "description": "master suspend request This bit reads as zero. In master mode, when this bit is set by software, the CSTART bit is reset at the end of the current frame and communication is suspended. The user has to check SUSP flag to check end of the frame transfer. The master mode communication must be suspended (using this bit or keeping TXDR empty) before going to Low-power mode. After software suspension, SUSP flag must be cleared and SPI disabled and re-enabled before the next transfer starts.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "CSTART",
+            "description": "master transfer start This bit can be set by software if SPI is enabled only to start an SPI or I2S/PCM communication. In SPI mode, it is cleared by hardware when end of transfer (EOT) flag is set or when a transfer suspend request is accepted. In I2S/PCM mode, it is also cleared by hardware as described in the Section67.9.8: Stop sequence. In SPI mode, the bit is taken into account at master mode only. If transmission is enabled, communication starts or continues only if any data is available in the transmission FIFO.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "master transfer is at idle"
+              },
+              {
+                "value": "1",
+                "meaning": "master transfer is ongoing or temporary suspended by automatic suspend"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "MASRX",
+            "description": "master automatic suspension in Receive mode This bit is set and cleared by software to control continuous SPI transfer in master receiver mode and automatic management in order to avoid overrun condition. When SPI communication is suspended by hardware automatically, it may happen that few bits of next frame are already clocked out due to internal synchronization delay. This is why, the automatic suspension is not quite reliable when size of data drops below 8 bits. In this case, a safe suspension can be achieved by combination with delay inserted between data frames applied when MIDI parameter keeps a non zero value; sum of data size and the interleaved SPI cycles must always produce interval at length of 8 SPI clock periods at minimum. After software clearing of the SUSP bit, the communication resumes and continues by subsequent bits transfer without any next constraint. Before the SUSP bit is cleared, the user must release the RxFIFO space as much as possible by reading out all the data packets available at RxFIFO based on the RXP flag indication to prevent any subsequent suspension. condition. The SUSP flag is set when the SPI communication is suspended.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SPI flow/clock generation is continuous, regardless of overrun condition. (data are lost)"
+              },
+              {
+                "value": "1",
+                "meaning": "SPI flow is suspended temporary on RxFIFO full condition, before reaching overrun"
+              }
+            ]
+          },
+          {
+            "bits": "7:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "SPE",
+            "description": "serial peripheral enable This bit is set by and cleared by software. When SPE = 1, SPI data transfer is enabled, the SPI_CFG1 and SPI_CFG2 configuration registers, CRCPOLY, UDRDR, IOLOCK bit in the SPI_CR1 register are write protected. They can be changed only when SPE = 0. When SPE = 0 any SPI operation is stopped and disabled, all the pending requests of the events with enabled interrupt are blocked except the MODF interrupt request (but their pending still propagates the request of the spi_plck clock), the NSS output is deactivated at master, the RDY signal keeps not ready status at slave, the internal state machine is reseted, all the FIFOs content is flushed, CRC calculation initialized, receive data register is read zero. SPE is cleared and cannot be set when MODF error flag is active.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Serial peripheral disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "Serial peripheral enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

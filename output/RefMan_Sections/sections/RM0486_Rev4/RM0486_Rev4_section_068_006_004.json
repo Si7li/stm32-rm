@@ -1,0 +1,118 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.6.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.6.4",
+      "section_title": "SAI frame configuration register (SAI_AFRCR)",
+      "level": 3,
+      "parent_section": "68.6",
+      "page": 3545,
+      "page_end": 3546,
+      "semantic_type": "register_description",
+      "features": [
+        "frl",
+        "fsall",
+        "fsdef",
+        "fsoff",
+        "fspol",
+        "sai",
+        "sai-afrcr"
+      ],
+      "chars": 2848,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3545",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.6.4 \"SAI frame configuration register (SAI_AFRCR)\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3545.",
+      "section_content": "Address offset: 0x0C\nReset value: 0x0000 0007\nNote: This register has no meaning in AC’97 and SPDIF audio protocol.\nBits 31:19 Reserved, must be kept at reset value.\nBit 18 FSOFF: Frame synchronization offset.\nThis bit is set and cleared by software. It is meaningless and is not used in AC’97 or SPDIF audio\nblock configuration. This bit must be configured when the audio block is disabled.\n0: FS is asserted on the first bit of the slot 0.\n1: FS is asserted one bit before the first bit of the slot 0.\nBit 17 FSPOL: Frame synchronization polarity.\nThis bit is set and cleared by software. It is used to configure the level of the start of frame on the FS\nsignal. It is meaningless and is not used in AC’97 or SPDIF audio block configuration.\nThis bit must be configured when the audio block is disabled.\n0: FS is active low (falling edge)\n1: FS is active high (rising edge)\nBit 16 FSDEF: Frame synchronization definition.\nThis bit is set and cleared by software.\n0: FS signal is a start frame signal\n1: FS signal is a start of frame signal + channel side identification\nWhen the bit is set, the number of slots defined in the SAI_xSLOTR register has to be even. It\nmeans that half of this number of slots are dedicated to the left channel and the other slots for the\nright channel (e.g: this bit has to be set for I2S or MSB/LSB-justified protocols...).\nThis bit is meaningless and is not used in AC’97 or SPDIF audio block configuration. It must be\nconfigured when the audio block is disabled.\nBit 15 Reserved, must be kept at reset value.\nBits 14:8 FSALL[6:0]: Frame synchronization active level length.\nThese bits are set and cleared by software. They specify the length in number of bit clock\n(SCK) + 1 (FSALL[6:0] + 1) of the active level of the FS signal in the audio frame\nThese bits are meaningless and are not used in AC’97 or SPDIF audio block configuration.\nThey must be configured when the audio block is disabled.\nBits 7:0 FRL[7:0]: Frame length.\nThese bits are set and cleared by software. They define the audio frame length expressed in number\nof SCK clock cycles: the number of bits in the frame is equal to FRL[7:0] + 1.\nThe minimum number of bits to transfer in an audio frame must be equal to 8, otherwise the audio\nblock behaves in an unexpected way. This is the case when the data size is 8 bits and only one slot\n0 is defined in NBSLOT[4:0] of SAI_xSLOTR register (NBSLOT[3:0] = 0000).\nIn master mode, if the master clock (available on MCLK_x pin) is used, the frame length must be\naligned with a number equal to a power of 2, ranging from 8 to 256. When the master clock is not\nused (NODIV = 1), it is recommended to program the frame length to an value ranging from 8 to 256.\nThese bits are meaningless and are not used in AC’97 or SPDIF audio block configuration. They\nmust be configured when the audio block is disabled.",
+      "semantic": {
+        "register": "SAI_AFRCR",
+        "address_offset": "0x0C",
+        "reset_value": "0x0000 0007",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "FSOFF",
+            "description": "Frame synchronization offset. This bit is set and cleared by software. It is meaningless and is not used in AC’97 or SPDIF audio block configuration. This bit must be configured when the audio block is disabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "FS is asserted on the first bit of the slot 0."
+              },
+              {
+                "value": "1",
+                "meaning": "FS is asserted one bit before the first bit of the slot 0."
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "FSPOL",
+            "description": "Frame synchronization polarity. This bit is set and cleared by software. It is used to configure the level of the start of frame on the FS signal. It is meaningless and is not used in AC’97 or SPDIF audio block configuration. This bit must be configured when the audio block is disabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "FS is active low (falling edge)"
+              },
+              {
+                "value": "1",
+                "meaning": "FS is active high (rising edge)"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "FSDEF",
+            "description": "Frame synchronization definition. This bit is set and cleared by software. When the bit is set, the number of slots defined in the SAI_xSLOTR register has to be even. It means that half of this number of slots are dedicated to the left channel and the other slots for the right channel (e.g: this bit has to be set for I2S or MSB/LSB-justified protocols...). This bit is meaningless and is not used in AC’97 or SPDIF audio block configuration. It must be configured when the audio block is disabled.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "FS signal is a start frame signal"
+              },
+              {
+                "value": "1",
+                "meaning": "FS signal is a start of frame signal + channel side identification"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14:8",
+            "name": "FSALL[6:0]",
+            "description": "Frame synchronization active level length. These bits are set and cleared by software. They specify the length in number of bit clock (SCK) + 1 (FSALL[6:0] + 1) of the active level of the FS signal in the audio frame These bits are meaningless and are not used in AC’97 or SPDIF audio block configuration. They must be configured when the audio block is disabled.",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "FRL[7:0]",
+            "description": "Frame length. These bits are set and cleared by software. They define the audio frame length expressed in number of SCK clock cycles: the number of bits in the frame is equal to FRL[7:0] + 1. The minimum number of bits to transfer in an audio frame must be equal to 8, otherwise the audio block behaves in an unexpected way. This is the case when the data size is 8 bits and only one slot 0 is defined in NBSLOT[4:0] of SAI_xSLOTR register (NBSLOT[3:0] = 0000). In master mode, if the master clock (available on MCLK_x pin) is used, the frame length must be aligned with a number equal to a power of 2, ranging from 8 to 256. When the master clock is not used (NODIV = 1), it is recommended to program the frame length to an value ranging from 8 to 256. These bits are meaningless and are not used in AC’97 or SPDIF audio block configuration. They must be configured when the audio block is disabled.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S27.3.14",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "27",
+      "chapter_title": "Universal synchronous asynchronous receiver transmitter (USART)",
+      "section": "27.3.14",
+      "section_title": "Hardware flow control",
+      "level": 3,
+      "parent_section": "27.3",
+      "page": 815,
+      "page_end": 816,
+      "semantic_type": "generic",
+      "features": [
+        "usart"
+      ],
+      "chars": 1548,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=815",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.3.14 \"Hardware flow control\" in chapter 27 (Universal synchronous asynchronous receiver transmitter (USART)), RM0008 Rev 21, page 815.",
+      "section_content": "It is possible to control the serial data flow between two devices by using the CTS input and\nthe RTS output. Figure299 shows how to connect two devices in this mode:\n[Figure 299. Hardware flow control between two USARTs]\nRTS and CTS flow control can be enabled independently by writing respectively RTSE and\nCTSE bits to 1 (in the USART_CR3 register).\nRTS flow control\nIf the RTS flow control is enabled (RTSE=1), then RTS is asserted (tied low) as long as the\nUSART receiver is ready to receive new data. When the receive register is full, RTS is\ndeasserted, indicating that the transmission is expected to stop at the end of the current\nframe. Figure300 shows an example of communication with RTS flow control enabled.\n[Figure 300. RTS flow control]\nCTS flow control\nIf the CTS flow control is enabled (CTSE=1), then the transmitter checks the CTS input\nbefore transmitting the next frame. If CTS is asserted (tied low), then the next data is\ntransmitted (assuming that a data is to be transmitted, in other words, if TXE=0), else the\ntransmission does not occur. When CTS is deasserted during a transmission, the current\ntransmission is completed before the transmitter stops.\nWhen CTSE=1, the CTSIF status bit is automatically set by hardware as soon as the CTS\ninput toggles. It indicates when the receiver becomes ready or not ready for communication.\nAn interrupt is generated if the CTSIE bit in the USART_CR3 register is set. The figure\nbelow shows an example of communication with CTS flow control enabled.\n[Figure 301. CTS flow control]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S11.10",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "11",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "11.10",
+      "section_title": "Temperature sensor",
+      "level": 2,
+      "parent_section": null,
+      "page": 235,
+      "page_end": 236,
+      "semantic_type": "generic",
+      "features": [
+        "adc"
+      ],
+      "chars": 2018,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=235",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.10 \"Temperature sensor\" in chapter 11 (Analog-to-digital converter (ADC)), RM0008 Rev 21, page 235.",
+      "section_content": "The temperature sensor can be used to measure the junction temperature (TJ) of the\ndevice.\nThe temperature sensor is internally connected to the ADCx_IN16 input channel which is\nused to convert the sensor output voltage into a digital value. The recommended sampling\ntime for the temperature sensor is 17.1 µs.\nThe block diagram of the temperature sensor is shown in Figure39.\nWhen not in use, this sensor can be put in power down mode.\nNote: The TSVREFE bit must be set to enable both internal channels: ADCx_IN16 (temperature\nsensor) and ADCx_IN17 (VREFINT) conversion.\nThe temperature sensor output voltage changes linearly with temperature. The offset of this\nline varies from chip to chip due to process variations (up to 45°C from one chip to another).\nThe internal temperature sensor is more suited to applications that detect temperature\nvariations instead of absolute temperatures. If accurate temperature readings are needed,\nan external temperature sensor part should be used.\n[Figure 39. Temperature sensor and VREFINT channel block diagram]\nReading the temperature\nTo use the sensor:\n1. Select the ADCx_IN16 input channel.\n2. Select a sample time of 17.1 µs\n3. Set the TSVREFE bit in the ADC control register 2 (ADC_CR2) to wake up the\ntemperature sensor from power down mode.\n4. Start the ADC conversion by setting the ADON bit (or by external trigger).\n5. Read the resulting VSENSE data in the ADC data register\n6. Obtain the temperature using the following formula:\nTemperature (in °C) = {(V25 - VSENSE) / Avg_Slope} + 25.\nWhere,\nV25 = VSENSE value for 25° C and\nAvg_Slope = Average Slope for curve between Temperature vs. VSENSE (given in\nmV/° C or µV/ °C).\nRefer to the Electrical characteristics section for the actual values of V25 and\nAvg_Slope.\nNote: The sensor has a startup time after waking from power down mode before it can output\nVSENSE at the correct level. The ADC also has a startup time after power-on, so to minimize\nthe delay, the ADON and TSVREFE bits should be set at the same time.",
+      "semantic": {}
+    }
+  ]
+}

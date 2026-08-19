@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S19.4.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "19",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "19.4.7",
+      "section_title": "Specific features",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 511,
+      "page_end": 512,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 2455,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=511",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.7 \"Specific features\" in chapter 19 (Extended-SPI interface (XSPI)), RM0522 Rev 1, page 511.",
+      "section_content": "The XSPI supports some specific features, such as:\n• Wrap support\n• NCS boundary and refresh\nWrap support\nThe XSPI supports a hybrid wrap as defined by the HyperBus protocol. A hybrid wrap is also\nsupported in the regular-command protocol.\nIn hybrid wrap, the transaction can continue after the initial wrap with an incremental\naccess.\nThe wrap size supported by the target memory is configured by WRAPSIZE inXSPI_DCR2.\nWrap is supported only in memory-read direction and only for data size = 4 bytes. Wrapped\nreads are supported for both HyperBus and regular-command protocols. To enable\nwrapped-read accesses, the dedicated XSPI_WPxxx registers must be programmed\naccording to the wrapped-read access characteristics. These registers apply for both\nHyperBus and regular-command protocols.\nIf the target memory is not supporting the hybrid wrap, WRAPSIZE must be set to0.\nNote: Hybrid wrap requires that the nonwrapped registers (XSPI_CCR, XSPI_TCR, XSPI_IR) are\nset according to the memory configuration to satisfy its correct data prefetch (initiated after\nthe wrap command).\nThe wrap operation cannot be interrupted by a refresh. The refresh event is only considered\nafter the wrap completion.\nNCS boundary and refresh\nTwo processes can be activated to regulate the XSPI transactions:\n• NCS boundary\n• Refresh\nThe NCS boundary feature limits a transaction to a boundary of aligned addresses. The size\nof the address to be aligned with, is configured by CSBOUND[4:0] in XSPI_DCR3: it is\nequal to 2CSBOUND.\nAs an example, if CSBOUND(4:0]= 0x4, the boundary is set to 24 = 16 bytes. The NCS is\nthen released each time the LSB address is equal to 0xF, and each time a new transaction\nis issued to address the next data.\nIf CSBOUND[4:0]=0, the feature is disabled. A minimum value of three is recommended.\nThe NCS boundary feature cannot be used for flash memory devices in write mode since a\ncommand is necessary to program another page of the flash memory.\nThe refresh feature limits the duration of the transactions to the value programmed\nbyREFRESH[31:0] in XSPI_DCR4. The duration is expressed in number of cycles.\nThisallows an external RAM to perform its internal refresh operation regularly.\nThe refresh value must be greater than the minimal transaction size in terms of number of\ncycles including the command/address/alternate/dummy phases.\nIf NCS boundary and refresh are enabled at the same time, the NCS is released on the first\ncondition met.",
+      "semantic": {}
+    }
+  ]
+}

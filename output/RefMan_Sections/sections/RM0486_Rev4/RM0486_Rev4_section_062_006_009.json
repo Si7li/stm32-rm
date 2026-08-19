@@ -1,0 +1,118 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S62.6.9",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "62",
+      "chapter_title": "Tamper and backup registers (TAMP)",
+      "section": "62.6.9",
+      "section_title": "TAMP secure configuration register (TAMP_SECCFGR)",
+      "level": 3,
+      "parent_section": "62.6",
+      "page": 3088,
+      "page_end": 3089,
+      "semantic_type": "register_description",
+      "features": [
+        "bhklock",
+        "bkprwsec",
+        "bkpwsec",
+        "cnt1sec",
+        "tamp",
+        "tamp-seccfgr",
+        "tampsec"
+      ],
+      "chars": 3189,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3088",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 62.6.9 \"TAMP secure configuration register (TAMP_SECCFGR)\" in chapter 62 (Tamper and backup registers (TAMP)), RM0486 Rev 4, page 3088.",
+      "section_content": "If TZEN=1, this register can be written only when the APB access is secure. If TZEN=0,\nBKPRWSEC[7:0], BKPWSEC[7:0] and BHKLOCK can be written with nonsecure APB\naccess, and TAMPSEC, CNT1SEC cannot be written.\nThis register can be globally write-protected, or each bit of this register can be individually\nwrite-protected against unprivileged access depending on the TAMP_PRIVCFGR\nconfiguration (refer to Section62.3.7: TAMP privilege protection modes).\nAddress offset: 0x20\nBackup domain reset value: 0x0000 0000\nSystem reset: not affected\nBit 31 TAMPSEC: Tamper protection (excluding monotonic counters and backup registers)\n0: Tamper configuration and interrupt can be written when the APB access is secure or\nnonsecure.\n1: Tamper configuration and interrupt can be written only when the APB access is secure.\nNote: Refer to Section62.3.5: TAMP secure protection modes for details on the read\nprotection.\nBit 30 BHKLOCK: Boot hardware key lock\nThis bit can be read and can only be written to 1 by software. It is cleared by hardware\ntogether with the backup registers following a tamper detection event.\n0: The Backup registers from TAMP_BKP0R to TAMP_BKP7R can be accessed according to\nthe Protection zone they belong to.\n1: The backup registers from TAMP_BKP0R to TAMP_BKP7R cannot be accessed neither in\nread nor in write (they are read as 0 and write ignore).\nBits 29:24 Reserved, must be kept at reset value.\nBits 23:16 BKPWSEC[7:0]: Backup registers write protection offset\nBKPWSEC value must be from 0 to 32.\nProtection zone 2 is defined for backup registers from TAMP_BKPyR (y = BKPRWSEC) to\nTAMP_BKPzR (z = BKPWSEC-1, with BKPWSEC>BKPRWSEC):\n– if TZEN=1, these backup registers can be written only with secure access.\n– They can be read with secure or nonsecure access.\nIf BKPWSEC=0 or if BKPWSEC≤BKPRWSEC: there is no protection zone 2.\nProtection zone 3 is defined for backup registers from TAMP_BKPtR (t=BKPWSEC if\nBKPWSEC≥BKPRWSEC, else t=BKPRWSEC).\n– They can be read or written with secure or nonsecure access.\nIf BKPWSEC=32: there is no protection zone 3.\nRefer to Figure783: Backup registers protection zones.\nNote: If TZEN=0: the protection zone 2 can be read and written with nonsecure access.\nNote: If BKPWPRIV is set, BKPWSEC[7:0] can be written only in privileged mode.\nBit 15 CNT1SEC: Monotonic counter 1 secure protection\n0: Monotonic counter 1 (TAMP_COUNT1R) can be read and written when the APB access is\nsecure or nonsecure.\n1: Monotonic counter 1 (TAMP_COUNT1R) can be read and written only when the APB\naccess is secure.\nBits 14:8 Reserved, must be kept at reset value.\nBits 7:0 BKPRWSEC[7:0]: Backup registers read/write protection offset\nBKPRWSEC value must be from 0 to 32.\nProtection zone 1 is defined for backup registers from TAMP_BKP0R to TAMP_BKPxR\n(x=BKPRWSEC-1, with BKPRWSEC ≥ 1).\n– if TZEN=1, these backup registers can be read and written only with secure access.\nIf BKPRWSEC = 0: there is no protection zone 1.\nRefer to Figure783: Backup registers protection zones.\nNote: If TZEN=0: the protection zone 1 can be read and written with nonsecure access.\nNote: If BKPRWPRIV or BKPWPRIV is set, BKPRWSEC[7:0] can be written only in privileged\nmode.",
+      "semantic": {
+        "register": "TAMP_SECCFGR",
+        "address_offset": "0x20",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "TAMPSEC",
+            "description": "Tamper protection (excluding monotonic counters and backup registers) nonsecure. Note: Refer to Section62.3.5: TAMP secure protection modes for details on the read protection.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tamper configuration and interrupt can be written when the APB access is secure or"
+              },
+              {
+                "value": "1",
+                "meaning": "Tamper configuration and interrupt can be written only when the APB access is secure."
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "BHKLOCK",
+            "description": "Boot hardware key lock This bit can be read and can only be written to 1 by software. It is cleared by hardware together with the backup registers following a tamper detection event. the Protection zone they belong to. read nor in write (they are read as 0 and write ignore).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The Backup registers from TAMP_BKP0R to TAMP_BKP7R can be accessed according to"
+              },
+              {
+                "value": "1",
+                "meaning": "The backup registers from TAMP_BKP0R to TAMP_BKP7R cannot be accessed neither in"
+              }
+            ]
+          },
+          {
+            "bits": "29:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:16",
+            "name": "BKPWSEC[7:0]",
+            "description": "Backup registers write protection offset BKPWSEC value must be from 0 to 32. Protection zone 2 is defined for backup registers from TAMP_BKPyR (y = BKPRWSEC) to TAMP_BKPzR (z = BKPWSEC-1, with BKPWSEC>BKPRWSEC): – if TZEN=1, these backup registers can be written only with secure access. – They can be read with secure or nonsecure access. If BKPWSEC=0 or if BKPWSEC≤BKPRWSEC: there is no protection zone 2. Protection zone 3 is defined for backup registers from TAMP_BKPtR (t=BKPWSEC if BKPWSEC≥BKPRWSEC, else t=BKPRWSEC). – They can be read or written with secure or nonsecure access. If BKPWSEC=32: there is no protection zone 3. Refer to Figure783: Backup registers protection zones. Note: If TZEN=0: the protection zone 2 can be read and written with nonsecure access. Note: If BKPWPRIV is set, BKPWSEC[7:0] can be written only in privileged mode.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "CNT1SEC",
+            "description": "Monotonic counter 1 secure protection secure or nonsecure. access is secure.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Monotonic counter 1 (TAMP_COUNT1R) can be read and written when the APB access is"
+              },
+              {
+                "value": "1",
+                "meaning": "Monotonic counter 1 (TAMP_COUNT1R) can be read and written only when the APB"
+              }
+            ]
+          },
+          {
+            "bits": "14:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "BKPRWSEC[7:0]",
+            "description": "Backup registers read/write protection offset BKPRWSEC value must be from 0 to 32. Protection zone 1 is defined for backup registers from TAMP_BKP0R to TAMP_BKPxR (x=BKPRWSEC-1, with BKPRWSEC ≥ 1). – if TZEN=1, these backup registers can be read and written only with secure access. If BKPRWSEC = 0: there is no protection zone 1. Refer to Figure783: Backup registers protection zones. Note: If TZEN=0: the protection zone 1 can be read and written with nonsecure access. Note: If BKPRWPRIV or BKPWPRIV is set, BKPRWSEC[7:0] can be written only in privileged mode.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S26.3.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "26",
+      "chapter_title": "True random number generator (RNG)",
+      "section": "26.3.3",
+      "section_title": "Random number generation",
+      "level": 3,
+      "parent_section": "26.3",
+      "page": 775,
+      "page_end": 777,
+      "semantic_type": "generic",
+      "features": [
+        "generation",
+        "random"
+      ],
+      "chars": 4959,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=775",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.3.3 \"Random number generation\" in chapter 26 (True random number generator (RNG)), RM0522 Rev 1, page 775.",
+      "section_content": "The true random number generator (RNG) delivers truly random data through its AHB\ninterface at deterministic intervals.\nWithin its boundary, it integrates all the required NIST components shown in Figure174: an\nanalog noise source, a digitization stage, a conditioning algorithm, a health monitoring\nblock, and two interfaces used to interact with the entropy source (GetEntropy and\nHealthTest).\nNoise source\nThis component contains the nondeterministic, entropy-providing activity, ultimately\nresponsible for the uncertainty associated with the bit string output by the entropy source.\nThis noise source provides 1-bit samples. It is composed of:\n• Multiple analog noise sources (x3), each based on three XOR-ed free-running ring\noscillator outputs. It is possible to disable those analog oscillators to save power, as\ndescribed in Section26.3.8. Multiple oscillators are also disabled for configuration A\n(see Table199).\n• The XOR-ing of all the noise sources into a single analog output.\n• A sampling stage of this output is clocked by a dedicated clock input (rng_clk with\nintegrated divider), delivering a 1-bit raw data output.\nThis noise source sampling is independent from the AHB interface clock frequency\n(rng_hclk), with the possibility, for the software, to decrease the sampling frequency by\nusing the integrated divider.\nNote: The recommended clock frequencies and associated divider value are detailed in\nSection26.6.\nPost processing\nIn the NIST configuration no post-processing is applied to the sampled noise source. In the\nnon-NIST configuration B (as defined in Section26.6.2) a normalization debiasing is\napplied: half of the bits are taken from the sampled noise source, the other half from the\ninverted sampled noise source.\nConditioning\nThe conditioning component in the RNG is a deterministic function that increases the\nentropy rate of the resulting fixed-length bit string output (128-bit). The NIST SP800-90B\ntarget is full entropy on the output (128-bit).\nThe time intervals required between two random number generations, and between the\nRNG initialization and availability of the first sample are detailed in Section26.5.\nOutput buffer\nA data output buffer can store up to four 32-bit words that have been output from the\nconditioning component. When four words have been read from the output FIFO through\nthe RNG_DR register, the content of the 128-bit conditioning output register is pushed into\nthe output FIFO, and a new conditioning round is automatically started. Four new words are\nadded to the conditioning output register after a number of clock cycles specified in\nSection26.5.\nWhenever a random number is available through the RNG_DR register, the DRDY flag\nchanges from 0 to 1. This flag remains high until the output buffer becomes empty after\nreading four words from the RNG_DR register.\nNote: When the interrupts are enabled, an interrupt is generated when this flag transitions from 0\nto 1. The interrupt is then cleared automatically by the RNG, as explained above.\nHealth checks\nThis component ensures that the entire entropy source (with its noise source) starts, then\noperates as expected, obtaining the assurance that failures are caught quickly, with high\nprobability and reliability.\nThe RNG implements the following health check features in accordance with NIST\nSP800-90B. The described thresholds correspond to the default RNG_HTCR0\nconfiguration.\n1. Startup health tests, performed after reset and before the first use of the RNG as\nentropy source:\n– Repetition count test, flagging an error when the noise source has provided more\nthan 28 consecutive bits at a constant value (0 or 1).\n– Adaptive proportion test running on a window of 1024 consecutive bits: the RNG\nverifies that the first bit on the outputs of the noise source is not repeated more\nthan 684 times.\n– Known-answer tests, to verify the conditioning stage.\n2. Continuous health tests, running indefinitely on the outputs of the noise source (XORed\noutput and individual oscillator outputs, see Figure173: RNG block diagram):\n– Repetition count test, similar to the one running in startup tests.\n– Adaptive proportion test, similar to the one running in startup tests.\n3. Vendor specific continuous test:\n– Real-time “too slow” sampling clock detector, flagging an error when one RNG\nclock cycle (before divider) is smaller than the AHB clock cycle divided by 32.\n4. On-demand test of digitized noise source (raw data)\n– Supported by restarting the entropy source and rerunning the startup tests (see\nsoftware reset sequence in Section26.3.4). Other kinds of on-demand testing\n(software based) are not supported.\nThe CECS and SECS status bits in the RNG_SR register indicate when an error condition is\ndetected, as detailed in Section26.3.7.\nNote: An interrupt can be generated when an error is detected.\nThe health test thresholds are modified by changing the value in the corresponding\nRNG_HTCRx registers. See Section26.6 for details.",
+      "semantic": {}
+    }
+  ]
+}

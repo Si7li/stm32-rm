@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S3.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "3",
+      "chapter_title": "Memory and bus architecture",
+      "section": "3.4",
+      "section_title": "Boot configuration",
+      "level": 2,
+      "parent_section": null,
+      "page": 60,
+      "page_end": 62,
+      "semantic_type": "generic",
+      "features": [
+        "boot",
+        "memory"
+      ],
+      "chars": 3590,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=60",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.4 \"Boot configuration\" in chapter 3 (Memory and bus architecture), RM0008 Rev 21, page 60.",
+      "section_content": "In the STM32F10xxx, 3 different boot modes can be selected through BOOT[1:0] pins as\nshown in Table9.\n[Table 9. Boot modes]\nThe values on the BOOT pins are latched on the 4th rising edge of SYSCLK after a reset. It\nis up to the user to set the BOOT1 and BOOT0 pins after Reset to select the required boot\nmode.\nThe BOOT pins are also re-sampled when exiting from Standby mode. Consequently they\nmust be kept in the required Boot mode configuration in Standby mode. After this startup\ndelay has elapsed, the CPU fetches the top-of-stack value from address 0x00000000, then\nstarts code execution from the boot memory starting from 0x00000004.\nDue to its fixed memory map, the code area starts from address 0x00000000 (accessed\nthrough the ICode/DCode buses) while the data area (SRAM) starts from address\n0x20000000 (accessed through the system bus). The Cortex®-M3 CPU always fetches the\nreset vector on the ICode bus, which implies to have the boot space available only in the\ncode area (typically, Flash memory). STM32F10xxx microcontrollers implement a special\nmechanism to be able to boot also from SRAM and not only from main Flash memory and\nSystem memory.\nDepending on the selected boot mode, main Flash memory, system memory or SRAM is\naccessible as follows:\n• Boot from main Flash memory: the main Flash memory is aliased in the boot memory\nspace (0x00000000), but still accessible from its original memory space (0x8000000).\nIn other words, the Flash memory contents can be accessed starting from address\n0x00000000 or 0x8000000.\n• Boot from system memory: the system memory is aliased in the boot memory space\n(0x00000000), but still accessible from its original memory space (0x1FFFB000 in\nconnectivity line devices, 0x1FFFF000 in other devices).\n• Boot from the embedded SRAM: SRAM is accessible only at address 0x20000000.\nNote: When booting from SRAM, in the application initialization code, you have to relocate the\nvector table in SRAM using the NVIC exception table and offset register.\nFor XL-density devices, when booting from the main Flash memory, you have an option to\nboot from any of two memory banks. By default, boot from Flash memory bank 1 is selected.\nYou can choose to boot from Flash memory bank 2 by clearing the BFB2 bit in the user\noption bytes. When this bit is cleared and the boot pins are in the boot from main Flash\nmemory configuration, the device boots from system memory, and the boot loader jumps to\nexecute the user application programmed in Flash memory bank 2. For further details refer\nto AN2606.\nNote: When booting from Bank2 in the applications initialization code, relocate the vector table to\nthe Bank2 base address. (0x0808 0000) using the NVIC exception table and offset register.\nEmbedded boot loader\nThe embedded boot loader is located in the System memory, programmed by ST during\nproduction. It is used to reprogram the Flash memory with one of the available serial\ninterfaces:\n• In low-, medium- and high-density devices the bootoader is activated through the\nUSART1 interface.\n• In XL-density devices the boot loader is activated through the following interfaces:\nUSART1 or USART2 (remapped).\n• In connectivity line devices the boot loader can be activated through one of the\nfollowing interfaces: USART1, USART2 (remapped), CAN2 (remapped) or USB OTG\nFS in Device mode (DFU: device firmware upgrade).\nThe USART peripheral operates with the internal 8MHz oscillator (HSI). The CAN and\nUSB OTG FS, however, can only function if an external 8MHz, 14.7456MHz or\n25MHz clock (HSE) is present.\nNote: For further details refer to AN2606.",
+      "semantic": {}
+    }
+  ]
+}

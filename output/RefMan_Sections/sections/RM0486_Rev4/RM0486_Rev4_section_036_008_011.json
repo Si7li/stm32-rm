@@ -1,0 +1,212 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S36.8.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "36",
+      "chapter_title": "Audio digital filter (ADF)",
+      "section": "36.8.11",
+      "section_title": "ADF SAD control register (ADF_SADCR)",
+      "level": 3,
+      "parent_section": "36.8",
+      "page": 1775,
+      "page_end": 1777,
+      "semantic_type": "register_description",
+      "features": [
+        "adc",
+        "adf",
+        "adf-sadcr",
+        "datcap",
+        "detcfg",
+        "frsize",
+        "hysten",
+        "sad",
+        "sadactive",
+        "saden",
+        "sadmod",
+        "sadst"
+      ],
+      "chars": 4552,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1775",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.8.11 \"ADF SAD control register (ADF_SADCR)\" in chapter 36 (Audio digital filter (ADF)), RM0486 Rev 4, page 1775.",
+      "section_content": "Address offset: 0x0B8\nReset value: 0x0000 0000\nThis register is used for the configuration and the control of the sound activity detection.\nBit 31 SADACTIVE: SAD Active flag\nThis bit is set and cleared by hardware. It is used to check if the SAD is effectively enabled\n(active) or not. The protected fields and registers of this function can only be updated when\nthe SADACTIVE is set to 0 (see Section36.4.13: Register protection for details).\nThe delay between a transition on SADEN and a transition on SADACTIVE is two periods of\nAHB clock and two periods of adf_proc_ck.\n0: SAD not active and can be configured if needed\n1: SAD active and protected fields cannot be configured.\nBits 30:14 Reserved, must be kept at reset value.\nBits 13:12 SADMOD[1:0]: SAD working mode\nThis bitfield is set and cleared by software. It is used to define the way the SAD works.\n00: Threshold value computed according to the estimated ambient noise\nThe SAD triggers when the sound level (SDLVL) is bigger than the defined threshold. In this\nmode, the SAD works like a voice activity detector.\n01: Threshold value equal to ANMIN[12:0], multiplied by the gain selected by SNTHR[3:0]\nThe SAD triggers when the sound level (SDLVL) is bigger than the defined threshold. In this\nmode, the SAD works like a sound detector.\n1x: Threshold value given by 4 x ANMIN[12:0]\nThe SAD triggers when the estimated ambient noise (ANLVL), multiplied by the gain selected\nby SNTHR[3:0] is bigger than the defined threshold. In this mode, the SAD is working like an\nambient noise estimator. Hysteresis function cannot be used in this mode.\nNote: This bitfield can be write-protected (see Section36.4.13: Register protection for details).\nBit 11 Reserved, must be kept at reset value.\nBits 10:8 FRSIZE[2:0]: Frame size\nThis bitfield is set and cleared by software. it is used to define the size of one frame and also\nto define how many samples are taken into account to compute the short-term signal level.\n000: 8 PCM samples used to compute the short-term signal level\n001: 16 PCM samples used to compute the short-term signal level\n010: 32 PCM samples used to compute the short-term signal level\n011: 64 PCM samples used to compute the short-term signal level\n100: 128 PCM samples used to compute the short-term signal level\n101: 256 PCM samples used to compute the short-term signal level\n11x: 512 PCM samples used to compute the short-term signal level\nNote: This bitfield can be write-protected (see Section36.4.13: Register protection for details).\nBit 7 HYSTEN: Hysteresis enable\nThis bit is set and cleared by software. It is used to enable/disable the hysteresis function\n(see Table301 for details). This bit must be kept to 0 when SADMOD[1:0] = 1x.\n0: Hysteresis function disabled. THRH is always used.\n1: Hysteresis function enabled. THRH is used for MONITOR to DETECT transition and THRL\nis used for DETECT to MONITOR transition.\nNote: This bit can be write-protected (see Section36.4.13: Register protection for details).\nBit 6 Reserved, must be kept at reset value.\nBits 5:4 SADST[1:0]: SAD state\nThis bitfield is set and cleared by hardware. It indicates the SAD state and is meaningful only\nwhen SADEN = 1. The SAD state can be:\n- LEARN when the SAD is in learning phase or in SDLVL computation mode\n- MONITOR when the SAD is in monitoring phase\n- DETECT when the SAD detects a sound\n00: SAD in LEARN state\n01: SAD in MONITOR state\n11: SAD in DETECT state\nBit 3 DETCFG: Sound trigger event configuration\nThis bit is set and cleared by software. It is used to define if the sddet_evt event is generated\nonly when the SAD enters to MONITOR state or when the SAD enters or exits the DETECT\nstate.\n0: sddet_evt generated when SAD enters the MONITOR state\n1: sddet_evt generated when SAD enters or exits the DETECT state\nNote: This bit can be write-protected (see Section36.4.13: Register protection for details).\nBits 2:1 DATCAP[1:0]: Data capture mode\nThis bitfield is set and cleared by software. It is used to define in which conditions, the\nsamples provided by DLFT0 are stored into the memory.\n00: Samples from DFLT0 not transfered into the memory\n01: Samples from DFLT0 transfered into the memory when SAD is in DETECT state\n1x: Samples from DFLT0 transfered into memory when SAD and DFLT0 are enabled\nNote: This bitfield can be write-protected (see Section36.4.13: Register protection for details).\nBit 0 SADEN: Sound activity detector enable\nThis bit is set and cleared by software. It is used to enable/disable the SAD.\n0: SAD disabled and SAD state reset\n1: SAD enabled",
+      "semantic": {
+        "register": "ADF_SADCR",
+        "address_offset": "0x0B8",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "SADACTIVE",
+            "description": "SAD Active flag This bit is set and cleared by hardware. It is used to check if the SAD is effectively enabled (active) or not. The protected fields and registers of this function can only be updated when the SADACTIVE is set to 0 (see Section36.4.13: Register protection for details). The delay between a transition on SADEN and a transition on SADACTIVE is two periods of AHB clock and two periods of adf_proc_ck.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SAD not active and can be configured if needed"
+              },
+              {
+                "value": "1",
+                "meaning": "SAD active and protected fields cannot be configured."
+              }
+            ]
+          },
+          {
+            "bits": "30:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:12",
+            "name": "SADMOD[1:0]",
+            "description": "SAD working mode This bitfield is set and cleared by software. It is used to define the way the SAD works. The SAD triggers when the sound level (SDLVL) is bigger than the defined threshold. In this mode, the SAD works like a voice activity detector. The SAD triggers when the sound level (SDLVL) is bigger than the defined threshold. In this mode, the SAD works like a sound detector. 1x: Threshold value given by 4 x ANMIN[12:0] The SAD triggers when the estimated ambient noise (ANLVL), multiplied by the gain selected by SNTHR[3:0] is bigger than the defined threshold. In this mode, the SAD is working like an ambient noise estimator. Hysteresis function cannot be used in this mode. Note: This bitfield can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Threshold value computed according to the estimated ambient noise"
+              },
+              {
+                "value": "01",
+                "meaning": "Threshold value equal to ANMIN[12:0], multiplied by the gain selected by SNTHR[3:0]"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10:8",
+            "name": "FRSIZE[2:0]",
+            "description": "Frame size This bitfield is set and cleared by software. it is used to define the size of one frame and also to define how many samples are taken into account to compute the short-term signal level. 11x: 512 PCM samples used to compute the short-term signal level Note: This bitfield can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "8 PCM samples used to compute the short-term signal level"
+              },
+              {
+                "value": "001",
+                "meaning": "16 PCM samples used to compute the short-term signal level"
+              },
+              {
+                "value": "010",
+                "meaning": "32 PCM samples used to compute the short-term signal level"
+              },
+              {
+                "value": "011",
+                "meaning": "64 PCM samples used to compute the short-term signal level"
+              },
+              {
+                "value": "100",
+                "meaning": "128 PCM samples used to compute the short-term signal level"
+              },
+              {
+                "value": "101",
+                "meaning": "256 PCM samples used to compute the short-term signal level"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "HYSTEN",
+            "description": "Hysteresis enable This bit is set and cleared by software. It is used to enable/disable the hysteresis function (see Table301 for details). This bit must be kept to 0 when SADMOD[1:0] = 1x. is used for DETECT to MONITOR transition. Note: This bit can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Hysteresis function disabled. THRH is always used."
+              },
+              {
+                "value": "1",
+                "meaning": "Hysteresis function enabled. THRH is used for MONITOR to DETECT transition and THRL"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5:4",
+            "name": "SADST[1:0]",
+            "description": "SAD state This bitfield is set and cleared by hardware. It indicates the SAD state and is meaningful only when SADEN = 1. The SAD state can be: - LEARN when the SAD is in learning phase or in SDLVL computation mode - MONITOR when the SAD is in monitoring phase - DETECT when the SAD detects a sound",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "SAD in LEARN state"
+              },
+              {
+                "value": "01",
+                "meaning": "SAD in MONITOR state"
+              },
+              {
+                "value": "11",
+                "meaning": "SAD in DETECT state"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "DETCFG",
+            "description": "Sound trigger event configuration This bit is set and cleared by software. It is used to define if the sddet_evt event is generated only when the SAD enters to MONITOR state or when the SAD enters or exits the DETECT state. Note: This bit can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "sddet_evt generated when SAD enters the MONITOR state"
+              },
+              {
+                "value": "1",
+                "meaning": "sddet_evt generated when SAD enters or exits the DETECT state"
+              }
+            ]
+          },
+          {
+            "bits": "2:1",
+            "name": "DATCAP[1:0]",
+            "description": "Data capture mode This bitfield is set and cleared by software. It is used to define in which conditions, the samples provided by DLFT0 are stored into the memory. 1x: Samples from DFLT0 transfered into memory when SAD and DFLT0 are enabled Note: This bitfield can be write-protected (see Section36.4.13: Register protection for details).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Samples from DFLT0 not transfered into the memory"
+              },
+              {
+                "value": "01",
+                "meaning": "Samples from DFLT0 transfered into the memory when SAD is in DETECT state"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "SADEN",
+            "description": "Sound activity detector enable This bit is set and cleared by software. It is used to enable/disable the SAD.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SAD disabled and SAD state reset"
+              },
+              {
+                "value": "1",
+                "meaning": "SAD enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

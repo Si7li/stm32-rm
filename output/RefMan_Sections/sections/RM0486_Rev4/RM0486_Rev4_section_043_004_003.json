@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.3",
+      "section_title": "Input pixel format",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2099,
+      "page_end": 2100,
+      "semantic_type": "generic",
+      "features": [
+        "format",
+        "input",
+        "pixel"
+      ],
+      "chars": 2443,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2099",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.3 \"Input pixel format\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2099.",
+      "section_content": "The LTDC reads the pixel data from memory buffers and maps it onto the internal LTDC\nformat that is based on the definition of the input pixel format, defined per layer.\nThe pixel formats are grouped as follows:\n• Predefined ARGB formats:\nARGB8888, ABGR8888, RGBA8888, BGRA8888, RGB565, BGR565, and\nRGB888pack\n• Flexible ARGB format:\nAllows a configurable width and location of each A,R,G, and B component and is used\nto extend the above list to any multi-component pixel format except to coplanar ARGB.\n• YUV formats:\nUsed to read YUV with a 422 coplanar, 420 semi-planar, or 420 full-planar format, and\nto convert the YUV color into RGB.\nWhile the layer 1 supports all YUV formats, the layer 2 only supports the 422 coplanar\nformat.\nNote: The LTDC hardware pipeline uses 8bits per component: when reading and mapping a pixel\nformat, with less than 8bits per component. That component is extended to 8bits by\nstuffing the LSB, that are recopied from its MSB. This applies mostly on RGB565.\nFor instance, a component on 5bits (named: 43210) results in the following 8bits mapped\ninto the pipe: 43210432. A 3-bit input (named 210) results in 21021021.\nParameter when using the predefined ARGB formats\n• PF in LTDC_LxPFCR: 0 to 6 to select one of the seven predefined pixel formats\nParameters when using the flexible ARGB formats\n• PR in LTDC_LxPFCR: seven to activate the flexible pixel format type\n• PSIZE in LTDC_LxFPF1R: defines the amount of bytes per pixel (typically 1,2,3, or 4)\n• APOS/RPOS in LTDC_LxFPF0R: defines the Alpha/Red location inside a 32-bit word\n• BPOS/GPOS in LTDC_LxFPF1R: defines the Blue/Green location inside a 32-bit word\n• ALEN/RLEN in LTDC_LxFPF0R: defines the amount of bits for Alpha/Red components\n• BLEN/GLEN in LTDC_LxFPF1R: defines the amount of bits\nforBlue/Greencomponents\nExamples:\nAn RGB565 pixel format is defined as follows:\n– Alpha: APOS=0, ALEN=0\n– Red: RPOS=11, RLEN=5\n– Green: GPOS=5, GLEN=6\n– Blue: BPOS=0, BLEN=5\nThe BGRA8888 32bpp pixel format is set as follows (default reset values of\nLTDC_LxFPF0R and LTDC_LxFPF1R):\n– Alpha: APOS=0, ALEN=8\n– Red: RPOS=8, RLEN=8\n– Green: GPOS=16, GLEN=8\n– Blue: BPOS=24, BLEN=8\nParameters when using the YUV formats\nThe YUV pixel format is defined and detailed in Section43.4.4: YUV planar and supersedes\nany setting here.\nThe following table describes the memory mapping of the predefined ARGB pixel format.\n[Table 384. Pixel data mapping versus color format]",
+      "semantic": {}
+    }
+  ]
+}

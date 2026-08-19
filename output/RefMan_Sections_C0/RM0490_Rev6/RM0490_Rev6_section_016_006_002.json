@@ -1,0 +1,38 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.6.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.6.2",
+      "section_title": "ADC overrun (OVR, OVRMOD)",
+      "level": 3,
+      "parent_section": "16.6",
+      "page": 309,
+      "page_end": 310,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "ovr",
+        "ovrmod"
+      ],
+      "chars": 1312,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=309",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.6.2 \"ADC overrun (OVR, OVRMOD)\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 309.",
+      "section_content": "The overrun flag (OVR) indicates a data overrun event, when the converted data was not\nread in time by the CPU or the DMA, before the data from a new conversion is available.\nThe OVR flag is set in the ADC_ISR register if the EOC flag is still at ‘1’ at the time when a\nnew conversion completes. An interrupt can be generated if the OVRIE bit is set in the\nADC_IER register.\nWhen an overrun condition occurs, the ADC keeps operating and can continue to convert\nunless the software decides to stop and reset the sequence by setting the ADSTP bit in the\nADC_CR register.\nThe OVR flag is cleared by software by writing 1 to it.\nIt is possible to configure if the data is preserved or overwritten when an overrun event\noccurs by programming the OVRMOD bit in the ADC_CFGR1 register:\n• OVRMOD = 0\n– An overrun event preserves the data register from being overwritten: the old data\nis maintained and the new conversion is discarded. If OVR remains at 1, further\nconversions can be performed but the resulting data is discarded.\n• OVRMOD = 1\n– The data register is overwritten with the last conversion result and the previous\nunread data is lost. If OVR remains at 1, further conversions can be performed\nand the ADC_DR register always contains the data from the latest conversion.\n[Figure 44. Example of overrun (OVR)]",
+      "semantic": {}
+    }
+  ]
+}

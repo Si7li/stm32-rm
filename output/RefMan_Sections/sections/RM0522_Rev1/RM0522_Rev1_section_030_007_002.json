@@ -1,0 +1,315 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S30.7.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "30",
+      "chapter_title": "Public key accelerator (PKA)",
+      "section": "30.7.2",
+      "section_title": "PKA status register (PKA_SR)",
+      "level": 3,
+      "parent_section": "30.7",
+      "page": 950,
+      "page_end": 952,
+      "semantic_type": "register_description",
+      "features": [
+        "addrerrf",
+        "busy",
+        "ccen",
+        "cmf",
+        "dataokf",
+        "datazf",
+        "increrrf",
+        "initok",
+        "lmf",
+        "mderrf",
+        "operrf",
+        "pka",
+        "pka-sr",
+        "procendf",
+        "ramerrf",
+        "rngerrf",
+        "rngokf",
+        "trzerrf"
+      ],
+      "chars": 6107,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=950",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.7.2 \"PKA status register (PKA_SR)\" in chapter 30 (Public key accelerator (PKA)), RM0522 Rev 1, page 950.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0000 0000\nBits 31:23 Reserved, must be kept at reset value.\nBit 22 CMF: Chaining mode flags\nThis status bit is only used when CCEN status bit is set in this register.\n0: No chaining mode events.\n1: Ongoing chaining mode sequence triggered at least one flag status in bits 8 to 14 of this register.\nThis bit is cleared using CMFC bit in PKA_CLRFR.\nBit 21 OPERRF: Operation error flag\n0: No event error\n1: An illegal or unknown operation has been selected in PKA_CR register\nThis bit is cleared using OPERRFC bit in PKA_CLRFR.\nBit 20 ADDRERRF: Address error flag\n0: No address error\n1: Address access is out of range (unmapped address)\nThis bit is cleared using ADDRERRFC bit in PKA_CLRFR.\nBit 19 RAMERRF: PKA RAM error flag\n0: No PKA RAM access error\n1: An AHB access to the PKA RAM occurred while the PKA core was computing and using its\ninternal RAM (AHB PKA_RAM access are not allowed while PKA operation is in progress).\nThis bit is cleared using RAMERRFC bit in PKA_CLRFR.\nBit 18 Reserved, must be kept at reset value.\nBit 17 PROCENDF: PKA end of operation flag\n0: Operation in progress\n1: PKA operation is completed. This flag is set when the BUSY bit is deasserted.\nBit 16 BUSY: Busy flag\nThis bit is set whenever a PKA operation is in progress (START = 1 in PKA_CR). It is automatically\ncleared when the computation is complete, making PKA RAM accessible again.\n0: No operation is in progress (default)\n1: An operation is in progress\nWhen CCEN = 1 PKA sets BUSY bit when it runs a sanity check on a random number that CCB wrote\nto the PKA RAM during a chaining sequence (see Section30.3.7).\nIf PKA is started with a wrong opcode, it stays busy for a couple of cycles, then it aborts automatically\nthe operation and goes back to ready (BUSY = 0).\nBit 15 Reserved, must be kept at reset value.\nBit 14 RNGERRF: RNG error flag\nThis read-only chaining mode error flag is active only when CCEN is set in this register.\n0: No random number drawn from RNG, or generated ECC private key is NIST compliant.\n1: Random number drawn from RNG did not pass NIST “key pair generation by testing candidates”\nequivalent algorithm (see FIPS 186-4 annex B.4.2). The last chaining operation must be restarted,\notherwise the selected PKA operation remains unusable.\nThis bit is cleared when CMFC bit is set in PKA_CLRFR.\nBit 13 MDERRF: Mode error flag\nThis read-only chaining mode error flag is active only when CCEN is set in this register.\n0: No mode error\n1: The value written in MODE[5:0] of PKA_CR registers is different from the expected value\ncorresponding to the CCOP mode selected in the CCB peripheral. Refer to Section30.3.7 for\ndetails.\nThis bit is cleared when CMFC bit is set in PKA_CLRFR.\nBit 12 TRZERRF: Trailing zeroes error flag\nThis read-only chaining mode error flag is active only when CCEN is set in this register.\n0: No trailing 0s error\n1: Clear-text coming from CPU, or decrypted data coming from SAES does not have the required\ntrailing 0s.\nThis bit is cleared when CMFC bit is set in PKA_CLRFR.\nBit 11 DATAZF: Data zeroed error flag\nThis read-only chaining mode error flag is active only when CCEN is set in this register. DATAZF is set\nwhen PKA finds the complete data written to PKA RAM equal to 0, with all the expected 32-bit words\nnull. This bit is cleared when CMFC bit is set in PKA_CLRFR.\nBit 10 INCRERRF: Increment error flag\nThis read-only chaining mode error flag is active only when CCEN is set in this register.\n0: No increment error\n1: During the reading or writing of protected parameters from or to the PKA RAM, the application did\nnot properly incremented the address. Refer to Section30.3.7 for details.\nDuring the read or write of an operand, and before DATAOKF or RNGOKF is set, the INCRERRF flag\nstays cleared if the application reads or writes again this operand (starting from the lowest address).\nThis bit is cleared by setting the CMFC bit in PKA_CLRFR.\nBit 9 DATAOKF: Data OK flag\nThis read-only chaining mode status flag is active only when CCEN is set in this register.\n0: Data not OK (if applicable), otherwise no event.\n1: Sequential writes or reads to or from the PKA RAM successfully transfered the expected amount\nof data from or to SAES. Alternatively, the CPU wrote the correct amount of data in the PKA RAM.\nRefer to Section30.3.7 for details.\nThis bit is cleared when CMFC bit is set in PKA_CLRFR.\nBit 8 RNGOKF: RNG OK flag\nThis read-only chaining mode status flag is active only when CCEN is set in this register.\n0: Random number not OK (if applicable). No event otherwise.\n1: Sequential writes to PKA RAM successfully transfered the expected amount of random data from\nthe RNG. Refer to Section30.3.7 for details.\nThis bit is cleared when CMFC bit is set in PKA_CLRFR.\nBits 7:3 Reserved, must be kept at reset value.\nBit 2 CCEN: Coupling and chaining mode enable\nThis bit is set when the application configures the CCB to run coupling and chaining sequences that\nperform protected PKA operation using the SAES and (optionally) RNG peripherals.\n0: Access to PKA RAM and programming of PKA_CR has no extra limitation.\n1: The PKA RAM is write-only until START is set (it is no access then), and the MODE[5:0] value\nwritten in PKA_CR must correspond to the CCOP mode selected in the CCB peripheral. The\napplication must also follow the coupling and chaining sequences described in Section30.3.7.\nBit 1 LMF: Limited mode flag\nThis bit is updated when EN bit in PKA_CR is set\n0: All values documented in MODE[5:0] bitfield can be used.\n1: Only ECDSA verification (MODE[5:0] = 0x26) is supported by the PKA.\nBit 0 INITOK: PKA initialization OK\nThis bit is asserted when PKA initialization is complete.\n0: PKA is not initialized correctly. START bit cannot be set.\n1: PKA is initialized correctly and can be used normally.\nWhen RNG is not able to output proper random numbers or when SAES is using the RNG bus,\nINITOK remains at 0. If it happens, make sure the RNG peripheral is properly clocked and initialized,\nand the SAES peripheral is clocked with BUSY bit cleared in SAES_SR to release the RNG bus,\nthen enable PKA again.",
+      "semantic": {
+        "register": "PKA_SR",
+        "address_offset": "0x04",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "CMF",
+            "description": "Chaining mode flags This status bit is only used when CCEN status bit is set in this register. This bit is cleared using CMFC bit in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No chaining mode events."
+              },
+              {
+                "value": "1",
+                "meaning": "Ongoing chaining mode sequence triggered at least one flag status in bits 8 to 14 of this register."
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "OPERRF",
+            "description": "Operation error flag This bit is cleared using OPERRFC bit in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No event error"
+              },
+              {
+                "value": "1",
+                "meaning": "An illegal or unknown operation has been selected in PKA_CR register"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "ADDRERRF",
+            "description": "Address error flag This bit is cleared using ADDRERRFC bit in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No address error"
+              },
+              {
+                "value": "1",
+                "meaning": "Address access is out of range (unmapped address)"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "RAMERRF",
+            "description": "PKA RAM error flag internal RAM (AHB PKA_RAM access are not allowed while PKA operation is in progress). This bit is cleared using RAMERRFC bit in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No PKA RAM access error"
+              },
+              {
+                "value": "1",
+                "meaning": "An AHB access to the PKA RAM occurred while the PKA core was computing and using its"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "PROCENDF",
+            "description": "PKA end of operation flag",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Operation in progress"
+              },
+              {
+                "value": "1",
+                "meaning": "PKA operation is completed. This flag is set when the BUSY bit is deasserted."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "BUSY",
+            "description": "Busy flag This bit is set whenever a PKA operation is in progress (START = 1 in PKA_CR). It is automatically cleared when the computation is complete, making PKA RAM accessible again. When CCEN = 1 PKA sets BUSY bit when it runs a sanity check on a random number that CCB wrote to the PKA RAM during a chaining sequence (see Section30.3.7). If PKA is started with a wrong opcode, it stays busy for a couple of cycles, then it aborts automatically the operation and goes back to ready (BUSY = 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No operation is in progress (default)"
+              },
+              {
+                "value": "1",
+                "meaning": "An operation is in progress"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "RNGERRF",
+            "description": "RNG error flag This read-only chaining mode error flag is active only when CCEN is set in this register. equivalent algorithm (see FIPS 186-4 annex B.4.2). The last chaining operation must be restarted, otherwise the selected PKA operation remains unusable. This bit is cleared when CMFC bit is set in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No random number drawn from RNG, or generated ECC private key is NIST compliant."
+              },
+              {
+                "value": "1",
+                "meaning": "Random number drawn from RNG did not pass NIST “key pair generation by testing candidates”"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "MDERRF",
+            "description": "Mode error flag This read-only chaining mode error flag is active only when CCEN is set in this register. corresponding to the CCOP mode selected in the CCB peripheral. Refer to Section30.3.7 for details. This bit is cleared when CMFC bit is set in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No mode error"
+              },
+              {
+                "value": "1",
+                "meaning": "The value written in MODE[5:0] of PKA_CR registers is different from the expected value"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "TRZERRF",
+            "description": "Trailing zeroes error flag This read-only chaining mode error flag is active only when CCEN is set in this register. trailing 0s. This bit is cleared when CMFC bit is set in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No trailing 0s error"
+              },
+              {
+                "value": "1",
+                "meaning": "Clear-text coming from CPU, or decrypted data coming from SAES does not have the required"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "DATAZF",
+            "description": "Data zeroed error flag This read-only chaining mode error flag is active only when CCEN is set in this register. DATAZF is set when PKA finds the complete data written to PKA RAM equal to 0, with all the expected 32-bit words null. This bit is cleared when CMFC bit is set in PKA_CLRFR.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "INCRERRF",
+            "description": "Increment error flag This read-only chaining mode error flag is active only when CCEN is set in this register. not properly incremented the address. Refer to Section30.3.7 for details. During the read or write of an operand, and before DATAOKF or RNGOKF is set, the INCRERRF flag stays cleared if the application reads or writes again this operand (starting from the lowest address). This bit is cleared by setting the CMFC bit in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No increment error"
+              },
+              {
+                "value": "1",
+                "meaning": "During the reading or writing of protected parameters from or to the PKA RAM, the application did"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "DATAOKF",
+            "description": "Data OK flag This read-only chaining mode status flag is active only when CCEN is set in this register. of data from or to SAES. Alternatively, the CPU wrote the correct amount of data in the PKA RAM. Refer to Section30.3.7 for details. This bit is cleared when CMFC bit is set in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data not OK (if applicable), otherwise no event."
+              },
+              {
+                "value": "1",
+                "meaning": "Sequential writes or reads to or from the PKA RAM successfully transfered the expected amount"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "RNGOKF",
+            "description": "RNG OK flag This read-only chaining mode status flag is active only when CCEN is set in this register. the RNG. Refer to Section30.3.7 for details. This bit is cleared when CMFC bit is set in PKA_CLRFR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Random number not OK (if applicable). No event otherwise."
+              },
+              {
+                "value": "1",
+                "meaning": "Sequential writes to PKA RAM successfully transfered the expected amount of random data from"
+              }
+            ]
+          },
+          {
+            "bits": "7:3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "CCEN",
+            "description": "Coupling and chaining mode enable This bit is set when the application configures the CCB to run coupling and chaining sequences that perform protected PKA operation using the SAES and (optionally) RNG peripherals. written in PKA_CR must correspond to the CCOP mode selected in the CCB peripheral. The application must also follow the coupling and chaining sequences described in Section30.3.7.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Access to PKA RAM and programming of PKA_CR has no extra limitation."
+              },
+              {
+                "value": "1",
+                "meaning": "The PKA RAM is write-only until START is set (it is no access then), and the MODE[5:0] value"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "LMF",
+            "description": "Limited mode flag This bit is updated when EN bit in PKA_CR is set",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "All values documented in MODE[5:0] bitfield can be used."
+              },
+              {
+                "value": "1",
+                "meaning": "Only ECDSA verification (MODE[5:0] = 0x26) is supported by the PKA."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "INITOK",
+            "description": "PKA initialization OK This bit is asserted when PKA initialization is complete. When RNG is not able to output proper random numbers or when SAES is using the RNG bus, INITOK remains at 0. If it happens, make sure the RNG peripheral is properly clocked and initialized, and the SAES peripheral is clocked with BUSY bit cleared in SAES_SR to release the RNG bus, then enable PKA again.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PKA is not initialized correctly. START bit cannot be set."
+              },
+              {
+                "value": "1",
+                "meaning": "PKA is initialized correctly and can be used normally."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

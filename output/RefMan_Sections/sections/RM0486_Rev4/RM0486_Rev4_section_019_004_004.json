@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.4.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.4.4",
+      "section_title": "GPDMA channel abort and restart",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 943,
+      "page_end": 944,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "gpdma",
+        "memory"
+      ],
+      "chars": 1397,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=943",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.4 \"GPDMA channel abort and restart\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 943.",
+      "section_content": "Alternatively, like for aborting a continuous GPDMA transfer with a circular buffering or a\ndouble buffering, the software can abort, on its own, a still active channel with the following\nsequence:\n1. The software writes 1 into the GPDMA_CxCR.SUSP bit.\n2. The software polls suspended flag GPDMA_CxSR.SUSPF until SUSPF=1, or waits\nfor an interrupt previously enabled by writing 1 to GPDMA_CxCR.SUSPIE. Wait for the\nchannel to be effectively in suspended state means wait for the completion of any\nongoing GPDMA transfer over its master port.\n3. The software resets the channel by writing 1 to GPDMA_CxCR.RESET. This causes\nthe reset of the FIFO, the reset of the channel internal state, the reset of the\nGPDMA_CxCR.EN bit, and the reset of the GPDMA_CxCR.SUSP bit.\n4. The software safely reconfigures the channel. The software must reprogram the\nhardware-modified GPDMA_CxBR1, GPDMA_CxSAR, and GPDMA_CxDAR\nregisters.\n5. In order to restart the aborted then reprogrammed channel, the software enables it\nagain by writing 1 to the GPDMA_CxCR.EN bit.\n[Figure 96. GPDMA channel abort and restart sequence]\nChannel state = Active\nSuspend the DMA channel\n(write 1 to CxCR.SUSP)\nSUSPF=1 ?\nChannel state = Suspended Y\nR e c e iv in g (and Idle)\nsuspended\ninterrupt\nReset the DMA channel\n(write 1 to CxCR.RESET)\nChannel state = Idle\nReconfigure the DMA channel\nEnable the DMA channel\nChannel state = Active",
+      "semantic": {}
+    }
+  ]
+}

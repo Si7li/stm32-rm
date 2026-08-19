@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S22.4.13",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "22",
+      "chapter_title": "Digital-to-analog converter (DAC)",
+      "section": "22.4.13",
+      "section_title": "DAC channel buffer calibration",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 686,
+      "page_end": 687,
+      "semantic_type": "generic",
+      "features": [
+        "dac"
+      ],
+      "chars": 3267,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=686",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.13 \"DAC channel buffer calibration\" in chapter 22 (Digital-to-analog converter (DAC)), RM0522 Rev 1, page 686.",
+      "section_content": "The transfer function for an N-bit digital-to-analog converter (DAC) is:\nV out = ⎝ ⎛(D⁄ 2N)× G× V REF⎠ ⎞ +V OS\nWhere VOUT is the analog output, D is the digital input, G is the gain, VREF is the nominal\nfull-scale voltage, and VOS is the offset voltage. For an ideal DAC channel, G=1 and\nVOS=0.\nDue to output buffer characteristics, the voltage offset may differ from part-to-part and\nintroduce an absolute offset error on the analog output. To compensate the VOS, a\ncalibration is required by a trimming technique.\nThe calibration is only valid when the DAC channelx is operating with buffer enabled\n(MODEx[2:0]=0b000 or 0b001 or 0b100 or 0b101). if applied in other modes when the\nbuffer is off, it has no effect. During the calibration:\n• The buffer output is disconnected from the pin internal/external connections and put in\ntristate mode (HiZ).\n• The buffer acts as a comparator to sense the middle-code value 0x800 and compare it\nto VREF+/2 signal through an internal bridge, then toggle its output signal to 0 or 1\ndepending on the comparison result (CAL_FLAGx bit).\nTwo calibration techniques are provided:\n• Factory trimming (default setting)\nThe DAC buffer offset is factory trimmed. The default value of OTRIMx[4:0] bits in\nDAC_CCR register is the factory trimming value and it is loaded once DAC digital\ninterface is reset.\n• User trimming\nThe user trimming can be done when the operating conditions differs from nominal\nfactory trimming conditions and in particular when VDDA voltage, temperature, VREF+\nvalues change and can be done at any point during application by software.\nNote: Refer to the datasheet for more details of the nominal factory trimming conditions.\nIn addition, when VDD is removed (example the device enters in Standby mode) the\ncalibration is required.\nThe steps to perform a user trimming calibration are as below:\n1. If the DAC channel is active, write 0 to ENx bit in DAC_CR to disable the channel.\n2. Select a mode where the buffer is enabled, by writing to DAC_MCR register,\nMODEx[2:0]=0b000 or 0b001 or 0b100 or 0b101.\n3. Start the DAC channelx calibration, by setting the CENx bit in DAC_CR register to 1.\n4. Apply a trimming algorithm:\na) Write a code into OTRIMx[4:0] bits, starting by 0b00000.\nb) Wait for tTRIM delay.\nc) Check if CAL_FLAGx bit in DAC_SR is set to 1.\nd) Until the CAL_FLAGx is read as 1 or the maximum trimming code is reached,\nincrement OTRIMx[4:0] and repeat substeps from (b) to (d).\nThe software algorithm may use either a successive approximation or dichotomy techniques\nto compute and set the content of OTRIMx[4:0] bits in a faster way.\nNote: A tTRIM delay must be respected between the write to the OTRIMx[4:0] bits and the read of\nthe CAL_FLAGx bit in DAC_SR register in order to get a correct value.This parameter is\nspecified into datasheet electrical characteristics section.\nIf VDDA, VREF+ and temperature conditions do not change during device operation while it\nenters more often in Standby mode, the software may store the OTRIMx[4:0] bits found in\nthe first user calibration in the flash or in back-up registers. then to load/write them directly\nwhen the device power is back again thus avoiding to wait for a new calibration time.\nWhen CENx bit is set, it is not allowed to set ENx bit.",
+      "semantic": {}
+    }
+  ]
+}

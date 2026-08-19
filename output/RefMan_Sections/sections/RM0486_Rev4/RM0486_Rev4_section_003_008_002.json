@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.8.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.8.2",
+      "section_title": "Memory cipher engine (MCE)",
+      "level": 3,
+      "parent_section": "3.8",
+      "page": 199,
+      "page_end": 199,
+      "semantic_type": "generic",
+      "features": [
+        "mce",
+        "memory"
+      ],
+      "chars": 1870,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=199",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.8.2 \"Memory cipher engine (MCE)\" in chapter 3 (System security), RM0486 Rev 4, page 199.",
+      "section_content": "The MCE implements an on-the-fly encryption/decryption of data to/from external\nmemories, which are more vulnerable to side-channel attack than internal memories (traffic\non the interface is accessible). The MCE is then designed to make such attacks prohibitively\nexpensive.\nThe MCE is instantiated in front of each external memory interface (memory-mapped at\naddresses above 0x60000000). The MCE is used to define four non-overlapping regions of\ntarget memory. Each region can be configured to be encrypted in a different way.\nSecure software writes master keys into unreadable MCE registers, and then configure\neach region: define which master key is used for encrypting data in this region.\nFor each 32-byte memory block in a region, the MCE uses this block address to derive\naspecific key for encrypting data in this block. This is done on-the-fly, using the selected\nmaster-key. Side-channel attacks are then much more expensive, since an individual attack\nonly uncovers 32 bytes of data.\nThe user chooses once, at application start, whether to use AES (128 or 256) or NOEKEON\nfor the final data encryption (NOEKEON being faster).\nEach master key is defined with an algorithm attribute that determines one of the following:\n• It is input to a strong derivation for each block.\n• It is input to a faster but weaker derivation.\n• It is used directly as a very-fast but weak stream cipher (only suitable for read-only\ndata).\nEach key and its attributes are sticky-lockable. A key cannot be partially overwritten.\nIfitsattributes are changed, the key is zeroed.\nWhen a tamper event is confirmed in the TAMP, all MCE keys are erased, encrypted regions\nare read as zero, and writes ignored, until the MCE is properly initialized again.\nA typical MCE use is detailed in Section3.8.2. For more details on the MCE programming,\nrefer to Section51: Memory cipher engine (MCE).",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.15.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.15.7",
+      "section_title": "Worst case response time",
+      "level": 3,
+      "parent_section": "73.15",
+      "page": 3924,
+      "page_end": 3925,
+      "semantic_type": "generic",
+      "features": [
+        "case",
+        "response",
+        "time",
+        "worst"
+      ],
+      "chars": 2365,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3924",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.15.7 \"Worst case response time\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3924.",
+      "section_content": "When the OTG controller acts as a device, there is a worst case response time for any\ntokens that follow an isochronous OUT. This worst case response time depends on the AHB\nclock frequency.\nThe core registers are in the AHB domain, and the core does not accept another token\nbefore updating these register values. The worst case is for any token following an\nisochronous OUT, because for an isochronous transaction, there is no handshake and the\nnext token may come sooner. This worst case value is 7 PHY clocks when the AHB clock is\nthe same as the PHY clock. When the AHB clock is faster, this value is smaller.\nIf this worst case condition occurs, the core responds to bulk/interrupt tokens with a NAK\nand drops isochronous and SETUP tokens. The host interprets this as a timeout condition\nfor SETUP and retries the SETUP packet. For isochronous transfers, the Incomplete\nisochronous IN transfer interrupt (IISOIXFR) and Incomplete isochronous OUT transfer\ninterrupt (IISOOXFR) inform the application that isochronous IN/OUT packets were\ndropped.\nChoosing the value of TRDT in OTG_GUSBCFG\nThe value in TRDT (OTG_GUSBCFG) is the time it takes for the MAC, in terms of PHY\nclocks after it has received an IN token, to get the FIFO status, and thus the first data from\nthe PFC block. This time involves the synchronization delay between the PHY and AHB\nclocks. The worst case delay for this is when the AHB clock is the same as the PHY clock.\nIn this case, the delay is 5 clocks.\nOnce the MAC receives an IN token, this information (token received) is synchronized to the\nAHB clock by the PFC (the PFC runs on the AHB clock). The PFC then reads the data from\nthe SPRAM and writes them into the dual clock source buffer. The MAC then reads the data\nout of the source buffer (4 deep).\nIf the AHB is running at a higher frequency than the PHY, the application can use a smaller\nvalue for TRDT (in OTG_GUSBCFG).\nFigure1008 has the following signals:\n• tkn_rcvd: Token received information from MAC to PFC\n• dynced_tkn_rcvd: Doubled sync tkn_rcvd, from PCLK to HCLK domain\n• spr_read: Read to SPRAM\n• spr_addr: Address to SPRAM\n• spr_rdata: Read data from SPRAM\n• srcbuf_push: Push to the source buffer\n• srcbuf_rdata: Read data from the source buffer. Data seen by MAC\nTo calculate the value of TRDT, refer to Table745: TRDT values.\n[Figure 1008. TRDT max timing case]",
+      "semantic": {}
+    }
+  ]
+}

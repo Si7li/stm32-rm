@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.7.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.7.1",
+      "section_title": "USB host states",
+      "level": 3,
+      "parent_section": "73.7",
+      "page": 3770,
+      "page_end": 3771,
+      "semantic_type": "generic",
+      "features": [
+        "usb"
+      ],
+      "chars": 3164,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3770",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.7.1 \"USB host states\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3770.",
+      "section_content": "Host port power\nOn-chip 5 V VBUS generation is not supported. For this reason, a charge pump or, if 5 V are\navailable on the application board, a basic power switch, must be added externally to drive\nthe 5V VBUS line. The external charge pump can be driven by any GPIO output or via an\nI2C interface connected to an external PMIC (power management IC). When the application\ndecides to power on VBUS, it must also set the port power bit in the host port control and\nstatus register (PPWR bit in OTG_HPRT).\nThe charge pump overcurrent flag can also be used to prevent electrical damage. Connect\nthe overcurrent flag output from the charge pump to any GPIO input and configure it to\ngenerate a port interrupt on the active level. The overcurrent ISR must promptly disable the\nVBUS generation and clear the port power bit.\nHost detection of a peripheral connection\nUSB peripherals or B-device are detected as soon as they are connected. The OTG core\nissues a host port interrupt triggered by the device connected bit in the host port control and\nstatus (PCDET bit in OTG_HPRT).\nHost detection of peripheral a disconnection\nThe peripheral disconnection event triggers the disconnect detected interrupt (DISCINT bit\nin OTG_GINTSTS).\nHost enumeration\nAfter detecting a peripheral connection the host must start the enumeration process by\nsending USB reset and configuration commands to the new peripheral.\nThe application drives a USB reset signaling (single-ended zero) over the USB by keeping\nthe port reset bit set in the host port control and status register (PRST bit in OTG_HPRT) for\na minimum of 10ms and a maximum of 20ms. The application takes care of the timing\ncount and then of clearing the port reset bit.\nOnce the USB reset sequence has completed, the host port interrupt is triggered by the port\nenable/disable change bit (PENCHNG bit in OTG_HPRT). This informs the application that\nthe speed of the enumerated peripheral can be read from the port speed field in the host\nport control and status register (PSPD bit in OTG_HPRT) and that the host is starting to\ndrive SOFs (FS) or Keep alives (LS). The host is now ready to complete the peripheral\nenumeration by sending peripheral configuration commands.\nHost suspend\nThe application decides to suspend the USB activity by setting the port suspend bit in the\nhost port control and status register (PSUSP bit in OTG_HPRT). The OTG core stops\nsending SOFs and enters the suspended state.\nThe suspended state can be optionally exited on the remote device’s initiative (remote\nwake-up). In this case the remote wake-up interrupt (WKUPINT bit in OTG_GINTSTS) is\ngenerated upon detection of a remote wake-up signaling, the port resume bit in the host port\ncontrol and status register (PRES bit in OTG_HPRT) self-sets, and resume signaling is\nautomatically driven over the USB. The application must time the resume window and then\nclear the port resume bit to exit the suspended state and restart the SOF.\nIf the suspended state is exited on the host initiative, the application must set the port\nresume bit to start resume signaling on the host port, time the resume window and finally\nclear the port resume bit.",
+      "semantic": {}
+    }
+  ]
+}

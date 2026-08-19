@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S21.4.30",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "21",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "21.4.30",
+      "section_title": "Temperature sensor",
+      "level": 3,
+      "parent_section": "21.4",
+      "page": 629,
+      "page_end": 631,
+      "semantic_type": "generic",
+      "features": [
+        "adc"
+      ],
+      "chars": 3274,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=629",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.4.30 \"Temperature sensor\" in chapter 21 (Analog-to-digital converters (ADC)), RM0522 Rev 1, page 629.",
+      "section_content": "The temperature sensor can be used to measure the junction temperature (TJ) of the\ndevice.\nThe temperature sensor is internally connected to the ADC input channels, which are used\nto convert the sensor output voltage to a digital value (see Table: ADC interconnection in\nSection21.4.2: ADC pins and internal signals for more details). When not in use, the sensor\ncan be put in power-down mode. It supports the temperature range specified in the product\ndatasheet.\nFigure140 shows the block diagram of connections between the temperature sensor and\nthe ADC.\nThe temperature sensor output voltage changes linearly with temperature. The offset of this\nline varies from chip to chip due to process variation (up to 45°C from one chip to another).\nThe uncalibrated internal temperature sensor is more suited for applications that detect\ntemperature variations instead of absolute temperatures. To improve the accuracy of the\ntemperature sensor measurement, calibration values are stored in system memory for each\ndevice by ST during production.\nDuring the manufacturing process, the calibration data of the temperature sensor and the\ninternal voltage reference are stored in the system memory area. The user application can\nthen read them and use them to improve the accuracy of the temperature sensor or the\ninternal reference (refer to the datasheet for additional information).\nThe temperature sensor is internally connected to the ADC input channel, which is used to\nconvert the sensor’s output voltage to a digital value. Refer to the electrical characteristics\nsection of the device datasheet for the sampling time value to be applied when converting\nthe internal temperature sensor.\nWhen not in use, the sensor can be put in power-down mode.\nFigure140 shows the block diagram of the temperature sensor.\n[Figure 140. Temperature sensor channel block diagram]\nReading the temperature\nTo use the sensor:\n1. Select the ADC input channel that is connected to VSENSE.\n2. Program with the appropriate sampling time (refer to the electrical characteristics\nsection of the device datasheet).\n3. Set the TSEN bit in the ADCC_CCR register to wake up the temperature sensor from\npower-down mode.\n4. Start the ADC conversion.\n5. Read the resulting VSENSE data in the ADC data register.\n6. Calculate the actual temperature using the following formula:\nTemperature (in °C) = T----S----_----C----A----L---2----_---T----E----M-----P-----–-----T---S----_----C----A----L---1----_---T----E----M-----P---× (TS_DATA–TS_CAL1)+TS_CAL1_TEMP\nTS_CAL2–TS_CAL1\nWhere:\n• TS_CAL2 is the temperature sensor calibration value acquired at TS_CAL2_TEMP.\n• TS_CAL1 is the temperature sensor calibration value acquired at TS_CAL1_TEMP.\n• TS_DATA is the actual temperature sensor output value converted by ADC.\nRefer to the device datasheet for more information about TS_CAL1 and TS_CAL2\ncalibration points.\nCaution: The above formula is valid only if the VREF+ condition specified in the table Temperature\nsensor calibration values of the datasheet are respected.\nNote: The sensor has a startup time after waking from power-down mode before it can output\nVSENSE at the correct level. The ADC also has a startup time after power-on, so to minimize\nthe delay, the ADEN, and TSEN bits must be set simultaneously.",
+      "semantic": {}
+    }
+  ]
+}

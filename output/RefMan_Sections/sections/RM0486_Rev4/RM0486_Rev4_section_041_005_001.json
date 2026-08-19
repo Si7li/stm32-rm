@@ -1,0 +1,257 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S41.5.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "41",
+      "chapter_title": "Parallel synchronous slave interface (PSSI)",
+      "section": "41.5.1",
+      "section_title": "PSSI control register (PSSI_CR)",
+      "level": 3,
+      "parent_section": "41.5",
+      "page": 2081,
+      "page_end": 2082,
+      "semantic_type": "register_description",
+      "features": [
+        "ckpol",
+        "cksrc",
+        "depol",
+        "derdycfg",
+        "dma",
+        "dmaen",
+        "edm",
+        "enable",
+        "outen",
+        "pssi",
+        "pssi-cr",
+        "rdypol"
+      ],
+      "chars": 3478,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2081",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 41.5.1 \"PSSI control register (PSSI_CR)\" in chapter 41 (Parallel synchronous slave interface (PSSI)), RM0486 Rev 4, page 2081.",
+      "section_content": "Address offset: 0x00\nReset value: 0x40000000\nBit 31 OUTEN: Data direction selection bit\n0: Receive mode: data is input synchronously with PSSI_PDCK\n1: Transmit mode: data is output synchronously with PSSI_PDCK\nBit 30 DMAEN: DMA enable bit\n0: DMA transfers are disabled. The user application can directly access the PSSI_DR\nregister when DMA transfers are disabled.\n1: DMA transfers are enabled (default configuration). A DMA channel in the general-purpose\nDMA controller must be configured to perform transfers from/to PSSI_DR.\nBit 29 CKSRC: Clock source\nThis bit configures the clock source of the PSSI_PDCK.\n0: External clock (PSSI_PDCK in input)\n1: Internal clock (PSSI_PDCK in output)\nBits 28:21 Reserved, must be kept at reset value.\nBits 20:18 DERDYCFG[2:0]: Data enable and ready configuration\n000: PSSI_DE and PSSI_RDY both disabled\n001: Only PSSI_RDY enabled\n010: Only PSSI_DE enabled\n011: Both PSSI_RDY and PSSI_DE alternate functions enabled\n100: Both PSSI_RDY and PSSI_DE features enabled - bidirectional on PSSI_RDY pin (see\nBidirectional PSSI_DE/PSSI_RDY signal on page2079)\n101: Only PSSI_RDY function enabled, but mapped to PSSI_DE pin\n110: Only PSSI_DE function enabled, but mapped to PSSI_RDY pin\n111: Both PSSI_RDY and PSSI_DE features enabled - bidirectional on PSSI_DE pin (see\nBidirectional PSSI_DE/PSSI_RDY signal on page2079)\nWhen the PSSI_RDY function is mapped to the PSSI_DE pin (settings 101 or 111), it is still\nthe RDYPOL bit which determines its polarity. Similarly, when the PSSI_DE function is\nmapped to the PSSI_RDY pin (settings 110 or 111), it is still the DEPOL bit which determines\nits polarity.\nBits 17:15 Reserved, must be kept at reset value.\nBit 14 ENABLE: PSSI enable\n0: PSSI disabled\n1: PSSI enabled\nThe contents of the FIFO are flushed when ENABLE is cleared to 0.\nNote: When ENABLE=1, the content of PSSI_CR must not be changed, except for the\nENABLE bit itself. All configuration bits can change as soon as ENABLE changes from\n0 to 1.\nThe DMA controller and all PSSI configuration registers must be programmed correctly\nbefore setting the ENABLE bit to 1.\nThe ENABLE bit and the DCMI ENABLE bit (bit 15 of DCMI_CR) must not be set to 1 at\nthe same time.\nBits 13:12 Reserved, must be kept at reset value.\nBits 11:10 EDM[1:0]: Extended data mode\n00: Interface captures 8-bit data on every parallel data clock\n01: Reserved, must not be selected\n10: Reserved, must not be selected\n11: The interface captures 16-bit data on every parallel data clock\nBit 9 Reserved, must be kept at reset value.\nBit 8 RDYPOL: Ready (PSSI_RDY) polarity\nThis bit indicates the level on the PSSI_RDY pin when the data are not valid on the parallel\ninterface.\n0: PSSI_RDY active low (0 indicates that the receiver is ready to receive)\n1: PSSI_RDY active high (1 indicates that the receiver is ready to receive)\nBit 7 Reserved, must be kept at reset value.\nBit 6 DEPOL: Data enable (PSSI_DE) polarity\nThis bit indicates the level on the PSSI_DE pin when the data are not valid on the parallel\ninterface.\n0: PSSI_DE active low (0 indicates that data is valid)\n1: PSSI_DE active high (1 indicates that data is valid)\nBit 5 CKPOL: Parallel data clock polarity\nThis bit configures the capture edge of the parallel clock or the edge used for driving outputs,\ndepending on OUTEN.\n0: Falling edge active for inputs or rising edge active for outputs\n1: Rising edge active for inputs or falling edge active for outputs.\nBits 4:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "PSSI_CR",
+        "address_offset": "0x00",
+        "reset_value": "0x40000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "OUTEN",
+            "description": "Data direction selection bit",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Receive mode: data is input synchronously with PSSI_PDCK"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmit mode: data is output synchronously with PSSI_PDCK"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "DMAEN",
+            "description": "DMA enable bit register when DMA transfers are disabled. DMA controller must be configured to perform transfers from/to PSSI_DR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA transfers are disabled. The user application can directly access the PSSI_DR"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA transfers are enabled (default configuration). A DMA channel in the general-purpose"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "CKSRC",
+            "description": "Clock source This bit configures the clock source of the PSSI_PDCK.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "External clock (PSSI_PDCK in input)"
+              },
+              {
+                "value": "1",
+                "meaning": "Internal clock (PSSI_PDCK in output)"
+              }
+            ]
+          },
+          {
+            "bits": "28:21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20:18",
+            "name": "DERDYCFG[2:0]",
+            "description": "Data enable and ready configuration Bidirectional PSSI_DE/PSSI_RDY signal on page2079) Bidirectional PSSI_DE/PSSI_RDY signal on page2079) When the PSSI_RDY function is mapped to the PSSI_DE pin (settings 101 or 111), it is still the RDYPOL bit which determines its polarity. Similarly, when the PSSI_DE function is mapped to the PSSI_RDY pin (settings 110 or 111), it is still the DEPOL bit which determines its polarity.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "PSSI_DE and PSSI_RDY both disabled"
+              },
+              {
+                "value": "001",
+                "meaning": "Only PSSI_RDY enabled"
+              },
+              {
+                "value": "010",
+                "meaning": "Only PSSI_DE enabled"
+              },
+              {
+                "value": "011",
+                "meaning": "Both PSSI_RDY and PSSI_DE alternate functions enabled"
+              },
+              {
+                "value": "100",
+                "meaning": "Both PSSI_RDY and PSSI_DE features enabled - bidirectional on PSSI_RDY pin (see"
+              },
+              {
+                "value": "101",
+                "meaning": "Only PSSI_RDY function enabled, but mapped to PSSI_DE pin"
+              },
+              {
+                "value": "110",
+                "meaning": "Only PSSI_DE function enabled, but mapped to PSSI_RDY pin"
+              },
+              {
+                "value": "111",
+                "meaning": "Both PSSI_RDY and PSSI_DE features enabled - bidirectional on PSSI_DE pin (see"
+              }
+            ]
+          },
+          {
+            "bits": "17:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "ENABLE",
+            "description": "PSSI enable The contents of the FIFO are flushed when ENABLE is cleared to 0. Note: When ENABLE=1, the content of PSSI_CR must not be changed, except for the ENABLE bit itself. All configuration bits can change as soon as ENABLE changes from 0 to 1. The DMA controller and all PSSI configuration registers must be programmed correctly before setting the ENABLE bit to 1. The ENABLE bit and the DCMI ENABLE bit (bit 15 of DCMI_CR) must not be set to 1 at the same time.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PSSI disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "PSSI enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11:10",
+            "name": "EDM[1:0]",
+            "description": "Extended data mode",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Interface captures 8-bit data on every parallel data clock"
+              },
+              {
+                "value": "01",
+                "meaning": "Reserved, must not be selected"
+              },
+              {
+                "value": "10",
+                "meaning": "Reserved, must not be selected"
+              },
+              {
+                "value": "11",
+                "meaning": "The interface captures 16-bit data on every parallel data clock"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "RDYPOL",
+            "description": "Ready (PSSI_RDY) polarity This bit indicates the level on the PSSI_RDY pin when the data are not valid on the parallel interface.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PSSI_RDY active low (0 indicates that the receiver is ready to receive)"
+              },
+              {
+                "value": "1",
+                "meaning": "PSSI_RDY active high (1 indicates that the receiver is ready to receive)"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "DEPOL",
+            "description": "Data enable (PSSI_DE) polarity This bit indicates the level on the PSSI_DE pin when the data are not valid on the parallel interface.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PSSI_DE active low (0 indicates that data is valid)"
+              },
+              {
+                "value": "1",
+                "meaning": "PSSI_DE active high (1 indicates that data is valid)"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "CKPOL",
+            "description": "Parallel data clock polarity This bit configures the capture edge of the parallel clock or the edge used for driving outputs, depending on OUTEN.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Falling edge active for inputs or rising edge active for outputs"
+              },
+              {
+                "value": "1",
+                "meaning": "Rising edge active for inputs or falling edge active for outputs."
+              }
+            ]
+          },
+          {
+            "bits": "4:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

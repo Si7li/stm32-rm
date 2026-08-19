@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.4.29",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.4.29",
+      "section_title": "Analog window watchdog (AWD1EN, JAWD1EN,",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1508,
+      "page_end": 1513,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "awd1en",
+        "jawd1en"
+      ],
+      "chars": 5583,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1508",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.29 \"Analog window watchdog (AWD1EN, JAWD1EN,\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1508.",
+      "section_content": "AWD1SGL, AWD1CH, AWDCH of ADC_AWD2CR and\nADC_AWD3CR, HTR, LTR, AWDFILT)\n[Table 248. Analog window watchdog features]\nThe three AWD analog watchdogs monitor whether some channels remain within a\nconfigured voltage range (window).\n[Figure 288. Analog watchdog guarded area]\nAWDy flag and interrupt\nAn interrupt can be enabled for each of the three analog watchdogs by setting AWDyIE in\nthe ADC_IER register (y=1, 2, 3).\nAWDy (y=1, 2, 3) flag is cleared by software by writing 1 to it, or by setting ADDIS.\nThe ADC conversion result is compared to the lower and higher thresholds before\nalignment.\nDescription of analog watchdog 1\nThe AWD analog watchdog 1 is enabled by setting the AWD1EN or JAWD1EN bit in the\nADC_CFGR1 register. This watchdog monitors whether either one selected channel or all\nenabled channels remain within a configured voltage range (window).\nTable249 shows how the ADC_CFGR1 registers must be configured to enable the analog\nwatchdog on one or more channels.\n[Table 249. Analog watchdog 1 channel selection]\nThe AWD1 analog watchdog flag is set if the analog voltage converted by the ADC is below\na lower threshold or above a higher threshold.\nThese thresholds are programmed through HTR[22:0] bits of the ADC_AWD1HTR register\nand LTR[22:0] bits of the ADC_AWD1LTR register for the analog watchdog 1.\nThe threshold can be up to 23 bits (12-bit resolution with oversampling, OVSR=1024,\noffset and gain compensation)\nWhen converting data with a resolution of less than 12 bits (defined by RES[1:0] bits), the\nLSB of the programmed thresholds must be kept cleared because the internal comparison\nis always performed on the full 12-bit raw converted data.\nTable250 describes how the comparison is performed for all the possible resolutions and\nfor analog watchdog 1.\n[Table 250. Analog watchdog 1, 2, 3 comparison]\nDescription of analog watchdog 2 and 3\nThe second and third analog watchdogs are more flexible and can guard several selected\nchannels by programming the corresponding bits in AWDCH[19:0] (of ADC_AWD2CR and\nADC_AWD3CR).\nThe corresponding watchdog is enabled when any bit of AWDCH[19:0] (of ADC_AWD2CR\nand ADC_AWD3CR) is set.\nThe threshold can be up to 23 bits (12-bit resolution with oversampling, OVSR=1024 and\noffset compensation in signed format with gain compensation) and is programmed through\nthe ADC_AWD2HTR, ADC_AWD2LTR, ADC_AWD3HTR and ADC_AWD3LTR registers.\nWhen converting data with a resolution of less than 12 bits (defined by RES[1:0]) bits), the\nLSBs of the programmed threshold must be kept cleared, the internal comparison being\nperformed on the full 12-bits converted data (left aligned).\nADCx_AWDy_OUT signal output generation\nEach analog watchdog is associated with an internal hardware signal ADC_AWDy_OUT\n(ybeing the watchdog number), which is directly connected to the ETR input (external\ntrigger) of some of the on-chip timers. Refer to the on-chip timers sections to understand\nhow to select the ADC_AWDy_OUT signal as ETR.\nADC_AWDy_OUT is activated when the associated analog watchdog is enabled:\n• ADC_AWDy_OUT is set when a guarded conversion is outside the programmed\nthresholds.\n• ADC_AWDy_OUT is reset after the end of the next guarded conversion that is inside\nthe programmed thresholds (It remains at 1 if the next guarded conversions are still\noutside the programmed thresholds).\n• ADC_AWDy_OUT is also reset when disabling the ADC (when setting ADDIS). Note\nthat stopping regular or injected conversions (by setting ADSTP or JADSTP) has no\ninfluence on the generation of ADCx_AWDy_OUT.\nNote: The AWDy flag is set by hardware and reset by software: the AWDy flag has no influence on\nthe generation of ADC_AWDy_OUT (ex: ADC_AWDy_OUT can toggle while the AWDy flag\nremains at 1 if the software did not clear the flag).\nThe AWDy flag is cleared by programming it to 1 or by set ADDIS bit. ADSTP and JADSTP\nbits do not reset the AWDy flag.\n[Figure 289. ADC_AWDy_OUT signal generation (on all regular channels)]\n[Figure 290. ADC_AWDy_OUT signal generation (AWDy flag not cleared by software)]\n[Figure 292. ADC_AWDy_OUT signal generation (on all injected channels)]\nAnalog watchdog threshold control on the fly\nLTR[22:0] and HTR[22:0] can be changed when an analog-to-digital conversion is ongoing\n(that is between the start of conversion and the end of conversion of the ADC internal state).\nIf LTR[22:0] and HTR[22:0] are updated during the ADC conversion of the ADC guarded\nchannel, resulting in analog watchdog thresholds to be applied from the next ADC\nconversion. The analog watchdog comparison is performed at each end of conversion. If the\ncurrent ADC data is out of the new modified threshold, no interrupt and AWDy_OUT signal\nare issued. The Interrupt and the AWD generation only happen at the end of the conversion\nthat started after the threshold update. If AWDy_OUT is already asserted, programming the\nnew thresholds does not deassert the AWDy_OUT signal. However, the watchdog threshold\nmust not be changed twice during the four adc_ker_ck periods.\nAnalog watchdog filter for watchdog 1\nWith analog watchdog, a valid ADC conversion data range can be configured through the\nADC_AWD1LTR and ADC_AWD1HTR registers. When the conversion results have\nconsecutively passed the threshold for more than the watchdog filter value\n(AWDFILT[2:0]+1), AWD1_OUT is generated as well as the AWD1 flag. Before this value\nis reached, AWD1 output is not activated.\nAnalog watchdog with gain and offset compensation\nWhen the gain and offset compensation are enabled, the analog watchdog compares the\ndata after the compensation.",
+      "semantic": {}
+    }
+  ]
+}

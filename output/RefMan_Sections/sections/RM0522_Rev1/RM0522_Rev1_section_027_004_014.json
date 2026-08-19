@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S27.4.14",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "27",
+      "chapter_title": "AES hardware accelerator (AES)",
+      "section": "27.4.14",
+      "section_title": "AES key sharing with secure AES co-processor",
+      "level": 3,
+      "parent_section": "27.4",
+      "page": 817,
+      "page_end": 817,
+      "semantic_type": "generic",
+      "features": [
+        "aes"
+      ],
+      "chars": 1894,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=817",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.4.14 \"AES key sharing with secure AES co-processor\" in chapter 27 (AES hardware accelerator (AES)), RM0522 Rev 1, page 817.",
+      "section_content": "The AES peripheral can use the SAES peripheral as security co-processor. The secure\napplication prepares the key in the robust SAES peripheral and when it is ready, the AES\napplication can load this prepared key through a dedicated hardware key bus.\nThe recommended sequence is described hereafter and in the section SAES operations\nwith shared keys in the SAES section of this document.\n1. In SAES peripheral, the application encrypts (wraps) the key to share in Shared-key\nmode (KMOD[1:0] at 0x2).\n2. Each time the shared key is required in AES peripheral, the application decrypts it in\nthe SAES peripheral in Shared-key mode (KMOD[1:0] at 0x2).\n3. Once the shared key is decrypted (unwrapped) and loaded in SAES_KEYRx registers\nit can be shared with AES. To load the shared key in AES, the application sets\nKEYSIZE as appropriate and writes KMOD[1:0] with 0x2. When KEYVALID is cleared,\nthe key is automatically transfered by hardware into the AES_KEYRx registers and the\nBUSY flag in the AES_SR register set.\n4. Once the key transfer is completed, the BUSY flag is cleared and the KEYVALID flag\nset in the AES_SR register. If KEYVALID is not set when BUSY bit is cleared, or if the\nKEIF flag is set in the AES_ISR register, either the KEYSIZE value is incorrect or an\nunexpected event occurred during the transfer (such as DPA error, tamper event or\nKEYVALID cleared before the end of the transfer). When such errors occur, reset both\nperipherals through their IPRST bits and restart the whole key sharing process.\nWhen the key sharing sequence is completed, the AES is initialized with a valid, shared key.\nThe application can then process data in normal key mode, by writing KMOD[1:0] with 0x0.\nNote: This sequence in AES peripheral can be run multiple times (for example, to manage a\nsuspend/resume situation), as long as SAES peripheral is unused and duly remains in key\nsharing state.",
+      "semantic": {}
+    }
+  ]
+}

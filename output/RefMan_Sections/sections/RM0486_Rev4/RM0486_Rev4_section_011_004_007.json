@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S11.4.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "11",
+      "chapter_title": "Texture cache (ICACHE)",
+      "section": "11.4.7",
+      "section_title": "Cacheable accesses",
+      "level": 3,
+      "parent_section": "11.4",
+      "page": 314,
+      "page_end": 314,
+      "semantic_type": "generic",
+      "features": [
+        "accesses",
+        "cacheable"
+      ],
+      "chars": 2028,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=314",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.4.7 \"Cacheable accesses\" in chapter 11 (Texture cache (ICACHE)), RM0486 Rev 4, page 314.",
+      "section_content": "When the ICACHE receives a cacheable transaction from the GPU, it checks if the address\nrequested is present in its TAG memory, and if the corresponding cache line is valid.\nThere are then three alternatives:\n• The address is present inside the TAG memory, the cache line is valid: cache hit, the\ndata is read from the cache and provided to the processor in the same cycle.\n• The address is not present in the TAG memory: cache miss, the data is read from\nthemain memory and provided to the processor, and a cache line refill is performed.\nThe critical-word-first policy ensures minimum wait cycles for the processor, since read\ndata can be provided while the cache still performs a cache line refill (associated\nlatency is the latency of fetching one word from the main memory).\nThe burst generated on the ICACHE master bus is WRAPw (w being the cache line\nwidth, in words).\nThe AHB transaction attributes are also propagated to the main AHBbus matrix on the\nmaster port.\n• The address is not present in TAG memory, but belongs to the refill burst from the main\nmemory currently ongoing: cache hit (hit-under-miss feature).\nThis happens during cache-line refill. The ICACHE can provide the requested data as\nsoon as data are available at its master interface, thus avoiding a miss (fetching data\nfrom the main memory).\nIn the case of cache refill (due to cache miss), the ICACHE selects which cache line is\nwritten with the refill data:\n• In direct map (1-way) mode, only one line can be used to store the refill data: the line\npointed by the index of the input address.\n• In n-way set associative mode, one line among n can be used (the line pointed by the\naddress index, in each of the n ways). The way selection is based on a pLRU-t\nreplacement algorithm that points, for each index, on the way candidate for the next\nrefill.\nIf the cache line where the refill data must be written is already valid, the targeted cache line\nmust be invalidated first. This is true whatever the direct map or n-way set associative cache\nmode.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S78.10.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "78",
+      "chapter_title": "Debug support (DBG)",
+      "section": "78.10.3",
+      "section_title": "AP2 registers",
+      "level": 3,
+      "parent_section": "78.10",
+      "page": 4404,
+      "page_end": 4409,
+      "semantic_type": "generic",
+      "features": [
+        "ap2"
+      ],
+      "chars": 4758,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4404",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 78.10.3 \"AP2 registers\" in chapter 78 (Debug support (DBG)), RM0486 Rev 4, page 4404.",
+      "section_content": "AP2 control/status word register (AP2_CSW)\nAddress offset: 0x0\nReset value: 0x30X0 60X2\nBit 31 Reserved, must be kept at reset value.\nBits 30:28 PROT[2:0]: Access permissions\nThis field sets ARPROT[2:0] or AWPROT[2:0] attributes of the bus transfer.\nxx0: Unprivileged access\nxx1: Privileged access\nx0x: Secure access\nx1x: Nonsecure access\n0xx: Data access\n1xx: Instruction access\nBits 27:24 CACHE[3:0]: Memory type\nThis field sets ARCACHE[3:0] or AWCACHE[3:0] attributes of the bus transfer\n(seeAMBAAXI and ACE Protocol Specification [7]).\nBit 23 SPISTATUS: Status of spiden authentication signal\nThis bit determines whether the debugger can access secure memory.\n0: Secure AXI transfers not supported\n1: Secure AXI transfers are allowed.\nBits 22:15 Reserved, must be kept at reset value.\nBits 14:13 DOMAIN[1:0]: Shareable transaction encoding for ACE\n0: Non-shareable\n1: Shareable, inner domain, includes additional masters.\n2: Shareable, outer domain, also includes inner or additional masters.\n3: Shareable, system domain, all masters included\nBit 12 ACEENABLE: Enable ACE transactions, including barriers\n0: Disable\n1: Enable\nBits 11:8 MODE[3:0]: Specify mode of operation\n0x0: Normal download or upload\n0x1: Barrier transaction\nOthers: Reserved\nBit 7 TRINPROG: Transfer in progress\nThis bit indicates that an AP bus transfer is in progress.\n0: No transfer in progress\n1: Bus transfer in progress\nBit 6 DBGSTATUS: Debug status\nThis bit indicates the state of the dbgen authentication signal\n0: No AXI transfers permitted\n1: AXI transfers are permitted.\nBits 5:4 ADDRINC[1:0]: Auto-increment mode\nThese bits define whether the TAR address is automatically incremented after a transaction.\n0x0: No auto-increment\n0x1: Address is incremented by the size in bytes of the transaction (SIZE field).\n0x2: Packed transfers enabled. A 32-bit AP access generates a 1 x 32-bit, 2 x 16-bit or\n4x8-bit bus transaction corresponding to the programmed transaction size. The data is\npacked or unpacked accordingly.\n0x3: Reserved\nBit 3 Reserved, must be kept at reset value.\nBits 2:0 SIZE[2:0]: Size of next memory access transaction\n0x0: Byte (8-bit)\n0x1: Half-word (16-bit)\n0x2: Word (32-bit)\n0x3: Double word (64-bit)\nOthers: Reserved\nAP2 transfer address register (AP2_TAR)\nAddress offset: 0x04\nReset value: 0x00000000\nBits 31:0 ADDRESS[31:0]: Address of the current transfer\nAP2 data read/write register (AP2_DRW)\nAddress offset: 0x0C\nReset value: 0x00000000\nBits 31:0 DATA[31:0]: Read/write data for current transfer\nIn write mode, this is the write data value. In read mode, this is the read data value.\nFor 64-bit transfers, two accesses must be made to DRW for a single 64-bit AXI access.\nThe first access in read mode initiates the read on the AXI bus and returns the lower 32-bit\nword of data.The second access returns the upper 32-bit word. In write mode, the first access\ncontains the lower 32-bit word of data, the second access contains the upper 32-bit word and\ninitiates the write on the AXI bus.\nAP2 banked data register x (AP2_BDx)\nAddress offset: 0x10 + 0x4 * x (x = 0 to 3)\nReset value: 0x00000000\nBits 31:0 DATA[31:0]: Read/write data for current transfer\nThe transaction address is TAR[31:4]<<4+0x4 * x.\n64-bit banked data transactions are not supported\nAP2 configuration register (AP2_CONFIG)\nAddress offset: 0xF4\nReset value: 0x0000 0002\nBits 31:3 Reserved, must be kept at reset value.\nBit 2 LD: Large data support\n1: 64-bit data transfers supported\nBit 1 LA: Long address support\n0: 32-bit address only\nBit 0 BE: Big-endian\n0: Little-endian\nAP2 base address register (AP2_BASE)\nAddress offset: 0xF8\nReset value: 0x0000 0002\nBits 31:12 BASEADDR[19:0]: Base address (bits 31 to 12) of the AP ROM table\nNot applicable, no ROM table present\nBits 11:2 Reserved, must be kept at reset value.\nBit 1 FORMAT: Base address register format\n1: Arm debug interface v5\nBit 0 ENTRYPRESENT: Debug component present status\nThis bit indicates that debug components are present on the access port bus:\n0: No debug components are present.\nAP2 identification register (AP2_IDR)\nAddress offset: 0xFC\nReset value: 0x4477 0004\nBits 31:28 REVISION[3:0]: Arm core revision\n0x4: r1p1\nBits 27:24 JEDECBANK[3:0]: JEDEC bank\n0x4: Arm\nBits 23:17 JEDECCODE[6:0]: JEDEC code\n0x3B: Arm\nBit 16 MEMAP: Memory access port\n1: Standard register map\nBits 15:8 Reserved, must be kept at reset value.\nBits 7:0 IDENTITY[7:0]: AP type identification\n0x04: AXB-AP\nAP2 register map\nThese registers are not on the CPU memory bus. They are accessed only through SW-DP\nand JTAG-DP debug interfaces.\nThe access port address is 8-bit wide, defined by APBANKSEL[3:0] in DP_SELECTR, and\nby JTAG-DP register DPACC or SW-DP packet request A[3:2] field.\n[Table 869. AP2 register map and reset values]",
+      "semantic": {}
+    }
+  ]
+}

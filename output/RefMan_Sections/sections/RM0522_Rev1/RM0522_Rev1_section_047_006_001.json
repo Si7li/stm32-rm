@@ -1,0 +1,360 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S47.6.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "47",
+      "chapter_title": "Universal serial bus full-speed host/device interface (USB)",
+      "section": "47.6.1",
+      "section_title": "USB control register (USB_CNTR)",
+      "level": 3,
+      "parent_section": "47.6",
+      "page": 2108,
+      "page_end": 2111,
+      "semantic_type": "register_description",
+      "features": [
+        "ctrm",
+        "ddiscm",
+        "errm",
+        "esofm",
+        "host",
+        "l1reqm",
+        "l1res",
+        "l2res",
+        "pdwn",
+        "pmaovrm",
+        "rst-dconm",
+        "sofm",
+        "suspen",
+        "suspm",
+        "susprdy",
+        "thr512m",
+        "usb",
+        "usb-cntr",
+        "usbrst",
+        "wkupm"
+      ],
+      "chars": 6967,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2108",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 47.6.1 \"USB control register (USB_CNTR)\" in chapter 47 (Universal serial bus full-speed host/device interface (USB)), RM0522 Rev 1, page 2108.",
+      "section_content": "Address offset: 0x40\nReset value: 0x00000003\nBit 31 HOST: HOST mode\nHOST bit selects betweens host or device USB mode of operation. It must be set before\nenabling the USB peripheral by the function enable bit.\n0:USB Device function\n1:USB host function\nBits 30:18 Reserved, must be kept at reset value.\nBit 17 DDISCM: Device disconnection mask\n– Host mode\n0: Device disconnection interrupt disabled\n1: Device disconnection interrupt enabled\nBit 16 THR512M: 512 byte threshold interrupt mask\n0: 512 byte threshold interrupt disabled\n1: 512 byte threshold interrupt enabled\nBit 15 CTRM: Correct transfer interrupt mask\n0: Correct transfer (CTR) interrupt disabled.\n1: CTR interrupt enabled, an interrupt request is generated when the corresponding bit in the\nUSB_ISTR register is set.\nBit 14 PMAOVRM: Packet memory area over / underrun interrupt mask\n0: PMAOVR interrupt disabled.\n1: PMAOVR interrupt enabled, an interrupt request is generated when the corresponding bit\nin the USB_ISTR register is set.\nBit 13 ERRM: Error interrupt mask\n0: ERR interrupt disabled.\n1: ERR interrupt enabled, an interrupt request is generated when the corresponding bit in the\nUSB_ISTR register is set.\nBit 12 WKUPM: Wake-up interrupt mask\n0: WKUP interrupt disabled.\n1: WKUP interrupt enabled, an interrupt request is generated when the corresponding bit in\nthe USB_ISTR register is set.\nBit 11 SUSPM: Suspend mode interrupt mask\n0: Suspend mode request (SUSP) interrupt disabled.\n1: SUSP interrupt enabled, an interrupt request is generated when the corresponding bit in\nthe USB_ISTR register is set.\nBit 10 RST_DCONM: USB reset request (Device mode) or device connect/disconnect (Host mode)\ninterrupt mask\n0: RESET interrupt disabled.\n1: RESET interrupt enabled, an interrupt request is generated when the corresponding bit in\nthe USB_ISTR register is set.\nBit 9 SOFM: Start of frame interrupt mask\n0: SOF interrupt disabled.\n1: SOF interrupt enabled, an interrupt request is generated when the corresponding bit in the\nUSB_ISTR register is set.\nBit 8 ESOFM: Expected start of frame interrupt mask\n0: Expected start of frame (ESOF) interrupt disabled.\n1: ESOF interrupt enabled, an interrupt request is generated when the corresponding bit in\nthe USB_ISTR register is set.\nBit 7 L1REQM: LPM L1 state request interrupt mask\n0: LPM L1 state request (L1REQ) interrupt disabled.\n1: L1REQ interrupt enabled, an interrupt request is generated when the corresponding bit in\nthe USB_ISTR register is set.\nBit 6 Reserved, must be kept at reset value.\nBit 5 L1RES: L1 remote wake-up / resume driver\n– Device mode\nSoftware sets this bit to send a LPM L1 50μs remote wake-up signaling to the host. After the\nsignaling ends, this bit is cleared by hardware.\n0: No effect\n1: Send 50μs remote-wake-up signaling to host\nBit 4 L2RES: L2 remote wake-up / resume driver\n– Device mode\nThe microcontroller can set this bit to send remote wake-up signaling to the host. It must be\nactivated, according to USB specifications, for no less than 1ms and no more than 15ms\nafter which the host PC is ready to drive the resume sequence up to its end.\n– Host mode\nSoftware sets this bit to send resume signaling to the device.\nSoftware clears this bit to send end of resume to device and restart SOF generation.\nIn the context of remote wake up, this bit is to be set following the WAKEUP interrupt.\n0: No effect\n1: Send L2 resume signaling to device\nBit 3 SUSPEN: Suspend state enable\n– Condition: Device mode\nSoftware can set this bit when the SUSP interrupt is received, which is issued when no traffic\nis received by the USB peripheral for 3ms. Software can also set this bit when the L1REQ\ninterrupt is received with positive acknowledge sent.\nAs soon as the suspend state is propagated internally all device activity is stopped, USB\nclock is gated, USB transceiver is set into low power mode and the SUSPRDY bit is set by\nhardware. In the case that device application wants to pursue more aggressive power saving\nby stopping the USB clock source and by moving the microcontroller to stop mode, as in the\ncase of bus powered device application, it must first wait few cycles to see the\nSUSPRDY=1 acknowledge the suspend request.\nThis bit is cleared by hardware simultaneous with the WAKEUP flag set.\n0: No effect\n1: Enter L1/L2 suspend\n– Condition: Host mode\nSoftware can set this bit when host application has nothing scheduled for the next frames\nand wants to enter long term power saving. When set, it stops immediately SOF generation\nand any other host activity, gates the USB clock and sets the transceiver in low power mode.\nIf any USB transaction is on-going at the time SUSPEN is set, suspend is entered at the end\nof the current transaction.\nAs soon as suspend state is propagated internally and gets effective the SUSPRDY bit is\nset. In the case that host application wants to pursue more aggressive power saving by\nstopping the USB clock source and by moving the micro-controller to STOP mode, it must\nfirst wait few cycles to see SUSPRDY=1 acknowledge to the suspend request.\nThis bit is cleared by hardware simultaneous with the WAKEUP flag set.\n0: No effect\n1: Enter L1/L2 suspend\nBit 2 SUSPRDY: Suspend state effective\nThis bit is set by hardware as soon as the suspend state entered through the SUSPEN\ncontrol gets internally effective. In this state USB activity is suspended, USB clock is gated,\ntransceiver is set in low power mode by disabling the differential receiver. Only\nasynchronous wake-up logic and single ended receiver is kept alive to detect remote wake-\nup or resume events.\nSoftware must poll this bit to confirm it to be set before any STOP mode entry.\nThis bit is cleared by hardware simultaneously to the WAKEUP flag being set.\n0: Normal operation\n1: Suspend state\nBit 1 PDWN: Power down\nThis bit is used to completely switch off all USB-related analog parts if it is required to\ncompletely disable the USB peripheral for any reason. When this bit is set, the USB\nperipheral is disconnected from the transceivers and it cannot be used.\n0: Exit power down\n1: Enter power down mode\nBit 0 USBRST: USB Reset\n– Condition: Device mode\nSoftware can set this bit to reset the USB core, exactly as it happens when receiving a\nRESET signaling on the USB.The USB peripheral, in response to a RESET, resets its\ninternal protocol state machine. Reception and transmission are disabled until the\nRST_DCON bit is cleared. All configuration registers do not reset: the microcontroller must\nexplicitly clear these registers (this is to ensure that the RST_DCON interrupt can be safely\ndelivered, and any transaction immediately followed by a RESET can be completed). The\nfunction address and endpoint registers are reset by an USB reset event.\n0: No effect\n1: USB core is under reset\n– Condition: Host mode\nSoftware sets this bit to drive USB reset state on the bus and initialize the device. USB reset\nterminates as soon as this bit is cleared by software.\n0: No effect\n1: USB reset driven",
+      "semantic": {
+        "register": "USB_CNTR",
+        "address_offset": "0x40",
+        "reset_value": "0x00000003",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "HOST",
+            "description": "HOST mode HOST bit selects betweens host or device USB mode of operation. It must be set before enabling the USB peripheral by the function enable bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "USB Device function"
+              },
+              {
+                "value": "1",
+                "meaning": "USB host function"
+              }
+            ]
+          },
+          {
+            "bits": "30:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "DDISCM",
+            "description": "Device disconnection mask – Host mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Device disconnection interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Device disconnection interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "THR512M",
+            "description": "512 byte threshold interrupt mask",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "512 byte threshold interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "512 byte threshold interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "CTRM",
+            "description": "Correct transfer interrupt mask USB_ISTR register is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Correct transfer (CTR) interrupt disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "CTR interrupt enabled, an interrupt request is generated when the corresponding bit in the"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "PMAOVRM",
+            "description": "Packet memory area over / underrun interrupt mask in the USB_ISTR register is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PMAOVR interrupt disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "PMAOVR interrupt enabled, an interrupt request is generated when the corresponding bit"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "ERRM",
+            "description": "Error interrupt mask USB_ISTR register is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "ERR interrupt disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "ERR interrupt enabled, an interrupt request is generated when the corresponding bit in the"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "WKUPM",
+            "description": "Wake-up interrupt mask the USB_ISTR register is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "WKUP interrupt disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "WKUP interrupt enabled, an interrupt request is generated when the corresponding bit in"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "SUSPM",
+            "description": "Suspend mode interrupt mask the USB_ISTR register is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Suspend mode request (SUSP) interrupt disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "SUSP interrupt enabled, an interrupt request is generated when the corresponding bit in"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "RST_DCONM",
+            "description": "USB reset request (Device mode) or device connect/disconnect (Host mode) interrupt mask the USB_ISTR register is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RESET interrupt disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "RESET interrupt enabled, an interrupt request is generated when the corresponding bit in"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "SOFM",
+            "description": "Start of frame interrupt mask USB_ISTR register is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SOF interrupt disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "SOF interrupt enabled, an interrupt request is generated when the corresponding bit in the"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "ESOFM",
+            "description": "Expected start of frame interrupt mask the USB_ISTR register is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Expected start of frame (ESOF) interrupt disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "ESOF interrupt enabled, an interrupt request is generated when the corresponding bit in"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "L1REQM",
+            "description": "LPM L1 state request interrupt mask the USB_ISTR register is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "LPM L1 state request (L1REQ) interrupt disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "L1REQ interrupt enabled, an interrupt request is generated when the corresponding bit in"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "L1RES",
+            "description": "L1 remote wake-up / resume driver – Device mode Software sets this bit to send a LPM L1 50μs remote wake-up signaling to the host. After the signaling ends, this bit is cleared by hardware.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Send 50μs remote-wake-up signaling to host"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "L2RES",
+            "description": "L2 remote wake-up / resume driver – Device mode The microcontroller can set this bit to send remote wake-up signaling to the host. It must be activated, according to USB specifications, for no less than 1ms and no more than 15ms after which the host PC is ready to drive the resume sequence up to its end. – Host mode Software sets this bit to send resume signaling to the device. Software clears this bit to send end of resume to device and restart SOF generation. In the context of remote wake up, this bit is to be set following the WAKEUP interrupt.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Send L2 resume signaling to device"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "SUSPEN",
+            "description": "Suspend state enable – Condition: Device mode Software can set this bit when the SUSP interrupt is received, which is issued when no traffic is received by the USB peripheral for 3ms. Software can also set this bit when the L1REQ interrupt is received with positive acknowledge sent. As soon as the suspend state is propagated internally all device activity is stopped, USB clock is gated, USB transceiver is set into low power mode and the SUSPRDY bit is set by hardware. In the case that device application wants to pursue more aggressive power saving by stopping the USB clock source and by moving the microcontroller to stop mode, as in the case of bus powered device application, it must first wait few cycles to see the SUSPRDY=1 acknowledge the suspend request. This bit is cleared by hardware simultaneous with the WAKEUP flag set. – Condition: Host mode Software can set this bit when host application has nothing scheduled for the next frames and wants to enter long term power saving. When set, it stops immediately SOF generation and any other host activity, gates the USB clock and sets the transceiver in low power mode. If any USB transaction is on-going at the time SUSPEN is set, suspend is entered at the end of the current transaction. As soon as suspend state is propagated internally and gets effective the SUSPRDY bit is set. In the case that host application wants to pursue more aggressive power saving by stopping the USB clock source and by moving the micro-controller to STOP mode, it must first wait few cycles to see SUSPRDY=1 acknowledge to the suspend request. This bit is cleared by hardware simultaneous with the WAKEUP flag set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Enter L1/L2 suspend"
+              },
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Enter L1/L2 suspend"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "SUSPRDY",
+            "description": "Suspend state effective This bit is set by hardware as soon as the suspend state entered through the SUSPEN control gets internally effective. In this state USB activity is suspended, USB clock is gated, transceiver is set in low power mode by disabling the differential receiver. Only asynchronous wake-up logic and single ended receiver is kept alive to detect remote wake- up or resume events. Software must poll this bit to confirm it to be set before any STOP mode entry. This bit is cleared by hardware simultaneously to the WAKEUP flag being set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal operation"
+              },
+              {
+                "value": "1",
+                "meaning": "Suspend state"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "PDWN",
+            "description": "Power down This bit is used to completely switch off all USB-related analog parts if it is required to completely disable the USB peripheral for any reason. When this bit is set, the USB peripheral is disconnected from the transceivers and it cannot be used.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Exit power down"
+              },
+              {
+                "value": "1",
+                "meaning": "Enter power down mode"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "USBRST",
+            "description": "USB Reset – Condition: Device mode Software can set this bit to reset the USB core, exactly as it happens when receiving a RESET signaling on the USB.The USB peripheral, in response to a RESET, resets its internal protocol state machine. Reception and transmission are disabled until the RST_DCON bit is cleared. All configuration registers do not reset: the microcontroller must explicitly clear these registers (this is to ensure that the RST_DCON interrupt can be safely delivered, and any transaction immediately followed by a RESET can be completed). The function address and endpoint registers are reset by an USB reset event. – Condition: Host mode Software sets this bit to drive USB reset state on the bus and initialize the device. USB reset terminates as soon as this bit is cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "USB core is under reset"
+              },
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "USB reset driven"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S13.4.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "13",
+      "chapter_title": "Power control (PWR)",
+      "section": "13.4.2",
+      "section_title": "Core domain",
+      "level": 3,
+      "parent_section": "13.4",
+      "page": 355,
+      "page_end": 356,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2308,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=355",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.4.2 \"Core domain\" in chapter 13 (Power control (PWR)), RM0486 Rev 4, page 355.",
+      "section_content": "The VCORE core domain supply can be provided by the SMPS step-down converter, or by\nan external supply (VDDCORE). VCORE supplies all the digital circuitries, except for the\nbackup domain and the retention domain in Standby mode. When a system reset occurs,\nthe SMPS step-down converter is enabled to deliver 0.8V. This allows the system to start\nup in any supply configuration (see Figure17).\nAfter a power-on reset, the software must configure the used supply configuration in\nPWR_CR1 before changing VOS in PWR_VOSCR, or the RCC sys_ck frequency. The\ndifferent system supply configurations are controlled as shown in Table53.\nSMPS step-down converter regulator\nThe SMPS requires an external coil to be connected between the VLXSMPS pin and (via a\ncapacitor) VSS. The converter can be used to supply directly the VCORE domain. It works in\nthree different power modes: main (MR), low-power (LP), or off.\nThe converter operating modes depend upon the system modes (Run, Stop, or Standby\nmode), and are configured through the associated VOS and SVOS levels:\n• Run mode\nThe SMPS step-down converter operates in MR mode, and provides full power to\ntheVCORE domain (core, memories, and digital peripherals). PWR_ON is set high.\nTheregulator output voltage can be scaled by software to different voltage levels\n(VOSlow and VOS high) that are configured through VOS in PWR_VOSCR . The\nVOSvoltage scaling is used to optimize the power consumption when the system is\nclocked below the maximum frequency. By default, VOS low is selected after asystem\nreset. VOS can be changed on-the-fly to adapt to the required system performance.\n• Stop mode\nThe SMPS step-down converter supplies the VCORE domain to retain the content of\nregisters and internal memories, and must be set in low-power mode. The voltage\nregulator mode is selected through SVOS in PWR_CPUCR. In low-power mode, only\nSVOS low and SVOS high scaling are allowed. Due to a lower voltage level for the\nSVOS low, the Stop mode consumption can be further reduced.\n• Standby mode\nThe SMPS step-down converter is off, and VCORE domains are powered down.\nThecontent of registers and memories are lost except for the retention domain, and\nthebackup domain.\nThe PWR_ON signal is set low. The external regulator supplying VDDA18PMU and\nVDDSMPS can be switched off.",
+      "semantic": {}
+    }
+  ]
+}

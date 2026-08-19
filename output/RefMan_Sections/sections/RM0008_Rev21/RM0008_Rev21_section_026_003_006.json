@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S26.3.6",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "26",
+      "chapter_title": "Inter-integrated circuit (I2C) interface",
+      "section": "26.3.6",
+      "section_title": "SMBus",
+      "level": 3,
+      "parent_section": "26.3",
+      "page": 766,
+      "page_end": 768,
+      "semantic_type": "generic",
+      "features": [
+        "i2c"
+      ],
+      "chars": 5618,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=766",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.3.6 \"SMBus\" in chapter 26 (Inter-integrated circuit (I2C) interface), RM0008 Rev 21, page 766.",
+      "section_content": "Introduction\nThe System Management Bus (SMBus) is a two-wire interface through which various\ndevices can communicate with each other and with the rest of the system. It is based on I2C\nprinciples of operation. SMBus provides a control bus for system and power management\nrelated tasks. A system may use SMBus to pass messages to and from devices instead of\ntoggling individual control lines.\nThe System Management Bus Specification refers to three types of devices. A slave is a\ndevice that is receiving or responding to a command. A master is a device that issues\ncommands, generates the clocks, and terminates the transfer. A host is a specialized\nmaster that provides the main interface to the system's CPU. A host must be a master-slave\nand must support the SMBus host notify protocol. Only one host is allowed in a system.\nSimilarities between SMBus and I2C\n• 2-wire bus protocol (1 Clk, 1 Data) + SMBus Alert line optional\n• Master-slave communication, Master provides clock\n• Multi master capability\n• SMBus data format similar to I2C 7-bit addressing format (Figure269).\nDifferences between SMBus and I2C\nThe following table describes the differences between SMBus and I2C.\n[Table 188. SMBus vs. I2C]\nSMBus application usage\nWith System Management Bus, a device can provide manufacturer information, tell the\nsystem what its model/part number is, save its state for a suspend event, report different\ntypes of errors, accept control parameters, and return its status. SMBus provides a control\nbus for system and power management related tasks.\nDevice identification\nAny device that exists on the System Management Bus as a slave has a unique address\ncalled the Slave Address. For the list of reserved slave addresses, refer to the SMBus\nspecification version. 2.0 (http://smbus.org/).\nBus protocols\nThe SMBus specification supports up to nine bus protocols. For more details of these\nprotocols and SMBus address types, refer to SMBus specification version. 2.0. These\nprotocols should be implemented by the user software.\nAddress resolution protocol (ARP)\nSMBus slave address conflicts can be resolved by dynamically assigning a new unique\naddress to each slave device. The Address Resolution Protocol (ARP) has the following\nattributes:\n• Address assignment uses the standard SMBus physical layer arbitration mechanism\n• Assigned addresses remain constant while device power is applied; address retention\nthrough device power loss is also allowed\n• No additional SMBus packet overhead is incurred after address assignment. (i.e.\nsubsequent accesses to assigned slave addresses have the same overhead as\naccesses to fixed address devices.)\n• Any SMBus master can enumerate the bus\nUnique device identifier (UDID)\nIn order to provide a mechanism to isolate each device for the purpose of address\nassignment, each device must implement a unique device identifier (UDID).\nFor the details on 128-bit UDID and more information on ARP, refer to SMBus specification\nversion 2.0.\nSMBus alert mode\nSMBus Alert is an optional signal with an interrupt line for devices that want to trade their\nability to master for a pin. SMBA is a wired-AND signal just as the SCL and SDA signals are.\nSMBA is used in conjunction with the SMBus General Call Address. Messages invoked with\nthe SMBus are two bytes long.\nA slave-only device can signal the host through SMBA that it wants to talk by setting ALERT\nbit in I2C_CR1 register. The host processes the interrupt and simultaneously accesses all\nSMBA devices through the Alert Response Address (known as ARA having a value 0001\n100X). Only the device(s) which pulled SMBA low will acknowledge the Alert Response\nAddress. This status is identified using SMBALERT Status flag in I2C_SR1 register. The\nhost performs a modified Receive Byte operation. The 7 bit device address provided by the\nslave transmit device is placed in the 7 most significant bits of the byte. The eighth bit can\nbe a zero or one.\nIf more than one device pulls SMBA low, the highest priority (lowest address) device will win\ncommunication rights via standard arbitration during the slave address transfer. After\nacknowledging the slave address the device must disengage its SMBA pull-down. If the\nhost still sees SMBA low when the message transfer is complete, it knows to read the ARA\nagain.\nA host which does not implement the SMBA signal may periodically access the ARA.\nFor more details on SMBus Alert mode, refer to SMBus specification version 2.0.\nTimeout error\nThere are differences in the timing specifications between I2C and SMBus.\nSMBus defines a clock low timeout, TIMEOUT of 35 ms. Also SMBus specifies TLOW:\nSEXT as the cumulative clock low extend time for a slave device. SMBus specifies TLOW:\nMEXT as the cumulative clock low extend time for a master device. For more details on\nthese timeouts, refer to SMBus specification version 2.0.\nThe status flag Timeout or Tlow Error in I2C_SR1 shows the status of this feature.\nHow to use the interface in SMBus mode\nTo switch from I2C mode to SMBus mode, the following sequence should be performed.\n• Set the SMBus bit in the I2C_CR1 register\n• Configure the SMBTYPE and ENARP bits in the I2C_CR1 register as required for the\napplication\nIf you want to configure the device as a master, follow the Start condition generation\nprocedure in Section26.3.3. Otherwise, follow the sequence in Section26.3.2.\nThe application has to control the various SMBus protocols by software.\n• SMB Device Default Address acknowledged if ENARP=1 and SMBTYPE=0\n• SMB Host Header acknowledged if ENARP=1 and SMBTYPE=1\n• SMB Alert Response Address acknowledged if SMBALERT=1",
+      "semantic": {}
+    }
+  ]
+}

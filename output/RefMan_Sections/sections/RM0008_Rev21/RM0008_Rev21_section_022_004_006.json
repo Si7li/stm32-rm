@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.4.6",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.4.6",
+      "section_title": "Block read",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 584,
+      "page_end": 584,
+      "semantic_type": "generic",
+      "features": [
+        "block",
+        "read"
+      ],
+      "chars": 1622,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=584",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.6 \"Block read\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 584.",
+      "section_content": "In Block read mode the basic unit of data transfer is a block whose maximum size is defined\nin the CSD (READ_BL_LEN). If READ_BL_PARTIAL is set, smaller blocks whose start and\nend addresses are entirely contained within one physical block (as defined by\nREAD_BL_LEN) may also be transmitted. A CRC is appended to the end of each block,\nensuring data transfer integrity. CMD17 (READ_SINGLE_BLOCK) initiates a block read and\nafter completing the transfer, the card returns to the Transfer state.\nCMD18 (READ_MULTIPLE_BLOCK) starts a transfer of several consecutive blocks.\nThe host can abort reading at any time, within a multiple block operation, regardless of its\ntype. Transaction abort is done by sending the stop transmission command.\nIf the card detects an error (for example, out of range, address misalignment or internal\nerror) during a multiple block read operation (both types) it stops the data transmission and\nremains in the data state. The host must than abort the operation by sending the stop\ntransmission command. The read error is reported in the response to the stop transmission\ncommand.\nIf the host sends a stop transmission command after the card transmits the last block of a\nmultiple block operation with a predefined number of blocks, it is responded to as an illegal\ncommand, since the card is no longer in the data state. If the host uses partial blocks whose\naccumulated length is not block-aligned and block misalignment is not allowed, the card\ndetects a block misalignment error condition at the beginning of the first misaligned block\n(ADDRESS_ERROR error bit is set in the status register).",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S40.3.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "40",
+      "chapter_title": "Tamper and backup registers (TAMP)",
+      "section": "40.3.8",
+      "section_title": "TAMP backup registers and other device secrets erase",
+      "level": 3,
+      "parent_section": "40.3",
+      "page": 1602,
+      "page_end": 1603,
+      "semantic_type": "generic",
+      "features": [
+        "erase",
+        "tamp"
+      ],
+      "chars": 2947,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1602",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 40.3.8 \"TAMP backup registers and other device secrets erase\" in chapter 40 (Tamper and backup registers (TAMP)), RM0522 Rev 1, page 1602.",
+      "section_content": "The backup registers (TAMP_BKPxR) are not reset by system reset or when the device\nwakes up from Standby mode.\nThe backup registers and the other device secrets are not reset when the corresponding\nmask is set (TAMPxMSK=1 in the TAMP_CR2 register).\nNote: The backup registers are also erased when the readout protection of the flash is changed\nfrom level 1 to level 0.\nTamper detection – confirmed mode\nThe confirmed mode is selected for TAMPx (external tamper x) when TAMPxPOM=0 in the\nTAMP_CR2 register. The confirmed mode is selected for ITAMPx (internal tamper x) when\nITAMPxPOM=0 in the TAMP_CR3 register. The effects of a tamper detection in confirmed\nmode are described with tamp_confirmed signal in the Table401: TAMP interconnection.\nThis mode is selected to erase automatically the device secrets when the tamper is\ndetected.\nTamper detection – potential mode\nThe potential mode is selected for TAMPx (external tamper x) when TAMPxPOM=1 in the\nTAMP_CR2 register. The potential tamper mode is selected for ITAMPx (internal tamper x)\nwhen ITAMPxPOM=1 in the TAMP_CR3 register. The effects of a tamper detection in\npotential mode are described with tamp_potential signal in the Table401: TAMP\ninterconnection.\nThis mode is selected to avoid irreversible erasure of some device secrets when the tamper\nis detected. In this mode, some device secrets are not erased when the corresponding\ntamper event is detected. In addition, the read and write accesses to these device secrets\nare blocked as soon as the tamper detection flag is set in potential mode, until this flag is\ncleared by setting the corresponding clear flag in the TAMP_SCR register. Therefore the\nsoftware can perform some checks to discriminate false from true tampers, and decide to\nlaunch secrets erase only in case of the potential tamper is confirmed to be a true tamper.\nThe device secrets are erased by software by setting the BKERASE bit in the TAMP_CR2\nregister.\nPotential tamper to confirmed tamper timeout\nSome internal tampers generate a tamper event if the independent watchdog reset occurs\nwhen another tamper flag is set (refer to Table401: TAMP interconnection). The IWDG\ntamper must be configured with ITAMPxPOM=0. This permits the erasure of device\nsecrets to be forced by hardware after a timeout, in case the previous tamper event was in\npotential mode. This is equivalent to change the “potential tamper” into “confirmed tamper” if\na watchdog reset occurs before any software decision following the potential tamper event.\nDevice secrets access blocked by software\nBy default, the device secrets can be accessed by the application, except if a tamper event\nflag is detected: the device secrets access is not possible as long as a tamper flag is set.\nIt is possible to block the access to the device secrets by software, by setting the BKBLOCK\nbit of the TAMP_CR2 register. The device secrets access is possible only when\nBKBLOCK=0 and no tamper flag is set.",
+      "semantic": {}
+    }
+  ]
+}

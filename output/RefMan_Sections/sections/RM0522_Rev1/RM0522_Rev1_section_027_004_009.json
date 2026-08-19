@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S27.4.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "27",
+      "chapter_title": "AES hardware accelerator (AES)",
+      "section": "27.4.9",
+      "section_title": "AES basic chaining modes (ECB, CBC)",
+      "level": 3,
+      "parent_section": "27.4",
+      "page": 800,
+      "page_end": 804,
+      "semantic_type": "generic",
+      "features": [
+        "aes",
+        "cbc",
+        "ecb"
+      ],
+      "chars": 5953,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=800",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.4.9 \"AES basic chaining modes (ECB, CBC)\" in chapter 27 (AES hardware accelerator (AES)), RM0522 Rev 1, page 800.",
+      "section_content": "ECB is the simplest mode of operation. There are no chaining operations, and no special\ninitialization stage. The message is divided into blocks and each block is encrypted or\ndecrypted separately. When decrypting in ECB, a special key scheduling is required before\nprocessing the first block.\nFigure180 and Figure181 describe the electronic codebook (ECB) chaining\nimplementation in encryption and in decryption, respectively. To select ECB chaining mode,\nwrite CHMOD[2:0] with 0x0.\nblock. To make each message unique, an initialization vector is used during the first block\nprocessing. When decrypting in CBC, a special key scheduling is required before\nprocessing the first block.\nFigure182 and Figure183 describe the cipher block chaining (CBC) implementation in\nencryption and in decryption, respectively. To select this chaining mode, write CHMOD[2:0]\nwith 0x1.\n[Figure 182. CBC encryption]\ninput DATATYPE[1:0] man S a w ge a m p ent DATATYPE[1:0] man S a w ge a m p ent\noutput\nDOUT (ciphertext C1) DOUT (ciphertext C2)\nXOR\n[Figure 183. CBC decryption]\nFor more details, refer to NIST Special Publication 800-38A, Recommendation for Block\nCipher Modes of Operation.\nECB and CBC encryption process\nThis process is described in Section27.4.5, with the following sequence of events:\n1. Disable the AES peripheral, by clearing EN.\n2. Initialize the AES_CR register as follows:\n– Select ECB or CBC chaining mode (write CHMOD[2:0] with 0x0 or 0x1) in\nencryption mode (write MODE[1:0] with 0x0).\n– Configure the data type, through DATATYPE[1:0].\n– Configure the key size, through KEYSIZE.\n– Select the key mode, using KMOD[1:0]. If the key comes from the SAES\nperipheral, write KMOD[1:0] with 0x2, otherwise keep it at 0x0.\n3. Write the initialization vector into the AES_IVRx registers if CBC mode is selected in\nthe previous step.\n4. Write the key into the AES_KEYRx registers if KMOD[1:0] is at 0x0. If KMOD[1:0] is at\n0x2, the key is transferred from the SAES peripheral (see Section27.4.14).\n5. Wait until KEYVALID is set (the key loading completed).\n6. Enable the AES peripheral, by setting EN.\n7. Append cleartext data:\na) If it is the second-last or the last block and the plaintext size of the message is not\na multiple of 16 bytes, follow the guidance in Section27.4.7.\nb) Append the cleartext block into AES as described in Section27.4.5, then read the\nAES_DOUTR register four times to save the ciphertext block.\nc) Repeat the step b) until the third-last plaintext block is encrypted. For the last two\nblocks, follow the steps a) and b).\n8. Finalize the sequence: disable the AES peripheral, by clearing EN.\nECB/CBC decryption process\nThis process is described in Section27.4.5, with the following sequence of events:\n1. Disable the AES peripheral, by clearing EN.\n2. Initialize the AES_CR register as follows:\n– Select the key derivation mode (write MODE[1:0] with 0x1). The CHMOD[2:0]\nbitfield is not significant during this operation.\n– Configure the data type, through DATATYPE[1:0].\n– Configure the key size, through KEYSIZE.\n– Select the key mode, using KMOD[1:0]. If the key comes from the SAES\nperipheral, write KMOD[1:0] with 0x2, otherwise keep it at 0x0.\n3. Write the key into the AES_KEYRx registers if KMOD[1:0] is at 0x0. If KMOD[1:0] is at\n0x2, the key is transferred from the SAES peripheral (see Section27.4.14).\n4. Wait until KEYVALID is set (the key loading completed).\n5. Enable the AES peripheral, by setting EN. The peripheral immediately starts an AES\nround for key preparation.\n6. Wait until the CCF flag in the AES_ISR register is set.\n7. Clear the CCF flag, by setting the CCF bit of the AES_ICR register. The decryption key\nis available in the AES core and AES is disabled automatically.\n8. Select ECB or CBC chaining mode (write CHMOD[2:0] with 0x0 or 0x1) in decryption\nmode (write MODE[1:0] with 0x2). Do not change other parameters.\n9. Write the initialization vector into the AES_IVRx registers if CBC mode is selected in\nthe previous step.\n10. Enable the AES peripheral, by setting EN.\n1 1 . Append encrypted data:\na) If it is the second-last or the last block and the ciphertext size of the message is\nnot a multiple of 16 bytes, follow the guidance in Section27.4.7.\nb) Append the ciphertext block into AES as described in Section27.4.5, then read\nthe AES_DOUTR register four times to save the cleartext block (MSB first).\nc) Repeat the step b) until the third-last ciphertext block is decrypted. For the last two\nblocks, follow the steps a) and b).\n12. Finalize the sequence: disable the AES peripheral, by clearing EN.\nSuspend/resume operations in ECB/CBC modes\nThe suspend and resume operations are only supported when AES is used in CPU mode,\nnot in DMA mode.\nTo suspend the processing of a message, proceed as follows:\n1. Wait until the CCF flag in the AES_ISR register is set (computation completed).\n2. Read four times the AES_DOUTR register to save the last processed block.\n3. Clear the CCF flag, by setting the CCF bit of the AES_ICR register.\n4. Save initialization vector registers (only required in CBC mode as the AES_IVRx\nregisters are altered during the data processing).\n5. Disable the AES peripheral, by clearing EN.\n6. Save the AES_CR register and clear the key registers if they are not needed, to\nprocess the higher-priority message.\nTo resume the processing of a message, proceed as follows:\n1. Disable the AES peripheral, by clearing EN.\n2. Restore the AES_CR register (with correct KEYSIZE) then restore the AES_KEYRx\nregisters. If KMOD[1:0] is at 0x2, the key must be transferred again from the SAES\nperipheral (see Section27.4.14).\n3. Prepare the decryption key, as described in ECB/CBC decryption process (only\nrequired for ECB or CBC decryption).\n4. Restore the AES_IVRx registers, using the saved configuration (only required in CBC\nmode).\n5. Enable the AES peripheral, by setting EN.\nNote: It is not required to save the key registers as the application knows the original key.",
+      "semantic": {}
+    }
+  ]
+}

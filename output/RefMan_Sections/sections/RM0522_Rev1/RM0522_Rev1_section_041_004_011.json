@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S41.4.11",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "41",
+      "chapter_title": "Inter-integrated circuit interface (I2C)",
+      "section": "41.4.11",
+      "section_title": "SMBus specific features",
+      "level": 3,
+      "parent_section": "41.4",
+      "page": 1657,
+      "page_end": 1659,
+      "semantic_type": "generic",
+      "features": [
+        "i2c"
+      ],
+      "chars": 5263,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1657",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 41.4.11 \"SMBus specific features\" in chapter 41 (Inter-integrated circuit interface (I2C)), RM0522 Rev 1, page 1657.",
+      "section_content": "Introduction\nThe system management bus (SMBus) is a two-wire interface through which various\ndevices can communicate with each other and with the rest of the system. It is based on\noperation principles of the I²C-bus. The SMBus provides a control bus for system and power\nmanagement related tasks.\nThe I2C peripheral is compatible with the SMBus specification (http://smbus.org).\nThe system management bus specification refers to three types of devices:\n• Target is a device that receives or responds to a command.\n• Controller is a device that issues commands, generates clocks, and terminates the\ntransfer.\n• Host is a specialized controller that provides the main interface to the system CPU. A\nhost must be a controller-target and must support the SMBus host notify protocol. Only\none host is allowed in a system.\nThe I2C peripheral can be configured as a controller or a target device, and also as a host.\nBus protocols\nThere are eleven possible command protocols for any given device. The device can use any\nor all of them to communicate. These are: Quick Command, Send Byte, Receive Byte, Write\nByte, Write Word, Read Byte, Read Word, Process Call, Block Read, Block Write, and Block\nWrite-Block Read Process Call. The protocols must be implemented by the user software.\nFor more details on these protocols, refer to the SMBus specification (http://smbus.org).\nSTM32CubeMX implements an SMBus stack thanks to X-CUBE-SMBUS, a downloadable\nsoftware pack that allows basic SMBus configuration per I2C instance.\nAddress resolution protocol (ARP)\nSMBus target address conflicts can be resolved by dynamically assigning a new unique\naddress to each target device. To provide a mechanism to isolate each device for the\npurpose of address assignment, each device must implement a unique 128-bit device\nidentifier (UDID). In the I2C peripheral, it is implemented by software.\nThe I2C peripheral supports the Address resolution protocol (ARP). The SMBus device\ndefault address (0b1100 001) is enabled by setting the SMBDEN bit of the I2C_CR1\nregister. The ARP commands must be implemented by the user software.\nArbitration is also performed in target mode for ARP support.\nFor more details on the SMBus address resolution protocol, refer to the SMBus specification\n(http://smbus.org).\nReceived command and data acknowledge control\nAn SMBus receiver must be able to NACK each received command or data. In order to\nallow the ACK control in target mode, the target byte control mode must be enabled, by\nsetting the SBC bit of the I2C_CR1 register. Refer to Target byte control mode for more\ndetails.\nHost notify protocol\nTo enable the host notify protocol, set the SMBHEN bit of the I2C_CR1 register. The I2C\nperipheral then acknowledges the SMBus host address (0b0001 000).\nWhen this protocol is used, the device acts as a controller and the host as a target.\nSMBus alert\nThe I2C peripheral supports the SMBALERT# optional signal through the SMBA pin. With\nthe SMBALERT# signal, an SMBus target device can signal to the SMBus host that it wants\nto talk. The host processes the interrupt and simultaneously accesses all SMBALERT#\ndevices through the alert response address (0b0001100). Only the device/devices which\npulled SMBALERT# low acknowledges/acknowledge the alert response address.\nWhen the I2C peripheral is configured as an SMBus target device (SMBHEN=0), the\nSMBA pin is pulled low by setting the ALERTEN bit of the I2C_CR1 register. The alert\nresponse address is enabled at the same time.\nWhen the I2C peripheral is configured as an SMBus host (SMBHEN=1), the ALERT flag of\nthe I2C_ISR register is set when a falling edge is detected on the SMBA pin and ALERTEN\n= 1. An interrupt is generated if the ERRIE bit of the I2C_CR1 register is set. When\nALERTEN=0, the alert line is considered high even if the external SMBA pin is low.\nNote: If the SMBus alert pin is not required, keep the ALERTEN bit cleared. The SMBA pin can\nthen be used as a standard GPIO.\nPacket error checking\nA packet error checking mechanism introduced in the SMBus specification improves\nreliability and communication robustness. The packet error checking is implemented by\nappending a packet error code (PEC) at the end of each message transfer. The PEC is\ncalculated by using the C(x) = x8 + x2 + x + 1 CRC-8 polynomial on all the message bytes\n(including addresses and read/write bits).\nThe I2C peripheral embeds a hardware PEC calculator and allows a not acknowledge to be\nsent automatically when the received byte does not match the hardware calculated PEC.\nTimeouts\nTo comply with the SMBus timeout specifications, the I2C peripheral embeds hardware\ntimers.\n[Table 415. SMBus timeout specifications]\n[Figure 589. Timeout intervals for tLOW:SEXT, tLOW:MEXT]\nBus idle detection\nA controller can assume that the bus is free if it detects that the clock and data signals have\nbeen high for tIDLE > tHIGH(max) (refer to the table in Section41.4.9).\nThis timing parameter covers the condition where a controller is dynamically added to the\nbus, and may not have detected a state transition on the SMBCLK or SMBDAT lines. In this\ncase, the controller must wait long enough to ensure that a transfer is not currently in\nprogress. The I2C peripheral supports a hardware bus idle detection.",
+      "semantic": {}
+    }
+  ]
+}

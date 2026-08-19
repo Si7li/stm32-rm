@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.4.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.4.2",
+      "section_title": "Handling of interrupts coming from SPDIFRX",
+      "level": 3,
+      "parent_section": "69.4",
+      "page": 3592,
+      "page_end": 3592,
+      "semantic_type": "generic",
+      "features": [
+        "interrupt",
+        "spdifrx"
+      ],
+      "chars": 1394,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3592",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.4.2 \"Handling of interrupts coming from SPDIFRX\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3592.",
+      "section_content": "When an interrupt from the SPDIFRX is received, then the software has to check what is the\nsource of the interrupt by reading the SPDIFRX_SR register.\n• If SYNCD is set to 1, then it means that the synchronization is properly completed. No\naction has to be performed in our case as the DMA is already programmed. The\nsoftware just needs to wait for DMA interrupt in order to read channel status\ninformation.\nThe SYNCD flag must be cleared by setting SYNCDCF bit of SPDIFRX_IFCR register\nto 1.\n• If TERR or SERR or FERR are set to 1, the software has to set SPDIFRXEN to 0, and\nre-start from the initialization phase.\n– TERR indicates that a time-out occurs either during synchronization phase or\nafter.\n– SERR indicates that the synchronization fails because the maximum allowed re-\ntries are reached.\n– FERR indicates that the reading of information after synchronization fails (such as\nunexpected preamble, bad data decoding).\n• If PERR is set to 1, it means that a parity error is detected, so one of the received audio\nsample or the channel status or user data bits are corrupted. The action taken here\ndepends on the application: one action can be to drop the current channel status block\nas it is not reliable. There is no need to re-start from the initialization phase, as the\nsynchronization is not lost.\nThe PERR flag must be cleared by setting PERRCF bit of SPDIFRX_IFCR register\nto1.",
+      "semantic": {}
+    }
+  ]
+}

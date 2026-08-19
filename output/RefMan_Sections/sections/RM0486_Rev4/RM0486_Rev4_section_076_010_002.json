@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.10.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.10.2",
+      "section_title": "Descriptor structure",
+      "level": 3,
+      "parent_section": "76.10",
+      "page": 4148,
+      "page_end": 4151,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 3697,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4148",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.10.2 \"Descriptor structure\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4148.",
+      "section_content": "The Ethernet peripheral supports the ring structure for DMA descriptors.\n[Figure 1060. Descriptor ring structure]\nIn a ring structure, descriptors are separated by the 64-bit word number programmed in the\nDSL field of the Channel x control register (ETH_DMACxCR)). The application needs to pro-\ngram the total ring length, that is the total number of descriptors in ring span, in the following\nregisters of a DMA channel:\n• Channel x Tx descriptor ring length register (ETH_DMACxTXRLR))\n• Channel x Rx descriptor ring length register (ETH_DMACxRXRLR))\nThe Channel x Tx descriptor tail pointer register (ETH_DMACxTXDTPR) or Channel x Rx\ndescriptor tail pointer register (ETH_DMACxRXDTPR) contains the pointer to the descriptor\naddress (N). The base address and the current descriptor pointer decide the address of the\ncurrent descriptor that the DMA can process. The descriptors up to one location less than\nthe one indicated by the descriptor tail pointer (N – 1) are owned by the DMA. The DMA\ncontinues to process the descriptors until the following condition occurs:\nCurrent Descriptor Pointer == Descriptor Tail Pointer;\nThe DMA enters the Suspend state when this condition occurs. The application must per-\nform a write operation to the descriptor tail pointer register and update the tail pointer so that\nthe following condition is met:\nDescriptor Tail Pointer > Current Descriptor Pointer;\nNote: When the application sets the descriptors into the end-of-descriptor ring, continues setting\nfrom the start of the descriptor list and updating the descriptor tail pointer, the above\ncondition is not satisfied. The DMA detects such a case, processes the descriptors until the\nend of the ring and then continues processing from the start of the descriptor list until the\ncurrent descriptor pointer is equal to the descriptor tail pointer.\nWhen the application programs the descriptor tail pointer beyond the end of the descriptor\nring, the DMA interprets this as the availability of one more complete ring of descriptors, and\nafter processing the last descriptor in the ring continues to process descriptors from the start\nof the descriptor list. If this is not intended, the application must program the descriptor tail\npointer to the start of the descriptor list after setting the last descriptor in the ring.\nThe DMA automatically wraps around the base address when the end of ring is reached, as\nshown in Figure1061: DMA descriptor ring.\n[Figure 1061. DMA descriptor ring]\nFor descriptors owned by the application, the OWN bit of DES3 is reset to 0.\nFor descriptors owned by the DMA, the OWN bit is set to 1.\nAt the beginning, if the application has only one descriptor, it sets the last descriptor address\n(tail pointer) to Descriptor Base Address + 1. The DMA then processes the first descriptor\nand waits for the application to increment the tail pointer.\nDescriptor tail pointer handling examples\n[Figure 1062. Descriptor tail pointer example 1]\nWhen the current descriptor pointer points to descriptor 4 (D4) and the descriptor tail pointer\npoints to descriptor 7 (D7), the last descriptor owned by the DMA is descriptor 6 (D6) and\nthere are three descriptors (D4, D5, D6) available for the DMA, as shown in Figure1062:\nDescriptor tail pointer example 1.\n[Figure 1063. Descriptor tail pointer example 2]\nAs shown in Figure1063: Descriptor tail pointer example 2, the application frees four\ndescriptors (D7, D8, D9 and D0) and updates the descriptor tail pointer to point to descriptor\n1 (D1). The last descriptor owned by the DMA is descriptor 0 (D0). The descriptors refer-\nenced between the current descriptor pointer (D4) and the descriptor tail pointer (D1) are\navailable to the DMA.",
+      "semantic": {}
+    }
+  ]
+}

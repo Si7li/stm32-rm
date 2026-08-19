@@ -1,0 +1,290 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S20.5.16",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "20",
+      "chapter_title": "General-purpose timers (TIM15/TIM16/TIM17)",
+      "section": "20.5.16",
+      "section_title": "TIM15 break and dead-time register (TIM15_BDTR)",
+      "level": 3,
+      "parent_section": "20.5",
+      "page": 601,
+      "page_end": 604,
+      "semantic_type": "register_description",
+      "features": [
+        "aoe",
+        "bkbid",
+        "bkdsrm",
+        "bke",
+        "bkf",
+        "bkp",
+        "dtg",
+        "lock",
+        "moe",
+        "ossi",
+        "ossr",
+        "tim15",
+        "tim15-bdtr",
+        "timer"
+      ],
+      "chars": 6737,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=601",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 20.5.16 \"TIM15 break and dead-time register (TIM15_BDTR)\" in chapter 20 (General-purpose timers (TIM15/TIM16/TIM17)), RM0490 Rev 6, page 601.",
+      "section_content": "Address offset: 0x44\nReset value: 0x00000000\nNote: As the BKBID, BKDSRM, BKF[3:0], AOE, BKP, BKE, OSSI, OSSR and DTG[7:0] bits may\nbe write-locked depending on the LOCK configuration, it may be necessary to configure all\nof them during the first write access to the TIMx_BDTR register.\nBits 31:29 Reserved, must be kept at reset value.\nBit 28 BKBID: Break Bidirectional\n0: Break input BRK in input mode\n1: Break input BRK in bidirectional mode\nIn the bidirectional mode (BKBID bit set to 1), the break input is configured both in input\nmode and in open drain output mode. Any active break event asserts a low logic level on the\nBreak input to indicate an internal break event to external devices.\nNote: This bit cannot be modified as long as LOCK level 1 has been programmed (LOCK bits\nin TIMx_BDTR register).\nNote: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.\nBit 27 Reserved, must be kept at reset value.\nBit 26 BKDSRM: Break Disarm\n0: Break input BRK is armed\n1: Break input BRK is disarmed\nThis bit is cleared by hardware when no break source is active.\nThe BKDSRM bit must be set by software to release the bidirectional output control (open-\ndrain output in Hi-Z state) and then be polled it until it is reset by hardware, indicating that the\nfault condition has disappeared.\nNote: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.\nBits 25:20 Reserved, must be kept at reset value.\nBits 19:16 BKF[3:0]: Break filter\nThis bit-field defines the frequency used to sample the BRK input signal and the length of the\ndigital filter applied to BRK. The digital filter is made of an event counter in which N events\nare needed to validate a transition on the output:\n0000: No filter, BRK acts asynchronously\n0001: fSAMPLING=fCK_INT, N=2\n0010: fSAMPLING=fCK_INT, N=4\n0011: fSAMPLING=fCK_INT, N=8\n0100: fSAMPLING=fDTS/2, N=6\n0101: fSAMPLING=fDTS/2, N=8\n0110: fSAMPLING=fDTS/4, N=6\n0111: fSAMPLING=fDTS/4, N=8\n1000: fSAMPLING=fDTS/8, N=6\n1001: fSAMPLING=fDTS/8, N=8\n1010: fSAMPLING=fDTS/16, N=5\n1011: fSAMPLING=fDTS/16, N=6\n1100: fSAMPLING=fDTS/16, N=8\n1101: fSAMPLING=fDTS/32, N=5\n1110: fSAMPLING=fDTS/32, N=6\n1111: fSAMPLING=fDTS/32, N=8\nNote: This bit cannot be modified when LOCK level 1 has been programmed (LOCK bits in\nTIMx_BDTR register).\nBit 15 MOE: Main output enable\nThis bit is cleared asynchronously by hardware as soon as the break input is active. It is set\nby software or automatically depending on the AOE bit. It is acting only on the channels\nwhich are configured in output.\n0: OC and OCN outputs are disabled or forced to idle state depending on the OSSI bit.\n1: OC and OCN outputs are enabled if their respective enable bits are set (CCxE, CCxNE in\nTIMx_CCER register)\nSee OC/OCN enable description for more details (Section20.5.9: TIM15 capture/compare\nenable register (TIM15_CCER) on page596).\nBit 14 AOE: Automatic output enable\n0: MOE can be set only by software\n1: MOE can be set by software or automatically at the next update event (if the break input is\nnot be active)\nNote: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits\nin TIMx_BDTR register).\nBit 13 BKP: Break polarity\n0: Break input BRK is active low\n1: Break input BRK is active high\nNote: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits\nin TIMx_BDTR register).\nAny write operation to this bit takes a delay of 1 APB clock cycle to become effective.\nBit 12 BKE: Break enable\n0: Break inputs (BRK and CCS clock failure event) disabled\n1; Break inputs (BRK and CCS clock failure event) enabled\nThis bit cannot be modified when LOCK level 1 has been programmed (LOCK bits in\nTIMx_BDTR register).\nNote: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.\nBit 11 OSSR: Off-state selection for Run mode\nThis bit is used when MOE=1 on channels that have a complementary output which are\nconfigured as outputs. OSSR is not implemented if no complementary output is implemented\nin the timer.\nSee OC/OCN enable description for more details (Section20.5.9: TIM15 capture/compare\nenable register (TIM15_CCER) on page596).\n0: When inactive, OC/OCN outputs are disabled (the timer releases the output control which\nis taken over by the GPIO, which forces a Hi-Z state)\n1: When inactive, OC/OCN outputs are enabled with their inactive level as soon as CCxE=1\nor CCxNE=1 (the output is still controlled by the timer).\nNote: This bit can not be modified as soon as the LOCK level 2 has been programmed (LOCK\nbits in TIMx_BDTR register).\nBit 10 OSSI: Off-state selection for Idle mode\nThis bit is used when MOE=0 on channels configured as outputs.\nSee OC/OCN enable description for more details (Section20.5.9: TIM15 capture/compare\nenable register (TIM15_CCER) on page596).\n0: When inactive, OC/OCN outputs are disabled (OC/OCN enable output signal=0)\n1: When inactive, OC/OCN outputs are forced first with their idle level as soon as CCxE=1 or\nCCxNE=1. OC/OCN enable output signal=1)\nNote: This bit can not be modified as soon as the LOCK level 2 has been programmed (LOCK\nbits in TIMx_BDTR register).\nBits 9:8 LOCK[1:0]: Lock configuration\nThese bits offer a write protection against software errors.\n00: LOCK OFF - No bit is write protected\n01: LOCK Level 1 = DTG bits in TIMx_BDTR register, OISx and OISxN bits in TIMx_CR2\nregister and BKE/BKP/AOE bits in TIMx_BDTR register can no longer be written\n10: LOCK Level 2 = LOCK Level 1 + CC Polarity bits (CCxP/CCxNP bits in TIMx_CCER\nregister, as long as the related channel is configured in output through the CCxS bits) as\nwell as OSSR and OSSI bits can no longer be written.\n11: LOCK Level 3 = LOCK Level 2 + CC Control bits (OCxM and OCxPE bits in\nTIMx_CCMRx registers, as long as the related channel is configured in output through\nthe CCxS bits) can no longer be written.\nNote: The LOCK bits can be written only once after the reset. Once the TIMx_BDTR register\nhas been written, their content is frozen until the next reset.\nBits 7:0 DTG[7:0]: Dead-time generator setup\nThis bit-field defines the duration of the dead-time inserted between the complementary\noutputs. DT correspond to this duration.\nDTG[7:5]=0xx => DT=DTG[7:0]xtdtg with tdtg=tDTS\nDTG[7:5]=10x => DT=(64+DTG[5:0])xtdtg with tdtg=2xtDTS\nDTG[7:5]=110 => DT=(32+DTG[4:0])xtdtg with tdtg=8xtDTS\nDTG[7:5]=111 => DT=(32+DTG[4:0])xtdtg with tdtg=16xtDTS\nExample if tDTS=125ns (8MHz), dead-time possible values are:\n0 to 15875 ns by 125 ns steps,\n16 µs to 31750 ns by 250 ns steps,\n32 µs to 63 µs by 1 µs steps,\n64 µs to 126 µs by 2 µs steps\nNote: This bit-field can not be modified as long as LOCK level 1, 2 or 3 has been programmed\n(LOCK bits in TIMx_BDTR register).",
+      "semantic": {
+        "register": "TIM15_BDTR",
+        "address_offset": "0x44",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:29",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "28",
+            "name": "BKBID",
+            "description": "Break Bidirectional In the bidirectional mode (BKBID bit set to 1), the break input is configured both in input mode and in open drain output mode. Any active break event asserts a low logic level on the Break input to indicate an internal break event to external devices. Note: This bit cannot be modified as long as LOCK level 1 has been programmed (LOCK bits in TIMx_BDTR register). Note: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Break input BRK in input mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Break input BRK in bidirectional mode"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "BKDSRM",
+            "description": "Break Disarm This bit is cleared by hardware when no break source is active. The BKDSRM bit must be set by software to release the bidirectional output control (open- drain output in Hi-Z state) and then be polled it until it is reset by hardware, indicating that the fault condition has disappeared. Note: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Break input BRK is armed"
+              },
+              {
+                "value": "1",
+                "meaning": "Break input BRK is disarmed"
+              }
+            ]
+          },
+          {
+            "bits": "25:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:16",
+            "name": "BKF[3:0]",
+            "description": "Break filter This bit-field defines the frequency used to sample the BRK input signal and the length of the digital filter applied to BRK. The digital filter is made of an event counter in which N events are needed to validate a transition on the output: Note: This bit cannot be modified when LOCK level 1 has been programmed (LOCK bits in TIMx_BDTR register).",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "No filter, BRK acts asynchronously"
+              },
+              {
+                "value": "0001",
+                "meaning": "fSAMPLING=fCK_INT, N=2"
+              },
+              {
+                "value": "0010",
+                "meaning": "fSAMPLING=fCK_INT, N=4"
+              },
+              {
+                "value": "0011",
+                "meaning": "fSAMPLING=fCK_INT, N=8"
+              },
+              {
+                "value": "0100",
+                "meaning": "fSAMPLING=fDTS/2, N=6"
+              },
+              {
+                "value": "0101",
+                "meaning": "fSAMPLING=fDTS/2, N=8"
+              },
+              {
+                "value": "0110",
+                "meaning": "fSAMPLING=fDTS/4, N=6"
+              },
+              {
+                "value": "0111",
+                "meaning": "fSAMPLING=fDTS/4, N=8"
+              },
+              {
+                "value": "1000",
+                "meaning": "fSAMPLING=fDTS/8, N=6"
+              },
+              {
+                "value": "1001",
+                "meaning": "fSAMPLING=fDTS/8, N=8"
+              },
+              {
+                "value": "1010",
+                "meaning": "fSAMPLING=fDTS/16, N=5"
+              },
+              {
+                "value": "1011",
+                "meaning": "fSAMPLING=fDTS/16, N=6"
+              },
+              {
+                "value": "1100",
+                "meaning": "fSAMPLING=fDTS/16, N=8"
+              },
+              {
+                "value": "1101",
+                "meaning": "fSAMPLING=fDTS/32, N=5"
+              },
+              {
+                "value": "1110",
+                "meaning": "fSAMPLING=fDTS/32, N=6"
+              },
+              {
+                "value": "1111",
+                "meaning": "fSAMPLING=fDTS/32, N=8"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "MOE",
+            "description": "Main output enable This bit is cleared asynchronously by hardware as soon as the break input is active. It is set by software or automatically depending on the AOE bit. It is acting only on the channels which are configured in output. TIMx_CCER register) See OC/OCN enable description for more details (Section20.5.9: TIM15 capture/compare enable register (TIM15_CCER) on page596).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OC and OCN outputs are disabled or forced to idle state depending on the OSSI bit."
+              },
+              {
+                "value": "1",
+                "meaning": "OC and OCN outputs are enabled if their respective enable bits are set (CCxE, CCxNE in"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "AOE",
+            "description": "Automatic output enable not be active) Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits in TIMx_BDTR register).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "MOE can be set only by software"
+              },
+              {
+                "value": "1",
+                "meaning": "MOE can be set by software or automatically at the next update event (if the break input is"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "BKP",
+            "description": "Break polarity Note: This bit can not be modified as long as LOCK level 1 has been programmed (LOCK bits in TIMx_BDTR register). Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Break input BRK is active low"
+              },
+              {
+                "value": "1",
+                "meaning": "Break input BRK is active high"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "BKE",
+            "description": "Break enable 1; Break inputs (BRK and CCS clock failure event) enabled This bit cannot be modified when LOCK level 1 has been programmed (LOCK bits in TIMx_BDTR register). Note: Any write operation to this bit takes a delay of 1 APB clock cycle to become effective.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Break inputs (BRK and CCS clock failure event) disabled"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "OSSR",
+            "description": "Off-state selection for Run mode This bit is used when MOE=1 on channels that have a complementary output which are configured as outputs. OSSR is not implemented if no complementary output is implemented in the timer. See OC/OCN enable description for more details (Section20.5.9: TIM15 capture/compare enable register (TIM15_CCER) on page596). is taken over by the GPIO, which forces a Hi-Z state) or CCxNE=1 (the output is still controlled by the timer). Note: This bit can not be modified as soon as the LOCK level 2 has been programmed (LOCK bits in TIMx_BDTR register).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "When inactive, OC/OCN outputs are disabled (the timer releases the output control which"
+              },
+              {
+                "value": "1",
+                "meaning": "When inactive, OC/OCN outputs are enabled with their inactive level as soon as CCxE=1"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "OSSI",
+            "description": "Off-state selection for Idle mode This bit is used when MOE=0 on channels configured as outputs. See OC/OCN enable description for more details (Section20.5.9: TIM15 capture/compare enable register (TIM15_CCER) on page596). CCxNE=1. OC/OCN enable output signal=1) Note: This bit can not be modified as soon as the LOCK level 2 has been programmed (LOCK bits in TIMx_BDTR register).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "When inactive, OC/OCN outputs are disabled (OC/OCN enable output signal=0)"
+              },
+              {
+                "value": "1",
+                "meaning": "When inactive, OC/OCN outputs are forced first with their idle level as soon as CCxE=1 or"
+              }
+            ]
+          },
+          {
+            "bits": "9:8",
+            "name": "LOCK[1:0]",
+            "description": "Lock configuration These bits offer a write protection against software errors. register and BKE/BKP/AOE bits in TIMx_BDTR register can no longer be written register, as long as the related channel is configured in output through the CCxS bits) as well as OSSR and OSSI bits can no longer be written. TIMx_CCMRx registers, as long as the related channel is configured in output through the CCxS bits) can no longer be written. Note: The LOCK bits can be written only once after the reset. Once the TIMx_BDTR register has been written, their content is frozen until the next reset.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "LOCK OFF - No bit is write protected"
+              },
+              {
+                "value": "01",
+                "meaning": "LOCK Level 1 = DTG bits in TIMx_BDTR register, OISx and OISxN bits in TIMx_CR2"
+              },
+              {
+                "value": "10",
+                "meaning": "LOCK Level 2 = LOCK Level 1 + CC Polarity bits (CCxP/CCxNP bits in TIMx_CCER"
+              },
+              {
+                "value": "11",
+                "meaning": "LOCK Level 3 = LOCK Level 2 + CC Control bits (OCxM and OCxPE bits in"
+              }
+            ]
+          },
+          {
+            "bits": "7:0",
+            "name": "DTG[7:0]",
+            "description": "Dead-time generator setup This bit-field defines the duration of the dead-time inserted between the complementary outputs. DT correspond to this duration. DTG[7:5]=0xx => DT=DTG[7:0]xtdtg with tdtg=tDTS DTG[7:5]=10x => DT=(64+DTG[5:0])xtdtg with tdtg=2xtDTS DTG[7:5]=110 => DT=(32+DTG[4:0])xtdtg with tdtg=8xtDTS DTG[7:5]=111 => DT=(32+DTG[4:0])xtdtg with tdtg=16xtDTS Example if tDTS=125ns (8MHz), dead-time possible values are: 0 to 15875 ns by 125 ns steps, 16 µs to 31750 ns by 250 ns steps, 32 µs to 63 µs by 1 µs steps, 64 µs to 126 µs by 2 µs steps Note: This bit-field can not be modified as long as LOCK level 1, 2 or 3 has been programmed (LOCK bits in TIMx_BDTR register).",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

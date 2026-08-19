@@ -1,0 +1,38 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S6.2.7",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "6",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "6.2.7",
+      "section_title": "Clock security system (CSS)",
+      "level": 3,
+      "parent_section": "6.2",
+      "page": 127,
+      "page_end": 127,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "css",
+        "rcc"
+      ],
+      "chars": 1104,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=127",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.2.7 \"Clock security system (CSS)\" in chapter 6 (Reset and clock control (RCC)), RM0490 Rev 6, page 127.",
+      "section_content": "Clock security system can be activated by software. In this case, the clock detector is\nenabled after the HSE oscillator startup delay, and disabled when this oscillator is stopped.\nIf a failure is detected on the HSE clock:\n• the HSE oscillator is automatically disabled\n• a clock failure event is sent to the break input of TIM1, TIM15, TIM16, and TIM17\ntimers\n• CSSI (clock security system interrupt) is generated\nThe CSSI is linked to the Cortex®-M0+ NMI (non-maskable interrupt) exception vector. It\nmakes the software aware of a HSE clock failure to allow it to perform rescue operations.\nNote: If the CSS is enabled and the HSE clock fails, the CSSI occurs and an NMI is automatically\ngenerated. The NMI is executed infinitely unless the CSS interrupt pending bit is cleared. It\nis therefore necessary that the NMI ISR clears the CSSI by setting the CSSC bit in the RCC\nclock interrupt clear register (RCC_CICR).\nIf HSE is selected directly or indirectly as system clock, and a failure of HSE clock is\ndetected, the system clock switches automatically to HSISYS and the HSE oscillator is\ndisabled.",
+      "semantic": {}
+    }
+  ]
+}

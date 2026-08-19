@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S27.8.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "27",
+      "chapter_title": "Flexible memory controller (FMC)",
+      "section": "27.8.4",
+      "section_title": "NOR flash/PSRAM controller asynchronous transactions",
+      "level": 3,
+      "parent_section": "27.8",
+      "page": 1192,
+      "page_end": 1211,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory",
+        "nor",
+        "psram"
+      ],
+      "chars": 6019,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1192",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.8.4 \"NOR flash/PSRAM controller asynchronous transactions\" in chapter 27 (Flexible memory controller (FMC)), RM0486 Rev 4, page 1192.",
+      "section_content": "Asynchronous static memories (NOR flash, PSRAM, SRAM, FRAM)\n• Signals are synchronized by the internal clock fmc_ker_ck. This clock is not issued to\nthe memory.\n• The FMC always samples the data before deasserting the Chip Select signal NE. This\nguarantees that the memory data hold timing constraint is met (minimum chip enable\nhigh to data transition is usually 0ns).\n• If the extended mode is enabled (EXTMOD bit is set in the FMC_BCRx register), up to\nfour extended modes (A, B, C and D) are available. It is possible to mix A, B, C and D\nmodes for read and write operations. For example, read operation can be performed in\nmode A and write in mode B. The extended mode is not compatible with the muxed\nmode (EXTMOD bit must be kept cleared in muxed mode).\n• If the extended mode is disabled (EXTMOD bit is reset in the FMC_BCRx register), the\nFMC can operate in mode 1 or mode 2 as follows:\n– Mode 1 is the default mode when SRAM/PSRAM memory type is selected\n(MTYP[1:0] = 0x0 or 0x01 in the FMC_BCRx register)\n– Mode 2 is the default mode when NOR memory type is selected (MTYP[1:0] =\n0x10 in the FMC_BCRx register).\nMode 1 - SRAM/FRAM/PSRAM (CRAM)\nThe next figures show the read and write transactions for the supported modes followed by\nthe required configuration of FMC_BCRx, and FMC_BTRx/FMC_BWTRx registers.\n[Figure 161. Mode 1 read access waveforms]\n[Figure 162. Mode 1 write access waveforms]\nThe DATAHLD time at the end of the read and write transaction guarantee the address and\ndata hold time after the NOE/NWE rising edge. For write, the DATAST value must be\ngreater than zero (DATAST > 0).\n[Table 164. FMC_BCRx bitfields (mode 1)]\n[Table 165. FMC_BTRx bitfields (mode 1)]\nMode A - SRAM/FRAM/PSRAM (CRAM) OE toggling\n[Figure 163. Mode A read access waveforms]\n[Figure 164. Mode A write access waveforms]\nThe differences compared with mode 1 are the toggling of NOE and the independent read\nand write timings.\n[Table 166. FMC_BCRx bitfields (mode A)]\n[Table 167. FMC_BTRx bitfields (mode A)]\n[Table 168. FMC_BWTRx bitfields (mode A)]\nMode 2/B - NOR flash\n[Figure 165. Mode 2 and mode B read access waveforms]\n[Figure 166. Mode 2 write access waveforms]\n[Figure 167. Mode B write access waveforms]\nThe differences with mode 1 are the toggling of NWE and the independent read and write\ntimings when extended mode is set (mode B).\n[Table 169. FMC_BCRx bitfields (mode 2/B)]\n[Table 170. FMC_BTRx bitfields (mode 2/B)]\n[Table 171. FMC_BWTRx bitfields (mode 2/B)]\nNote: The FMC_BWTRx register is valid only if the extended mode is set (mode B), otherwise its\ncontent is don’t care.\nMode C - NOR flash - OE toggling\n[Figure 168. Mode C read access waveforms]\n[Figure 169. Mode C write access waveforms]\nNADV\nNEx\nNOE\nNWE\nData bus Data driven by controller\nADDSET fmc_ker_ck cycles DATAST fmc_ker_ck DATAHLD +1\ncycles fmc_ker_ck cycles\nThe differences compared with mode 1 are the toggling of NOE and the independent read\nand write timings.\n[Table 172. FMC_BCRx bitfields (mode C)]\n[Table 173. FMC_BTRx bitfields (mode C)]\n[Table 174. FMC_BWTRx bitfields (mode C)]\nMode D - asynchronous access with extended address\n[Figure 170. Mode D read access waveforms]\n[Figure 171. Mode D write access waveforms]\nNADV\nNBL[x:0]\nNEx\nNOE\nNWE\nNBLSET ADDSET fmc_ker_ck cycles ADDHLD DATAST fmc_ker_ck DATAHLD +1\nfmc_ker_ck fmc_ker_ck cycles fmc_ker_ck cycles\ncycles cycles\nThe differences with mode 1 are the toggling of NOE that goes on toggling after NADV\nchanges and the independent read and write timings.\n[Table 175. FMC_BCRx bitfields (mode D)]\n[Table 176. FMC_BTRx bitfields (mode D)]\n[Table 177. FMC_BWTRx bitfields (mode D)]\nMuxed mode - multiplexed asynchronous access to NOR flash memory\n[Figure 172. Muxed read access waveforms]\n[Figure 173. Muxed write access waveforms]\nThe difference with mode D is the drive of the lower address byte(s) on the data bus.\n[Table 178. FMC_BCRx bitfields (muxed mode)]\n[Table 179. FMC_BTRx bitfields (muxed mode)]\nWAIT management for asynchronous accesses\nIf the asynchronous memory asserts the WAIT signal to indicate that it is not yet ready to\naccept or to provide data, the ASYNCWAIT bit has to be set in FMC_BCRx register.\nIf the WAIT signal is active (high or low depending on the WAITPOL bit), the second access\nphase (Data setup phase), programmed by the DATAST bits, is extended until WAIT\nbecomes inactive. Unlike the data setup phase, the first access phases (Address setup and\nAddress hold phases), programmed by the ADDSET and ADDHLD bits, are not WAIT\nsensitive and so they are not prolonged.\nThe data setup phase must be programmed so that WAIT can be detected 4 fmc_ker_ck\ncycles before the end of the memory transaction. The following cases must be considered:\n1. The memory asserts the WAIT signal aligned to NOE/NWE which toggles:\nDATAST≥(4× FMCCLK)+max_wait_assertion_time\n2. The memory asserts the WAIT signal aligned to NEx (or NOE/NWE not toggling):\nmax_wait_assertion_time>address_phase+hold_phase\nthen:\nDATAST≥(4× FMCCLK)+(max_wait_assertion_time – address_phase–hold_phase\notherwise\nDATAST≥4× FMCCLK\nwhere max_wait_assertion_time is the maximum time taken by the memory to assert\nthe WAIT signal once NEx/NOE/NWE is low.\nFigure174 and Figure175 show the number of fmc_ker_ck clock cycles that are added to the\nmemory access phase after WAIT is released by the asynchronous memory (independently\nof the above cases).\n[Figure 174. Asynchronous wait during a read access waveforms]\n1. NWAIT polarity depends on WAITPOL bit setting in FMC_BCRx register.\n[Figure 175. Asynchronous wait during a write access waveforms]\n1. NWAIT polarity depends on WAITPOL bit setting in FMC_BCRx register.\nCellularRAM™ (PSRAM) refresh management\nThe CellularRAM™ does not allow maintaining the chip select signal (NE) low for longer\nthan the tCEM timing specified in memory device. This timing can be programmed in the\nFMC_CFGR register. It defines the maximum duration of the NE low pulse (expressed in\nfmc_ker_ck cycles) in synchronous mode for PSRAM read or write accesses.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S28.4.15",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "28",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "28.4.15",
+      "section_title": "SAES operation with shared keys",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 868,
+      "page_end": 869,
+      "semantic_type": "generic",
+      "features": [
+        "saes"
+      ],
+      "chars": 3447,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=868",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.15 \"SAES operation with shared keys\" in chapter 28 (Secure AES coprocessor (SAES)), RM0522 Rev 1, page 868.",
+      "section_content": "SAES peripheral can share application keys wrapped with hardware-secret key DHUK,\nXOR-ed or not with application key BHK. With this feature, the application software can\nmake the AES keys available to the AES peripheral, without exposing them in clear-text\n(unencrypted).\nShared key sequences are too small to be suspended/resumed. SAES cannot unwrap a\nshared key using an unwrapped key.\nFigure211 summarizes how to wrap or unwrap keys to share with AES peripheral. To\nprotect the shared key, DHUK must be selected, by writing KEYSEL[2:0] with 0x1 or 0x4.\nAlternatively, select BHK by writing KEYSEL[2:0] with 0x2 if the corresponding registers\nare read/write-locked in the TAMP peripheral.\n[Figure 211. Usage of Shared-key mode]\nclear-text shared key wrapped shared key DIN\nSAES SAES SAES\nenc dec enc/dec\nshared key AES\nenc/dec\nwrapp D ed O (e U nc T ry pted) unwra s p h p a e r d e d (d k e e c y rypted) DOUT\nshared key\nDOUT\nKEYSEL not 0x0 KEYSEL not 0x0 KEYSEL = 0x0 (to keep\nMODE = 00 (encryption) MODE =10 (decryption) the wrapped key)\nMODE = any value\nPink: hardware secret (not readable by application)\nNote: DHUK value depends on privilege, KMOD[1:0], KSHAREID, KEYSEL[2:0], CHMOD[2:0],\nand KEYSIZE.\nIn the step 3, AES represents the AES peripheral.\nKey wrapping for AES peripheral\nBefore SAES can share a key with the AES peripheral, the key must be encrypted\n(wrapped) once. The encryption sequence of a shared key is the same as for a wrapped\nkey, with KMOD[1:0] at 0x2 (shared key) and KSHAREID[1:0] kept at 0x0 in the step 3 in\n[Figure 211. See Key wrapping for SAES for details]\nNote: Encryption in Shared-key mode is only supported when ECB or CBC is selected.\nKey unwrapping for AES peripheral (shared key)\nEach time SAES needs to share a key with the AES peripheral, shared encrypted key must\nbe decrypted (unwrapped) in SAES, then loaded by AES. The overall sequence is\ndescribed next.\nSequence in the SAES peripheral\nThe decryption sequence of a shared key is the same as for a wrapped key, with KMOD[1:0]\nat 0x2 (shared key) and KSHAREID[1:0] kept at 0x0 in the step 3 in Figure211. See Key\nunwrapping for SAES for details.\nIn shared key mode when decryption mode is selected (MODE[1:0] at 0x2), a read access\nto the SAES_DOUTR register triggers a read error (RDERRF).\nNote: Instead of being shared, a decrypted shared key can be used directly in SAES as the\nKEYSEL[2:0] bitfield is automatically cleared. In this case, KMOD[1:0] must be written with\n0x0 (normal key mode).\nSequence in the AES peripheral\nOnce the shared key is decrypted in SAES key registers, it can be shared with the AES\nperipheral, while SAES peripheral remains in key sharing state, that is, with KMOD[1:0] at\n0x2 and KEYVALID set. The sequence in the AES key share target peripheral is described\nin AES key sharing with secure AES co-processor of the corresponding section in this\ndocument. It can be run multiple times (for example, to manage a suspend/resume\nsituation) as long as SAES is unused and duly remains in key sharing state.\nNote: When KMOD[1:0] is at 0x2 and BUSY set in the AES peripheral, and KEYSIZE value of\nAES and SAES differs, the key sharing fails and the KEIF flag is raised in both peripherals.\nWhen KEYSEL[2:0] is at 0x1 (DHUK) or 0x4 (DHUK XOR BHK), the application software\nmust use the same privilege, KMOD[1:0]/KSHAREID[1:0], CHMOD[2:0], and KEYSIZE\ncontext for encryption and decryption. Otherwise, the result is incorrect.",
+      "semantic": {}
+    }
+  ]
+}

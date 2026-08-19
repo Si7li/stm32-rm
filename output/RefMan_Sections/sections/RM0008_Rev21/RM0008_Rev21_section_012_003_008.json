@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S12.3.8",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "12",
+      "chapter_title": "Digital-to-analog converter (DAC)",
+      "section": "12.3.8",
+      "section_title": "Noise generation",
+      "level": 3,
+      "parent_section": "12.3",
+      "page": 259,
+      "page_end": 260,
+      "semantic_type": "generic",
+      "features": [
+        "generation",
+        "noise"
+      ],
+      "chars": 958,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=259",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.3.8 \"Noise generation\" in chapter 12 (Digital-to-analog converter (DAC)), RM0008 Rev 21, page 259.",
+      "section_content": "In order to generate a variable-amplitude pseudonoise, a Linear Feedback Shift register is\navailable. The DAC noise generation is selected by setting WAVEx[1:0] to “01”. The\npreloaded value in the LFSR is 0xAAA. This register is updated, three APB1 clock cycles\nafter each trigger event, following a specific calculation algorithm.\n[Figure 44. DAC LFSR register calculation algorithm]\nXOR\nX6 X4 X X0\n12\nNOR\nThe LFSR value, that may be masked partially or totally by means of the MAMPx[3:0] bits in\nthe DAC_CR register, is added up to the DAC_DHRx contents without overflow and this\nvalue is then stored into the DAC_DORx register.\nIf LFSR is 0x0000, a ‘1’ is injected into it (antilock-up mechanism).\nIt is possible to reset LFSR wave generation by resetting the WAVEx[1:0] bits.\n[Figure 45. DAC conversion (SW trigger enabled) with LFSR wave generation]\nNote: DAC trigger must be enabled for noise generation, by setting the TENx bit in the DAC_CR\nregister.",
+      "semantic": {}
+    }
+  ]
+}

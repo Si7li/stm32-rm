@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S58.4.18",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "58",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "58.4.18",
+      "section_title": "Input capture mode",
+      "level": 3,
+      "parent_section": "58.4",
+      "page": 2946,
+      "page_end": 2947,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "timer"
+      ],
+      "chars": 2172,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2946",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 58.4.18 \"Input capture mode\" in chapter 58 (Low-power timer (LPTIM)), RM0486 Rev 4, page 2946.",
+      "section_content": "In Input capture mode, the capture/compare registers (LPTIM_CCRx) are used to latch the\nvalue of the counter after a transition detected by the corresponding ICx signal. Assuming\ninput capture is enabled on a channel x (CCxE set) and when a capture occurs, the\ncorresponding CCxIF flag (LPTIM_ISR register) is set and an interrupt or a DMA request\ncan be sent if they are enabled. If a capture occurs while the CCxIF flag was already high,\nthen the over-capture flag CCxOF (LPTIM_ISR register) is set. CCxIF can be cleared by\nsoftware by writing the CCxICF to 1 or by reading the captured data stored in the\nLPTIM_CCRx register. CCxOF is cleared by writing CCxOCF to 1.\nNote: In DMA mode, the input capture channel have to be enabled (set CCxE bit) the last, after\nenabling the DMA request and after starting the counter. This is in order to prevent\ngenerating an input capture DMA request when the counter is not started yet.\nInput capture Glitch filter latency\nWhen a trigger event arrives on channel x input (LPTIx) and depending on the configured\nglitch filter (ICxF[1:0] field in CCMRx register) and on the kernel clock prescaler value\n(PRESC[2:0] field in CFGR register), there is a variable latency that leads to a systematic\noffset (see Table568) between the captured value stored in the CCRx register and the real\nvalue corresponding to the capture trigger.\nThis offset has no impact on pulse width measurement as it is systematic and compensated\nbetween two captures.\nThe real capture value corresponding to the input capture trigger can be calculated using\nthe below formula:\nReal capture value = captured(LPTIM_CCRx) - offset\nThe relevant offset must be used depending on the glitch filter and on the kernel clock\nprescaler value (PRESC field in CFGR register)\nExample: determining the real capture value when PRESC[2:0]=0x2 and ICxF=0x3.\nFor this configuration (PRESC[2:0]=0x2 and ICxF=0x3) and according to the\nTable568, the offset is 5.\nAssuming that the captured value in CCRx is 9 (LPTIM_CNT=9), this means that the\ncapture trigger occurred when the LPTIM_CNT was equal to 9 - 5 = 4.\n[Table 568. Input capture Glitch filter latency (in counter step unit)]",
+      "semantic": {}
+    }
+  ]
+}

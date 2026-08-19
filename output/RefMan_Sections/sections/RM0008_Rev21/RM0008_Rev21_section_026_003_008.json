@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S26.3.8",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "26",
+      "chapter_title": "Inter-integrated circuit (I2C) interface",
+      "section": "26.3.8",
+      "section_title": "Packet error checking",
+      "level": 3,
+      "parent_section": "26.3",
+      "page": 770,
+      "page_end": 770,
+      "semantic_type": "generic",
+      "features": [
+        "i2c"
+      ],
+      "chars": 1689,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=770",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.3.8 \"Packet error checking\" in chapter 26 (Inter-integrated circuit (I2C) interface), RM0008 Rev 21, page 770.",
+      "section_content": "A PEC calculator has been implemented to improve the reliability of communication. The\nPEC is calculated by using the C(x) = x8 + x2 + x + 1 CRC-8 polynomial serially on each bit.\n• PEC calculation is enabled by setting the ENPEC bit in the I2C_CR1 register. PEC is a\nCRC-8 calculated on all message bytes including addresses and R/W bits.\n– In transmission: set the PEC transfer bit in the I2C_CR1 register after the TxE\nevent corresponding to the last byte. The PEC will be transferred after the last\ntransmitted byte.\n– In reception: set the PEC bit in the I2C_CR1 register after the RxNE event\ncorresponding to the last byte so that the receiver sends a NACK if the next\nreceived byte is not equal to the internally calculated PEC. In case of Master-\nReceiver, a NACK must follow the PEC whatever the check result.The PEC must\nbe set before the ACK pulse of the current byte reception.\n• A PECERR error flag/interrupt is also available in the I2C_SR1 register.\n• If DMA and PEC calculation are both enabled:-\n– In transmission: when the I2C interface receives an EOT signal from the DMA\ncontroller, it automatically sends a PEC after the last byte.\n– In reception: when the I2C interface receives an EOT_1 signal from the DMA\ncontroller, it will automatically consider the next byte as a PEC and will check it. A\nDMA request is generated after PEC reception.\n• To allow intermediate PEC transfers, a control bit is available in the I2C_CR2 register\n(LAST bit) to determine if it is really the last DMA transfer or not. If it is the last DMA\nrequest for a master receiver, a NACK is automatically sent after the last received byte.\n• PEC calculation is corrupted by an arbitration loss.",
+      "semantic": {}
+    }
+  ]
+}

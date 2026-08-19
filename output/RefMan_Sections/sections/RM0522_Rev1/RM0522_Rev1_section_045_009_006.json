@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S45.9.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "45",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "45.9.6",
+      "section_title": "Additional serial interface flexibility",
+      "level": 3,
+      "parent_section": "45.9",
+      "page": 1986,
+      "page_end": 1988,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 3058,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1986",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 45.9.6 \"Additional serial interface flexibility\" in chapter 45 (Serial peripheral interface (SPI)), RM0522 Rev 1, page 1986.",
+      "section_content": "Variable frame length in slave\nIn slave mode, channel lengths different from 16 or 32 bits can be accepted, as long as the\nchannel length is bigger than the data length. This is true for all protocols except for the I2S\nLSB-justified protocol.\nData ordering\nFor all data formats and communication standards, it is possible to select the data ordering\n(MSb or LSb first) thanks to the bit LSBFRST located into SPI/I2S configuration register 2\n(SPI_CFG2).\nSelection of the CK sampling edge\nThe CKPOL bit located into SPI/I2S configuration register (SPI_I2SCFGR) allows the user\nto choose the sampling edge polarity of the CK for slave and master modes, for all\nprotocols.\n• When CKPOL = 0, serial data SDO and WS (when master) are changed on the falling\nedge of CK and the serial data SDI and WS (when slave) are read on the rising edge.\n• When CKPOL = 1, serial data SDO and WS (when master) are changed on the rising\nedge of CK and the serial data SDI and WS (when slave) are read on the falling edge.\nControl of the WS inversion\nIt is possible to invert the default WS signal polarity for master and slave modes, for all\nprotocols, by setting WSINV. By default the WS polarity is the following:\n• In I2S Philips standard, WS is LOW for left channel, and HIGH for right channel\n• In MSB/LSB-justified mode, WS is HIGH for left channel, and LOW for right channel\n• In PCM mode, the start of frame is indicated by a rising edge of WS.\nWhen WSINV is set, the WS polarity is inverted, then:\n• In I2S Philips standard, WS is HIGH for left channel, and LOW for right channel\n• In MSB/LSB-justified mode, WS is LOW for left channel, and HIGH for right channel\n• In PCM mode, the start of frame is indicated by a falling edge of WS.\nWSINV is located in the SPI/I2S configuration register (SPI_I2SCFGR).\nControl of the I/Os\nThe SPI/I2S block allows the settling of the WS and CK signals to their inactive state before\nenabling the SPI/I2S thanks to the AFCNTR bit of SPI/I2S configuration register 2\n(SPI_CFG2).\nThis can be done by programming CKPOL and WSINV using the following sequence:\nAssuming that AFCNTR is initially cleared:\n• Set I2SMOD = 1, (to inform the hardware that the CK and WS polarity is controlled via\nCKPOL and WSINV).\n• Set bits CKPOL and WSINV to the wanted value.\n• Set AFCNTR = 1.\nThen the inactive level of CK and WS I/Os is set according to CKPOL and WSINV\nvalues, even if the SPI/I2S is not yet enabled.\n• Then performs the activation sequence of the I2S/PCM\nTable465 shows the level of WS and CK signals, when the AFCNTR bit is set, and before\nthe SPI/I2S block is enabled (that is inactive level). Note that the level of WS also depends\non the protocol selected.\n[Table 465. WS and CK level before SPI/I2S is enabled when AFCNTR = 1]\nNote: The bit AFCNTR must not be set when the SPI is in slave mode.\nSerial data line swapping\nThe direction of SDI and SDO depends on the IOSWP bit of SPI/I2S configuration register 2\n(SPI_CFG2), and on the slave/master mode. Table466 gives details on this feature.\n[Table 466. Serial data line swapping]",
+      "semantic": {}
+    }
+  ]
+}

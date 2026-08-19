@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S20.4.14",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "20",
+      "chapter_title": "General-purpose timers (TIM15/TIM16/TIM17)",
+      "section": "20.4.14",
+      "section_title": "Bidirectional break inputs",
+      "level": 3,
+      "parent_section": "20.4",
+      "page": 572,
+      "page_end": 573,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 2975,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=572",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 20.4.14 \"Bidirectional break inputs\" in chapter 20 (General-purpose timers (TIM15/TIM16/TIM17)), RM0490 Rev 6, page 572.",
+      "section_content": "The TIM15/TIM16/TIM17 are featuring bidirectional break I/Os, as represented on\nFigure209.\nThey allow the following:\n• A board-level global break signal available for signaling faults to external MCUs or gate\ndrivers, with a unique pin being both an input and an output status pin\n• Internal break sources and multiple external open drain comparator outputs ORed\ntogether to trigger a unique break event, when multiple internal and external break\nsources must be merged\nThe break input is configured in bidirectional mode using the BKBID bit in the TIMxBDTR\nregister. The BKBID programming bit can be locked in read-only mode using the LOCK bits\nin the TIMxBDTR register (in LOCK level 1 or above).\nThe bidirectional mode requires the I/O to be configured in open-drain mode with active low\npolarity (using BKINP and BKP bits). Any break request coming either from system (e.g.\nCSS), from on-chip peripherals or from break inputs forces a low level on the break input to\nsignal the fault event. The bidirectional mode is inhibited if the polarity bits are not correctly\nset (active high polarity), for safety purposes.\nThe break software event (BG) also causes the break I/O to be forced to '0' to indicate to the\nexternal components that the timer has entered in break state. However, this is valid only if\nthe break is enabled (BKE = 1). When a software break event is generated with BKE = 0,\nthe outputs are put in safe state and the break flag is set, but there is no effect on the break\nI/O.\nA safe disarming mechanism prevents the system to be definitively locked-up (a low level on\nthe break input triggers a break which enforces a low level on the same input).\nWhen the BKDSRM bit is set to 1, this releases the break output to clear a fault signal and to\ngive the possibility to re-arm the system.\nAt no point the break protection circuitry can be disabled:\n• The break input path is always active: a break event is active even if the BKDSRM bit is\nset and the open drain control is released. This prevents the PWM output to be re-\nstarted as long as the break condition is present.\n• The BKDSRM bit cannot disarm the break protection as long as the outputs are\nenabled (MOE bit is set) (see Table90)\n[Table 90. Break protection disarming conditions]\nArming and re-arming break circuitry\nThe break circuitry (in input or bidirectional mode) is armed by default (peripheral reset\nconfiguration).\nThe following procedure must be followed to re-arm the protection after a break event:\n• The BKDSRM bit must be set to release the output control\n• The software must wait until the system break condition disappears (if any) and clear\nthe SBIF status flag (or clear it systematically before re-arming)\n• The software must poll the BKDSRM bit until it is cleared by hardware (when the\napplication break condition disappears)\nFrom this point, the break circuitry is armed and active, and the MOE bit can be set to re-\nenable the PWM outputs.\n[Figure 209. Output redirection]",
+      "semantic": {}
+    }
+  ]
+}

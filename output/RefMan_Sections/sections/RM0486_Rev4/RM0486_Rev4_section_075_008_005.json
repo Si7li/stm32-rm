@@ -1,0 +1,345 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S75.8.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "75",
+      "chapter_title": "USB Type-C®/USB Power Delivery interface (UCPD)",
+      "section": "75.8.5",
+      "section_title": "UCPD status register (UCPD_SR)",
+      "level": 3,
+      "parent_section": "75.8",
+      "page": 3962,
+      "page_end": 3964,
+      "semantic_type": "register_description",
+      "features": [
+        "hrstdisc",
+        "hrstsent",
+        "power",
+        "rxerr",
+        "rxhrstdet",
+        "rxmsgend",
+        "rxne",
+        "rxorddet",
+        "rxovr",
+        "txis",
+        "txmsgabt",
+        "txmsgdisc",
+        "txmsgsent",
+        "txund",
+        "typec-vstate-cc1",
+        "typec-vstate-cc2",
+        "typecevt1",
+        "typecevt2",
+        "ucpd",
+        "ucpd-sr"
+      ],
+      "chars": 5040,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3962",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 75.8.5 \"UCPD status register (UCPD_SR)\" in chapter 75 (USB Type-C®/USB Power Delivery interface (UCPD)), RM0486 Rev 4, page 3962.",
+      "section_content": "Address offset: 0x014\nReset value: 0x0000 0000\nThe flags (single-bit status bitfields) are associated with interrupt request. Interrupt is\ngenerated if enabled by the corresponding bit of the UCPD_IMR register.\nBits 31:20 Reserved, must be kept at reset value.\nBits 19:18 TYPEC_VSTATE_CC2[1:0]: CC2 line voltage level\nThe status bitfield indicates the voltage level on the CC2 line in its steady state.\n0x0: Lowest\n0x1: Low\n0x2: High\n0x3: Highest\nThe voltage variation on the CC2 line during USB PD messages due to the BMC PHY\nmodulation does not impact the bitfield value.\nBits 17:16 TYPEC_VSTATE_CC1[1:0]:\nThe status bitfield indicates the voltage level on the CC1 line in its steady state.\n0x0: Lowest\n0x1: Low\n0x2: High\n0x3: Highest\nThe voltage variation on the CC1 line during USB PD messages due to the BMC PHY\nmodulation does not impact the bitfield value.\nBit 15 TYPECEVT2: Type-C voltage level event on CC2 line\nThe flag indicates a change of the TYPEC_VSTATE_CC2[1:0] bitfield value, which\ncorresponds to a new Type-C event. It is cleared by setting the TYPECEVT2CF bit.\n0: No new event\n1: A new Type-C event\nBit 14 TYPECEVT1: Type-C voltage level event on CC1 line\nThe flag indicates a change of the TYPEC_VSTATE_CC1[1:0] bitfield value, which\ncorresponds to a new Type-C event. It is cleared by setting the TYPECEVT2CF bit.\n0: No new event\n1: A new Type-C event\nBit 13 RXERR: Receive message error\nThe flag indicates errors of the last Rx message declared (via RXMSGEND), such as\nincorrect CRC or truncated message (a line becoming static before EOP is met). It is\nasserted whenever the RXMSGEND flag is set.\n0: No error detected\n1: Error(s) detected\nBit 12 RXMSGEND: Rx message received\nThe flag indicates whether a message (except Hard Reset message) has been received,\nregardless the CRC value. The flag is cleared by setting the RXMSGENDCF bit.\n0: No new Rx message received\n1: A new Rx message received\nThe RXERR flag set when the RXMSGEND flag goes high indicates errors in the last-\nreceived message.\nBit 11 RXOVR: Rx data overflow detection\nThe flag indicates Rx data buffer overflow. It is cleared by setting the RXOVRCF bit.\n0: No overflow\n1: Overflow\nThe buffer overflow can occur if the received data are not read fast enough.\nBit 10 RXHRSTDET: Rx Hard Reset receipt detection\nThe flag indicates the receipt of valid Hard Reset message. It is cleared by setting the\nRXHRSTDETCF bit.\n0: Hard Reset not received\n1: Hard Reset received\nBit 9 RXORDDET: Rx ordered set (4 K-codes) detection\nThe flag indicates the detection of an ordered set. The relevant information is stored in the\nRXORDSET[2:0] bitfield of the UCPD_RX_ORDSET register. It is cleared by setting the\nRXORDDETCF bit.\n0: No ordered set detected\n1: A new ordered set detected\nBit 8 RXNE: Receive data register not empty detection\nThe flag indicates that the UCPD_RXDR register is not empty. It is automatically cleared\nupon reading UCPD_RXDR.\n0: Rx data register empty\n1: Rx data register not empty\nBit 7 Reserved, must be kept at reset value.\nBit 6 TXUND: Tx data underrun detection\nThe flag indicates that the Tx data register (UCPD_TXDR) was not written in time for a\ntransmit message to execute normally. It is cleared by setting the TXUNDCF bit.\n0: No Tx data underrun detected\n1: Tx data underrun detected\nBit 5 HRSTSENT: Hard Reset message sent\nThe flag indicates that the Hard Reset message is sent. The flag is cleared by setting the\nHRSTSENTCF bit.\n0: No Hard Reset message sent\n1: Hard Reset message sent\nBit 4 HRSTDISC: Hard Reset discarded\nThe flag indicates that the Hard Reset message is discarded. The flag is cleared by setting\nthe HRSTDISCCF bit.\n0: No Hard Reset discarded\n1: Hard Reset discarded\nBit 3 TXMSGABT: Transmit message abort\nThe flag indicates that a Tx message is aborted due to a subsequent Hard Reset message\nsend request taking priority during transmit. It is cleared by setting the TXMSGABTCF bit.\n0: No transmit message abort\n1: Transmit message abort\nBit 2 TXMSGSENT: Message transmission completed\nThe flag indicates the completion of packet transmission. It is cleared by setting the\nTXMSGSENTCF bit.\n0: No Tx message completed\n1: Tx message completed\nIn the event of a message transmission interrupted by a Hard Reset, the flag is not raised.\nBit 1 TXMSGDISC: Message transmission discarded\nThe flag indicates that a message transmission was dropped. The flag is cleared by setting\nthe TXMSGDISCCF bit.\n0: No Tx message discarded\n1: Tx message discarded\nTransmission of a message can be dropped if there is a concurrent receive in progress or at\nexcessive noise on the line. After a Tx message is discarded, the flag is only raised when the\nCC line becomes idle.\nBit 0 TXIS: Transmit interrupt status\nThe flag indicates that the UCPD_TXDR register is empty and new data write is required (as\nthe amount of data sent has not reached the payload size defined in the TXPAYSZ bitfield).\nThe flag is cleared with the data write into the UCPD_TXDR register.\n0: New Tx data write not required\n1: New Tx data write required",
+      "semantic": {
+        "register": "UCPD_SR",
+        "address_offset": "0x014",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:18",
+            "name": "TYPEC_VSTATE_CC2[1:0]",
+            "description": "CC2 line voltage level The status bitfield indicates the voltage level on the CC2 line in its steady state. The voltage variation on the CC2 line during USB PD messages due to the BMC PHY modulation does not impact the bitfield value.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Lowest"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Low"
+              },
+              {
+                "value": "0x2",
+                "meaning": "High"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Highest"
+              }
+            ]
+          },
+          {
+            "bits": "17:16",
+            "name": "TYPEC_VSTATE_CC1[1:0]",
+            "description": "The status bitfield indicates the voltage level on the CC1 line in its steady state. The voltage variation on the CC1 line during USB PD messages due to the BMC PHY modulation does not impact the bitfield value.",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Lowest"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Low"
+              },
+              {
+                "value": "0x2",
+                "meaning": "High"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Highest"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "TYPECEVT2",
+            "description": "Type-C voltage level event on CC2 line The flag indicates a change of the TYPEC_VSTATE_CC2[1:0] bitfield value, which corresponds to a new Type-C event. It is cleared by setting the TYPECEVT2CF bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No new event"
+              },
+              {
+                "value": "1",
+                "meaning": "A new Type-C event"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "TYPECEVT1",
+            "description": "Type-C voltage level event on CC1 line The flag indicates a change of the TYPEC_VSTATE_CC1[1:0] bitfield value, which corresponds to a new Type-C event. It is cleared by setting the TYPECEVT2CF bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No new event"
+              },
+              {
+                "value": "1",
+                "meaning": "A new Type-C event"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "RXERR",
+            "description": "Receive message error The flag indicates errors of the last Rx message declared (via RXMSGEND), such as incorrect CRC or truncated message (a line becoming static before EOP is met). It is asserted whenever the RXMSGEND flag is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No error detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Error(s) detected"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "RXMSGEND",
+            "description": "Rx message received The flag indicates whether a message (except Hard Reset message) has been received, regardless the CRC value. The flag is cleared by setting the RXMSGENDCF bit. The RXERR flag set when the RXMSGEND flag goes high indicates errors in the last- received message.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No new Rx message received"
+              },
+              {
+                "value": "1",
+                "meaning": "A new Rx message received"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "RXOVR",
+            "description": "Rx data overflow detection The flag indicates Rx data buffer overflow. It is cleared by setting the RXOVRCF bit. The buffer overflow can occur if the received data are not read fast enough.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No overflow"
+              },
+              {
+                "value": "1",
+                "meaning": "Overflow"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "RXHRSTDET",
+            "description": "Rx Hard Reset receipt detection The flag indicates the receipt of valid Hard Reset message. It is cleared by setting the RXHRSTDETCF bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Hard Reset not received"
+              },
+              {
+                "value": "1",
+                "meaning": "Hard Reset received"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "RXORDDET",
+            "description": "Rx ordered set (4 K-codes) detection The flag indicates the detection of an ordered set. The relevant information is stored in the RXORDSET[2:0] bitfield of the UCPD_RX_ORDSET register. It is cleared by setting the RXORDDETCF bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No ordered set detected"
+              },
+              {
+                "value": "1",
+                "meaning": "A new ordered set detected"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "RXNE",
+            "description": "Receive data register not empty detection The flag indicates that the UCPD_RXDR register is not empty. It is automatically cleared upon reading UCPD_RXDR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Rx data register empty"
+              },
+              {
+                "value": "1",
+                "meaning": "Rx data register not empty"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "TXUND",
+            "description": "Tx data underrun detection The flag indicates that the Tx data register (UCPD_TXDR) was not written in time for a transmit message to execute normally. It is cleared by setting the TXUNDCF bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Tx data underrun detected"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx data underrun detected"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "HRSTSENT",
+            "description": "Hard Reset message sent The flag indicates that the Hard Reset message is sent. The flag is cleared by setting the HRSTSENTCF bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Hard Reset message sent"
+              },
+              {
+                "value": "1",
+                "meaning": "Hard Reset message sent"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "HRSTDISC",
+            "description": "Hard Reset discarded The flag indicates that the Hard Reset message is discarded. The flag is cleared by setting the HRSTDISCCF bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Hard Reset discarded"
+              },
+              {
+                "value": "1",
+                "meaning": "Hard Reset discarded"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "TXMSGABT",
+            "description": "Transmit message abort The flag indicates that a Tx message is aborted due to a subsequent Hard Reset message send request taking priority during transmit. It is cleared by setting the TXMSGABTCF bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No transmit message abort"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmit message abort"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "TXMSGSENT",
+            "description": "Message transmission completed The flag indicates the completion of packet transmission. It is cleared by setting the TXMSGSENTCF bit. In the event of a message transmission interrupted by a Hard Reset, the flag is not raised.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Tx message completed"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx message completed"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "TXMSGDISC",
+            "description": "Message transmission discarded The flag indicates that a message transmission was dropped. The flag is cleared by setting the TXMSGDISCCF bit. Transmission of a message can be dropped if there is a concurrent receive in progress or at excessive noise on the line. After a Tx message is discarded, the flag is only raised when the CC line becomes idle.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Tx message discarded"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx message discarded"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "TXIS",
+            "description": "Transmit interrupt status The flag indicates that the UCPD_TXDR register is empty and new data write is required (as the amount of data sent has not reached the payload size defined in the TXPAYSZ bitfield). The flag is cleared with the data write into the UCPD_TXDR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "New Tx data write not required"
+              },
+              {
+                "value": "1",
+                "meaning": "New Tx data write required"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

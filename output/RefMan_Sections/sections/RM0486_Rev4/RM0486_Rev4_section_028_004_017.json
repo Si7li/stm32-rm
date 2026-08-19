@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.4.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.4.17",
+      "section_title": "XSPI HyperBus protocol configuration",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 1320,
+      "page_end": 1321,
+      "semantic_type": "generic",
+      "features": [
+        "spi",
+        "xspi"
+      ],
+      "chars": 1838,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1320",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.17 \"XSPI HyperBus protocol configuration\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1320.",
+      "section_content": "Indirect mode configuration (HyperBus)\nWhen FMODE[1:0]=00, the indirect-write mode is selected and data can be sent to the\nexternal device. When FMODE[1:0]=01, the indirect-read mode is selected where data can\nbe read from the external device. ADMODE must be configured with a value different from\n000 (for instance ADMODE = 100).\nWhen the XSPI is used in indirect mode, the frames are constructed in the following way:\n1. Specify a number of data bytes to read or write in XSPI_DLR.\n2. Specify the targeted address in XSPI_AR.\n3. Enable the DMA channel if needed.\n4. Read/write the data from/to the FIFO through XSPI_DR (if no DMA usage).\nIn indirect-read mode, the command sequence starts as soon as the address is updated\nwith a write to XSPI_AR.\nIn indirect-write mode, the communication start is triggered by a write in the FIFO through\nXSPI_DR.\nMemory-mapped mode configuration (HyperBus)\nIn memory-mapped mode, the external device is seen as an internal memory but with some\nlatency during the accesses. Read and write operations are allowed to the external device in\nthis mode.\nIt is not recommended to program the flash memory using the memory-mapped writes:\ntheindirect-write mode fulfills this operation.\nThe memory-mapped mode is entered by setting FMODE[1:0]=11. The programmed\ninstruction and frame is sent when an AXI master is accessing the memory mapped space.\nThe FIFO is used as a prefetch buffer to anticipate any linear reads. Any access to\nXSPI_DR in this mode returns zero.\nThe data length register (XSPI_DLR) has no meaning in memory-mapped mode.\nAll the configuration operation must be completed before the first access to the memory\narea. On the first access, the XSPI becomes busy, and no configuration is allowed.\nThen,the only way to get BUSY low is to clear the ENABLE bit or to abort by setting\ntheABORTbit.",
+      "semantic": {}
+    }
+  ]
+}

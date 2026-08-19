@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S27.3.6",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "27",
+      "chapter_title": "Universal synchronous asynchronous receiver transmitter (USART)",
+      "section": "27.3.6",
+      "section_title": "Multiprocessor communication",
+      "level": 3,
+      "parent_section": "27.3",
+      "page": 800,
+      "page_end": 802,
+      "semantic_type": "generic",
+      "features": [
+        "usart"
+      ],
+      "chars": 2730,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=800",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.3.6 \"Multiprocessor communication\" in chapter 27 (Universal synchronous asynchronous receiver transmitter (USART)), RM0008 Rev 21, page 800.",
+      "section_content": "There is a possibility of performing multiprocessor communication with the USART (several\nUSARTs connected in a network). For instance, one of the USARTs can be the master, its\nTX output is connected to the RX input of the other USART. The others are slaves, their\nrespective TX outputs are logically ANDed together and connected to the RX input of the\nmaster.\nIn multiprocessor configurations it is often desirable that only the intended message\nrecipient should actively receive the full message contents, thus reducing redundant USART\nservice overhead for all non addressed receivers.\nThe non addressed devices may be placed in mute mode by means of the muting function.\nIn mute mode:\n• None of the reception status bits can be set.\n• All the receive interrupts are inhibited.\n• The RWU bit in USART_CR1 register is set to 1. RWU can be controlled automatically\nby hardware or written by the software under certain conditions.\nThe USART can enter or exit from mute mode using one of two methods, depending on the\nWAKE bit in the USART_CR1 register:\n• Idle Line detection if the WAKE bit is reset,\n• Address Mark detection if the WAKE bit is set.\nIdle line detection (WAKE=0)\nThe USART enters mute mode when the RWU bit is written to 1.\nIt wakes up when an Idle frame is detected. Then the RWU bit is cleared by hardware but\nthe IDLE bit is not set in the USART_SR register. RWU can also be written to 0 by software.\nAn example of mute mode behavior using idle line detection is given in Figure285.\n[Figure 285. Mute mode using Idle line detection]\nAddress mark detection (WAKE=1)\nIn this mode, bytes are recognized as addresses if their MSB is a ‘1’ else they are\nconsidered as data. In an address byte, the address of the targeted receiver is put on the 4\nLSB. This 4-bit word is compared by the receiver with its own address which is programmed\nin the ADD bits in the USART_CR2 register.\nThe USART enters mute mode when an address character is received which does not\nmatch its programmed address. In this case, the RWU bit is set by hardware. The RXNE\nflag is not set for this address byte and no interrupt nor DMA request is issued as the\nUSART would have entered mute mode.\nIt exits from mute mode when an address character is received which matches the\nprogrammed address. Then the RWU bit is cleared and subsequent bytes are received\nnormally. The RXNE bit is set for the address character since the RWU bit has been\ncleared.\nThe RWU bit can be written to as 0 or 1 when the receiver buffer contains no data (RXNE=0\nin the USART_SR register). Otherwise the write attempt is ignored.\nAn example of mute mode behavior using address mark detection is given in Figure286.\n[Figure 286. Mute mode using address mark detection]",
+      "semantic": {}
+    }
+  ]
+}

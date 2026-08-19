@@ -1,0 +1,312 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.20",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.20",
+      "section_title": "OTG core LPM configuration register (OTG_GLPMCFG)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3817,
+      "page_end": 3820,
+      "semantic_type": "register_description",
+      "features": [
+        "besl",
+        "beslthrs",
+        "enbesl",
+        "l1dsen",
+        "l1rsmok",
+        "l1ssen",
+        "lpm",
+        "lpmack",
+        "lpmchidx",
+        "lpmen",
+        "lpmrcnt",
+        "lpmrcntsts",
+        "lpmrsp",
+        "otg",
+        "otg-glpmcfg",
+        "remwake",
+        "slpsts",
+        "sndlpm"
+      ],
+      "chars": 6851,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3817",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.20 \"OTG core LPM configuration register (OTG_GLPMCFG)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3817.",
+      "section_content": "Address offset: 0x054\nReset value: 0x0000 0000\nBits 31:29 Reserved, must be kept at reset value.\nBit 28 ENBESL: Enable best effort service latency\nThis bit enables the BESL feature as defined in the LPM errata:\n0:The core works as described in the following document:\nUSB 2.0 Link Power Management Addendum Engineering Change Notice to the USB 2.0\nspecification, July 16, 2007\n1:The core works as described in the LPM Errata:\nErrata for USB 2.0 ECN: Link Power Management (LPM) - 7/2007\nNote: Only the updated behavior (described in LPM Errata) is considered in this document\nand so the ENBESL bit must be set to '1' by application SW.\nBits 27:25 LPMRCNTSTS[2:0]: LPM retry count status\nNumber of LPM host retries still remaining to be transmitted for the current LPM sequence.\nNote: Accessible only in host mode.\nBit 24 SNDLPM: Send LPM transaction\nWhen the application software sets this bit, an LPM transaction containing two tokens, EXT\nand LPM is sent. The hardware clears this bit once a valid response (STALL, NYET, or\nACK) is received from the device or the core has finished transmitting the programmed\nnumber of LPM retries.\nNote: This bit must be set only when the host is connected to a local port.\nNote: Accessible only in host mode.\nBits 23:21 LPMRCNT[2:0]: LPM retry count\nWhen the device gives an ERROR response, this is the number of additional LPM retries\nthat the host performs until a valid device response (STALL, NYET, or ACK) is received.\nNote: Accessible only in host mode.\nBits 20:17 LPMCHIDX[3:0]: LPM Channel Index\nThe channel number on which the LPM transaction has to be applied while sending an LPM\ntransaction to the local device. Based on the LPM channel index, the core automatically\ninserts the device address and endpoint number programmed in the corresponding channel\ninto the LPM transaction.\nNote: Accessible only in host mode.\nBit 16 L1RSMOK: Sleep state resume OK\nIndicates that the device or host can start resume from Sleep state. This bit is valid in LPM\nsleep (L1) state. It is set in sleep mode after a delay of 50 μs (TL1Residency).\nThis bit is reset when SLPSTS is 0.\n1: The application or host can start resume from Sleep state\n0: The application or host cannot start resume from Sleep state\nBit 15 SLPSTS: Port sleep status\nDevice mode:\nThis bit is set as long as a Sleep condition is present on the USB bus. The core enters the\nSleep state when an ACK response is sent to an LPM transaction and the TL1TokenRetry\ntimer has expired. To stop the PHY clock, the application must set the STPPCLK bit in\nOTG_PCGCCTL, which asserts the PHY suspend input signal.\nThe application must rely on SLPSTS and not ACK in LPMRSP to confirm transition into\nsleep.\nThe core comes out of sleep:\n– When there is any activity on the USB linestate\n– When the application writes to the RWUSIG bit in OTG_DCTL or when the application\nresets or soft-disconnects the device.\nHost mode:\nThe host transitions to Sleep (L1) state as a side-effect of a successful LPM transaction by\nthe core to the local port with ACK response from the device. The read value of this bit\nreflects the current Sleep status of the port.\nThe core clears this bit after:\n– The core detects a remote L1 wake-up signal,\n– The application sets the PRST bit or the PRES bit in the OTG_HPRT register, or\n– The application sets the L1Resume/ remote wake-up detected interrupt bit or disconnect\ndetected interrupt bit in the core interrupt register (WKUPINT or DISCINT bit in\nOTG_GINTSTS, respectively).\n0: Core not in L1\n1: Core in L1\nBits 14:13 LPMRSP[1:0]: LPM response\nDevice mode:\nThe response of the core to LPM transaction received is reflected in these two bits.\nHost mode:\nHandshake response received from local device for LPM transaction\n11: ACK\n10: NYET\n01: STALL\n00: ERROR (No handshake response)\nBit 12 L1DSEN: L1 deep sleep enable\nEnables suspending the PHY in L1 Sleep mode. For maximum power saving during L1\nSleep mode, this bit must be set to '1' by application SW in all the cases.\nBits 11:8 BESLTHRS[3:0]: BESL threshold\nDevice mode:\nThe core puts the PHY into deep low power mode in L1 when BESL value is greater than or\nequal to the value defined in this field BESL_Thres[3:0].\nHost mode:\nThe core puts the PHY into deep low power mode in L1. BESLTHRS[3:0] specifies the time\nfor which resume signaling is to be reflected by host (TL1HubDrvResume2) on the USB bus\nwhen it detects device initiated resume.\nBESLTHRS must not be programmed with a value greater than 1100b in host mode,\nbecause this exceeds maximum TL1HubDrvResume2.\nThres[3:0] host mode resume signaling time (μs):\n0000: 75\n0001: 100\n0010: 150\n0011: 250\n0100: 350\n0101: 450\n0110: 950\nAll other values: reserved\nBit 7 L1SSEN: L1 Shallow Sleep enable\nEnables suspending the PHY in L1 Sleep mode. For maximum power saving during L1\nSleep mode, this bit must be set to '1' by application SW in all the cases.\nBit 6 REMWAKE: bRemoteWake value\nHost mode:\nThe value of remote wake up to be sent in the wIndex field of LPM transaction.\nDevice mode (read-only):\nThis field is updated with the received LPM token bRemoteWake bmAttribute when an ACK,\nNYET, or STALL response is sent to an LPM transaction.\nBits 5:2 BESL[3:0]: Best effort service latency\nHost mode:\nThe value of BESL to be sent in an LPM transaction. This value is also used to initiate\nresume for a duration TL1HubDrvResume1 for host initiated resume.\nDevice mode (read-only):\nThis field is updated with the received LPM token BESL bmAttribute when an ACK, NYET,\nor STALL response is sent to an LPM transaction.\nBESL[3:0]TBESL (μs)\n0000: 125\n0001: 150\n0010: 200\n0011: 300\n0100: 400\n0101: 500\n0110: 1000\n0111: 2000\n1000: 3000\n1001: 4000\n1010: 5000\n1011: 6000\n1100: 7000\n1101: 8000\n1110: 9000\n1111: 10000\nBit 1 LPMACK: LPM token acknowledge enable\nHandshake response to LPM token preprogrammed by device application software.\n1: ACK\nEven though ACK is preprogrammed, the core device responds with ACK only on\nsuccessful LPM transaction. The LPM transaction is successful if:\n– No PID/CRC5 errors in either EXT token or LPM token (else ERROR)\n– Valid bLinkState = 0001B (L1) received in LPM transaction (else STALL)\n– No data pending in transmit queue (else NYET).\n0: NYET\nThe preprogrammed software bit is over-ridden for response to LPM token when:\n– The received bLinkState is not L1 (STALL response), or\n– An error is detected in either of the LPM token packets because of corruption (ERROR\nresponse).\nNote: Accessible only in device mode.\nBit 0 LPMEN: LPM support enable\nThe application uses this bit to control the OTG core LPM capabilities.\nIf the core operates as a non-LPM-capable host, it cannot request the connected device or\nhub to activate LPM mode.\nIf the core operates as a non-LPM-capable device, it cannot respond to any LPM\ntransactions.\n0: LPM capability is not enabled\n1: LPM capability is enabled",
+      "semantic": {
+        "register": "OTG_GLPMCFG",
+        "address_offset": "0x054",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:29",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "28",
+            "name": "ENBESL",
+            "description": "Enable best effort service latency This bit enables the BESL feature as defined in the LPM errata: USB 2.0 Link Power Management Addendum Engineering Change Notice to the USB 2.0 specification, July 16, 2007 Errata for USB 2.0 ECN: Link Power Management (LPM) - 7/2007 Note: Only the updated behavior (described in LPM Errata) is considered in this document and so the ENBESL bit must be set to '1' by application SW.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The core works as described in the following document:"
+              },
+              {
+                "value": "1",
+                "meaning": "The core works as described in the LPM Errata:"
+              }
+            ]
+          },
+          {
+            "bits": "27:25",
+            "name": "LPMRCNTSTS[2:0]",
+            "description": "LPM retry count status Number of LPM host retries still remaining to be transmitted for the current LPM sequence. Note: Accessible only in host mode.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "SNDLPM",
+            "description": "Send LPM transaction When the application software sets this bit, an LPM transaction containing two tokens, EXT and LPM is sent. The hardware clears this bit once a valid response (STALL, NYET, or ACK) is received from the device or the core has finished transmitting the programmed number of LPM retries. Note: This bit must be set only when the host is connected to a local port. Note: Accessible only in host mode.",
+            "values": []
+          },
+          {
+            "bits": "23:21",
+            "name": "LPMRCNT[2:0]",
+            "description": "LPM retry count When the device gives an ERROR response, this is the number of additional LPM retries that the host performs until a valid device response (STALL, NYET, or ACK) is received. Note: Accessible only in host mode.",
+            "values": []
+          },
+          {
+            "bits": "20:17",
+            "name": "LPMCHIDX[3:0]",
+            "description": "LPM Channel Index The channel number on which the LPM transaction has to be applied while sending an LPM transaction to the local device. Based on the LPM channel index, the core automatically inserts the device address and endpoint number programmed in the corresponding channel into the LPM transaction. Note: Accessible only in host mode.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "L1RSMOK",
+            "description": "Sleep state resume OK Indicates that the device or host can start resume from Sleep state. This bit is valid in LPM sleep (L1) state. It is set in sleep mode after a delay of 50 μs (TL1Residency). This bit is reset when SLPSTS is 0.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "The application or host can start resume from Sleep state"
+              },
+              {
+                "value": "0",
+                "meaning": "The application or host cannot start resume from Sleep state"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "SLPSTS",
+            "description": "Port sleep status Device mode: This bit is set as long as a Sleep condition is present on the USB bus. The core enters the Sleep state when an ACK response is sent to an LPM transaction and the TL1TokenRetry timer has expired. To stop the PHY clock, the application must set the STPPCLK bit in OTG_PCGCCTL, which asserts the PHY suspend input signal. The application must rely on SLPSTS and not ACK in LPMRSP to confirm transition into sleep. The core comes out of sleep: – When there is any activity on the USB linestate – When the application writes to the RWUSIG bit in OTG_DCTL or when the application resets or soft-disconnects the device. Host mode: The host transitions to Sleep (L1) state as a side-effect of a successful LPM transaction by the core to the local port with ACK response from the device. The read value of this bit reflects the current Sleep status of the port. The core clears this bit after: – The core detects a remote L1 wake-up signal, – The application sets the PRST bit or the PRES bit in the OTG_HPRT register, or – The application sets the L1Resume/ remote wake-up detected interrupt bit or disconnect detected interrupt bit in the core interrupt register (WKUPINT or DISCINT bit in OTG_GINTSTS, respectively).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Core not in L1"
+              },
+              {
+                "value": "1",
+                "meaning": "Core in L1"
+              }
+            ]
+          },
+          {
+            "bits": "14:13",
+            "name": "LPMRSP[1:0]",
+            "description": "LPM response Device mode: The response of the core to LPM transaction received is reflected in these two bits. Host mode: Handshake response received from local device for LPM transaction",
+            "values": [
+              {
+                "value": "11",
+                "meaning": "ACK"
+              },
+              {
+                "value": "10",
+                "meaning": "NYET"
+              },
+              {
+                "value": "01",
+                "meaning": "STALL"
+              },
+              {
+                "value": "00",
+                "meaning": "ERROR (No handshake response)"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "L1DSEN",
+            "description": "L1 deep sleep enable Enables suspending the PHY in L1 Sleep mode. For maximum power saving during L1 Sleep mode, this bit must be set to '1' by application SW in all the cases.",
+            "values": []
+          },
+          {
+            "bits": "11:8",
+            "name": "BESLTHRS[3:0]",
+            "description": "BESL threshold Device mode: The core puts the PHY into deep low power mode in L1 when BESL value is greater than or equal to the value defined in this field BESL_Thres[3:0]. Host mode: The core puts the PHY into deep low power mode in L1. BESLTHRS[3:0] specifies the time for which resume signaling is to be reflected by host (TL1HubDrvResume2) on the USB bus when it detects device initiated resume. BESLTHRS must not be programmed with a value greater than 1100b in host mode, because this exceeds maximum TL1HubDrvResume2. Thres[3:0] host mode resume signaling time (μs): All other values: reserved",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "75"
+              },
+              {
+                "value": "0001",
+                "meaning": "100"
+              },
+              {
+                "value": "0010",
+                "meaning": "150"
+              },
+              {
+                "value": "0011",
+                "meaning": "250"
+              },
+              {
+                "value": "0100",
+                "meaning": "350"
+              },
+              {
+                "value": "0101",
+                "meaning": "450"
+              },
+              {
+                "value": "0110",
+                "meaning": "950"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "L1SSEN",
+            "description": "L1 Shallow Sleep enable Enables suspending the PHY in L1 Sleep mode. For maximum power saving during L1 Sleep mode, this bit must be set to '1' by application SW in all the cases.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "REMWAKE",
+            "description": "bRemoteWake value Host mode: The value of remote wake up to be sent in the wIndex field of LPM transaction. Device mode (read-only): This field is updated with the received LPM token bRemoteWake bmAttribute when an ACK, NYET, or STALL response is sent to an LPM transaction.",
+            "values": []
+          },
+          {
+            "bits": "5:2",
+            "name": "BESL[3:0]",
+            "description": "Best effort service latency Host mode: The value of BESL to be sent in an LPM transaction. This value is also used to initiate resume for a duration TL1HubDrvResume1 for host initiated resume. Device mode (read-only): This field is updated with the received LPM token BESL bmAttribute when an ACK, NYET, or STALL response is sent to an LPM transaction. BESL[3:0]TBESL (μs)",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "125"
+              },
+              {
+                "value": "0001",
+                "meaning": "150"
+              },
+              {
+                "value": "0010",
+                "meaning": "200"
+              },
+              {
+                "value": "0011",
+                "meaning": "300"
+              },
+              {
+                "value": "0100",
+                "meaning": "400"
+              },
+              {
+                "value": "0101",
+                "meaning": "500"
+              },
+              {
+                "value": "0110",
+                "meaning": "1000"
+              },
+              {
+                "value": "0111",
+                "meaning": "2000"
+              },
+              {
+                "value": "1000",
+                "meaning": "3000"
+              },
+              {
+                "value": "1001",
+                "meaning": "4000"
+              },
+              {
+                "value": "1010",
+                "meaning": "5000"
+              },
+              {
+                "value": "1011",
+                "meaning": "6000"
+              },
+              {
+                "value": "1100",
+                "meaning": "7000"
+              },
+              {
+                "value": "1101",
+                "meaning": "8000"
+              },
+              {
+                "value": "1110",
+                "meaning": "9000"
+              },
+              {
+                "value": "1111",
+                "meaning": "10000"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "LPMACK",
+            "description": "LPM token acknowledge enable Handshake response to LPM token preprogrammed by device application software. Even though ACK is preprogrammed, the core device responds with ACK only on successful LPM transaction. The LPM transaction is successful if: – No PID/CRC5 errors in either EXT token or LPM token (else ERROR) – Valid bLinkState = 0001B (L1) received in LPM transaction (else STALL) – No data pending in transmit queue (else NYET). The preprogrammed software bit is over-ridden for response to LPM token when: – The received bLinkState is not L1 (STALL response), or – An error is detected in either of the LPM token packets because of corruption (ERROR response). Note: Accessible only in device mode.",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "ACK"
+              },
+              {
+                "value": "0",
+                "meaning": "NYET"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "LPMEN",
+            "description": "LPM support enable The application uses this bit to control the OTG core LPM capabilities. If the core operates as a non-LPM-capable host, it cannot request the connected device or hub to activate LPM mode. If the core operates as a non-LPM-capable device, it cannot respond to any LPM transactions.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "LPM capability is not enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "LPM capability is enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

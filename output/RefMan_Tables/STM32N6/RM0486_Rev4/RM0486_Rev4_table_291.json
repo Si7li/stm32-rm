@@ -1,0 +1,123 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T291",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "291",
+      "title": "Programming sequence",
+      "page": 1676,
+      "section": "35.7.2",
+      "section_title": "Programming examples",
+      "semantic_type": "generic",
+      "features": [
+        "programming",
+        "sequence"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1676",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Operations",
+        "Comments"
+      ],
+      "text_helper": "Table 291, \"Programming sequence\", in section 35.7.2 (Programming examples) on page 1676. Columns: Operations, Comments. 19 data row(s).",
+      "table_content": {
+        "headers": [
+          "Operations",
+          "Comments"
+        ],
+        "rows": [
+          [
+            "Adjust the proper kernel clock frequency via \nthe RCC block",
+            "Assuming that the RCC is programmed to provide a kernel clock \n(mdf_ker_ck) of 12.288 MHz"
+          ],
+          [
+            "Select the proper MDF kernel clock source via \nthe RCC block",
+            "Refer to the RCC of the product."
+          ],
+          [
+            "Enable the MDF clocks via the RCC block",
+            "Refer to the RCC of the product."
+          ],
+          [
+            "Reset the MDF via the RCC block",
+            "Refer to the RCC of the product."
+          ],
+          [
+            "AFMUX programming ",
+            "Program the AFMUX to select MDF_SD0, MDF_SD2 and \nMDF_CCK0 function. "
+          ],
+          [
+            "Enable MDF processing clock:\nMDF_CKGCR = 0x0103 0023",
+            "PROCDIV = 1 (division by 2): mdf_proc_ck frequency is \n6.144MHz.\nCCKDIV = 3 (division by 4): MDF_CCK0 clock frequency is \n1.536MHz. \nThe MDF_CCK0 pad is set in output and generates a clock so that \nthe microphones can exit from low-power mode."
+          ],
+          [
+            "Serial interfaces configuration:\nMDF_SITF0CR = 0x0000 1F01\nMDF_SITF2CR = 0x0000 1F01",
+            "SCKSRC = 0 to select MDF_CCK0 as serial clock.\nSIFTMOD = 0 to select LF_MASTER mode.\nClock absence feature is not working in this mode.\nThe serial interfaces are enabled."
+          ],
+          [
+            "Bitstream matrix configuration:\nMDF_BSMX0CR = 0x0000 0000\nMDF_BSMX1CR = 0x0000 0001\nMDF_BSMX2CR = 0x0000 0004\nMDF_BSMX3CR = 0x0000 0005",
+            "DFLT0 filter takes the bitstream of SITF0, sampled on rising edge.\nDFLT1 filter takes the bitstream of SITF0, sampled on falling edge.\nDFLT2 filter takes the bitstream of SITF2, sampled on rising edge.\nDFLT3 filter takes the bitstream of SITF2, sampled on falling edge."
+          ],
+          [
+            "Filters configuration (CIC):\nMDF_DFLT0CICR = 0x02C01750\nMDF_DFLT1CICR = 0x02C01750\nMDF_DFLT2CICR = 0x02C01750\nMDF_DFLT3CICR = 0x02C01750",
+            "SCALE = 0x2C (- 12 dB) to avoid any saturation\nMCICD = 0x17 (decimation by 24)\nCICMOD = 5 to select a Sinc5\nDATSCR = 0 to select data coming from BSMX"
+          ],
+          [
+            "Filters configuration (RSFLT and HPF):\nMDF_DFLT0RSFR = 0x00000100\nMDF_DFLT1RSFR = 0x00000100\nMDF_DFLT2RSFR = 0x00000100\nMDF_DFLT3RSFR = 0x00000100",
+            "HPFC = 1: cut-off frequency of 16 kHz * 0.00125 = 20 Hz\nHPFBYP = 0: HPF not bypassed\nRSFLTD = 0: RSFLT decimates by 4\nRSFLTBYP = 0: RSFLT is not bypassed"
+          ],
+          [
+            "Filters configuration (INT):\nMDF_DFLT0INTR = 0x00000000\nMDF_DFLT1INTR = 0x00000000\nMDF_DFLT2INTR = 0x00000000\nMDF_DFLT3INTR = 0x00000000",
+            "INTVAL = 0: INT filter not used\nOther parameter is not significant."
+          ],
+          [
+            "Micro delay adjust:\nMDF_DLY0CR = 0x00000005\nMDF_DLY0CR = 0x00000012\nMDF_DLY0CR = 0x00000023\nMDF_DLY0CR = 0x00000000",
+            "Initial micro-delay for each microphone, values just given as \nexample"
+          ],
+          [
+            "Offset error correction:\nMDF_OEC0CR = 0x00000000\nMDF_OEC1CR = 0x00000000\nMDF_OEC2CR = 0x00000000\nMDF_OEC3CR = 0x00000000",
+            "No correction. DC offset is removed by HPF."
+          ],
+          [
+            "Short circuit detection:\nMDF_SCD0CR = 0x00000000\nMDF_SCD1CR = 0x00000000\nMDF_SCD2CR = 0x00000000\nMDF_SCD3CR = 0x00000000",
+            "SCD function for each filter is disabled."
+          ],
+          [
+            "Enable interrupt events:\nMDF_DFLT0IER = 0x00000202\nMDF_DFLT1IER = 0x00000202\nMDF_DFLT2IER = 0x00000202\nMDF_DFLT3IER = 0x00000202",
+            "Enable the interrupt event the application wants to handle.\nIn this example, the SATIE and DOVRIE bits are set to 1 to have an \ninterrupt if a saturation or an data overflow occurs."
+          ],
+          [
+            "Digital filter control:\nMDF_DFLT0CR = 0x00000027\nMDF_DFLT1CR = 0x00000027\nMDF_DFLT2CR = 0x00000027\nMDF_DFLT3CR = 0x00000027\nWait for DFLTACTIVE = 0 for the filters",
+            "NBDIS = 0: no samples discarded\nTRGSRC = 0: TRGO selected as trigger source\nTRGSENS = 0: Trigger on rising edge\nACQMOD = 2: Synchronous continuous acquisition mode\nDMAEN = 1: DMA interface enabled\nDFLTEN = 1: digital filter enabled "
+          ],
+          [
+            "Clear status flags:\nMDF_DFLT0ISR = 0x00000FFF\nMDF_DFLT1ISR = 0x00000FFF\nMDF_DFLT2ISR = 0x00000FFF\nMDF_DFLT3ISR = 0x00000FFF",
+            "Clear all the status flags before running the filters."
+          ],
+          [
+            "Program the DMA\nEnable the DMA",
+            "The DMA must be programmed in order to read the data inside \nMDF_DFLT0DR every time a DMA request is generated. \nNote that when the MDF is in interleaved acquisition mode, data of \nfilters 0, 1, 2, and 3 are read via MDF_DFLT0DR register."
+          ],
+          [
+            "Start acquisition:\nMDF_GCR = 0x00000031",
+            "ILVNB = 3: interleaved mode with DFLT0,1,2, and 3\nTRGO = 1 to trigger the acquisition of all filters waiting for TRGO \nrising edge event"
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

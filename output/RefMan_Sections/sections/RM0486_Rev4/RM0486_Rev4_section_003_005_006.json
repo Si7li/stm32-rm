@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S3.5.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.5.6",
+      "section_title": "NPU cache (CACHEAXI) management",
+      "level": 3,
+      "parent_section": "3.5",
+      "page": 189,
+      "page_end": 189,
+      "semantic_type": "generic",
+      "features": [
+        "cacheaxi",
+        "npu"
+      ],
+      "chars": 1713,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=189",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.5.6 \"NPU cache (CACHEAXI) management\" in chapter 3 (System security), RM0486 Rev 4, page 189.",
+      "section_content": "The CID and security bits of an access that arrives at the CACHEAXI are treated exactly as\nifthey were four extra address tag bits. This implies that cached data cannot be shared\nbetween two NPU networks with distinct CIDs: this may result in the same physical memory\ndata appearing in two distinct cache lines (incoherency). The software must ensure that\nsuch shared data is uncacheable.\nThe privileged bit of an access is also stored in the cache line, and used during eviction. It is\nnot treated as an address tag bit (not taken into account in deciding whether there is a HIT\nor MISS). The code must not attempt to lower the privilege level in the NPU RIMC without\nfirst flushing the cache: this may result in the user-level network reading data that had been\nleft in the cache when the network was privileged.\nWith these mechanisms, it is not necessary to flush the whole CACHEAXI when thesecure\nOS hands the NPU use from one tenant to another, at a time period boundary.\nThe CACHEAXI has a configuration port that allows the software to perform maintenance\noperations. For example, the user software may need to ensure dirty cache lines are\ncleaned (written back to memory) in order to restore system coherency with the CPU. Some\ndirty cache lines may must be invalidated without cleaning them (for example, when there is\na problem with the downstream memory). Such an invalidate-only operation could be used\nby an NPU user to subvert the operation of another NPU user. The RISAF filter infront of\neach cache configuration port can be configured to ensure that invalidate-only operations\nare performed only by commands (written on the cache configuration port) coming from the\nsecure OS (highest authority).",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T840",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "840",
+      "title": "RDES3 normal descriptor (write-back format)",
+      "page": 4172,
+      "section": "76.10.4",
+      "section_title": "Receive descriptor",
+      "semantic_type": "generic",
+      "features": [
+        "rdes3"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4172",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Bit",
+        "Name",
+        "Description"
+      ],
+      "text_helper": "Table 840, \"RDES3 normal descriptor (write-back format)\", in section 76.10.4 (Receive descriptor) on page 4172. Columns: Bit, Name, Description. 16 data row(s).",
+      "table_content": {
+        "headers": [
+          "Bit",
+          "Name",
+          "Description"
+        ],
+        "rows": [
+          [
+            "31",
+            "OWN",
+            "Own bit\n1: The DMA owns the descriptor. \n0: The application owns the descriptor. \nThe DMA clears this bit when either of the following conditions is true:\nThe DMA completes the packet reception\nThe buffers associated with the descriptor are full"
+          ],
+          [
+            "30",
+            "CTXT",
+            "Receive Context Descriptor \nWhen this bit is set, it indicates that the current descriptor is a context \ntype descriptor. The DMA writes 0 to this bit for normal receive \ndescriptor.\nWhen CTXT and FD bits are used together, {CTXT, FD} possible values \nare:\n00: Intermediate Descriptor\n01: First Descriptor\n10: Reserved\n11: Descriptor error (due to all 1s) \nNote: When a Descriptor error occurs, the receive DMA closes the \nreceive descriptor indicating a Descriptor error. This receive \ndescriptor is skipped and the buffer addresses are not used to \nwrite the packet data. The receive DMA sets the CDE field of the \nChannel x status register (ETH_DMACxSR) but does not set the \nRI field, even when IOC field is set, as this is not marked as last \nreceive descriptor for the packet. The subsequent valid receive \ndescriptor is used to write the packet data. "
+          ],
+          [
+            "29",
+            "FD",
+            "First Descriptor\nWhen this bit is set, it indicates that this descriptor contains the first \nbuffer of the packet. If the size of the first buffer is 0, the second buffer \ncontains the beginning of the packet. If the size of the second buffer is \nalso 0, the next descriptor contains the beginning of the packet.\nRefer to the CTXT bit description for details on how to use the CTXT bit \nand FD bit together. "
+          ],
+          [
+            "28",
+            "LD",
+            "Last Descriptor\nWhen this bit is set, it indicates that the buffers to which this descriptor is \npointing are the last buffers of the packet."
+          ],
+          [
+            "27",
+            "RS2V",
+            "Receive Status RDES2 Valid\nWhen this bit is set, it indicates that the status in RDES2 is valid and it is \nwritten by the DMA. This bit is valid only when the LD bit of RDES3 is \nset."
+          ],
+          [
+            "26",
+            "RS1V",
+            "Receive Status RDES1 Valid\nWhen this bit is set, it indicates that the status in RDES1 is valid and it is \nwritten by the DMA. This bit is valid only when the LD bit of RDES3 is \nset."
+          ],
+          [
+            "25",
+            "RS0V",
+            "Receive Status RDES0 Valid\nWhen this bit is set, it indicates that the status in RDES0 is valid and it is \nwritten by the DMA. This bit is valid only when the LD bit of RDES3 is \nset."
+          ],
+          [
+            "24",
+            "CE",
+            "CRC error\nWhen this bit is set, it indicates that a Cyclic Redundancy Check (CRC) \nError occurred on the received packet. This field is valid only when the \nLD bit of RDES3 is set."
+          ],
+          [
+            "23",
+            "GP",
+            "Giant packet\nWhen this bit is set, it indicates that the packet length exceeds the \nspecified maximum Ethernet size of 1518, 1522, or 2000 bytes (9018 or \n9022 bytes if jumbo packet enable is set). \nGiant packet indicates only the packet length. It does not cause any \npacket truncation."
+          ],
+          [
+            "22",
+            "RWT",
+            "Receive watchdog timeout\nWhen this bit is set, it indicates that the receive watchdog timer has \nexpired while receiving the current packet. The current packet is \ntruncated after watchdog timeout."
+          ],
+          [
+            "21",
+            "OE",
+            "Overflow error\nWhen this bit is set, it indicates that the received packet is damaged \nbecause of buffer overflow in Rx FIFO.\nThis bit is set only when the DMA transfers a partial packet to the \napplication. This happens only when the Rx FIFO is operating in the \nthreshold mode. In the store-and-forward mode, all partial packets are \ndropped completely in Rx FIFO."
+          ],
+          [
+            "20",
+            "RE",
+            "Receive error\nWhen this bit is set, it indicates that the ETH_RX_ER signal is asserted \nwhile the ETH_RX_DV signal is asserted during packet reception. This \nerror also includes carrier extension error in the GMII and Half-duplex \nmode. Error can be of less or no extension, or error (rxd!= 0f) during \nextension."
+          ],
+          [
+            "19",
+            "DE",
+            "Dribble bit error\nWhen this bit is set, it indicates that the received packet has a non-\ninteger multiple of bytes (odd nibbles). This bit is valid only in the MII \nMode."
+          ],
+          [
+            "18:16",
+            "LT",
+            "Length/type field\nThis field indicates if the packet received is a length packet or a type \npacket. The encoding of the 3 bits is as follows:\n000: The packet is a length packet\n001: The packet is a type packet.\n011: The packet is a ARP Request packet type\n100: The packet is a type packet with VLAN Tag\n101: The packet is a type packet with Double VLAN tag\n110: The packet is a MAC Control packet type\n111: The packet is a OAM packet type\n010: Reserved"
+          ],
+          [
+            "15",
+            "ES",
+            "Error Summary\nWhen this bit is set, it indicates the logical OR of the following bits:\nRDES3[19]: Dribble Error\nRDES3[20]: Receive Error\nRDES3[21]: Overflow Error\nRDES3[22]: Watchdog timeout\nRDES3[23]: Giant Packet\nRDES3[24]: CRC Error\nThis field is valid only when the LD bit of RDES3 is set."
+          ],
+          [
+            "14:0",
+            "PL",
+            "Packet Length\nThese bits indicate the byte length of the received packet that was \ntransferred to system memory (including CRC). \nThis field is valid when both the LD bit of RDES3 is set and the Overflow \nError bit is reset. The packet length also includes the two bytes \nappended to the Ethernet packet when IP checksum calculation is \nenabled and the received packet is not a MAC control packet. \nWhen LD bit of RDES3 is reset, this field contains the accumulated \nnumber of bytes (partial) that have been transferred for the current \npacket."
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

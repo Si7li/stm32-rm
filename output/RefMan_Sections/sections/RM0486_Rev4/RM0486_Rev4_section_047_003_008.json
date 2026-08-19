@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S47.3.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "47",
+      "chapter_title": "True random number generator (RNG)",
+      "section": "47.3.8",
+      "section_title": "RNG low-power use",
+      "level": 3,
+      "parent_section": "47.3",
+      "page": 2294,
+      "page_end": 2295,
+      "semantic_type": "generic",
+      "features": [
+        "power",
+        "rng"
+      ],
+      "chars": 2349,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2294",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 47.3.8 \"RNG low-power use\" in chapter 47 (True random number generator (RNG)), RM0486 Rev 4, page 2294.",
+      "section_content": "If power consumption is a concern, the RNG can be disabled as soon as the DRDY bit is set\nto 1 by setting the RNGEN bit to 0 in the RNG_CR register. As the post-processing logic and\nthe output buffer remain operational while RNGEN=0 following features are available to\nthe software:\n• If there are valid words in the output buffer four random numbers can still be read from\nthe RNG_DR register.\n• If there are valid bits in the conditioning output internal register four additional random\nnumbers can be still be read from the RNG_DR register. If it is not the case RNG must\nbe reenabled by the application until the expected new noise source bits threshold is\nreached (128-bit in NIST mode) and a complete conditioning round is done.\nFour new random words are then available only if the expected number of conditioning\nround is reached (two if NISTC=0). The overall time can be found in Section47.5:\nRNG processing time on page2295.\nWhen disabling the RNG the user deactivates all the analog seed generators, whose power\nconsumption is given in the datasheet electrical characteristics section. The user also gates\nall the logic clocked by the RNG clock. Note that this strategy is adding latency before a\nrandom sample is available on the RNG_DR register, because of the RNG initialization time.\nIf the RNG block is disabled during initialization (that is well before the DRDY bit rises for the\nfirst time), the initialization sequence resumes from where it was stopped when RNGEN bit\nis set to 1, unless the application resets the conditioning logic using CONDRST bit in the\nRNG_CR register.\nWhen the application wants to disable the RNG clock it is recommended to wait two RNG\nkernel clock cycles between clearing the RNGEN bit and disabling the RNG kernel clock\nusing the RCC.\nAlso, when application needs to enter a power mode where RNG is de-activated, it is\nrecommended to wait two RNG kernel clock cycles between clearing the RNGEN bit and\nentering the low power mode using the PWR.\nIn the two cases above, to avoid unexpected consumption when RNG analog oscillators\nstay active, application can set the bit 13 in RNG_CR register. Setting this bit adds some\nmarginal power consumption while RNGEN bit is set (RNG activated).\nNote: The power modes where RNG is deactivated (that is retained or not available) can be found\nin the PWR section.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S28.3.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "28",
+      "chapter_title": "FD controller area network (FDCAN)",
+      "section": "28.3.3",
+      "section_title": "Bit timing",
+      "level": 3,
+      "parent_section": "28.3",
+      "page": 893,
+      "page_end": 894,
+      "semantic_type": "generic",
+      "features": [
+        "timing"
+      ],
+      "chars": 2862,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=893",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.3.3 \"Bit timing\" in chapter 28 (FD controller area network (FDCAN)), RM0490 Rev 6, page 893.",
+      "section_content": "The bit timing logic monitors the serial bus-line and performs sampling and adjustment of\nthe sample point by synchronizing on the start-bit edge and resynchronizing on the following\nedges.\nAs shown in Figure 318, this operation can be explained simply by splitting the bit time in\nthree segments, as follows:\n• Synchronization segment (SYNC_SEG): a bit change is expected to occur within this\ntime segment, having a fixed length of one time quantum (1 × tq).\n• Bit segment 1 (BS1): defines the location of the sample point. It includes the\nPROP_SEG and PHASE_SEG1 of the CAN standard. Its duration is programmable\nfrom 1 to 32 time quanta, but can be automatically lengthened to compensate for\npositive phase drifts due to differences in the frequency of various nodes of the\nnetwork.\n• Bit segment 2 (BS2): defines the location of the transmit point. It represents the\nPHASE_SEG2 of the CAN standard, its duration is programmable between 1 and 16\ntime quanta, but can also be automatically shortened to compensate for negative\nphase drifts.\n[Figure 318. Bit timing]\nSample Transmit\npoint point\nThe baud rate is the inverse of the bit time (baud rate = 1 / bit time), which, in turn, is the\nsum of three components (see Figure 318):\nbit time = tSyncSeg + tBS1 + tBS2\nWhere:\n– For the nominal bit time\ntq = (NBRP[8:0] + 1) × tfdcan_tq_clk\ntBS1 = tq × (NTSEG1[7:0] + 1)\ntBS2 = tq × (NTSEG2[6:0] + 1)\nWhere NBRP[8:0], NTSEG1[7:0], and NTSEG2[6:0] bitfields belong to the\nFDCAN_NBTP register.\n– For the data bit time\ntq = (DBRP[4:0] + 1) × tfdcan_tq_clk\ntBS1 = tq × (DTSEG1[4:0] + 1)\ntBS2 = tq × (DTSEG2[3:0] + 1)\nWhere DBRP[4:0], DTSEG1[4:0], and DTSEG2[3:0] belong to the FDCAN_DBTP\nregister.\nThe (re)synchronization jump width (SJW) defines an upper bound for the amount of\nlengthening or shortening of the bit segments. It is programmable between one and four\ntime quanta.\nA valid edge is defined as the first transition in a bit time from dominant to recessive bus\nlevel, provided the controller itself does not send a recessive bit.\nIf a valid edge is detected in BS1 instead of SYNC_SEG, BS1 is extended by up to SJW, so\nthat the sample point is delayed.\nConversely, if a valid edge is detected in BS2 instead of SYNC_SEG, BS2 is shortened by\nup to SJW, so that the transmit point is moved earlier.\nAs a safeguard against programming errors, the configuration of the bit timing register is\nonly possible while the device is in Standby mode. The FDCAN_DBTP and FDCAN_NBTP\nregisters (dedicated, respectively, to data and nominal bit timing) are only accessible when\nthe CCE and INIT of the FDCA_CCCR register are set.\nThe FDCAN requires that the CAN time quanta clock is always below or equal to the APB\nclock (fdcan_tq_ck ≤ fdcan_pclk).\nNote: For a detailed description of the CAN bit timing and resynchronization mechanism, refer to\nthe ISO 11898-1 standard.",
+      "semantic": {}
+    }
+  ]
+}

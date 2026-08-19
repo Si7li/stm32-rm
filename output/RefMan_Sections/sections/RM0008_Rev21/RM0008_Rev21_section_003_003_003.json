@@ -1,0 +1,105 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S3.3.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "3",
+      "chapter_title": "Memory and bus architecture",
+      "section": "3.3.3",
+      "section_title": "Embedded Flash memory",
+      "level": 3,
+      "parent_section": "3.3",
+      "page": 54,
+      "page_end": 60,
+      "semantic_type": "register_description",
+      "features": [
+        "flash",
+        "hlfcya",
+        "latency",
+        "memory",
+        "prftbe",
+        "prftbs"
+      ],
+      "chars": 5828,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=54",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.3.3 \"Embedded Flash memory\" in chapter 3 (Memory and bus architecture), RM0008 Rev 21, page 54.",
+      "section_content": "The high-performance Flash memory module has the following key features:\n• For XL-density devices: density of up to 1 Mbyte with dual bank architecture for read-\nwhile-write (RWW) capability:\n– bank 1: fixed size of 512 Kbytes\n– bank 2: up to 512 Kbytes\n• For other devices: density of up to 512 Kbytes\n• Memory organization: the Flash memory is organized as a main block and an\ninformation block:\n– Main memory block of size:\nup to 128 Kbytes × 64 bits divided into 512 pages of 2 Kbytes each (see Table8)\nfor XL-density devices\nup to 4 Kb × 64 bits divided into 32 pages of 1 Kbyte each for low-density devices\n(see Table4)\nup to 16 Kb × 64 bits divided into 128 pages of 1 Kbyte each for medium-density\ndevices (see Table5)\nup to 64 Kb × 64 bits divided into 256 pages of 2 Kbytes each (see Table6) for\nhigh-density devices\nup to 32 Kbit × 64 bits divided into 128 pages of 2 Kbytes each (see Table7) for\nconnectivity line devices\n– Information block of size:\n770 × 64 bits for XL-density devices (see Table8)\n2360 × 64 bits for connectivity line devices (see Table7)\n258 × 64 bits for other devices (see Table4, Table5 and Table6)\nThe Flash memory interface (FLITF) features:\n• Read interface with prefetch buffer (2x64-bit words)\n• Option byte Loader\n• Flash Program / Erase operation\n• Read / Write protection\n[Table 4. Flash module organization (low-density devices)]\n[Table 5. Flash module organization (medium-density devices)]\n[Table 6. Flash module organization (high-density devices)]\n[Table 7. Flash module organization (connectivity line devices)]\n[Table 8. XL-density Flash module organization]\nNote: For further information on the Flash memory interface registers, refer to the:“STM32F10xxx\nXL-density Flash programming manual” (PM0068) for XL-density devices, “STM32F10xxx\nFlash programming manual” (PM0075) for other devices.\nReading the Flash memory\nFlash memory instructions and data access are performed through the AHB bus. The\nprefetch block is used for instruction fetches through the ICode bus. Arbitration is performed\nin the Flash memory interface, and priority is given to data access on the DCode bus.\nRead accesses can be performed with the following configuration options:\n• Latency: number of wait states for a read operation programmed on-the-fly\n• Prefetch buffer (2 x 64-bit blocks): it is enabled after reset; a whole block can be\nreplaced with a single read from the Flash memory as the size of the block matches the\nbandwidth of the Flash memory. Thanks to the prefetch buffer, faster CPU execution is\npossible as the CPU fetches one word at a time with the next word readily available in\nthe prefetch buffer\n• Half cycle: for power optimization\nNote: These options have to be used in accordance with the Flash memory access time. The wait\nstates represent the ratio of the SYSCLK (system clock) period to the Flash memory access\ntime:\n- 0 wait states, if 0 < SYSCLK ≤ 24 MHz\n- 1 wait state, if 24 MHz < SYSCLK ≤ 48 MHz\n- 2 wait states, if 48 MHz < SYSCLK ≤ 72 MHz\nHalf cycle configuration is not available in combination with a prescaler on the AHB. The\nsystem clock (SYSCLK) should be equal to the HCLK clock. This feature can therefore be\nused only with a low-frequency clock of 8 MHz or less. It can be generated from the HSI or\nthe HSE but not from the PLL.\nThe prefetch buffer must be kept on when using a prescaler different from 1 on the AHB\nclock.\nThe prefetch buffer must be switched on/off only when SYSCLK is lower than 24MHz and\nno prescaler is applied on the AHB clock (SYSCLK must be equal to HCLK). The prefetch\nbuffer is usually switched on/off during the initialization routine, while the microcontroller is\nrunning on the internal 8 MHz RC (HSI) oscillator.\nUsing DMA: DMA accesses Flash memory on the DCode bus and has priority over ICode\ninstructions. The DMA provides one free cycle after each transfer. Some instructions can be\nperformed together with DMA transfer.\nProgramming and erasing the Flash memory\nThe Flash memory can be programmed 16 bits (half words) at a time.\nFor write and erase operations on the Flash memory (write/erase), the internal RC oscillator\n(HSI) must be ON.\nThe Flash memory erase operation can be performed at page level or on the whole Flash\narea (mass-erase). The mass-erase does not affect the information blocks.\nTo ensure that there is no over-programming, the Flash Programming and Erase Controller\nblocks are clocked by a fixed clock.\nThe End of write operation (programming or erasing) can trigger an interrupt. This interrupt\ncan be used to exit from WFI mode, only if the FLITF clock is enabled. Otherwise, the\ninterrupt is served only after an exit from WFI.\nThe FLASH_ACR register is used to enable/disable prefetch and half cycle access, and to\ncontrol the Flash memory access time according to the CPU frequency. The tables below\nprovide the bit map and bit descriptions for this register.\nFor complete information on Flash memory operations and register configurations, refer to\nthe STM32F10xxx Flash programming manual (PM0075) or to the XL STM32F10xxx Flash\nprogramming manual (PM0068).\nFlash access control register (FLASH_ACR)\nAddress offset: 0x00\nReset value: 0x0000 0030\nReserved\nBits 31:6 Reserved, must be kept at reset value.\nBit 5 PRFTBS: Prefetch buffer status\nThis bit provides the status of the prefetch buffer.\n0: Prefetch buffer is disabled\n1: Prefetch buffer is enabled\nBit 4 PRFTBE: Prefetch buffer enable\n0: Prefetch is disabled\n1: Prefetch is enabled\nBit 3 HLFCYA: Flash half cycle access enable\n0: Half cycle is disabled\n1: Half cycle is enabled\nBits 2:0 LATENCY: Latency\nThese bits represent the ratio of the SYSCLK (system clock) period to the Flash access\ntime.\n000 Zero wait state, if 0 < SYSCLK≤ 24 MHz\n001 One wait state, if 24 MHz < SYSCLK ≤ 48 MHz\n010 Two wait states, if 48 MHz < SYSCLK ≤ 72 MHz",
+      "semantic": {
+        "register": "",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 0030",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "PRFTBS",
+            "description": "Prefetch buffer status This bit provides the status of the prefetch buffer.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Prefetch buffer is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Prefetch buffer is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "PRFTBE",
+            "description": "Prefetch buffer enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Prefetch is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Prefetch is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "HLFCYA",
+            "description": "Flash half cycle access enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Half cycle is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Half cycle is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "2:0",
+            "name": "LATENCY",
+            "description": "Latency These bits represent the ratio of the SYSCLK (system clock) period to the Flash access time. 000 Zero wait state, if 0 < SYSCLK≤ 24 MHz 001 One wait state, if 24 MHz < SYSCLK ≤ 48 MHz 010 Two wait states, if 48 MHz < SYSCLK ≤ 72 MHz",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.4.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.4.13",
+      "section_title": "HPDMA circular buffering with linked-list programming",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 885,
+      "page_end": 887,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 2253,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=885",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.13 \"HPDMA circular buffering with linked-list programming\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 885.",
+      "section_content": "HPDMA circular buffering for memory-to-peripheral and\nperipheral-to-memory transfers, with a linear addressing channel\nFor a circular buffering, with a continuous memory-to-peripheral (or peripheral-to-memory)\ntransfer, the software must set up a channel with half-transfer and complete-transfer\nevent/interrupt generation (HPDMA_CxCR.HTIE=1 and HPDMA_CxCR.TCIE=1),\ninorder to enable a concurrent buffer software processing.\nLLI0 is configured for the first block transfer with the linear addressing channel.\nAcontinuously-executed LLI1 is needed to restore the memory source (or destination) start\naddress for the memory-to-peripheral transfer (respectively the peripheral-to-memory).\nTheHPDMA automatically reloads the initially programmed HPDMA_CxBR1.BNDT[15:0]\nwhen a block transfer is completed, and there is no need to restore HPDMA_CxBR1.\nThe figure below illustrates this programming with a linear addressing HPDMA channel and\na source circular buffer.\n[Figure 91. HPDMA circular buffer programming: update of the memory start address]\nwith a linear addressing channel\nReq=PERIPH_TX Req=PERIPH_TX\nInit/LLI0 S R A e R s / t L o L re I1\nChannel x\nHt+ tcf Ht+ tcf\nLinked-list register file\nDMA_CxTR1 Memory\nCxLBA (LA = 0)\nD D M M A A _ _ C C x x B TR R 2 1 oth U er S s A U = x x 1 = 0 LLI1\nNote: With a 2D addressing channel, a single LLI can be used with\nHPDMA_CxBR1.BRC[10:0]=1. The user can program a negative memory block address\noffset with HDMA_CxBR2 and HDMA_CxBR1, in order to jump back to the memory source\nor destination start address.\nIf the circular buffering must be executed after some other transfers over the shared\nHPDMA channel x, the before-last LLIN-1 in the memory is needed to configure the first\nblock transfer. The last LLIN restores the memory source (or destination) start address\ninmemory-to-peripheral transfer (respectively in peripheral-to-memory).\nThe figure below illustrates this programming with a linear addressing shared HPDMA\nchannel, and a source circular buffer.\n[Figure 92. Shared HPDMA channel with circular buffering: update of the memory]\nstart address with a linear addressing channel\nReq=PERIPH_TX Req=PERIPH_TX\nInit/LLI0 LLI1 ... LLIN-1 LLIN\nChannel X Ht+ tcf Ht+ tcf\nUSA = 1, others Uxx = 0 LA+ = 0xC",
+      "semantic": {}
+    }
+  ]
+}

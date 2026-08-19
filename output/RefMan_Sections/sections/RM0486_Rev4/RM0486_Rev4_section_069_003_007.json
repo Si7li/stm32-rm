@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.3.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.3.7",
+      "section_title": "Data reception management",
+      "level": 3,
+      "parent_section": "69.3",
+      "page": 3581,
+      "page_end": 3583,
+      "semantic_type": "generic",
+      "features": [
+        "data",
+        "management",
+        "reception"
+      ],
+      "chars": 4070,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3581",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.3.7 \"Data reception management\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3581.",
+      "section_content": "The SPDIFRX offers a double buffer for the audio sample reception. A 32-bit buffer located\ninto the spdifrx_ker_ck clock domain (RX_BUF), and the SPDIFRX_FMTx_DR register. The\nvalid data contained into the RX_BUF are immediately transferred into\nSPDIFRX_FMTx_DR if SPDIFRX_FMTx_DR is empty.\nThe valid data contained into the RX_BUF are transferred into SPDIFRX_FMTx_DR when\nthe two following conditions are reached:\n• The transition between the parity bit (P) and the next preamble is detected (this\nindicated that the word is completely received).\n• The SPDIFRX_FMTx_DR is empty.\nHaving a 2-word buffer gives more flexibility for the latency constraint.\nThe maximum latency allowed is TSAMPLE - 2TPCLK - 2Tspdifrx_ker_ck\nWhere TSAMPLE is the audio sampling rate of the received stereo audio samples, TPCLK is\nthe period of spdifrx_pclk clock, and Tspdifrx_ker_ck is the period of spdifrx_ker_ck clock.\nThe SPDIFRX offers the possibility to use either DMA (spdifrx_dat_dma and\nspdifrx_ctrl_dma) or interrupts for transferring the audio samples into the memory. The\nrecommended option is DMA, refer to Section69.3.12: DMA interface for additional\ninformation.\nThe SPDIFRX offers several way on handling the received data. The user can either have a\nseparate flow for control information and audio samples, or get them all together.\nFor each sub-frame, the data reception register SPDIFRX_FMTx_DR contains the 24 data\nbits, and optionally the V, U, C, PE status bits, and the PT (see Mixing data and control\nflow).\nNote that PE bit stands for parity rrror bit, and is set to 1 when a parity error is detected in\nthe decoded sub-frame.\nThe PT field carries the preamble type (B, M or W).\nV, U and C are a direct copy of the value received from the S/PDIF interface.\nThe bit DRFMT allows the selection between 3 audio formats as shown in Figure947.\nThis document describes 3 data registers: SPDIFRX_FMTx[2:0] (x = 2 to 0), but in reality\nthere is only one physical data register, having 3 possible formats:\n• When DRFMT = 0, the format of the data register is the one described by\nSPDIFRX_FMT0_DR\n• When DRFMT = 1, the format of the data register is the one described by\nSPDIFRX_FMT1_DR\n• When DRFMT = 2, the format of the data register is the one described by\nSPDIFRX_FMT2_DR\"\n[Figure 947. SPDIFRX_FMTx_DR register format]\nSetting DRFMT to 00 or 01, offers the possibility to have the data either right or left aligned\ninto the SPDIFRX_FMTx_DR register. The status information can be enabled or forced to\nzero according to the way the software wants to handle them.\nThe format given by DRFMT= 10 is interesting in non-linear mode, as only 16 bits per sub-\nframe are used. By using this format, the data of two consecutive sub-frames are stored into\nSPDIFRX_FMTx_DR, dividing by two the amount of memory footprint. Note that when\nRXSTEO = 1, there is no misalignment risks (i.e. data from ChA are always stored into\nSPDIFRX_FMTx_DR[31:16]). If RXSTEO = 0, then there is a misalignment risk is case of\noverrun situation. In that case SPDIFRX_FMTx_DR[31:16] always contain the oldest value\nand SPDIFRX_FMTx_DR[15:0] the more recent value (see Figure949).\nIn this format the status information cannot be mixed with data, but the user can still get\nthem through SPDIFRX_CSR register, and use a dedicated DMA channel or interrupt to\ntransfer them to memory (see Section69.3.8)\nMixing data and control flow\nThe user can choose to use this mode in order to get the full flexibility of the handling of the\ncontrol flow. The user can select which field must be kept into the data register\n(SPDIFRX_FMTx_DR).\n• When bit PMSK = 1, the parity error information is masked (set to 0), otherwise it is\ncopied into SPDIFRX_FMTx_DR.\n• When bit VMSK = 1, the validity information is masked (set to 0), otherwise it is copied\ninto SPDIFRX_FMTx_DR.\n• When bit CUMSK = 1, the channel status, and used data information are masked (set\nto 0), otherwise they are copied into SPDIFRX_FMTx_DR.\n• When bit PTMSK = 1, the preamble type is masked (set to 0), otherwise it is copied into\nSPDIFRX_FMTx_DR.",
+      "semantic": {}
+    }
+  ]
+}

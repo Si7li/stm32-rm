@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S4.3.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "4",
+      "chapter_title": "Boot and security control (BSEC)",
+      "section": "4.3.11",
+      "section_title": "BSEC debug and trace control",
+      "level": 3,
+      "parent_section": "4.3",
+      "page": 211,
+      "page_end": 212,
+      "semantic_type": "generic",
+      "features": [
+        "boot",
+        "bsec"
+      ],
+      "chars": 2430,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=211",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.3.11 \"BSEC debug and trace control\" in chapter 4 (Boot and security control (BSEC)), RM0486 Rev 4, page 211.",
+      "section_content": "The wrapper contains a BSEC_DBGCR register, reset to zero on the scratch reset, and\nwriteable only once per warm reset. The bytes of this register are named as follows\n[Table 15. BSEC debug register legal values]\nAUTH_HDPL encodes levels in the same way as HDPL field in BSEC_HDPLSR register.\nAny attempt to write a non-legal byte value into these fields results in a 0x00 being written in\nthat byte field.\nThe register is forced to zero (writes have no effect) whenever the device is BSEC-open.\nThe dbg_unlocked output, when taking the value of 0xB4, signifies that nonsecure debug is\npossible. The dbg_unlocked_sec output, when it also takes the value of 0xB4, signifies that\nsecure debug is possible.\nBoth outputs are set to 0xB4 whenever the state is BSEC-open.\nWhenever the BSEC state is not BSEC-open, then if HDPL = 0xB4, or AUTH_HDPL is\nundefined or indicates a level greater than that given by HDPL, they are both set to 0x00,\notherwise dbg_unlocked takes the value of UNLOCK, and dbg_unlocked_sec takes the\nvalue of AUTH_SEC. This implies that secure boot is enforced on a BSEC-closed device. It\nis the responsibility of the customer’s signed code to decide on whether debug becomes\nunlocked at a certain level. This decision (i.e. the register write) only has to made once per\npower cycle, since the register is on the scratch reset and retains its value across warm\nresets.\nNote: If a warm reset occurs during a debug session, then during the reset, the debugger\nbecomes temporarily locked, since HDPL is reset to 0. On a BSEC-open device, it becomes\nunlocked again as soon as the BSEC has booted. On a BSEC-closed device, it becomes\nunlocked again as soon as HDPL is non-zero and matches or surpasses AUTH_HDPL.\nThe BSEC_AP_UNLOCK register is forced to zero (writes have no effect) whenever the\nstate is BSEC-open. The ap_unlocked output, when taking the value 0xB4, indicates that\nthe debugger can access the CM55 Debug Subsystem. It is set to 0xB4 whenever the state\nis BSEC-open, otherwise it is directly driven by the BSEC_AP_UNLOCK register, which is\nreset to 0 on a scratch reset.\nA rising edge on hide_sec (a confirmed tamper) resets these registers to zero, and close\ndebug. They are not writeable until the next cold or warm reset.\nNote: These registers are on the scratch reset so that if software authorizes a debug, that\nauthorization survives subsequent warm resets, and doesn’t have to be re-authorized.",
+      "semantic": {}
+    }
+  ]
+}

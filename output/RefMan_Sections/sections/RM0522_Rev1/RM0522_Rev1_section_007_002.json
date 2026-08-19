@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S7.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "7",
+      "chapter_title": "Instruction cache (ICACHE)",
+      "section": "7.2",
+      "section_title": "ICACHE main features",
+      "level": 2,
+      "parent_section": null,
+      "page": 207,
+      "page_end": 208,
+      "semantic_type": "generic",
+      "features": [
+        "icache"
+      ],
+      "chars": 2503,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=207",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 7.2 \"ICACHE main features\" in chapter 7 (Instruction cache (ICACHE)), RM0522 Rev 1, page 207.",
+      "section_content": "The main features of ICACHE are listed below:\n• Bus interface\n– One 32-bit AHB slave port, the execution port (input from Cortex®-M33 C-AHB\ncode interface)\n– Two AHB master ports: master1 and master2 ports, with outputs to Fast and Slow\nbuses of main AHB bus matrix, respectively (master2 port only on\nSTM32C59x/5A3STM32C5P1xx/5Q1xx devices)\n– One 32-bit AHB slave port for control (input from AHB peripherals interconnect, for\nICACHE registers access)\n• Cache access\n– 0 wait-state on hits\n– Hit-under-miss capability: ability to serve processor requests (access to cached\ndata) during an ongoing line refill due to a previous cache miss\n– Dual master (only on STM32C59x/5A3 devices) access: feature used to decouple\nthe traffic according to targeted memory. For example, the ICACHE assigns fast\ntraffic (addressing flash memories and SRAMs) to the AHB master1 port, and slow\ntraffic (addressing external memories) to the AHB master2 port, thus preventing\nprocessor stalls on line refills from external memories. This allows ISR (interrupt\nservice routine) fetching on internal flash memory to take place in parallel with a\ncache line refill from external memories.\n– Minimal impact on interrupt latency, thanks to dual master\n– Optimal cache line refill thanks to WRAPw bursts of the size of the cache line\n(32-bit word size, w, aligned on cache line size)\n– n-way set-associative default configuration with possibility to configure as 1-way,\nmeans direct mapped cache, for applications needing very-low-power\nconsumption profile\n• Memory address remap\n– Possibility to remap input address falling into up to four memory regions (used\nonly on STM32C59x/5A3 devices to remap aliased code in external memories to\nthe code region, for execution from the C-AHB code interface)\n• Replacement and refill\n– pLRU-t (pseudo-least-recently-used, based on binary tree) replacement policy,\nalgorithm with best complexity/performance balance\n– Critical-word-first refill policy, minimizing processor stalls\n– Possibility to configure burst type of AHB memory transaction for remapped\nregions: INCRw or WRAPw (size w aligned on cache line size)\n• Performance counters\nThe ICACHE implements two performance counters:\n– Hit monitor counter (32-bit)\n– Miss monitor counter (16-bit)\n• Error management\n– Possibility to detect an unexpected cacheable write access, to flag an error, and\noptionally, to raise an interrupt\n• Maintenance operation\n– Cache invalidate: full cache invalidation, fast command, noninterruptible",
+      "semantic": {}
+    }
+  ]
+}

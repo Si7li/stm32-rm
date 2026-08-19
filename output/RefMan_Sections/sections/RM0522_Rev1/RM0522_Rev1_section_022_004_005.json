@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S22.4.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "22",
+      "chapter_title": "Digital-to-analog converter (DAC)",
+      "section": "22.4.5",
+      "section_title": "DAC data format",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 677,
+      "page_end": 678,
+      "semantic_type": "generic",
+      "features": [
+        "dac"
+      ],
+      "chars": 3004,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=677",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.5 \"DAC data format\" in chapter 22 (Digital-to-analog converter (DAC)), RM0522 Rev 1, page 677.",
+      "section_content": "Depending on the selected configuration mode, the data have to be written into the specified\nregister as described below:\n• Single DAC channel\nThere are three possibilities:\n– 8-bit right alignment: the software has to load data into the DAC_DHR8Rx[7:0] bits\n(stored into the DHRx[11:4] bits)\n– 12-bit left alignment: the software has to load data into the DAC_DHR12Lx [15:4]\nbits (stored into the DHRx[11:0] bits)\n– 12-bit right alignment: the software has to load data into the DAC_DHR12Rx [11:0]\nbits (stored into the DHRx[11:0] bits)\nDepending on the loaded DAC_DHRyyyx register, the data written by the user is shifted and\nstored into the corresponding DAC_DHRx (data holding registerx, which are internal non-\nmemory-mapped registers). The DAC_DHRx register is then loaded into the DAC_DORx\nregister either automatically, by software trigger or by an external event trigger.\n[Figure 143. Data registers in single DAC channel mode]\n31 24 15 7 0\n8-bit right aligned\n12-bit left aligned\n12-bit right aligned\n• Dual DAC channels (when available)\nThere are three possibilities:\n– 8-bit right alignment: data for DAC channel1 to be loaded into the DAC_DHR8RD\n[7:0] bits (stored into the DHR1[11:4] bits) and data for DAC channel2 to be loaded\ninto the DAC_DHR8RD [15:8] bits (stored into the DHR2[11:4] bits)\n– 12-bit left alignment: data for DAC channel1 to be loaded into the DAC_DHR12LD\n[15:4] bits (stored into the DHR1[11:0] bits) and data for DAC channel2 to be\nloaded into the DAC_DHR12LD [31:20] bits (stored into the DHR2[11:0] bits)\n– 12-bit right alignment: data for DAC channel1 to be loaded into the\nDAC_DHR12RD [11:0] bits (stored into the DHR1[11:0] bits) and data for DAC\nchannel2 to be loaded into the DAC_DHR12RD [27:16] bits (stored into the\nDHR2[11:0] bits)\nDepending on the loaded DAC_DHRyyyD register, the data written by the user is shifted\nand stored into DHR1 and DHR2 (data holding registers, which are internal non-memory-\nmapped registers). The DHR1 and DHR2 registers are then loaded into the DAC_DOR1\nand DOR2 registers, respectively, either automatically, by software trigger or by an external\nevent trigger.\n[Figure 144. Data registers in dual DAC channel mode]\n31 24 15 7 0\n8-bit right aligned\n12-bit left aligned\n12-bit right aligned\nSigned/unsigned data\nDAC input data are unsigned: 0x000 corresponds to the minimum value and 0xFFF to the\nmaximum value for 12-bit mode.\nThe DAC can also handle signed input data in 2’s complement format. This is done by\nsetting SINFORMATx bit in the DAC_MCR register.\nWhen SINFORMATx bit is set, the MSB of the data written to DAC_DHRx registers is\ninverted when it is copied to the DAC_DORx register, and the DAC interface can accept\nsigned data (Q1.15, Q1.11 or Q1.7 format). DAC_DHR12Lx register can be used to store\n16-bit signed data in the data holding registers. The 12 MSBs of 16-bit data are used for the\nDAC output data and the MSB is inverted. The four LSBs are simply ignored.\n[Table 159. Data format (case of 12-bit data)]",
+      "semantic": {}
+    }
+  ]
+}

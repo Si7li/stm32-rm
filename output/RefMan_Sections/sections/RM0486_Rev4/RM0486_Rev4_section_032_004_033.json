@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.4.33",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.4.33",
+      "section_title": "Monitoring the internal voltage reference",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1535,
+      "page_end": 1536,
+      "semantic_type": "generic",
+      "features": [
+        "adc"
+      ],
+      "chars": 3208,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1535",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.33 \"Monitoring the internal voltage reference\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1535.",
+      "section_content": "It is possible to monitor the internal voltage reference (VREFINT) to have a reference point for\nevaluating the ADC VREF+ voltage level.\nRefer to the ADC interconnection table in Section32.4.2: ADC pins and internal signals for\ndetails on the ADC input channels to which the internal voltage reference is internally\nconnected.\nRefer to the electrical characteristics section of the device datasheet for the sampling time\nvalue to be applied when converting the internal voltage reference voltage.\nFigure315 shows the block diagram of the VREFINT sensing feature.\n[Figure 315. VREFINT channel block diagram]\nADCx\nInternal VREFINT ADC input\npower block\n1. The VREFEN bit of the ADCC_CCR register must be set to enable the conversion of internal channels\n(VREFINT).\nCalculating the actual VREF+ voltage using the internal reference voltage\nThe power supply voltage applied to the device may be subject to variations or not precisely\nknown. When VDDA is connected to VREF+, it is possible to compute the actual VDDA voltage\nusing the embedded internal reference voltage (VREFINT). VREFINT and its calibration data\nacquired by the ADC during the manufacturing process at VREF+ can be used to evaluate\nthe actual VDDA voltage level.\nThe following formula gives the actual VREF+ voltage supplying the device:\nVREF+ = VREF+_Charac × VREFINT_CAL⁄ VREFINT_DATA\nWhere:\n• VREF+_Charac is the value of VREF+ voltage characterized at VREFINT during the\nmanufacturing process. It is specified in the device datasheet.\n• VREFINT_CAL is the VREFINT calibration value.\n• VREFINT_DATA is the actual VREFINT output value converted by ADC.\nConverting a supply-relative ADC measurement to an absolute voltage value\nThe ADC is designed to deliver a digital value corresponding to the ratio between VREF+ and\nthe voltage applied on the converted channel.\nFor some applications, the VREF+ value is unknown and ADC converted values are right-\naligned. In this case, it is necessary to convert this ratio into a voltage independent from\nVREF+:\n--- V -\nR----\nE---F-\n--+--\n---× ADC_DATA\n----\n----\n---\n----\n---\nVCHANNELx =\nBy replacing VREF+ by the formula provided above, the absolute voltage value is given by\nthe following formula\n-- × --\n- × --\nVCHANNELx = V -----R---E---F---+--\n---- V\n- R ---\n- E ----\nF ---\n- I - N ----×- T --- _ -\n--- C -\n--- A -\n--- L -\n---- A\n---- D -\n--- C -\n_ ---- D ---- A ---- T ---- A ---\n-_--C-\n---h-\n-a---r\n--a--c\n---\n---\n---\nFor applications where VREF+ is known and ADC converted values are right-aligned, the\nabsolute voltage value can be obtained by using the following formula:\n--- V -\nR----\nE---F-\n--+--\n---× ADC_DATA\n----\n----\n---\n----\n---\nVCHANNELx =\nWhere:\n– VREFINT_CAL is the VREFINT calibration value.\n– ADC_DATA is the value measured by the ADC on channel x (right-aligned).\n– VREFINT_DATA is the actual VREFINT output value converted by the ADC.\n– FULL_SCALE is the maximum digital value of the ADC output. For example with\n12-bit resolution, we obtain 212–1=4095, or 28–1 = 255 with 8-bit resolution.\nNote: If ADC measurements are done using an output format other than 12-bit right-aligned, all\nthe parameters must first be converted to a compatible format before the calculation is\ndone.",
+      "semantic": {}
+    }
+  ]
+}

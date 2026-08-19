@@ -1,0 +1,40 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.6.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.6.7",
+      "section_title": "Exposure compensation and white-balance calibration",
+      "level": 3,
+      "parent_section": "39.6",
+      "page": 1850,
+      "page_end": 1851,
+      "semantic_type": "generic",
+      "features": [
+        "balance",
+        "calibration",
+        "compensation",
+        "exposure",
+        "white"
+      ],
+      "chars": 2869,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1850",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.6.7 \"Exposure compensation and white-balance calibration\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1850.",
+      "section_content": "This module aims at compensating bad exposure (too short/dark or too long/light), and at\ncompensating a bad color balance to recenter the colors to more white ones.\nThe exposure and white balance operations are purely linear, and do not distort colors if\nperformed correctly.\nFunctionality\n• Multiplies R, G, B by a configured floating-point constant.\n• A different constant is used for R vs. G vs. B, including within raw Bayer pixels.\nSoftware configuration\n[Table 346. DCMIPP_P1EXCR1 and DCMIPP_P1EXCR2 bit function]\nThe idle setting (that sends out a similar value as input) is:\n• MULTR = MULTG = MULTB = 128\n• SHFR = SHFG = SHFB = 0\nSimilar idle couples are MULTx = 64 and SHFx = 1, or 32 and 2, or 16 and 3.\nConfiguration example for exposure alone\nIt is recommended to use the exposure control in conjunction with the contrast\nenhancement below in the pipe: the idea is to deliberately keep an exposure lower than\nideal, to avoid burning the whites: the contrast enhancement, thanks to non-linear operator\non luminance, lightens the dark pixels, and reduces the dynamic of the light pixels without\nburning them.\nIt is recommended to use the statistics to extract the average luminance across the whole\nframe (done best by extracting the R, G, B averages, and computing the luminance from the\nRGB).\nThe idea is to push the average output luminance to 128, or if working with the contrast\nenhancement too, to push it to a lower value, for instance 64.\nWhen measuring an average luminance of 26 (target is 64), the exposure factor to apply is\n64/26 = 2.5x = 1.25x * 2, hence the following configuration must be set:\n• MULTR = MULTG = MULTB = 128 * 1.25 = 160\n• SHFR = SHFG = SHFB = 1\nConfiguration example for an additional white balance\nAn example of easy way to recenter the colors is using the Gray-world algorithm.\nThis algorithm assumes that a default scene has an inherent balance of its red, green, and\nblue pixels, so that the average values of the red, green, and blue components across the\nideal picture are the same. If the measured averages are not the same, it means that there\nhas been a distortion of the white balance, that must be corrected by amplifying or reducing\nthe red, green, and blue strengths in the exposure module, thanks to the differentiated red\nvs. green vs. blue multipliers and exponents.\nIn practice this is the same approach used for the exposure compensation, but, instead of\nforcing the output luminance to a default target (64 in the example), user must force the red,\ngreen, and blue averages towards the same exposure target.\nAs an example:\n• Exposure target is defined as 64.\n• Measured red is 26: red factor is 64 / 26 = 2.5x, hence MULTR = 160, SHFR = 1.\n• Measured green is 32: green factor is 64 / 32 = 2.0x, hence MULTG = 128, SHFG = 1.\n• Measured blue is 10: blue factor is 64 / 10 = 6.4x, hence MULTB = 205, SHFB = 2.",
+      "semantic": {}
+    }
+  ]
+}

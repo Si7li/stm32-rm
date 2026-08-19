@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.3.6",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.3.6",
+      "section_title": "CRC calculation",
+      "level": 3,
+      "parent_section": "25.3",
+      "page": 715,
+      "page_end": 716,
+      "semantic_type": "generic",
+      "features": [
+        "crc",
+        "spi"
+      ],
+      "chars": 4639,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=715",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.3.6 \"CRC calculation\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 715.",
+      "section_content": "A CRC calculator has been implemented for communication reliability. Separate CRC\ncalculators are implemented for transmitted data and received data. The CRC is calculated\nusing a programmable polynomial serially on each bit. It is calculated on the sampling clock\nedge defined by the CPHA and CPOL bits in the SPI_CR1 register.\nNote: This SPI offers two kinds of CRC calculation standard which depend directly on the data\nframe format selected for the transmission and/or reception: 8-bit data (CR8) and 16-bit data\n(CRC16).\nCRC calculation is enabled by setting the CRCEN bit in the SPI_CR1 register. This action\nresets the CRC registers (SPI_RXCRCR and SPI_TXCRCR). In full duplex or transmitter\nonly mode, when the transfers are managed by the software (CPU mode), it is necessary to\nwrite the bit CRCNEXT immediately after the last data to be transferred is written to the\nSPI_DR. At the end of this last data transfer, the SPI_TXCRCR value is transmitted.\nIn receive only mode and when the transfers are managed by software (CPU mode), it is\nnecessary to write the CRCNEXT bit after the second last data has been received. The CRC\nis received just after the last data reception and the CRC check is then performed.\nAt the end of data and CRC transfers, the CRCERR flag in the SPI_SR register is set if\ncorruption occurs during the transfer.\nIf data are present in the TX buffer, the CRC value is transmitted only after the transmission\nof the data byte. During CRC transmission, the CRC calculator is switched off and the\nregister value remains unchanged.\nSPI communication using the CRC is possible through the following procedure:\n1. Program the CPOL, CPHA, LSBFirst, BR, SSM, SSI and MSTR values.\n2. Program the polynomial in the SPI_CRCPR register.\n3. Enable the CRC calculation by setting the CRCEN bit in the SPI_CR1 register. This\nalso clears the SPI_RXCRCR and SPI_TXCRCR registers.\n4. Enable the SPI by setting the SPE bit in the SPI_CR1 register.\n5. Start the communication and sustain the communication until all but one byte or half-\nword have been transmitted or received.\n– In full duplex or transmitter-only mode, when the transfers are managed by\nsoftware, when writing the last byte or half word to the Tx buffer, set the\nCRCNEXT bit in the SPI_CR1 register to indicate that the CRC will be transmitted\nafter the transmission of the last byte.\n– In receiver only mode, set the bit CRCNEXT just after the reception of the second\nto last data to prepare the SPI to enter in CRC Phase at the end of the reception of\nthe last data. CRC calculation is frozen during the CRC transfer.\n6. After the transfer of the last byte or half word, the SPI enters the CRC transfer and\ncheck phase. In full duplex mode or receiver-only mode, the received CRC is\ncompared to the SPI_RXCRCR value. If the value does not match, the CRCERR flag in\nSPI_SR is set and an interrupt can be generated when the ERRIE bit in the SPI_CR2\nregister is set.\nNote: When the SPI is in slave mode, be careful to enable CRC calculation only when the clock is\nstable, that is, when the clock is in the steady state. If not, a wrong CRC calculation may be\ndone. In fact, the CRC is sensitive to the SCK slave input clock as soon as CRCEN is set,\nand this, whatever the value of the SPE bit.\nWith high bitrate frequencies, be careful when transmitting the CRC. As the number of used\nCPU cycles has to be as low as possible in the CRC transfer phase, it is forbidden to call\nsoftware functions in the CRC transmission sequence to avoid errors in the last data and\nCRC reception. In fact, CRCNEXT bit has to be written before the end of the\ntransmission/reception of the last data.\nFor high bit rate frequencies, it is advised to use the DMA mode to avoid the degradation of\nthe SPI speed performance due to CPU accesses impacting the SPI bandwidth.\nWhen the devices are configured as slaves and the NSS hardware mode is used, the NSS\npin needs to be kept low between the data phase and the CRC phase.\nWhen the SPI is configured in slave mode with the CRC feature enabled, CRC calculation\ntakes place even if a high level is applied on the NSS pin. This may happen for example in\ncase of a multislave environment where the communication master addresses slaves\nalternately.\nBetween a slave deselection (high level on NSS) and a new slave selection (low level on\nNSS), the CRC value should be cleared on both master and slave sides in order to\nresynchronize the master and slave for their respective CRC calculation.\nTo clear the CRC, follow the procedure below:\n1. Disable SPI (SPE = 0)\n2. Clear the CRCEN bit\n3. Set the CRCEN bit\n4. Enable the SPI (SPE = 1)",
+      "semantic": {}
+    }
+  ]
+}

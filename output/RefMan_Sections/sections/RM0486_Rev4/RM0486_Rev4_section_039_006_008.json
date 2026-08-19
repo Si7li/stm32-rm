@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.6.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.6.8",
+      "section_title": "Demosaicing",
+      "level": 3,
+      "parent_section": "39.6",
+      "page": 1851,
+      "page_end": 1853,
+      "semantic_type": "generic",
+      "features": [
+        "demosaicing"
+      ],
+      "chars": 2964,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1851",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.6.8 \"Demosaicing\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1851.",
+      "section_content": "The module works on the pixel pipes, and implements a mid-quality conversion from raw\nBayer 8 bpp to an RGB 24 bpp, with no implicit half-sizing: the output RGB pixel rate is the\nsame as the input component rate.\nThe conversion targets real-time but medium quality purposes, like display or low-resolution\nsoftware analysis. For higher quality conversions, it is recommended to convert the raw\nBayer in software, with higher quality algorithms but limited to non-real-time, thus\nstill-picture applications.\nThe algorithm takes the surrounding 3 x 3 components in input, applies linear heuristics to\ndetermine the most likely missing components, and generates an output RGB888 pixel.\nTo provide the 3 x 3 input matrix to the algorithm, the demosaicing module embeds a double\nline-buffer, 2 x 2688 components wide. As such, it limits the maximum width of a converted\ndemosaicing buffer to 2688 components/pixels wide. Wider camera sensor resolution can\nbe connected and goes through the first decimation stage in front of the demosaicing\noperation.\nNote: This demosaicing conversion algorithm can create some artifacts, like Zipper. Such artifacts\nare much reduced by a later downsizing or even suppressed for a 2 x 2 downsizing.\nApplications like display, video encode, or software analysis usually require such a\ndownsize, so the artifacts become invisible.\nThe underlying heuristic filters try to extract and adapt to edges, horizontal and vertical lines,\nand lone pixels.\nFunctionality\n• Input pixel format: from 1 (raw Bayer) to three (RGB/YUV) components on 8 bits\n• Max input width of 2688 components\n• Demosaicing conversion:\n– 2-line buffer\n– provides a 3 x 3 matrix to the algorithm + one trailing component (2 left)\n– Extraction and optimization for specific shapes:\n> Edges (on left, right, top, bottom)\n> Lines (horizontal and vertical)\n> Peaking (lone pixels detection)\n• Output pixel format: three RGB components on 8 bits.\nSoftware configuration\n[Table 347. DCMIPP_P1DMCR bit function]\nThe four filters, EDGE, LINEH, LINEV, PEAK, improve the zoomed accuracy of the filtered\npicture (thus mostly luminance correctness, like no Zipper artifact), however at the expense\nof some chrominance blurring or distortion. Some scenes can require specific settings:\n• Scenes where chrominance distortion is very visible (like a mostly black and white\nscene viewed by an RGB sensor) can require lower strength of the filters.\n• On the opposite, scenes heavily loaded with geometric shapes (and thus source of\nartifacts) can require strengthening the filters.\nGlobally, 6/4/4/2 is a good compromise for the filter strength.\nConfiguration example\nIf the camera sensor is raw Bayer, with a grid with a red top-left pixel, the next configuration\ncan be used:\n• ENABLE = 1 to have the demosaicing active\n• TYPE = 0 to have a top-red pixel, thus a RGGB grid\n• EDGE, LINEH, LINEV, PEAK = (4, 4, 4, 4) as typical setting (so an internal strength of\n8 for each parameter).",
+      "semantic": {}
+    }
+  ]
+}

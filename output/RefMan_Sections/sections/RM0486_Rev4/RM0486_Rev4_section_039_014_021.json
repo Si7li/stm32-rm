@@ -1,0 +1,106 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.14.21",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.14.21",
+      "section_title": "DCMIPP Pipe0 flow control configuration register (DCMIPP_P0FCTCR)",
+      "level": 3,
+      "parent_section": "39.14",
+      "page": 1918,
+      "page_end": 1919,
+      "semantic_type": "register_description",
+      "features": [
+        "cptmode",
+        "cptreq",
+        "dcmipp",
+        "dcmipp-p0fctcr",
+        "frate"
+      ],
+      "chars": 1435,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1918",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.14.21 \"DCMIPP Pipe0 flow control configuration register (DCMIPP_P0FCTCR)\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1918.",
+      "section_content": "Address offset: 0x500\nReset value: 0x0000 0000\nBits 31:4 Reserved, must be kept at reset value.\nBit 3 CPTREQ: Capture requested\n0: Capture not requested for next frame\n1: Capture requested for next frame\nWhen PIPEN = 1 and CPTREQ = 1. the pipe waits for the first VSync, automatically starts a\ncapture, and sets CPTACT = 1 to mention it.\nIn Snapshot mode the CPTREQ bit is cleared at the start of the first received frame.\nIn Continuous grab mode, the capture remains active and CPTREQ = 1 until the software\nclears CPTREQ: the capture stops and CPTACT is reset at the end of the ongoing frame.\nThe DCMI and pipe configuration registers must be correctly programmed before enabling\nthis bit.\nBit 2 CPTMODE: Capture mode\n0: Continuous grab mode - The received data are transferred into the destination memory\nthrough the AXI master.\n1: Snapshot mode (single frame) - Once activated, the interface waits for the start of frame,\nand then transfers a single frame through the AXI master. At the end of the frame, the\nCPTACT bit is automatically reset.\nBits 1:0 FRATE[1:0]: Frame capture rate control\nThese bits define the frequency of frame capture. They are meaningful only in Continuous\ngrab mode, ignored in Snapshot mode.\n00: All frames are captured\n01: one out of two frames captured (50% bandwidth reduction)\n10: one out of four frames captured (75% bandwidth reduction)\n11: one out of eight frames captured (87% bandwidth reduction)",
+      "semantic": {
+        "register": "DCMIPP_P0FCTCR",
+        "address_offset": "0x500",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "CPTREQ",
+            "description": "Capture requested When PIPEN = 1 and CPTREQ = 1. the pipe waits for the first VSync, automatically starts a capture, and sets CPTACT = 1 to mention it. In Snapshot mode the CPTREQ bit is cleared at the start of the first received frame. In Continuous grab mode, the capture remains active and CPTREQ = 1 until the software clears CPTREQ: the capture stops and CPTACT is reset at the end of the ongoing frame. The DCMI and pipe configuration registers must be correctly programmed before enabling this bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Capture not requested for next frame"
+              },
+              {
+                "value": "1",
+                "meaning": "Capture requested for next frame"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "CPTMODE",
+            "description": "Capture mode through the AXI master. and then transfers a single frame through the AXI master. At the end of the frame, the CPTACT bit is automatically reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Continuous grab mode - The received data are transferred into the destination memory"
+              },
+              {
+                "value": "1",
+                "meaning": "Snapshot mode (single frame) - Once activated, the interface waits for the start of frame,"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "FRATE[1:0]",
+            "description": "Frame capture rate control These bits define the frequency of frame capture. They are meaningful only in Continuous grab mode, ignored in Snapshot mode.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "All frames are captured"
+              },
+              {
+                "value": "01",
+                "meaning": "one out of two frames captured (50% bandwidth reduction)"
+              },
+              {
+                "value": "10",
+                "meaning": "one out of four frames captured (75% bandwidth reduction)"
+              },
+              {
+                "value": "11",
+                "meaning": "one out of eight frames captured (87% bandwidth reduction)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.2",
+      "section_title": "Input layer definition and cropping",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2098,
+      "page_end": 2099,
+      "semantic_type": "generic",
+      "features": [
+        "cropping",
+        "definition",
+        "input",
+        "layer"
+      ],
+      "chars": 2908,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2098",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.2 \"Input layer definition and cropping\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2098.",
+      "section_content": "The LTDC supports two layers. Each layer is defined by:\n• Its base-address in the memory\nIf the buffer is YUV semi-planar or full-planar, there are respectively two and three\nbase-addresses. The first buffer is called main and stores the luminance data, while the\nother buffers are called auxiliary and store the chrominance data.\n• A dimension in the memory\n– Width defined as its pitch (or address jump or stride): amount of bytes between the\nstart of one line and the start of the next line\n– Height that does not need to be defined\n• A dimension of the pixel rectangle that is cropped and read from the memory\n– Top-left start position: set by the base-address at exactly the byte where the\ntop-left pixel is located\n– Width, number of bytes per line to read\n- If too few bytes versus required, a FIFO underrun interrupt is generated(FUWIF).\n- If too many bytes versus required, the useless data are discarded.\n– Height, number of lines per frame to read\nNote: The pitch and number of bytes per line can be different if a sub-part of a frame is cropped\ntobe displayed. If the full frame is displayed, the pitch and number of lines are the same.\nParameters\n• LEN in LTDC_LxCR: activates this layer.\n• CFBADD in LTDC_LxCFBAR: main base address, for ARGB or Y buffer\n• CFBLL in LTDC_LxCFBLR: main number of bytes per line\n• CFBP in LTDC_LxCFBLR: pitch between two consecutive lines of the main buffer\n• CFBLNBR in LTDC_LxCFBLNR: main number of lines per frame\nSpecifically for multi-planar layers, the following additional registers have to be configured\n(only required for YUV420 semi-planar and full-planar pixel formats):\n• AFBADD0 in LTDC_L1AFBA0R: auxiliary address 0, for UV if semi-planar or\nforViffull-planar\n• AFBADD1 in LTDC_L1AFBA1R: auxiliary address 1, for U if full-planar\n• AFBLL in LTDC_L1AFBLR: auxiliary 0 and 1, number of bytes per line\n• AFBP in LTDC_L1AFBLR: pitch for the auxiliary 0 and 1 buffers\n• AFBLNBR in LTDC_L1AFBLNR: auxiliary 0 and 1 number of lines per frame\nConfiguration examples\n• A frame buffer having the format RGB565 (2 bytes per pixel) and a width of 256 pixels\n(total number of bytes per line is 256*2=512), where pitch = line length requires\navalue of 0x02000207 to be written into this register.\n• A frame buffer having the format RGB888 (3 bytes per pixel) and a width of 320 pixels\n(total number of bytes per line is 320*3=960), where pitch = line length requires\navalue of 0x03C003C7 to be written into this register.\n• A frame buffer having the format CbCr (2 bytes per pixel) and a width of 256 pixels\n(total number of bytes per line is 256*2=512), where pitch = line length requires\navalue of 0x02000207 to be written into this register.\n• A frame buffer having the format Cb (1 byte per pixel) and a width of 320 pixels (total\nnumber of bytes per line is 320*1=320), where pitch = line length requires a value\nof0x01400147 to be written into this register.",
+      "semantic": {}
+    }
+  ]
+}

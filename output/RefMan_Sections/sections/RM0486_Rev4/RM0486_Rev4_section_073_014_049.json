@@ -1,0 +1,145 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.49",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.49",
+      "section_title": "OTG device IN endpoint x interrupt register (OTG_DIEPINTx)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3847,
+      "page_end": 3848,
+      "semantic_type": "register_description",
+      "features": [
+        "ahberr",
+        "epdisd",
+        "inepne",
+        "inepnm",
+        "interrupt",
+        "ittxfe",
+        "nak",
+        "otg",
+        "pktdrpsts",
+        "toc",
+        "txfe",
+        "txfifoudrn",
+        "xfrc"
+      ],
+      "chars": 3453,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3847",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.49 \"OTG device IN endpoint x interrupt register (OTG_DIEPINTx)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3847.",
+      "section_content": "This register indicates the status of an endpoint with respect to USB- and AHB-related\nevents. It is shown in Figure990. The application must read this register when the IN\nendpoints interrupt bit of the core interrupt register (IEPINT in OTG_GINTSTS) is set.\nBefore the application can read this register, it must first read the device all endpoints\ninterrupt (OTG_DAINT) register to get the exact endpoint number for the device endpoint-x\ninterrupt register. The application must clear the appropriate bit in this register to clear the\ncorresponding bits in the OTG_DAINT and OTG_GINTSTS registers.\nAddress offset: 0x908 + 0x20 * x, (x = 0 to 8)\nReset value: 0x00000080\nBits 31:14 Reserved, must be kept at reset value.\nBit 13 NAK: NAK input\nThe core generates this interrupt when a NAK is transmitted or received by the device. In\ncase of isochronous IN endpoints the interrupt gets generated when a zero length packet is\ntransmitted due to unavailability of data in the Tx FIFO.\nBit 12 Reserved, must be kept at reset value.\nBit 11 PKTDRPSTS: Packet dropped status\nThis bit indicates to the application that an ISOC OUT packet has been dropped. This bit\ndoes not have an associated mask bit and does not generate an interrupt.\nBit 10 Reserved, must be kept at reset value.\nBit 9 Reserved, must be kept at reset value.\nBit 8 TXFIFOUDRN: Transmit Fifo Underrun (TxfifoUndrn)\nThe core generates this interrupt when it detects a transmit FIFO underrun condition for this\nendpoint. Dependency: This interrupt is valid only when Thresholding is enabled\nBit 7 TXFE: Transmit FIFO empty\nThis interrupt is asserted when the Tx FIFO for this endpoint is either half or completely\nempty. The half or completely empty status is determined by the Tx FIFO Empty Level bit in\nthe OTG_GAHBCFG register (TXFELVL bit in OTG_GAHBCFG).\nBit 6 INEPNE: IN endpoint NAK effective\nThis bit can be cleared when the application clears the IN endpoint NAK by writing to the\nCNAK bit in OTG_DIEPCTLx.\nThis interrupt indicates that the core has sampled the NAK bit set (either by the application\nor by the core). The interrupt indicates that the IN endpoint NAK bit set by the application\nhas taken effect in the core.\nThis interrupt does not guarantee that a NAK handshake is sent on the USB. A STALL bit\ntakes priority over a NAK bit.\nBit 5 INEPNM: IN token received with EP mismatch\nIndicates that the data in the top of the non-periodic TxFIFO belongs to an endpoint other\nthan the one for which the IN token was received. This interrupt is asserted on the endpoint\nfor which the IN token was received.\nBit 4 ITTXFE: IN token received when Tx FIFO is empty\nIndicates that an IN token was received when the associated Tx FIFO (periodic/non-\nperiodic) was empty. This interrupt is asserted on the endpoint for which the IN token was\nreceived.\nBit 3 TOC: Timeout condition\nIndicates that the core has detected a timeout condition on the USB for the last IN token on\nthis endpoint.\nBit 2 AHBERR: AHB error\nThis is generated only in internal DMA mode when there is an AHB error during an AHB\nread/write. The application can read the corresponding endpoint DMA address register to\nget the error address.\nBit 1 EPDISD: Endpoint disabled interrupt\nThis bit indicates that the endpoint is disabled per the application’s request.\nBit 0 XFRC: Transfer completed interrupt\nThis field indicates that the programmed transfer is complete on the AHB as well as on the\nUSB, for this endpoint.",
+      "semantic": {
+        "register": "OTG_DIEPINTx",
+        "address_offset": "0x908 + 0x20 * x, (x = 0 to 8)",
+        "reset_value": "0x00000080",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "NAK",
+            "description": "NAK input The core generates this interrupt when a NAK is transmitted or received by the device. In case of isochronous IN endpoints the interrupt gets generated when a zero length packet is transmitted due to unavailability of data in the Tx FIFO.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "PKTDRPSTS",
+            "description": "Packet dropped status This bit indicates to the application that an ISOC OUT packet has been dropped. This bit does not have an associated mask bit and does not generate an interrupt.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "TXFIFOUDRN",
+            "description": "Transmit Fifo Underrun (TxfifoUndrn) The core generates this interrupt when it detects a transmit FIFO underrun condition for this endpoint. Dependency: This interrupt is valid only when Thresholding is enabled",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "TXFE",
+            "description": "Transmit FIFO empty This interrupt is asserted when the Tx FIFO for this endpoint is either half or completely empty. The half or completely empty status is determined by the Tx FIFO Empty Level bit in the OTG_GAHBCFG register (TXFELVL bit in OTG_GAHBCFG).",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "INEPNE",
+            "description": "IN endpoint NAK effective This bit can be cleared when the application clears the IN endpoint NAK by writing to the CNAK bit in OTG_DIEPCTLx. This interrupt indicates that the core has sampled the NAK bit set (either by the application or by the core). The interrupt indicates that the IN endpoint NAK bit set by the application has taken effect in the core. This interrupt does not guarantee that a NAK handshake is sent on the USB. A STALL bit takes priority over a NAK bit.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "INEPNM",
+            "description": "IN token received with EP mismatch Indicates that the data in the top of the non-periodic TxFIFO belongs to an endpoint other than the one for which the IN token was received. This interrupt is asserted on the endpoint for which the IN token was received.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "ITTXFE",
+            "description": "IN token received when Tx FIFO is empty Indicates that an IN token was received when the associated Tx FIFO (periodic/non- periodic) was empty. This interrupt is asserted on the endpoint for which the IN token was received.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "TOC",
+            "description": "Timeout condition Indicates that the core has detected a timeout condition on the USB for the last IN token on this endpoint.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "AHBERR",
+            "description": "AHB error This is generated only in internal DMA mode when there is an AHB error during an AHB read/write. The application can read the corresponding endpoint DMA address register to get the error address.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "EPDISD",
+            "description": "Endpoint disabled interrupt This bit indicates that the endpoint is disabled per the application’s request.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "XFRC",
+            "description": "Transfer completed interrupt This field indicates that the programmed transfer is complete on the AHB as well as on the USB, for this endpoint.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

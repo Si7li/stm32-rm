@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S20.4.9",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "20",
+      "chapter_title": "General-purpose timers (TIM15/TIM16/TIM17)",
+      "section": "20.4.9",
+      "section_title": "Output compare mode",
+      "level": 3,
+      "parent_section": "20.4",
+      "page": 562,
+      "page_end": 563,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 2066,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=562",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 20.4.9 \"Output compare mode\" in chapter 20 (General-purpose timers (TIM15/TIM16/TIM17)), RM0490 Rev 6, page 562.",
+      "section_content": "This function is used to control an output waveform or indicating when a period of time has\nelapsed.\nWhen a match is found between the capture/compare register and the counter, the output\ncompare function:\n• Assigns the corresponding output pin to a programmable value defined by the output\ncompare mode (OCxM bits in the TIMx_CCMRx register) and the output polarity (CCxP\nbit in the TIMx_CCER register). The output pin can keep its level (OCXM=000), be set\nactive (OCxM=001), be set inactive (OCxM=010) or can toggle (OCxM=011) on match.\n• Sets a flag in the interrupt status register (CCxIF bit in the TIMx_SR register).\n• Generates an interrupt if the corresponding interrupt mask is set (CCXIE bit in the\nTIMx_DIER register).\n• Sends a DMA request if the corresponding enable bit is set (CCxDE bit in the\nTIMx_DIER register, CCDS bit in the TIMx_CR2 register for the DMA request\nselection).\nThe TIMx_CCRx registers can be programmed with or without preload registers using the\nOCxPE bit in the TIMx_CCMRx register.\nIn output compare mode, the update event UEV has no effect on OCxREF and OCx output.\nThe timing resolution is one count of the counter. Output compare mode can also be used to\noutput a single pulse (in One-pulse mode).\nProcedure\n1. Select the counter clock (internal, external, prescaler).\n2. Write the desired data in the TIMx_ARR and TIMx_CCRx registers.\n3. Set the CCxIE bit if an interrupt request is to be generated.\n4. Select the output mode. For example:\n– Write OCxM = 011 to toggle OCx output pin when CNT matches CCRx\n– Write OCxPE = 0 to disable preload register\n– Write CCxP = 0 to select active high polarity\n– Write CCxE = 1 to enable the output\n5. Enable the counter by setting the CEN bit in the TIMx_CR1 register.\nThe TIMx_CCRx register can be updated at any time by software to control the output\nwaveform, provided that the preload register is not enabled (OCxPE=’0’, else TIMx_CCRx\nshadow register is updated only at the next update event UEV). An example is given in\nFigure201.\n[Figure 201. Output compare mode, toggle on OC1]",
+      "semantic": {}
+    }
+  ]
+}

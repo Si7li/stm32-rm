@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S25.3.7",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "25",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "25.3.7",
+      "section_title": "Status flags",
+      "level": 3,
+      "parent_section": "25.3",
+      "page": 717,
+      "page_end": 717,
+      "semantic_type": "generic",
+      "features": [
+        "spi"
+      ],
+      "chars": 1894,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=717",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.3.7 \"Status flags\" in chapter 25 (Serial peripheral interface (SPI)), RM0008 Rev 21, page 717.",
+      "section_content": "Four status flags are provided for the application to completely monitor the state of the SPI\nbus.\nTx buffer empty flag (TXE)\nWhen it is set, this flag indicates that the Tx buffer is empty and the next data to be\ntransmitted can be loaded into the buffer. The TXE flag is cleared when writing to the\nSPI_DR register.\nRx buffer not empty (RXNE)\nWhen set, this flag indicates that there are valid received data in the Rx buffer. It is cleared\nwhen SPI_DR is read.\nBUSY flag\nThis BSY flag is set and cleared by hardware (writing to this flag has no effect). The BSY\nflag indicates the state of the communication layer of the SPI.\nWhen BSY is set, it indicates that the SPI is busy communicating. There is one exception in\nmaster mode / bidirectional receive mode (MSTR=1 and BDM=1 and BDOE=0) where the\nBSY flag is kept low during reception.\nThe BSY flag is useful to detect the end of a transfer if the software wants to disable the SPI\nand enter Halt mode (or disable the peripheral clock). This avoids corrupting the last\ntransfer. For this, the procedure described below must be strictly respected.\nThe BSY flag is also useful to avoid write collisions in a multimaster system.\nThe BSY flag is set when a transfer starts, with the exception of master mode / bidirectional\nreceive mode (MSTR=1 and BDM=1 and BDOE=0).\nIt is cleared:\n• when a transfer is finished (except in master mode if the communication is continuous)\n• when the SPI is disabled\n• when a master mode fault occurs (MODF=1)\nWhen communication is not continuous, the BSY flag is low between each communication.\nWhen communication is continuous:\n• in master mode, the BSY flag is kept high during all the transfers\n• in slave mode, the BSY flag goes low for one SPI clock cycle between each transfer\nNote: Do not use the BSY flag to handle each data transmission or reception. It is better to use the\nTXE and RXNE flags instead.",
+      "semantic": {}
+    }
+  ]
+}

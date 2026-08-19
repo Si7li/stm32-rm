@@ -1,0 +1,161 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.1",
+      "section_title": "I3C message control register (I3C_CR)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3232,
+      "page_end": 3234,
+      "semantic_type": "register_description",
+      "features": [
+        "add",
+        "dcnt",
+        "i3c",
+        "i3c-cr",
+        "mend",
+        "mtype",
+        "rnw"
+      ],
+      "chars": 7589,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3232",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.1 \"I3C message control register (I3C_CR)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3232.",
+      "section_content": "Address offset: 0x000\nReset value: 0x00000000\nThis register must be used to control the message to emit on the I3C bus:\n• when I3C acts as controller (bit[30] = MTYPE[3] = 0): if there is no CCC code to be\nemitted bits[29:27] = MTYPE[2:0] differ from 110; else the alternate register description\nSection64.16.2 must be considered.\n• when I3C acts as target (bit[30] = MTYPE[3] = 1).\nWhen I3C acts as controller:\n• If the control FIFO (C-FIFO) is not full (CFNFF = 1 in the I3C_EVR register), writing into\nthis register means pushing a new control word into the C-FIFO; either by software, or\nautomatically by DMA, as defined by CDMAEN in the I3C_CFGR register.\n• If C-FIFO is empty and a restart must be emitted with a new control word, the I3C\nhardware asserts the control FIFO error underrun flag (COVR = 1 in the I3C_SER\nregister). If enabled by ERRIE=1 in the I3C_IER register, an interrupt is generated.\n• After the last message of the frame is completed (a message with MEND = 1 in the\nI3C_CR register), the I3C hardware asserts the frame completed flag (FCF = 1 in the\nI3C_EVR register) and the corresponding interrupt, if enabled.\nWhen I3C acts as target, this register is used in register mode:\n• Software writes into this register to initiate a command (IBI, controller-role or hot-join\nrequest) on the I3C bus.\n• C-FIFO is disabled, and there is no DMA mode neither for control words.\nBit 31 MEND: Message end type/last message of a frame (when the I3C acts as controller)\n0: this message from controller is followed by a repeated start (Sr), before another message\nmust be emitted\n1: this message from controller ends with a stop (P), being the last message of a frame\nBits 30:27 MTYPE[3:0]: Message type (whatever I3C acts as controller/target)\nCondition: when I3C acts as I3C controller\n0000: SCL clock is forced to stop until a next control word is executed\nBits[26:0] are ignored. On a CE1 error detection (ERRF = 1 in the I3C_EVR register and CODERR[3:0] =\n0001 in the I3C_SER register) where a start/restart/stop is prevented from being generated, the software\nmust use this message type for SCL “stuck at” recovery. Refer to Table631.\n0001: header message\nBits[26:0] are ignored. If the addressed target is not responding with an ACK to a private/direct message, as\nan escalation stage after a failed GETSTATUS tentative, the software must program this with EXITPTRN = 1\nin the I3C_CFGR register, so that an HDR exit pattern is emitted on the bus, whatever the header is ACK-ed\nor NACK-ed (to avoid the target to consider that the I3C bus is in HDR mode). Refer to Table631 and MIPI\nspecification about escalation handling.\n0010: private message (refer to Figure827)\nBits[23:17] (ADD[6:0]) are the emitted 7-bit dynamic address.\nBit[16] (RNW) is the emitted RnW bit.\nBits[15:0] (DCNT[15:0]) are the number of programmed data bytes.\nThe transferred private message is:\n– {S / S + 0b111_1110 + RnW = 0 + Sr/Sr+*} + 7-bit DynAddr + RnW + (8-bit Data + T)* + Sr/P.\n– After an S (start), depending upon bit NOARBH in the I3C_CFGR register, the arbitrable header\n(0b111_1110 + RnW = 0) is inserted or not.\n– Sr+*: after an Sr (repeated start), the hardware automatically inserts (0b111_1110 + RnW = 0) if\nneeded, if it follows a previous message without ending by a P (stop).\n0011: direct message (second part of an I3C SDR direct CCC command) (refer to Figure820)\nBits[23:17] (ADD[6:0]) are the emitted 7-bit dynamic address.\nBit[16] (RNW) is the emitted RnW bit.\nBits[15:0] (DCNT[15:0]) are the number of programmed data bytes.\nThe transferred direct message is: Sr + 7-bit DynAddr + RnW + (8-bit Data + T)* + Sr/P\n0100: legacy I2C message (refer to Figure829)\nBits[23:17] (ADD[6:0]) are the emitted 7-bit static address.\nBit[16] (RNW) is the emitted RnW bit.\nBits[15:0] (DCNT[15:0]) are the number of programmed data bytes.\nThe transferred legacy I2C message is:\n– {S / S + 0b111_1110 + RnW = 0 + Sr/Sr+*} + 7-bit StaAddr + RnW + (8-bit data + T)* + Sr/P.\n– After an S, depending on NOARBH, the arbitrable header (0b111_1110 + RnW = 0) is inserted or not.\n– Sr+*: after an Sr (repeated start), the hardware automatically inserts (0b111_1110 + RnW = 0) if\nneeded (if it follows a previous message without ending by a P (stop)).\nOthers: reserved\nCondition: when I3C acts as I3C target\n1000: hot-join request (W) (refer to Figure831)\nThe transferred hot-join request is {S +} 0b000_0010 addr + RnW = 0.\nWriting the control word initiates the hot-join request if target is allowed to do so (HJEN = 1 in the\nI3C_DEVR0 register), either actively after a bus idle condition via the hardware issuing a start request (SDA\nlow) and waiting for the controller to activate SCL clock, or passively if the controller initiates a concurrent\nmessage.\n1001: controller-role request (W) (refer to Figure832)\nThe transferred controller-role request is {S +} DA[6:0] + RnW = 0 (DA in the I3C_DEVR0 register)\nWriting the control word initiates the controller-role request if target is allowed to do so (CREN = 1 and\nDAVAL = 1 in the I3C_DEVR0 register), either actively after a bus idle condition via the hardware issuing a\nstart request (SDA low) and waiting for the controller to activate SCL clock, or passively if the controller\ninitiates a concurrent message.\n1010: IBI (in-band interrupt) request (R) (refer to Figure830)\nBits[15:0] (DCNT[15:0]) are the number of the IBI data payload (including the first MDB), if any.\nThe transferred IBI request is {S +} DA[6:0] + RnW = 1 + optional IBI data payload. Writing the control word\ninitiates the IBI request if target is allowed to do so (IBIEN = 1 and DAVAL = 1 in the I3C_DEVR0.register),\neither actively after a bus idle condition via the hardware issuing a start request (SDA low) and waiting for\nthe controller to activate SCL clock, or passively if the controller initiates a concurrent message.\nWhen acknowledged from controller, the transmitted IBI payload data (optional, depending upon BCR2 in\nthe I3C_BCR register) is defined by DCNT[15:0] in the I3C_CR register and I3C_IBIDR, and must be\nconsistently programmed vs. the IBI payload data size defined by IBIP[2:0] in the I3C_IBIDR register.\nOthers: reserved\nBits 26:24 Reserved, must be kept at reset value.\nBits 23:17 ADD[6:0]: 7-bit I3C dynamic / I2C static target address (when I3C acts as controller)\nWhen I3C acts as controller, this field is used if MTYPE[3:0] = 0010 (private message), or\nMTYPE[3:0] = 0011 (direct message), or MTYPE[3:0] = 0100 (legacy I2C message)\nBit 16 RNW: Read / non-write message (when I3C acts as controller)\nWhen I3C acts as controller, this field is used if MTYPE[3:0] = 0010 (private message), or\nMTYPE[3:0] = 0011 (direct message), or MTYPE[3:0] = 0100 (legacy I2C message), to emit\nthe RnW bit on the I3C bus.\n0: write message\n1: read message\nBits 15:0 DCNT[15:0]: Count of data to transfer during a read or write message, in bytes (whatever I3C\nacts as controller/target)\nWhen I3C acts as controller, this field is used if MTYPE[3:0] = 0010 (private message), or\nMTYPE[3:0] = 0011 (direct message), or MTYPE[3:0] = 0100 (legacy I2C message), to set\nthe number of exchanged data bytes on the bus. In case of a private or legacy I2C read/write\nmessage, this field must be non-null.\nWhen I3C acts as target, this field is used if MTYPE[3:0] = 1010 (IBI request) and if any IBI\ndata payload (data to be transmitted if BCR2 = 1 in the I3C_BCR register), to set the number\nof bytes of the IBI data payload (1, 2, 3, or 4).\nLinear encoding up to 64Kbytes - 1\n0x0000: no data to transfer\n0x0001: 1 byte\n0x0002: 2 bytes\n...\n0xFFFF: 64 Kbytes - 1 byte",
+      "semantic": {
+        "register": "I3C_CR",
+        "address_offset": "0x000",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "MEND",
+            "description": "Message end type/last message of a frame (when the I3C acts as controller) must be emitted",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "this message from controller is followed by a repeated start (Sr), before another message"
+              },
+              {
+                "value": "1",
+                "meaning": "this message from controller ends with a stop (P), being the last message of a frame"
+              }
+            ]
+          },
+          {
+            "bits": "30:27",
+            "name": "MTYPE[3:0]",
+            "description": "Message type (whatever I3C acts as controller/target) Condition: when I3C acts as I3C controller Bits[26:0] are ignored. On a CE1 error detection (ERRF = 1 in the I3C_EVR register and CODERR[3:0] = 0001 in the I3C_SER register) where a start/restart/stop is prevented from being generated, the software must use this message type for SCL “stuck at” recovery. Refer to Table631. Bits[26:0] are ignored. If the addressed target is not responding with an ACK to a private/direct message, as an escalation stage after a failed GETSTATUS tentative, the software must program this with EXITPTRN = 1 in the I3C_CFGR register, so that an HDR exit pattern is emitted on the bus, whatever the header is ACK-ed or NACK-ed (to avoid the target to consider that the I3C bus is in HDR mode). Refer to Table631 and MIPI specification about escalation handling. Bits[23:17] (ADD[6:0]) are the emitted 7-bit dynamic address. Bit[16] (RNW) is the emitted RnW bit. Bits[15:0] (DCNT[15:0]) are the number of programmed data bytes. The transferred private message is: – {S / S + 0b111_1110 + RnW = 0 + Sr/Sr+*} + 7-bit DynAddr + RnW + (8-bit Data + T)* + Sr/P. – After an S (start), depending upon bit NOARBH in the I3C_CFGR register, the arbitrable header (0b111_1110 + RnW = 0) is inserted or not. – Sr+*: after an Sr (repeated start), the hardware automatically inserts (0b111_1110 + RnW = 0) if needed, if it follows a previous message without ending by a P (stop). Bits[23:17] (ADD[6:0]) are the emitted 7-bit dynamic address. Bit[16] (RNW) is the emitted RnW bit. Bits[15:0] (DCNT[15:0]) are the number of programmed data bytes. The transferred direct message is: Sr + 7-bit DynAddr + RnW + (8-bit Data + T)* + Sr/P Bits[23:17] (ADD[6:0]) are the emitted 7-bit static address. Bit[16] (RNW) is the emitted RnW bit. Bits[15:0] (DCNT[15:0]) are the number of programmed data bytes. The transferred legacy I2C message is: – {S / S + 0b111_1110 + RnW = 0 + Sr/Sr+*} + 7-bit StaAddr + RnW + (8-bit data + T)* + Sr/P. – After an S, depending on NOARBH, the arbitrable header (0b111_1110 + RnW = 0) is inserted or not. – Sr+*: after an Sr (repeated start), the hardware automatically inserts (0b111_1110 + RnW = 0) if needed (if it follows a previous message without ending by a P (stop)). Condition: when I3C acts as I3C target The transferred hot-join request is {S +} 0b000_0010 addr + RnW = 0. Writing the control word initiates the hot-join request if target is allowed to do so (HJEN = 1 in the I3C_DEVR0 register), either actively after a bus idle condition via the hardware issuing a start request (SDA low) and waiting for the controller to activate SCL clock, or passively if the controller initiates a concurrent message. The transferred controller-role request is {S +} DA[6:0] + RnW = 0 (DA in the I3C_DEVR0 register) Writing the control word initiates the controller-role request if target is allowed to do so (CREN = 1 and DAVAL = 1 in the I3C_DEVR0 register), either actively after a bus idle condition via the hardware issuing a start request (SDA low) and waiting for the controller to activate SCL clock, or passively if the controller initiates a concurrent message. Bits[15:0] (DCNT[15:0]) are the number of the IBI data payload (including the first MDB), if any. The transferred IBI request is {S +} DA[6:0] + RnW = 1 + optional IBI data payload. Writing the control word initiates the IBI request if target is allowed to do so (IBIEN = 1 and DAVAL = 1 in the I3C_DEVR0.register), either actively after a bus idle condition via the hardware issuing a start request (SDA low) and waiting for the controller to activate SCL clock, or passively if the controller initiates a concurrent message. When acknowledged from controller, the transmitted IBI payload data (optional, depending upon BCR2 in the I3C_BCR register) is defined by DCNT[15:0] in the I3C_CR register and I3C_IBIDR, and must be consistently programmed vs. the IBI payload data size defined by IBIP[2:0] in the I3C_IBIDR register.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "SCL clock is forced to stop until a next control word is executed"
+              },
+              {
+                "value": "0001",
+                "meaning": "header message"
+              },
+              {
+                "value": "0010",
+                "meaning": "private message (refer to Figure827)"
+              },
+              {
+                "value": "0011",
+                "meaning": "direct message (second part of an I3C SDR direct CCC command) (refer to Figure820)"
+              },
+              {
+                "value": "0100",
+                "meaning": "legacy I2C message (refer to Figure829)"
+              },
+              {
+                "value": "Others",
+                "meaning": "reserved"
+              },
+              {
+                "value": "1000",
+                "meaning": "hot-join request (W) (refer to Figure831)"
+              },
+              {
+                "value": "1001",
+                "meaning": "controller-role request (W) (refer to Figure832)"
+              },
+              {
+                "value": "1010",
+                "meaning": "IBI (in-band interrupt) request (R) (refer to Figure830)"
+              },
+              {
+                "value": "Others",
+                "meaning": "reserved"
+              }
+            ]
+          },
+          {
+            "bits": "26:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:17",
+            "name": "ADD[6:0]",
+            "description": "7-bit I3C dynamic / I2C static target address (when I3C acts as controller) When I3C acts as controller, this field is used if MTYPE[3:0] = 0010 (private message), or MTYPE[3:0] = 0011 (direct message), or MTYPE[3:0] = 0100 (legacy I2C message)",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "RNW",
+            "description": "Read / non-write message (when I3C acts as controller) When I3C acts as controller, this field is used if MTYPE[3:0] = 0010 (private message), or MTYPE[3:0] = 0011 (direct message), or MTYPE[3:0] = 0100 (legacy I2C message), to emit the RnW bit on the I3C bus.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "write message"
+              },
+              {
+                "value": "1",
+                "meaning": "read message"
+              }
+            ]
+          },
+          {
+            "bits": "15:0",
+            "name": "DCNT[15:0]",
+            "description": "Count of data to transfer during a read or write message, in bytes (whatever I3C acts as controller/target) When I3C acts as controller, this field is used if MTYPE[3:0] = 0010 (private message), or MTYPE[3:0] = 0011 (direct message), or MTYPE[3:0] = 0100 (legacy I2C message), to set the number of exchanged data bytes on the bus. In case of a private or legacy I2C read/write message, this field must be non-null. When I3C acts as target, this field is used if MTYPE[3:0] = 1010 (IBI request) and if any IBI data payload (data to be transmitted if BCR2 = 1 in the I3C_BCR register), to set the number of bytes of the IBI data payload (1, 2, 3, or 4). Linear encoding up to 64Kbytes - 1 ...",
+            "values": [
+              {
+                "value": "0x0000",
+                "meaning": "no data to transfer"
+              },
+              {
+                "value": "0x0001",
+                "meaning": "1 byte"
+              },
+              {
+                "value": "0x0002",
+                "meaning": "2 bytes"
+              },
+              {
+                "value": "0xFFFF",
+                "meaning": "64 Kbytes - 1 byte"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

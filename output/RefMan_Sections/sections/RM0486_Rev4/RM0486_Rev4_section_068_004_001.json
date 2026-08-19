@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.4.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.4.1",
+      "section_title": "SAI block diagram",
+      "level": 3,
+      "parent_section": "68.4",
+      "page": 3502,
+      "page_end": 3504,
+      "semantic_type": "generic",
+      "features": [
+        "sai"
+      ],
+      "chars": 2020,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3502",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.4.1 \"SAI block diagram\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3502.",
+      "section_content": "Figure914 shows the SAI block diagram while Table669 and Table670 list SAI internal and\nexternal signals.\n[Figure 914. SAI functional block diagram]\n1. These signals might not be available for all SAI instances. Refer to Section68.3: SAI implementation for details.\nThe SAI is mainly composed of two audio subblocks with their own clock generator. Each\naudio block integrates a 32-bit shift register controlled by their own functional state machine.\nData are stored or read from the dedicated FIFO. FIFO may be accessed by the CPU, or by\nDMA to leave the CPU free during the communication. Each audio block is independent.\nThey can be synchronous with each other.\nAn I/O line controller manages a set of 4 dedicated pins (SD, SCK, FS, MCLK) for a given\naudio block in the SAI. Some of these pins can be shared if the two subblocks are declared\nas synchronous to leave some free to be used as general purpose I/Os. The MCLK pin can\nbe output, or not, depending on the application, the decoder requirement and whether the\naudio block is configured as the master.\nIf one SAI is configured to operate synchronously with another one, even more I/Os can be\nfreed (except for pins SD_x).\nThe functional state machine can be configured to address a wide range of audio protocols.\nSome registers are present to set up the desired protocols (audio frame waveform\ngenerator).\nThe audio subblock can be a transmitter or receiver, in master or slave mode. The master\nmode means the SCK_x bit clock and the frame synchronization signal are generated from\nthe SAI, whereas in slave mode, they come from another external or internal master. There\nis a particular case for which the FS signal direction is not directly linked to the master or\nslave mode definition. In AC’97 protocol, it is an SAI output even if the SAI (link controller) is\nset up to consume the SCK clock (and so to be in Slave mode).\nNote: For ease of reading of this section, the notation SAI_x refers to SAI_A or SAI_B, where ‘x’\nrepresents the SAI A or B subblock.",
+      "semantic": {}
+    }
+  ]
+}

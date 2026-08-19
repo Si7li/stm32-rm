@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S27.4.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "27",
+      "chapter_title": "AES hardware accelerator (AES)",
+      "section": "27.4.5",
+      "section_title": "AES encryption or decryption typical usage",
+      "level": 3,
+      "parent_section": "27.4",
+      "page": 796,
+      "page_end": 798,
+      "semantic_type": "generic",
+      "features": [
+        "aes"
+      ],
+      "chars": 5134,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=796",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.4.5 \"AES encryption or decryption typical usage\" in chapter 27 (AES hardware accelerator (AES)), RM0522 Rev 1, page 796.",
+      "section_content": "The following figure shows a typical operation for encryption or decryption.\n[Figure 177. Encryption/ decryption typical usage]\nInitialization\nThe AES peripheral is initialized according to the chaining mode. Refer to Section27.4.9:\nAES basic chaining modes (ECB, CBC) and Section27.4.10: AES counter (CTR) mode for\ndetails.\nData append\nThis section describes different ways of appending data for processing. For ECB or CBC\nchaining modes, refer to Section27.4.7: AES ciphertext stealing and data padding if the size\nof data to process is not a multiple of 16 bytes. The last block management in these cases is\nmore complex than what is described in this section.\nAppending data using the CPU in polling mode\nThis method uses flag polling to control the data append through the following sequence:\n1. Enable the AES peripheral when KEYVALID is set, by setting the EN bit of the\nAES_CR register (if not already done).\n2. Repeat the following sub-sequence until the payload is entirely processed:\na) Write four input data words into the AES_DINR register.\nb) Wait until the status flag CCF is set in the AES_ISR register, then read the four\ndata words from the AES_DOUTR register.\nc) Clear the CCF flag, by setting the CCF bit of the AES_ICR register.\nd) If the next processing block is the last block, pad (when applicable) the data with\nzeros to obtain a complete block, and specify the number of non-valid bytes (using\nNPBLB[3:0]) in case of GCM payload encryption or CCM payload decryption\n(otherwise the tag computation is wrong).\n3. As the data block just processed is the last block of the message, optionally discard the\ndata that is not part of the message/payload, then disable the AES peripheral by\nclearing EN.\nNote: Up to three wait cycles are automatically inserted between two consecutive writes to the\nAES_DINR register, to allow sending the key to the AES processor.\nNPBLB[3:0] bitfield is not used in header phase of GCM, GMAC and CCM chaining modes.\nAppending data using the CPU in interrupt mode\nThe method uses interrupt from the AES peripheral to control the data append, through the\nfollowing sequence:\n1. Enable interrupts from AES, by setting the CCFIE bit of the AES_IER register.\n2. Enable the AES peripheral when KEYVALID is set, by setting EN (if not already done).\n3. Write first four input data words into the AES_DINR register.\n4. Handle the data in the AES interrupt service routine. Upon each interrupt:\na) Read four output data words from the AES_DOUTR register.\nb) Clear the CCF flag and thus the pending interrupt, by setting the CCF bit of the\nAES_ICR register.\nc) If the next processing block is the last block of the message, pad (when\napplicable) the data with zeros to obtain a complete block, and specify the number\nof non-valid bytes (through NPBLB[3:0]) in case of GCM payload encryption or\nCCM payload decryption (otherwise the tag computation is wrong). Then proceed\nwith point 4e).\nd) If the data block just processed is the last block of the message, optionally discard\nthe data that are not part of the message/payload, then disable the AES peripheral\nby clearing EN and quit the interrupt service routine.\ne) Write next four input data words into the AES_DINR register and quit the interrupt\nservice routine.\nNote: AES is tolerant of delays between consecutive read or write operations, which allows, for\nexample, an interrupt from another peripheral to be served between two AES computations.\nThe NPBLB[3:0] bitfield is not used in the header phase of GCM, GMAC, and CCM chaining\nmodes.\nAppending data using DMA\nWith this method, all the transfers and processing are managed by DMA and AES. Proceed\nas follows:\n1. If the last block of the message to process is shorter than 16 bytes, prepare the last\nfour-word data block by padding the remainder of the block with zeros.\n2. Configure the DMA controller so as to transfer the data to process from the memory to\nthe AES peripheral input and the processed data from the AES peripheral output to the\nmemory, as described in Section27.6: AES DMA requests. Configure the DMA\ncontroller so as to generate an interrupt on transfer completion. For GCM payload\nencryption or CCM payload decryption, the DMA transfer must not include the last\nfour-word block if padded with zeros. The sequence described in Appending data using\nthe CPU in polling mode must be used instead for this last block, because the\nNPBLB[3:0] bitfield must be set up before processing the block, for AES to compute a\ncorrect tag.\n3. Enable the AES peripheral when KEYVALID is set, by setting EN (if not already done).\n4. Enable DMA requests, by setting DMAINEN and DMAOUTEN.\n5. Upon DMA interrupt indicating the transfer completion, get the AES-processed data\nfrom the memory.\nWhen appending data using DMA, the suspend/resume operation as described in\nSection27.4.8 is not supported.\nNote: The CCF flag has no use with this method because the reading of the AES_DOUTR register\nis managed by DMA automatically, without any software action, at the end of the\ncomputation phase.\nThe NPBLB[3:0] bitfield is not used in the header phase of GCM, GMAC, and CCM chaining\nmodes.",
+      "semantic": {}
+    }
+  ]
+}

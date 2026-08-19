@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.9.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.9.13",
+      "section_title": "I3C IBI transfer, as controller/target",
+      "level": 3,
+      "parent_section": "64.9",
+      "page": 3208,
+      "page_end": 3209,
+      "semantic_type": "generic",
+      "features": [
+        "i3c",
+        "ibi"
+      ],
+      "chars": 2159,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3208",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.9.13 \"I3C IBI transfer, as controller/target\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3208.",
+      "section_content": "Figure830 illustrates IBI (in-band interrupt) transfer, as communicated on the I3C bus, and\nas programmed when acting as target or received as controller.\n[Figure 830. IBI transfer, as controller/target]\nWhen the I3C peripheral acts as controller, the I3C_IBIDR register is used to receive the IBI\ndata payload. Consequently, the IBI request from the target must not exceed a 4-byte data\npayload. If there is more information to be exchanged in the context of this in-band interrupt,\nthe controller software must issue a private read.\nTiming control and sensor acquisition timestamping when I3C controller\nWhen the I3C peripheral acts a controller, it can use timing control and asynchronous mode0\nto timestamp the moment at which the target(s) acquired sampled data, and to time-\ncorrelate them.\nTo do this, the software must go through the following sequence:\n1. Allocate and configure a timer in capture mode, to be connected to the I3C generated\nevent i3c_ibi_ack so that for each IBI acknowledge the counter of the timer can be\ncaptured.\n2. Program a broadcast/direct SETXTIME CCC with sub-command byte 0xDT to enter\nasynchronous mode 0 on the target(s) side.\n3. After being notified of the command completion by the flag and/or the related interrupt\n(FCF flag is set in I3C_EVR register), reset and enable the timer to start the counter on\nthe controller side.\n4. After being notified that an IBI is complete by the flag and/or the related interrupt\n(IBIF=1 in the I3C_EVR register), and if the IBI is with timing info (if IBIDB0[7:5] = 100\nin the I3C_IBIDR register), read the captured value of the timer, as C_TIM. Given that:\na) C_C2 = 9 × (SCLL_PP[7:0] + 1 + SCLH_I3C[7:0] + 1) × TI3CCLK\nb) T_C1 (16-bit value) = {IBIDB2, IBIDB1} in the I3C_IBIDR register\nc) T_C2 (8-bit value) = IBID3 in the I3C_IBIDR register\nCompute the timestamp of the sampled data received from the target, as follows (see\nMIPI spec formula for more details): C_TS = C_TIM - C_C2 x T_C1 / T_C2.\n5. Repeat step 4, for each received IBI.\n6. Generate a broadcast/direct SETXTIME CCC with subcommand byte 0xFF to exit\nasynchronous mode 0 and disable/deallocate the timer resource.",
+      "semantic": {}
+    }
+  ]
+}

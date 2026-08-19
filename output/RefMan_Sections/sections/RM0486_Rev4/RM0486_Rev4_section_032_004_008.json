@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S32.4.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "32",
+      "chapter_title": "Analog-to-digital converters (ADC)",
+      "section": "32.4.8",
+      "section_title": "Calibration (ADCAL, CALADDOS, ADC_CALFACT)",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1477,
+      "page_end": 1478,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "adc-calfact",
+        "adcal",
+        "caladdos"
+      ],
+      "chars": 3555,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1477",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.8 \"Calibration (ADCAL, CALADDOS, ADC_CALFACT)\" in chapter 32 (Analog-to-digital converters (ADC)), RM0486 Rev 4, page 1477.",
+      "section_content": "A software calibration is required before launching the application. During the calibration\nsequence, the ADC calculates a 9-bit calibration factor, which is then internally applied to\nthe ADC. Each ADC must follow the calibration procedure to calibrate the zero offset.\nThe calibration removes the offset error that may vary from chip to chip due to process or\nbandgap variation. It is a prerequisite to any ADC operation.\nThe calibration factor to be applied for single-ended input conversions is different from the\nfactor to be applied for differential input conversions:\n• Clear ADCALDIF before launching a calibration that is applied for single-ended input\nconversions.\n• Set ADCALDIF before launching a calibration that is applied for differential input\nconversions.\nThe calibration needs to be run by combinations of hardware and software. When the\ncalibration procedure is complete, the calibration factor must be written to the\nCALFACT_S[8:0] bits for the single-ended calibration factor and CALFACT_D[8:0] for the\ndifferential calibration factor.\nThe calibration factor can be written only if the ADC is enabled and no conversion is\nongoing (ADEN=1, ADSTART=0 and JADSTART=0). It is recommended to calibrate\nagain the ADC if VREF+ voltage changes of more than 10% (see Section32.4.33: Monitoring\nthe internal voltage reference).\nSoftware procedure to calibrate the ADC\n1. Ensure DEEPPWD=0, ADEN=1 and wait until the ADRDY bit is set.\n2. Set ADCAL and ensure CALADDOS=0.\n3. Select the calibration input mode by clearing ADCALDIF (single-ended input).\n4. Set the ADSTART bit in the ADC_CR register.\n5. Wait until the ADSTART bit is cleared or the EOC flag is set.\n6. Read the ADC_DR register, then copy the converted data to the memory.\n7. Repeat from step 4 several times (for example eight times).\n8. Average the data stored in memory by dividing the accumulated data by the number of\nthe conversions\n9. If the averaged data is zero, set CALADDOS. Repeat all steps from step 4.\n10. Store the averaged data to CALFACT_S[8:0].\n11. Select the calibration input mode by setting ADCALDIF (differential input).\n12. Keep the same CALADDOS setting as the one obtained during the single-end\ncalibration.\n13. Repeat steps 4 to 8.\n14. Subtract 0x7FF from the averaged data. If the result is positive, store it in the\nCALFACT_D[8:0] bitfield. If it is negative, set CALADDOS, then repeat steps from 4 to\n8.\n15. Subtract again 0x7FF from the new averaged data. The resulting value is positive.\nStore it in CALFACT_D[8:0].\n16. CALADDOS is now set, so clear ADCALDIF, and repeat steps 4 to 8.\n17. Store the averaged data in CALFACT_S[8:0].\n18. Clear ADCAL bit.\nSoftware procedure to reinject a calibration factor into the ADC\n1. Ensure ADSTART=0 and JADSTART=0 (no conversion ongoing).\n2. Set ADCAL.\n3. Program CALADDOS, CALFACT_S and CALFACT_D with the new calibration factors.\n4. Clear ADCAL.\nNote: CALFACT_S and CALFACT_D limit the maximum value of the ADC digital output. For\nexample, in single-ended mode, if CALFACT_S=100, the maximum ADC data output is\n4095-100=3995. When the CALADDOS bit is set, an analog positive offset of about 256\nis internally added to the ADC input to allow the calibration of negative offset devices. The\nresulting calibration factor is approximately 256. The maximum ADC output is around 4095-\n256=3839.\nConverting single-ended and differential analog inputs with a single ADC\nIf the ADC has to convert both differential and single-ended inputs, two calibrations must be\nperformed, one with ADCALDIF=0 and one with ADCALDIF=1.",
+      "semantic": {}
+    }
+  ]
+}

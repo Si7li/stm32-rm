@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.11.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.11.1",
+      "section_title": "Peripheral FIFO architecture",
+      "level": 3,
+      "parent_section": "73.11",
+      "page": 3776,
+      "page_end": 3777,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 1654,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3776",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.11.1 \"Peripheral FIFO architecture\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3776.",
+      "section_content": "[Figure 988. Device-mode FIFO address mapping and AHB FIFO access mapping]\nfrom AHB (optional)\nA1=0 (Rx start address fixed\nto 0)\nPeripheral Rx FIFO\nThe OTG peripheral uses a single receive FIFO that receives the data directed to all OUT\nendpoints. Received packets are stacked back-to-back until free space is available in the Rx\nFIFO. The status of the received packet (which contains the OUT endpoint destination\nnumber, the byte count, the data PID and the validity of the received data) is also stored by\nthe core on top of the data payload. When no more space is available, host transactions are\nNACKed and an interrupt is received on the addressed endpoint. The size of the receive\nFIFO is configured in the receive FIFO size register (OTG_GRXFSIZ).\nThe single receive FIFO architecture makes it more efficient for the USB peripheral to fill in\nthe receive RAM buffer:\n• All OUT endpoints share the same RAM buffer (shared FIFO)\n• The OTG core can fill in the receive FIFO up to the limit for any host sequence of OUT\ntokens\nThe application keeps receiving the Rx FIFO non-empty interrupt (RXFLVL bit in\nOTG_GINTSTS) as long as there is at least one packet available for download. It reads the\npacket information from the receive status read and pop register (OTG_GRXSTSP) and\nfinally pops data off the receive FIFO by reading from the endpoint-related pop address.\nPeripheral Tx FIFOs\nThe core has a dedicated FIFO for each IN endpoint. The application configures FIFO sizes\nby writing the endpoint 0 transmit FIFO size register (OTG_DIEPTXF0) for IN endpoint0 and\nthe device IN endpoint transmit FIFOx registers (OTG_DIEPTXFx) for IN endpoint-x.",
+      "semantic": {}
+    }
+  ]
+}

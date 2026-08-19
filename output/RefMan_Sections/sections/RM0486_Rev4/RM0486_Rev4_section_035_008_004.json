@@ -1,0 +1,97 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.8.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.8.4",
+      "section_title": "MDF bitstream matrix control register x (MDF_BSMXxCR)",
+      "level": 3,
+      "parent_section": "35.8",
+      "page": 1688,
+      "page_end": 1689,
+      "semantic_type": "register_description",
+      "features": [
+        "bsmxactive",
+        "bssel",
+        "mdf"
+      ],
+      "chars": 1582,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1688",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.8.4 \"MDF bitstream matrix control register x (MDF_BSMXxCR)\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1688.",
+      "section_content": "Address offset: 0x084 + 0x80 * x, (x = 0 to 5)\nReset value: 0x0000 0000\nThis register is used to select the bitstream to be provided to the corresponding digital filter\nand to the SCD. The number of registers is equal to the amount of filters. Refer to\nSection35.3 for details.\nBit 31 BSMXACTIVE: BSMX active flag\nThis bit is set and cleared by hardware. It is used by the application to check if the BSMX is\neffectively enabled (active) or not. BSSEL[4:0] can only be updated when the BSMXACTIVE\nis set to 0. Th is BSMXACTIVE flag is a logical OR between OLDACTIVE, DFLTACTIVE, and\nSCDACTIVE flags. Both of them must be set to 0 in order update BSSEL[4:0] bitfield.\n0: BSMX is not active and can be configured if needed.\n1: BSMX is active and protected fields cannot be configured.\nBits 30:5 Reserved, must be kept at reset value.\nBits 4:0 BSSEL[4:0]: Bitstream Selection\nThis bitfield is set and cleared by software. It is used to select the bitstream to be processed\nfor DFLTx and SCDx. The size of this bitfield depends on the number of DFLTx instantiated. If\nthis bitfield selects a not instantiated input, the MDF selects the valid stream bsx_f having the\nhigher index number.\n00000: bs0_r provided to DFLTx and SCDx\n00001: bs0_f provided to DFLTx and SCDx\n00010: bs1_r provided to DFLTx and SCDx (if instantiated)\n00011: bs1_f provided to DFLTx and SCDx (if instantiated)\n...\n11110: bs15_r provided to DFLTx and SCDx (if instantiated)\n11111: bs15_f provided to DFLTx and SCDx (if instantiated)\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+      "semantic": {
+        "register": "MDF_BSMXxCR",
+        "address_offset": "0x084 + 0x80 * x, (x = 0 to 5)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "BSMXACTIVE",
+            "description": "BSMX active flag This bit is set and cleared by hardware. It is used by the application to check if the BSMX is effectively enabled (active) or not. BSSEL[4:0] can only be updated when the BSMXACTIVE is set to 0. Th is BSMXACTIVE flag is a logical OR between OLDACTIVE, DFLTACTIVE, and SCDACTIVE flags. Both of them must be set to 0 in order update BSSEL[4:0] bitfield.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "BSMX is not active and can be configured if needed."
+              },
+              {
+                "value": "1",
+                "meaning": "BSMX is active and protected fields cannot be configured."
+              }
+            ]
+          },
+          {
+            "bits": "30:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4:0",
+            "name": "BSSEL[4:0]",
+            "description": "Bitstream Selection This bitfield is set and cleared by software. It is used to select the bitstream to be processed for DFLTx and SCDx. The size of this bitfield depends on the number of DFLTx instantiated. If this bitfield selects a not instantiated input, the MDF selects the valid stream bsx_f having the higher index number. ... Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "bs0_r provided to DFLTx and SCDx"
+              },
+              {
+                "value": "00001",
+                "meaning": "bs0_f provided to DFLTx and SCDx"
+              },
+              {
+                "value": "00010",
+                "meaning": "bs1_r provided to DFLTx and SCDx (if instantiated)"
+              },
+              {
+                "value": "00011",
+                "meaning": "bs1_f provided to DFLTx and SCDx (if instantiated)"
+              },
+              {
+                "value": "11110",
+                "meaning": "bs15_r provided to DFLTx and SCDx (if instantiated)"
+              },
+              {
+                "value": "11111",
+                "meaning": "bs15_f provided to DFLTx and SCDx (if instantiated)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

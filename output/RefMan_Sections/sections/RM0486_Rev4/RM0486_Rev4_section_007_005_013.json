@@ -1,0 +1,84 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S7.5.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "7",
+      "chapter_title": "Resource isolation slave unit for address space protection (full version) (RISAF)",
+      "section": "7.5.13",
+      "section_title": "RISAF region x subregion A nested mode register (RISAF_REGx_ANESTR)",
+      "level": 3,
+      "parent_section": "7.5",
+      "page": 273,
+      "page_end": 274,
+      "semantic_type": "register_description",
+      "features": [
+        "dccid",
+        "dcen",
+        "risaf"
+      ],
+      "chars": 1248,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=273",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 7.5.13 \"RISAF region x subregion A nested mode register (RISAF_REGx_ANESTR)\" in chapter 7 (Resource isolation slave unit for address space protection (full version) (RISAF)), RM0486 Rev 4, page 273.",
+      "section_content": "Address offset: 0x05C + 0x40 * (x - 1) (x = 1 to 15)\nReset value: 0x00000000\nSecure, privileged, trusted domain CID = 1, write access only. Any read access is allowed\non this register. Writes are ignored if GLOCK is set in RISAF_CR.\nRefer to Section7.3 to verify the number of base regions and subregions supported by this\nRISAF instance.\nCaution: Check Section7.3 before setting DCEN bit.\nBits 31:7 Reserved, must be kept at reset value.\nBits 6:4 DCCID[2:0]: Delegated configuration CID\nThe secure privileged software can use this bitfield to statically define which compartment\ncan program the RIF configuration of subregion A if DCEN = 1 in this register.\nBit 3 Reserved, must be kept at reset value.\nBit 2 DCEN: Delegated configuration enable\n0: RIF configuration for subregion A can be written only by the secure privileged software.\n1: RIF configuration for subregion A can be written only by compartment DCCID, defined in\nthis register. If base region x is defined as secure (SEC = 1), nonsecure write accesses to\nthis subregion RIF configuration by compartment DCCID are ignored.\nNote: RIF configuration of subregion A is defined as RISAF_REGx_ACFGR,\nRISAF_REGx_ASTARTR, and RISAF_REGx_AENDR.\nBits 1:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "RISAF_REGx_ANESTR",
+        "address_offset": "0x05C + 0x40 * (x - 1) (x = 1 to 15)",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6:4",
+            "name": "DCCID[2:0]",
+            "description": "Delegated configuration CID The secure privileged software can use this bitfield to statically define which compartment can program the RIF configuration of subregion A if DCEN = 1 in this register.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "DCEN",
+            "description": "Delegated configuration enable this register. If base region x is defined as secure (SEC = 1), nonsecure write accesses to this subregion RIF configuration by compartment DCCID are ignored. Note: RIF configuration of subregion A is defined as RISAF_REGx_ACFGR, RISAF_REGx_ASTARTR, and RISAF_REGx_AENDR.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RIF configuration for subregion A can be written only by the secure privileged software."
+              },
+              {
+                "value": "1",
+                "meaning": "RIF configuration for subregion A can be written only by compartment DCCID, defined in"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

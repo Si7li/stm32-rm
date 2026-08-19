@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.11.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.11.1",
+      "section_title": "RX-FIFO management, as target",
+      "level": 3,
+      "parent_section": "64.11",
+      "page": 3220,
+      "page_end": 3221,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 2633,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3220",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.11.1 \"RX-FIFO management, as target\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3220.",
+      "section_content": "When target, as shown in figures of Section64.9, the RX-FIFO is used during any of the\nfollowing received and acknowledged transfers:\n• broadcast DEFTGTS CCC (Figure825)\n• broadcast DEFGRPA CCC (Figure826)\n• private write (Figure828)\nFigure837 illustrates the management of the RX-FIFO for queuing and popping-out data\nbytes or word(s) as received on the I3C bus, when the I3C peripheral acts as target.\n[Figure 837. RX-FIFO management, as target on the I3C bus]\nFirst, the software must initialize the RX-FIFO management via the following I3C_CFGR\nregister fields:\n• RXDMAEN: enable/disable DMA mode for RX-FIFO\n• RXTHRES: pop-out data byte(s) or word(s) from RX-FIFO\nThen, depending on RXDMAEN, the RX-FIFO is read either:\n• directly by the software (if RXDMAEN = 0) at the byte/word level:\n– via polling mode (RXFNEIE = 0 in the I3C_IER register): waiting for a next data\nbyte/word is requested by the hardware (RXFNEF = 1 in the I3C_IER register)\nbefore an explicit read to the I3C_RDR or I3C_RDWR registers, depending upon\nRXTHRES in the I3C_CGFR register\n– via enabled interrupt notification if RXFNEIE = 1\n• by the allocated DMA channel (if RXDMAEN = 1) to the corresponding DMA request\nfrom the I3C peripheral (i3c_rx_dma):\n– as configured at DMA block level, the DMA is automatically popping-out/reading\ndata bytes/words from the I3C_RDR or I3C_RDWR register (depending upon\nRXTHRES) and writing them into its memory destination buffer, until the transfer\ncompletion (in the I3C_EVR register, FCF = 1 in case of private write, or GRPF = 1\nin case of a DEFGRPA CCC, or DEFF = 1 in case of DEFTGTS CCC), unless a\ntransfer error occurs.\nIf RX-FIFO is full and a new data byte is received on the I3C bus, a RX-FIFO overrun is\nreported (ERRF = 1 in the I3C_EVR register and DOVR = 1 in the I3C_SER register) and\nthe corresponding interrupt if enabled.\nWhen the transfer is completed (in the I3C_EVR register, FCF = 1, or GRPF = 1, or\nDEFF=1):\n• RX-FIFO is empty\n• Until software has not processed the RX data buffer corresponding to the completed or\nprivate write / DEFTGTS / DEFGRPA transfer (meaning until software has not cleared\nthe corresponding flag write and set CFCF / CDEFF / CGRPF to 1 in the I3C_CEVR\nregister), if a next private write / DEFTGTS CCC / DEFGRPA CCC is received and a\ndata byte must be written by the hardware into the RX-FIFO, a transfer error is reported\nwith a RX-FIFO overrun (ERRF = 1 in the I3C_EVR register and DOVR = 1 in the\nI3C_SER register) and the corresponding interrupt if enabled.\nThe configuration for the RX-FIFO management can be modified when the I3C peripheral is\nnot in active state.",
+      "semantic": {}
+    }
+  ]
+}

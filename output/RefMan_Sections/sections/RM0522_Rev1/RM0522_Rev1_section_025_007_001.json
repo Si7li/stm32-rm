@@ -1,0 +1,97 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S25.7.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "25",
+      "chapter_title": "Coupling and chaining bridge (CCB)",
+      "section": "25.7.1",
+      "section_title": "CCB control register (CCB_CR)",
+      "level": 3,
+      "parent_section": "25.7",
+      "page": 768,
+      "page_end": 769,
+      "semantic_type": "register_description",
+      "features": [
+        "ccb",
+        "ccb-cr",
+        "ccop",
+        "iprst"
+      ],
+      "chars": 1769,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=768",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 25.7.1 \"CCB control register (CCB_CR)\" in chapter 25 (Coupling and chaining bridge (CCB)), RM0522 Rev 1, page 768.",
+      "section_content": "Address offset: 0x000\nReset value: 0x00000000\nFollowing a CCB hardware reset, the above reset value applies if OPERR[5:0] = 0x0 and no\nTAMP_EVT bit is set.\nBit 31 IPRST: CCB reset\nSet this bit to start or abort any PKA protected operation defined in Section25.5. IPRST bit\nmust be low while writing to any CCB register.\nAfter setting this bit, the application must clear it when CCB_BUSY and OPSTEP are cleared\nin CCB_SR (IPRST clear is ignored otherwise). After this clear all CCB registers are read\nwith their reset valuesSetting IPRST clears any data stored in the SAES and the PKA.\nWhen IPRST and CCB_BUSY are set, SAES registers are not accessible (read as 0, write\nignored), and writes to EN and START bits in PKA_CR are ignored.\nThis bit is set by CCB when OPERR[5:0] ≠ 0 or any TAMP_EVT bit is set.\nBits 30:8 Reserved, must be kept at reset value.\nBits 7:0 CCOP[7:0]: Coupling and chaining operation\nThese bits must be set according to the chosen PKA protected operation (see Section25.5).\n0x044: Modular exponentiation blob creation with priv key from the CPU\n0x045: Modular exponentiation blob use\n0x080: ECC scalar multiplication blob creation with priv key from the CPU\n0x082: ECC scalar multiplication blob creation with priv key from the RNG\n0x081: ECC scalar multiplication blob use, or ECDSA signature blob use for public key\ncomputation\n0x0C0: ECDSA signature blob creation with priv key from the CPU\n0x0C2: ECDSA signature blob creation with priv key from the RNG\n0x0C3: ECDSA signature blob use for ECDSA signature\nNote: When an operation not listed here is written by the application, the write to CCOP[7:0] is\nignored. All these operations implement protections against side-channel attacks.\nWrite to CCOP is ignored when CCB_BUSY is set in CCB_SR.",
+      "semantic": {
+        "register": "CCB_CR",
+        "address_offset": "0x000",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "IPRST",
+            "description": "CCB reset Set this bit to start or abort any PKA protected operation defined in Section25.5. IPRST bit must be low while writing to any CCB register. After setting this bit, the application must clear it when CCB_BUSY and OPSTEP are cleared in CCB_SR (IPRST clear is ignored otherwise). After this clear all CCB registers are read with their reset valuesSetting IPRST clears any data stored in the SAES and the PKA. When IPRST and CCB_BUSY are set, SAES registers are not accessible (read as 0, write ignored), and writes to EN and START bits in PKA_CR are ignored. This bit is set by CCB when OPERR[5:0] ≠ 0 or any TAMP_EVT bit is set.",
+            "values": []
+          },
+          {
+            "bits": "30:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "CCOP[7:0]",
+            "description": "Coupling and chaining operation These bits must be set according to the chosen PKA protected operation (see Section25.5). computation Note: When an operation not listed here is written by the application, the write to CCOP[7:0] is ignored. All these operations implement protections against side-channel attacks. Write to CCOP is ignored when CCB_BUSY is set in CCB_SR.",
+            "values": [
+              {
+                "value": "0x044",
+                "meaning": "Modular exponentiation blob creation with priv key from the CPU"
+              },
+              {
+                "value": "0x045",
+                "meaning": "Modular exponentiation blob use"
+              },
+              {
+                "value": "0x080",
+                "meaning": "ECC scalar multiplication blob creation with priv key from the CPU"
+              },
+              {
+                "value": "0x082",
+                "meaning": "ECC scalar multiplication blob creation with priv key from the RNG"
+              },
+              {
+                "value": "0x081",
+                "meaning": "ECC scalar multiplication blob use, or ECDSA signature blob use for public key"
+              },
+              {
+                "value": "0x0C0",
+                "meaning": "ECDSA signature blob creation with priv key from the CPU"
+              },
+              {
+                "value": "0x0C2",
+                "meaning": "ECDSA signature blob creation with priv key from the RNG"
+              },
+              {
+                "value": "0x0C3",
+                "meaning": "ECDSA signature blob use for ECDSA signature"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

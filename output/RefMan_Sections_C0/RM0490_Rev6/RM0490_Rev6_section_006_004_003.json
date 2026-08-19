@@ -1,0 +1,360 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S6.4.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "6",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "6.4.3",
+      "section_title": "RCC clock configuration register (RCC_CFGR)",
+      "level": 3,
+      "parent_section": "6.4",
+      "page": 136,
+      "page_end": 139,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "hpre",
+        "mco2pre",
+        "mco2sel",
+        "mcopre",
+        "mcosel",
+        "ppre",
+        "rcc",
+        "rcc-cfgr",
+        "sws"
+      ],
+      "chars": 3471,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=136",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.4.3 \"RCC clock configuration register (RCC_CFGR)\" in chapter 6 (Reset and clock control (RCC)), RM0490 Rev 6, page 136.",
+      "section_content": "One or two wait states are inserted when accessing this register upon a clock source switch,\nand between zero and 15 wait states upon updating APB or AHB prescaler values.\nAddress offset: 0x08\nReset value: 0x0000 0000\nBits 31:28 MCOPRE[3:0]: Microcontroller clock output prescaler\nThis bitfield is controlled by software. It sets the division factor of the clock sent to the MCO\noutput as follows:\n0000: 1\n0001: 2\n0010: 4\n...\n0111: 128\n1000: 256\n1001: 512\n1010: 1024\nOther: Reserved\nIt is highly recommended to set this field before the MCO output is enabled.\nNote: Values above 0111 are only significant for STM32C051xx, STM32C071xx, and\nSTM32C091xx/92xx. On STM32C011xx and STM32C031xx devices, MCOPRE[3] is\nreserved.\nBits 27:24 MCOSEL[3:0]: Microcontroller clock output clock selector\nThis bitfield is controlled by software. It sets the clock selector for MCO output as follows:\n0000: no clock\n0001: SYSCLK\n0010: Reserved\n0011: HSI48\n0100: HSE\n0101: Reserved\n0110: LSI\n0111: LSE\n1000: HSIUSB48\nOther: reserved, must not be used\nNote: This clock output may have some truncated cycles at startup or during MCO clock\nsource switching. On STM32C011xx, STM32C031xx, STM32C051xx, and\nSTM32C091xx/92xx, MCOSEL[3] is reserved.\nBits 23:20 MCO2PRE[3:0]: Microcontroller clock output 2 prescaler\nThis bitfield is controlled by software. It sets the division factor of the clock sent to the MCO2\noutput as follows:\n0000: 1\n0001: 2\n0010: 4\n...\n0111: 128\n1000: 256\n1001: 512\n1010: 1024\nOther: Reserved\nIt is highly recommended to set this field before the MCO2 output is enabled.\nNote: Values above 0111 are only significant for STM32C051xx, STM32C071xx, and\nSTM32C091xx/92xx. On STM32C011xx and STM32C031xx devices, MCO2PRE[3] is\nreserved.\nBits 19:16 MCO2SEL[3:0]: Microcontroller clock output 2 clock selector\nThis bitfield is controlled by software. It sets the clock selector for MCO2 output as follows:\n0000: no clock\n0001: SYSCLK\n0010: Reserved\n0011: HSI48\n0100: HSE\n0101: Reserved\n0110: LSI\n0111: LSE\n1000: HSIUSB48\nOther: reserved, must not be used\nNote: This clock output may have some truncated cycles at startup or during MCO2 clock\nsource switching. On STM32C011xx, STM32C031xx, STM32C051xx, and\nSTM32C091xx/92xx, MCO2SEL[3] is reserved.\nBit 15 Reserved, must be kept at reset value.\nBits 14:12 PPRE[2:0]: APB prescaler\nThis bitfield is controlled by software. To produce PCLK clock, it sets the division factor of\nHCLK clock as follows:\n0xx: 1\n100: 2\n101: 4\n110: 8\n111: 16\nBits 11:8 HPRE[3:0]: AHB prescaler\nThis bitfield is controlled by software. To produce HCLK clock, it sets the division factor of\nSYSCLK clock as follows:\n0xxx: 1\n1000: 2\n1001: 4\n1010: 8\n1011: 16\n1100: 64\n1101: 128\n1110: 256\n1111: 512\nBits 7:6 Reserved, must be kept at reset value.\nBits 5:3 SWS[2:0]: System clock switch status\nThis bitfield is controlled by hardware to indicate the clock source used as system clock:\n000: HSISYS\n001: HSE\n010: HSIUSB48 on STM32C071xx, reserved on the other products\n011: LSI\n100: LSE\nOthers: Reserved\nBits 2:0 SW[2:0]: System clock switch\nThis bitfield is controlled by software and hardware. The bitfield selects the clock for\nSYSCLK as follows:\n000: HSISYS\n001: HSE\n010: HSIUSB48 on STM32C071xx, reserved on the other products\n011: LSI\n100: LSE\nOthers: Reserved\nThe setting is forced by hardware to 000 (HSISYS selected) when the MCU exits Stop, or\nStandby, or Shutdown mode, or when the setting is 001 (HSE selected) and HSE oscillator\nfailure is detected.",
+      "semantic": {
+        "register": "RCC_CFGR",
+        "address_offset": "0x08",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:28",
+            "name": "MCOPRE[3:0]",
+            "description": "Microcontroller clock output prescaler This bitfield is controlled by software. It sets the division factor of the clock sent to the MCO output as follows: ... It is highly recommended to set this field before the MCO output is enabled. Note: Values above 0111 are only significant for STM32C051xx, STM32C071xx, and STM32C091xx/92xx. On STM32C011xx and STM32C031xx devices, MCOPRE[3] is reserved.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "1"
+              },
+              {
+                "value": "0001",
+                "meaning": "2"
+              },
+              {
+                "value": "0010",
+                "meaning": "4"
+              },
+              {
+                "value": "0111",
+                "meaning": "128"
+              },
+              {
+                "value": "1000",
+                "meaning": "256"
+              },
+              {
+                "value": "1001",
+                "meaning": "512"
+              },
+              {
+                "value": "1010",
+                "meaning": "1024"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "27:24",
+            "name": "MCOSEL[3:0]",
+            "description": "Microcontroller clock output clock selector This bitfield is controlled by software. It sets the clock selector for MCO output as follows: Note: This clock output may have some truncated cycles at startup or during MCO clock source switching. On STM32C011xx, STM32C031xx, STM32C051xx, and STM32C091xx/92xx, MCOSEL[3] is reserved.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "no clock"
+              },
+              {
+                "value": "0001",
+                "meaning": "SYSCLK"
+              },
+              {
+                "value": "0010",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0011",
+                "meaning": "HSI48"
+              },
+              {
+                "value": "0100",
+                "meaning": "HSE"
+              },
+              {
+                "value": "0101",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0110",
+                "meaning": "LSI"
+              },
+              {
+                "value": "0111",
+                "meaning": "LSE"
+              },
+              {
+                "value": "1000",
+                "meaning": "HSIUSB48"
+              },
+              {
+                "value": "Other",
+                "meaning": "reserved, must not be used"
+              }
+            ]
+          },
+          {
+            "bits": "23:20",
+            "name": "MCO2PRE[3:0]",
+            "description": "Microcontroller clock output 2 prescaler This bitfield is controlled by software. It sets the division factor of the clock sent to the MCO2 output as follows: ... It is highly recommended to set this field before the MCO2 output is enabled. Note: Values above 0111 are only significant for STM32C051xx, STM32C071xx, and STM32C091xx/92xx. On STM32C011xx and STM32C031xx devices, MCO2PRE[3] is reserved.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "1"
+              },
+              {
+                "value": "0001",
+                "meaning": "2"
+              },
+              {
+                "value": "0010",
+                "meaning": "4"
+              },
+              {
+                "value": "0111",
+                "meaning": "128"
+              },
+              {
+                "value": "1000",
+                "meaning": "256"
+              },
+              {
+                "value": "1001",
+                "meaning": "512"
+              },
+              {
+                "value": "1010",
+                "meaning": "1024"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "19:16",
+            "name": "MCO2SEL[3:0]",
+            "description": "Microcontroller clock output 2 clock selector This bitfield is controlled by software. It sets the clock selector for MCO2 output as follows: Note: This clock output may have some truncated cycles at startup or during MCO2 clock source switching. On STM32C011xx, STM32C031xx, STM32C051xx, and STM32C091xx/92xx, MCO2SEL[3] is reserved.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "no clock"
+              },
+              {
+                "value": "0001",
+                "meaning": "SYSCLK"
+              },
+              {
+                "value": "0010",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0011",
+                "meaning": "HSI48"
+              },
+              {
+                "value": "0100",
+                "meaning": "HSE"
+              },
+              {
+                "value": "0101",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "0110",
+                "meaning": "LSI"
+              },
+              {
+                "value": "0111",
+                "meaning": "LSE"
+              },
+              {
+                "value": "1000",
+                "meaning": "HSIUSB48"
+              },
+              {
+                "value": "Other",
+                "meaning": "reserved, must not be used"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14:12",
+            "name": "PPRE[2:0]",
+            "description": "APB prescaler This bitfield is controlled by software. To produce PCLK clock, it sets the division factor of HCLK clock as follows: 0xx: 1",
+            "values": [
+              {
+                "value": "100",
+                "meaning": "2"
+              },
+              {
+                "value": "101",
+                "meaning": "4"
+              },
+              {
+                "value": "110",
+                "meaning": "8"
+              },
+              {
+                "value": "111",
+                "meaning": "16"
+              }
+            ]
+          },
+          {
+            "bits": "11:8",
+            "name": "HPRE[3:0]",
+            "description": "AHB prescaler This bitfield is controlled by software. To produce HCLK clock, it sets the division factor of SYSCLK clock as follows: 0xxx: 1",
+            "values": [
+              {
+                "value": "1000",
+                "meaning": "2"
+              },
+              {
+                "value": "1001",
+                "meaning": "4"
+              },
+              {
+                "value": "1010",
+                "meaning": "8"
+              },
+              {
+                "value": "1011",
+                "meaning": "16"
+              },
+              {
+                "value": "1100",
+                "meaning": "64"
+              },
+              {
+                "value": "1101",
+                "meaning": "128"
+              },
+              {
+                "value": "1110",
+                "meaning": "256"
+              },
+              {
+                "value": "1111",
+                "meaning": "512"
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5:3",
+            "name": "SWS[2:0]",
+            "description": "System clock switch status This bitfield is controlled by hardware to indicate the clock source used as system clock:",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "HSISYS"
+              },
+              {
+                "value": "001",
+                "meaning": "HSE"
+              },
+              {
+                "value": "010",
+                "meaning": "HSIUSB48 on STM32C071xx, reserved on the other products"
+              },
+              {
+                "value": "011",
+                "meaning": "LSI"
+              },
+              {
+                "value": "100",
+                "meaning": "LSE"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "2:0",
+            "name": "SW[2:0]",
+            "description": "System clock switch This bitfield is controlled by software and hardware. The bitfield selects the clock for SYSCLK as follows: The setting is forced by hardware to 000 (HSISYS selected) when the MCU exits Stop, or Standby, or Shutdown mode, or when the setting is 001 (HSE selected) and HSE oscillator failure is detected.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "HSISYS"
+              },
+              {
+                "value": "001",
+                "meaning": "HSE"
+              },
+              {
+                "value": "010",
+                "meaning": "HSIUSB48 on STM32C071xx, reserved on the other products"
+              },
+              {
+                "value": "011",
+                "meaning": "LSI"
+              },
+              {
+                "value": "100",
+                "meaning": "LSE"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

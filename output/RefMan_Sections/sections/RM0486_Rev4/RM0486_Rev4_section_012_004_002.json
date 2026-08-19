@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S12.4.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "12",
+      "chapter_title": "AXI cache (CACHEAXI)",
+      "section": "12.4.2",
+      "section_title": "CACHEAXI reset and clocks",
+      "level": 3,
+      "parent_section": "12.4",
+      "page": 325,
+      "page_end": 326,
+      "semantic_type": "generic",
+      "features": [
+        "cacheaxi",
+        "clock"
+      ],
+      "chars": 2154,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=325",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 12.4.2 \"CACHEAXI reset and clocks\" in chapter 12 (AXI cache (CACHEAXI)), RM0486 Rev 4, page 325.",
+      "section_content": "At reset, cache is disabled (EN = 0 in CACHEAXI_CR1), which means that cache mode is\ndisabled.\nCACHEAXI transactions on slave cache port are clocked on the (Master) AXI interconnect\nclock received on slave cache port. The CACHEAXI master port clock is always a copy of\nthe slave cache port clock, in any of the following conditions:\n• The cache mode is disabled, and input requests received on slave cache port are just\ncopied to the CACHEAXI master port (including the AXI clock).\n• The cache mode is enabled, and the CACHEAXI master port drives the refill requests\nor the noncacheable transactions (that are forwarded from the slave cache port).\nWhen the CACHEAXI hardware configuration supports the optional SRAM mode and logic,\nand when the CACHEAXI is disabled, it is configured in SRAM mode:\n• The CACHEAXI is clocked on the Master AXI interconnect clock received on slave\nSRAMport.\n• CACHEAXI data memories can be accessed by data request on slave SRAM port.\n• The cache mode is disabled, but cache TAG memories are initialized (see invalidate\nprocedure below).\nWhen the CACHEAXI reset signal is released, a cache invalidate procedure is automatically\nlaunched, making the CACHEAXI busy (CACHEAXI_SR = 0x00000001).\nWhen this procedure is finished:\n• The cache control logic and TAG memories are initialized: all cache line valid, dirty,\ncompartment ID and privilege TAG bits =0.\n• CACHEAXI_SR = 0x00000002 (reflecting the cache control logic is no longer busy).\n• The cache mode is still disabled (EN bit in CACHEAXI_CR1 holds its reset state =0),\nbut CACHEAXI is ready to be switched in cache mode.\nThen, when cache mode is enabled (EN =1 in CACHEAXI_CR1):\n• The CACHEAXI is clocked on the (Master) AXI interconnect clock received on its slave\ncacheport.\n• The CACHEAXI is in “cold cache” state, and can serve input requests received on its\nslave cache port.\nWhen the cache mode is enabled, the SRAM mode is disabled, and input requests received\non slave SRAM port are not served: write requests are ignored, and read requests are\nresponded with 0s.\nAccess to CACHEAXI registers is always clocked by the clock of the AHB configuration\nslave port.",
+      "semantic": {}
+    }
+  ]
+}

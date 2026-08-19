@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.4.14",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.4.14",
+      "section_title": "TTCAN error level",
+      "level": 3,
+      "parent_section": "71.4",
+      "page": 3663,
+      "page_end": 3664,
+      "semantic_type": "generic",
+      "features": [
+        "ttcan"
+      ],
+      "chars": 3478,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3663",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.4.14 \"TTCAN error level\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3663.",
+      "section_content": "The ISO 11898-4 specifies four levels of error severity:\n1. S0 - No error\n2. S1 - Warning - Only notification of application, reaction application-specific.\n3. S2 error - Notification of application. All transmissions in exclusive or arbitrating time\nwindows are disabled (i.e. no data or remote frames may be started). Potential time\nmasters still transmit reference messages with the reference trigger offset\nFDCAN_TTOST.RTO set to the maximum value of 127.\n4. S3 - Severe error - Notification of application. All CAN bus operations are stopped, that\nis, transmission of dominant bits is not allowed, and FDCAN_CCCR.MON is set. The\nS3 error condition remains active until the application updates the configuration (set\nFDCAN_CCCR.CCE).\nIf several errors are detected at the same time, the highest severity prevails. When an error\nis detected, the application is notified by FDCAN_TTIR.ELC. The error level is monitored by\nFDCAN_TTOST.EL.\nThe TTCAN signals the following error conditions as required by ISO 11898-4:\n• Config_error (S3)\n– Sets error level FDCAN_TTOST.EL to 11 when a merged arbitrating time window\nis not properly closed or when there is a Tx_Trigger with a time mark beyond the\nTx_Ref_Trigger.\n• Watch_Trigger_Reached (S3)\n– Sets error level FDCAN_TTOST.EL to 11 when a watch trigger was reached\nbecause the reference message is missing.\n• Application_Watchdog (S3)\n– Sets error level FDCAN_TTOST.EL to 11 when the application failed to serve the\napplication watchdog.The application watchdog is configured via\nFDCAN_TTOCF.AWL. It is served by reading register FDCAN_TTOST. When the\nwatchdog is not served in time, bit FDCAN_TTOST.AWE and interrupt flag\nFDCAN_TTIR.AW are set, all FDCAN communication is stopped, and the FDCAN\nis set into bus monitoring mode (FDCAN_CCCR.MON set to 1).\n• CAN_Bus_Off (S3)\n– Entering CAN_Bus_Off state sets error level FDCAN_TTOST.EL to 11.\nCAN_Bus_Off state is signaled by FDCAN_PSR.BO = 1 and\nFDCAN_CCCR.INIT=1.\n• Scheduling_Error_2 (S2)\n– Sets error level FDCAN_TTOST.EL to 10 if the MSC of one Tx_Trigger has\nreached 7. In addition, the interrupt flag FDCAN_TTIR.SE2 is set. The error level\nFDCAN_TTOST.EL is reset to 00 at the beginning of a matrix cycle when no\nTx_Trigger has an MSC of 7 in the preceding matrix cycle.\n• Tx_Overflow (S2)\n– Sets error level FDCAN_TTOST.EL to 10 when the Tx count is equal to or higher\nthan the expected number of Tx_T riggers FDCAN_TTMLM.ENTT and a\nTx_Trigger event occurs. In addition, the interrupt flag FDCAN_TTIR.TXO is set.\nThe error level FDCAN_TTOST.EL is reset to 00 when the Tx count is no more\nthan FDCAN_TTMLM.ENTT at the start of a new matrix cycle.\n• Scheduling_Error_1 (S1)\n– Sets error level FDCAN_TTOST.EL to 01 if within one matrix cycle the difference\nbetween the maximum MSC and the minimum MSC for all trigger memory\nelements (of exclusive time windows) is larger than two, or if one of the MSCs of\nan exclusive Rx_Trigger has reached seven. In addition, the interrupt flag\nFDCAN_TTIR.SE1 is set. If within one matrix cycle none of these conditions is\nvalid, the error level FDCAN_TTOST.EL is reset to 00.\n• Tx_Underflow (S1)\n– Sets error level FDCAN_TTOST.EL to 01 when the Tx count is less than the\nexpected number of Tx_Triggers FDCAN_TTMLM.ENTT at the start of a new\nmatrix cycle. In addition, the interrupt flag FDCAN_TTIR.TXU is set. The error\nlevel FDCAN_TTOST.EL is reset to 00 when the Tx count is at least\nFDCAN_TTMLM.ENTT at the start of a new matrix cycle.",
+      "semantic": {}
+    }
+  ]
+}

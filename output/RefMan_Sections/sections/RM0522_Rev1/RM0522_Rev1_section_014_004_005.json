@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.4.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.4.5",
+      "section_title": "LPDMA linked-list data structure",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 393,
+      "page_end": 395,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 2484,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=393",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.5 \"LPDMA linked-list data structure\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 393.",
+      "section_content": "Alternatively to the direct programming mode, a channel can be programmed by a list of\ntransfers, known as a list of linked-list items (LLI). Each LLI is defined by its data structure.\nThe base address in memory of the data structure of a next LLIn+1 of a channel x is the sum\nof the following:\n• the link base address of the channel x (in LPDMA_CxLBAR)\n• the link address offset (LA[15:2] field in LPDMA_CxLLR)\nThe data structure for each LLI may be specific.\nA linked-list data structure is addressed following the value of the UT1, UT2, UB1, USA,\nUDA and ULL bits of the LPDMA_CxLLR register.\nIn linked-list mode, each LPDMA linked-list register (LPDMA_CxTR1, LPDMA_CxTR2,\nLPDMA_CxBR1, LPDMA_CxSAR, LPDMA_CxDAR or LPDMA_CxLLR) is conditionally and\nautomatically updated from the next linked-list data structure in the memory, following the\ncurrent value of the LPDMA_CxLLR register that was conditionally updated from the linked-\nlist data structure of the previous LLI.\nCaution: The user must program the pointer to the next linked-list data structure\n(LPDMA_CxLLR[15:0]) not to exceed the 64-Kbyte addressable space defined by the link\nbase address register (LPDMA_CxLBAR). The complete linked-list data structure must be\nincluded in the 64-Kbyte addressable space.\nStatic linked-list data structure\nFor example, when the update bits (UT1, UT2, UB1, USA, UDA and ULL) of the\nLPDMA_CxLLR register are all asserted, the linked-list data structure in memory is maximal\nwith six contiguous 32-bit locations, including LPDMA_CxTR1, LPDMA_CxTR2,\nLPDMA_CxBR1, LPDMA_CxSAR, LPDMA_CxDAR and LPDMA_CxLLR (see the figure\nbelow) and including the first linked-list register file (LLI0) and the next LLIs (LLI1, LLI2,...) in\nthe memory.\n[Figure 44. Static linked-list data structure (all Uxx=1) of channel x]\nDynamic linked-list data structure\nAlternatively, the memory organization for the full list of LLIs can be compacted with specific\ndata structure for each LLI.\nIf UT1=0 and UT2=1, the link address offset of the register LPDMA_CxLLR is pointing to\nthe updated value of the LPDMA_CxTR2 instead of the LPDMA_CxTR1 which is not to be\nmodified.\nExample: if UT1=UB1=USA=0, and if UT2=UDA=ULL=1, the next LLI does not\ncontain an updated value for LPDMA_CxTR1, nor LPDMA_CxBR1, nor LPDMA_CxSAR.\nThe next LLI contains an updated value for LPDMA_CxTR2, LPDMA_CxDAR, and\nLPDMA_CxLLR, as shown in the figure below.\n[Figure 45. LPDMA dynamic linked-list data structure of an addressing channel x]",
+      "semantic": {}
+    }
+  ]
+}

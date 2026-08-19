@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S32.4.13",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "32",
+      "chapter_title": "General-purpose timers(TIM2/TIM3/TIM4/TIM5)",
+      "section": "32.4.13",
+      "section_title": "Asymmetric PWM mode",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1172,
+      "page_end": 1173,
+      "semantic_type": "generic",
+      "features": [
+        "pwm",
+        "timer"
+      ],
+      "chars": 2157,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1172",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.13 \"Asymmetric PWM mode\" in chapter 32 (General-purpose timers(TIM2/TIM3/TIM4/TIM5)), RM0522 Rev 1, page 1172.",
+      "section_content": "Asymmetric mode allows two center-aligned PWM signals to be generated with a\nprogrammable phase shift. While the frequency is determined by the value of the TIM_ARR\nregister, the duty cycle and the phase-shift are determined by a pair of TIM_CCRx registers.\nOne register controls the PWM during up-counting, the second during down-counting, so\nthat PWM is adjusted every half PWM cycle, for instance:\n– tim_oc1refc is controlled by TIM_CCR1 and TIM_CCR2.\n– tim_oc3refc is controlled by TIM_CCR3 and TIM_CCR4.\nFigure364 shows an example of signals that can be generated using asymmetric PWM\nmode (channels 1 to 4 are configured in asymmetric PWM mode 2).\n[Figure 364. Generation of two phase-shifted PWM signals with 50% duty cycle]\nMultiple asymmetric PWM modes are available to combine different pairs of TIM_CCRx\nregisters and generate the required waveform, as listed in Table319. The selection is done\nwith the OCxM[4:0] bitfield in TIM_CCMRx registers. For each pair of TIM_CCRx registers,\ntwo options are given (e.g. Asymmetric PWM mode 1 and 2), one being in PWM mode 1\n(channel active as long as the counter is below the TIM_CCRx value), the other one in PWM\nmode 2 (channel active when the counter is above the TIM_CCRx value).\nFor the asymmetric PWM modes 1 and 2, it is mandatory to have the same PWM mode for\nboth channels. For instance, it is mandatory to have OC1M[4:0]=OC2M[4:0]=01110 for\nthe asymmetric PWM mode 1 on oc1refc.\nFor the asymmetric PWM modes 7 to 10, it is mandatory to have opposite PWM mode for\nboth channels (one being in PWM mode 1 and the other in PWM mode 2). Refer to\nTable319 for configuration.\nNote: The OCxM[4:0] bitfield is split into two parts for compatibility reasons, the most significant\nbits are not contiguous with the three least significant ones.\nWhen a given channel is used as asymmetric PWM channel, its secondary channel can also\nbe used. For instance, if an tim_oc1refc signal is generated on channel 1 (Asymmetric PWM\nmode 1), it is possible to output either the regular tim_oc2ref signal on channel 2, or an\ntim_oc2refc signal resulting from asymmetric PWM mode 2.\n[Table 319. Asymmetric PWM modes(1)]",
+      "semantic": {}
+    }
+  ]
+}

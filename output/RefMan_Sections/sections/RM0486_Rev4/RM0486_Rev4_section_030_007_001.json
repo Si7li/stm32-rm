@@ -1,0 +1,40 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S30.7.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "30",
+      "chapter_title": "Secure digital input/output MultiMediaCard interface (SDMMC)",
+      "section": "30.7.1",
+      "section_title": "Hardware flow control during data transfer",
+      "level": 3,
+      "parent_section": "30.7",
+      "page": 1424,
+      "page_end": 1425,
+      "semantic_type": "generic",
+      "features": [
+        "control",
+        "data",
+        "flow",
+        "hardware",
+        "transfer"
+      ],
+      "chars": 1386,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1424",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 30.7.1 \"Hardware flow control during data transfer\" in chapter 30 (Secure digital input/output MultiMediaCard interface (SDMMC)), RM0486 Rev 4, page 1424.",
+      "section_content": "The hardware flow control during data transfer functionality is used to avoid FIFO underrun\n(TX mode) and overrun (RX mode) errors.\nThe behavior is to stop SDMMC_CK during data transfer and freeze the SDMMC state\nmachines. The data transfer is stalled when the FIFO is unable to transmit or receive data.\nThe data transfer remains stalled until the transmit FIFO is half full or all data according\nDATALENGTH has been stored, or until the receive FIFO is half empty. Only state machines\nclocked by SDMMC_CK are frozen, the AHB interfaces are still alive. The FIFO can thus be\nfilled or emptied even if flow control is activated.\nOn an IDMA linked list transfer error, the hardware flow control is disabled. As a\nconsequence, depending on when the IDMA linked list transfer error occurs, an underrun or\noverrun error may also occur (see Section: IDMA transfer error management).\nTo enable hardware flow control during data transfer, the HWFC_EN register bit must be set\nto 1. After reset hardware flow control is disabled.\nHardware flow control during data transfer must only be used when the SDMMC_Dn data is\ncycle-aligned with the SDMMC_CK. Whenever the sdmmc_fb_ck from the DLYB delay\nblock is used, i.e in the case of SDR104 mode with a tOP and DtOP delay > 1 cycle,\nhardware flow control during data transfer can not be used and block gap hardware flow\ncontrol must be used instead.",
+      "semantic": {}
+    }
+  ]
+}

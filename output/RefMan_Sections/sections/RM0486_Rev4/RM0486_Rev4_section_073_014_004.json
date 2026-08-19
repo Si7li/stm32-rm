@@ -1,0 +1,189 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.4",
+      "section_title": "OTG USB configuration register (OTG_GUSBCFG)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3791,
+      "page_end": 3793,
+      "semantic_type": "register_description",
+      "features": [
+        "fdmod",
+        "fhmod",
+        "otg",
+        "otg-gusbcfg",
+        "phylpc",
+        "tocal",
+        "trdt",
+        "tsdps",
+        "usb"
+      ],
+      "chars": 3217,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3791",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.4 \"OTG USB configuration register (OTG_GUSBCFG)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3791.",
+      "section_content": "This register can be used to configure the core after power-on or a changing to host mode\nor device mode. It contains USB and USB-PHY related configuration parameters. The\napplication must program this register before starting any transactions on either the AHB or\nthe USB. Do not make changes to this register after the initial programming.\nAddress offset: 0x00C\nReset value: 0x0000 1400\nBit 31 Reserved, must be kept at reset value.\nBit 30 FDMOD: Force device mode\nWriting a 1 to this bit, forces the core to device mode irrespective of the OTG_ID input pin.\n0: Normal mode\n1: Force device mode\nAfter setting the force bit, the application must wait at least 25ms before the change takes\neffect.\nNote: Accessible in both device and host modes.\nBit 29 FHMOD: Force host mode\nWriting a 1 to this bit, forces the core to host mode irrespective of the OTG_ID input pin.\n0: Normal mode\n1: Force host mode\nAfter setting the force bit, the application must wait at least 25ms before the change takes\neffect.\nNote: Accessible in both device and host modes.\nBits 28:26 Reserved, must be kept at reset value.\nBits 25:23 Reserved, must be kept at reset value.\nBit 22 TSDPS: TermSel DLine pulsing selection\nThis bit selects utmi_termselect to drive the data line pulse during SRP (session request\nprotocol).\n0: Data line pulsing using utmi_txvalid (default)\n1: Data line pulsing using utmi_termsel\nBits 21:16 Reserved, must be kept at reset value.\nBit 15 PHYLPC: PHY Low-power clock select\nThis bit selects either 480MHz or 48MHz (low-power) PHY mode. In FS and LS modes, the\nPHY can usually operate on a 48MHz clock to save power.\n0: 480MHz internal PLL clock\n1: 48MHz external clock\nIn 480 MHz mode, the UTMI interface operates at either 60 or 30MHz, depending on\nwhether the 8- or 16-bit data width is selected. In 48MHz mode, the UTMI interface operates\nat 48MHz in FS and LS modes.\nBit 14 Reserved, must be kept at reset value.\nBits 13:10 TRDT[3:0]: USB turnaround time\nThese bits allows to set the turnaround time in PHY clocks. They must be configured\naccording to Table745: TRDT values, depending on the application AHB frequency. Higher\nTRDT values allow stretching the USB response time to IN tokens in order to compensate for\nlonger AHB read access latency to the data FIFO.\nNote: Only accessible in device mode.\nBits 9:8 Reserved, must be kept at reset value.\nBit 7 Reserved, must be kept at reset value.\nBit 6 Reserved, must be kept at reset value.\nBit 5 Reserved, must be kept at reset value.\nBit 4 Reserved, must be kept at reset value.\nBit 3 Reserved, must be kept at reset value.\nBits 2:0 TOCAL[2:0]: FS timeout calibration\nThe number of PHY clocks that the application programs in this field is added to the full-\nspeed interpacket timeout duration in the core to account for any additional delays\nintroduced by the PHY. This can be required, because the delay introduced by the PHY in\ngenerating the line state condition can vary from one PHY to another.\nThe USB standard timeout value for full-speed operation is 16 to 18 (inclusive) bit times. The\napplication must program this field based on the speed of enumeration. The number of bit\ntimes added per PHY clock is 0.25 bit times.\n[Table 745. TRDT values]",
+      "semantic": {
+        "register": "OTG_GUSBCFG",
+        "address_offset": "0x00C",
+        "reset_value": "0x0000 1400",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "FDMOD",
+            "description": "Force device mode Writing a 1 to this bit, forces the core to device mode irrespective of the OTG_ID input pin. After setting the force bit, the application must wait at least 25ms before the change takes effect. Note: Accessible in both device and host modes.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Force device mode"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "FHMOD",
+            "description": "Force host mode Writing a 1 to this bit, forces the core to host mode irrespective of the OTG_ID input pin. After setting the force bit, the application must wait at least 25ms before the change takes effect. Note: Accessible in both device and host modes.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Force host mode"
+              }
+            ]
+          },
+          {
+            "bits": "28:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25:23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "TSDPS",
+            "description": "TermSel DLine pulsing selection This bit selects utmi_termselect to drive the data line pulse during SRP (session request protocol).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data line pulsing using utmi_txvalid (default)"
+              },
+              {
+                "value": "1",
+                "meaning": "Data line pulsing using utmi_termsel"
+              }
+            ]
+          },
+          {
+            "bits": "21:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "PHYLPC",
+            "description": "PHY Low-power clock select This bit selects either 480MHz or 48MHz (low-power) PHY mode. In FS and LS modes, the PHY can usually operate on a 48MHz clock to save power. In 480 MHz mode, the UTMI interface operates at either 60 or 30MHz, depending on whether the 8- or 16-bit data width is selected. In 48MHz mode, the UTMI interface operates at 48MHz in FS and LS modes.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "480MHz internal PLL clock"
+              },
+              {
+                "value": "1",
+                "meaning": "48MHz external clock"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:10",
+            "name": "TRDT[3:0]",
+            "description": "USB turnaround time These bits allows to set the turnaround time in PHY clocks. They must be configured according to Table745: TRDT values, depending on the application AHB frequency. Higher TRDT values allow stretching the USB response time to IN tokens in order to compensate for longer AHB read access latency to the data FIFO. Note: Only accessible in device mode.",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2:0",
+            "name": "TOCAL[2:0]",
+            "description": "FS timeout calibration The number of PHY clocks that the application programs in this field is added to the full- speed interpacket timeout duration in the core to account for any additional delays introduced by the PHY. This can be required, because the delay introduced by the PHY in generating the line state condition can vary from one PHY to another. The USB standard timeout value for full-speed operation is 16 to 18 (inclusive) bit times. The application must program this field based on the speed of enumeration. The number of bit times added per PHY clock is 0.25 bit times.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

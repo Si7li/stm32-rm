@@ -1,0 +1,96 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S36.7.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "36",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "36.7.8",
+      "section_title": "LPTIM control register (LPTIM_CR)",
+      "level": 3,
+      "parent_section": "36.7",
+      "page": 1518,
+      "page_end": 1519,
+      "semantic_type": "register_description",
+      "features": [
+        "cntstrt",
+        "countrst",
+        "enable",
+        "lptim",
+        "lptim-cr",
+        "power",
+        "rstare",
+        "sngstrt",
+        "timer"
+      ],
+      "chars": 2505,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1518",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.7.8 \"LPTIM control register (LPTIM_CR)\" in chapter 36 (Low-power timer (LPTIM)), RM0522 Rev 1, page 1518.",
+      "section_content": "Address offset: 0x010\nReset value: 0x0000 0000\nBits 31:5 Reserved, must be kept at reset value.\nBit 4 RSTARE: Reset after read enable\nThis bit is set and cleared by software. When RSTARE is set to '1', any read access to LPTIM_CNT\nregister asynchronously resets LPTIM_CNT register content.\nThis bit can be set only when the LPTIM is enabled.\nBit 3 COUNTRST: Counter reset\nThis bit is set by software and cleared by hardware. When set to '1' this bit triggers a synchronous\nreset of the LPTIM_CNT counter register. Due to the synchronous nature of this reset, it only takes\nplace after a synchronization delay of 3 LPTimer core clock cycles (LPTimer core clock can be\ndifferent from APB clock).\nThis bit can be set only when the LPTIM is enabled. It is automatically reset by hardware.\nCaution: COUNTRST must never be set to '1' by software before it is already cleared to '0' by\nhardware. Software must consequently check that COUNTRST bit is already cleared to '0'\nbefore attempting to set it to '1'.\nBit 2 CNTSTRT: Timer start in Continuous mode\nThis bit is set by software and cleared by hardware.\nIn case of software start (TRIGEN[1:0] = 00), setting this bit starts the LPTIM in Continuous mode.\nIf the software start is disabled (TRIGEN[1:0] different than 00), setting this bit starts the timer in\nContinuous mode as soon as an external trigger is detected.\nIf this bit is set when a single pulse mode counting is ongoing, then the timer does not stop at the\nnext match between the LPTIM_ARR and LPTIM_CNT registers and the LPTIM counter keeps\ncounting in Continuous mode.\nThis bit can be set only when the LPTIM is enabled. It is automatically reset by hardware.\nBit 1 SNGSTRT: LPTIM start in Single mode\nThis bit is set by software and cleared by hardware.\nIn case of software start (TRIGEN[1:0] = 00), setting this bit starts the LPTIM in single pulse mode.\nIf the software start is disabled (TRIGEN[1:0] different than 00), setting this bit starts the LPTIM in\nsingle pulse mode as soon as an external trigger is detected.\nIf this bit is set when the LPTIM is in continuous counting mode, then the LPTIM stops at the\nfollowing match between LPTIM_ARR and LPTIM_CNT registers.\nThis bit can only be set when the LPTIM is enabled. It is automatically reset by hardware.\nBit 0 ENABLE: LPTIM enable\nThe ENABLE bit is set and cleared by software.\n0: LPTIM is disabled. Writing '0' to the ENABLE bit resets all the DMA request signals (input capture\nand update event DMA requests).\n1: LPTIM is enabled",
+      "semantic": {
+        "register": "LPTIM_CR",
+        "address_offset": "0x010",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "RSTARE",
+            "description": "Reset after read enable This bit is set and cleared by software. When RSTARE is set to '1', any read access to LPTIM_CNT register asynchronously resets LPTIM_CNT register content. This bit can be set only when the LPTIM is enabled.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "COUNTRST",
+            "description": "Counter reset This bit is set by software and cleared by hardware. When set to '1' this bit triggers a synchronous reset of the LPTIM_CNT counter register. Due to the synchronous nature of this reset, it only takes place after a synchronization delay of 3 LPTimer core clock cycles (LPTimer core clock can be different from APB clock). This bit can be set only when the LPTIM is enabled. It is automatically reset by hardware. Caution: COUNTRST must never be set to '1' by software before it is already cleared to '0' by hardware. Software must consequently check that COUNTRST bit is already cleared to '0' before attempting to set it to '1'.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "CNTSTRT",
+            "description": "Timer start in Continuous mode This bit is set by software and cleared by hardware. In case of software start (TRIGEN[1:0] = 00), setting this bit starts the LPTIM in Continuous mode. If the software start is disabled (TRIGEN[1:0] different than 00), setting this bit starts the timer in Continuous mode as soon as an external trigger is detected. If this bit is set when a single pulse mode counting is ongoing, then the timer does not stop at the next match between the LPTIM_ARR and LPTIM_CNT registers and the LPTIM counter keeps counting in Continuous mode. This bit can be set only when the LPTIM is enabled. It is automatically reset by hardware.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "SNGSTRT",
+            "description": "LPTIM start in Single mode This bit is set by software and cleared by hardware. In case of software start (TRIGEN[1:0] = 00), setting this bit starts the LPTIM in single pulse mode. If the software start is disabled (TRIGEN[1:0] different than 00), setting this bit starts the LPTIM in single pulse mode as soon as an external trigger is detected. If this bit is set when the LPTIM is in continuous counting mode, then the LPTIM stops at the following match between LPTIM_ARR and LPTIM_CNT registers. This bit can only be set when the LPTIM is enabled. It is automatically reset by hardware.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "ENABLE",
+            "description": "LPTIM enable The ENABLE bit is set and cleared by software. and update event DMA requests).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "LPTIM is disabled. Writing '0' to the ENABLE bit resets all the DMA request signals (input capture"
+              },
+              {
+                "value": "1",
+                "meaning": "LPTIM is enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

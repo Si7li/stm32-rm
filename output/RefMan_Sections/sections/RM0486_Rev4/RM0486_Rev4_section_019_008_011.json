@@ -1,0 +1,219 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.8.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.8.11",
+      "section_title": "GPDMA channel x transfer register 2 (GPDMA_CxTR2)",
+      "level": 3,
+      "parent_section": "19.8",
+      "page": 992,
+      "page_end": 996,
+      "semantic_type": "register_description",
+      "features": [
+        "breq",
+        "dma",
+        "dreq",
+        "gpdma",
+        "memory",
+        "pfreq",
+        "reqsel",
+        "swreq",
+        "tcem",
+        "trigm",
+        "trigpol",
+        "trigsel"
+      ],
+      "chars": 10565,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=992",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.8.11 \"GPDMA channel x transfer register 2 (GPDMA_CxTR2)\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 992.",
+      "section_content": "Address offset: 0x94 + 0x80 * x (x = 0 to 15)\nReset value: 0x0000 0000\nThis register is secure or nonsecure depending on the secure state of channel x\n(GPDMA_SECCFGR.SECx), and privileged or unprivileged, depending on the privileged\nstate of channel x (GPDMA_PRIVCFGR.PRIVx).\nThis register controls the transfer of a channel x. This register must be written when\nGPDMA_CxCR.EN = 0.\nThis register is read-only when GPDMA_CxCR.EN = 1.\nThis register must be written when the channel is completed (the hardware deasserted\nGPDMA_CxCR.EN). A channel transfer can be completed and programmed at different\nlevels: block or LLI or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by GPDMA\nfrom the memory, if GPDMA_CxLLR.UT2 = 1.\nBits 31:30 TCEM[1:0]: transfer complete event mode\nThese bits define the transfer granularity for the transfer complete and half-transfer complete\nevents generation.\n00: at block level (when GPDMA_CxBR1.BNDT[15:0] = 0): the complete (and the half)\ntransfer event is generated at the (respectively half of the) end of a block.\nNote: If the initial LLI0 data transfer is null/void (directly programmed by the internal register\nfile with GPDMA_CxBR1.BNDT[15:0] = 0), then neither the complete transfer event nor\nthe half-transfer event is generated.\n01: channel x (x = 0 to 11), same as 00, channel x (x =12 to 15), at 2D/repeated block level\n(when GPDMA_CxBR1.BRC[10:0] = 0 and GPDMA_CxBR1.BNDT[15:0] = 0). The complete\n(and the half) transfer event is generated at the end (respectively half of the end) of the\n2D/repeated block.\nNote: If the initial LLI0 data transfer is null/void (directly programmed by the internal register\nfile with GPDMA_CxBR1.BNDT[15:0] = 0), then neither the complete transfer event nor\nthe half-transfer event is generated.\n10: at LLI level: the complete transfer event is generated at the end of the LLI transfer,\nincluding the update of the LLI if any. The half-transfer event is generated at the half of the\nLLI data transfer The LLI data transfer is a block transfer or a 2D/repeated block transfer for\nchannel x (x =12 to 15), if any data transfer.\nNote: If the initial LLI0 data transfer is null/void (directly programmed by the internal register\nfile with GPDMA_CxBR1.BNDT[15:0] = 0), then the half-transfer event is not generated,\nand the transfer complete event is generated when is completed the loading of the LLI1.\n11: at channel level: the complete transfer event is generated at the end of the last LLI\ntransfer. The half-transfer event is generated at the half of the data transfer of the last LLI.\nThe last LLI updates the link address GPDMA_CxLLR.LA[15:2] to zero and clears all the\nGPDMA_CxLLR update bits (UT1, UT2, UB1, USA, UDA and ULL, plus UT3 and UB2). If the\nchannel transfer is continuous/infinite, no event is generated.\nBits 29:26 Reserved, must be kept at reset value.\nBits 25:24 TRIGPOL[1:0]: trigger event polarity\nThese bits define the polarity of the selected trigger event input defined by TRIGSEL[6:0].\n00: no trigger (masked trigger event)\n01: trigger on the rising edge\n10: trigger on the falling edge\n11: same as 00\nBit 23 Reserved, must be kept at reset value.\nBits 22:16 TRIGSEL[6:0]: trigger event input selection\nThese bits select the trigger event input of the GPDMA transfer (as per Section19.3.6),\nwith an active trigger event if TRIGPOL[1:0] ≠ 00.\nBits 15:14 TRIGM[1:0]: trigger mode\nThese bits define the transfer granularity for its conditioning by the trigger.\nIf the channel x is enabled (GPDMA_CxCR.EN asserted) with TRIGPOL[1:0] = 00 or 11,\nthese TRIGM[1:0] bits are ignored.\nElse, a GPDMA transfer is conditioned by one trigger hit:\n00: at block level: the first burst read of each block transfer is conditioned by one hit trigger\n(channel x (x = 12 to 15): same, each block also if a 2D/repeated block is configured with\nGPDMA_CxBR1.BRC[10:0] ≠ 0).\n01: channel x (x = 0 to 11): same as 00; channel x (x = 12 to 15): at 2D/repeated block level:\nthe first burst read of the 2D/repeated block transfer is conditioned by one hit trigger.\n10: at link level: a LLI link transfer is conditioned by one hit trigger. LLI data transfer\nis not conditioned.\n11: at programmed burst level: If SWREQ=1, each programmed burst read is conditioned\nby one hit trigger. If SWREQ=0, each programmed burst that is requested by the selected\nperipheral, is conditioned by one hit trigger:\n– If the peripheral is the source (DREQ = 0) of the LLI data transfer, each programmed burst\nread is conditioned.\n– If the peripheral is the destination (DREQ = 1) of the LLI data transfer, each programmed\nburst write is conditioned. The first memory burst read of a (possibly 2D/repeated) block, also\nnamed as the first ready FIFO-based source burst, is gated by the occurrence of both the\nhardware request and one trigger hit.\nAs shown in Figure111: Trigger hit, memorization, and overrun waveform, the GPDMA\nmonitoring of a trigger for channel x is started when the channel is enabled/loaded with a new\nactive trigger configuration: rising or falling edge on a selected trigger (TRIGPOL[1:0] = 01 or\nrespectively TRIGPOL[1:0] = 10). The monitoring of this trigger is kept active during the\ntriggered and uncompleted (data or link) transfer; and if a new trigger is detected then, this hit\nis internally memorized to grant the next transfer, as long as the defined rising or falling edge\nis not modified, and the TRIGSEL[6:0] is not modified, and the channel is enabled. After a\nfirst new trigger hitn+1 is memorized, if another second trigger hitn+2 is detected and if the hitn\ntriggered transfer is still not completed, hitn+2 is lost and not memorized. A trigger overrun\nflag is reported (GPDMA_CxSR.TOF = 1), and an interrupt is generated if enabled\n(GPDMA_CxCR.TOIE = 1). The channel is not automatically disabled by hardware due to a\ntrigger overrun.\nTransferring a next LLIn+1 that updates the GPDMA_CxTR2 with a new value for any of\nTRIGSEL[6:0] or TRIGPOL[1:0], resets the monitoring, trashing the memorized hit of the\nformerly defined LLIn trigger.\nNote: When the source block size is not a multiple of the source burst size and is a multiple of\nthe source data width, then the last programmed source burst is not completed and is\ninternally shorten to match the block size. In this case, if TRIGM[1:0] = 11 and\n(SWREQ = 1 or (SWREQ = 0 and DREQ = 0)), the shortened burst transfer (by singles\nor/and by bursts of lower length) is conditioned once by the trigger.\nWhen the programmed destination burst is internally shortened by singles or/and by\nbursts of lower length (versus FIFO size, versus block size, 1-Kbyte boundary address\ncrossing): if the trigger is conditioning the programmed destination burst\n(if TRIGM[1:0] = 11 and SWREQ = 0 and DREQ = 1), this shortened destination burst\ntransfer is conditioned once by the trigger.\nBit 13 Reserved, must be kept at reset value.\nBit 12 PFREQ: Hardware request in peripheral flow control mode\nImportant: If a given channel x is not implemented with this feature, this bit is reserved and\nPFREQ is not present (see Section19.3.1 for the list of the implemented channels with this\nfeature).\nIf the channel x is activated (GPDMA_CxCR.EN asserted) with SWREQ = 1 (software\nrequest for a memory-to-memory transfer), this bit is ignored. Else:\n0: the selected hardware request is driven by a peripheral with a hardware\nrequest/acknowledge protocol in GPDMA control mode. The GPDMA is programmed with\nGPDMA_CxTR1.BNDT[15:0] and this is internally used by the hardware for the block transfer\ncompletion.\n1: the selected hardware request is driven by a peripheral with a hardware\nrequest/acknowledge protocol in peripheral control mode. The GPDMA block transfer can be\nearly completed by the peripheral itself (see Section19.3.5 for more details).\nNote: In peripheral flow control mode, there are the following restrictions:\n- no 2D/repeated block support (GPDMA_CxBR1.BRC[10:0] must be set to 0)\n- the peripheral must be set as the source of the transfer (DREQ = 0).\n- data packing to a wider destination width is not supported (if destination width > source\ndata width, GPDMA_CxTR1.PAM[1] must be set to 0).\n- GPDMA_CxBR1.BNDT[15:0] must be programmed as a multiple of the source\n(peripheral) burst size.\nBit 11 BREQ: Block hardware request\nIf the channel x is activated (GPDMA_CxCR.EN asserted) with SWREQ = 1 (software\nrequest for a memory-to-memory transfer), this bit is ignored. Else:\n0: the selected hardware request is driven by a peripheral with a hardware\nrequest/acknowledge protocol at a burst level.\n1: the selected hardware request is driven by a peripheral with a hardware\nrequest/acknowledge protocol at a block level (see Section19.3.3).\nBit 10 DREQ: destination hardware request\nThis bit is ignored if channel x is activated (GPDMA_CxCR.EN asserted) with SWREQ = 1\n(software request for a memory-to-memory transfer). Else:\n0: selected hardware request driven by a source peripheral (request signal taken into\naccount by the GPDMA transfer scheduler over the source/read port)\n1: selected hardware request driven by a destination peripheral (request signal taken into\naccount by the GPDMA transfer scheduler over the destination/write port)\nNote: If the channel x is activated (GPDMA_CxCR.EN is asserted) with SWREQ = 0 and\nPFREQ = 1 (peripheral hardware request with peripheral flow-control mode), any\nsoftware assertion to this DREQ bit is ignored: in peripheral flow-control mode, only a\nperipheral-to-memory transfer is supported.\nBit 9 SWREQ: software request\nThis bit is internally taken into account when GPDMA_CxCR.EN is asserted.\n0: no software request. The selected hardware request REQSEL[7:0] is taken into account.\n1: software request for a memory-to-memory transfer. The default selected hardware request\nas per REQSEL[7:0] is ignored.\nBit 8 Reserved, must be kept at reset value.\nBits 7:0 REQSEL[7:0]: GPDMA hardware request selection\nThese bits are ignored if channel x is activated (GPDMA_CxCR.EN asserted) with\nSWREQ = 1(software request for a memory-to-memory transfer). Else, the selected\nhardware request is internally taken into account as per Section19.3.3.\nCaution: The user must not assign a same input hardware request (same REQSEL[7:0]\nvalue) to different active GPDMA channels (GPDMA_CxCR.EN = 1 and\nGPDMA_CxTR2.SWREQ = 0 for these channels). GPDMA is not intended to\nhardware support the case of simultaneous enabled channels incorrectly configured\nwith a same hardware peripheral request signal, and there is no user setting error\nreporting.",
+      "semantic": {
+        "register": "GPDMA_CxTR2",
+        "address_offset": "0x94 + 0x80 * x (x = 0 to 15)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "TCEM[1:0]",
+            "description": "transfer complete event mode These bits define the transfer granularity for the transfer complete and half-transfer complete events generation. transfer event is generated at the (respectively half of the) end of a block. Note: If the initial LLI0 data transfer is null/void (directly programmed by the internal register file with GPDMA_CxBR1.BNDT[15:0] = 0), then neither the complete transfer event nor the half-transfer event is generated. (when GPDMA_CxBR1.BRC[10:0] = 0 and GPDMA_CxBR1.BNDT[15:0] = 0). The complete (and the half) transfer event is generated at the end (respectively half of the end) of the 2D/repeated block. Note: If the initial LLI0 data transfer is null/void (directly programmed by the internal register file with GPDMA_CxBR1.BNDT[15:0] = 0), then neither the complete transfer event nor the half-transfer event is generated. including the update of the LLI if any. The half-transfer event is generated at the half of the LLI data transfer The LLI data transfer is a block transfer or a 2D/repeated block transfer for channel x (x =12 to 15), if any data transfer. Note: If the initial LLI0 data transfer is null/void (directly programmed by the internal register file with GPDMA_CxBR1.BNDT[15:0] = 0), then the half-transfer event is not generated, and the transfer complete event is generated when is completed the loading of the LLI1. transfer. The half-transfer event is generated at the half of the data transfer of the last LLI. The last LLI updates the link address GPDMA_CxLLR.LA[15:2] to zero and clears all the GPDMA_CxLLR update bits (UT1, UT2, UB1, USA, UDA and ULL, plus UT3 and UB2). If the channel transfer is continuous/infinite, no event is generated.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "at block level (when GPDMA_CxBR1.BNDT[15:0] = 0): the complete (and the half)"
+              },
+              {
+                "value": "01",
+                "meaning": "channel x (x = 0 to 11), same as 00, channel x (x =12 to 15), at 2D/repeated block level"
+              },
+              {
+                "value": "10",
+                "meaning": "at LLI level: the complete transfer event is generated at the end of the LLI transfer,"
+              },
+              {
+                "value": "11",
+                "meaning": "at channel level: the complete transfer event is generated at the end of the last LLI"
+              }
+            ]
+          },
+          {
+            "bits": "29:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25:24",
+            "name": "TRIGPOL[1:0]",
+            "description": "trigger event polarity These bits define the polarity of the selected trigger event input defined by TRIGSEL[6:0].",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "no trigger (masked trigger event)"
+              },
+              {
+                "value": "01",
+                "meaning": "trigger on the rising edge"
+              },
+              {
+                "value": "10",
+                "meaning": "trigger on the falling edge"
+              },
+              {
+                "value": "11",
+                "meaning": "same as 00"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22:16",
+            "name": "TRIGSEL[6:0]",
+            "description": "trigger event input selection These bits select the trigger event input of the GPDMA transfer (as per Section19.3.6), with an active trigger event if TRIGPOL[1:0] ≠ 00.",
+            "values": []
+          },
+          {
+            "bits": "15:14",
+            "name": "TRIGM[1:0]",
+            "description": "trigger mode These bits define the transfer granularity for its conditioning by the trigger. If the channel x is enabled (GPDMA_CxCR.EN asserted) with TRIGPOL[1:0] = 00 or 11, these TRIGM[1:0] bits are ignored. Else, a GPDMA transfer is conditioned by one trigger hit: (channel x (x = 12 to 15): same, each block also if a 2D/repeated block is configured with GPDMA_CxBR1.BRC[10:0] ≠ 0). the first burst read of the 2D/repeated block transfer is conditioned by one hit trigger. is not conditioned. by one hit trigger. If SWREQ=0, each programmed burst that is requested by the selected peripheral, is conditioned by one hit trigger: – If the peripheral is the source (DREQ = 0) of the LLI data transfer, each programmed burst read is conditioned. – If the peripheral is the destination (DREQ = 1) of the LLI data transfer, each programmed burst write is conditioned. The first memory burst read of a (possibly 2D/repeated) block, also named as the first ready FIFO-based source burst, is gated by the occurrence of both the hardware request and one trigger hit. As shown in Figure111: Trigger hit, memorization, and overrun waveform, the GPDMA monitoring of a trigger for channel x is started when the channel is enabled/loaded with a new active trigger configuration: rising or falling edge on a selected trigger (TRIGPOL[1:0] = 01 or respectively TRIGPOL[1:0] = 10). The monitoring of this trigger is kept active during the triggered and uncompleted (data or link) transfer; and if a new trigger is detected then, this hit is internally memorized to grant the next transfer, as long as the defined rising or falling edge is not modified, and the TRIGSEL[6:0] is not modified, and the channel is enabled. After a first new trigger hitn+1 is memorized, if another second trigger hitn+2 is detected and if the hitn triggered transfer is still not completed, hitn+2 is lost and not memorized. A trigger overrun flag is reported (GPDMA_CxSR.TOF = 1), and an interrupt is generated if enabled (GPDMA_CxCR.TOIE = 1). The channel is not automatically disabled by hardware due to a trigger overrun. Transferring a next LLIn+1 that updates the GPDMA_CxTR2 with a new value for any of TRIGSEL[6:0] or TRIGPOL[1:0], resets the monitoring, trashing the memorized hit of the formerly defined LLIn trigger. Note: When the source block size is not a multiple of the source burst size and is a multiple of the source data width, then the last programmed source burst is not completed and is internally shorten to match the block size. In this case, if TRIGM[1:0] = 11 and (SWREQ = 1 or (SWREQ = 0 and DREQ = 0)), the shortened burst transfer (by singles or/and by bursts of lower length) is conditioned once by the trigger. When the programmed destination burst is internally shortened by singles or/and by bursts of lower length (versus FIFO size, versus block size, 1-Kbyte boundary address crossing): if the trigger is conditioning the programmed destination burst (if TRIGM[1:0] = 11 and SWREQ = 0 and DREQ = 1), this shortened destination burst transfer is conditioned once by the trigger.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "at block level: the first burst read of each block transfer is conditioned by one hit trigger"
+              },
+              {
+                "value": "01",
+                "meaning": "channel x (x = 0 to 11): same as 00; channel x (x = 12 to 15): at 2D/repeated block level:"
+              },
+              {
+                "value": "10",
+                "meaning": "at link level: a LLI link transfer is conditioned by one hit trigger. LLI data transfer"
+              },
+              {
+                "value": "11",
+                "meaning": "at programmed burst level: If SWREQ=1, each programmed burst read is conditioned"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "PFREQ",
+            "description": "Hardware request in peripheral flow control mode Important: If a given channel x is not implemented with this feature, this bit is reserved and PFREQ is not present (see Section19.3.1 for the list of the implemented channels with this feature). If the channel x is activated (GPDMA_CxCR.EN asserted) with SWREQ = 1 (software request for a memory-to-memory transfer), this bit is ignored. Else: request/acknowledge protocol in GPDMA control mode. The GPDMA is programmed with GPDMA_CxTR1.BNDT[15:0] and this is internally used by the hardware for the block transfer completion. request/acknowledge protocol in peripheral control mode. The GPDMA block transfer can be early completed by the peripheral itself (see Section19.3.5 for more details). Note: In peripheral flow control mode, there are the following restrictions: - no 2D/repeated block support (GPDMA_CxBR1.BRC[10:0] must be set to 0) - the peripheral must be set as the source of the transfer (DREQ = 0). - data packing to a wider destination width is not supported (if destination width > source data width, GPDMA_CxTR1.PAM[1] must be set to 0). - GPDMA_CxBR1.BNDT[15:0] must be programmed as a multiple of the source (peripheral) burst size.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "the selected hardware request is driven by a peripheral with a hardware"
+              },
+              {
+                "value": "1",
+                "meaning": "the selected hardware request is driven by a peripheral with a hardware"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "BREQ",
+            "description": "Block hardware request If the channel x is activated (GPDMA_CxCR.EN asserted) with SWREQ = 1 (software request for a memory-to-memory transfer), this bit is ignored. Else: request/acknowledge protocol at a burst level. request/acknowledge protocol at a block level (see Section19.3.3).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "the selected hardware request is driven by a peripheral with a hardware"
+              },
+              {
+                "value": "1",
+                "meaning": "the selected hardware request is driven by a peripheral with a hardware"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "DREQ",
+            "description": "destination hardware request This bit is ignored if channel x is activated (GPDMA_CxCR.EN asserted) with SWREQ = 1 (software request for a memory-to-memory transfer). Else: account by the GPDMA transfer scheduler over the source/read port) account by the GPDMA transfer scheduler over the destination/write port) Note: If the channel x is activated (GPDMA_CxCR.EN is asserted) with SWREQ = 0 and PFREQ = 1 (peripheral hardware request with peripheral flow-control mode), any software assertion to this DREQ bit is ignored: in peripheral flow-control mode, only a peripheral-to-memory transfer is supported.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "selected hardware request driven by a source peripheral (request signal taken into"
+              },
+              {
+                "value": "1",
+                "meaning": "selected hardware request driven by a destination peripheral (request signal taken into"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "SWREQ",
+            "description": "software request This bit is internally taken into account when GPDMA_CxCR.EN is asserted. as per REQSEL[7:0] is ignored.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no software request. The selected hardware request REQSEL[7:0] is taken into account."
+              },
+              {
+                "value": "1",
+                "meaning": "software request for a memory-to-memory transfer. The default selected hardware request"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "REQSEL[7:0]",
+            "description": "GPDMA hardware request selection These bits are ignored if channel x is activated (GPDMA_CxCR.EN asserted) with SWREQ = 1(software request for a memory-to-memory transfer). Else, the selected hardware request is internally taken into account as per Section19.3.3. Caution: The user must not assign a same input hardware request (same REQSEL[7:0] value) to different active GPDMA channels (GPDMA_CxCR.EN = 1 and GPDMA_CxTR2.SWREQ = 0 for these channels). GPDMA is not intended to hardware support the case of simultaneous enabled channels incorrectly configured with a same hardware peripheral request signal, and there is no user setting error reporting.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

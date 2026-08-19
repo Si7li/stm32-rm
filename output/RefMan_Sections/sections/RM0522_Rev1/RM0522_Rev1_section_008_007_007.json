@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S8.7.7",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "8",
+      "chapter_title": "Power control (PWR)",
+      "section": "8.7.7",
+      "section_title": "Standby mode",
+      "level": 3,
+      "parent_section": "8.7",
+      "page": 239,
+      "page_end": 241,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 3856,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=239",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 8.7.7 \"Standby mode\" in chapter 8 (Power control (PWR)), RM0522 Rev 1, page 239.",
+      "section_content": "The lowest power mode in which the POR/PDR is active is the Standby mode. It is based on\nthe Cortex-M33 Deepsleep mode, with the voltage regulators disabled. The HSI, PSI, and\nHSE oscillators are also switched off.\nThe SRAMs and register contents are lost except for registers in the backup domain and\nStandby circuitry (see Figure23).\nI/O states in Standby mode\nIn the Standby mode, the I/Os are by default in floating state. If the IORETEN bit in the\nPWR_IORETR register is set, the I/Os output state is retained. I/O retention mode is\nenabled for all I/Os except those supporting the standby functionality and JTAG I/Os (PA13,\nPA14, PA15, and PB4). When entering into Standby mode, the state of the output is\nsampled, and pull-up or pull-down resistors are set to maintain the I/O output during\nStandby mode.\nIf the JTAGIORETEN bit in the PWR_IORETR register is set, the I/Os output state is\nretained. I/O retention mode is enabled for PA13, PA14, PA15, and PB4 (default JTAG\npull-up/pull-down after wake-up is not enabled).\n[Figure 23. I/O states in Standby mode]\nAfter wake-up from Standby mode, as long as IORETEN (or JTAGIORETEN for JTAG I/Os)\nis set, the retained state (pull-up/pull-down) remains applied.\nThe GPIO pin state before standby can be identified with GPIO_IDR register (when both\nGPIO port clock and input buffer are enabled).\nThe application can release the I/O state (clear the retained Pull-up/Pull-down) by clearing\nthe IORETEN (or JTAGIORETEN for JTAG I/Os) bit, before or after reconfiguring the GPIOs\nand related peripherals. The GPIOs can then be configured in a known state before\nreleasing the retained state.\nThe RTC output on PC13 is functional in Standby mode. PC14 and PC15 used for LSE are\nalso functional. Up to seven wake-up (WKUPx,x=1to7) and three RTC tamper pins are\navailable.\nEntering Standby mode\nThe MCU enters the Standby mode as described in Entering into a low-power mode, when\nthe SLEEPDEEP bit in the Cortex-M33 system control register is set (see Table60 for\ndetails on how to enter Standby mode).\nIn Standby mode, the following features can be selected by programming individual control\nbits:\n• The independent watchdog (IWDG) is started by writing to its Key register or by\nhardware option. Once started, it can be stopped only by a reset (see Section37.4:\nIWDG functional description).\n• The real-time clock (RTC) is configured by the RTCEN bit in RCC_RTCCR.\n• The internal RC oscillator LSI clock is configured by the LSION bit in RCC_RTCCR.\n• The external 32.768kHz oscillator (LSE) is configured by the LSEON bit in\nRCC_RTCCR.\n• The I/Os retention is configured by the IORETEN bit in the PWR_IORETR register.\nExiting Standby mode\nThe MCU exits the Standby mode as described in Exiting a low-power mode. The SBF\nstatus flag in PWR_PMSR) indicates that the MCU was in Standby mode. All registers are\nreset after wake-up from Standby except for PWR_RTCCR and PWR_IORETR\n(seeTable60 for more details on how to exit Standby mode).\nWhen exiting Standby mode, I/Os output state that were retained during Standby through\nIORETEN bit, keep this configuration upon exiting Standby mode until the IORETEN bit in\nPWR_IORETR register is cleared. Once IORETEN is cleared, the I/Os are configured to\ntheir reset values, or to the pull-up/pull-down state according to the GPIOx_PUPDR\nregisters.\nFor I/Os, with a pull-up or pull-down predefined after reset (some JTAG/SWD I/Os), in case\nthose pull-up or pull-downs are different from the retained values during Standby, both a\npull-down and pull-up are applied until IORETEN is cleared, releasing the retained value.\nAlso in case the GPIOx_PUPDR values programed after exiting from Standby are different\nfrom the retained values during Standby, both a pull-down and pull-up are applied until\nIORETEN is cleared, releasing the retained value.\n[Table 60. Standby mode]",
+      "semantic": {}
+    }
+  ]
+}

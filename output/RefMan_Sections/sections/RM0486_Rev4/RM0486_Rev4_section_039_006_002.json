@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.6.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.6.2",
+      "section_title": "Byte-to-pixel conversion",
+      "level": 3,
+      "parent_section": "39.6",
+      "page": 1845,
+      "page_end": 1846,
+      "semantic_type": "generic",
+      "features": [
+        "conversion",
+        "pixel"
+      ],
+      "chars": 2112,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1845",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.6.2 \"Byte-to-pixel conversion\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1845.",
+      "section_content": "The module works on the pixel pipes: it gets 32-bit words from the input (parallel or CSI)\ninterfaces, extracts the pixels depending on the provided pixel format, and maps them onto\nthe triple-component pixel pipeline, that is 14 bpc at this stage (and 8 bpc later\ndownstream).\nFunctionality\n• Extracts various input pixel formats to a triple R, G, B lane\n– All CSI-2 formats of versions CSI v1.3 and v2.0 are supported, except Raw 6/7\nbpc, YUV422-10 bpc, YUV420 (see Table335)\n• YUV420-to-YUV444 conversion is not supported\n– Pipe1 and Pipe2 cannot extract and process YUV420 pixels received from the CSI\ninterface\n• YUV422-to-YUV444 conversion:\n– Done by replication of the U and V components. It thus assumes that the location\nof the common chroma is defined at mid-distance between the two pixels.\n• Extension of short triple component (RGB/YUV) to the output triple 8 bpc:\n– The extension is done by replicating the input MSB onto the missing output LSB.\nThe replication onto the LSB allows to map any input dynamic on the full\ndownstream dynamic.\n– Examples of 5 and 6 bpc extended to the output 8 bpc:\n> Input Di[4:0]: Output Do = Di[4:0] and Di[4:2]\n> Input Di[5:0]: Output Do = Di[5:0] and Di[5:4]\n• Keeps as-is the single-components, usually wide:\n– The monochrome and raw Bayer 10/12/14 bpc are fed into the pipes as-is (the\nmonochrome assumes a Y, with U = V = 128).\nSoftware configuration\nThe used pixel format depends upon the source of the pixels:\n• CSI-2 interface: the pixel format is embedded in the received CSI-2 packets, and\ndefined in the data type field of the packet header.\n– When FDTFEN = 0, the byte-to-pixel conversion uses the data type provided by\nthe CSI-2 packet, and works automatically, without need for any configuration.\n– When FDTFEN = 1, the data type is configured by software in the FDTF field.\n• Parallel interface: the pixel format is determined by the source of the pixels, i.e. the\ncamera sensor. The byte-to-pixel extracts the pixels based on the pixel format provided\nby the software in the parallel interface configuration, in the field of the DCMIPP_PRCR\nregister.",
+      "semantic": {}
+    }
+  ]
+}

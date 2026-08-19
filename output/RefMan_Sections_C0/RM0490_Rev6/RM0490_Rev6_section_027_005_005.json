@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S27.5.5",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "27",
+      "chapter_title": "Serial peripheral interface / integrated interchip sound (SPI/I2S)",
+      "section": "27.5.5",
+      "section_title": "Slave select (NSS) pin management",
+      "level": 3,
+      "parent_section": "27.5",
+      "page": 837,
+      "page_end": 838,
+      "semantic_type": "generic",
+      "features": [
+        "nss",
+        "spi"
+      ],
+      "chars": 1715,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=837",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 27.5.5 \"Slave select (NSS) pin management\" in chapter 27 (Serial peripheral interface / integrated interchip sound (SPI/I2S)), RM0490 Rev 6, page 837.",
+      "section_content": "In slave mode, the NSS works as a standard “chip select” input and lets the slave\ncommunicate with the master. In master mode, NSS can be used either as output or input.\nAs an input it can prevent multimaster bus collision, and as an output it can drive a slave\nselect signal of a single slave.\nHardware or software slave select management can be set using the SSM bit in the\nSPIx_CR1 register:\n• Software NSS management (SSM = 1): in this configuration, slave select information\nis driven internally by the SSI bit value in register SPIx_CR1. The external NSS pin is\nfree for other application uses.\n• Hardware NSS management (SSM = 0): in this case, there are two possible\nconfigurations. The configuration used depends on the NSS output configuration\n(SSOE bit in register SPIx_CR1).\n– NSS output enable (SSM=0,SSOE = 1): this configuration is only used when the\nMCU is set as master. The NSS pin is managed by the hardware. The NSS signal\nis driven low as soon as the SPI is enabled in master mode (SPE=1), and is kept\nlow until the SPI is disabled (SPE =0). A pulse can be generated between\ncontinuous communications if NSS pulse mode is activated (NSSP=1). The SPI\ncannot work in multimaster configuration with this NSS setting.\n– NSS output disable (SSM=0, SSOE = 0): if the microcontroller is acting as the\nmaster on the bus, this configuration allows multimaster capability. If the NSS pin\nis pulled low in this mode, the SPI enters master mode fault state and the device is\nautomatically reconfigured in slave mode. In slave mode, the NSS pin works as a\nstandard “chip select” input and the slave is selected while NSS line is at low level.\n[Figure 285. Hardware/software slave select management]\nNSS GPIO",
+      "semantic": {}
+    }
+  ]
+}

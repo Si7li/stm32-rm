@@ -1,0 +1,177 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S29.6.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "29",
+      "chapter_title": "Universal serial bus full-speed host/device interface (USB)",
+      "section": "29.6.2",
+      "section_title": "USB interrupt status register (USB_ISTR)",
+      "level": 3,
+      "parent_section": "29.6",
+      "page": 979,
+      "page_end": 982,
+      "semantic_type": "register_description",
+      "features": [
+        "ctr",
+        "dcon-stat",
+        "ddisc",
+        "dir",
+        "err",
+        "esof",
+        "idn",
+        "interrupt",
+        "l1req",
+        "ls-dcon",
+        "pmaovr",
+        "rst-dcon",
+        "sof",
+        "susp",
+        "thr512",
+        "usb",
+        "usb-istr",
+        "wkup"
+      ],
+      "chars": 10491,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=979",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.6.2 \"USB interrupt status register (USB_ISTR)\" in chapter 29 (Universal serial bus full-speed host/device interface (USB)), RM0490 Rev 6, page 979.",
+      "section_content": "Address offset: 0x44\nReset value: 0x0000 0000\nThis register contains the status of all the interrupt sources permitting application software to\ndetermine which events caused an interrupt request.\nThe upper part of this register contains single bits, each of them representing a specific\nevent. These bits are set by the hardware when the related event occurs; if the\ncorresponding bit in the USB_CNTR register is set, a generic interrupt request is generated.\nThe interrupt routine, examining each bit, performs all necessary actions, and finally it clears\nthe serviced bits. If any of them is not cleared, the interrupt is considered to be still pending,\nand the interrupt line is kept high again. If several bits are set simultaneously, only a single\ninterrupt is generated.\nEndpoint/channel transaction completion can be handled in a different way to reduce\ninterrupt response latency. The CTR bit is set by the hardware as soon as an\nendpoint/channel successfully completes a transaction, generating a generic interrupt\nrequest if the corresponding bit in USB_CNTR is set. An endpoint/channel dedicated\ninterrupt condition is activated independently from the CTRM bit in the USB_CNTR register.\nBoth interrupt conditions remain active until software clears the pending bit in the\ncorresponding USB_CHEPnR register (the CTR bit is actually a read only bit). For endpoint-\n/channel-related interrupts, the software can use the direction of transaction (DIR) and IDN\nread-only bits to identify which endpoint/channel made the last interrupt request and called\nthe corresponding interrupt service routine.\nThe user can choose the relative priority of simultaneously pending USB_ISTR events by\nspecifying the order in which software checks USB_ISTR bits in an interrupt service routine.\nOnly the bits related to events, which are serviced, are cleared. At the end of the service\nroutine, another interrupt is requested, to service the remaining conditions.\nTo avoid spurious clearing of some bits, it is recommended to clear them with a load\ninstruction where all bits which must not be altered are written with 1, and all bits to be\ncleared are written with 0 (these bits can only be cleared by software). Read-modify-write\ncycles must be avoided because between the read and the write operations another bit can\nbe set by the hardware and the next write clears it before the device has the time to service\nthe event.\nBit 31 Reserved, must be kept at reset value.\nBit 30 LS_DCON: Low speed device connected\n– Host mode:\nThis bit is set by hardware when an LS device connection is detected. Device connection is\nsignaled after LS J-state is sampled for 22 consecutive cycles of the USB clock (48 MHz)\nfrom the unconnected state.\nBit 29 DCON_STAT: Device connection status\n– Host mode:\nThis bit contains information about device connection status. It is set by hardware when a\nLS/FS device is attached to the host while it is reset when the device is disconnected.\n0: No device connected\n1: FS or LS device connected to the host\nBits 28:18 Reserved, must be kept at reset value.\nBit 17 DDISC: Device connection\n– Host mode\nThis bit is set when a device connection is detected. This bit is read/write but only 0 can be\nwritten and writing 1 has no effect.\nBit 16 THR512: 512 byte threshold interrupt\nThis bit is set to 1 by the hardware when 512 bytes have been transmitted or received during\nisochronous transfers. This bit is read/write but only 0 can be written and writing 1 has no\neffect. Note that no information is available to indicate the associated channel/endpoint,\nhowever in practice only one ISO endpoint/channel with such large packets can be\nsupported, so that channel.\nBit 15 CTR: Completed transfer in host mode\nThis bit is set by the hardware to indicate that an endpoint/channel has successfully\ncompleted a transaction; using DIR and IDN bits software can determine which\nendpoint/channel requested the interrupt. This bit is read-only.\nBit 14 PMAOVR: Packet memory area over / underrun\nThis bit is set if the microcontroller has not been able to respond in time to an USB memory\nrequest. The USB peripheral handles this event in the following way: During reception an\nACK handshake packet is not sent, during transmission a bit-stuff error is forced on the\ntransmitted stream; in both cases the host retries the transaction. The PMAOVR interrupt\nmust never occur during normal operations. Since the failed transaction is retried by the host,\nthe application software has the chance to speed-up device operations during this interrupt\nhandling, to be ready for the next transaction retry; however this does not happen during\nisochronous transfers (no isochronous transaction is anyway retried) leading to a loss of data\nin this case. This bit is read/write but only 0 can be written and writing 1 has no effect.\nBit 13 ERR: Error\nThis flag is set whenever one of the errors listed below has occurred:\nNANS: No ANSwer. The timeout for a host response has expired.\nCRC: Cyclic redundancy check error. One of the received CRCs, either in the token or in\nthe data, was wrong.\nBST: Bit stuffing error. A bit stuffing error was detected anywhere in the PID, data, and/or\nCRC.\nFVIO: Framing format violation. A non-standard frame was received (EOP not in the right\nplace, wrong token sequence, etc.).\nThe USB software can usually ignore errors, since the USB peripheral and the PC host\nmanage retransmission in case of errors in a fully transparent way. This interrupt can be\nuseful during the software development phase, or to monitor the quality of transmission over\nthe USB bus, to flag possible problems to the user (for example loose connector, too noisy\nenvironment, broken conductor in the USB cable and so on). This bit is read/write but only 0\ncan be written and writing 1 has no effect.\nBit 12 WKUP: Wake-up\nThis bit is set to 1 by the hardware when, during suspend mode, activity is detected that\nwakes up the USB peripheral. This event asynchronously clears the SUSPRDY bit in the\nCTLR register and activates the USB_WAKEUP line, which can be used to notify the rest of\nthe device (for example wake-up unit) about the start of the resume process. This bit is\nread/write but only 0 can be written and writing 1 has no effect.\nBit 11 SUSP: Suspend mode request\n– Device mode\nThis bit is set by the hardware when no traffic has been received for 3 ms, indicating a\nsuspend mode request from the USB bus. The suspend condition check is enabled\nimmediately after any USB reset and it is disabled by the hardware when the suspend mode\nis active (SUSPEN=1) until the end of resume sequence. This bit is read/write but only 0 can\nbe written and writing 1 has no effect.\nBit 10 RST_DCON: USB reset request (Device mode) or device connect/disconnect (Host mode)\n– Device mode\nThis bit is set by hardware when an USB reset is released by the host and the bus returns to\nidle. USB reset state is internally detected after the sampling of 60 consecutive SE0 cycles.\n– Host mode\nThis bit is set by hardware when device connection or device disconnection is detected.\nDevice connection is signaled after J state is sampled for 22 cycles consecutively from\nunconnected state. Device disconnection is signaled after SE0 state is seen for 22 bit times\nconsecutively from connected state.\nBit 9 SOF: Start of frame\nThis bit signals the beginning of a new USB frame and it is set when a SOF packet arrives\nthrough the USB bus. The interrupt service routine can monitor the SOF events to have a\n1 ms synchronization event to the USB host and to safely read the USB_FNR register which\nis updated at the SOF packet reception (this can be useful for isochronous applications). This\nbit is read/write but only 0 can be written and writing 1 has no effect.\nBit 8 ESOF: Expected start of frame\n– Device mode\nThis bit is set by the hardware when an SOF packet is expected but not received. The host\nsends an SOF packet each 1 ms, but if the device does not receive it properly, the suspend\ntimer issues this interrupt. If three consecutive ESOF interrupts are generated (for example\nthree SOF packets are lost) without any traffic occurring in between, a SUSP interrupt is\ngenerated. This bit is set even when the missing SOF packets occur while the suspend timer\nis not yet locked. This bit is read/write but only 0 can be written and writing 1 has no effect.\nBit 7 L1REQ: LPM L1 state request\n– Device mode\nThis bit is set by the hardware when LPM command to enter the L1 state is successfully\nreceived and acknowledged. This bit is read/write but only 0 can be written and writing 1 has\nno effect.\nBits 6:5 Reserved, must be kept at reset value.\nBit 4 DIR: Direction of transaction\nThis bit is written by the hardware according to the direction of the successful transaction,\nwhich generated the interrupt request.\nIf DIR bit = 0, VTTX bit is set in the USB_CHEPnR register related to the interrupting\nendpoint. The interrupting transaction is of IN type (data transmitted by the USB peripheral to\nthe host PC).\nIf DIR bit = 1, VTRX bit or both VTTX/VTRX are set in the USB_CHEPnR register related to\nthe interrupting endpoint. The interrupting transaction is of OUT type (data received by the\nUSB peripheral from the host PC) or two pending transactions are waiting to be processed.\nThis information can be used by the application software to access the USB_CHEPnR bits\nrelated to the triggering transaction since it represents the direction having the interrupt\npending. This bit is read-only.\nBits 3:0 IDN[3:0]: Device Endpoint / host channel identification number\nThese bits are written by the hardware according to the host channel or device endpoint\nnumber, which generated the interrupt request. If several endpoint/channel transactions are\npending, the hardware writes the identification number related to the endpoint/channel\nhaving the highest priority defined in the following way: two levels are defined, in order of\npriority: isochronous and double-buffered bulk channels/endpoints are considered first and\nthen the others are examined. If more than one endpoint/channel from the same set is\nrequesting an interrupt, the IDN bits in USB_ISTR register are assigned according to the\nlowest requesting register, CHEP0R having the highest priority followed by CHEP1R and so\non. The application software can assign a register to each endpoint/channel according to this\npriority scheme, so as to order the concurring endpoint/channel requests in a suitable way.\nThese bits are read only.",
+      "semantic": {
+        "register": "USB_ISTR",
+        "address_offset": "0x44",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "LS_DCON",
+            "description": "Low speed device connected – Host mode: This bit is set by hardware when an LS device connection is detected. Device connection is signaled after LS J-state is sampled for 22 consecutive cycles of the USB clock (48 MHz) from the unconnected state.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "DCON_STAT",
+            "description": "Device connection status – Host mode: This bit contains information about device connection status. It is set by hardware when a LS/FS device is attached to the host while it is reset when the device is disconnected.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No device connected"
+              },
+              {
+                "value": "1",
+                "meaning": "FS or LS device connected to the host"
+              }
+            ]
+          },
+          {
+            "bits": "28:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "DDISC",
+            "description": "Device connection – Host mode This bit is set when a device connection is detected. This bit is read/write but only 0 can be written and writing 1 has no effect.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "THR512",
+            "description": "512 byte threshold interrupt This bit is set to 1 by the hardware when 512 bytes have been transmitted or received during isochronous transfers. This bit is read/write but only 0 can be written and writing 1 has no effect. Note that no information is available to indicate the associated channel/endpoint, however in practice only one ISO endpoint/channel with such large packets can be supported, so that channel.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "CTR",
+            "description": "Completed transfer in host mode This bit is set by the hardware to indicate that an endpoint/channel has successfully completed a transaction; using DIR and IDN bits software can determine which endpoint/channel requested the interrupt. This bit is read-only.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "PMAOVR",
+            "description": "Packet memory area over / underrun This bit is set if the microcontroller has not been able to respond in time to an USB memory request. The USB peripheral handles this event in the following way: During reception an ACK handshake packet is not sent, during transmission a bit-stuff error is forced on the transmitted stream; in both cases the host retries the transaction. The PMAOVR interrupt must never occur during normal operations. Since the failed transaction is retried by the host, the application software has the chance to speed-up device operations during this interrupt handling, to be ready for the next transaction retry; however this does not happen during isochronous transfers (no isochronous transaction is anyway retried) leading to a loss of data in this case. This bit is read/write but only 0 can be written and writing 1 has no effect.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "ERR",
+            "description": "Error This flag is set whenever one of the errors listed below has occurred: NANS: No ANSwer. The timeout for a host response has expired. CRC: Cyclic redundancy check error. One of the received CRCs, either in the token or in the data, was wrong. BST: Bit stuffing error. A bit stuffing error was detected anywhere in the PID, data, and/or CRC. FVIO: Framing format violation. A non-standard frame was received (EOP not in the right place, wrong token sequence, etc.). The USB software can usually ignore errors, since the USB peripheral and the PC host manage retransmission in case of errors in a fully transparent way. This interrupt can be useful during the software development phase, or to monitor the quality of transmission over the USB bus, to flag possible problems to the user (for example loose connector, too noisy environment, broken conductor in the USB cable and so on). This bit is read/write but only 0 can be written and writing 1 has no effect.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "WKUP",
+            "description": "Wake-up This bit is set to 1 by the hardware when, during suspend mode, activity is detected that wakes up the USB peripheral. This event asynchronously clears the SUSPRDY bit in the CTLR register and activates the USB_WAKEUP line, which can be used to notify the rest of the device (for example wake-up unit) about the start of the resume process. This bit is read/write but only 0 can be written and writing 1 has no effect.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "SUSP",
+            "description": "Suspend mode request – Device mode This bit is set by the hardware when no traffic has been received for 3 ms, indicating a suspend mode request from the USB bus. The suspend condition check is enabled immediately after any USB reset and it is disabled by the hardware when the suspend mode is active (SUSPEN=1) until the end of resume sequence. This bit is read/write but only 0 can be written and writing 1 has no effect.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "RST_DCON",
+            "description": "USB reset request (Device mode) or device connect/disconnect (Host mode) – Device mode This bit is set by hardware when an USB reset is released by the host and the bus returns to idle. USB reset state is internally detected after the sampling of 60 consecutive SE0 cycles. – Host mode This bit is set by hardware when device connection or device disconnection is detected. Device connection is signaled after J state is sampled for 22 cycles consecutively from unconnected state. Device disconnection is signaled after SE0 state is seen for 22 bit times consecutively from connected state.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "SOF",
+            "description": "Start of frame This bit signals the beginning of a new USB frame and it is set when a SOF packet arrives through the USB bus. The interrupt service routine can monitor the SOF events to have a 1 ms synchronization event to the USB host and to safely read the USB_FNR register which is updated at the SOF packet reception (this can be useful for isochronous applications). This bit is read/write but only 0 can be written and writing 1 has no effect.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "ESOF",
+            "description": "Expected start of frame – Device mode This bit is set by the hardware when an SOF packet is expected but not received. The host sends an SOF packet each 1 ms, but if the device does not receive it properly, the suspend timer issues this interrupt. If three consecutive ESOF interrupts are generated (for example three SOF packets are lost) without any traffic occurring in between, a SUSP interrupt is generated. This bit is set even when the missing SOF packets occur while the suspend timer is not yet locked. This bit is read/write but only 0 can be written and writing 1 has no effect.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "L1REQ",
+            "description": "LPM L1 state request – Device mode This bit is set by the hardware when LPM command to enter the L1 state is successfully received and acknowledged. This bit is read/write but only 0 can be written and writing 1 has no effect.",
+            "values": []
+          },
+          {
+            "bits": "6:5",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "DIR",
+            "description": "Direction of transaction This bit is written by the hardware according to the direction of the successful transaction, which generated the interrupt request. If DIR bit = 0, VTTX bit is set in the USB_CHEPnR register related to the interrupting endpoint. The interrupting transaction is of IN type (data transmitted by the USB peripheral to the host PC). If DIR bit = 1, VTRX bit or both VTTX/VTRX are set in the USB_CHEPnR register related to the interrupting endpoint. The interrupting transaction is of OUT type (data received by the USB peripheral from the host PC) or two pending transactions are waiting to be processed. This information can be used by the application software to access the USB_CHEPnR bits related to the triggering transaction since it represents the direction having the interrupt pending. This bit is read-only.",
+            "values": []
+          },
+          {
+            "bits": "3:0",
+            "name": "IDN[3:0]",
+            "description": "Device Endpoint / host channel identification number These bits are written by the hardware according to the host channel or device endpoint number, which generated the interrupt request. If several endpoint/channel transactions are pending, the hardware writes the identification number related to the endpoint/channel having the highest priority defined in the following way: two levels are defined, in order of priority: isochronous and double-buffered bulk channels/endpoints are considered first and then the others are examined. If more than one endpoint/channel from the same set is requesting an interrupt, the IDN bits in USB_ISTR register are assigned according to the lowest requesting register, CHEP0R having the highest priority followed by CHEP1R and so on. The application software can assign a register to each endpoint/channel according to this priority scheme, so as to order the concurring endpoint/channel requests in a suitable way. These bits are read only.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

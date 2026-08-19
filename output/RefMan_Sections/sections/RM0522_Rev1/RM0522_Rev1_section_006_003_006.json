@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.3.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.3.6",
+      "section_title": "FLASH erase operations",
+      "level": 3,
+      "parent_section": "6.3",
+      "page": 136,
+      "page_end": 138,
+      "semantic_type": "generic",
+      "features": [
+        "erase",
+        "flash",
+        "memory"
+      ],
+      "chars": 4684,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=136",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.3.6 \"FLASH erase operations\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 136.",
+      "section_content": "Erase operation overview\nThe FLASH can perform erase operations on 8-Kbyte or 2-Kbyte user pages, on one user\nflash memory bank, or on two user flash memory banks (for example mass erase).\nFor more details in user flash memory, user data flash, user options, and OTP erase\nprotection, see Section6.5.\nErase commands are issued through the AHB configuration interface. Since the FLASH\nsupports one operation at a time, if it receives simultaneously a write and an erase request,\nan error flag is raised and both operation are canceled (see Section6.8 for details).\nAfter successful completion of erase, all the bytes in the erased flash sectors are set to the\nflash default 0xFF value.\nErase and WRP\nIf the application software attempts to erase a user page that is write protected, the page\nerase operation is aborted, and the WRPERR flag is raised in FLASH_SR, as described\ninSection6.8.1.\nFLASH busy\nBusy signals are described in Monitoring ongoing write operations.\nWriting to FLASH_CR and FLASH_OPTCR\nRefer to Writing to FLASH_CR and FLASH_OPTCR.\nEnabling erase operations\nBefore erasing a page, the application software must make sure that FLASH_CR is\nunlocked. If this is not the case, an unlock sequence must be used (see Section6.5.4).\nNote: The application software must not unlock a register that is already unlocked, otherwise this\nregister remains locked until next system reset. This can be used to deliberately lock-out a\nregister from further accesses.\nSimilar constraints apply to bank erase requests.\nFLASH page-erase sequence\nTo erase an 8-Kbyte, a 2-Kbyte user page, or a 1.5K-byte if in data flash without security\nprotections, proceed as follows:\n1. Make sure protection mechanism does not prevent to attempt page erase (WRP, HDP).\n2. Check that no flash memory operation is ongoing by checking the BSY and DBNE bits\nin FLASH_SR, and that the write buffer is empty by checking the WBNE bit in the same\nregister.\n3. Check and clear all the error flags due to previous programming/erase operation (refer\nto Section6.8 for details).\n4. Unlock the FLASH_CR register, as described in Section6.5.4 (only if register is not\nalready unlocked).\n5. Set BKSEL bit, PER bit, EDATASEL bit, and PNB bitfield in FLASH_CR.\n– BKSEL indicates in which physical bank page has to be erased.\n– PER indicates a page erase operation.\n– EDATASEL indicates if the page targeted is a 2-Kbyte EDATA page or a standard\npage.\n– PNB contains the target page number.\n6. Set the STRT bit in FLASH_CR.\n7. Wait for the BSY bit to be cleared in FLASH_SR.\n8. STRT bit is automatically cleared at the end of the page erase or in case of error.\n9. Clear PER in FLASH_CR if there are not anymore page erase request to be issued.\nNote: If another erase flag is requested simultaneously to the page erase, an PGSERR error is\ngenerated.\nStandard flash memory bank-erase sequence\nTo erase a bank , proceed as follows:\n1. Make sure protection mechanism does not prevent to attempt bank erase.\n2. Check that no flash memory operation is ongoing by checking the BSY and DBNE bits\nin FLASH_SR, and that the write buffer is empty by checking the WBNE bit in the same\nregister.\n3. Check and clear all the error flags due to previous programming/erase operation (refer\nto Section6.8 for details).\n4. Unlock the FLASH_CR register, as described in Section6.5.4 (only if register is not\nalready unlocked).\n5. Set the BKSEL bit and the BER bit in FLASH_CR to the targeted physical bank (swap\nsetting is ignored).\n6. Set the STRT bit in FLASH_CR to start the bank erase operation. Then wait until the\nBSY bit is cleared in FLASH_SR.\n7. STRT bit is automatically cleared at the end of erase sequence or in case of error.\n8. Clear BER in FLASH_CR if there is not other bank erase request to be issued.\nFLASH mass-erase sequence\nThe application software can set the MER bit to 1 in FLASH_CR, as described below:\n1. Make sure protection mechanisms do not prevent to attempt mass erase (Section6.5)\n2. Check that no flash memory operation is ongoing by checking the BSY and DBNE bits\nin FLASH_SR, and that the write buffer is empty by checking the WBNE bit in the same\nregister.\n3. Check and clear all the error flags due to previous programming/erase operation (refer\nto Section6.8 for details).\n4. Unlock the FLASH_CR register as described in Section6.5.4 (only if the registers are\nnot already unlocked).\n5. Set the MER bit to 1 in FLASH_CR.\n6. Set the STRT bit in FLASH_CR. Then wait until BSY bit is cleared in FLASH_SR.\n7. STRT bit is cleared automatically at the end of the erase sequence or in case of error.\n8. Clear MER in FLASH_CR.\nNote: Mass and bank erase also erase flash data area pages from the erased bank.",
+      "semantic": {}
+    }
+  ]
+}

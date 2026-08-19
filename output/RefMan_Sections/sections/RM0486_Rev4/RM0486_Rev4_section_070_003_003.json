@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S70.3.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "70",
+      "chapter_title": "Management data input/output (MDIOS)",
+      "section": "70.3.3",
+      "section_title": "MDIOS protocol",
+      "level": 3,
+      "parent_section": "70.3",
+      "page": 3604,
+      "page_end": 3605,
+      "semantic_type": "generic",
+      "features": [
+        "mdios"
+      ],
+      "chars": 1324,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3604",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 70.3.3 \"MDIOS protocol\" in chapter 70 (Management data input/output (MDIOS)), RM0486 Rev 4, page 3604.",
+      "section_content": "The MDIOS protocol uses two signals:\n• MDIOS_MDC: the clock, always driven by the master\n• MDIOS_MDIO: signal carrying the opcode, address, and bidirectional data\nEach transaction is performed using a frame, which contains 32 bits (each passed serially):\n• 14 control bits, driven by the master\n– 2 start bits: always 01\n– 2 opcode bits: read = 10, write = 01\n– 5 port address bits, indicating which slave device is being addressed\n– 5 MDIOS register address bits, up to 32 MDIOS registers can be addressed\nineach slave\n• 2 turnaround state bits\n– On write operations, the master drives 10\n– On read operations, the first bit is high-impedance, and the second bit is driven\nbythe slave to 0\n• 16 data bits\n– On write operations, data written to slave MDIOS register is driven by the master\n– On read operations, data read from slave MDIOS register is driven by the slave\nEach frame is usually preceded by a preamble, where the MDIO stays at one for 32 MDC\nclocks. The master can continue to keep MDIO at one, indicating the idle condition, when\nithas no frame to send.\nWhen MDIO signal is driven by the master, MDIOS samples it using the rising edge of MDC.\nWhen MDIOS drives MDIO, the output changes on the rising edge of MDC.\n[Figure 953. MDIO protocol write frame waveform]\n[Figure 954. MDIO protocol read frame waveform]",
+      "semantic": {}
+    }
+  ]
+}

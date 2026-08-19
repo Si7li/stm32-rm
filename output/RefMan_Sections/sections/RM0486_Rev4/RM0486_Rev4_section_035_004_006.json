@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.4.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.4.6",
+      "section_title": "Bitstream matrix (BSMX)",
+      "level": 3,
+      "parent_section": "35.4",
+      "page": 1638,
+      "page_end": 1639,
+      "semantic_type": "generic",
+      "features": [
+        "bsmx"
+      ],
+      "chars": 1277,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1638",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.4.6 \"Bitstream matrix (BSMX)\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1638.",
+      "section_content": "The BSMX receives the bitstreams from all serial interfaces (SITFx) and provides the\nselected input to the digital filters (DFLTx) and to the short-circuit detectors (SCDx). For\neach filter path, any of the bitstream input can be selected.\nAs shown in the Figure323, each SITFx block provides two bitstreams (bsx_r and bsx_f) to\nthe BSMX.\nThe application to select the wanted stream via the MDF bitstream matrix control register x\n(MDF_BSMXxCR). This selection is intended to be static.\n[Figure 327. BSMX overview]\nMDF\nADCITF[2,1]\nBSMX\nbs0_r\nSCD0\nbs0_f\nbs1_f bs0_r\nSITF0\n...\nbs(N-1)_r bs0_f\nbs(N-1)_f\nSCD1 SITF1\nbs0_f\nbs1_f\n...\nbs(N-1)_r\nbs(N-1)_f\nMDF_BSMX1CR.BSSEL\nbs(N-1)_r\nSITF(N-1)\nbs0_r bs(N-1)_f\nSCD(N-1) bs0_f\nDFLT(N-1) bs_flt(N-1) bs1_r\nbs1_f\n...\nbs(N-1)_r\nbs(N-1)_f\nMDF_BSMX(N-1)CR.BSSEL\nBSMX programming sequence example\nThe BSSEL[4:0] bitfield cannot be changed if the corresponding SCDx, OLDx or DFLTx is\nenabled. The following steps are needed to change the value of BSMX, for filter path x:\n1. Set SCDEN of SCDx to 0.\n2. Set DFLTEN of DFLTx to 0.\n3. Set OLDEN of OLDx to 0.\n4. Wait for BSMXACTIVE = 0.\n5. Program BSSEL[4:0] of filter path x.\n6. Set SCDEN of SCDx to 1 (optional).\n7. Set DFLTEN of DFLTx to 1 (optional).\n8. Set OLDEN of OLDx block to 1 (optional).",
+      "semantic": {}
+    }
+  ]
+}

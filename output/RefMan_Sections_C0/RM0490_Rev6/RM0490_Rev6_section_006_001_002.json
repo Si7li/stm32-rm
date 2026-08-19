@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S6.1.2",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "6",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "6.1.2",
+      "section_title": "System reset",
+      "level": 3,
+      "parent_section": "6.1",
+      "page": 118,
+      "page_end": 120,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "chars": 4199,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=118",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.1.2 \"System reset\" in chapter 6 (Reset and clock control (RCC)), RM0490 Rev 6, page 118.",
+      "section_content": "System reset sets all registers to their reset values except the reset flags in the RCC\ncontrol/status register 2 (RCC_CSR2) and the registers in the RTC domain.\nSystem reset is generated when one of the following events occurs:\n• low level on NRST (external reset)\n• window watchdog event (WWDG reset)\n• independent watchdog event (IWDG reset)\n• software reset (SW reset) (see Software reset)\n• low-power mode security reset (see Low-power mode security reset)\n• option byte loader reset (see Option byte loader reset)\n• power-on reset\nThe reset source can be identified by checking the reset flags in the RCC_CSR register\n(see Section6.4.23: RCC control/status register 2 (RCC_CSR2)).\nNRST (external reset)\nThrough specific option bits, the PF2-NRST pin is configurable for operating as:\n• Reset input/output (default at device delivery)\nValid reset signal on the pin is propagated to the internal logic, and each internal reset\nsource is led to a pulse generator the output of which drives this pin. The GPIO\nfunctionality (PF2) is not available. The pulse generator guarantees a minimum reset\npulse duration of 20µs for each internal reset source to be output on the NRST pin. An\ninternal reset holder option can be used, if enabled in the FLASH option register\n(FLASH_OPTR), to ensure that the pin is pulled low until its voltage meets VIL\nthreshold. This function allows the detection of internal reset sources by external\ncomponents when the line faces a significant capacitive load. The BOOT0 pin is\nsampled on NRST rising edge, regardless whether caused by internal or external\nresets.\n• Reset input\nIn this mode, any valid reset signal on the NRST pin is propagated to device internal\nlogic, but resets generated internally by the device are not visible on the pin. The GPIO\nfunctionality (PF2) is not available. The BOOT0 pin is sampled on POR and any\nsubsequent NRST rising edge, caused by external resets. Other internal resets do not\ntrigger new BOOT0 sampling.\n• GPIO\nIn this mode, the pin can be used as PF2 GPIO. The reset function of the pin is not\navailable. Reset is only possible from device internal reset sources and it is not\npropagated to the pin. Refer to Section8.3.15: Reset pin (PF2-NRST) in GPIO mode\nfor additional considerations for this mode. The BOOT0 pin is sampled on the POR\nNRST rising edge only. Subsequent internal resets or transitions on the PF2 GPIO do\nnot trigger new BOOT0 sampling.\nCaution: Upon power reset or wake-up from Standby or Shutdown mode, the NRST pin is configured\nas Reset input/output and driven low by the system until it is reconfigured to the expected\nmode when the option bytes are loaded, in the fourth clock cycle after the end of tRSTTEMPO\ntime (see datasheet).\n[Figure 8. Simplified diagram of the reset circuit]\nSoftware reset\nThe SYSRESETREQ bit in Cortex®-M0+ Application interrupt and reset control register\nmust be set to force a software reset on the device (refer to the programming manual\nPM0223).\nLow-power mode security reset\nTo prevent that critical applications mistakenly enter a low-power mode, low-power mode\nsecurity resets are available. If enabled in option bytes, the resets are generated in the\nfollowing conditions:\n• Entering Standby mode\nThis type of reset is enabled by resetting nRST_STDBY bit in user option bytes. In this\ncase, whenever a Standby mode entry sequence is successfully executed, the device\nis reset instead of entering Standby mode.\n• Entering Stop mode\nThis type of reset is enabled by resetting nRST_STOP bit in user option bytes. In this\ncase, whenever a Stop mode entry sequence is successfully executed, the device is\nreset instead of entering Stop mode.\n• Entering Shutdown mode\nThis type of reset is enabled by resetting nRST_SHDW bit in user option bytes. In this\ncase, whenever a Shutdown mode entry sequence is successfully executed, the device\nis reset instead of entering Shutdown mode.\nFor further information on the user option bytes, refer to Section4.4.1: FLASH option byte\ndescription.\nOption byte loader reset\nThe option byte loader reset is generated when the OBL_LAUNCH bit is set in the\nFLASH_CR register. This bit is used to launch the option byte loading by software.",
+      "semantic": {}
+    }
+  ]
+}

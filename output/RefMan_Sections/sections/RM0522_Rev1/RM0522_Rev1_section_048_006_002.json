@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S48.6.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "48",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "48.6.2",
+      "section_title": "Media independent interface (MII)",
+      "level": 3,
+      "parent_section": "48.6",
+      "page": 2213,
+      "page_end": 2214,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "mii"
+      ],
+      "chars": 3290,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2213",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.6.2 \"Media independent interface (MII)\" in chapter 48 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0522 Rev 1, page 2213.",
+      "section_content": "The media-independent interface (MII) defines the interconnection between the MAC\nsublayer and the PHY for data transfer at 10Mbit/s and 100Mbit/s.\nMII signals are given in Figure725: Media independent interface (MII) signals.\n[Figure 725. Media independent interface (MII) signals]\n• TX_CLK: continuous clock that provides the timing reference for Tx data transfers. The\nnominal frequency is 2.5MHz at 10 Mbit/s and 25MHz at 100 Mbit/s.\n• TXD[3:0]: transmit data.\nTXD is a bundle of 4 data signals driven synchronously by the MAC sublayer and\nqualified (valid data) on the assertion of the TX_EN signal. TXD[0] is the least\nsignificant bit, TXD[3] is the most significant bit. While TX_EN is deasserted, the\ntransmit data must have no effect upon the PHY.\n• TX_EN: transmission enable signal indicating that the MAC is presenting nibbles on\nthe MII for transmission. It must be asserted synchronously (TX_CLK) with the first\nnibble of the preamble and must remain asserted while all nibbles to be transmitted are\npresented to the MII.\n• TX_ER (optional): required only for Energy Efficient Ethernet (EEE). The transmit error\nis indicated by inverting the CRC. The remote station can detect the Transmit error\nthrough incorrect CRC.\n• RX_CLK: continuous clock that provides the timing reference for Rx data transfers. The\nnominal frequency is 2.5MHz at 10Mbit/s, 25MHz at 100Mbit/s.\n• RXD[3:0]: receive data\nRXD is a bundle of 4 data signals driven synchronously by the PHY and qualified (valid\ndata) on the assertion of the RX_DV signal. RXD[0] is the least significant bit, RXD[3] is\nthe most significant bit. While RX_EN is deasserted and RX_ER is asserted, a specific\nRXD[3:0] value is used to transfer specific information from the PHY.\n• RX_DV: receive data valid\nThis signal indicates that the PHY is presenting recovered and decoded nibbles on the\nMII for reception. It must be asserted synchronously (RX_CLK) with the first recovered\nnibble of the frame and must remain asserted through the final recovered nibble. It\nmust be deasserted prior to the first clock cycle that follows the final nibble. In order to\nreceive the frame correctly, the RX_DV signal must encompass the frame, starting no\nlater than the SFD field.\n• RX_ER: receive error\nThis signal must be asserted for one or more clock periods (RX_CLK) to indicate to the\nMAC sublayer that an error was detected somewhere in the frame. This error condition\nmust be qualified by RX_DV assertion.\n• CRS: carrier sense.\nThis signal is asserted by the PHY when either the transmit or receive medium is non\nidle. It is deasserted by the PHY when both transmit and receive media are idle. The\nPHY must ensure that the CS signal remains asserted throughout the duration of a\ncollision condition. This signal is not required to transition synchronously with respect\nto the Tx and Rx clocks. In Full-duplex mode the state of this signal is don’t care for the\nMAC sublayer.\n• COL: collision detection signal\nThis signal must be asserted by the PHY upon detection of a collision on the medium\nand must remain asserted while the collision condition persists. This signal is not\nrequired to transition synchronously with respect to the Tx and Rx clocks. In Full-duplex\nmode, the state of this signal is don’t care for the MAC sublayer.",
+      "semantic": {}
+    }
+  ]
+}

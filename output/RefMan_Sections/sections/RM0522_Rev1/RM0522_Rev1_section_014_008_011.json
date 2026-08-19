@@ -1,0 +1,52 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.8.11",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.8.11",
+      "section_title": "LPDMA channel x source address register (LPDMA_CxSAR)",
+      "level": 3,
+      "parent_section": "14.8",
+      "page": 435,
+      "page_end": 435,
+      "semantic_type": "register_description",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 1566,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=435",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.8.11 \"LPDMA channel x source address register (LPDMA_CxSAR)\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 435.",
+      "section_content": "Address offset: 0x09C + 0x80 * x (x = 0 to 7)\nReset value: 0x0000 0000\nThis register is privileged or unprivileged, depending on the privileged state of channel x\n(LPDMA_PRIVCFGR.PRIVx).\nThis register configures the source start address of a transfer.\nThis register must be written when LPDMA_CxCR.EN=0.\nThis register is read-only when LPDMA_CxCR.EN=1, and continuously updated by\nhardware, in order to reflect the address of the next single transfer from the source.\nThis register must be written when the channel is completed (then the hardware has\ndeasserted LPDMA_CxCR.EN). A channel transfer can be completed and programmed at\ndifferent levels: block or LLI or full linked-list.\nIn linked-list mode, during the link transfer, this register is automatically updated by LPDMA\nfrom the memory if LPDMA_CxLLR.USA=1.\nBits 31:0 SA[31:0]: source address\nThis field is the pointer to the address from which the next data is read.\nDuring the channel activity, depending on the source addressing mode (LPDMA_CxTR1.SINC), this\nfield is either kept fixed or incremented by the data width (LPDMA_CxTR1.SDW_LOG2[1:0]) after\neach single source data, reflecting the next address from which data is read.\nIn linked-list mode, after a LLI data transfer is completed, this register is automatically updated by\nLPDMA from the memory, provided the LLI is set with LPDMA_CxLLR.USA=1.\nNote: A source address must be aligned with the programmed data width of a source single (SA[32:0]\nversus LPDMA_CxTR1.SDW_LOG2[1:0]). Else, a user setting error is reported and no transfer\nis issued.",
+      "semantic": {
+        "register": "LPDMA_CxSAR",
+        "address_offset": "0x09C + 0x80 * x (x = 0 to 7)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:0",
+            "name": "SA[31:0]",
+            "description": "source address This field is the pointer to the address from which the next data is read. During the channel activity, depending on the source addressing mode (LPDMA_CxTR1.SINC), this field is either kept fixed or incremented by the data width (LPDMA_CxTR1.SDW_LOG2[1:0]) after each single source data, reflecting the next address from which data is read. In linked-list mode, after a LLI data transfer is completed, this register is automatically updated by LPDMA from the memory, provided the LLI is set with LPDMA_CxLLR.USA=1. Note: A source address must be aligned with the programmed data width of a source single (SA[32:0] versus LPDMA_CxTR1.SDW_LOG2[1:0]). Else, a user setting error is reported and no transfer is issued.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

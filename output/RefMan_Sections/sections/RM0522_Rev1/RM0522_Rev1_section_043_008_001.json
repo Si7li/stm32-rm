@@ -1,0 +1,387 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S43.8.1",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "43",
+      "chapter_title": "Universal synchronous/asynchronous receiver transmitter (USART/UART)",
+      "section": "43.8.1",
+      "section_title": "USART control register 1 (USART_CR1)",
+      "level": 3,
+      "parent_section": "43.8",
+      "page": 1850,
+      "page_end": 1853,
+      "semantic_type": "register_description",
+      "features": [
+        "cmie",
+        "deat",
+        "dedt",
+        "eobie",
+        "fifoen",
+        "idleie",
+        "mme",
+        "over8",
+        "pce",
+        "peie",
+        "rtoie",
+        "rxffie",
+        "rxfneie",
+        "tcie",
+        "txfeie",
+        "txfnfie",
+        "uart",
+        "uesm",
+        "usart",
+        "usart-cr1",
+        "wake"
+      ],
+      "chars": 8124,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1850",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.8.1 \"USART control register 1 (USART_CR1)\" in chapter 43 (Universal synchronous/asynchronous receiver transmitter (USART/UART)), RM0522 Rev 1, page 1850.",
+      "section_content": "Address offset: 0x00\nReset value: 0x00000000\nThe same register can be used in FIFO mode enabled (this section) and FIFO mode\ndisabled (next section).\nFIFO mode enable, FIFOEN=1\nBit 31 RXFFIE: RXFIFO Full interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated when RXFF=1 in the USART_ISR register\nBit 30 TXFEIE: TXFIFO empty interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated when TXFE=1 in the USART_ISR register\nBit 29 FIFOEN: FIFO mode enable\nThis bit is set and cleared by software.\n0: FIFO mode is disabled.\n1: FIFO mode is enabled.\nThis bitfield can only be written when the USART is disabled (UE=0).\nNote: FIFO mode can be used on standard UART communication, in SPI master/slave mode\nand in smartcard modes only. It must not be enabled in IrDA and LIN modes.\nBit 28 M1: Word length\nThis bit must be used in conjunction with bit 12 (M0) to determine the word length. It is set or\ncleared by software.\nM[1:0] = 00: 1 start bit, 8 Data bits, n stop bits\nM[1:0] = 01: 1 start bit, 9 Data bits, n stop bits\nM[1:0] = 10: 1 start bit, 7 Data bits, n stop bits\nThis bit can only be written when the USART is disabled (UE=0).\nNote: In 7-bits data length mode, the smartcard mode, LIN master mode and auto baud rate\n(0x7F and 0x55 frames detection) are not supported.\nBit 27 EOBIE: End of block interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated when the EOBF flag is set in the USART_ISR register\nNote: If the USART does not support smartcard mode, this bit is reserved and must be kept at\nreset value. Refer to Section43.4: USART implementation.\nBit 26 RTOIE: Receiver timeout interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated when the RTOF bit is set in the USART_ISR register.\nNote: If the USART does not support the Receiver timeout feature, this bit is reserved and\nmust be kept at reset value. Section43.4: USART implementation.\nBits 25:21 DEAT[4:0]: Driver Enable assertion time\nThis 5-bit value defines the time between the activation of the DE (Driver Enable) signal and\nthe beginning of the start bit. It is expressed in sample time units (1/8 or 1/16 bit time,\ndepending on the oversampling rate).\nThis bitfield can only be written when the USART is disabled (UE=0).\nNote: If the Driver Enable feature is not supported, this bit is reserved and must be kept at\nreset value. Refer to Section43.4: USART implementation.\nBits 20:16 DEDT[4:0]: Driver Enable deassertion time\nThis 5-bit value defines the time between the end of the last stop bit, in a transmitted\nmessage, and the de-activation of the DE (Driver Enable) signal. It is expressed in sample\ntime units (1/8 or 1/16 bit time, depending on the oversampling rate).\nIf the USART_TDR register is written during the DEDT time, the new data is transmitted only\nwhen the DEDT and DEAT times have both elapsed.\nThis bitfield can only be written when the USART is disabled (UE=0).\nNote: If the Driver Enable feature is not supported, this bit is reserved and must be kept at\nreset value. Refer to Section43.4: USART implementation.\nBit 15 OVER8: Oversampling mode\n0: Oversampling by 16\n1: Oversampling by 8\nThis bit can only be written when the USART is disabled (UE=0).\nNote: In LIN, IrDA and smartcard modes, this bit must be kept cleared.\nBit 14 CMIE: Character match interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated when the CMF bit is set in the USART_ISR register.\nBit 13 MME: Mute mode enable\nThis bit enables the USART mute mode function. When set, the USART can switch between\nactive and mute mode, as defined by the WAKE bit. It is set and cleared by software.\n0: Receiver in active mode permanently\n1: Receiver can switch between mute mode and active mode.\nBit 12 M0: Word length\nThis bit is used in conjunction with bit 28 (M1) to determine the word length. It is set or\ncleared by software (refer to bit 28 (M1)description).\nThis bit can only be written when the USART is disabled (UE=0).\nBit 11 WAKE: Receiver wake-up method\nThis bit determines the USART wake-up method from mute mode. It is set or cleared by\nsoftware.\n0: Idle line\n1: Address mark\nThis bitfield can only be written when the USART is disabled (UE=0).\nBit 10 PCE: Parity control enable\nThis bit selects the hardware parity control (generation and detection). When the parity\ncontrol is enabled, the computed parity is inserted at the MSB position (9th bit if M=1; 8th bit\nif M=0) and the parity is checked on the received data. This bit is set and cleared by software.\nOnce it is set, PCE is active after the current byte (in reception and in transmission).\n0: Parity control disabled\n1: Parity control enabled\nThis bitfield can only be written when the USART is disabled (UE=0).\nBit 9 PS: Parity selection\nThis bit selects the odd or even parity when the parity generation/detection is enabled (PCE\nbit set). It is set and cleared by software. The parity is selected after the current byte.\n0: Even parity\n1: Odd parity\nThis bitfield can only be written when the USART is disabled (UE=0).\nBit 8 PEIE: PE interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated whenever PE=1 in the USART_ISR register\nBit 7 TXFNFIE: TXFIFO not full interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated whenever TXFNF =1 in the USART_ISR register\nBit 6 TCIE: Transmission complete interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated whenever TC=1 in the USART_ISR register\nBit 5 RXFNEIE: RXFIFO not empty interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated whenever ORE=1 or RXFNE=1 in the USART_ISR register\nBit 4 IDLEIE: IDLE interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: USART interrupt generated whenever IDLE=1 in the USART_ISR register\nBit 3 TE: Transmitter enable\nThis bit enables the transmitter. It is set and cleared by software.\n0: Transmitter is disabled\n1: Transmitter is enabled\nNote: When the USART acts as a transmitter, a low pulse on the TE bit (0 followed by 1)\nsends a preamble (idle line) after the current word, except in smartcard mode. In order\nto generate an idle character, the TE must not be immediately written to 1. To ensure the\nrequired duration, the software can poll the TEACK bit in the USART_ISR register.\nIn smartcard mode, when TE is set, there is a 1 bit-time delay before the transmission\nstarts.\nBit 2 RE: Receiver enable\nThis bit enables the receiver. It is set and cleared by software.\n0: Receiver is disabled\n1: Receiver is enabled and begins searching for a start bit\nBit 1 UESM: USART enable in low-power mode\nWhen this bit is cleared, the USART cannot wake up the MCU from low-power mode.\nWhen this bit is set, the USART can wake up the MCU from low-power mode.\nThis bit is set and cleared by software.\n0: USART not able to wake up the MCU from low-power mode.\n1: USART able to wake up the MCU from low-power mode.\nNote: It is recommended to set the UESM bit just before entering low-power mode, and clear it\nwhen exiting low-power mode.\nBit 0 UE: USART enable\nWhen this bit is cleared, the USART prescalers and outputs are stopped immediately, and all\ncurrent operations are discarded. The USART configuration is kept, but all the USART_ISR\nstatus flags are reset. This bit is set and cleared by software.\n0: USART prescaler and outputs disabled, low-power mode\n1: USART enabled\nNote: To enter low-power mode without generating errors on the line, the TE bit must be\npreviously reset and the software must wait for the TC bit in the USART_ISR to be set\nbefore resetting the UE bit.\nThe DMA requests are also reset when UE = 0 so the DMA channel must be disabled\nbefore resetting the UE bit.\nIn smartcard mode, (SCEN = 1), the CK is always available when CLKEN = 1,\nregardless of the UE bit value.",
+      "semantic": {
+        "register": "USART_CR1",
+        "address_offset": "0x00",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "RXFFIE",
+            "description": "RXFIFO Full interrupt enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated when RXFF=1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "TXFEIE",
+            "description": "TXFIFO empty interrupt enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated when TXFE=1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "FIFOEN",
+            "description": "FIFO mode enable This bit is set and cleared by software. This bitfield can only be written when the USART is disabled (UE=0). Note: FIFO mode can be used on standard UART communication, in SPI master/slave mode and in smartcard modes only. It must not be enabled in IrDA and LIN modes.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "FIFO mode is disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "FIFO mode is enabled."
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "M1",
+            "description": "Word length This bit must be used in conjunction with bit 12 (M0) to determine the word length. It is set or cleared by software. M[1:0] = 00: 1 start bit, 8 Data bits, n stop bits M[1:0] = 01: 1 start bit, 9 Data bits, n stop bits M[1:0] = 10: 1 start bit, 7 Data bits, n stop bits This bit can only be written when the USART is disabled (UE=0). Note: In 7-bits data length mode, the smartcard mode, LIN master mode and auto baud rate (0x7F and 0x55 frames detection) are not supported.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "EOBIE",
+            "description": "End of block interrupt enable This bit is set and cleared by software. Note: If the USART does not support smartcard mode, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated when the EOBF flag is set in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "26",
+            "name": "RTOIE",
+            "description": "Receiver timeout interrupt enable This bit is set and cleared by software. Note: If the USART does not support the Receiver timeout feature, this bit is reserved and must be kept at reset value. Section43.4: USART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated when the RTOF bit is set in the USART_ISR register."
+              }
+            ]
+          },
+          {
+            "bits": "25:21",
+            "name": "DEAT[4:0]",
+            "description": "Driver Enable assertion time This 5-bit value defines the time between the activation of the DE (Driver Enable) signal and the beginning of the start bit. It is expressed in sample time units (1/8 or 1/16 bit time, depending on the oversampling rate). This bitfield can only be written when the USART is disabled (UE=0). Note: If the Driver Enable feature is not supported, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": []
+          },
+          {
+            "bits": "20:16",
+            "name": "DEDT[4:0]",
+            "description": "Driver Enable deassertion time This 5-bit value defines the time between the end of the last stop bit, in a transmitted message, and the de-activation of the DE (Driver Enable) signal. It is expressed in sample time units (1/8 or 1/16 bit time, depending on the oversampling rate). If the USART_TDR register is written during the DEDT time, the new data is transmitted only when the DEDT and DEAT times have both elapsed. This bitfield can only be written when the USART is disabled (UE=0). Note: If the Driver Enable feature is not supported, this bit is reserved and must be kept at reset value. Refer to Section43.4: USART implementation.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "OVER8",
+            "description": "Oversampling mode This bit can only be written when the USART is disabled (UE=0). Note: In LIN, IrDA and smartcard modes, this bit must be kept cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Oversampling by 16"
+              },
+              {
+                "value": "1",
+                "meaning": "Oversampling by 8"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "CMIE",
+            "description": "Character match interrupt enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated when the CMF bit is set in the USART_ISR register."
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "MME",
+            "description": "Mute mode enable This bit enables the USART mute mode function. When set, the USART can switch between active and mute mode, as defined by the WAKE bit. It is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Receiver in active mode permanently"
+              },
+              {
+                "value": "1",
+                "meaning": "Receiver can switch between mute mode and active mode."
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "M0",
+            "description": "Word length This bit is used in conjunction with bit 28 (M1) to determine the word length. It is set or cleared by software (refer to bit 28 (M1)description). This bit can only be written when the USART is disabled (UE=0).",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "WAKE",
+            "description": "Receiver wake-up method This bit determines the USART wake-up method from mute mode. It is set or cleared by software. This bitfield can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Idle line"
+              },
+              {
+                "value": "1",
+                "meaning": "Address mark"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "PCE",
+            "description": "Parity control enable This bit selects the hardware parity control (generation and detection). When the parity control is enabled, the computed parity is inserted at the MSB position (9th bit if M=1; 8th bit if M=0) and the parity is checked on the received data. This bit is set and cleared by software. Once it is set, PCE is active after the current byte (in reception and in transmission). This bitfield can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Parity control disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Parity control enabled"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "PS",
+            "description": "Parity selection This bit selects the odd or even parity when the parity generation/detection is enabled (PCE bit set). It is set and cleared by software. The parity is selected after the current byte. This bitfield can only be written when the USART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Even parity"
+              },
+              {
+                "value": "1",
+                "meaning": "Odd parity"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "PEIE",
+            "description": "PE interrupt enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated whenever PE=1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "TXFNFIE",
+            "description": "TXFIFO not full interrupt enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated whenever TXFNF =1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "TCIE",
+            "description": "Transmission complete interrupt enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated whenever TC=1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "RXFNEIE",
+            "description": "RXFIFO not empty interrupt enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated whenever ORE=1 or RXFNE=1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "IDLEIE",
+            "description": "IDLE interrupt enable This bit is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "USART interrupt generated whenever IDLE=1 in the USART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "TE",
+            "description": "Transmitter enable This bit enables the transmitter. It is set and cleared by software. Note: When the USART acts as a transmitter, a low pulse on the TE bit (0 followed by 1) sends a preamble (idle line) after the current word, except in smartcard mode. In order to generate an idle character, the TE must not be immediately written to 1. To ensure the required duration, the software can poll the TEACK bit in the USART_ISR register. In smartcard mode, when TE is set, there is a 1 bit-time delay before the transmission starts.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Transmitter is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Transmitter is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "RE",
+            "description": "Receiver enable This bit enables the receiver. It is set and cleared by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Receiver is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Receiver is enabled and begins searching for a start bit"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "UESM",
+            "description": "USART enable in low-power mode When this bit is cleared, the USART cannot wake up the MCU from low-power mode. When this bit is set, the USART can wake up the MCU from low-power mode. This bit is set and cleared by software. Note: It is recommended to set the UESM bit just before entering low-power mode, and clear it when exiting low-power mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "USART not able to wake up the MCU from low-power mode."
+              },
+              {
+                "value": "1",
+                "meaning": "USART able to wake up the MCU from low-power mode."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "UE",
+            "description": "USART enable When this bit is cleared, the USART prescalers and outputs are stopped immediately, and all current operations are discarded. The USART configuration is kept, but all the USART_ISR status flags are reset. This bit is set and cleared by software. Note: To enter low-power mode without generating errors on the line, the TE bit must be previously reset and the software must wait for the TC bit in the USART_ISR to be set before resetting the UE bit. The DMA requests are also reset when UE = 0 so the DMA channel must be disabled before resetting the UE bit. In smartcard mode, (SCEN = 1), the CK is always available when CLKEN = 1, regardless of the UE bit value.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "USART prescaler and outputs disabled, low-power mode"
+              },
+              {
+                "value": "1",
+                "meaning": "USART enabled"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

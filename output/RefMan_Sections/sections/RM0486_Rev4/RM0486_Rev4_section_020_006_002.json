@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S20.6.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "20",
+      "chapter_title": "Neural-ART accelerator™ (NPU)",
+      "section": "20.6.2",
+      "section_title": "Architecture intent",
+      "level": 3,
+      "parent_section": "20.6",
+      "page": 1028,
+      "page_end": 1030,
+      "semantic_type": "generic",
+      "features": [
+        "architecture",
+        "intent"
+      ],
+      "chars": 4685,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1028",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 20.6.2 \"Architecture intent\" in chapter 20 (Neural-ART accelerator™ (NPU)), RM0486 Rev 4, page 1028.",
+      "section_content": "The system architecture is designed to provide 4.2 Mbytes of contiguous system memory\nthat can be seamlessly shared between the host and the NPU subsystems. At the same\ntime, it offers privileged access to a meaningful high(er)-speed portion of these 4.2Mbytes\nto the NPU.\nA dedicated NPU cache (CACHEAXI) allows the mitigation of the bandwidth limitation when\naccessing external memories. When not used for caching, it can be configured as an\nadditional RAM.\nThe Neural-ART 14 NPU simply connects to the system by two master AXI 64-bit ports that\nprovide the high throughput needed for efficient acceleration of neural network models.\nSynchronization with the Cortex-M host CPU is through a slave AHB 32-bit port for NPU\nconfiguration, and interrupts connected to the NVIC.\n[Figure 131. Neural-ART 14 integration]\nAHB\nBUS\nAHB RAM\nOff Chip memory devices\nSecurity\nThe Neural-ART 14 is not TrustZone aware. Therefore, multicontext and multitenancy are\nsupported through the implementation of isolation compartments separated by CIDs. The\nAHB control interface is protected by a RISUP placed upstream. A RIMU is placed in the\ndownstream of the AXI master interfaces, to assign CID values, so that NPU could only\naccess the sole memories protected with that CID. Refer to the security chapter for further\ninformation.\nControl interface\nThe Cortex-M55 host CPU configures the Neural-ART 14 NPU subsystem through the AHB\nslave port, which is connected to one of the ports of the AHB system bus matrix.\nData interface\nThe two 64-bit wide master AXI-4 ports of the NPU connect to a high-speed local\ninterconnect that provides four 448-Kbyte banks of fast memory with a privileged,\nhigh-throughput / low-latency, asynchronous access. Each bank is implemented as four\n112-Kbyte physical memory cuts, served by a full-duplex memory controller. This offers\n14.4Gbyte/s, provided reads/writes are done to different memory cuts, distant by at least\n112Kbytes.\nThe high-speed local NIC also connects to the main NOC through an asynchronous bridge,\nwhich gives access to medium throughput / medium latency on-chip memories:\n• The system memory, organized in three memory banks.\n– A 400-Kbyte- bank, known as flexMem, which can, at setup, be allocated to either\nextend ITCM or DTCM, or left to the system.\n– A 624-Kbyte bank, subdivided into eight 256-Kbyte memory cuts. A bandwidth of\n6.4 Gbyte/s is achievable provided reads/writes are distant by at least 256 Kbytes.\n– A 1-Mbyte bank, subdivided into four 256-Kbyte memory cuts. A bandwidth of\n6.4Gbyte/s is achievable provided reads/writes are distant by at least 256 Kbytes.\n• The 256 Kbytes of the NPU cache memory (when cache is not enabled),\nFinally, the NOC provides additional lower bandwidth / higher latency access to external\nmemories connected to the FMC or xSPI controllers, with bandwidths of respectively 664\nand 800 Mbyte/s.\nThe NPU does not have access to VENC or AHB memories.\nHardware triggers\nThe NPU provides four external asynchronous hardware trigger inputs. One of these is\nconnected to the DCMIPP. The control SW can enable it to implement a CPU-less\nsynchronization scheme between the camera pipeline and the NPU. This ancillary benefit of\nthis pure hardware synchronization scheme is to reduce the size of the memory buffers\nused, as it is no longer needed to store a complete frame buffer.\nNote: This synchronization scheme cannot be used if the model of CNN to execute requires\npreserving the input layer for the whole duration of the inference.\nVirtual memPool\nThe actual amount of internal memory allocated to the NPU operation and the organization\nthereof is configurable by software.\nDepending on the model of neural network to be executed, and of the size of the memory\nbuffers it requires, the NPU compiler can dynamically decide to, either:\n• access the on-chip memories in parallel, thus improving the bandwidth of the data\ntransfers,\n• consider them as fewer, virtual larger banks(a), to keep the activation data in internal\nmemories for the sake of the performance.\nThe compiler can create one or more virtual memory pools, which can group two or more of\nthe contiguous memories accessible through the bus. This decision is frequency a/o\nprotocol agnostic and only cares about address ranges. A virtual memory pool can thus\ngroup as many memory banks as needed and can extend from axiRAM1 (main NOC,\nclocked at 400 MHz) to axiRAM6 (NPU NIC, clocked at 1 GHz).\nExternal memories accessible through the FMC or xSPI interfaces are not contiguous with\nany other on-chip memory and cannot be part of a virtual memory pool.\na. This grouping of two or more contiguous memory banks is known as a “virtual memory pool”.",
+      "semantic": {}
+    }
+  ]
+}

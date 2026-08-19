@@ -1,0 +1,36 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S5.3.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "5",
+      "chapter_title": "Power control (PWR)",
+      "section": "5.3.3",
+      "section_title": "Sleep mode",
+      "level": 3,
+      "parent_section": "5.3",
+      "page": 73,
+      "page_end": 74,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 1806,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=73",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 5.3.3 \"Sleep mode\" in chapter 5 (Power control (PWR)), RM0008 Rev 21, page 73.",
+      "section_content": "Entering Sleep mode\nThe Sleep mode is entered by executing the WFI (Wait For Interrupt) or WFE (Wait for\nEvent) instructions. Two options are available to select the Sleep mode entry mechanism,\ndepending on the SLEEPONEXIT bit in the Cortex®-M3 System Control register:\n• Sleep-now: if the SLEEPONEXIT bit is cleared, the MCU enters Sleep mode as soon\nas WFI or WFE instruction is executed.\n• Sleep-on-exit: if the SLEEPONEXIT bit is set, the MCU enters Sleep mode as soon as\nit exits the lowest priority ISR.\nIn the Sleep mode, all I/O pins keep the same state as in the Run mode.\nRefer to Table12 and Table13 for details on how to enter Sleep mode.\nExiting Sleep mode\nIf the WFI instruction is used to enter Sleep mode, any peripheral interrupt acknowledged by\nthe nested vectored interrupt controller (NVIC) can wake up the device from Sleep mode.\nIf the WFE instruction is used to enter Sleep mode, the MCU exits Sleep mode as soon as\nan event occurs. The wakeup event can be generated either by:\n• enabling an interrupt in the peripheral control register but not in the NVIC, and enabling\nthe SEVONPEND bit in the Cortex®-M3 System Control register. When the MCU\nresumes from WFE, the peripheral interrupt pending bit and the peripheral NVIC IRQ\nchannel pending bit (in the NVIC interrupt clear pending register) have to be cleared.\n• or configuring an external or internal EXTI line in event mode. When the CPU resumes\nfrom WFE, it is not necessary to clear the peripheral interrupt pending bit or the NVIC\nIRQ channel pending bit as the pending bit corresponding to the event line is not set.\nThis mode offers the lowest wakeup time as no time is wasted in interrupt entry/exit.\nRefer to Table12 and Table13 for more details on how to exit Sleep mode.\n[Table 12. Sleep-now]\n[Table 13. Sleep-on-exit]",
+      "semantic": {}
+    }
+  ]
+}

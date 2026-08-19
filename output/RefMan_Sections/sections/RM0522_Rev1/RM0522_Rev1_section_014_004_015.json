@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S14.4.15",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "14",
+      "chapter_title": "Low-power direct memory access controller (LPDMA)",
+      "section": "14.4.15",
+      "section_title": "LPDMA privileged/unprivileged channel",
+      "level": 3,
+      "parent_section": "14.4",
+      "page": 418,
+      "page_end": 418,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "lpdma",
+        "memory",
+        "power"
+      ],
+      "chars": 2033,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=418",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.4.15 \"LPDMA privileged/unprivileged channel\" in chapter 14 (Low-power direct memory access controller (LPDMA)), RM0522 Rev 1, page 418.",
+      "section_content": "Any channel x is a privileged or unprivileged hardware resource, as configured by a\nprivileged agent via LPDMA_PRIVCFGR.PRIVx.\nWhen a channel x is configured in a privileged state by a privileged agent, the following\naccess control rules are applied:\n• An unprivileged read access to a register field of this channel is forced to return 0,\nexcept for LPDMA_PRIVCFGR, LPDMA_SECCFGR, that are readable by an\nunprivileged agent.\n• An unprivileged write access to a register field of this channel has no impact.\nWhen a channel is configured in a privileged (or unprivileged) state, the source and\ndestination data transfers are privileged (respectively unprivileged) transfers over the AHB\nmaster port.\nWhen a channel is configured in a privileged (or unprivileged) state and in linked-list mode,\nthe loading of the next linked-list data structure from the LPDMA memory into its register file,\nis automatically performed with privileged (respectively unprivileged) transfers, via the\nmaster port.\nLPDMA generates a DMA channel state versus privilege, reflecting LPDMA_PRIVCFGR,\ntokeep the other peripherals informed of the privileged/unprivileged state of each DMA\nchannel x.\nAdditionally, the LPDMA generates the privileged illegal access pulse signal on an illegal\nunprivileged access to a privileged LPDMA register. This signal may be used or not,\ndepending on the product (see the system security section for more details).\nWhen the privileged software must switch a channel from a privileged state to\nanunprivileged state, the privileged software must abort the channel or wait until that the\nprivileged channel is completed before switching. This is needed to dynamically re-allocate\na channel to a next unprivileged transfer as an unprivileged software is not allowed to do so,\nand must have LPDMA_CxCR.EN=0 before the unprivileged software can reprogram the\nLPDMA_CxCR for a next transfer. The privileged software may reset not only the channel x\n(LPDMA_CxCR.RESET=1) but also the full channel x register file to its reset value.",
+      "semantic": {}
+    }
+  ]
+}

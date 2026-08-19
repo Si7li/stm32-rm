@@ -1,0 +1,70 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S29.7.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "29",
+      "chapter_title": "Universal serial bus full-speed host/device interface (USB)",
+      "section": "29.7.3",
+      "section_title": "Channel/endpoint receive buffer descriptor n (USB_CHEP_RXTXBD_n)",
+      "level": 3,
+      "parent_section": "29.7",
+      "page": 998,
+      "page_end": 999,
+      "semantic_type": "register_description",
+      "features": [
+        "addr-rx",
+        "blsize",
+        "count-rx",
+        "num-block"
+      ],
+      "chars": 2707,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=998",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 29.7.3 \"Channel/endpoint receive buffer descriptor n (USB_CHEP_RXTXBD_n)\" in chapter 29 (Universal serial bus full-speed host/device interface (USB)), RM0490 Rev 6, page 998.",
+      "section_content": "Address offset: 0x4 + 0x8 * n, (n = 0 to 7)\nReset value: 0xXXXX XXXX\nThis register description applies when corresponding CHEPnR register does not program\nuse of double buffering in the transmit mode (otherwise refer to following register\ndescription).\nThis table location is used to store two different values, both required during packet\nreception. The most significant bits contains the definition of allocated buffer size, to allow\nbuffer overflow detection, while the least significant part of this location is written back by the\nUSB peripheral at the end of reception to give the actual number of received bytes. Due to\nthe restrictions on the number of available bits, buffer size is represented using the number\nof allocated memory blocks, where block size can be selected to choose the trade-off\nbetween fine-granularity/small-buffer and coarse-granularity/large-buffer. The size of\nallocated buffer is a part of the endpoint/channel descriptor and it is normally defined during\nthe enumeration process according to its maxPacketSize parameter value (see “Universal\nSerial Bus Specification”).\n[Table 169. Definition of allocated buffer memory]\nBit 31 BLSIZE: Block size\nThis bit selects the size of memory block used to define the allocated buffer area.\n– If BLSIZE = 0, the memory block is 2-byte large, which is the minimum block\nallowed in a half-word wide memory. With this block size the allocated buffer size\nranges from 2 to 62 bytes.\n– If BLSIZE = 1, the memory block is 32-byte large, which permits to reach the\nmaximum packet length defined by USB specifications. With this block size the\nallocated buffer size theoretically ranges from 32 to 1024 bytes, which is the longest\npacket size allowed by USB standard specifications. However, the applicable size is\nlimited by the available buffer memory.\nBits 30:26 NUM_BLOCK[4:0]: Number of blocks\nThese bits define the number of memory blocks allocated to this packet buffer. The actual\namount of allocated memory depends on the BLSIZE value as illustrated in Table 169.\nBits 25:16 COUNT_RX[9:0]: Reception byte count\nThese bits contain the number of bytes received by the endpoint/channel associated with the\nUSB_CHEPnR register during the last OUT/SETUP transaction addressed to it.\nNote: Although the application only needs to read this value, it is writable.\nBits 15:0 ADDR_RX[15:0]: Reception buffer address\nThese bits point to the starting address of the packet buffer, which contains the data received\nby the endpoint/channel associated with the USB_CHEPnR register at the next OUT/SETUP\ntoken addressed to it. Bits 1 and 0 must always be written as “00” since packet memory is\nword wide and all packet buffers must be word aligned.",
+      "semantic": {
+        "register": "USB_CHEP_RXTXBD_n",
+        "address_offset": "0x4 + 0x8 * n, (n = 0 to 7)",
+        "reset_value": "0xXXXX XXXX",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "BLSIZE",
+            "description": "Block size This bit selects the size of memory block used to define the allocated buffer area. – If BLSIZE = 0, the memory block is 2-byte large, which is the minimum block allowed in a half-word wide memory. With this block size the allocated buffer size ranges from 2 to 62 bytes. – If BLSIZE = 1, the memory block is 32-byte large, which permits to reach the maximum packet length defined by USB specifications. With this block size the allocated buffer size theoretically ranges from 32 to 1024 bytes, which is the longest packet size allowed by USB standard specifications. However, the applicable size is limited by the available buffer memory.",
+            "values": []
+          },
+          {
+            "bits": "30:26",
+            "name": "NUM_BLOCK[4:0]",
+            "description": "Number of blocks These bits define the number of memory blocks allocated to this packet buffer. The actual amount of allocated memory depends on the BLSIZE value as illustrated in Table 169.",
+            "values": []
+          },
+          {
+            "bits": "25:16",
+            "name": "COUNT_RX[9:0]",
+            "description": "Reception byte count These bits contain the number of bytes received by the endpoint/channel associated with the USB_CHEPnR register during the last OUT/SETUP transaction addressed to it. Note: Although the application only needs to read this value, it is writable.",
+            "values": []
+          },
+          {
+            "bits": "15:0",
+            "name": "ADDR_RX[15:0]",
+            "description": "Reception buffer address These bits point to the starting address of the packet buffer, which contains the data received by the endpoint/channel associated with the USB_CHEPnR register at the next OUT/SETUP token addressed to it. Bits 1 and 0 must always be written as “00” since packet memory is word wide and all packet buffers must be word aligned.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

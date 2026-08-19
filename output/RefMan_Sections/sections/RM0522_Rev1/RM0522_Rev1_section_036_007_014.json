@@ -1,0 +1,322 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S36.7.14",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "36",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "36.7.14",
+      "section_title": "LPTIM capture/compare mode register 1 (LPTIM_CCMR1)",
+      "level": 3,
+      "parent_section": "36.7",
+      "page": 1523,
+      "page_end": 1525,
+      "semantic_type": "register_description",
+      "features": [
+        "cc1e",
+        "cc1p",
+        "cc1sel",
+        "cc2e",
+        "cc2p",
+        "cc2sel",
+        "ic1f",
+        "ic1psc",
+        "ic2f",
+        "ic2psc",
+        "lptim",
+        "lptim-ccmr1",
+        "power",
+        "timer"
+      ],
+      "chars": 6043,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1523",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.7.14 \"LPTIM capture/compare mode register 1 (LPTIM_CCMR1)\" in chapter 36 (Low-power timer (LPTIM)), RM0522 Rev 1, page 1523.",
+      "section_content": "Address offset: 0x02C\nReset value: 0x0000 0000\nThe channels can be used in input (capture mode) or in output (PWM mode). The direction\nof a channel is defined by configuring the corresponding CCxSEL bits.\nBits 31:30 Reserved, must be kept at reset value.\nBits 29:28 IC2F[1:0]: Input capture 2 filter\nThis bitfield defines the number of consecutive equal samples that are detected when a level change\noccurs on an external input capture signal before it is considered as a valid level transition. An\ninternal clock source must be present to use this feature.\n00: Any external input capture signal level change is considered as a valid transition\n01: External input capture signal level change must be stable for at least 2 clock periods before it is\nconsidered as valid transition.\n10: External input capture signal level change must be stable for at least 4 clock periods before it is\nconsidered as valid transition.\n11: External input capture signal level change must be stable for at least 8 clock periods before it is\nconsidered as valid transition.\nBits 27:26 Reserved, must be kept at reset value.\nBits 25:24 IC2PSC[1:0]: Input capture 2 prescaler\nThis bitfield defines the ratio of the prescaler acting on the CC2 input (IC2).\n00: No prescaler, capture is done each time an edge is detected on the capture input\n01: Capture is done once every 2 events\n10: Capture is done once every 4 events\n11: Capture is done once every 8 events\nBits 23:20 Reserved, must be kept at reset value.\nBits 19:18 CC2P[1:0]: Capture/compare 2 output polarity.\nCondition: CC2 as output\nOnly bit2 is used to set polarity when output mode is enabled, bit3 is don't care.\n0: OC2 active high\n1: OC2 active low\nCondition: CC2 as input\nThis field is used to select the IC2 polarity for capture operations.\n00: Rising edge, circuit is sensitive to IC2 rising edge\n01: Falling edge, circuit is sensitive to IC2 falling edge\n10: Reserved, do not use this configuration.\n11: Both edges, circuit is sensitive to both IC2 rising and falling edges.\nBit 17 CC2E: Capture/compare 2 output enable.\nCondition: CC2 as output\n0:Off - OC2 is not active. Writing '0' to the CC2E bit resets the ue_dma_req signal only if all the other\nLPTIM channels are disabled.\n1: On - OC2 signal is output on the corresponding output pin\nCondition: CC2 as input\nThis bit determines if a capture of the counter value can actually be done into the input\ncapture/compare register 2 (LPTIM_CCR2) or not.\n0: Capture disabled. Writing '0' to the CC2E bit resets the associated ic2_dma_req signal.\n1: Capture enabled.\nBit 16 CC2SEL: Capture/compare 2 selection\nThis bitfield defines the direction of the channel, input (capture) or output mode.\n0: CC2 channel is configured in output PWM mode\n1: CC2 channel is configured in input capture mode\nBits 15:14 Reserved, must be kept at reset value.\nBits 13:12 IC1F[1:0]: Input capture 1 filter\nThis bitfield defines the number of consecutive equal samples that are detected when a level change\noccurs on an external input capture signal before it is considered as a valid level transition. An\ninternal clock source must be present to use this feature.\n00: Any external input capture signal level change is considered as a valid transition\n01: External input capture signal level change must be stable for at least 2 clock periods before it is\nconsidered as valid transition.\n10: External input capture signal level change must be stable for at least 4 clock periods before it is\nconsidered as valid transition.\n11: External input capture signal level change must be stable for at least 8 clock periods before it is\nconsidered as valid transition.\nBits 11:10 Reserved, must be kept at reset value.\nBits 9:8 IC1PSC[1:0]: Input capture 1 prescaler\nThis bitfield defines the ratio of the prescaler acting on the CC1 input (IC1).\n00: No prescaler, capture is done each time an edge is detected on the capture input\n01: Capture is done once every 2 events\n10: Capture is done once every 4 events\n11: Capture is done once every 8 events\nBits 7:4 Reserved, must be kept at reset value.\nBits 3:2 CC1P[1:0]: Capture/compare 1 output polarity.\nCondition: CC1 as output\nOnly bit2 is used to set polarity when output mode is enabled, bit3 is don't care.\n0:OC1 active high, the LPTIM output reflects the compare results between LPTIM_ARR and\nLPTIM_CCRx registers\n1:OC1 active low, the LPTIM output reflects the inverse of the compare results between LPTIM_ARR\nand LPTIM_CCRx registers\nCondition: CC1 as input\nThis field is used to select the IC1 polarity for capture operations.\n00: Rising edge, circuit is sensitive to IC1 rising edge\n01: Falling edge, circuit is sensitive to IC1 falling edge\n10: Reserved, do not use this configuration.\n11: Both edges, circuit is sensitive to both IC1 rising and falling edges.\nBit 1 CC1E: Capture/compare 1 output enable.\nCondition: CC1 as output\n0: Off - OC1 is not active. Writing '0' to the CC1E bit resets the ue_dma_req signal only if all the\nother LPTIM channels are disabled.\n1: On - OC1 signal is output on the corresponding output pin\nCondition: CC1 as input\nThis bit determines if a capture of the counter value can actually be done into the input\ncapture/compare register 1 (LPTIM_CCR1) or not.\n0: Capture disabled. Writing '0' to the CC1E bit resets the associated ic1_dma_req signal.\n1: Capture enabled.\nBit 0 CC1SEL: Capture/compare 1 selection\nThis bitfield defines the direction of the channel input (capture) or output mode.\n0: CC1 channel is configured in output PWM mode\n1: CC1 channel is configured in input capture mode\nCaution: After a write to the LPTIM_CCMRx register, a new write operation to the same register can\nonly be performed after a delay that must be equal or greater than the value of (PRESC×3)\nkernel clock cycles, PRESC[2:0] being the clock decimal division factor (1,2,4,..128). Any\nsuccessive write violating this delay, leads to unpredictable results.\nCaution: The CCxSEL, ICxF[1:0], CCxP[1:0] and ICxPSC[1:0] fields must only be modified when the\nchannel x is disabled (CCxE bit reset to 0).",
+      "semantic": {
+        "register": "LPTIM_CCMR1",
+        "address_offset": "0x02C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29:28",
+            "name": "IC2F[1:0]",
+            "description": "Input capture 2 filter This bitfield defines the number of consecutive equal samples that are detected when a level change occurs on an external input capture signal before it is considered as a valid level transition. An internal clock source must be present to use this feature. considered as valid transition. considered as valid transition. considered as valid transition.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Any external input capture signal level change is considered as a valid transition"
+              },
+              {
+                "value": "01",
+                "meaning": "External input capture signal level change must be stable for at least 2 clock periods before it is"
+              },
+              {
+                "value": "10",
+                "meaning": "External input capture signal level change must be stable for at least 4 clock periods before it is"
+              },
+              {
+                "value": "11",
+                "meaning": "External input capture signal level change must be stable for at least 8 clock periods before it is"
+              }
+            ]
+          },
+          {
+            "bits": "27:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25:24",
+            "name": "IC2PSC[1:0]",
+            "description": "Input capture 2 prescaler This bitfield defines the ratio of the prescaler acting on the CC2 input (IC2).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No prescaler, capture is done each time an edge is detected on the capture input"
+              },
+              {
+                "value": "01",
+                "meaning": "Capture is done once every 2 events"
+              },
+              {
+                "value": "10",
+                "meaning": "Capture is done once every 4 events"
+              },
+              {
+                "value": "11",
+                "meaning": "Capture is done once every 8 events"
+              }
+            ]
+          },
+          {
+            "bits": "23:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:18",
+            "name": "CC2P[1:0]",
+            "description": "Capture/compare 2 output polarity. Condition: CC2 as output Only bit2 is used to set polarity when output mode is enabled, bit3 is don't care. Condition: CC2 as input This field is used to select the IC2 polarity for capture operations.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OC2 active high"
+              },
+              {
+                "value": "1",
+                "meaning": "OC2 active low"
+              },
+              {
+                "value": "00",
+                "meaning": "Rising edge, circuit is sensitive to IC2 rising edge"
+              },
+              {
+                "value": "01",
+                "meaning": "Falling edge, circuit is sensitive to IC2 falling edge"
+              },
+              {
+                "value": "10",
+                "meaning": "Reserved, do not use this configuration."
+              },
+              {
+                "value": "11",
+                "meaning": "Both edges, circuit is sensitive to both IC2 rising and falling edges."
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "CC2E",
+            "description": "Capture/compare 2 output enable. Condition: CC2 as output LPTIM channels are disabled. Condition: CC2 as input This bit determines if a capture of the counter value can actually be done into the input capture/compare register 2 (LPTIM_CCR2) or not.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Off - OC2 is not active. Writing '0' to the CC2E bit resets the ue_dma_req signal only if all the other"
+              },
+              {
+                "value": "1",
+                "meaning": "On - OC2 signal is output on the corresponding output pin"
+              },
+              {
+                "value": "0",
+                "meaning": "Capture disabled. Writing '0' to the CC2E bit resets the associated ic2_dma_req signal."
+              },
+              {
+                "value": "1",
+                "meaning": "Capture enabled."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "CC2SEL",
+            "description": "Capture/compare 2 selection This bitfield defines the direction of the channel, input (capture) or output mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CC2 channel is configured in output PWM mode"
+              },
+              {
+                "value": "1",
+                "meaning": "CC2 channel is configured in input capture mode"
+              }
+            ]
+          },
+          {
+            "bits": "15:14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13:12",
+            "name": "IC1F[1:0]",
+            "description": "Input capture 1 filter This bitfield defines the number of consecutive equal samples that are detected when a level change occurs on an external input capture signal before it is considered as a valid level transition. An internal clock source must be present to use this feature. considered as valid transition. considered as valid transition. considered as valid transition.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Any external input capture signal level change is considered as a valid transition"
+              },
+              {
+                "value": "01",
+                "meaning": "External input capture signal level change must be stable for at least 2 clock periods before it is"
+              },
+              {
+                "value": "10",
+                "meaning": "External input capture signal level change must be stable for at least 4 clock periods before it is"
+              },
+              {
+                "value": "11",
+                "meaning": "External input capture signal level change must be stable for at least 8 clock periods before it is"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "IC1PSC[1:0]",
+            "description": "Input capture 1 prescaler This bitfield defines the ratio of the prescaler acting on the CC1 input (IC1).",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "No prescaler, capture is done each time an edge is detected on the capture input"
+              },
+              {
+                "value": "01",
+                "meaning": "Capture is done once every 2 events"
+              },
+              {
+                "value": "10",
+                "meaning": "Capture is done once every 4 events"
+              },
+              {
+                "value": "11",
+                "meaning": "Capture is done once every 8 events"
+              }
+            ]
+          },
+          {
+            "bits": "7:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3:2",
+            "name": "CC1P[1:0]",
+            "description": "Capture/compare 1 output polarity. Condition: CC1 as output Only bit2 is used to set polarity when output mode is enabled, bit3 is don't care. LPTIM_CCRx registers and LPTIM_CCRx registers Condition: CC1 as input This field is used to select the IC1 polarity for capture operations.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OC1 active high, the LPTIM output reflects the compare results between LPTIM_ARR and"
+              },
+              {
+                "value": "1",
+                "meaning": "OC1 active low, the LPTIM output reflects the inverse of the compare results between LPTIM_ARR"
+              },
+              {
+                "value": "00",
+                "meaning": "Rising edge, circuit is sensitive to IC1 rising edge"
+              },
+              {
+                "value": "01",
+                "meaning": "Falling edge, circuit is sensitive to IC1 falling edge"
+              },
+              {
+                "value": "10",
+                "meaning": "Reserved, do not use this configuration."
+              },
+              {
+                "value": "11",
+                "meaning": "Both edges, circuit is sensitive to both IC1 rising and falling edges."
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CC1E",
+            "description": "Capture/compare 1 output enable. Condition: CC1 as output other LPTIM channels are disabled. Condition: CC1 as input This bit determines if a capture of the counter value can actually be done into the input capture/compare register 1 (LPTIM_CCR1) or not.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Off - OC1 is not active. Writing '0' to the CC1E bit resets the ue_dma_req signal only if all the"
+              },
+              {
+                "value": "1",
+                "meaning": "On - OC1 signal is output on the corresponding output pin"
+              },
+              {
+                "value": "0",
+                "meaning": "Capture disabled. Writing '0' to the CC1E bit resets the associated ic1_dma_req signal."
+              },
+              {
+                "value": "1",
+                "meaning": "Capture enabled."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CC1SEL",
+            "description": "Capture/compare 1 selection This bitfield defines the direction of the channel input (capture) or output mode. Caution: After a write to the LPTIM_CCMRx register, a new write operation to the same register can only be performed after a delay that must be equal or greater than the value of (PRESC×3) kernel clock cycles, PRESC[2:0] being the clock decimal division factor (1,2,4,..128). Any successive write violating this delay, leads to unpredictable results. Caution: The CCxSEL, ICxF[1:0], CCxP[1:0] and ICxPSC[1:0] fields must only be modified when the channel x is disabled (CCxE bit reset to 0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CC1 channel is configured in output PWM mode"
+              },
+              {
+                "value": "1",
+                "meaning": "CC1 channel is configured in input capture mode"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

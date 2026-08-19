@@ -1,0 +1,232 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S17.4.11",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "17",
+      "chapter_title": "Advanced-control timer (TIM1)",
+      "section": "17.4.11",
+      "section_title": "TIM1 capture/compare enable register (TIM1_CCER)",
+      "level": 3,
+      "parent_section": "17.4",
+      "page": 424,
+      "page_end": 427,
+      "semantic_type": "register_description",
+      "features": [
+        "cc1e",
+        "cc1ne",
+        "cc1np",
+        "cc1p",
+        "cc2e",
+        "cc2ne",
+        "cc2np",
+        "cc2p",
+        "cc3e",
+        "cc3ne",
+        "cc3np",
+        "cc3p",
+        "cc4e",
+        "cc4np",
+        "cc4p",
+        "cc5e",
+        "cc5p",
+        "cc6e",
+        "cc6p",
+        "tim1",
+        "tim1-ccer",
+        "timer"
+      ],
+      "chars": 4892,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=424",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 17.4.11 \"TIM1 capture/compare enable register (TIM1_CCER)\" in chapter 17 (Advanced-control timer (TIM1)), RM0490 Rev 6, page 424.",
+      "section_content": "Address offset: 0x20\nReset value: 0x00000000\nBits 31:22 Reserved, must be kept at reset value.\nBit 21 CC6P: Capture/Compare 6 output polarity\nRefer to CC1P description\nBit 20 CC6E: Capture/Compare 6 output enable\nRefer to CC1E description\nBits 19:18 Reserved, must be kept at reset value.\nBit 17 CC5P: Capture/Compare 5 output polarity\nRefer to CC1P description\nBit 16 CC5E: Capture/Compare 5 output enable\nRefer to CC1E description\nBit 15 CC4NP: Capture/Compare 4 complementary output polarity\nRefer to CC1NP description\nBit 14 Reserved, must be kept at reset value.\nBit 13 CC4P: Capture/Compare 4 output polarity\nRefer to CC1P description\nBit 12 CC4E: Capture/Compare 4 output enable\nRefer to CC1E description\nBit 11 CC3NP: Capture/Compare 3 complementary output polarity\nRefer to CC1NP description\nBit 10 CC3NE: Capture/Compare 3 complementary output enable\nRefer to CC1NE description\nBit 9 CC3P: Capture/Compare 3 output polarity\nRefer to CC1P description\nBit 8 CC3E: Capture/Compare 3 output enable\nRefer to CC1E description\nBit 7 CC2NP: Capture/Compare 2 complementary output polarity\nRefer to CC1NP description\nBit 6 CC2NE: Capture/Compare 2 complementary output enable\nRefer to CC1NE description\nBit 5 CC2P: Capture/Compare 2 output polarity\nRefer to CC1P description\nBit 4 CC2E: Capture/Compare 2 output enable\nRefer to CC1E description\nBit 3 CC1NP: Capture/Compare 1 complementary output polarity\nCC1 channel configured as output:\n0: OC1N active high.\n1: OC1N active low.\nCC1 channel configured as input:\nThis bit is used in conjunction with CC1P to define the polarity of TI1FP1 and TI2FP1. Refer\nto CC1P description.\nNote: This bit is not writable as soon as LOCK level 2 or 3 has been programmed (LOCK bits\nin TIMx_BDTR register) and CC1S=”00” (channel configured as output).\nOn channels having a complementary output, this bit is preloaded. If the CCPC bit is set in the\nTIMx_CR2 register then the CC1NP active bit takes the new value from the preloaded bit only\nwhen a Commutation event is generated.\nBit 2 CC1NE: Capture/Compare 1 complementary output enable\n0:Off - OC1N is not active. OC1N level is then function of MOE, OSSI, OSSR, OIS1, OIS1N\nand CC1E bits.\n1:On - OC1N signal is output on the corresponding output pin depending on MOE, OSSI,\nOSSR, OIS1, OIS1N and CC1E bits.\nOn channels having a complementary output, this bit is preloaded. If the CCPC bit is set in the\nTIMx_CR2 register then the CC1NE active bit takes the new value from the preloaded bit only\nwhen a Commutation event is generated.\nBit 1 CC1P: Capture/Compare 1 output polarity\n0: OC1 active high (output mode) / Edge sensitivity selection (input mode, see below)\n1: OC1 active low (output mode) / Edge sensitivity selection (input mode, see below)\nWhen CC1 channel is configured as input, both CC1NP/CC1P bits select the active polarity\nof TI1FP1 and TI2FP1 for trigger or capture operations.\nCC1NP=0, CC1P=0:non-inverted/rising edge. The circuit is sensitive to TIxFP1 rising edge\n(capture or trigger operations in reset, external clock or trigger mode),\nTIxFP1 is not inverted (trigger operation in gated mode or encoder\nmode).\nCC1NP=0, CC1P=1:inverted/falling edge. The circuit is sensitive to TIxFP1 falling edge\n(capture or trigger operations in reset, external clock or trigger mode),\nTIxFP1 is inverted (trigger operation in gated mode or encoder mode).\nCC1NP=1, CC1P=1:non-inverted/both edges/ The circuit is sensitive to both TIxFP1 rising\nand falling edges (capture or trigger operations in reset, external clock\nor trigger mode), TIxFP1is not inverted (trigger operation in gated\nmode). This configuration must not be used in encoder mode.\nCC1NP=1, CC1P=0:The configuration is reserved, it must not be used.\nNote: This bit is not writable as soon as LOCK level 2 or 3 has been programmed (LOCK bits\nin TIMx_BDTR register).\nOn channels having a complementary output, this bit is preloaded. If the CCPC bit is\nset in the TIMx_CR2 register then the CC1P active bit takes the new value from the\npreloaded bit only when a Commutation event is generated.\nBit 0 CC1E: Capture/Compare 1 output enable\n0: Capture mode disabled / OC1 is not active (see below)\n1: Capture mode enabled / OC1 signal is output on the corresponding output pin\nWhen CC1 channel is configured as output, the OC1 level depends on MOE, OSSI,\nOSSR, OIS1, OIS1N and CC1NE bits, regardless of the CC1E bits state. Refer to Table82\nfor details.\nNote: On channels having a complementary output, this bit is preloaded. If the CCPC bit is\nset in the TIMx_CR2 register then the CC1E active bit takes the new value from the\npreloaded bit only when a Commutation event is generated.\n[Table 82. O utput control bits for complementary OCx and OCxN channels with break feature]\nNote: The state of the external I/O pins connected to the complementary OCx and OCxN channels\ndepends on the OCx and OCxN channel state and the GPIO registers.",
+      "semantic": {
+        "register": "TIM1_CCER",
+        "address_offset": "0x20",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "CC6P",
+            "description": "Capture/Compare 6 output polarity Refer to CC1P description",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "CC6E",
+            "description": "Capture/Compare 6 output enable Refer to CC1E description",
+            "values": []
+          },
+          {
+            "bits": "19:18",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "CC5P",
+            "description": "Capture/Compare 5 output polarity Refer to CC1P description",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "CC5E",
+            "description": "Capture/Compare 5 output enable Refer to CC1E description",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "CC4NP",
+            "description": "Capture/Compare 4 complementary output polarity Refer to CC1NP description",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "CC4P",
+            "description": "Capture/Compare 4 output polarity Refer to CC1P description",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "CC4E",
+            "description": "Capture/Compare 4 output enable Refer to CC1E description",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "CC3NP",
+            "description": "Capture/Compare 3 complementary output polarity Refer to CC1NP description",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "CC3NE",
+            "description": "Capture/Compare 3 complementary output enable Refer to CC1NE description",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "CC3P",
+            "description": "Capture/Compare 3 output polarity Refer to CC1P description",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "CC3E",
+            "description": "Capture/Compare 3 output enable Refer to CC1E description",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "CC2NP",
+            "description": "Capture/Compare 2 complementary output polarity Refer to CC1NP description",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "CC2NE",
+            "description": "Capture/Compare 2 complementary output enable Refer to CC1NE description",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "CC2P",
+            "description": "Capture/Compare 2 output polarity Refer to CC1P description",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "CC2E",
+            "description": "Capture/Compare 2 output enable Refer to CC1E description",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "CC1NP",
+            "description": "Capture/Compare 1 complementary output polarity CC1 channel configured as output: CC1 channel configured as input: This bit is used in conjunction with CC1P to define the polarity of TI1FP1 and TI2FP1. Refer to CC1P description. Note: This bit is not writable as soon as LOCK level 2 or 3 has been programmed (LOCK bits in TIMx_BDTR register) and CC1S=”00” (channel configured as output). On channels having a complementary output, this bit is preloaded. If the CCPC bit is set in the TIMx_CR2 register then the CC1NP active bit takes the new value from the preloaded bit only when a Commutation event is generated.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OC1N active high."
+              },
+              {
+                "value": "1",
+                "meaning": "OC1N active low."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "CC1NE",
+            "description": "Capture/Compare 1 complementary output enable and CC1E bits. OSSR, OIS1, OIS1N and CC1E bits. On channels having a complementary output, this bit is preloaded. If the CCPC bit is set in the TIMx_CR2 register then the CC1NE active bit takes the new value from the preloaded bit only when a Commutation event is generated.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Off - OC1N is not active. OC1N level is then function of MOE, OSSI, OSSR, OIS1, OIS1N"
+              },
+              {
+                "value": "1",
+                "meaning": "On - OC1N signal is output on the corresponding output pin depending on MOE, OSSI,"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CC1P",
+            "description": "Capture/Compare 1 output polarity When CC1 channel is configured as input, both CC1NP/CC1P bits select the active polarity of TI1FP1 and TI2FP1 for trigger or capture operations. CC1NP=0, CC1P=0:non-inverted/rising edge. The circuit is sensitive to TIxFP1 rising edge (capture or trigger operations in reset, external clock or trigger mode), TIxFP1 is not inverted (trigger operation in gated mode or encoder mode). CC1NP=0, CC1P=1:inverted/falling edge. The circuit is sensitive to TIxFP1 falling edge (capture or trigger operations in reset, external clock or trigger mode), TIxFP1 is inverted (trigger operation in gated mode or encoder mode). CC1NP=1, CC1P=1:non-inverted/both edges/ The circuit is sensitive to both TIxFP1 rising and falling edges (capture or trigger operations in reset, external clock or trigger mode), TIxFP1is not inverted (trigger operation in gated mode). This configuration must not be used in encoder mode. CC1NP=1, CC1P=0:The configuration is reserved, it must not be used. Note: This bit is not writable as soon as LOCK level 2 or 3 has been programmed (LOCK bits in TIMx_BDTR register). On channels having a complementary output, this bit is preloaded. If the CCPC bit is set in the TIMx_CR2 register then the CC1P active bit takes the new value from the preloaded bit only when a Commutation event is generated.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "OC1 active high (output mode) / Edge sensitivity selection (input mode, see below)"
+              },
+              {
+                "value": "1",
+                "meaning": "OC1 active low (output mode) / Edge sensitivity selection (input mode, see below)"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "CC1E",
+            "description": "Capture/Compare 1 output enable When CC1 channel is configured as output, the OC1 level depends on MOE, OSSI, OSSR, OIS1, OIS1N and CC1NE bits, regardless of the CC1E bits state. Refer to Table82 for details. Note: On channels having a complementary output, this bit is preloaded. If the CCPC bit is set in the TIMx_CR2 register then the CC1E active bit takes the new value from the preloaded bit only when a Commutation event is generated. Note: The state of the external I/O pins connected to the complementary OCx and OCxN channels depends on the OCx and OCxN channel state and the GPIO registers.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Capture mode disabled / OC1 is not active (see below)"
+              },
+              {
+                "value": "1",
+                "meaning": "Capture mode enabled / OC1 signal is output on the corresponding output pin"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

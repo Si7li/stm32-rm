@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S35.5.9",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "35",
+      "chapter_title": "General purpose timers (TIM15/TIM16/TIM17)",
+      "section": "35.5.9",
+      "section_title": "PWM input mode (only for TIM15)",
+      "level": 3,
+      "parent_section": "35.5",
+      "page": 1362,
+      "page_end": 1363,
+      "semantic_type": "generic",
+      "features": [
+        "pwm",
+        "tim15",
+        "timer"
+      ],
+      "chars": 2254,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1362",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.5.9 \"PWM input mode (only for TIM15)\" in chapter 35 (General purpose timers (TIM15/TIM16/TIM17)), RM0522 Rev 1, page 1362.",
+      "section_content": "This mode is used to measure both the period and the duty cycle of a PWM signal\nconnected to single tim_tix input:\n• The TIM_CCR1 register holds the period value (interval between two consecutive\nrising edges)\n• The TIM_CCR2 register holds the pulse width (interval between two consecutive rising\nand falling edges)\nThis mode is a particular case of input capture mode. The set-up procedure is similar with\nthe following differences:\n• Two tim_icx signals are mapped on the same tim_tix input.\n• These two tim_icx signals are active on edges with opposite polarity.\n• One of the two tim_tixfpy signals is selected as trigger input and the slave mode\ncontroller is configured in reset mode.\nFor example, one can measure the period (in TIM_CCR1 register) and the duty cycle (in\nTIM_CCR2 register) of the PWM applied on tim_ti1 using the following procedure\n(depending on tim_ker_ck frequency and prescaler value):\n1. Select the proper tim_ti1_in[15:0] source (internal or external) with the TI1SEL[3:0] bits\nin the TIM_TISEL register.\n2. Select the active input for TIM_CCR1: write the CC1S bits to 01 in the TIM_CCMR1\nregister (tim_ti1 selected).\n3. Select the active polarity for tim_ti1fp1 (used both for capture in TIM_CCR1 and\ncounter clear): write the CC1P and CC1NP bits to 0 (active on rising edge).\n4. Select the active input for TIM_CCR2: write the CC2S bits to 10 in the TIM_CCMR1\nregister (tim_ti1 selected).\n5. Select the active polarity for tim_ti1fp2 (used for capture in TIM_CCR2): write the\nCC2P and CC2NP bits to 10 (active on falling edge).\n6. Select the valid trigger input: write the TS bits to 00101 in the TIM_SMCR register\n(tim_ti1fp1 selected).\n7. Configure the slave mode controller in reset mode: write the SMS bits to 00100 in the\nTIM_SMCR register.\n8. Enable the captures: write the CC1E and CC2E bits to 1 in the TIM_CCER register.\n[Figure 493. PWM input mode timing]\ntim_ti1\nTIM_CNT 0004 0000 0001 0002 0003 0004 0000\nTIM_CCR1 0004\nTIM_CCR2 0002\nIC1 capture IC2 capture IC1 capture\nIC2 capture pulse width pulse width\nreset counter measurement measurement\n1. The PWM input mode can be used only with the TIMx_CH1/TIMx_CH2 signals due to the fact that only\ntim_ti1fp1 and tim_ti2fp2 are connected to the slave mode controller.",
+      "semantic": {}
+    }
+  ]
+}

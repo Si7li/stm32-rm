@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S36.4.20",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "36",
+      "chapter_title": "Low-power timer (LPTIM)",
+      "section": "36.4.20",
+      "section_title": "DMA requests",
+      "level": 3,
+      "parent_section": "36.4",
+      "page": 1503,
+      "page_end": 1504,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "power",
+        "timer"
+      ],
+      "chars": 1736,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1503",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 36.4.20 \"DMA requests\" in chapter 36 (Low-power timer (LPTIM)), RM0522 Rev 1, page 1503.",
+      "section_content": "The LPTIM can generate two categories of DMA requests:\n• DMA requests used to retrieve the input-capture counter values\n• DMA update requests used to re-program part of the LPTIM, multiple times, at regular\nintervals, without software overhead\nInput capture DMA request\nEach LPTIM channel has its dedicated input capture DMA request. A DMA request is\ngenerated (if CCxDE bit is set in LPTIM_DIER) and CCxIF is set each time a capture is\nready in the LPTIM_CCRx register. The captured values in LPTIM_CCRx can then be\ntransferred regularly by DMA to the desired memory destination. The CCxIF is automatically\ncleared by hardware when the captured value in LPTIM_CCRx register is read.\nNote: The ICx DMA request signal lptim_icx_dma is reset in the following conditions:\n- if the corresponding DMA request is disabled (clear CCxDE bit in the LPTIM_DIER\nregister)\n- or if the channel x is disabled (clear CCxE bit)\n- or if the LPTIM is disabled (clear the ENABLE bit in the LPTIM_CR register)\nUpdate event DMA request\nA DMA request is generated (if UEDE is set in LPTIM_DIER) and the UE flag is set at each\nupdate event. DMA request can be used to regularly update the LPTIM_ARR, the\nLPTIM_RCR or the LPTIM_CCRx registers permitting to generate custom PWM waveforms.\nThe UE is automatically cleared by hardware upon any bus master (like CPU or DMA) write\naccess to the LPTIM_ARR register.\nNote: The UE DMA request signal lptim_ue_dma is reset in the following conditions:\n- if the corresponding DMA request is disabled (clear UEDE bit in the LPTIM_DIER register)\n- or if the LPTIM is disabled (clear the ENABLE bit in the LPTIM_CR register)\n- or if the channel x is disabled (clear CCxE bit) and all the other channels are already\ndisabled",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.7.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.7.10",
+      "section_title": "Overrun detection",
+      "level": 3,
+      "parent_section": "39.7",
+      "page": 1870,
+      "page_end": 1871,
+      "semantic_type": "generic",
+      "features": [
+        "detection",
+        "overrun"
+      ],
+      "chars": 1131,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1870",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.7.10 \"Overrun detection\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1870.",
+      "section_content": "This logic handles flow-control hazards: the DCMIPP is provided a continuous flow of data\n(via parallel or CSI2 interfaces) without any wait/hold capability, while downstream of\nDCMIPP, the access to memory can be temporarily stuck.\nIn some cases the internal FIFOs of the DCMIPP get full and pixels may be deleted. The\noverrun detection logic handles such hazard at best.\nFeatures\n• Software gets warned in case of an hazard:\n– Interrupt OVR is triggered at the first deletion of a pixel, repeated at every frame,\nas long as the overrun hazard is present.\n– It is recommended to skip / trash the impacted frame:\n> Overflowing pixels are deleted, so that when the access to memory resumes,\nthe remaining of the line is discarded (not written out). The normal processing\nresumes at the start of the next line. Potentially, several full lines can get\ndiscarded.\n• No Frame-to-Frame impact in case of an hazard:\n– VSync resets what is needed in the DCMIPP, so that any hazard on a previous\nframe has no impact at all on the pixels dumped in next frames.\nSoftware configuration\n• Interrupt DCMIPP_PxSR.OVRF is warned in case of hazard.",
+      "semantic": {}
+    }
+  ]
+}

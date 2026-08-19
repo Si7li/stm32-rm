@@ -1,0 +1,195 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.8.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.8.6",
+      "section_title": "MDF digital filter configuration register x (MDF_DFLTxCICR)",
+      "level": 3,
+      "parent_section": "35.8",
+      "page": 1691,
+      "page_end": 1692,
+      "semantic_type": "register_description",
+      "features": [
+        "cicmod",
+        "datsrc",
+        "mcicd",
+        "mdf",
+        "scale"
+      ],
+      "chars": 2642,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1691",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.8.6 \"MDF digital filter configuration register x (MDF_DFLTxCICR)\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1691.",
+      "section_content": "Address offset: 0x08C + 0x80 * x, (x = 0 to 5)\nReset value: 0x0000 0000\nThis register is used to control the main CIC filter.The number of registers is equal to the\namount of filters. Refer to Section35.3 for details.\nBits 31:26 Reserved, must be kept at reset value.\nBits 25:20 SCALE[5:0]: Scaling factor selection\nThis bitfield is set and cleared by software. It is used to select the gain to be applied at CIC\noutput (refer to Table283 for details). If the application attempts to write a new gain value\nwhile the previous one is not yet applied, this new gain value is ignored. Reading back this\nbitfield informs the application on the current gain value.\n000000: 0 dB\n000001: + 3.5 dB\n000010: + 6 dB or shift left by 1 bit\n...\n011000: + 72 dB or shift left by 12 bits\n100000: - 48.2 dB or shift right by 8 bits (default value)\n100001: - 44.6 dB\n100010: - 42.1 dB or shift right by 7 bits\n100011: - 38.6 dB\n...\n101110: -6 dB or shift right by 1 bit\n101111: -2.5 dB\nOthers: Reserved\nBits 19:17 Reserved, must be kept at reset value.\nBits 16:8 MCICD[8:0]: CIC decimation ratio selection\nThis bitfield is set and cleared by software. It is used to select the CIC decimation ratio. A\ndecimation ratio smaller than two is not allowed. The decimation ratio is given by\n(CICDEC+1).\n0: Decimation ratio is 2.\n1: Decimation ratio is 2.\n2: Decimation ratio is 3..\n3: Decimation ratio is 4\n...\n511: Decimation ratio is 512.\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBit 7 Reserved, must be kept at reset value.\nBits 6:4 CICMOD[2:0]: Select the CIC mode\nThis bitfield is set and cleared by software.It is used to select the configuration and the order\nof the MCIC. When CICMOD[2:0] = 0xx, the CIC is split into two filters: the main CIC (MCIC)\nand the auxiliary CIC (ACIC, used for the out-off limit detector).\n000: CIC split in two filters and MCIC configured in FastSinc filter\n001: CIC split in two filters and MCIC configured in Sinc1 filter\n010: CIC split in two filters and MCIC configured in Sinc2 filter\n011: CIC split in two filters and MCIC configured in Sinc3 filter\n100: CIC configured in single Sinc4 filter\nothers: CIC configured in single Sinc5 filter\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).\nBits 3:2 Reserved, must be kept at reset value.\nBits 1:0 DATSRC[1:0]: Source data for the digital filter\nThis bitfield is set and cleared by software.\n0x: Stream coming from the BSMX selected\n10: Stream coming from the ADCITF1 selected\n11: Stream coming from the ADCITF2 selected\nNote: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+      "semantic": {
+        "register": "MDF_DFLTxCICR",
+        "address_offset": "0x08C + 0x80 * x, (x = 0 to 5)",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:26",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "25:20",
+            "name": "SCALE[5:0]",
+            "description": "Scaling factor selection This bitfield is set and cleared by software. It is used to select the gain to be applied at CIC output (refer to Table283 for details). If the application attempts to write a new gain value while the previous one is not yet applied, this new gain value is ignored. Reading back this bitfield informs the application on the current gain value. ... ...",
+            "values": [
+              {
+                "value": "000000",
+                "meaning": "0 dB"
+              },
+              {
+                "value": "000001",
+                "meaning": "+ 3.5 dB"
+              },
+              {
+                "value": "000010",
+                "meaning": "+ 6 dB or shift left by 1 bit"
+              },
+              {
+                "value": "011000",
+                "meaning": "+ 72 dB or shift left by 12 bits"
+              },
+              {
+                "value": "100000",
+                "meaning": "- 48.2 dB or shift right by 8 bits (default value)"
+              },
+              {
+                "value": "100001",
+                "meaning": "- 44.6 dB"
+              },
+              {
+                "value": "100010",
+                "meaning": "- 42.1 dB or shift right by 7 bits"
+              },
+              {
+                "value": "100011",
+                "meaning": "- 38.6 dB"
+              },
+              {
+                "value": "101110",
+                "meaning": "-6 dB or shift right by 1 bit"
+              },
+              {
+                "value": "101111",
+                "meaning": "-2.5 dB"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "19:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16:8",
+            "name": "MCICD[8:0]",
+            "description": "CIC decimation ratio selection This bitfield is set and cleared by software. It is used to select the CIC decimation ratio. A decimation ratio smaller than two is not allowed. The decimation ratio is given by (CICDEC+1). ... Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Decimation ratio is 2."
+              },
+              {
+                "value": "1",
+                "meaning": "Decimation ratio is 2."
+              },
+              {
+                "value": "2",
+                "meaning": "Decimation ratio is 3.."
+              },
+              {
+                "value": "3",
+                "meaning": "Decimation ratio is 4"
+              },
+              {
+                "value": "511",
+                "meaning": "Decimation ratio is 512."
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6:4",
+            "name": "CICMOD[2:0]",
+            "description": "Select the CIC mode This bitfield is set and cleared by software.It is used to select the configuration and the order of the MCIC. When CICMOD[2:0] = 0xx, the CIC is split into two filters: the main CIC (MCIC) and the auxiliary CIC (ACIC, used for the out-off limit detector). Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "CIC split in two filters and MCIC configured in FastSinc filter"
+              },
+              {
+                "value": "001",
+                "meaning": "CIC split in two filters and MCIC configured in Sinc1 filter"
+              },
+              {
+                "value": "010",
+                "meaning": "CIC split in two filters and MCIC configured in Sinc2 filter"
+              },
+              {
+                "value": "011",
+                "meaning": "CIC split in two filters and MCIC configured in Sinc3 filter"
+              },
+              {
+                "value": "100",
+                "meaning": "CIC configured in single Sinc4 filter"
+              },
+              {
+                "value": "others",
+                "meaning": "CIC configured in single Sinc5 filter"
+              }
+            ]
+          },
+          {
+            "bits": "3:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1:0",
+            "name": "DATSRC[1:0]",
+            "description": "Source data for the digital filter This bitfield is set and cleared by software. 0x: Stream coming from the BSMX selected Note: This bitfield can be write-protected (refer to Section35.4.15 for details).",
+            "values": [
+              {
+                "value": "10",
+                "meaning": "Stream coming from the ADCITF1 selected"
+              },
+              {
+                "value": "11",
+                "meaning": "Stream coming from the ADCITF2 selected"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

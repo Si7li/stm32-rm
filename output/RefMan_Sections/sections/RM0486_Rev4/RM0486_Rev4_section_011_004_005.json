@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S11.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "11",
+      "chapter_title": "Texture cache (ICACHE)",
+      "section": "11.4.5",
+      "section_title": "ICACHE enable",
+      "level": 3,
+      "parent_section": "11.4",
+      "page": 313,
+      "page_end": 313,
+      "semantic_type": "generic",
+      "features": [
+        "icache"
+      ],
+      "chars": 1237,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=313",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.4.5 \"ICACHE enable\" in chapter 11 (Texture cache (ICACHE)), RM0486 Rev 4, page 313.",
+      "section_content": "To activate the ICACHE, the EN bit in ICACHE_CR must be set to 1.\nWhen the ICACHE is disabled, it is bypassed and all transactions are copied from the slave\nto the master port in the same clock cycle.\nIt is recommended to initialize or modify the main memory content (region to be later\ncached) with the ICACHE disabled, and to enable the ICACHE only when this region\nremains unchanged (an enabled ICACHE detects cacheable write transactions as errors).\nTo ensure performance determinism, it is recommended to wait for the end of a potential\ncache invalidate procedure before enabling the ICACHE. This procedure occurs when the\nhardware reset signal is released, when CACHEINV is set, or when EN is cleared in\nICACHE_CR. During the procedure, BUSYF is set in ICACHE_SR, and once finished,\nBUSYF is cleared and BSYENDF is set in the same register (raising the ICACHE interrupt if\nenabled on such a busy end condition).\nThe software must test BUSYF and/or BSYENDF values before enabling the ICACHE.\nElse,if the ICACHE is enabled before the end of an invalidate procedure, any cache access\n(while BUSYF = 1) is treated as noncacheable, and its performance depends on the main\nmemory access time.\nThe ICACHE is, by default, disabled at boot.",
+      "semantic": {}
+    }
+  ]
+}

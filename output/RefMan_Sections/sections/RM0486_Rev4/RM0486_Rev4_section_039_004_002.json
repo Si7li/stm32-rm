@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.4.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.4.2",
+      "section_title": "Parallel input interface",
+      "level": 3,
+      "parent_section": "39.4",
+      "page": 1827,
+      "page_end": 1830,
+      "semantic_type": "generic",
+      "features": [
+        "input",
+        "interface",
+        "parallel"
+      ],
+      "chars": 5505,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1827",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.4.2 \"Parallel input interface\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1827.",
+      "section_content": "The parallel interface is a flexible pixel interface that clocks in a bus of 8- to 16-bit in parallel,\nwith an externally provided clock, and adds vertical and horizontal synchronization, provided\neither with specific pins (external sync) or flagged via specific data (as in CCIR601).\nInterface (all inputs)\n• Clk: clock up to 120 MHz, internally named dcmipp_pxclk\n• Data: 16 IO pins, up to 120 Mbps/pin, 8- to 16-bit, pixels potentially serialized\n• HSync, VSync, but no enable (EN)\nFeatures\n• Horizontal and vertical synchronization:\n– External, via the HSync and VSync pins.\n– Internal, via the CCIR601 flagging.\nData provided during the horizontal or vertical blanking cannot be captured.\n• Input pixel format (see Section39.3.6)\n– Binary stream like JPG\n– Single cycle data:\n> Raw Bayer and monochrome: 8/10/12/14 bits in parallel\n> YUV422, RGB565:16 bpp on 16 bits in parallel\n– Double-cycle data:\n> YUV422, RGB565:16 bpp on 8 bits in parallel\n> RGB888/YUV444: 24 bpp on 12 bits in parallel\n– Triple-cycle data:\n> RGB888/YUV444: 24 bpp on 8 bits in parallel\n• Flexible input:\n– MSB-vs-LSB bits can be swapped to ease PCB placement\n– Cycle0-vs-Cycle1 can be swapped (for 2-cycle long pixels).\n– Red-vs-blue components can be swapped (for RGB, or U-vs-V for YUV), this last\nswap operates only on the pixel pipes and not the dump pipe.\nHardware synchronization mode\nIn this mode two synchronization signals (DCMIPP_HSYNC and DCMIPP_VSYNC) are\nused.\nDepending on the camera module/mode, data can be transmitted during horizontal/vertical\nsynchronization periods. DCMIPP_HSYNC/DCMIPP_VSYNC act as blanking signals, as all\ndata received during DCMIPP_HSYNC/DCMIPP_VSYNC active periods are ignored.\nTo correctly transfer images in the RAM buffer, data transfer is synchronized with the\nDCMIPP_HSYNC/DCMIPP_VSYNC signals. When the hardware synchronization mode is\nselected, and capture is enabled (CPTREQ bit set in DCMIPP_PxFCTCR), data transfer is\nsynchronized with the deassertion of the DCMIPP_VSYNC signal (next start of frame).\nTransfer can then be continuous, with successive frames transferred by the IP-Plug to\nsuccessive buffers or the same/circular buffer.\nEmbedded data synchronization mode\nIn this synchronization mode, the data flow is synchronized using embedded 32-bit codes,\nusing the 0x00/0xFF values not used in data anymore.There are four types of codes, all with\n0xFF0000XY format. The embedded synchronization codes are supported only in 8-bit\nparallel data capture (in the DCMIPP_PRCR register, the EDM[2:0] bits must be\nprogrammed to “000”). For other data widths, this mode generates unpredictable results.\nNote: Camera modules generate up to eight synchronization codes when in interleaved mode,\nwhile the DCMIPP reacts to one single code. As a consequence, an interleaved flow with an\nembedded synchronization has one every other frame discarded as not detected.\nMode 2\nFour embedded codes signal the following events:\n• Frame start (FS)\n• Frame end (FE)\n• Line start (LS)\n• Line end (LE)\nThe XY values in the 0xFF0000XY format of these codes are programmable (see\nSection39.14.9).\nA 0xFF value programmed as a frame end means that all the unused codes are interpreted\nas valid frame end codes.\nIn this mode, once the camera interface has been enabled, the frame capture starts after the\nfirst occurrence of the frame end (FE) code followed by a frame start (FS) code.\nMode 1\nAn alternative coding is the camera mode 1. This mode is ITU656 compatible.\nThe codes signal another set of events:\n• SAV (active line) - Line start\n• EAV (active line) - Line end\n• SAV (blanking) - Start of line during interframe blanking period\n• EAV (blanking) - End of line during interframe blanking period\nThis mode can be supported by programming the following codes:\n• FS ≤ 0xFF\n• FE ≤ 0xFF\n• LS ≤ SAV (active)\n• LE ≤ EAV (active)\nAn embedded unmask code is also implemented for frame/line start and frame/line end\ncodes. Using it, it is possible to compare only the selected unmasked bits with the\nprogrammed code. User can therefore select a bit to compare in the embedded code and\ndetect a frame/line start or frame/line end. This means that there can be different codes for\nthe frame/line start and frame/line end with the unmasked bit position remaining the same.\nExample:\n• FS = 0xA5\n• Unmask code for FS = 0x10\nIn this case the frame start code is embedded in bit 4 of the frame start code.\nNote: FEC sequence must be sent before the transfer of the first frame, otherwise other codes are\nnot decoded and the first frame can be lost after the DCMIPP has been enabled. After the\nfirst FE sequence, the following frame is captured based on FS sequence.\nError conditions\nError conditions can be detected when using the embedding synchronization data modes.\nFlags PRERRF in DCMIPP_CMSR2 and ERRF in DCMIPP_PRSR are used for this\nfunction. An interruption can be triggered based on error detection if bit PRERRIE in\nDCMIPP_CMIER is set for the global interrupt (or bit ERRIE in DCMIPP_PRIER for a local\ninterrupt line).\nFor instance, such kind of wrong sequences or values generate an error:\n– FF 00 00 XY sequence detected with XY value different from the one set for\nFS/LS/FE/LE\n– LS = 0xFF or LE = 0xFF\n– If an LS or FS sequence follows an LS sequence\nSoftware configuration\n[Table 337. DCMIPP_PRCR bit function]\nThe embedded synchronization codes are configured by means of DCMIPP_PRESCR and\nDCMIPP_PRESUR registers (see Table338).\n[Table 338. DCMIPP_PRESCR and DCMIPP_PRESUR bit function]",
+      "semantic": {}
+    }
+  ]
+}

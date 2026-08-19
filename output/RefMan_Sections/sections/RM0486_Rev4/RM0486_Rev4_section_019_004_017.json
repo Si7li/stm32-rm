@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S19.4.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "19",
+      "chapter_title": "General purpose direct memory access controller (GPDMA)",
+      "section": "19.4.17",
+      "section_title": "GPDMA error management",
+      "level": 3,
+      "parent_section": "19.4",
+      "page": 976,
+      "page_end": 978,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "gpdma",
+        "memory"
+      ],
+      "chars": 4392,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=976",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 19.4.17 \"GPDMA error management\" in chapter 19 (General purpose direct memory access controller (GPDMA)), RM0486 Rev 4, page 976.",
+      "section_content": "The GPDMA is able to manage and report to the user a transfer error, as follows, depending\non the root cause.\nData transfer error\nOn a bus access (as a AHB single or a burst) to the source or the destination:\n• The source or destination target reports an AHB error.\n• The programmed channel transfer is stopped (GPDMA_CxCR.EN cleared by the\nGPDMA hardware). The channel status register reports an idle state\n(GPDMA_CxSR.IDLEF=1) and the data error (GPDMA_CxSR.DTEF=1).\n• After a GPDMA data transfer error, the user must perform a debug session, taking care\nof the product-defined memory mapping of the source and destination, including the\nprotection attributes.\n• After a GPDMA data transfer error, the user must issue a channel reset (set\nGPDMA_CxCR.RESET) to reset the hardware GPDMA channel data path and the\ncontent of the FIFO, before the user enables again the same channel for a next\ntransfer.\nLink transfer error\nOn a tentative update of a GPDMA channel register from the programmed LLI in the\nmemory:\n• The linked-list memory reports an AHB error.\n• The programmed channel transfer is stopped (GPDMA_CxCR.EN cleared by the\nGPDMA hardware), the channel status register reports an idle state\n(GPDMA_CxSR.IDLEF=1) and the link error (GPDMA_CxSR.ULEF=1).\n• After a GPDMA link error, the user must perform a debug session, taking care of the\nproduct-defined memory mapping of the linked-list data structure (GPDMA_CxLBAR\nand GPDMA_CxLLR), including the protection attributes.\n• After a GPDMA link error, the user must explicitly write the linked-list register file\n(GPDMA_CxTR1, GPDMA_CxTR2, GPDMA_CxBR1, GPDMA_CxSAR,\nGPDMA_CxDAR and GPDMA_CxLLR, plus GPDMA_CxTR3 and GPDMA_CxBR2),\nbefore the user enables again the same channel for a next transfer.\nUser setting error\nOn a tentative execution of a GPDMA transfer with an unauthorized user setting:\n• The programmed channel transfer is disabled (GPDMA_CxCR.EN forced and cleared\nby the GPDMA hardware) preventing the next unauthorized programmed data transfer\nfrom being executed. The channel status register reports an idle state\n(GPDMA_CxSR.IDLEF=1) and a user setting error (GPDMA_CxSR.USEF=1).\n• After a GPDMA user setting error, the user must perform a debug session, taking care\nof the GPDMA channel programming. A user setting error can be caused by one of the\nfollowing:\n– a programmed null source block size without a programmed update of this value\nfrom the next LLI1 (GPDMA_CxBR1.BNDT[15:0]=0 and\nGPDMA_CxLLR.UB1=0)\n– a programmed non-null source block size being not a multiple of the programmed\ndata width of a source burst transfer (GPDMA_CxBR1.BNDT[2:0] versus\nGPDMA_CxTR1.SDW_LOG2[1:0])\n– when in packing/unpacking mode (if PAM[1] = 1), a programmed non-null source\nblock size being not a multiple of the programmed data width of a destination burst\ntransfer (GPDMA_CxBR1.BNDT[2:0] versus GPDMA_CxTR1.DDW_LOG2[1:0])\n– a programmed unaligned source start address, being not a multiple of the\nprogrammed data width of a source burst transfer (GPDMA_CxSAR[2:0] versus\nGPDMA_CxTR1.SDW_LOG2[1:0])\n– for channel x (x=12to15): a programmed unaligned source address offset being\nnot a multiple of the programmed data width of a source burst transfer\n(GPDMA_CxTR3.SAO[2:0] versus GPDMA_CxTR1.SDW_LOG2[1:0])\n– for channel x (x=12to15): a programmed unaligned block repeated source\naddress offset being not a multiple of the programmed data width of a source burst\ntransfer (GPDMA_CxBR2.BRSAO[2:0] versus GPDMA_CxTR1.SDW_LOG2[1:0])\n– a programmed unaligned destination start address, being not a multiple of the\nprogrammed data width of a destination burst transfer (GPDMA_CxDAR[2:0]\nversus GPDMA_CxTR1.DDW_LOG2[1:0])\n– for channel x (x=12to15): a programmed unaligned destination address offset\nbeing not a multiple of the programmed data width of a destination burst transfer\n(GPDMA_CxTR3.DAO[2:0] versus GPDMA_CxTR1.DDW_LOG2[1:0])\n– for channel x (x=12to15): a programmed unaligned block repeated destination\naddress offset being not a multiple of the programmed data width of a destination\nburst transfer (GPDMA_CxBR2.BRDAO[2:0] versus\nGPDMA_CxTR1.DDW_LOG2[1:0])\n– a programmed double-word source data width\n(GPDMA_CxTR1.SDW_LOG2[1:0]=11)\n– a programmed double-word destination data width\n(GPDMA_CxTR1.DDW_LOG2[1:0]=11)\n– a programmed linked-list item LLIn+1 with a null data transfer\n(GPDMA_CxLLR.UB1=1 and GPDMA_CxBR1. BNDT=0)",
+      "semantic": {}
+    }
+  ]
+}

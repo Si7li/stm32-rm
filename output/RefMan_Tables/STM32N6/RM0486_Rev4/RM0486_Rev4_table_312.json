@@ -1,0 +1,110 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "table_id": "RM0486-T312",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "312",
+      "title": "Programming sequence (CIC5)",
+      "page": 1754,
+      "section": "36.7.2",
+      "section_title": "Programming examples",
+      "semantic_type": "generic",
+      "features": [
+        "cic5"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1754",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Operations",
+        "Comments"
+      ],
+      "text_helper": "Table 312, \"Programming sequence (CIC5)\", in section 36.7.2 (Programming examples) on page 1754. Columns: Operations, Comments. 16 data row(s).",
+      "table_content": {
+        "headers": [
+          "Operations",
+          "Comments"
+        ],
+        "rows": [
+          [
+            "Adjust the proper kernel clock fre-\nquency via the RCC",
+            "Assuming that the RCC is programmed to provide a kernel clock \n(adf_ker_ck) of 6.144 MHz"
+          ],
+          [
+            "Select the proper ADF kernel clock \nsource via the RCC",
+            "Refer to the RCC of the product."
+          ],
+          [
+            "Enable the ADF clocks via the RCC",
+            "Refer to the RCC of the product."
+          ],
+          [
+            "Reset the ADF via the RCC",
+            "Refer to the RCC of the product."
+          ],
+          [
+            "AFMUX programming ",
+            "Program the AFMUX to select ADF_SD0 and ADF_CCK0 functions. "
+          ],
+          [
+            "Enable ADF processing clock:\nADF_CKGCR = 0x0201 0023",
+            "PROCDIV = 2 (division by 3): adf_proc_ck frequency is 6.144 MHz.\nCCKDIV = 1 (division by 2): ADF_CCK0 clock frequency is 1.024MHz.\nThe ADF_CCK0 pin is set in output and generates a clock so that the \nmicrophone can exit from low-power mode."
+          ],
+          [
+            "Serial interfaces configuration:\nADF_SITF0CR = 0x0000 1F01",
+            "SCKSRC = 0 to select ADF_CCK0 as serial clock.\nSIFTMOD = 0 to select LF_MASTER SIPI mode.\nClock absence feature is not working in this mode.\nThe serial interface is enabled."
+          ],
+          [
+            "Bitstream matrix configuration:\nADF_BSMX0CR = 0x0000 0000",
+            "DFLT0 filter takes the bitstream of SITF0, sampled on rising edge"
+          ],
+          [
+            "Digital filter control:\nADF_DFLT0CR = 0x00000006",
+            "NBDIS = 0: no samples discarded\nACQMOD = 0: Asynchronous continuous acquisition mode\nDMAEN = 1: DMA interface not used\nDFLTEN = 0: Filter disabled\nFTH = 1: RXFIFO half-full"
+          ],
+          [
+            "Filters configuration (CIC):\nADF_DFLT0CICR = 0x00100F50",
+            "SCALE = 0x01(+3.5 dB): Output limited to 22 bits due to RSFLT.\nMCICD = 0xF (decimation by 16)\nCICMOD = 5 to select a Sinc5\nDATSCR = 0 to select data coming from BSMX"
+          ],
+          [
+            "Filters configuration (RSFLT and \nHPF):\nADF_DFLT0RSFR = 0x00000200",
+            "HPFC = 2: cut-off frequency of 16 kHz * 0.0025 = 40 Hz\nHPFBYP = 0: HPF not bypassed\nRSFLTBYP = 0: RSFLT not bypassed\nRSFLTD = 0: Decimation by 4 "
+          ],
+          [
+            "Micro delay adjust:\nADF_DLY0CR = 0x00000000",
+            "Not used in this example"
+          ],
+          [
+            "Enable interrupt events:\nADF_DFLT0IER = x",
+            "Enable the interrupt events the application wants to handle."
+          ],
+          [
+            "Clear status flags:\nADF_DFLT0ISR = 0x00000FFF",
+            "Clear all the status flags before running the ADF"
+          ],
+          [
+            "Program the DMA\nEnable the DMA",
+            "The DMA must be programmed in order to read the data inside the \nADF_DLT0DR register every time a DMA request is generated."
+          ],
+          [
+            "Start acquisition:\nADF_DFLT0CR = 0x00000007",
+            "The ADF starts to filter data."
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

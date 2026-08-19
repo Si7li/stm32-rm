@@ -1,0 +1,133 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.28",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.28",
+      "section_title": "I3C get max data speed register (I3C_GETMXDSR)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1792,
+      "page_end": 1793,
+      "semantic_type": "register_description",
+      "features": [
+        "fmt",
+        "hoffas",
+        "i3c",
+        "i3c-getmxdsr",
+        "rdturn",
+        "tsco"
+      ],
+      "chars": 4990,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1792",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.28 \"I3C get max data speed register (I3C_GETMXDSR)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1792.",
+      "section_content": "Address offset: 0x0D0\nReset value: 0x00000000\nWhen the I3C acts as target, this register is used to set its capabilities and limitations if any.\nThis register is used by hardware to return data byte(s) on reception of GETMXDS CCC,\nwith format 1 (2 bytes, without maxRdTurn), format 2 (5 bytes, with MaxRdTurn), or format 3\n(with defining byte WRRDTURN = 0x00: same 5 bytes as format 2, or with defining byte\nCRHDLY = 0x91: single byte CRHDLY1).\nThe returned byte MaxWr[7:0] on the I3C bus is then as follows:\n• MaxWr[7:4] = 0000 (reserved)\n• MaxWr[3] = 1 (defining byte WRRDTURN and CRHDLY support)\n• MaxWr[2:0] = 000 (max sustained data rate for non-CCC messages sent by the\ncontroller to the target is designed to operate at 12.5 MHz)\nThe returned byte MaxRd[7:0] on the I3C bus is then as follows:\n• MaxRd[7] = 0 (reserved)\n• MaxRd[6] = 1 (stop is allowed between write and read)\n• MaxRd[5:3] = 100 if TSCO = 0 (clock to data turnaround time tSCO≤12 ns) in the\nI3C_GETMXDSR register, else 111 (tSCO > 12 ns, refer to the datasheet for more\ndetails)\n• MaxRd[2:0] = 000 (max sustained data rate for non-CCC messages sent by the target\nto the controller is designed to operate at 12.5 MHz)\nThe returned 3-byte MaxRdTurn[23:0], if FMT[1:0] = 00 in the I3C_GETMXDSR register, on\nthe I3C bus is then as follows:\n• MaxRdTurn[23:0], with either the MSB (between 65 ms and 16 s), the middle byte\n(between 256 µs and 65 ms), or the LSB (less than 256 µs) from RDTURN[7:0] in the\nI3C_GETMXDSR register (others bits are 0), and depending upon FMT[1:0] in the\nsame register.\nThe returned byte CRHDLY1[7:0] on the I3C bus is then as follows:\n• CRHDLY1[7:3] = 00000 (reserved)\n• CRHDLY1[2] = 0 if HOFFAS[1:0] = 00 in the I3C_GETMXDSR register, else 1 (set bus\nactivity state)\n• CRHDLY1[1:0] = HOFFAS[1:0] (controller-role hand-off activity state)\nThis register can be written by software only when EN = 0 in the I3C_CFGR register.\nBits 31:25 Reserved, must be kept at reset value.\nBit 24 TSCO: clock-to-data turnaround time (tSCO)\nThis bit is written by software during bus initialization (EN = 0 in the I3C_CFGR register) and\nis used to specify the clock-to-data turnaround time tSCO (vs. the value of 12 ns). This bit is\nused by the hardware in response to the GETMXDS CCC to return the encoded clock-to-data\nturnaround time via the returned MaxRd[5:3] bits.\n0: tSCO ≤ 12 ns\n1: tSCO > 12 ns (refer to the datasheet for more details)\nBits 23:16 RDTURN[7:0]: programmed byte of the 3-byte MaxRdTurn (maximum read turnaround byte)\nThis bit is written by software during bus initialization (EN = 0) and writes the value of the\nselected byte (via the FMT[1:0] field) of the 3-byte MaxRdTurn, which is returned in response\nto the GETMXDS CCC format 2 to encode the maximum read turnaround time.\nBits 15:10 Reserved, must be kept at reset value.\nBits 9:8 FMT[1:0]: GETMXDS CCC format\nThis field is written by software during bus initialization (EN = 0) and indicates how is returned\nthe GETMXDS format 1 (without MaxRdTurn) and format 2 (with MaxRdTurn).\nThis field is used to return the 2-byte format 1 (MaxWr, MaxRd) or 5-byte format 2 (MaxWr,\nMaxRd, 3-byte MaxRdTurn) byte in response to the GETCAPS CCC.\n00: format 1 (2 bytes with MaxWr with no defining byte, MaxRd)\n01: format 2: (5 bytes w.ith MaxWr with no defining byte, MaxRd, MaxRdTurn)\n- 3-byte MaxRdTurn is returned with MSB = 0, middle byte = 0 and LSB = RDTURN[7:0].\n- Max read turnaround time is less than 256 µs.\n10: format 2 (5 bytes with MaxWr with no defining byte, MaxRd, and middle byte of\nMaxRdTurn)\n- 3-byte MaxRdTurn is returned with MSB = 0, middle byte = RDTURN[7:0] and LSB = 0.\n- Max read turnaround time is between 256 and 65535 µs\n11: format 2 (5 bytes with MaxWr with no defining byte, MaxRd, MSB of MaxRdTurn)\n- 3-byte MaxRdTurn is returned with MSB = RDTURN[7:0], middle byte = 0 and LSB = 0.\n- Max read turnaround time is between 65535 µs and 16 s.\nBits 7:2 Reserved, must be kept at reset value.\nBits 1:0 HOFFAS[1:0]: Controller hand-off activity state\nThis field is written by software during bus initialization (EN = 0), and indicates in which initial\nactivity state the (other) current controller must expect the I3C bus after a controller-role\nhand-off to this controller-capable I3C, when returning the defining byte CRHDLY (0x91) to a\nGETMXDS CCC.\nThis 2-bit field is used to return the CRHDLY1 byte in response to the GETCAPS CCC format\n3, to state the activity state of this I3C when becoming controller after a controller-role hand-\noff, and consequently the time the former controller must wait before testing this I3C to be\nconfirmed its ownership.\n00: activity state 0 is the initial activity state of this I3C before and when becoming controller\n01: activity state 1 is the initial activity state of this I3C when becoming controller\n10: activity state 2 is the initial activity state of this I3C when becoming controller\n11: activity state 3 is the initial activity state of this I3C when becoming controller",
+      "semantic": {
+        "register": "I3C_GETMXDSR",
+        "address_offset": "0x0D0",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "TSCO",
+            "description": "clock-to-data turnaround time (tSCO) This bit is written by software during bus initialization (EN = 0 in the I3C_CFGR register) and is used to specify the clock-to-data turnaround time tSCO (vs. the value of 12 ns). This bit is used by the hardware in response to the GETMXDS CCC to return the encoded clock-to-data turnaround time via the returned MaxRd[5:3] bits.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "tSCO ≤ 12 ns"
+              },
+              {
+                "value": "1",
+                "meaning": "tSCO > 12 ns (refer to the datasheet for more details)"
+              }
+            ]
+          },
+          {
+            "bits": "23:16",
+            "name": "RDTURN[7:0]",
+            "description": "programmed byte of the 3-byte MaxRdTurn (maximum read turnaround byte) This bit is written by software during bus initialization (EN = 0) and writes the value of the selected byte (via the FMT[1:0] field) of the 3-byte MaxRdTurn, which is returned in response to the GETMXDS CCC format 2 to encode the maximum read turnaround time.",
+            "values": []
+          },
+          {
+            "bits": "15:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "FMT[1:0]",
+            "description": "GETMXDS CCC format This field is written by software during bus initialization (EN = 0) and indicates how is returned the GETMXDS format 1 (without MaxRdTurn) and format 2 (with MaxRdTurn). This field is used to return the 2-byte format 1 (MaxWr, MaxRd) or 5-byte format 2 (MaxWr, MaxRd, 3-byte MaxRdTurn) byte in response to the GETCAPS CCC. - 3-byte MaxRdTurn is returned with MSB = 0, middle byte = 0 and LSB = RDTURN[7:0]. - Max read turnaround time is less than 256 µs. MaxRdTurn) - 3-byte MaxRdTurn is returned with MSB = 0, middle byte = RDTURN[7:0] and LSB = 0. - Max read turnaround time is between 256 and 65535 µs - 3-byte MaxRdTurn is returned with MSB = RDTURN[7:0], middle byte = 0 and LSB = 0. - Max read turnaround time is between 65535 µs and 16 s.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "format 1 (2 bytes with MaxWr with no defining byte, MaxRd)"
+              },
+              {
+                "value": "01",
+                "meaning": "format 2: (5 bytes w.ith MaxWr with no defining byte, MaxRd, MaxRdTurn)"
+              },
+              {
+                "value": "10",
+                "meaning": "format 2 (5 bytes with MaxWr with no defining byte, MaxRd, and middle byte of"
+              },
+              {
+                "value": "11",
+                "meaning": "format 2 (5 bytes with MaxWr with no defining byte, MaxRd, MSB of MaxRdTurn)"
+              }
+            ]
+          },
+          {
+            "bits": "7:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1:0",
+            "name": "HOFFAS[1:0]",
+            "description": "Controller hand-off activity state This field is written by software during bus initialization (EN = 0), and indicates in which initial activity state the (other) current controller must expect the I3C bus after a controller-role hand-off to this controller-capable I3C, when returning the defining byte CRHDLY (0x91) to a GETMXDS CCC. This 2-bit field is used to return the CRHDLY1 byte in response to the GETCAPS CCC format 3, to state the activity state of this I3C when becoming controller after a controller-role hand- off, and consequently the time the former controller must wait before testing this I3C to be confirmed its ownership.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "activity state 0 is the initial activity state of this I3C before and when becoming controller"
+              },
+              {
+                "value": "01",
+                "meaning": "activity state 1 is the initial activity state of this I3C when becoming controller"
+              },
+              {
+                "value": "10",
+                "meaning": "activity state 2 is the initial activity state of this I3C when becoming controller"
+              },
+              {
+                "value": "11",
+                "meaning": "activity state 3 is the initial activity state of this I3C when becoming controller"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

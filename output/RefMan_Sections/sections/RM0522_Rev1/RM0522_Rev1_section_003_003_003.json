@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S3.3.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "3",
+      "chapter_title": "System security",
+      "section": "3.3.3",
+      "section_title": "Tamper detection and response",
+      "level": 3,
+      "parent_section": "3.3",
+      "page": 101,
+      "page_end": 103,
+      "semantic_type": "generic",
+      "features": [
+        "detection",
+        "response",
+        "tamper"
+      ],
+      "chars": 3106,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=101",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.3.3 \"Tamper detection and response\" in chapter 3 (System security), RM0522 Rev 1, page 101.",
+      "section_content": "Principle\nThe devices include protection of critical security assets against attacks, with the following\nfeatures:\n• Erase of device secrets upon tamper detection\n• Improved guarantee of safe execution for the CPU and its associated security\nperipherals, including:\n– Out-of-range clocking (LSE) detection\n– Security watchdog IWDG clocked by the internal oscillator LSI\n– Possible selection of internal oscillator HSI as system clock\nSee Section40: Tamper and backup registers (TAMP), for more details.\nTamper detection sources\nThe devices support three input tampers that can be mapped on five different pins.\nDetection time is programmable, and a digital filtering is available (tamper triggered after\ntwo false comparisons in four consecutive comparison samples).\nNote: Timestamps are automatically generated when a tamper event occurs.\nThe internal tamper sources are listed in the table below.\n[Table 5. Internal tampers in TAMP]\nResponse to tampers\nEach source of tamper in the device can be configured to trigger the following events:\n• Generate an interrupt, capable of waking up the device from Stop and Standby modes\n(see TAMPxMSK bits in TAMP_CR2 register).\n• Generate a hardware trigger for the low-power timers.\n• Erase device secrets if the corresponding TAMPxPOM bit is cleared in TAMP_CR2 (for\ntamper pins) or TAMP_CR3 (for internal tamper). These erasable secrets are:\n– Symmetric keys stored in backup registers (x32), and in HASH\n– Other secrets stored in SRAM2 and CPU instruction cache memory\nRead/write accesses by software to all these secrets can be blocked, by setting the\nBKBLOCK bit in TAMP_CR2. The device secrets access is possible only when BKBLOCK is\ncleared, and no tamper flag is set for any enabled tamper source.\nNote: Device secret erase is also triggered by setting the BKERASE bit in TAMP_CR2, or by\nperforming a RDP_LEVEL regression as defined in Section3.7.1.\nDevice secrets are not reset by system reset or when the device wakes up from\nStandbymode.\nSoftware filtering mechanism\nEach tamper source can be configured not to launch an immediate erase, by setting the\ncorresponding TAMPxPOM bit in TAMP_CR2 (for external tamper pin) or TAMP_CR3\n(forinternal tamper).\nIn such a situation, when the tamper flag is raised, access to below secrets is blocked until\nall tamper flags are cleared:\n• Backup registers, SRAM2: read-as-zero, write-ignored\n• AES, SAES, CCB, HASH, PKA peripherals : automatically reset by RCC\n• The CPU instruction cache (ICACHE) is erased\nOnce the application, notified by the tamper event, analyzes the situation, there are two\npossible cases:\n• The application launches secrets erase with a software command (confirmed tamper).\n• The application clears the flags to release the blocking of secrets (false tamper).\nNote: If the tamper software fails to react to such a tamper flag, the tamper input associated to\nIWDG reset must trigger automatically the erase of secrets.\nTamper detection and low-power modes\nThe effect of low-power modes on a tamper detection is summarized in the following table.\n[Table 6. Effect of low-power modes on TAMP]",
+      "semantic": {}
+    }
+  ]
+}

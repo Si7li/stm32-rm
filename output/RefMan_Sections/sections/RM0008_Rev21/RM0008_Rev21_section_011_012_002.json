@@ -1,0 +1,312 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S11.12.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "11",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "11.12.2",
+      "section_title": "ADC control register 1 (ADC_CR1)",
+      "level": 3,
+      "parent_section": "11.12",
+      "page": 238,
+      "page_end": 240,
+      "semantic_type": "register_description",
+      "features": [
+        "adc",
+        "adc-cr1",
+        "awdch",
+        "awden",
+        "awdie",
+        "awdsgl",
+        "discen",
+        "discnum",
+        "dualmod",
+        "eocie",
+        "jauto",
+        "jawden",
+        "jdiscen",
+        "jeocie",
+        "scan"
+      ],
+      "chars": 4352,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=238",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.12.2 \"ADC control register 1 (ADC_CR1)\" in chapter 11 (Analog-to-digital converter (ADC)), RM0008 Rev 21, page 238.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0000 0000\nBits 31:24 Reserved, must be kept at reset value.\nBit 23 AWDEN: Analog watchdog enable on regular channels\nThis bit is set/reset by software.\n0: Analog watchdog disabled on regular channels\n1: Analog watchdog enabled on regular channels\nBit 22 JAWDEN: Analog watchdog enable on injected channels\nThis bit is set/reset by software.\n0: Analog watchdog disabled on injected channels\n1: Analog watchdog enabled on injected channels\nBits 21:20 Reserved, must be kept at reset value.\nBits 19:16 DUALMOD[3:0]: Dual mode selection\nThese bits are written by software to select the operating mode.\n0000: Independent mode.\n0001: Combined regular simultaneous + injected simultaneous mode\n0010: Combined regular simultaneous + alternate trigger mode\n0011: Combined injected simultaneous + fast interleaved mode\n0100: Combined injected simultaneous + slow Interleaved mode\n0101: Injected simultaneous mode only\n0110: Regular simultaneous mode only\n0111: Fast interleaved mode only\n1000: Slow interleaved mode only\n1001: Alternate trigger mode only\nNote: These bits are reserved in ADC2 and ADC3.\nIn dual mode, a change of channel configuration generates a restart that can produce a\nloss of synchronization. It is recommended to disable dual mode before any\nconfiguration change.\nBits 15:13 DISCNUM[2:0]: Discontinuous mode channel count\nThese bits are written by software to define the number of regular channels to be converted\nin discontinuous mode, after receiving an external trigger.\n000: 1 channel\n001: 2 channels\n.......\n111: 8 channels\nBit 12 JDISCEN: Discontinuous mode on injected channels\nThis bit set and cleared by software to enable/disable discontinuous mode on injected group\nchannels\n0: Discontinuous mode on injected channels disabled\n1: Discontinuous mode on injected channels enabled\nBit 11 DISCEN: Discontinuous mode on regular channels\nThis bit set and cleared by software to enable/disable Discontinuous mode on regular\nchannels.\n0: Discontinuous mode on regular channels disabled\n1: Discontinuous mode on regular channels enabled\nBit 10 JAUTO: Automatic Injected Group conversion\nThis bit set and cleared by software to enable/disable automatic injected group conversion\nafter regular group conversion.\n0: Automatic injected group conversion disabled\n1: Automatic injected group conversion enabled\nBit 9 AWDSGL: Enable the watchdog on a single channel in scan mode\nThis bit set and cleared by software to enable/disable the analog watchdog on the channel\nidentified by the AWDCH[4:0] bits.\n0: Analog watchdog enabled on all channels\n1: Analog watchdog enabled on a single channel\nBit 8 SCAN: Scan mode\nThis bit is set and cleared by software to enable/disable Scan mode. In Scan mode, the\ninputs selected through the ADC_SQRx or ADC_JSQRx registers are converted.\n0: Scan mode disabled\n1: Scan mode enabled\nNote: An EOC or JEOC interrupt is generated only on the end of conversion of the last\nchannel if the corresponding EOCIE or JEOCIE bit is set\nBit 7 JEOCIE: Interrupt enable for injected channels\nThis bit is set and cleared by software to enable/disable the end of conversion interrupt for\ninjected channels.\n0: JEOC interrupt disabled\n1: JEOC interrupt enabled. An interrupt is generated when the JEOC bit is set.\nBit 6 AWDIE: Analog watchdog interrupt enable\nThis bit is set and cleared by software to enable/disable the analog watchdog interrupt.\n0: Analog watchdog interrupt disabled\n1: Analog watchdog interrupt enabled\nBit 5 EOCIE: Interrupt enable for EOC\nThis bit is set and cleared by software to enable/disable the End of Conversion interrupt.\n0: EOC interrupt disabled\n1: EOC interrupt enabled. An interrupt is generated when the EOC bit is set.\nBits 4:0 AWDCH[4:0]: Analog watchdog channel select bits\nThese bits are set and cleared by software. They select the input channel to be guarded by\nthe Analog watchdog.\n00000: ADC analog Channel0\n00001: ADC analog Channel1\n....\n01111: ADC analog Channel15\n10000: ADC analog Channel16\n10001: ADC analog Channel17\nOther values: reserved.\nNote: ADC1 analog Channel16 and Channel17 are internally connected to the temperature\nsensor and to VREFINT, respectively.\nADC2 analog inputs Channel16 and Channel17 are internally connected to VSS.\nADC3 analog inputs Channel9, Channel14, Channel15, Channel16 and Channel17 are\nconnected to VSS.",
+      "semantic": {
+        "register": "ADC_CR1",
+        "address_offset": "0x04",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "AWDEN",
+            "description": "Analog watchdog enable on regular channels This bit is set/reset by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Analog watchdog disabled on regular channels"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog watchdog enabled on regular channels"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "JAWDEN",
+            "description": "Analog watchdog enable on injected channels This bit is set/reset by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Analog watchdog disabled on injected channels"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog watchdog enabled on injected channels"
+              }
+            ]
+          },
+          {
+            "bits": "21:20",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "19:16",
+            "name": "DUALMOD[3:0]",
+            "description": "Dual mode selection These bits are written by software to select the operating mode. Note: These bits are reserved in ADC2 and ADC3. In dual mode, a change of channel configuration generates a restart that can produce a loss of synchronization. It is recommended to disable dual mode before any configuration change.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "Independent mode."
+              },
+              {
+                "value": "0001",
+                "meaning": "Combined regular simultaneous + injected simultaneous mode"
+              },
+              {
+                "value": "0010",
+                "meaning": "Combined regular simultaneous + alternate trigger mode"
+              },
+              {
+                "value": "0011",
+                "meaning": "Combined injected simultaneous + fast interleaved mode"
+              },
+              {
+                "value": "0100",
+                "meaning": "Combined injected simultaneous + slow Interleaved mode"
+              },
+              {
+                "value": "0101",
+                "meaning": "Injected simultaneous mode only"
+              },
+              {
+                "value": "0110",
+                "meaning": "Regular simultaneous mode only"
+              },
+              {
+                "value": "0111",
+                "meaning": "Fast interleaved mode only"
+              },
+              {
+                "value": "1000",
+                "meaning": "Slow interleaved mode only"
+              },
+              {
+                "value": "1001",
+                "meaning": "Alternate trigger mode only"
+              }
+            ]
+          },
+          {
+            "bits": "15:13",
+            "name": "DISCNUM[2:0]",
+            "description": "Discontinuous mode channel count These bits are written by software to define the number of regular channels to be converted in discontinuous mode, after receiving an external trigger. .......",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "1 channel"
+              },
+              {
+                "value": "001",
+                "meaning": "2 channels"
+              },
+              {
+                "value": "111",
+                "meaning": "8 channels"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "JDISCEN",
+            "description": "Discontinuous mode on injected channels This bit set and cleared by software to enable/disable discontinuous mode on injected group channels",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Discontinuous mode on injected channels disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Discontinuous mode on injected channels enabled"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "DISCEN",
+            "description": "Discontinuous mode on regular channels This bit set and cleared by software to enable/disable Discontinuous mode on regular channels.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Discontinuous mode on regular channels disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Discontinuous mode on regular channels enabled"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "JAUTO",
+            "description": "Automatic Injected Group conversion This bit set and cleared by software to enable/disable automatic injected group conversion after regular group conversion.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Automatic injected group conversion disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Automatic injected group conversion enabled"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "AWDSGL",
+            "description": "Enable the watchdog on a single channel in scan mode This bit set and cleared by software to enable/disable the analog watchdog on the channel identified by the AWDCH[4:0] bits.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Analog watchdog enabled on all channels"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog watchdog enabled on a single channel"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "SCAN",
+            "description": "Scan mode This bit is set and cleared by software to enable/disable Scan mode. In Scan mode, the inputs selected through the ADC_SQRx or ADC_JSQRx registers are converted. Note: An EOC or JEOC interrupt is generated only on the end of conversion of the last channel if the corresponding EOCIE or JEOCIE bit is set",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Scan mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Scan mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "JEOCIE",
+            "description": "Interrupt enable for injected channels This bit is set and cleared by software to enable/disable the end of conversion interrupt for injected channels.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "JEOC interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "JEOC interrupt enabled. An interrupt is generated when the JEOC bit is set."
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "AWDIE",
+            "description": "Analog watchdog interrupt enable This bit is set and cleared by software to enable/disable the analog watchdog interrupt.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Analog watchdog interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Analog watchdog interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "EOCIE",
+            "description": "Interrupt enable for EOC This bit is set and cleared by software to enable/disable the End of Conversion interrupt.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "EOC interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "EOC interrupt enabled. An interrupt is generated when the EOC bit is set."
+              }
+            ]
+          },
+          {
+            "bits": "4:0",
+            "name": "AWDCH[4:0]",
+            "description": "Analog watchdog channel select bits These bits are set and cleared by software. They select the input channel to be guarded by the Analog watchdog. .... Other values: reserved. Note: ADC1 analog Channel16 and Channel17 are internally connected to the temperature sensor and to VREFINT, respectively. ADC2 analog inputs Channel16 and Channel17 are internally connected to VSS. ADC3 analog inputs Channel9, Channel14, Channel15, Channel16 and Channel17 are connected to VSS.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "ADC analog Channel0"
+              },
+              {
+                "value": "00001",
+                "meaning": "ADC analog Channel1"
+              },
+              {
+                "value": "01111",
+                "meaning": "ADC analog Channel15"
+              },
+              {
+                "value": "10000",
+                "meaning": "ADC analog Channel16"
+              },
+              {
+                "value": "10001",
+                "meaning": "ADC analog Channel17"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

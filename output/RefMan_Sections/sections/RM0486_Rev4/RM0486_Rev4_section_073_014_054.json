@@ -1,0 +1,165 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.54",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.54",
+      "section_title": "OTG device control OUT endpoint 0 control register (OTG_DOEPCTL0)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3850,
+      "page_end": 3852,
+      "semantic_type": "register_description",
+      "features": [
+        "cnak",
+        "epdis",
+        "epena",
+        "eptyp",
+        "mpsiz",
+        "naksts",
+        "otg",
+        "otg-doepctl0",
+        "out",
+        "snak",
+        "snpm",
+        "stall",
+        "usbaep"
+      ],
+      "chars": 2454,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3850",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.54 \"OTG device control OUT endpoint 0 control register (OTG_DOEPCTL0)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3850.",
+      "section_content": "This section describes the OTG_DOEPCTL0 register. Nonzero control endpoints use\nregisters for endpoints 1–8.\nAddress offset: 0xB00\nReset value: 0x00008000\nBit 31 EPENA: Endpoint enable\nThe application sets this bit to start transmitting data on endpoint 0.\nThe core clears this bit before setting any of the following interrupts on this endpoint:\n– SETUP phase done\n– Endpoint disabled\n– Transfer completed\nBit 30 EPDIS: Endpoint disable\nThe application cannot disable control OUT endpoint 0.\nBits 29:28 Reserved, must be kept at reset value.\nBit 27 SNAK: Set NAK\nA write to this bit sets the NAK bit for the endpoint.\nUsing this bit, the application can control the transmission of NAK handshakes on an\nendpoint. The core can also set this bit on a transfer completed interrupt, or after a SETUP\nis received on the endpoint.\nBit 26 CNAK: Clear NAK\nA write to this bit clears the NAK bit for the endpoint.\nBits 25:22 Reserved, must be kept at reset value.\nBit 21 STALL: STALL handshake\nThe application can only set this bit, and the core clears it, when a SETUP token is received\nfor this endpoint. If a NAK bit or Global OUT NAK is set along with this bit, the STALL bit\ntakes priority. Irrespective of this bit’s setting, the core always responds to SETUP data\npackets with an ACK handshake.\nBit 20 SNPM: Snoop mode\nThis bit configures the endpoint to Snoop mode. In Snoop mode, the core does not check\nthe correctness of OUT packets before transferring them to application memory.\nBits 19:18 EPTYP[1:0]: Endpoint type\nHardcoded to 00 for control.\nBit 17 NAKSTS: NAK status\nIndicates the following:\n0: The core is transmitting non-NAK handshakes based on the FIFO status.\n1: The core is transmitting NAK handshakes on this endpoint.\nWhen either the application or the core sets this bit, the core stops receiving data, even if\nthere is space in the Rx FIFO to accommodate the incoming packet. Irrespective of this bit’s\nsetting, the core always responds to SETUP data packets with an ACK handshake.\nBit 16 Reserved, must be kept at reset value.\nBit 15 USBAEP: USB active endpoint\nThis bit is always set to 1, indicating that a control endpoint 0 is always active in all\nconfigurations and interfaces.\nBits 14:2 Reserved, must be kept at reset value.\nBits 1:0 MPSIZ[1:0]: Maximum packet size\nThe maximum packet size for control OUT endpoint 0 is the same as what is programmed in\ncontrol IN endpoint 0.\n00: 64 bytes\n01: 32 bytes\n10: 16 bytes\n11: 8 bytes",
+      "semantic": {
+        "register": "OTG_DOEPCTL0",
+        "address_offset": "0xB00",
+        "reset_value": "0x00008000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "EPENA",
+            "description": "Endpoint enable The application sets this bit to start transmitting data on endpoint 0. The core clears this bit before setting any of the following interrupts on this endpoint: – SETUP phase done – Endpoint disabled – Transfer completed",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "EPDIS",
+            "description": "Endpoint disable The application cannot disable control OUT endpoint 0.",
+            "values": []
+          },
+          {
+            "bits": "29:28",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "27",
+            "name": "SNAK",
+            "description": "Set NAK A write to this bit sets the NAK bit for the endpoint. Using this bit, the application can control the transmission of NAK handshakes on an endpoint. The core can also set this bit on a transfer completed interrupt, or after a SETUP is received on the endpoint.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "CNAK",
+            "description": "Clear NAK A write to this bit clears the NAK bit for the endpoint.",
+            "values": []
+          },
+          {
+            "bits": "25:22",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "21",
+            "name": "STALL",
+            "description": "STALL handshake The application can only set this bit, and the core clears it, when a SETUP token is received for this endpoint. If a NAK bit or Global OUT NAK is set along with this bit, the STALL bit takes priority. Irrespective of this bit’s setting, the core always responds to SETUP data packets with an ACK handshake.",
+            "values": []
+          },
+          {
+            "bits": "20",
+            "name": "SNPM",
+            "description": "Snoop mode This bit configures the endpoint to Snoop mode. In Snoop mode, the core does not check the correctness of OUT packets before transferring them to application memory.",
+            "values": []
+          },
+          {
+            "bits": "19:18",
+            "name": "EPTYP[1:0]",
+            "description": "Endpoint type Hardcoded to 00 for control.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "NAKSTS",
+            "description": "NAK status Indicates the following: When either the application or the core sets this bit, the core stops receiving data, even if there is space in the Rx FIFO to accommodate the incoming packet. Irrespective of this bit’s setting, the core always responds to SETUP data packets with an ACK handshake.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The core is transmitting non-NAK handshakes based on the FIFO status."
+              },
+              {
+                "value": "1",
+                "meaning": "The core is transmitting NAK handshakes on this endpoint."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "USBAEP",
+            "description": "USB active endpoint This bit is always set to 1, indicating that a control endpoint 0 is always active in all configurations and interfaces.",
+            "values": []
+          },
+          {
+            "bits": "14:2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1:0",
+            "name": "MPSIZ[1:0]",
+            "description": "Maximum packet size The maximum packet size for control OUT endpoint 0 is the same as what is programmed in control IN endpoint 0.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "64 bytes"
+              },
+              {
+                "value": "01",
+                "meaning": "32 bytes"
+              },
+              {
+                "value": "10",
+                "meaning": "16 bytes"
+              },
+              {
+                "value": "11",
+                "meaning": "8 bytes"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S26.7.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "26",
+      "chapter_title": "True random number generator (RNG)",
+      "section": "26.7.2",
+      "section_title": "RNG status register (RNG_SR)",
+      "level": 3,
+      "parent_section": "26.7",
+      "page": 787,
+      "page_end": 788,
+      "semantic_type": "register_description",
+      "features": [
+        "busy",
+        "cecs",
+        "ceis",
+        "drdy",
+        "rng",
+        "rng-sr",
+        "secs",
+        "seis"
+      ],
+      "chars": 2607,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=787",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.7.2 \"RNG status register (RNG_SR)\" in chapter 26 (True random number generator (RNG)), RM0522 Rev 1, page 787.",
+      "section_content": "Address offset: 0x004\nReset value: 0x00000000\nBits 31:7 Reserved, must be kept at reset value.\nBit 6 SEIS: Seed error interrupt status\nThis bit is set at the same time as SECS. It is cleared by writing 0 (unless CONDRST is\nused). Writing 1 has no effect.\n0: No faulty sequence detected\n1: At least one faulty sequence is detected. See SECS bit description for details.\nAn interrupt is pending if IE = 1 in the RNG_CR register.\nBit 5 CEIS: Clock error interrupt status\nThis bit is set at the same time as CECS. It is cleared by writing 0. Writing 1 has no effect.\n0: The RNG clock is correct (fRNGCLK> fHCLK/32)\n1: The RNG clock before the internal divider is detected too slow (fRNGCLK< fHCLK/32)\nAn interrupt is pending if IE = 1 in the RNG_CR register.\nBit 4 BUSY: Busy\nThis flag indicates whether RNG is idle or busy.\n0: Idle\n1: Busy\nRNG is flagged as busy when a conditioning soft reset (using CONDRST) is in progress. It is\nalso flagged busy when RNG is activated by application setting RNGEN bit, or when a\nconnected peripheral fetches randoms via the dedicated RNG hardware bus.\nMore information on BUSY usage can also be found in Section26.3.8.\nBit 3 Reserved, must be kept at reset value.\nBit 2 SECS: Seed error current status\n0: No faulty sequence has currently been detected. If the SEIS bit is set, this means that a\nfaulty sequence was detected and the situation has been recovered.\n1: At least one of the following faulty sequence has been detected:\n– Start-up or continuous repetition count test on noise source failed.\n– Start-up or continuous adaptive proportion test on noise source failed.\n– Start-up post-processing/conditioning sanity check failed.\nAfter enabling the RNG, SECS bit clears once startup health tests completes successfully. If\nSECS does not clear, run the software reset sequence with CONDRST described in\nSection26.3.4.\nBit 1 CECS: Clock error current status\n0: The RNG clock is correct (fRNGCLK> fHCLK/32). If the CEIS bit is set, this means that a\nslow clock was detected and the situation has been recovered.\n1: The RNG clock is too slow (fRNGCLK< fHCLK/32).\nCECS bit is valid only if the CED bit in the RNG_CR register is set to 0.\nBit 0 DRDY: Data ready\nThis flag is raised to indicate valid (non-0) random data available in the RNG_DR register. It\nis cleared by hardware upon reading the RNG_DR register (which empties the RNG buffer).\nThe DRDY flag can also be raised upon disabling RNG (upon clearing the RNGEN bit).\n0: No valid random data ready.\n1: Valid random data ready.\nRaising DRDY generates an interrupt if enabled with the IE bit of the RNG_CR register.",
+      "semantic": {
+        "register": "RNG_SR",
+        "address_offset": "0x004",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "SEIS",
+            "description": "Seed error interrupt status This bit is set at the same time as SECS. It is cleared by writing 0 (unless CONDRST is used). Writing 1 has no effect. An interrupt is pending if IE = 1 in the RNG_CR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No faulty sequence detected"
+              },
+              {
+                "value": "1",
+                "meaning": "At least one faulty sequence is detected. See SECS bit description for details."
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "CEIS",
+            "description": "Clock error interrupt status This bit is set at the same time as CECS. It is cleared by writing 0. Writing 1 has no effect. An interrupt is pending if IE = 1 in the RNG_CR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The RNG clock is correct (fRNGCLK> fHCLK/32)"
+              },
+              {
+                "value": "1",
+                "meaning": "The RNG clock before the internal divider is detected too slow (fRNGCLK< fHCLK/32)"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "BUSY",
+            "description": "Busy This flag indicates whether RNG is idle or busy. RNG is flagged as busy when a conditioning soft reset (using CONDRST) is in progress. It is also flagged busy when RNG is activated by application setting RNGEN bit, or when a connected peripheral fetches randoms via the dedicated RNG hardware bus. More information on BUSY usage can also be found in Section26.3.8.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Idle"
+              },
+              {
+                "value": "1",
+                "meaning": "Busy"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "SECS",
+            "description": "Seed error current status faulty sequence was detected and the situation has been recovered. – Start-up or continuous repetition count test on noise source failed. – Start-up or continuous adaptive proportion test on noise source failed. – Start-up post-processing/conditioning sanity check failed. After enabling the RNG, SECS bit clears once startup health tests completes successfully. If SECS does not clear, run the software reset sequence with CONDRST described in Section26.3.4.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No faulty sequence has currently been detected. If the SEIS bit is set, this means that a"
+              },
+              {
+                "value": "1",
+                "meaning": "At least one of the following faulty sequence has been detected:"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CECS",
+            "description": "Clock error current status slow clock was detected and the situation has been recovered. CECS bit is valid only if the CED bit in the RNG_CR register is set to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The RNG clock is correct (fRNGCLK> fHCLK/32). If the CEIS bit is set, this means that a"
+              },
+              {
+                "value": "1",
+                "meaning": "The RNG clock is too slow (fRNGCLK< fHCLK/32)."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "DRDY",
+            "description": "Data ready This flag is raised to indicate valid (non-0) random data available in the RNG_DR register. It is cleared by hardware upon reading the RNG_DR register (which empties the RNG buffer). The DRDY flag can also be raised upon disabling RNG (upon clearing the RNGEN bit). Raising DRDY generates an interrupt if enabled with the IE bit of the RNG_CR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No valid random data ready."
+              },
+              {
+                "value": "1",
+                "meaning": "Valid random data ready."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.5.10",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.5.10",
+      "section_title": "BS key management",
+      "level": 3,
+      "parent_section": "6.5",
+      "page": 162,
+      "page_end": 163,
+      "semantic_type": "generic",
+      "features": [
+        "flash",
+        "memory"
+      ],
+      "chars": 1178,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=162",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.5.10 \"BS key management\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 162.",
+      "section_content": "The BS key is used to transition from RDP L2_wBS to L2. This key is coded in\nFLASH_BSKEYR, and can be modified only under RDP L0. During production, the value\n0xAAAAAAAA is preprogrammed in BSKEY option bytes.\nIn order to personalize BSKEY transition mechanism, the following steps are needed:\n1. Check that the RDP is at L0.\n2. Write the desired key in FLASH_BSKEYR.\n3. Launch option modification by setting the OPTSTRT bit in FLASH_CR.\n4. Wait for the BSY bit to be cleared and check that OPTWERR is not set.\n5. Check that BSLOCK bit has been set.\nBSKEY RDP transition mechanism\nIn order to transition from RDP L2_wBS to L2 follow these steps:\n1. Provide BSKEY[31:0] through JTAG or SWD under reset in DBGMCU_BSKEY_PWD.\nThe key is 0xAAAAAAAA if not updated under L0, otherwise it is the value provisioned\nin BSKEYR.\n2. If this key matches the BSKEY value:\n– The RDP transition is launched by hardware (it is not possible to execute\ninstructions when the key is matching).\n– A power-on reset is applied (cycle VDD power supply off and on).\nif the key does not match the BSKEY value, the RDP transition and any access to the flash\nmemory are blocked until a next power-on reset.",
+      "semantic": {}
+    }
+  ]
+}

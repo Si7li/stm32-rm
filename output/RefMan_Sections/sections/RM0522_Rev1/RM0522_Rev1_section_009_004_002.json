@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S9.4.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "9",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "9.4.2",
+      "section_title": "HSI oscillator and HSIS clock",
+      "level": 3,
+      "parent_section": "9.4",
+      "page": 257,
+      "page_end": 258,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "hsi",
+        "hsis",
+        "rcc"
+      ],
+      "chars": 3022,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=257",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.4.2 \"HSI oscillator and HSIS clock\" in chapter 9 (Reset and clock control (RCC)), RM0522 Rev 1, page 257.",
+      "section_content": "The HSI block provides the default clocks to the product.\nThe HSI is a high-speed internal oscillator that can be used as a system clock or peripheral\nclock offering a 144MHz clock available at startup and upon wake-up from low power\nmodes. The HSI oscillator can produce 3 output clocks; HSIS, HSIDIV3, and HSIK.\nTwo output dividers let you extent the available frequencies for the device. One configurable\ndivider by 1.5, 2, 2.5, ... 7.5 or 8 is configured thanks to HSIKDIV[3:0] generating HSIK clock\nand a second divided by 3 intended for system clock and USB generating HSIDIV3.\nThe HSI advantages are the following:\n• Low-cost clock source, as no external crystal is required\n• Faster startup time than HSE (a few microseconds)\nThe HSI frequency, even with frequency calibration, is less accurate than an external crystal\noscillator or ceramic resonator.\nHSI oscillator can be switched on and off using the HSISON bit, the HSIDIV3ON bit, and the\nHSIKON bit. Only the enabled clock output is generated.\nNote: The HSI cannot be switched off if the HSI is used directly (via SW mux) as a system clock.\nIn that case the hardware does not allow clearing the HSISON bit or HSIDIV3ON bit to 0.\nThe HSISRDY, HSIKRDY, and HSIDIV3RDY flags indicate if the HSI is stable or not. At\nstartup, the HSIS output clock is not released until HSISRDY is set by hardware.\nThe HSIDIV3 clock can also be used as a backup source (auxiliary clock) if the HSE fails\n(refer to Section9.4.10: Clock security system (CSS)).\nIn addition, the HSI clocks can be driven to the MCO1 or MCO2 outputs and used as clock\nsource for other application components.\nCare must be taken when the HSIK is used as a kernel clock for communication peripherals,\nthe application must take in account the following parameters:\n• the time interval between the moment where the peripheral generates a kernel clock\nrequest and the moment where the clock is really available\n• the frequency accuracy.\nNote: The HSI can remain enabled when the system is in Stop 0 mode thanks to HSIKERON bit.\nIn this case, the HSI and its clocks outputs HSIK, HSIDIV3, or HSIS, are kept active if their\nrespective HSIKON, HSIDIV3ON, and HSISON are set. The states of these bits are\nconsequently maintained exiting Stop 0 if HSIKERON bit is set.\nHSI calibration\nHSI oscillator frequencies can vary from one chip to another due to manufacturing process\nvariations. That is why each device is factory calibrated by STMicroelectronics to achieve an\naccuracy of ACCHSI (refer to the product datasheet for more information).\nAfter a power-on reset, the factory calibration value is loaded. If the application is subject to\nvoltage or temperature variations, this may affect the oscillator frequency. The user\napplication can trim the HSI frequency using the TRIM[6:0] bits in the CRS_CR register.\nThe clock recovery system can be used to perform this calibration. It requires an accurate\nreference that can be HSE (through HSE_1MHz connection), LSE, USB Start of Frame, or\nan external signal.",
+      "semantic": {}
+    }
+  ]
+}

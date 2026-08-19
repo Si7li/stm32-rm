@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S4.3.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "4",
+      "chapter_title": "Boot and security control (BSEC)",
+      "section": "4.3.3",
+      "section_title": "BSEC reset and clocks",
+      "level": 3,
+      "parent_section": "4.3",
+      "page": 203,
+      "page_end": 203,
+      "semantic_type": "generic",
+      "features": [
+        "boot",
+        "bsec",
+        "clock"
+      ],
+      "chars": 1260,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=203",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.3.3 \"BSEC reset and clocks\" in chapter 4 (Boot and security control (BSEC)), RM0486 Rev 4, page 203.",
+      "section_content": "BSEC is clocked by a device-embedded oscillator (RCBSEC). Because BSEC is clocked by\nan internal oscillator, an access to fuse array is robust against external fault injection on\nclocks.\nThe BSEC has three resets:\n• a cold POR (power-on reset) directly driving bsec_srst.\n• a warm system reset (bsec_rst) asserted when POR is asserted, but also by other\nsources of system reset, including a PAD reset.\n• a hot reset input (bsec_hrst), driven directly by bsec_done.\nBSEC flops on the cold reset retain their values through warm reset, while the rest of the\nsystem remains in reset until the auto-load process has completed (bsec_done = 1) and\nfuse output values are stable.\nOn a POR, the BSEC temporarily emerges from warm reset for the duration of the auto-load\nprocess, even if bsec_rst remains asserted, so that the auto-load process can determine\nvalues for flops on the cold reset. This means when the device is powered up, the security\nstate is immediately established, so that a debugger may be allowed to perform discovery\noperations soon after power-up, even if the PAD reset is still being asserted.\nSome flops in the BSEC are on bsec_hrst, so they remain in reset until bsec_done is\nasserted. This reset is asserted while the Cortex-M is under reset.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,295 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S26.6.1",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "26",
+      "chapter_title": "Inter-integrated circuit (I2C) interface",
+      "section": "26.6.1",
+      "section_title": "I2C Control register 1 (I2C_CR1)",
+      "level": 3,
+      "parent_section": "26.6",
+      "page": 772,
+      "page_end": 774,
+      "semantic_type": "register_description",
+      "features": [
+        "ack",
+        "alert",
+        "enarp",
+        "engc",
+        "enpec",
+        "i2c",
+        "i2c-cr1",
+        "nostretch",
+        "pec",
+        "pos",
+        "smbtype",
+        "smbus",
+        "start",
+        "stop",
+        "swrst"
+      ],
+      "chars": 4154,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=772",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.6.1 \"I2C Control register 1 (I2C_CR1)\" in chapter 26 (Inter-integrated circuit (I2C) interface), RM0008 Rev 21, page 772.",
+      "section_content": "Address offset: 0x00\nReset value: 0x0000\nBit 15 SWRST: Software reset\nWhen set, the I2C is under reset state. Before resetting this bit, make sure the I2C lines are\nreleased and the bus is free.\n0: I2C Peripheral not under reset\n1: I2C Peripheral under reset state\nNote: This bit can be used to reinitialize the peripheral after an error or a locked state. As an\nexample, if the BUSY bit is set and remains locked due to a glitch on the bus, the\nSWRST bit can be used to exit from this state.\nBit 14 Reserved, must be kept at reset value\nBit 13 ALERT: SMBus alert\nThis bit is set and cleared by software, and cleared by hardware when PE=0.\n0: Releases SMBA pin high. Alert Response Address Header followed by NACK.\n1: Drives SMBA pin low. Alert Response Address Header followed by ACK.\nBit 12 PEC: Packet error checking\nThis bit is set and cleared by software, and cleared by hardware when PEC is transferred or\nby a START or Stop condition or when PE=0.\n0: No PEC transfer\n1: PEC transfer (in Tx or Rx mode)\nNote: PEC calculation is corrupted by an arbitration loss.\nBit 11 POS: Acknowledge/PEC Position (for data reception)\nThis bit is set and cleared by software and cleared by hardware when PE=0.\n0: ACK bit controls the (N)ACK of the current byte being received in the shift register. The\nPEC bit indicates that current byte in shift register is a PEC.\n1: ACK bit controls the (N)ACK of the next byte which will be received in the shift register.\nThe PEC bit indicates that the next byte in the shift register is a PEC\nNote: The POS bit is used when the procedure for reception of 2 bytes (see Method 2:\ntransfer sequence diagram for master receiver when N=2) is followed. It must be\nconfigured before data reception starts. In this case, to NACK the 2nd byte, the ACK bit\nmust be cleared just after ADDR is cleared. To check the 2nd byte as PEC, the PEC bit\nmust be set during the ADDR stretch event after configuring the POS bit.\nBit 10 ACK: Acknowledge enable\nThis bit is set and cleared by software and cleared by hardware when PE=0.\n0: No acknowledge returned\n1: Acknowledge returned after a byte is received (matched address or data)\nBit 9 STOP: Stop generation\nThe bit is set and cleared by software, cleared by hardware when a Stop condition is\ndetected, set by hardware when a timeout error is detected.\nIn Master Mode:\n0: No Stop generation.\n1: Stop generation after the current byte transfer or after the current Start condition is sent.\nIn Slave mode:\n0: No Stop generation.\n1: Release the SCL and SDA lines after the current byte transfer.\nBit 8 START: Start generation\nThis bit is set and cleared by software and cleared by hardware when start is sent or PE=0.\nIn Master Mode:\n0: No Start generation\n1: Repeated start generation\nIn Slave mode:\n0: No Start generation\n1: Start generation when the bus is free\nBit 7 NOSTRETCH: Clock stretching disable (Slave mode)\nThis bit is used to disable clock stretching in slave mode when ADDR or BTF flag is set, until\nit is reset by software.\n0: Clock stretching enabled\n1: Clock stretching disabled\nBit 6 ENGC: General call enable\n0: General call disabled. Address 00h is NACKed.\n1: General call enabled. Address 00h is ACKed.\nBit 5 ENPEC: PEC enable\n0: PEC calculation disabled\n1: PEC calculation enabled\nBit 4 ENARP: ARP enable\n0: ARP disable\n1: ARP enable\nSMBus Device default address recognized if SMBTYPE=0\nSMBus Host address recognized if SMBTYPE=1\nBit 3 SMBTYPE: SMBus type\n0: SMBus Device\n1: SMBus Host\nBit 2 Reserved, must be kept at reset value\nBit 1 SMBUS: SMBus mode\n0: I2C mode\n1: SMBus mode\nBit 0 PE: Peripheral enable\n0: Peripheral disable\n1: Peripheral enable\nNote: If this bit is reset while a communication is on going, the peripheral is disabled at the\nend of the current communication, when back to IDLE state.\nAll bit resets due to PE=0 occur at the end of the communication.\nIn master mode, this bit must not be reset before the end of the communication.\nNote: When the STOP, START or PEC bit is set, the software must not perform any write access\nto I2C_CR1 before this bit is cleared by hardware. Otherwise there is a risk of setting a\nsecond STOP, START or PEC request.",
+      "semantic": {
+        "register": "I2C_CR1",
+        "address_offset": "0x00",
+        "reset_value": "0x0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "15",
+            "name": "SWRST",
+            "description": "Software reset When set, the I2C is under reset state. Before resetting this bit, make sure the I2C lines are released and the bus is free. Note: This bit can be used to reinitialize the peripheral after an error or a locked state. As an example, if the BUSY bit is set and remains locked due to a glitch on the bus, the SWRST bit can be used to exit from this state.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "I2C Peripheral not under reset"
+              },
+              {
+                "value": "1",
+                "meaning": "I2C Peripheral under reset state"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "ALERT",
+            "description": "SMBus alert This bit is set and cleared by software, and cleared by hardware when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Releases SMBA pin high. Alert Response Address Header followed by NACK."
+              },
+              {
+                "value": "1",
+                "meaning": "Drives SMBA pin low. Alert Response Address Header followed by ACK."
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "PEC",
+            "description": "Packet error checking This bit is set and cleared by software, and cleared by hardware when PEC is transferred or by a START or Stop condition or when PE=0. Note: PEC calculation is corrupted by an arbitration loss.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No PEC transfer"
+              },
+              {
+                "value": "1",
+                "meaning": "PEC transfer (in Tx or Rx mode)"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "POS",
+            "description": "Acknowledge/PEC Position (for data reception) This bit is set and cleared by software and cleared by hardware when PE=0. PEC bit indicates that current byte in shift register is a PEC. The PEC bit indicates that the next byte in the shift register is a PEC Note: The POS bit is used when the procedure for reception of 2 bytes (see Method 2: transfer sequence diagram for master receiver when N=2) is followed. It must be configured before data reception starts. In this case, to NACK the 2nd byte, the ACK bit must be cleared just after ADDR is cleared. To check the 2nd byte as PEC, the PEC bit must be set during the ADDR stretch event after configuring the POS bit.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "ACK bit controls the (N)ACK of the current byte being received in the shift register. The"
+              },
+              {
+                "value": "1",
+                "meaning": "ACK bit controls the (N)ACK of the next byte which will be received in the shift register."
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "ACK",
+            "description": "Acknowledge enable This bit is set and cleared by software and cleared by hardware when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No acknowledge returned"
+              },
+              {
+                "value": "1",
+                "meaning": "Acknowledge returned after a byte is received (matched address or data)"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "STOP",
+            "description": "Stop generation The bit is set and cleared by software, cleared by hardware when a Stop condition is detected, set by hardware when a timeout error is detected. In Master Mode: In Slave mode:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Stop generation."
+              },
+              {
+                "value": "1",
+                "meaning": "Stop generation after the current byte transfer or after the current Start condition is sent."
+              },
+              {
+                "value": "0",
+                "meaning": "No Stop generation."
+              },
+              {
+                "value": "1",
+                "meaning": "Release the SCL and SDA lines after the current byte transfer."
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "START",
+            "description": "Start generation This bit is set and cleared by software and cleared by hardware when start is sent or PE=0. In Master Mode: In Slave mode:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No Start generation"
+              },
+              {
+                "value": "1",
+                "meaning": "Repeated start generation"
+              },
+              {
+                "value": "0",
+                "meaning": "No Start generation"
+              },
+              {
+                "value": "1",
+                "meaning": "Start generation when the bus is free"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "NOSTRETCH",
+            "description": "Clock stretching disable (Slave mode) This bit is used to disable clock stretching in slave mode when ADDR or BTF flag is set, until it is reset by software.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Clock stretching enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Clock stretching disabled"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "ENGC",
+            "description": "General call enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "General call disabled. Address 00h is NACKed."
+              },
+              {
+                "value": "1",
+                "meaning": "General call enabled. Address 00h is ACKed."
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "ENPEC",
+            "description": "PEC enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "PEC calculation disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "PEC calculation enabled"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "ENARP",
+            "description": "ARP enable SMBus Device default address recognized if SMBTYPE=0 SMBus Host address recognized if SMBTYPE=1",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "ARP disable"
+              },
+              {
+                "value": "1",
+                "meaning": "ARP enable"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "SMBTYPE",
+            "description": "SMBus type",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SMBus Device"
+              },
+              {
+                "value": "1",
+                "meaning": "SMBus Host"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "SMBUS",
+            "description": "SMBus mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "I2C mode"
+              },
+              {
+                "value": "1",
+                "meaning": "SMBus mode"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "PE",
+            "description": "Peripheral enable Note: If this bit is reset while a communication is on going, the peripheral is disabled at the end of the current communication, when back to IDLE state. All bit resets due to PE=0 occur at the end of the communication. In master mode, this bit must not be reset before the end of the communication. Note: When the STOP, START or PEC bit is set, the software must not perform any write access to I2C_CR1 before this bit is cleared by hardware. Otherwise there is a risk of setting a second STOP, START or PEC request.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Peripheral disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Peripheral enable"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

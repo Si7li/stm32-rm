@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S59.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "59",
+      "chapter_title": "Independent watchdog (IWDG)",
+      "section": "59.6",
+      "section_title": "IWDG interrupts",
+      "level": 2,
+      "parent_section": null,
+      "page": 2986,
+      "page_end": 2988,
+      "semantic_type": "generic",
+      "features": [
+        "interrupt",
+        "iwdg"
+      ],
+      "chars": 2476,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2986",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 59.6 \"IWDG interrupts\" in chapter 59 (Independent watchdog (IWDG)), RM0486 Rev 4, page 2986.",
+      "section_content": "The IWDG offers the possibility to generate an early interrupt depending on the value of the\ndown-counter. The early interrupt is enabled by setting the EWIE bit of the IWDG early\nwake-up interrupt register (IWDG_EWCR) to 1.\nA comparator value (EWIT[11:0]) allows the application to define the position where the\nearly interrupt must be generated.\nWhen the IWDCNT down-counter reaches the value of EWIT[11:0] - 1, the iwdg_wkup is\nactivated, making it possible for the system to exit from low power modes, if needed.\nWhen the APB clock is available, the iwdg_it is activated as well.\nIn addition, the flag EWIF of the IWDG status register (IWDG_SR) is set to 1.\nThe EWI interrupt is acknowledged by writing 1 to the EWIC bit in the IWDG interrupt clear\nregister (IWDG_ICR).\nWriting into the IWDG_EWCR register also triggers a refresh of the down-counter\n(IWDCNT) with the reload value RL[11:0].\n[Figure 777. Independent watchdog interrupt timing diagram]\nIWDCNT value\nIWDCNT = EWIT - 1\nEWIT[11:0]\nTime\nWriting\nEWIC to ‘1’\nAPB write accesses\niwdg_wkup_it\npclk pclk active\niwdg_it\nThe early wake-up interrupt (EWI) can be used if specific safety operations or data logging\nmust be performed before the watchdog reset is generated.\nChanging the early wake-up comparator value\nIt is possible to change the early wake-up comparator value or to enable/disable the\ninterrupt generation at any time, by performing the following sequence:\n1. Enable register access by writing 0x0000 5555 in the IWDG key register (IWDG_KR).\n2. Enable or disable the early wake-up interrupt, and/or program the early wake-up\ncomparator, by writing the proper values into the IWDG early wake-up interrupt register\n(IWDG_EWCR).\n3. Wait for EWU = 0, EWU is located into the IWDG status register (IWDG_SR).\n4. Write-protect registers by writing 0x0000 0000 to IWDG key register (IWDG_KR).\nStep 3 can be skipped if the application does not intend to disable the APB clock after the\ncompletion of this sequence.\nFigure778 shows this sequence. During the early wake-up comparator update operation\nthe flag EWU remains to 1 for TDewu. A refresh is automatically performed. The refresh is\neffective on the worst case, on the next prescaler clock active edge after the falling edge of\nEWU (TDRefAuto).\n[Figure 778. Early wake-up comparator update(1)]\n1. Refer to Table573: IWDG delays versus actions for details on timing values.\nTable576 summarizes the IWDG interrupt request.\n[Table 576. IWDG interrupt request]",
+      "semantic": {}
+    }
+  ]
+}

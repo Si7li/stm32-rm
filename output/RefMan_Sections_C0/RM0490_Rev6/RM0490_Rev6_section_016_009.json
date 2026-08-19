@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.9",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.9",
+      "section_title": "Oversampler",
+      "level": 2,
+      "parent_section": null,
+      "page": 319,
+      "page_end": 320,
+      "semantic_type": "generic",
+      "features": [
+        "adc"
+      ],
+      "chars": 2221,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=319",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.9 \"Oversampler\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 319.",
+      "section_content": "The oversampling unit performs data preprocessing to offload the CPU. It can handle\nmultiple conversions and average them into a single data with increased data width, up to\n16-bit.\nIt provides a result with the following form, where N and M can be adjusted:\nn=N–1\nResult = - 1 ---- × ∑ Conversion(t )\nM n\nn=0\nIt allows the following functions to be performed by hardware: averaging, data rate\nreduction, SNR improvement, basic filtering.\nThe oversampling ratio N is defined using the OVSR[2:0] bits in the ADC_CFGR2 register. It\ncan range from 2x to 256x. The division coefficient M consists of a right bit shift up to 8 bits.\nIt is configured through the OVSS[3:0] bits in the ADC_CFGR2 register.\nThe summation unit can yield a result up to 20 bits (256 x 12-bit), which is first shifted right.\nThe upper bits of the result are then truncated, keeping only the 16 least significant bits\nrounded to the nearest value using the least significant bits left apart by the shifting, before\nbeing finally transferred into the ADC_DR data register.\nNote: If the intermediate result after the shifting exceeds 16 bits, the upper bits of the result are\nsimply truncated.\n[Figure 53. 20-bit to 16-bit result truncation]\nFigure 54 gives a numerical example of the processing, from a raw 20-bit accumulated data\nto the final 16-bit result.\n[Figure 54. Numerical example with 5-bit shift and rounding]\nTable 75 gives the data format for the various N and M combination, for a raw conversion\ndata equal to 0xFFF.\n[Table 75. Maximum output results vs N and M. Grayed values indicates truncation]\nThe conversion timings in oversampled mode do not change compared to standard\nconversion mode: the sample time is maintained equal during the whole oversampling\nsequence. New data are provided every N conversion, with an equivalent delay equal to N x\ntCONV = N x (tSMPL + tSAR). The flags features are raised as following:\n• the end of the sampling phase (EOSMP) is set after each sampling phase\n• the end of conversion (EOC) occurs once every N conversions, when the oversampled\nresult is available\n• the end of sequence (EOCSEQ) occurs once the sequence of oversampled data is\ncompleted (i.e. after N x sequence length conversions total)",
+      "semantic": {}
+    }
+  ]
+}

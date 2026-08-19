@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S4.3.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "4",
+      "chapter_title": "Boot and security control (BSEC)",
+      "section": "4.3.5",
+      "section_title": "Operations on fuses",
+      "level": 3,
+      "parent_section": "4.3",
+      "page": 205,
+      "page_end": 206,
+      "semantic_type": "generic",
+      "features": [
+        "boot"
+      ],
+      "chars": 4424,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=205",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.3.5 \"Operations on fuses\" in chapter 4 (Boot and security control (BSEC)), RM0486 Rev 4, page 205.",
+      "section_content": "Reading fuses\nIf fuse word w is shadowed (SFWw bit set in corresponding BSEC_SFSRx register), and\neither the state is BSEC-closed or w<256, then BSEC_FVRw register is auto-loaded at\ncold or warm reset with the contents of fuse word w.\nIf fuse word w is accessible and shadowed, then if SRLOCKw=0 the contents of fuse w\ncan be reloaded by software into BSEC_FVRw register.\nIf fuse word w is accessible and unshadowed (SFWw bit cleared in corresponding\nBSEC_SFSRx register), a read to BSEC_FVRw register returns the content of fuse word w\nif the last operation on the fuse memory successfully reloaded word w, and if no\nunshadowed fuse word has been read since that reload.\nEach time the application reloads the content of a word stored in fuse memory using\nBSEC_OTPCR register with PROG bit cleared, BUSY bit and error status should be\nchecked in BSEC_OTPSR (see Section4.3.6).\nNote: Unshadowed fuse word information stored in BSEC_FVRw is cleared as soon as it is read.\nWriting shadow registers\nWhen a fuse word w={i+32*x} above word 9 is shadowed (SFWw bit set in\nBSEC_SFSRx) the application can update its shadowed value by writing directly to\nBSEC_FVRw register, if SWLOCKw bit is cleared in BSEC_SWLOCKx register.\nNote: A shadow register write does not change the underlying fuse value.\nProgramming fuses\nWhen programming is not blocked, lower fuse words can be blown bit-per-bit at different\ntimes. Middle and upper fuses must be programmed 32-bits at a time, only once. As\nreprogramming middle and upper fuses can let them with invalid content (an ECC error\nmight be reported), it is strongly recommended to set PPLOCK=1 after the first (and only)\nprogramming of the middle and upper fuses.\nThe procedure for blowing fuse word w is as follows:\n1. Write the value to be blown in BSEC_WDR, then set ADDR = w, PROG = 1 and\nPPLOCK = 0 in BSEC_OTPCR register.\n2. When BUSY bit is cleared in BSEC_OTPSR, verify that PROGFAIL is cleared. If\nPROGFAIL is set try again step 1.\n3. Reload the fuse word w using BSEC_OTPCR with PROG bit cleared.\n4. When BUSY bit is cleared in BSEC_OTPSR, verify that BSEC_FVRw register returns\nthe correct value. If not, try again step 1.\nNote: OTP bits are initially set to 0 and once a bit is set to 1 it cannot be programmed back to 0\n(bitstays at 1). Bitfields with 0s in BSEC_WDR are not programmed, while bitfields with 1s\nare programmed.\nAs lower fuse words can be programmed multiple times, when the application requests a\nspecific bit to be programmed to 1 more than once, BSEC does the burning only once.\nPermanent program lock (PPLOCK)\nThe application can make further programming of fuse word w impossible by following the\nsequence:\n1. Clear BSEC_WDR register, then set ADDR=w, PROG=1 and PPLOCK=1\ninBSEC_OTPCR register.\n2. When BUSY bit is cleared in BSEC_OTPSR, verify that PROGFAIL is cleared.\nIfPROGFAIL is set try again step 1.\n3. Reload the fuse word w using BSEC_OTPCR with PROG bit cleared.\n4. When BUSY bit is cleared in BSEC_OTPSR, verify that the PPLF in BSEC_OTPSR is\nset. If not, try again step 1.\nThere is no register in BSEC to store PPLOCK information. When the application needs to\nknow if a fuse word programming is permanently locked, it has first to perform a reload of\nthis word using BSEC_OTPCR and then check if the PPLF bit in BSEC_OTPSR register is\nset. See Table11 for details.\nFuse word locking features\nIn order to make fuse usage suitable for security, for example to implement the isolation\nscheme detailed in Section4.3.10, BSEC has the following locking features:\nSticky program lock (SPLOCK)\nThe application can prevent fuse word w = {i + 32* x} programming until next BSEC reset\n(cold or warm) by setting the SPLOCKw bit in BSEC_SPLOCKx register.\nSticky write lock (SWLOCK)\nThe application can make the BSEC_FVRw register of a shadowed fuse word\nw={i+32*x} unwritable until next BSEC reset (cold or warm) by setting the SWLOCKw bit\nin BSEC_SWLOCKx register.\nSticky reload lock (SRLOCK)\nReload of word w={i+32*x} using BSEC_OTPCR register can be blocked until next\nBSEC reset (cold or warm) by setting the SRLOCKw bit in BSEC_SRLOCKx register.\nWhen read is sticky-locked, unshadowed fuse words return 0 while shadowed fuse words\nreturn their current value (value is not zeroed).\nUpper fuses read and write locking (HIDEUP)\nWhen HIDEUP bit is set by hardware in BSEC_OTPSR, neither read nor write are possible\nto fuse words located in the upper region.",
+      "semantic": {}
+    }
+  ]
+}

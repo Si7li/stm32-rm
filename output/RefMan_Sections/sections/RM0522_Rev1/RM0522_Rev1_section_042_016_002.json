@@ -1,0 +1,113 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.2",
+      "section_title": "I3C message control register [alternate] (I3C_CR)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1752,
+      "page_end": 1754,
+      "semantic_type": "register_description",
+      "features": [
+        "ccc",
+        "dcnt",
+        "i3c",
+        "i3c-cr",
+        "mend",
+        "mtype"
+      ],
+      "chars": 3170,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1752",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.2 \"I3C message control register [alternate] (I3C_CR)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1752.",
+      "section_content": "Address offset: 0x000\nReset value: 0x00000000\nThis write register description must be used to control the message for when the controller\nhas to emit a CCC (whatever is the type of the CCC: for a CCC broadcast, a CCC direct, or\na CCC Enter HDR).\nThis is the alternate description of register I3C_CR, for when MTYPE[3:0] = 0110. Else refer\nto I3C message control register (I3C_CR).\nIf the control FIFO (also known as C-FIFO) is not full (CFNFF = 1 in the I3C_EVR register),\nwriting into this register means pushing a new control word into the C-FIFO; either by the\nsoftware or automatically by DMA, as defined by the CDMAEN bit in the I3C_CFGR register.\nWhen the last message of the frame is completed (a message with MEND = 1 in the\nI3C_CR register), the I3C hardware asserts the frame completed flag (FCF = 1 in the\nI3C_EVR register) and the corresponding interrupt, if enabled.\nBit 31 MEND: Message end type/last message of a frame (when I3C acts as controller)\n0: this message from controller is followed by a repeated start (Sr), before another message\nmust be emitted\n1: the message from the controller ends with a stop (P), being the last message of a frame\nBits 30:27 MTYPE[3:0]: Message type (when I3C acts as controller)\nCondition: when I3C acts as I3C controller\n0110: broadcast/direct CCC command (refer to Table433, Figure599, Figure600,\nFigure601)\nBits[23:16] (CCC[7:0]) are the emitted 8-bit CCC code\nBits[15:0] (DCNT[15:0]) are the number of the CCC defining bytes, or CCC sub-command\nbytes, or CCC data bytes.\nIf Bit[23] = CCC[7] = 1: this is the first part of an I3C SDR direct CCC command\nThe transferred direct CCC command (first part) message is:\n– {S / S + 0b111_1110 +RnW = 0 / Sr+*} + (direct CCC + T) + (8-bit Data + T)* + Sr\n– After an S (start), depending upon NOARBH in the I3C_CFGR register, the\narbitrable header (0b111_1110+RnW = 0) is inserted or not.\n– Sr+*: after an Sr (repeated start), the hardware automatically inserts (0b111_1110 +\nR/W).\nIf Bit[23] = CCC[7] = 0: this is an I3C SDR broadcast CCC command (including specific\nENTDAA, refer to Figure600)\nThe transferred broadcast CCC command message is:\n– {S / S + 0b111_1110 + RnW = 0 / Sr+*} + (broadcast CCC + T) + (8-bit Data + T)* +\nSr/P\n– After an S (start), depending on NOARBH, the arbitrable header\n(0b111_1110+RnW=0) is inserted or not.\n– Sr+*: after an Sr (repeated start), the hardware automatically inserts (0b111_1110 +\nR/W).\nOthers: reserved\nBits 26:24 Reserved, must be kept at reset value.\nBits 23:16 CCC[7:0]: 8-bit CCC code (when I3C acts as controller)\nIf bit[23] = CCC[7] = 1, this is the first part of an I3C SDR direct CCC command.\nIf bit[23] = CCC[7] = 0, this is an I3C SDR broadcast CCC command (including ENTDAA).\nBits 15:0 DCNT[15:0]: Count of related data to the CCC command to transfer as CCC defining bytes, or\nCCC sub-command bytes, or CCC data bytes, in bytes\nLinear encoding up to 64Kbytes - 1.\n0x0000: no data to transfer.\nNote: Value mandatory when emitting ENTDAA broadcast CCC (refer to Figure600).\n0x0001: 1 byte\nNote: Value mandatory when emitting RSTACT direct/broadcast CCC (refer to Figure601).\n0x0002: 2 bytes\n...\n0xFFFF: 64 Kbytes - 1 byte",
+      "semantic": {
+        "register": "I3C_CR",
+        "address_offset": "0x000",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "MEND",
+            "description": "Message end type/last message of a frame (when I3C acts as controller) must be emitted",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "this message from controller is followed by a repeated start (Sr), before another message"
+              },
+              {
+                "value": "1",
+                "meaning": "the message from the controller ends with a stop (P), being the last message of a frame"
+              }
+            ]
+          },
+          {
+            "bits": "30:27",
+            "name": "MTYPE[3:0]",
+            "description": "Message type (when I3C acts as controller) Condition: when I3C acts as I3C controller Figure601) Bits[23:16] (CCC[7:0]) are the emitted 8-bit CCC code Bits[15:0] (DCNT[15:0]) are the number of the CCC defining bytes, or CCC sub-command bytes, or CCC data bytes. If Bit[23] = CCC[7] = 1: this is the first part of an I3C SDR direct CCC command The transferred direct CCC command (first part) message is: – {S / S + 0b111_1110 +RnW = 0 / Sr+*} + (direct CCC + T) + (8-bit Data + T)* + Sr – After an S (start), depending upon NOARBH in the I3C_CFGR register, the arbitrable header (0b111_1110+RnW = 0) is inserted or not. – Sr+*: after an Sr (repeated start), the hardware automatically inserts (0b111_1110 + R/W). If Bit[23] = CCC[7] = 0: this is an I3C SDR broadcast CCC command (including specific ENTDAA, refer to Figure600) The transferred broadcast CCC command message is: – {S / S + 0b111_1110 + RnW = 0 / Sr+*} + (broadcast CCC + T) + (8-bit Data + T)* + Sr/P – After an S (start), depending on NOARBH, the arbitrable header (0b111_1110+RnW=0) is inserted or not. – Sr+*: after an Sr (repeated start), the hardware automatically inserts (0b111_1110 + R/W).",
+            "values": [
+              {
+                "value": "0110",
+                "meaning": "broadcast/direct CCC command (refer to Table433, Figure599, Figure600,"
+              },
+              {
+                "value": "Others",
+                "meaning": "reserved"
+              }
+            ]
+          },
+          {
+            "bits": "26:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23:16",
+            "name": "CCC[7:0]",
+            "description": "8-bit CCC code (when I3C acts as controller) If bit[23] = CCC[7] = 1, this is the first part of an I3C SDR direct CCC command. If bit[23] = CCC[7] = 0, this is an I3C SDR broadcast CCC command (including ENTDAA).",
+            "values": []
+          },
+          {
+            "bits": "15:0",
+            "name": "DCNT[15:0]",
+            "description": "Count of related data to the CCC command to transfer as CCC defining bytes, or CCC sub-command bytes, or CCC data bytes, in bytes Linear encoding up to 64Kbytes - 1. Note: Value mandatory when emitting ENTDAA broadcast CCC (refer to Figure600). Note: Value mandatory when emitting RSTACT direct/broadcast CCC (refer to Figure601). ...",
+            "values": [
+              {
+                "value": "0x0000",
+                "meaning": "no data to transfer."
+              },
+              {
+                "value": "0x0001",
+                "meaning": "1 byte"
+              },
+              {
+                "value": "0x0002",
+                "meaning": "2 bytes"
+              },
+              {
+                "value": "0xFFFF",
+                "meaning": "64 Kbytes - 1 byte"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

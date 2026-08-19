@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.5.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.5.2",
+      "section_title": "Decimation",
+      "level": 3,
+      "parent_section": "39.5",
+      "page": 1841,
+      "page_end": 1841,
+      "semantic_type": "generic",
+      "features": [
+        "decimation"
+      ],
+      "chars": 1207,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1841",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.5.2 \"Decimation\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1841.",
+      "section_content": "The decimation allows to cheaply downsize a frame.\nBased on parallel interface camera module:\n– Factor 1x, 2x, 4x at data/byte level depending on the configuration of bit field\nBSM[1:0] of the DCMIPP_P0PPCR register. The decimation is not working directly\nat pixel level, but it is based on either byte or 16-bit word granularity (for padded\nraw 10, for instance) to make equivalent decimation to one pixel out of two. Bit\nOEBS is used to start from the odd or even byte (or data) to capture first.\n– The decimation can also be based on entire line, by capturing all the lines, or one\nline out of two thanks to bit LSM. Here, again, choice is given to the software to\nreject odd or even lines within the frame by configuring bit OELS.\nWhen the camera sensor module is designed on CSI-2 interface, the decimation can be\nbased filter out potentially, one line out of two. Indeed, each packet is by protocol composed\nfor an entire line.\nNote: Care must be taken when the CSI-2 header is dumped, as it is 32-bit wide, and it increases\nby one unit the data counter, taking part of the decimation. It is advised not to use the CSI\nheader option when decimation takes place.\n[Table 340. DCMIPP_P0PPCR bit function]",
+      "semantic": {}
+    }
+  ]
+}

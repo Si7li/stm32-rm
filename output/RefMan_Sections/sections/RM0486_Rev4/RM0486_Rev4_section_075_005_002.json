@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S75.5.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "75",
+      "chapter_title": "USB Type-C®/USB Power Delivery interface (UCPD)",
+      "section": "75.5.2",
+      "section_title": "Type-C state machine handling",
+      "level": 3,
+      "parent_section": "75.5",
+      "page": 3951,
+      "page_end": 3952,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2310,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3951",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 75.5.2 \"Type-C state machine handling\" in chapter 75 (USB Type-C®/USB Power Delivery interface (UCPD)), RM0486 Rev 4, page 3951.",
+      "section_content": "For the general application cases of source, sink, or dual-role port (the last alternating the\nsource and the sink), the software must implement a corresponding USB Type-C state\nmachine. The basic coding is in the following table.\n[Table 757. Coding for ANAMODE, ANASUBMODE and link with TYPEC_VSTATE_CCx]\nThe CCENABLE[1:0] bitfield can disable pull-up/pull-downs on one of the CC lines.\nNote: The Type-C state machine depends not only on CC line levels, but also on VBUS presence\ndetection (sink mode) and, when in source mode, determines VCONN generation and\nVBUS state (ON/OFF/+voltage level); discharge). UCPD does not directly control VBUS\ngeneration circuitry nor VCONN load switch (enabling VCONN supply generator to be\nconnected to the CC line), but the application needs these inputs and controls, to function\ncorrectly.\nGeneral programming sequence (with UCPD configured then enabled)\n1. Set ANAMODE and ANASUBMODE[1:0] based on the current position in USB Type-C\nstate machine (and also the current advertisement in the case of a source). This turns\non the appropriate pull-ups/pull-downs on the CC lines, and defines the voltage levels\nthat the TYPEC_VSTATE fields represent. Note that before programming, the PHY is\neffectively off.\n2. Read TYPEC_VSTATE_CC1/2 to determine the initial Type-C state (for example\nwhether the local source is connected to a remote sink).\n3. In the case of no connection, wait for a connection event.\n4. Assuming a connection is detected and assuming a local Power Delivery functionality\nis implemented, start sending/receiving Power Delivery messages.\n5. When a new interrupt/event occurs on PHYEVT1/2 indicating a change in stable\nvoltage, re-evaluate the implications and give this input to the Type-C state machine.\nCase of a source that needs to change between one of the three possible Rp values\n(Default-USB / 1.5A / 3.0A) and the sink connected to it:\n• [Source] Simply reprogram ANASUBMODE[1:0]\n• [Sink behavior from that time] PHYEVT1/2 occurs and the TYPEC_VSTATE1/2\nchanges accordingly\nProgramming for a dual-role port (DRP) toggling from source to sink:\n• Simply re-program ANAMODE and ANASUBMODE[1:0] to start the new behavior\nDetailed programming sequence (example):\n[Table 758. Type-C sequence (source: 3A); cable/sink connected (Rd on CC1; Ra on CC2)]",
+      "semantic": {}
+    }
+  ]
+}

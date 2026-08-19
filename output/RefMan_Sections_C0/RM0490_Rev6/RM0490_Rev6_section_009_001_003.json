@@ -1,0 +1,442 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S9.1.3",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "9",
+      "chapter_title": "System configuration controller (SYSCFG)",
+      "section": "9.1.3",
+      "section_title": "SYSCFG configuration register 3 (SYSCFG_CFGR3)",
+      "level": 3,
+      "parent_section": "9.1",
+      "page": 199,
+      "page_end": 202,
+      "semantic_type": "register_description",
+      "features": [
+        "pinmux0",
+        "pinmux1",
+        "pinmux2",
+        "pinmux3",
+        "pinmux4",
+        "pinmux5",
+        "pinmux6",
+        "pinmux7",
+        "syscfg",
+        "syscfg-cfgr3"
+      ],
+      "chars": 5045,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=199",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.1.3 \"SYSCFG configuration register 3 (SYSCFG_CFGR3)\" in chapter 9 (System configuration controller (SYSCFG)), RM0490 Rev 6, page 199.",
+      "section_content": "In some products/packages with low pin count, several GPIOs may be internally connected\nto the same pin. This register allows selecting the active GPIO that keeps the setting\nspecified by its corresponding GPIOx_MODER register. For STM32C011xx, STM32C031xx,\nand STM32C071xx, the other GPIOs connected to the same pin are forced into digital input\n(passive) mode regardless of their corresponding GPIOx_MODER register settings. For\nSTM32C051xx and STM32C091xx/92xx, the output buffer of the other GPIOs connected to\nthe same pin are disabled regardless of their corresponding GPIOx_MODER register\nsettings.\nThis is only effective when the SECURE_MUXING_EN bit of the FLASH option register\n(FLASH_OPTR) is set (default).\nWhen SECURE_MUXING_EN is cleared, SYSCFG_CFGR3 has no effect. All GPIOs\nconnected to the same pin keep the configuration set in their corresponding\nGPIOx_MODER register. The user software must then ensure that there is no conflict\nbetween the GPIOs.\nIn the following bitfield descriptions, for products/packages not listed in the “condition”\npreceding the bitfield values, consider the bitfield as reserved and keep it at its reset value.\nAddress offset: 0x3C\nReset value: 0x0000 0000\nBits 31:16 Reserved, must be kept at reset value.\nBits 15:14 PINMUX7[1:0]: Pin GPIO multiplexer 7\nThis bitfield is set and cleared by software. It selects an active GPIO on a pin.\nCondition: STM32C051x - GPIO assigned to WLCSP15 ball A2 or TSSOP20 pin 1\n00: PB7\n01: PB8\nOther: Reserved\nBits 13:12 PINMUX6[1:0]: Pin GPIO multiplexer 6\nThis bitfield is set and cleared by software. It selects an active GPIO on a pin.\nCondition: STM32C051x - GPIO assigned to WLCSP15 ball B1 or TSSOP20 pin 20\n00: PB6\n01: PB3\n10: PB4\n11: PB5\nBits 11:10 PINMUX5[1:0]: Pin GPIO multiplexer 5\nThis bitfield is set and cleared by software. It selects an active GPIO on a pin.\nCondition: STM32C011x - GPIO assigned to WLCSP12 ball F1\n00: PA3\n01: PA4\n10: PA5\n11: PA6\nCondition: STM32C051xx - GPIO assigned to WLCSP15 ball E2 or TSSOP20 pin 19\n00: PA14-BOOT0\n01: PA15\nOther: Reserved\nBits 9:8 PINMUX4[1:0]: Pin GPIO multiplexer 4\nThis bitfield is set and cleared by software. It selects an active GPIO on a pin.\nCondition: STM32C011x - GPIO assigned to WLCSP12 ball E2\n00: PA7\n01: PA12\nOther: Reserved\nCondition: STM32C051xx - GPIO assigned to WLCSP15 ball H1\n00: PA7\n01: PA12 [PA10]\nOther: Reserved\nCondition: STM32C091/92xx - GPIO assigned to TSSOP20 pin 1 or WLCSP24 ball B4\n00: PB7\n01: PB8\nOther: Reserved\nNote: The PA12_RMP bit of the SYSCFG_CFGR1 takes priority over the selection through\nthis bitfield. Refer to the description of the SYSCFG_CFGR1 register for more details.\nBits 7:6 PINMUX3[1:0]: Pin GPIO multiplexer 3\nThis bitfield is set and cleared by software. It selects an active GPIO on a pin.\nCondition: STM32C011x - GPIO assigned to SO8 pin 8\n00: PA14\n01: PB6\n10: PC15\n11: Reserved\nCondition: STM32C051xx - GPIO assigned to WLCSP15 ball J2\n00: PA5\n01: PA6\nOther: Reserved\nCondition: STM32C071xx - GPIO assigned to WLCSP19 ball D3 or TSSOP20 pin 1\n00: PB7\n01: PB8\nOther: Reserved\nCondition: STM32C091/92xx - GPIO assigned WLCSP24 ball A3\n00: PB5\n01: PB3\nOther: Reserved\nBits 5:4 PINMUX2[1:0]: Pin GPIO multiplexer 2\nThis bitfield is set and cleared by software. It selects an active GPIO on a pin.\nCondition: STM32C011x - GPIO assigned to SO8 pin 5\n00: PA8\n01: PA11\nOther: Reserved\nCondition: STM32C051xx - GPIO assigned to WLCSP15 ball K3\n00: PA3\n01: PA4\nOther: Reserved\nCondition: STM32C071xx - GPIO assigned to TSSOP20 pin 20 or WLCSP19 pin B3\n00: PB6\n01: PB3\n10: PB4\n11: PB5\nCondition: STM32C091/92xx - GPIO assigned to TSSOP20 pin 20\n00: PB6\n01: PB3\n10: PB4\n11: PB5\nCondition: STM32C091/92xx - GPIO assigned to WLCSP24 ball A5\n00: PB6\n01: PB4\nOther: Reserved\nNote: The PA11_RMP bit of the SYSCFG_CFGR1 takes priority over the selection through\nthis bitfield. Refer to the description of the SYSCFG_CFGR1 register for more details.\nBits 3:2 PINMUX1[1:0]: Pin GPIO multiplexer 1\nThis bitfield is set and cleared by software. It selects an active GPIO on a pin.\nCondition: STM32C011x - GPIO assigned to SO8 pin 4 or WLCSP12 ball F3\n00: PF2-NRST\n01: PA0\n10: PA1\n11: PA2\nCondition: STM32C051xx - GPIO assigned to WLCSP15 ball G2\n00: PA1\n01: PA2\nOther: Reserved\nCondition: STM32C071xx - GPIO assigned to WLCSP19 ball B1 or TSSOP20 pin 19\n00: PA14\n01: PA15\nOther: Reserved\nCondition: STM32C091/92xx - GPIO assigned to TSSOP20 pin 15\n00: PA8\n01: PB0\n10: PB1\n11: PB2\nCondition: STM32C091/92xx - GPIO assigned to WLCSP24 pin G1\n00: PA8\n01: PB2\nOther: Reserved\nBits 1:0 PINMUX0[1:0]: Pin GPIO multiplexer 0\nThis bitfield is set and cleared by software. It selects an active GPIO on a pin.\nCondition: STM32C011x - GPIO assigned to SO8 pin 1\n00: PB7\n01: PC14\nOther: Reserved\nCondition: STM32C051xx - GPIO assigned to WLCSP15 ball H3\n00: PF2-NRST\n01: PA0\nOther: Reserved\nCondition: STM32C071xx - GPIO assigned to WLCSP19 ball H3\n00: PF2-NRST\n01: PA0\nOther: Reserved\nCondition: STM32C091/92xx - GPIO assigned to TSSOP20 pin 19\n00: PA14\n01: PA15\nOther: Reserved",
+      "semantic": {
+        "register": "SYSCFG_CFGR3",
+        "address_offset": "0x3C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:14",
+            "name": "PINMUX7[1:0]",
+            "description": "Pin GPIO multiplexer 7 This bitfield is set and cleared by software. It selects an active GPIO on a pin. Condition: STM32C051x - GPIO assigned to WLCSP15 ball A2 or TSSOP20 pin 1",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "PB7"
+              },
+              {
+                "value": "01",
+                "meaning": "PB8"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "13:12",
+            "name": "PINMUX6[1:0]",
+            "description": "Pin GPIO multiplexer 6 This bitfield is set and cleared by software. It selects an active GPIO on a pin. Condition: STM32C051x - GPIO assigned to WLCSP15 ball B1 or TSSOP20 pin 20",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "PB6"
+              },
+              {
+                "value": "01",
+                "meaning": "PB3"
+              },
+              {
+                "value": "10",
+                "meaning": "PB4"
+              },
+              {
+                "value": "11",
+                "meaning": "PB5"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "PINMUX5[1:0]",
+            "description": "Pin GPIO multiplexer 5 This bitfield is set and cleared by software. It selects an active GPIO on a pin. Condition: STM32C011x - GPIO assigned to WLCSP12 ball F1 Condition: STM32C051xx - GPIO assigned to WLCSP15 ball E2 or TSSOP20 pin 19",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "PA3"
+              },
+              {
+                "value": "01",
+                "meaning": "PA4"
+              },
+              {
+                "value": "10",
+                "meaning": "PA5"
+              },
+              {
+                "value": "11",
+                "meaning": "PA6"
+              },
+              {
+                "value": "00",
+                "meaning": "PA14-BOOT0"
+              },
+              {
+                "value": "01",
+                "meaning": "PA15"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "9:8",
+            "name": "PINMUX4[1:0]",
+            "description": "Pin GPIO multiplexer 4 This bitfield is set and cleared by software. It selects an active GPIO on a pin. Condition: STM32C011x - GPIO assigned to WLCSP12 ball E2 Condition: STM32C051xx - GPIO assigned to WLCSP15 ball H1 Condition: STM32C091/92xx - GPIO assigned to TSSOP20 pin 1 or WLCSP24 ball B4 Note: The PA12_RMP bit of the SYSCFG_CFGR1 takes priority over the selection through this bitfield. Refer to the description of the SYSCFG_CFGR1 register for more details.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "PA7"
+              },
+              {
+                "value": "01",
+                "meaning": "PA12"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PA7"
+              },
+              {
+                "value": "01",
+                "meaning": "PA12 [PA10]"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PB7"
+              },
+              {
+                "value": "01",
+                "meaning": "PB8"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "7:6",
+            "name": "PINMUX3[1:0]",
+            "description": "Pin GPIO multiplexer 3 This bitfield is set and cleared by software. It selects an active GPIO on a pin. Condition: STM32C011x - GPIO assigned to SO8 pin 8 Condition: STM32C051xx - GPIO assigned to WLCSP15 ball J2 Condition: STM32C071xx - GPIO assigned to WLCSP19 ball D3 or TSSOP20 pin 1 Condition: STM32C091/92xx - GPIO assigned WLCSP24 ball A3",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "PA14"
+              },
+              {
+                "value": "01",
+                "meaning": "PB6"
+              },
+              {
+                "value": "10",
+                "meaning": "PC15"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PA5"
+              },
+              {
+                "value": "01",
+                "meaning": "PA6"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PB7"
+              },
+              {
+                "value": "01",
+                "meaning": "PB8"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PB5"
+              },
+              {
+                "value": "01",
+                "meaning": "PB3"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "5:4",
+            "name": "PINMUX2[1:0]",
+            "description": "Pin GPIO multiplexer 2 This bitfield is set and cleared by software. It selects an active GPIO on a pin. Condition: STM32C011x - GPIO assigned to SO8 pin 5 Condition: STM32C051xx - GPIO assigned to WLCSP15 ball K3 Condition: STM32C071xx - GPIO assigned to TSSOP20 pin 20 or WLCSP19 pin B3 Condition: STM32C091/92xx - GPIO assigned to TSSOP20 pin 20 Condition: STM32C091/92xx - GPIO assigned to WLCSP24 ball A5 Note: The PA11_RMP bit of the SYSCFG_CFGR1 takes priority over the selection through this bitfield. Refer to the description of the SYSCFG_CFGR1 register for more details.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "PA8"
+              },
+              {
+                "value": "01",
+                "meaning": "PA11"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PA3"
+              },
+              {
+                "value": "01",
+                "meaning": "PA4"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PB6"
+              },
+              {
+                "value": "01",
+                "meaning": "PB3"
+              },
+              {
+                "value": "10",
+                "meaning": "PB4"
+              },
+              {
+                "value": "11",
+                "meaning": "PB5"
+              },
+              {
+                "value": "00",
+                "meaning": "PB6"
+              },
+              {
+                "value": "01",
+                "meaning": "PB3"
+              },
+              {
+                "value": "10",
+                "meaning": "PB4"
+              },
+              {
+                "value": "11",
+                "meaning": "PB5"
+              },
+              {
+                "value": "00",
+                "meaning": "PB6"
+              },
+              {
+                "value": "01",
+                "meaning": "PB4"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3:2",
+            "name": "PINMUX1[1:0]",
+            "description": "Pin GPIO multiplexer 1 This bitfield is set and cleared by software. It selects an active GPIO on a pin. Condition: STM32C011x - GPIO assigned to SO8 pin 4 or WLCSP12 ball F3 Condition: STM32C051xx - GPIO assigned to WLCSP15 ball G2 Condition: STM32C071xx - GPIO assigned to WLCSP19 ball B1 or TSSOP20 pin 19 Condition: STM32C091/92xx - GPIO assigned to TSSOP20 pin 15 Condition: STM32C091/92xx - GPIO assigned to WLCSP24 pin G1",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "PF2-NRST"
+              },
+              {
+                "value": "01",
+                "meaning": "PA0"
+              },
+              {
+                "value": "10",
+                "meaning": "PA1"
+              },
+              {
+                "value": "11",
+                "meaning": "PA2"
+              },
+              {
+                "value": "00",
+                "meaning": "PA1"
+              },
+              {
+                "value": "01",
+                "meaning": "PA2"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PA14"
+              },
+              {
+                "value": "01",
+                "meaning": "PA15"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PA8"
+              },
+              {
+                "value": "01",
+                "meaning": "PB0"
+              },
+              {
+                "value": "10",
+                "meaning": "PB1"
+              },
+              {
+                "value": "11",
+                "meaning": "PB2"
+              },
+              {
+                "value": "00",
+                "meaning": "PA8"
+              },
+              {
+                "value": "01",
+                "meaning": "PB2"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "1:0",
+            "name": "PINMUX0[1:0]",
+            "description": "Pin GPIO multiplexer 0 This bitfield is set and cleared by software. It selects an active GPIO on a pin. Condition: STM32C011x - GPIO assigned to SO8 pin 1 Condition: STM32C051xx - GPIO assigned to WLCSP15 ball H3 Condition: STM32C071xx - GPIO assigned to WLCSP19 ball H3 Condition: STM32C091/92xx - GPIO assigned to TSSOP20 pin 19",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "PB7"
+              },
+              {
+                "value": "01",
+                "meaning": "PC14"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PF2-NRST"
+              },
+              {
+                "value": "01",
+                "meaning": "PA0"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PF2-NRST"
+              },
+              {
+                "value": "01",
+                "meaning": "PA0"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              },
+              {
+                "value": "00",
+                "meaning": "PA14"
+              },
+              {
+                "value": "01",
+                "meaning": "PA15"
+              },
+              {
+                "value": "Other",
+                "meaning": "Reserved"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

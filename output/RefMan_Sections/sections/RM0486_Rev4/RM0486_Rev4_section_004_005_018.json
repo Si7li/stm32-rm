@@ -1,0 +1,111 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S4.5.18",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "4",
+      "chapter_title": "Boot and security control (BSEC)",
+      "section": "4.5.18",
+      "section_title": "BSEC debug control register (BSEC_DBGCR)",
+      "level": 3,
+      "parent_section": "4.5",
+      "page": 224,
+      "page_end": 225,
+      "semantic_type": "register_description",
+      "features": [
+        "auth-hdpl",
+        "auth-sec",
+        "boot",
+        "bsec",
+        "bsec-dbgcr",
+        "unlock"
+      ],
+      "chars": 1617,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=224",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.5.18 \"BSEC debug control register (BSEC_DBGCR)\" in chapter 4 (Boot and security control (BSEC)), RM0486 Rev 4, page 224.",
+      "section_content": "Address offset: 0xE8C\nReset value: 0x0000 0000\nSecure privileged read and write only. Writeable only on a BSEC-closed device, once per\nwarm reset. Illegal reads return 0, illegal writes are ignored. Reset to zero on bsec_srst\n(cold reset).\nThe AUTH_HDPL byte field indicates a temporal isolation level, as follows: the value 0xB4\nmeans level 0, the value 0x51 means level 1, the value 0x8A means level 2, and the value\n0x6F means level 3. All other byte values are undefined.\nWhen the state is BSEC-open, the dbg_unlocked and dbg_unlocked_sec outputs to the\nDBG_MCU block are set to 0xB4, and the register is zeroed.\nWhen the state is not BSEC-open, both outputs are zeroed whenever either AUTH_HDPL\nor BSEC_HDPLSR[HDPL] are undefined, or BSEC_HDPLSR[HDPL] = 0xB4, or the level\nindicated by AUTH_HDPL is greater than that of BSEC_HDPLSR[HDPL]. Otherwise, the\nUNLOCK is placed on the dbg_unlocked output, and (UNLOCK and AUTH_SEC) is placed\non the dbg_unlocked_sec output.\nBits 31:24 AUTH_SEC[7:0]:\n0xB4: Secure debug authorized when UNLOCK = 0xB4 and the level indicated in\nBSEC_HDPLSR is greater than or equal to the level indicated by AUTH_HDPL\nOthers: Secure debug not authorized (provided state is not BSEC-open)\nBits 23:16 AUTH_HDPL[7:0]: level at which debug may be opened.\n0xB4: Level 0\n0x51: Level 1\n0x8A: Level 2\n0x6F: Level 3\nOthers: Undefined\nBits 15:8 UNLOCK[7:0]:\n0xB4: Nonsecure debug authorized when the level indicated in BSEC_HDPLSR is greater\nthan or equal to the level given by AUTH_HDPL\nOthers: Debug not authorized (provided state is not BSEC-open)\nBits 7:0 Reserved, must be kept at reset value.",
+      "semantic": {
+        "register": "BSEC_DBGCR",
+        "address_offset": "0xE8C",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "AUTH_SEC[7:0]",
+            "description": "BSEC_HDPLSR is greater than or equal to the level indicated by AUTH_HDPL",
+            "values": [
+              {
+                "value": "0xB4",
+                "meaning": "Secure debug authorized when UNLOCK = 0xB4 and the level indicated in"
+              },
+              {
+                "value": "Others",
+                "meaning": "Secure debug not authorized (provided state is not BSEC-open)"
+              }
+            ]
+          },
+          {
+            "bits": "23:16",
+            "name": "AUTH_HDPL[7:0]",
+            "description": "level at which debug may be opened.",
+            "values": [
+              {
+                "value": "0xB4",
+                "meaning": "Level 0"
+              },
+              {
+                "value": "0x51",
+                "meaning": "Level 1"
+              },
+              {
+                "value": "0x8A",
+                "meaning": "Level 2"
+              },
+              {
+                "value": "0x6F",
+                "meaning": "Level 3"
+              },
+              {
+                "value": "Others",
+                "meaning": "Undefined"
+              }
+            ]
+          },
+          {
+            "bits": "15:8",
+            "name": "UNLOCK[7:0]",
+            "description": "than or equal to the level given by AUTH_HDPL",
+            "values": [
+              {
+                "value": "0xB4",
+                "meaning": "Nonsecure debug authorized when the level indicated in BSEC_HDPLSR is greater"
+              },
+              {
+                "value": "Others",
+                "meaning": "Debug not authorized (provided state is not BSEC-open)"
+              }
+            ]
+          },
+          {
+            "bits": "7:0",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

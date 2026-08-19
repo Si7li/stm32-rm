@@ -1,0 +1,153 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.55",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.55",
+      "section_title": "OTG device OUT endpoint x interrupt register (OTG_DOEPINTx)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3852,
+      "page_end": 3853,
+      "semantic_type": "register_description",
+      "features": [
+        "ahberr",
+        "b2bstup",
+        "berr",
+        "epdisd",
+        "interrupt",
+        "nak",
+        "nyet",
+        "otepdis",
+        "otg",
+        "out",
+        "outpkterr",
+        "stpktrx",
+        "stsphsrx",
+        "stup",
+        "xfrc"
+      ],
+      "chars": 4091,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3852",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.55 \"OTG device OUT endpoint x interrupt register (OTG_DOEPINTx)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3852.",
+      "section_content": "This register indicates the status of an endpoint with respect to USB- and AHB-related\nevents. It is shown in Figure990. The application must read this register when the OUT\nendpoints interrupt bit of the OTG_GINTSTS register (OEPINT bit in OTG_GINTSTS) is set.\nBefore the application can read this register, it must first read the OTG_DAINT register to\nget the exact endpoint number for the OTG_DOEPINTx register. The application must clear\nthe appropriate bit in this register to clear the corresponding bits in the OTG_DAINT and\nOTG_GINTSTS registers.\nAddress offset: 0xB08 + 0x20 * x, (x = 0 to 8)\nReset value: 0x00000080\nBits 31:16 Reserved, must be kept at reset value.\nBit 15 STPKTRX: Setup packet received\nApplicable for control OUT endpoints in only in the Buffer DMA Mode. Set by the OTG, this\nbit indicates that this buffer holds 8 bytes of setup data. There is only one setup packet per\nbuffer. On receiving a setup packet, the OTG closes the buffer and disables the\ncorresponding endpoint after SETUP_COMPLETE status is seen in the Rx FIFO. OTG puts\na SETUP_COMPLETE status into the Rx FIFO when it sees the first IN or OUT token after\nthe SETUP packet for that particular endpoint. The application must then re-enable the\nendpoint to receive any OUT data for the control transfer and reprogram the buffer start\naddress. Because of the above behavior, OTG can receive any number of back to back\nsetup packets and one buffer for every setup packet is used.\nBit 14 NYET: NYET interrupt\nThis interrupt is generated when a NYET response is transmitted for a non isochronous\nOUT endpoint.\nBit 13 NAK: NAK input\nThe core generates this interrupt when a NAK is transmitted or received by the device. In\ncase of isochronous IN endpoints the interrupt gets generated when a zero length packet is\ntransmitted due to unavailability of data in the Tx FIFO.\nBit 12 BERR: Babble error interrupt\nThe core generates this interrupt when babble is received for the endpoint.\nBits 11:10 Reserved, must be kept at reset value.\nBit 9 Reserved, must be kept at reset value.\nBit 8 OUTPKTERR: OUT packet error\nThis interrupt is asserted when the core detects an overflow or a CRC error for an OUT\npacket. This interrupt is valid only when thresholding is enabled.\nBit 7 Reserved, must be kept at reset value.\nBit 6 B2BSTUP: Back-to-back SETUP packets received\nApplies to control OUT endpoint only.\nThis bit indicates that the core has received more than three back-to-back SETUP packets\nfor this particular endpoint.\nBit 5 STSPHSRX: Status phase received for control write\nThis interrupt is valid only for control OUT endpoints. This interrupt is generated only after\nOTG has transferred all the data that the host has sent during the data phase of a control\nwrite transfer, to the system memory buffer. The interrupt indicates to the application that the\nhost has switched from data phase to the status phase of a control write transfer. The\napplication can use this interrupt to ACK or STALL the status phase, after it has decoded the\ndata phase.\nBit 4 OTEPDIS: OUT token received when endpoint disabled\nApplies only to control OUT endpoints.\nIndicates that an OUT token was received when the endpoint was not yet enabled. This\ninterrupt is asserted on the endpoint for which the OUT token was received.\nBit 3 STUP: SETUP phase done\nApplies to control OUT endpoint only.Indicates that the SETUP phase for the control\nendpoint is complete and no more back-to-back SETUP packets were received for the\ncurrent control transfer. On this interrupt, the application can decode the received SETUP\ndata packet.\nBit 2 AHBERR: AHB error\nThis is generated only in internal DMA mode when there is an AHB error during an AHB\nread/write. The application can read the corresponding endpoint DMA address register to\nget the error address.\nBit 1 EPDISD: Endpoint disabled interrupt\nThis bit indicates that the endpoint is disabled per the application’s request.\nBit 0 XFRC: Transfer completed interrupt\nThis field indicates that the programmed transfer is complete on the AHB as well as on the\nUSB, for this endpoint.",
+      "semantic": {
+        "register": "OTG_DOEPINTx",
+        "address_offset": "0xB08 + 0x20 * x, (x = 0 to 8)",
+        "reset_value": "0x00000080",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "STPKTRX",
+            "description": "Setup packet received Applicable for control OUT endpoints in only in the Buffer DMA Mode. Set by the OTG, this bit indicates that this buffer holds 8 bytes of setup data. There is only one setup packet per buffer. On receiving a setup packet, the OTG closes the buffer and disables the corresponding endpoint after SETUP_COMPLETE status is seen in the Rx FIFO. OTG puts a SETUP_COMPLETE status into the Rx FIFO when it sees the first IN or OUT token after the SETUP packet for that particular endpoint. The application must then re-enable the endpoint to receive any OUT data for the control transfer and reprogram the buffer start address. Because of the above behavior, OTG can receive any number of back to back setup packets and one buffer for every setup packet is used.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "NYET",
+            "description": "NYET interrupt This interrupt is generated when a NYET response is transmitted for a non isochronous OUT endpoint.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "NAK",
+            "description": "NAK input The core generates this interrupt when a NAK is transmitted or received by the device. In case of isochronous IN endpoints the interrupt gets generated when a zero length packet is transmitted due to unavailability of data in the Tx FIFO.",
+            "values": []
+          },
+          {
+            "bits": "12",
+            "name": "BERR",
+            "description": "Babble error interrupt The core generates this interrupt when babble is received for the endpoint.",
+            "values": []
+          },
+          {
+            "bits": "11:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "OUTPKTERR",
+            "description": "OUT packet error This interrupt is asserted when the core detects an overflow or a CRC error for an OUT packet. This interrupt is valid only when thresholding is enabled.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "B2BSTUP",
+            "description": "Back-to-back SETUP packets received Applies to control OUT endpoint only. This bit indicates that the core has received more than three back-to-back SETUP packets for this particular endpoint.",
+            "values": []
+          },
+          {
+            "bits": "5",
+            "name": "STSPHSRX",
+            "description": "Status phase received for control write This interrupt is valid only for control OUT endpoints. This interrupt is generated only after OTG has transferred all the data that the host has sent during the data phase of a control write transfer, to the system memory buffer. The interrupt indicates to the application that the host has switched from data phase to the status phase of a control write transfer. The application can use this interrupt to ACK or STALL the status phase, after it has decoded the data phase.",
+            "values": []
+          },
+          {
+            "bits": "4",
+            "name": "OTEPDIS",
+            "description": "OUT token received when endpoint disabled Applies only to control OUT endpoints. Indicates that an OUT token was received when the endpoint was not yet enabled. This interrupt is asserted on the endpoint for which the OUT token was received.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "STUP",
+            "description": "SETUP phase done Applies to control OUT endpoint only.Indicates that the SETUP phase for the control endpoint is complete and no more back-to-back SETUP packets were received for the current control transfer. On this interrupt, the application can decode the received SETUP data packet.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "AHBERR",
+            "description": "AHB error This is generated only in internal DMA mode when there is an AHB error during an AHB read/write. The application can read the corresponding endpoint DMA address register to get the error address.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "EPDISD",
+            "description": "Endpoint disabled interrupt This bit indicates that the endpoint is disabled per the application’s request.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "XFRC",
+            "description": "Transfer completed interrupt This field indicates that the programmed transfer is complete on the AHB as well as on the USB, for this endpoint.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

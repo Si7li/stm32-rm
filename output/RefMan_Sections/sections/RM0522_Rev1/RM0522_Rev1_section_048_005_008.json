@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S48.5.8",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "48",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "48.5.8",
+      "section_title": "Loopback",
+      "level": 3,
+      "parent_section": "48.5",
+      "page": 2200,
+      "page_end": 2200,
+      "semantic_type": "generic",
+      "features": [
+        "dma"
+      ],
+      "chars": 2326,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2200",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.5.8 \"Loopback\" in chapter 48 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0522 Rev 1, page 2200.",
+      "section_content": "The MAC supports loopback of transmitted packets to its receiver.\nGuidelines for using loopback mode\nBelow some guidelines for using the loopback mode:\n• Enable loopback only with the Full-duplex mode. In Half-duplex mode, the carrier\nsense signal or collision signal inputs get sampled which may result into issues such as\npacket dropping.\n• If the loopback mode is enabled without connecting a PHY chip, externally generate\nthe Tx and Rx clocks and provide these clocks to the MAC.\n• Do not loop back big packets since they may get corrupted in the loopback FIFO.\nThe transmit and receive clocks can have an asynchronous timing relationship. Therefore,\nan asynchronous FIFO is used to make the loopback path of the transmitted data to the\nreceive path. The FIFO is free-running to write on the write clock (eth_tx_clk) and read on\nevery read clock (eth_rx_clk). At the start of each packet read from the FIFO, the write and\nread pointers are reinitialized to have an offset of four (in 10/100 Mbit/s mode). This avoids\noverflow or underflow during a packet transfer, and ensures that the overflow or underflow\noccurs only during the IPG period between the packets. The FIFO depth of five or nine is\nsufficient to prevent data corruption for packet sizes up to 9,022 bytes with a difference of\n200 ppm between MII transmit and receive clock frequencies.\nTherefore, bigger packets should not be looped back because they may get corrupted in this\nloopback FIFO.\nAt the end of every received packet, the receive Protocol Engine module generates\nreceived packet status and sends it to the receive Packet Controller module. The control,\nmissed packet, and filter fail status are added to the receive status in the receive Packet\nController module. The MAC does not process ARP or PMT packets that are looped back.\nEnabling loopback mode\nTo enable this feature, program the LM bit of the Operating mode configuration register\n(ETH_MACCR). Loopback can be enabled for all PHY interfaces. The data is always looped\nback through internal asynchronous FIFO on to the internal receive MII interface,\nirrespective of which PHY interface is selected.\nThe loopback data is also passed through the corresponding transmit PHY interface block,\nonto the Ethernet line.\nNote: During loopback, the data/packet is reflected on the mii_txd signal.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.8",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.8",
+      "section_title": "I3C IBI payload data register (I3C_IBIDR)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3245,
+      "page_end": 3245,
+      "semantic_type": "register_description",
+      "features": [
+        "i3c",
+        "i3c-ibidr",
+        "ibi",
+        "ibidb0",
+        "ibidb1",
+        "ibidb2",
+        "ibidb3"
+      ],
+      "chars": 1969,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3245",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.8 \"I3C IBI payload data register (I3C_IBIDR)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3245.",
+      "section_content": "Address offset: 0x020\nReset value: 0x00000000\nThis register is used for the IBI payload data.\nWhen I3C acts as target:\n• if BCR2 = 0 in the I3C_BCR register, this register is useless.\n• if BCR2 = 1, this register must be written by software\n– to be emitted on the I3C bus as the IBI payload data, after that the IBI request\n(MTYPE[3:0] = 1010 in the I3C_CR register) is acknowledged by the controller;\nwith the IBI data payload size defined by DCNT[15:0] in the I3C_CR register.\n– Maximum (static) payload data size is given by IBIP[2:0] in the I3C_MAXRLR\nregister. it can be 1, 2, 3 or 4 bytes.\n– DCNT[15:0] must be set between 1 (for the mandatory data byte MDB[7:0]) and\nthe maximum IBIP[2:0].\nWhen I3C acts as controller: if IBIACK= 1 in the I3C_DEVRx register, once it acknowledges\non the I3C bus the IBI request from the target x:\n• if IBIDEN = 0 (BCR[2] = 0 received from target x) in the I3C_DEVRx register, this\nregister is useless.\n• if IBIDEN = 1 (BCR[2] = 1 received from target x):\n– This register is internally written by hardware from the IBI payload data received\non the I3C bus (including the first mandatory data byte MDB[7:0]).\n– When the last byte of the payload is received in I3C_IBIDR (when target drives\nT-bit = 0), IBIF flag is set (and corresponding interrupt if enabled) in the I3C_EVR\nregister.\n– Then, the software can identify the target x via the received and logged 7-bit\naddress in RADD[6:0] in the I3C_RMR register.\n– The software can read this register and interpret byte(s) according to the number\nof bytes effectively received and logged in IBIRDCNT[2:0] in the I3C_RMR\nregister.\nBits 31:24 IBIDB3[7:0]: 8-bit IBI payload data (latest byte on I3C bus).\nBits 23:16 IBIDB2[7:0]: 8-bit IBI payload data (next byte on I3C bus after IBIDB1[7:0]).\nBits 15:8 IBIDB1[7:0]: 8-bit IBI payload data (next byte on I3C bus after IBIDB0[7:0]).\nBits 7:0 IBIDB0[7:0]: 8-bit IBI payload data (earliest byte on I3C bus, MDB[7:0] mandatory data byte).",
+      "semantic": {
+        "register": "I3C_IBIDR",
+        "address_offset": "0x020",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "IBIDB3[7:0]",
+            "description": "8-bit IBI payload data (latest byte on I3C bus).",
+            "values": []
+          },
+          {
+            "bits": "23:16",
+            "name": "IBIDB2[7:0]",
+            "description": "8-bit IBI payload data (next byte on I3C bus after IBIDB1[7:0]).",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "IBIDB1[7:0]",
+            "description": "8-bit IBI payload data (next byte on I3C bus after IBIDB0[7:0]).",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "IBIDB0[7:0]",
+            "description": "8-bit IBI payload data (earliest byte on I3C bus, MDB[7:0] mandatory data byte).",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

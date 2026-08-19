@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.4.13",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.4.13",
+      "section_title": "Local time, cycle time, global time,",
+      "level": 3,
+      "parent_section": "71.4",
+      "page": 3660,
+      "page_end": 3663,
+      "semantic_type": "generic",
+      "features": [
+        "cycle",
+        "global",
+        "local",
+        "time"
+      ],
+      "chars": 5855,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3660",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.4.13 \"Local time, cycle time, global time,\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3660.",
+      "section_content": "and external clock synchronization\nThere are two possible levels in time-triggered CAN:\n1. Level 1 only provides time-triggered operation using cycle time.\n2. Level 2 additionally provides increased synchronization quality, global time and\nexternal clock synchronization. In both levels, all timing features are based on a local\ntime base - the local time.\nThe local time is a 16-bit cyclic counter, it is incremented once each NTU. Internally the NTU\nis represented by a 3-bit counter which can be regarded as a fractional part (three binary\ndigits) of the local time. Generally, the 3-bit NTU counter is incremented eight times each\nNTU. If the length of the NTU is shorter than eight CAN clock periods (as may be configured\nin level 1, or as a result of clock calibration in level 2), the length of the NTU fraction is\nadapted, and the NTU counter is incremented only four times each NTU.\nFigure969 describes the synchronization of the cycle time and global time, performed in the\nsame manner by all FDCAN nodes, including the time master. Any message received or\ntransmitted invokes a capture of the local time taken at the message is frame\nsynchronization event. This frame synchronization event occurs at the sample point of each\nstart of frame (SoF) bit and causes the local time to be stored as Sync_Mark. Sync_Marks\nand Ref_Marks are captured including the 3-bit fractional part.\nWhenever a valid reference message is transmitted or received, the internal Ref_Mark is\nupdated from the Sync_Mark. The difference between Ref_Mark and Sync_Mark is the\ncycle sync mark (cycle sync mark = Sync_Mark - Ref_Mark) stored in register\nFDCAN_TTCSM. The most significant 16 bits of the difference between Ref_Mark and the\nactual value of the local time is the cycle time (cycle time = local time - Ref_Mark).\n[Figure 969. Cycle time and global time synchronization]\n+ -\nFrame\nsynchronization\nReference\nRef_Mark Local time Local_Offset\nmessage valid\n+ - - + + +\nCycle Cycle time Global time\nSync Mark\nThe cycle time that can be read from FDCAN_TTCTC.CT is the difference of the node local\ntime and Ref_Mark, both synchronized into the APB clock domain and truncated to 16 bit.\nThe global time exists for TTCAN level 0 and level 2 only, in level 1 it is invalid. The node\nview of the global time is the local image of the global time in (local) NTUs. After\nconfiguration, a potential time master uses its own local time as global time. The time\nmaster establishes its own local time as global time by transmitting its own Ref_Marks as\nMaster_Ref_Marks in the reference message (bytes 3 and 4). The global time that can be\nread from FDCAN_TTLGT.GT is the sum of the node local time and its local offset, both\nsynchronized into the APB clock domain and truncated to 16 bit. The fractional part is used\nfor clock synchronization only.\nA node that receives a reference message calculates its local offset to the global time by\ncomparing its local Ref_Mark with the received Master_Ref_Mark (see Figure970). The\nnode view of the global time is local time plus local offset. In a potential time master that has\nnever received another time master reference message, Local_Offset is 0. When a node\nbecomes the current time master after first having received other reference messages,\nLocal_Offset is frozen at its last value. In the time receiving nodes, Local_Offset may be\nsubject to small adjustments, due to clock drift, when another node becomes time master, or\nwhen there is a global time discontinuity, signaled by Disc_Bit in the reference message.\nWith the exception of global time discontinuity, the global time provided to the application\nprogram by register FDCAN_TTLGT is smoothed by a low-pass filtering to have a\ncontinuous monotonic value.\n[Figure 970. TTCAN level 0 and level 2 drift compensation]\nFigure970 describes how in TTCAN levels 0 and 2 each time receiving node compensates\nthe drift between its own local clock and the time master clock by comparing the length of a\nbasic cycle in local time and in global time. If there is a difference between the two values\nand the Disc_Bit in the reference message is not set, a new value for FDCAN_TURNA.NAV\nis calculated. If the synchronization deviation SD = | NC - FDCAN_TURNA.NAV | ≤ SDL\n(synchronization deviation limit), the new value for FDCAN_TURNA.NAV takes effect. Else\nthe automatic drift compensation is suspended.\nIn TTCAN level 0 and level 2, FDCAN_TTOST.QCS indicates whether the automatic drift\ncompensation is active or suspended. In TTCAN level 1, FDCAN_TOST.QCS is always 1.\nThe current time master may synchronize its local clock speed and the global time phase to\nan external clock source. This is enabled by bit FDCAN_TTOCF.EECS.\nThe stop watch function (see Section71.4.12) may be used to measure the difference in\nclock speed between the local clock and the external clock. The local clock speed is\nadjusted by first writing the newly calculated numerator configuration low to\nFDCAN_TURCF.NCL (FDCAN_TURCF.DC cannot be updated during operation). The new\nvalue takes effect by writing FDCAN_TTOCN.ECS to 1.\nThe global time phase is adjusted by first writing the phase offset into the TT global time\nPreset register FDCAN_TTGTP. The new value takes effect by writing\nFDCAN_TTOCN.SGT to 1. The first reference message transmitted after the global time\nphase adjustment has the Disc_Bit set to 1.\nFDCAN_TTOST.QGTP shows whether the node global time is in phase with the time master\nglobal time. FDCAN_TTOST.QGTP is permanently 0 in TTCAN level 1 and when the\nsynchronization deviation limit is exceeded in TTCAN levels 0, 2\n(FDCAN_TTOST.QCS=0). It is temporarily 0 while the global time is low-pass filtered to\nsupply the application with a continuous monotonic value. There is no low-pass filtering\nwhen the last reference message contained a Disc_Bit = 1 or when\nFDCAN_TTOST.QCS=0.",
+      "semantic": {}
+    }
+  ]
+}

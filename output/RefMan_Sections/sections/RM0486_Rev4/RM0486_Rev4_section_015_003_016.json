@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S15.3.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "15",
+      "chapter_title": "General-purpose I/Os (GPIO)",
+      "section": "15.3.16",
+      "section_title": "I/O pin isolation using TrustZone",
+      "level": 3,
+      "parent_section": "15.3",
+      "page": 791,
+      "page_end": 793,
+      "semantic_type": "generic",
+      "features": [
+        "gpio"
+      ],
+      "chars": 2477,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=791",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 15.3.16 \"I/O pin isolation using TrustZone\" in chapter 15 (General-purpose I/Os (GPIO)), RM0486 Rev 4, page 791.",
+      "section_content": "As TrustZone-aware peripheral, each I/O pin of GPIO port x can be individually configured\nas secure through GPIOx_SECCFGR. After reset, all GPIO ports are secure.\nThe I/Os connected to peripheral functions can be conditioned by the peripheral security\nconfiguration:\n• Peripherals for which the I/O pin selection is done through GPIOx_AFRL/H\nIf the peripheral is configured as secure, it cannot be connected to a nonsecure I/O pin.\nIfthis is not respected, input data to the secure peripheral are forced to 0 (I/O input pin\nvalue ignored), and the output pin value is forced to 0, thus avoiding any secure\ninformation leak through nonsecure I/Os. TrustZone-aware logic around GPIO ports is\nsummarized in Table79.\n• Peripherals (like ADC) with embedded analog functions that directly select/enable its\nallocated I/O ports using analog switches\nIf the I/O is secure, this analog switch cannot be controlled by a nonsecure peripheral.\nIf the peripheral is configured as nonsecure and the I/O is secure, the switch remains\nopen. This prevents the redirection of secure data to a nonsecure peripheral or I/O\nthrough analog path. Refer to Section3: System security for the list of peripherals\nusing this security.\n• The list of I/Os without a hardware protection linked to TrustZone is given in Section3:\nSystem security. More specifically, the listed signals (input and/or outputs) are not\nblocked when the I/O is set as secure, and the associated peripheral is non secure. For\neach of these listed I/Os, a secure application must decide if a potential effect on data\nintegrity or confidentiality is critical or not.\nRefer to the pins definitions table in the datasheet for more information about AFs and\nadditional functions mapping.\n[Table 79. Secure AF between peripherals and allocated I/Os]\nTable80 gives a summary of the I/O port y secured bits, following the setting of SECy\ninGPIOx_SECCFGR. The following is valid for each register in the table:\n• When a bit is secured, read/write operations are only allowed by a secure access.\nNon-secure read or write accesses on secured bits are RAZ/WI, with no illegal access\nevent generated.\n• When a bit is nonsecure, there is no TrustZone restriction. Read/write operations are\nallowed by both secure and nonsecure accesses.\n[Table 80. GPIO secured bits]\nNote: GPIOx_SECCFGR is readable by any application. Each bit in this register is write-locked\nuntil the next device reset, when setting the corresponding bit in GPIOx_RCFGLOCKR.",
+      "semantic": {}
+    }
+  ]
+}

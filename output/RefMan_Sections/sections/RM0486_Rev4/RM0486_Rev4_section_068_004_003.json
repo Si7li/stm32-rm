@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S68.4.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "68",
+      "chapter_title": "Serial audio interface (SAI)",
+      "section": "68.4.3",
+      "section_title": "Main SAI modes",
+      "level": 3,
+      "parent_section": "68.4",
+      "page": 3505,
+      "page_end": 3506,
+      "semantic_type": "generic",
+      "features": [
+        "sai"
+      ],
+      "chars": 2851,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3505",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 68.4.3 \"Main SAI modes\" in chapter 68 (Serial audio interface (SAI)), RM0486 Rev 4, page 3505.",
+      "section_content": "Each audio subblock of the SAI can be configured to be master or slave via the MODE bits\nin the SAI_xCR1 register of the selected audio block.\nMaster mode\nIn master mode, the SAI delivers the timing signals to the external connected device:\n• The bit clock and the frame synchronization are output on pin SCK_x and FS_x,\nrespectively.\n• If needed, the SAI can also generate a master clock on the MCLK_x pin.\nBoth SCK_x, FS_x and MCLK_x are configured as outputs.\nSlave mode\nThe SAI expects to receive timing signals from an external device.\n• If the SAI subblock is configured in asynchronous mode, then the SCK_x and FS_x\npins are configured as inputs.\n• If the SAI subblock is configured to operate synchronously with another SAI interface or\nwith the second audio subblock, the corresponding SCK_x and FS_x pins are left free\nto be used as general purpose I/Os.\nIn slave mode, the MCLK_x pin is not used and can be assigned to another function.\nIt is recommended to enable the slave device before enabling the master.\nConfiguring and enabling SAI modes\nEach audio block can use a different audio protocol. When PRTCFG[1:0] of the SAI_xCR1\nregister is set to 0, the free protocol mode is selected and each SAI subblock can emulate\nI2S standards, LSB- or MSB-justified, PCM/DSP, TDM, or AC’97 protocols.\nEach audio subblock can be independently defined as a transmitter or receiver through the\nMODE bit in the SAI_xCR1 register of the corresponding audio block. As a result, the\nSAI_SD_x pin is respectively configured as an output or an input.\nTwo master audio blocks in the same SAI can be configured with two different MCLK and\nSCK clock frequencies. In this case, they have to be configured in asynchronous mode.\nEach of the audio blocks in the SAI is enabled by the SAIEN bit in the SAI_xCR1 register. As\nsoon as this bit is active, the transmitter or the receiver is sensitive to the activity on the\nclock, data, and synchronization lines in slave mode.\nIn master Tx mode, enabling the audio block immediately generates the bit clock for the\nexternal slaves even if there is no data in the FIFO. However, FS signal generation is\nconditioned by the presence of data in the FIFO. After the FIFO receives the first data to\ntransmit, this data is output to external slaves. If there is no data to transmit in the FIFO, 0\nvalues are then sent in the audio frame with an underrun flag generation.\nIn slave mode, the audio frame starts when the audio block is enabled and when a start of\nframe is detected.\nIn Slave Tx mode, no underrun event is possible on the first frame after the audio block is\nenabled, because the mandatory operating sequence in this case is:\n1. Write into the SAI_xDR (by software or by DMA).\n2. Wait until the FIFO threshold (FLH) flag is different from 0b000 (FIFO empty).\n3. Enable the audio block in slave transmitter mode.",
+      "semantic": {}
+    }
+  ]
+}

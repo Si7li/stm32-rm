@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S13.7.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "13",
+      "chapter_title": "Power control (PWR)",
+      "section": "13.7.6",
+      "section_title": "Stop mode",
+      "level": 3,
+      "parent_section": "13.7",
+      "page": 379,
+      "page_end": 381,
+      "semantic_type": "generic",
+      "features": [
+        "power"
+      ],
+      "chars": 2950,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=379",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 13.7.6 \"Stop mode\" in chapter 13 (Power control (PWR)), RM0486 Rev 4, page 379.",
+      "section_content": "The Stop mode applies to the MCU. In Stop mode, the CPU clock is stopped. All CPU\nsubsystem peripheral clocks are stopped too, and only the CPU subsystem peripherals\nhaving a PERxLPEN bit operate accordingly.\nIn Stop mode, CPU subsystem peripherals having a kernel clock request can still request\ntheir kernel clock. For the peripheral having a PERxLPEN bit, this bit must be set to be able\nto request the kernel clock.\nHSI or MSI can remain enabled in system Stop mode (HSISTOPEN and MSISTOPEN set in\nRCC_STOPCR). After exiting Stop mode, the clock is quickly available as kernel clock for\nperipherals. Other system oscillator sources are stopped in Stop mode, and require\nastarting time after exiting Stop mode.\nIn Stop mode and SVOS high, peripherals using the LSI or LSE clock, and peripherals\nhaving a kernel clock request, are still able to operate.\nIn system Stop mode, the following features can be selected to remain active by\nprogramming individual control bits:\n• independent watchdog (IWDG)\nThe IWDG is started by writing to its key register or by hardware option. Once started, it\ncannot be stopped except by a reset (see Section59: Independent watchdog (IWDG).\n• real-time clock (RTC) that is configured via RTCEN in RCC_BDCR\n• internal RC oscillator (LSI RC) that is configured via LSION in RCC_CSR\n• external 32.768kHz oscillator (LSE OSC) that is configured via LSEON in RCC_CSR.\n• peripherals capable of running on the LSI or LSE clock\n• peripherals having a kernel clock request\n• internal RC oscillators (HSI and MSI) that are configured via HSISTOPEN and\nMSISTOPEN in RCC_STOPCR\n• The ADCs can also consume power during Stop mode, unless they are disabled before\nentering this mode. To disable them, ADON bit in ADC_CR2 must be written to 0.\nThe selected SVOS low levels add an additional start-up delay when exiting from system\nStop mode.\nEntering Stop mode\nThe Stop mode is entered according to Section13.7.3, when SLEEPDEEP bit in the\nCortex-M55 System Control register is set.\nThe low-power mode security filter must be disabled by system option bytes (NRST_STOP)\nto enter Stop mode. Refer to Section14.5.4: Low-power mode security reset (lpwr_rst) for\ndetails.\nRefer to the tables below for details on how to enter to Stop mode.\n[Table 57. Stop mode SVOS high]\n[Table 58. Stop mode SVOS low]\nTo allow peripherals having a kernel clock request to operate in Stop mode, the system must\nuse SVOS high.\nNote: Use a DSB instruction to ensure that outstanding memory transactions complete before\nentering Stop mode.\nExiting Stop mode\nThe Stop mode is exited according to Section13.7.4.\nRefer to Table57 and Table58 for more details on how to exit Stop mode.\nWhen exiting Stop mode, the MCU is in Run mode same range as before entering\nStopmode. The system starts on HSI or MSI.\nSTOPF status flag in PWR_CPUCR indicates that the system exited Stop mode.\nI/O states in Stop mode\nI/O pin configuration remains unchanged in Stop mode.",
+      "semantic": {}
+    }
+  ]
+}

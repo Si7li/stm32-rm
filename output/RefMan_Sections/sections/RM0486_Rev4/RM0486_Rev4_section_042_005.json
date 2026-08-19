@@ -1,0 +1,39 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S42.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "42",
+      "chapter_title": "Display subsystem",
+      "section": "42.5",
+      "section_title": "Display subsystem programmable parameters",
+      "level": 2,
+      "parent_section": null,
+      "page": 2091,
+      "page_end": 2092,
+      "semantic_type": "generic",
+      "features": [
+        "display",
+        "parameters",
+        "programmable",
+        "subsystem"
+      ],
+      "chars": 2492,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2091",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.5 \"Display subsystem programmable parameters\" in chapter 42 (Display subsystem), RM0486 Rev 4, page 2091.",
+      "section_content": "Steps to configure the various main use cases supported by the display subsystem are\ndetailed below. They provide the global picture and settings of the display subsystem\n(notrepeating information available in the local sections).\nThe display subsystem drives a display panel or bridge through the parallel interface. It\nallows panels to be driven up to 1080p60 (150 Mpixel/s), with either RGB888 or YUV422.\nThe RCC provides a pixel clock that drives both the LTDC and its synchronous parallel\ninterface. Aside, the LTDC needs an AXI-Master clock to fetch pixels, and an APB-Slave\nclock to get configured.\nThe steps to follow are detailed below:\n1. Setup security settings, with or without a secure layer depending on application needs,\nas described in Figure443.\n2. Clock and reset:\n– ck_ker_ltdc clock, provided by the RCC, as output pixel clock.\nOne PLL of the RCC needs to be allocated to the display subsystem to provide the\nclock that is exactly at the wanted pixel rate for the output display. Forinstance, a\nstandard 1080p60 requires a 148,50 MHz clock.\n– LTDC_CLK is driven automatically by the LTDC (after some gating) from its above\nprovided pixel_clock (ck_ker_ltdc from the RCC).\n– ck_icn_p_ltdc is provided by the RCC to allow the LTDC configuration\n(default200MHz).\n– ck_icn_m_ltdc is provided by the RCC to allow the LTDC AXI to work\n(default400MHz).\nSee Section14: Reset and clock control (RCC)for more details.\n3. LTDC configuration:\n– Setup the LTDC (such as input layers, display information, parallel interface,\nAXIsettings) as described in the LTDC section.\n4. Signal polarity:\nThe polarities of the signals are impacted by the fact that the LTDC parallel interface\nsignals are reclocked in the IO-ReTime logic, downstream of the LTDC. It results the\nfollowing when configuring the polarities to match the panel on the parallel interface:\n– The clock polarity (rising-vs-falling edge) must be configured in the IO-ReTime\nonly (see Section15: General-purpose I/Os (GPIO)), and not in the LTDC output\nlogic. The clock polarity logic in the LTDC must remain in its default post-reset\nstate.\n– The polarity of the Vs, Hs, and De synchronization signals, unlike for the clock\npolarity, can be configured directly in the LDTC output stage (see Section43:\nLCD-TFT display controller (LTDC)).\n5. I/O configuration:\nAllocate an alternate GPIO bank to the display subsystem, with usually 28 pins\nneeded: 24 pins for RGB888 and four others for the ancillary: Hs, Vs, De, and clock.",
+      "semantic": {}
+    }
+  ]
+}

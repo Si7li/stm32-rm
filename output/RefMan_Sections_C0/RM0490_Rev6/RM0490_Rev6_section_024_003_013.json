@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S24.3.13",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "24",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "24.3.13",
+      "section_title": "Timestamp function",
+      "level": 3,
+      "parent_section": "24.3",
+      "page": 658,
+      "page_end": 659,
+      "semantic_type": "generic",
+      "features": [
+        "clock"
+      ],
+      "chars": 1258,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=658",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.3.13 \"Timestamp function\" in chapter 24 (Real-time clock (RTC)), RM0490 Rev 6, page 658.",
+      "section_content": "Timestamp is enabled by setting the TSE or ITSE bits of RTC_CR register to 1.\nWhen TSE is set:\nThe calendar is saved in the timestamp registers (RTC_TSSSR, RTC_TSTR, RTC_TSDR)\nwhen a timestamp event is detected on the RTC_TS pin.\nWhen a timestamp event occurs, the timestamp flag bit (TSF) in RTC_SR register is set.\nBy setting the TSIE bit in the RTC_CR register, an interrupt is generated when a timestamp\nevent occurs.\nIf a new timestamp event is detected while the timestamp flag (TSF) is already set, the\ntimestamp overflow flag (TSOVF) flag is set and the timestamp registers (RTC_TSTR and\nRTC_TSDR) maintain the results of the previous event.\nNote: TSF is set 2 ck_apre cycles after the timestamp event occurs due to synchronization\nprocess.\nThere is no delay in the setting of TSOVF. This means that if two timestamp events are\nclose together, TSOVF can be seen as '1' while TSF is still '0'. As a consequence, it is\nrecommended to poll TSOVF only after TSF has been set.\nCaution: If a timestamp event occurs immediately after the TSF bit is supposed to be cleared, then\nboth TSF and TSOVF bits are set. To avoid masking a timestamp event occurring at the\nsame moment, the application must not write 0 into TSF bit unless it has already read it to 1.",
+      "semantic": {}
+    }
+  ]
+}

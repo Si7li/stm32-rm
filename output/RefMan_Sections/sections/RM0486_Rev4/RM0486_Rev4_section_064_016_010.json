@@ -1,0 +1,102 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.16.10",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.16.10",
+      "section_title": "I3C status register (I3C_SR)",
+      "level": 3,
+      "parent_section": "64.16",
+      "page": 3247,
+      "page_end": 3248,
+      "semantic_type": "register_description",
+      "features": [
+        "abt",
+        "dir",
+        "i3c",
+        "i3c-sr",
+        "mid",
+        "xdcnt"
+      ],
+      "chars": 2649,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3247",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.16.10 \"I3C status register (I3C_SR)\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3247.",
+      "section_content": "Address offset: 0x030\nReset value: 0x00000000\nThis register is used to read the status about the exchanged message on the I3C bus:\n• in FIFO mode: when the I3C acts as controller and if S-FIFO is enabled via SMODE = 1\nin the I3C_CFGR register:\n– Software is notified via SFNEF = 1 in the I3C_EVR register if there is a status\nregister to be read (and corresponding interrupt if enabled), when not in DMA\nmode (SDMAEN = 0)\n– In DMA mode (SDMAEN = 1), programmed I3C and DMA automatically manage\nby hardware the relevant and successive reads.\n– Software is notified via COVR = 1 in the I3C_SER register on an S-FIFO overflow\n(and ERRF = 1 in the I3C_EVR register and corresponding interrupt if enabled)\n• in register mode: if SMODE = 0 in the I3C_CFGR register\n– Software can use the flags FCF in the I3C_SER register and ERRF = 1 in the\nI3C_EVR register (and corresponding interrupt if enabled) to read this register\n– This register can be overwritten by hardware on a new message completion,\nwithout any notification.\nBits 31:24 MID[7:0]: Message identifier/counter of a given frame (when the I3C acts as controller)\nWhen I3C acts as controller, this fbitield identifies the control word message (I3C_CR) to\nwhom the I3C_SR status register refers.\nFirst message of a frame is identified with MID[7:0] = 0.\nThis bitfield is incremented (by hardware) on the completion of a new message control word\n(I3C_CR) over I3C bus. This field is reset for every new frame start.\nBits 23:19 Reserved, must be kept at reset value.\nBit 18 DIR: Message direction\nWhatever the I3C acts as controller or target, this bit indicates the direction of the related\nmessage on the I3C bus\n0: write\n1: read\nNote: ENTDAA CCC is considered as a write command.\nBit 17 ABT: A private read message is ended prematurely by the target (when the I3C acts as\ncontroller)\nWhen the I3C acts as controller, this bit indicates if the private read data transmitted by the\ntarget early terminates (the target drives T bit low earlier vs. what the controller expects in\nterms of programmed number of read data bytes DCNT[15:0] in the I3C_CR register).\n0: no early completion from the target\n1: early completion from the target\nBit 16 Reserved, must be kept at reset value.\nBits 15:0 XDCNT[15:0]: Data counter\nCondition: during the dynamic address assignment process (ENTDAA CCC)\n- When the I3C acts as controller: number of targets detected on the bus\n- When the I3C acts as target: number of transmitted bytes\nCondition: for other transfers, during the message\n- Whatever the I3C acts as controller or target: number of data bytes read from or\ntransmitted on the I3C bus during the message",
+      "semantic": {
+        "register": "I3C_SR",
+        "address_offset": "0x030",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "MID[7:0]",
+            "description": "Message identifier/counter of a given frame (when the I3C acts as controller) When I3C acts as controller, this fbitield identifies the control word message (I3C_CR) to whom the I3C_SR status register refers. First message of a frame is identified with MID[7:0] = 0. This bitfield is incremented (by hardware) on the completion of a new message control word (I3C_CR) over I3C bus. This field is reset for every new frame start.",
+            "values": []
+          },
+          {
+            "bits": "23:19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "DIR",
+            "description": "Message direction Whatever the I3C acts as controller or target, this bit indicates the direction of the related message on the I3C bus Note: ENTDAA CCC is considered as a write command.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "write"
+              },
+              {
+                "value": "1",
+                "meaning": "read"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "ABT",
+            "description": "A private read message is ended prematurely by the target (when the I3C acts as controller) When the I3C acts as controller, this bit indicates if the private read data transmitted by the target early terminates (the target drives T bit low earlier vs. what the controller expects in terms of programmed number of read data bytes DCNT[15:0] in the I3C_CR register).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "no early completion from the target"
+              },
+              {
+                "value": "1",
+                "meaning": "early completion from the target"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15:0",
+            "name": "XDCNT[15:0]",
+            "description": "Data counter Condition: during the dynamic address assignment process (ENTDAA CCC) - When the I3C acts as controller: number of targets detected on the bus - When the I3C acts as target: number of transmitted bytes Condition: for other transfers, during the message - Whatever the I3C acts as controller or target: number of data bytes read from or transmitted on the I3C bus during the message",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

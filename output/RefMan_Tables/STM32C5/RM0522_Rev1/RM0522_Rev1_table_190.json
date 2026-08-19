@@ -1,0 +1,132 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "table_id": "RM0522-T190",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "190",
+      "title": "Blob use steps for ECDSA signature (CCOP = 0b11000011)",
+      "page": 759,
+      "section": "25.5.2",
+      "section_title": "ECDSA signature",
+      "semantic_type": "generic",
+      "features": [
+        "ccop",
+        "ecdsa",
+        "gcmph",
+        "opstep"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=759",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "OPSTEP",
+        "MODE in PKA",
+        "GCMPH",
+        "Coupling or chaining operations",
+        "End-step event(1)",
+        "CPU action in step"
+      ],
+      "text_helper": "Table 190, \"Blob use steps for ECDSA signature (CCOP = 0b11000011)\", in section 25.5.2 (ECDSA signature) on page 759. Columns: OPSTEP, MODE in PKA, GCMPH, Coupling or chaining operations, End-step event(1), CPU action in step. 9 data row(s). Notes: 1. The application must clear and/or perform the described event for the CCB to automatically go to the next step.; 2. SAES cannot be used for any operations, for security reasons.",
+      "table_content": {
+        "headers": [
+          "OPSTEP",
+          "MODE in PKA",
+          "GCMPH",
+          "Coupling or chaining operations",
+          "End-step event(1)",
+          "CPU action in step"
+        ],
+        "rows": [
+          [
+            "0x1",
+            "N/A",
+            "N/A",
+            "N/A",
+            "AES GCM \nselected, \nGCMPH=0x0",
+            "– Enable the PKA in the correct mode, writing in PKA_CR \nMODE= 0x24 and EN=1 (repeat if EN bit stays clear). \nWait for INITOK=1 in PKA_SR.\n– Optionally decrypt the blob encryption key inthe SAES, \nusing DHUK in 256-bit wrapped key mode.\n– Set AES-GCM up in 256-bit encryption mode, with the \nDHUK or the decrypted key in register (if applicable).\n– Write hash z."
+          ],
+          [
+            "0x12",
+            "N/A",
+            "0x0",
+            "N/A",
+            "GCMPH = 0x1 \n(following GCM \ninitialization)",
+            "– Complete GCM initialization in decryption mode, using \nsaved random IV.\n– Write reference tag in CCB_REFTAGR."
+          ],
+          [
+            "0x13",
+            "0x24",
+            "0x1",
+            "CPU –> PKA \n+ SAES",
+            "GCMPH=0x2",
+            "Write ECC signature parameters in the PKA RAM, \nclearing CCF flags in the SAES, triggered after each 64-bit \nwrite."
+          ],
+          [
+            "0x14",
+            "0x24",
+            "0x2",
+            "SAES –> PKA",
+            "DATAOKF set",
+            "– Write encrypted d in SAES_DINR, and runs AES \ndecryption round.\n– Write incrementally private key d in the PKA, using \n0xCCB magic number. A special rule must be used for \nthe last 64-bit write (see step 7 in the sequence detailed \nafter this table).\n– Repeat for each 16-byte block of data."
+          ],
+          [
+            "0x16",
+            "0x24",
+            "0x2",
+            "RNG –> PKA",
+            "RNGOKF set, \nGCMPH=0x3",
+            "Write incrementally k in the PKA, using 0xCCB magic \nnumber. Values are drawn from the RNG. The PKA runs a \nspecial sanity check to verify random compliance with \nNIST standard (RNGERRF is set if the sanity check fails)."
+          ],
+          [
+            "0x17",
+            "0x24",
+            "0x3",
+            "SAES –> CCB",
+            "Tag matches \nREFTAGR?",
+            "– Complete GCM final.\n– Read computed tag in the SAES (returns 0)."
+          ],
+          [
+            "0x18",
+            "0x24",
+            "N/A",
+            "N/A",
+            "START=0x1",
+            "Start the operation in PKA setting START bit in PKA_CR."
+          ],
+          [
+            "0x19(2)",
+            "0x24",
+            "N/A",
+            "N/A",
+            "PROCENDF set",
+            "The PKA computes the operation, PKA RAM is read as 0."
+          ],
+          [
+            "0x1A",
+            "0x24",
+            "N/A",
+            "N/A",
+            "N/A",
+            "Read signature (r,s) in the PKA RAM."
+          ]
+        ],
+        "notes": [
+          "1. The application must clear and/or perform the described event for the CCB to automatically go to the next step.",
+          "2. SAES cannot be used for any operations, for security reasons.."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

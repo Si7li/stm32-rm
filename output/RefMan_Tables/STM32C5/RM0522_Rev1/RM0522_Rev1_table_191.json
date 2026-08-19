@@ -1,0 +1,138 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "table_id": "RM0522-T191",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "191",
+      "title": "Blob use steps for signing public key computation (CCOP = 0b10000001)",
+      "page": 761,
+      "section": "25.5.2",
+      "section_title": "ECDSA signature",
+      "semantic_type": "generic",
+      "features": [
+        "ccop",
+        "opstep"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=761",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "OPSTEP",
+        "MODE in PKA",
+        "GCMPH in SAES",
+        "Coupling or chaining operations",
+        "End-step event(1)",
+        "CPU action"
+      ],
+      "text_helper": "Table 191, \"Blob use steps for signing public key computation (CCOP = 0b10000001)\", in section 25.5.2 (ECDSA signature) on page 761. Columns: OPSTEP, MODE in PKA, GCMPH in SAES, Coupling or chaining operations, End-step event(1), CPU action. 10 data row(s). Notes: 1. The application must clear and/or perform described event for CCB to automatically go to the next step.; 2. SAES cannot be used for any operations, for security reasons.",
+      "table_content": {
+        "headers": [
+          "OPSTEP",
+          "MODE in PKA",
+          "GCMPH in SAES",
+          "Coupling or chaining operations",
+          "End-step event(1)",
+          "CPU action"
+        ],
+        "rows": [
+          [
+            "0x1",
+            "N/A",
+            "N/A",
+            "N/A",
+            "AES GCM \nselected, \nGCMPH = 0x0",
+            "– Enable the PKA in the correct mode, writing in PKA_CR \nMODE= 0x20 and EN=1 (repeat if EN bit stays clear). \nWait for INITOK=1 in PKA_SR.\n– Optionally decrypt blob encryption key in the SAES, \nusing DHUK in 256-bit wrapped key mode.\n– Set up AES-GCM in decryption mode with DHUK or the \ndecrypted key in register (if applicable)."
+          ],
+          [
+            "0x12",
+            "0x20",
+            "0x0",
+            "N/A",
+            "GCMPH = 0x1 \n(following GCM \ninitialization)",
+            "– Complete GCM initialization in decryption mode, using \nsaved random IV.\n– Write reference tag in CCB_REFTAGR."
+          ],
+          [
+            "0x13",
+            "0x20",
+            "0x1",
+            "CPU -> PKA \n+ SAES",
+            "GCMPH = 0x2",
+            "Write ECC signature parameters in the PKA RAM, \nclearing CCF flags in SAES, triggered after each2x32-bit \nwrite. "
+          ],
+          [
+            "0x14",
+            "0x20",
+            "0x2",
+            "SAES -> \nPKA",
+            "DATAOKF set, \nGCMPH=0x3",
+            "– Write encrypted d in SAES DINR and run AES \ndecryption round.\n– Write incrementallyscalar multiplier k in the PKA, using \n0xCCB magic number. \n– Repeat for each 16 bytes block of data."
+          ],
+          [
+            "0x17",
+            "0x20",
+            "0x3",
+            "SAES -> \nCCB",
+            "Tag matches \nREFTAGR?",
+            "– Complete GCM final.\n– Read computed tag in the SAES (returns 0)."
+          ],
+          [
+            "0x18",
+            "0x20",
+            "N/A",
+            "N/A",
+            "START = 0x1",
+            "Start the operation in PKA setting START bit in PKA_CR."
+          ],
+          [
+            "0x19(2)",
+            "0x20",
+            "N/A",
+            "N/A",
+            "PROCENDF set",
+            "The PKA computes the operation. PKA RAM is read as0."
+          ],
+          [
+            "0x1A",
+            "0x20",
+            "N/A",
+            "N/A",
+            "N/A",
+            "– Read public key point Q in PKA RAM"
+          ],
+          [
+            "0x1A",
+            "0x20",
+            "N/A",
+            "N/A",
+            "IPRST set\nin the CCB",
+            "– Read public key point Q in PKA RAM\n– Set IPRST in CCB"
+          ],
+          [
+            "0x0",
+            "0x26",
+            "N/A",
+            "N/A",
+            "N/A",
+            "Clear the IPRST bit in CCB when CCB_BUSY and \nOPSTEP are cleared in CCB_SR. \nBefore writing new ECDSA signature blob in non-volatile \nmemory do the following:\n– Enable the PKA in the correct mode, writing in PKA_CR \nMODE= 0x26 and EN=1. Wait for INITOK=1.\n– Write the hash z used during blob creation (see \nTable189)\n– Write ECDSA verification parameters in PKA, including \nthe public key coordinates computed in step 0x1A.\n– Start the operation setting START bit in PKA_CR\n– Wait for PROCENDF bit is set. If the signature is valid \nsave the created blob in non-volatile memory."
+          ]
+        ],
+        "notes": [
+          "1. The application must clear and/or perform described event for CCB to automatically go to the next step.",
+          "2. SAES cannot be used for any operations, for security reasons."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S71.5.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "71",
+      "chapter_title": "Controller area network with flexible data rate (FDCAN)",
+      "section": "71.5.7",
+      "section_title": "FDCAN nominal bit timing and prescaler register (FDCAN_NBTP)",
+      "level": 3,
+      "parent_section": "71.5",
+      "page": 3686,
+      "page_end": 3686,
+      "semantic_type": "register_description",
+      "features": [
+        "fdcan",
+        "fdcan-nbtp",
+        "nbrp",
+        "nsjw",
+        "ntseg1",
+        "ntseg2"
+      ],
+      "chars": 2203,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3686",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 71.5.7 \"FDCAN nominal bit timing and prescaler register (FDCAN_NBTP)\" in chapter 71 (Controller area network with flexible data rate (FDCAN)), RM0486 Rev 4, page 3686.",
+      "section_content": "Address offset: 0x001C\nReset value: 0x0600 0A03\nThis register is dedicated to the nominal bit timing used during the arbitration phase, and is\nonly writable if bits FDCAN_CCCR.CCE and FDCAN_CCCR.INIT are set. The CAN bit time\nmay be programed in the range of 4 to 81 tq. The CAN time quantum may be programmed\nin the range of [1 … 1024] FDCAN kernel clock periods.\ntq = (BRP + 1) FDCAN clock period fdcan_tq_ck\nNTSEG1 is the sum of Prop_Seg and Phase_Seg1. NTSEG2 is Phase_Seg2. Therefore the\nlength of the bit time is (programmed values) [NTSEG1 + NTSEG2 + 3] tq or (functional\nvalues) [Sync_Seg + Prop_Seg + Phase_Seg1 + Phase_Seg2] tq.\nThe information processing time (IPT) is zero, meaning the data for the next bit is available\nat the first clock edge after the sample point.\nBits 31:25 NSJW[6:0]: Nominal (re)synchronization jump width\nMust be smaller than NTSEG2, valid values are 0 to 127. The value used by the hardware is the one\nprogrammed, incremented by 1, that is, tSJW = (NSJW + 1) x tq.\nThese are write-protected bits, write access is possible only when bit CCE and bit INIT of\nFDCAN_CCCR register are set to 1.\nBits 24:16 NBRP[8:0]: Bitrate prescaler\nValue by which the oscillator frequency is divided for generating the bit time quanta. The bit time is\nbuilt up from a multiple of this quanta. Valid values are 0 to 511. The value used by the hardware is\nthe one programmed, incremented by 1.\nThese are write-protected bits, write access is possible only when bit CCE and bit INIT of\nFDCAN_CCCR register are set to 1.\nBits 15:8 NTSEG1[7:0]: Nominal time segment before sample point\nValid values are 0 to 255. The value used by the hardware is the one programmed, incremented by1\n(tBS1 = (NTSEG1 + 1) x tq).\nThese are write-protected bits, write access is possible only when bit CCE and bit INIT of\nFDCAN_CCCR register are set to 1.\nBit 7 Reserved, must be kept at reset value.\nBits 6:0 NTSEG2[6:0]: Nominal time segment after sample point\nValid values are 0 to 127. The value used by the hardware is the one programmed, incremented by 1\n(tBS2 = (NTSEG2 + 1) x tq).\nNote: With a CAN kernel clock of 8 MHz, the reset value of 0x06000A03 configures the FDCAN\nfor a bit rate of 500 kbit/s.",
+      "semantic": {
+        "register": "FDCAN_NBTP",
+        "address_offset": "0x001C",
+        "reset_value": "0x0600 0A03",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:25",
+            "name": "NSJW[6:0]",
+            "description": "Nominal (re)synchronization jump width Must be smaller than NTSEG2, valid values are 0 to 127. The value used by the hardware is the one programmed, incremented by 1, that is, tSJW = (NSJW + 1) x tq. These are write-protected bits, write access is possible only when bit CCE and bit INIT of FDCAN_CCCR register are set to 1.",
+            "values": []
+          },
+          {
+            "bits": "24:16",
+            "name": "NBRP[8:0]",
+            "description": "Bitrate prescaler Value by which the oscillator frequency is divided for generating the bit time quanta. The bit time is built up from a multiple of this quanta. Valid values are 0 to 511. The value used by the hardware is the one programmed, incremented by 1. These are write-protected bits, write access is possible only when bit CCE and bit INIT of FDCAN_CCCR register are set to 1.",
+            "values": []
+          },
+          {
+            "bits": "15:8",
+            "name": "NTSEG1[7:0]",
+            "description": "Nominal time segment before sample point Valid values are 0 to 255. The value used by the hardware is the one programmed, incremented by1 (tBS1 = (NTSEG1 + 1) x tq). These are write-protected bits, write access is possible only when bit CCE and bit INIT of FDCAN_CCCR register are set to 1.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6:0",
+            "name": "NTSEG2[6:0]",
+            "description": "Nominal time segment after sample point Valid values are 0 to 127. The value used by the hardware is the one programmed, incremented by 1 (tBS2 = (NTSEG2 + 1) x tq). Note: With a CAN kernel clock of 8 MHz, the reset value of 0x06000A03 configures the FDCAN for a bit rate of 500 kbit/s.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S14.6.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "14",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "14.6.11",
+      "section_title": "Peripheral clock-gating control",
+      "level": 3,
+      "parent_section": "14.6",
+      "page": 470,
+      "page_end": 472,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "chars": 3881,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=470",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 14.6.11 \"Peripheral clock-gating control\" in chapter 14 (Reset and clock control (RCC)), RM0486 Rev 4, page 470.",
+      "section_content": "As mentioned previously, each peripheral requires one or several bus interface clocks,\nnamed rcc_perx_bus_ck (for peripheral ‘x’). These clocks can be an APB, AHB, or AXI\nclock, according to which bus(ses) the peripheral is connected.\nThe clocks used as bus interface for peripherals can be aclk[s,a,n], hclk[m,u,e], hclk[5:1],\npclk[5:4], pclk[2:1], or ck_timg[1,2], depending on the bus connected to each peripheral.\nSome peripherals also require dedicated clocks for their communication interface.\nTheseclocks are generally asynchronous with respect to the bus interface clock. They are\nnamed kernel clocks (perx_ker_ck). Both bus interface and kernel clocks can be gated\naccording to several conditions detailed hereafter.\nAs shown in Figure65, enabling kernel and bus interface clocks of each peripheral depends\non several input signals:\n• PERxEN and PERxLPEN bits\nPERxEN represents the peripheral enable (allocation) bit for the CPU. The CPU can\nwrite these bits to 1 via RCC_xxxxENR.\n• CPU state (cpu_sleep and cpu_deepsleep signals)\n• kernel clock request (perx_ker_ckreq) of the peripheral itself, when the feature is\navailable\nRefer to Section14.6.10 for more details.\n[Figure 65. Enable logic details for peripheral kernel clock]\nRCC\nSCGU (system clock enabling unit)\nclock generation)\nPERxEN\nPKSU CPU_state logic rcc_perx_bus_en\nperx_ker_ckreq PERx\n(peripheral kernel clock\nselection) When the peripheral\noffers the feature\nPERxSEL\nrcc_perx_ker_ck\nD The switch is dynamic: the transition between two inputs is glitch-free.\nThe clocks for all AHB and APB buses (AHBM, AHB1/2/3/4/5, APB1/2/4/5) are\nautomatically enabled when a dependent peripheral is active. This may induce a chain:\naperipheral activation activates the APB that activates the AHB, and activates the AHBM.\nFor instance, the manual UART4 activation induces the automatic APB1 activation (APB1\nisused to configure the UART4). This induces the automatic AHB1 bus activation (AHB1 is\nneeded to drive the APB1). This induces the activation of the central AHBM matrix (AHBM is\nneeded to drive the AHB1).\nHigh-bandwidth interconnect\nThe NoC and the two NPU AXI bus clocks (ck_icn_npu and ck_icn_npuc, see Figure48)\nare permanently enabled in Run and Sleep modes, and permanently disabled in Stop and\nStandby modes.\nAn internal automatic clock-gating optimizes the NoC power consumption: when no\ntransaction is ongoing in a bus section, an automatic clock-gating clocks and gates this bus.\nThe NPU interconnect clock (ck_icn_npu) can be disabled by setting ACLKNEN=0\n(disabled in Run and Sleep modes), or ACLKNLPEN=0 (disabled in Sleep mode only).\nIfthe clock is disabled, the NPU cannot work (no interconnect downstream), and the CPU\ncannot access AXISRAM3/4/5/6, the CACHEAXI RAM, or the FLEXRAM.\nThe clock of the NPU interconnect (ck_icn_npuc) can be disabled by setting\nACLKNCEN=0 (disabled in Run and Sleep modes), or ACLKNCLPEN=0 (disabled in\nSleep mode only). If the clock is disabled, neither the CPU or NPU can access\nAXISRAM3/4/5/6, the CACHEAXI, the CACHEAXI RAM, or the FLEXRAM.\nTable74 gives a detailed description of the enabling logic of the peripheral clocks\nforperipherals located in the CPU domain and allocated by the CPU.\n[Table 74. Peripheral clock enabling]\nThe kernel clock is provided to the peripherals when one of the following conditions is met:\n1. The CPU is in Run mode and the peripheral is enabled.\n2. The CPU is in Sleep mode and the peripheral is enabled with PERxLPEN = 1.\n3. The CPU is in Stop mode, the peripheral is enabled with PERxLPEN = 1, the peripheral\ngenerates a kernel clock request, and the selected clock is hsi_ker_ck or msi_ker_ck.\n4. The CPU is in Stop mode, the peripheral is enabled with PERxLPEN = 1, and the\nkernel source clock of the peripheral is lse_ck or lsi_ck.\nThe bus interface clock is provided to the peripherals only when conditions 1 or 2 are met.",
+      "semantic": {}
+    }
+  ]
+}

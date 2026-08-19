@@ -1,0 +1,388 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S11.12.3",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "11",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "11.12.3",
+      "section_title": "ADC control register 2 (ADC_CR2)",
+      "level": 3,
+      "parent_section": "11.12",
+      "page": 240,
+      "page_end": 243,
+      "semantic_type": "register_description",
+      "features": [
+        "adc",
+        "adc-cr2",
+        "adon",
+        "align",
+        "cal",
+        "cont",
+        "dma",
+        "extsel",
+        "exttrig",
+        "jextsel",
+        "jexttrig",
+        "jswstart",
+        "rstcal",
+        "swstart",
+        "tsvrefe"
+      ],
+      "chars": 4871,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=240",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.12.3 \"ADC control register 2 (ADC_CR2)\" in chapter 11 (Analog-to-digital converter (ADC)), RM0008 Rev 21, page 240.",
+      "section_content": "Address offset: 0x08\nReset value: 0x0000 0000\nBits 31:24 Reserved, must be kept at reset value.\nBit 23 TSVREFE: Temperature sensor and VREFINT enable\nThis bit is set and cleared by software to enable/disable the temperature sensor and VREFINT\nchannel. In devices with dual ADCs this bit is present only in ADC1.\n0: Temperature sensor and VREFINT channel disabled\n1: Temperature sensor and VREFINT channel enabled\nBit 22 SWSTART: Start conversion of regular channels\nThis bit is set by software to start conversion and cleared by hardware as soon as\nconversion starts. It starts a conversion of a group of regular channels if SWSTART is\nselected as trigger event by the EXTSEL[2:0] bits.\n0: Reset state\n1: Starts conversion of regular channels\nBit 21 JSWSTART: Start conversion of injected channels\nThis bit is set by software and cleared by software or by hardware as soon as the conversion\nstarts. It starts a conversion of a group of injected channels (if JSWSTART is selected as\ntrigger event by the JEXTSEL[2:0] bits.\n0: Reset state\n1: Starts conversion of injected channels\nBit 20 EXTTRIG: External trigger conversion mode for regular channels\nThis bit is set and cleared by software to enable/disable the external trigger used to start\nconversion of a regular channel group.\n0: Conversion on external event disabled\n1: Conversion on external event enabled\nBits 19:17 EXTSEL[2:0]: External event select for regular group\nThese bits select the external event used to trigger the start of conversion of a regular group:\nFor ADC1 and ADC2, the assigned triggers are:\n000: Timer 1 CC1 event\n001: Timer 1 CC2 event\n010: Timer 1 CC3 event\n011: Timer 2 CC2 event\n100: Timer 3 TRGO event\n101: Timer 4 CC4 event\n110: EXTI line 11/TIM8_TRGO event (TIM8_TRGO is available only in high-density and XL-\ndensity devices)\n111: SWSTART\nFor ADC3, the assigned triggers are:\n000: Timer 3 CC1 event\n001: Timer 2 CC3 event\n010: Timer 1 CC3 event\n011: Timer 8 CC1 event\n100: Timer 8 TRGO event\n101: Timer 5 CC1 event\n110: Timer 5 CC3 event\n111: SWSTART\nBit 16 Reserved, must be kept at reset value.\nBit 15 JEXTTRIG: External trigger conversion mode for injected channels\nThis bit is set and cleared by software to enable/disable the external trigger used to start\nconversion of an injected channel group.\n0: Conversion on external event disabled\n1: Conversion on external event enabled\nBits 14:12 JEXTSEL[2:0]: External event select for injected group\nThese bits select the external event used to trigger the start of conversion of an injected\ngroup:\nFor ADC1 and ADC2 the assigned triggers are:\n000: Timer 1 TRGO event\n001: Timer 1 CC4 event\n010: Timer 2 TRGO event\n011: Timer 2 CC1 event\n100: Timer 3 CC4 event\n101: Timer 4 TRGO event\n110: EXTI line15/TIM8_CC4 event (TIM8_CC4 is available only in high-density and XL-\ndensity devices)\n111: JSWSTART\nFor ADC3 the assigned triggers are:\n000: Timer 1 TRGO event\n001: Timer 1 CC4 event\n010: Timer 4 CC3 event\n011: Timer 8 CC2 event\n100: Timer 8 CC4 event\n101: Timer 5 TRGO event\n110: Timer 5 CC4 event\n111: JSWSTART\nBit 11 ALIGN: Data alignment\nThis bit is set and cleared by software. Refer to Figure 27.and Figure 28.\n0: Right Alignment\n1: Left Alignment\nBits 10:9 Reserved, must be kept at reset value.\nBit 8 DMA: Direct memory access mode\nThis bit is set and cleared by software. Refer to the DMA controller chapter for more details.\n0: DMA mode disabled\n1: DMA mode enabled\nOnly ADC1 and ADC3 can generate a DMA request.\nBits 7:4 Reserved, must be kept at reset value.\nBit 3 RSTCAL: Reset calibration\nThis bit is set by software and cleared by hardware. It is cleared after the calibration registers\nare initialized.\n0: Calibration register initialized.\n1: Initialize calibration register.\nNote: If RSTCAL is set when conversion is ongoing, additional cycles are required to clear the\ncalibration registers.\nBit 2 CAL: A/D Calibration\nThis bit is set by software to start the calibration. It is reset by hardware after calibration is\ncomplete.\n0: Calibration completed\n1: Enable calibration\nBit 1 CONT: Continuous conversion\nThis bit is set and cleared by software. If set conversion takes place continuously till this bit is\nreset.\n0: Single conversion mode\n1: Continuous conversion mode\nBit 0 ADON: A/D converter ON / OFF\nThis bit is set and cleared by software. If this bit holds a value of zero and a 1 is written to it\nthen it wakes up the ADC from Power Down state.\nConversion starts when this bit holds a value of 1 and a 1 is written to it. The application\nshould allow a delay of tSTAB between power up and start of conversion. Refer to Figure 23.\n0: Disable ADC conversion/calibration and go to power down mode.\n1: Enable ADC and to start conversion\nNote: If any other bit in this register apart from ADON is changed at the same time, then\nconversion is not triggered. This is to prevent triggering an erroneous conversion.",
+      "semantic": {
+        "register": "ADC_CR2",
+        "address_offset": "0x08",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:24",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "23",
+            "name": "TSVREFE",
+            "description": "Temperature sensor and VREFINT enable This bit is set and cleared by software to enable/disable the temperature sensor and VREFINT channel. In devices with dual ADCs this bit is present only in ADC1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Temperature sensor and VREFINT channel disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Temperature sensor and VREFINT channel enabled"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "SWSTART",
+            "description": "Start conversion of regular channels This bit is set by software to start conversion and cleared by hardware as soon as conversion starts. It starts a conversion of a group of regular channels if SWSTART is selected as trigger event by the EXTSEL[2:0] bits.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Reset state"
+              },
+              {
+                "value": "1",
+                "meaning": "Starts conversion of regular channels"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "JSWSTART",
+            "description": "Start conversion of injected channels This bit is set by software and cleared by software or by hardware as soon as the conversion starts. It starts a conversion of a group of injected channels (if JSWSTART is selected as trigger event by the JEXTSEL[2:0] bits.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Reset state"
+              },
+              {
+                "value": "1",
+                "meaning": "Starts conversion of injected channels"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "EXTTRIG",
+            "description": "External trigger conversion mode for regular channels This bit is set and cleared by software to enable/disable the external trigger used to start conversion of a regular channel group.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Conversion on external event disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Conversion on external event enabled"
+              }
+            ]
+          },
+          {
+            "bits": "19:17",
+            "name": "EXTSEL[2:0]",
+            "description": "External event select for regular group These bits select the external event used to trigger the start of conversion of a regular group: For ADC1 and ADC2, the assigned triggers are: density devices) For ADC3, the assigned triggers are:",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Timer 1 CC1 event"
+              },
+              {
+                "value": "001",
+                "meaning": "Timer 1 CC2 event"
+              },
+              {
+                "value": "010",
+                "meaning": "Timer 1 CC3 event"
+              },
+              {
+                "value": "011",
+                "meaning": "Timer 2 CC2 event"
+              },
+              {
+                "value": "100",
+                "meaning": "Timer 3 TRGO event"
+              },
+              {
+                "value": "101",
+                "meaning": "Timer 4 CC4 event"
+              },
+              {
+                "value": "110",
+                "meaning": "EXTI line 11/TIM8_TRGO event (TIM8_TRGO is available only in high-density and XL-"
+              },
+              {
+                "value": "111",
+                "meaning": "SWSTART"
+              },
+              {
+                "value": "000",
+                "meaning": "Timer 3 CC1 event"
+              },
+              {
+                "value": "001",
+                "meaning": "Timer 2 CC3 event"
+              },
+              {
+                "value": "010",
+                "meaning": "Timer 1 CC3 event"
+              },
+              {
+                "value": "011",
+                "meaning": "Timer 8 CC1 event"
+              },
+              {
+                "value": "100",
+                "meaning": "Timer 8 TRGO event"
+              },
+              {
+                "value": "101",
+                "meaning": "Timer 5 CC1 event"
+              },
+              {
+                "value": "110",
+                "meaning": "Timer 5 CC3 event"
+              },
+              {
+                "value": "111",
+                "meaning": "SWSTART"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "JEXTTRIG",
+            "description": "External trigger conversion mode for injected channels This bit is set and cleared by software to enable/disable the external trigger used to start conversion of an injected channel group.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Conversion on external event disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Conversion on external event enabled"
+              }
+            ]
+          },
+          {
+            "bits": "14:12",
+            "name": "JEXTSEL[2:0]",
+            "description": "External event select for injected group These bits select the external event used to trigger the start of conversion of an injected group: For ADC1 and ADC2 the assigned triggers are: density devices) For ADC3 the assigned triggers are:",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Timer 1 TRGO event"
+              },
+              {
+                "value": "001",
+                "meaning": "Timer 1 CC4 event"
+              },
+              {
+                "value": "010",
+                "meaning": "Timer 2 TRGO event"
+              },
+              {
+                "value": "011",
+                "meaning": "Timer 2 CC1 event"
+              },
+              {
+                "value": "100",
+                "meaning": "Timer 3 CC4 event"
+              },
+              {
+                "value": "101",
+                "meaning": "Timer 4 TRGO event"
+              },
+              {
+                "value": "110",
+                "meaning": "EXTI line15/TIM8_CC4 event (TIM8_CC4 is available only in high-density and XL-"
+              },
+              {
+                "value": "111",
+                "meaning": "JSWSTART"
+              },
+              {
+                "value": "000",
+                "meaning": "Timer 1 TRGO event"
+              },
+              {
+                "value": "001",
+                "meaning": "Timer 1 CC4 event"
+              },
+              {
+                "value": "010",
+                "meaning": "Timer 4 CC3 event"
+              },
+              {
+                "value": "011",
+                "meaning": "Timer 8 CC2 event"
+              },
+              {
+                "value": "100",
+                "meaning": "Timer 8 CC4 event"
+              },
+              {
+                "value": "101",
+                "meaning": "Timer 5 TRGO event"
+              },
+              {
+                "value": "110",
+                "meaning": "Timer 5 CC4 event"
+              },
+              {
+                "value": "111",
+                "meaning": "JSWSTART"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "ALIGN",
+            "description": "Data alignment This bit is set and cleared by software. Refer to Figure 27.and Figure 28.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Right Alignment"
+              },
+              {
+                "value": "1",
+                "meaning": "Left Alignment"
+              }
+            ]
+          },
+          {
+            "bits": "10:9",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "DMA",
+            "description": "Direct memory access mode This bit is set and cleared by software. Refer to the DMA controller chapter for more details. Only ADC1 and ADC3 can generate a DMA request.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "7:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "RSTCAL",
+            "description": "Reset calibration This bit is set by software and cleared by hardware. It is cleared after the calibration registers are initialized. Note: If RSTCAL is set when conversion is ongoing, additional cycles are required to clear the calibration registers.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calibration register initialized."
+              },
+              {
+                "value": "1",
+                "meaning": "Initialize calibration register."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "CAL",
+            "description": "A/D Calibration This bit is set by software to start the calibration. It is reset by hardware after calibration is complete.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calibration completed"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable calibration"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CONT",
+            "description": "Continuous conversion This bit is set and cleared by software. If set conversion takes place continuously till this bit is reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Single conversion mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Continuous conversion mode"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "ADON",
+            "description": "A/D converter ON / OFF This bit is set and cleared by software. If this bit holds a value of zero and a 1 is written to it then it wakes up the ADC from Power Down state. Conversion starts when this bit holds a value of 1 and a 1 is written to it. The application should allow a delay of tSTAB between power up and start of conversion. Refer to Figure 23. Note: If any other bit in this register apart from ADON is changed at the same time, then conversion is not triggered. This is to prevent triggering an erroneous conversion.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable ADC conversion/calibration and go to power down mode."
+              },
+              {
+                "value": "1",
+                "meaning": "Enable ADC and to start conversion"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S28.4.24",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "28",
+      "chapter_title": "Extended-SPI interface (XSPI)",
+      "section": "28.4.24",
+      "section_title": "Hardware-controlled extended memory support",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 1324,
+      "page_end": 1325,
+      "semantic_type": "generic",
+      "features": [
+        "memory",
+        "spi"
+      ],
+      "chars": 1784,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1324",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.24 \"Hardware-controlled extended memory support\" in chapter 28 (Extended-SPI interface (XSPI)), RM0486 Rev 4, page 1324.",
+      "section_content": "One XSPI instance is able to control autonomously the generation of the two chip-select\nsignals (NCS1 and NCS2). This feature is activated by setting EXTENDMEM in\nXSPI_DCR1 and allows two external memories to be connected to the same I/O port driven\nby the XSPI.\nThe aim is to extend by a factor two, the available external memory size. Both memories\nmust be contiguous in the memory map. Both external memories must be of the same type\nand size. The size of one external memory must be set in the DEVSIZE bitfield in XSPI_CR.\n• When the address presented on the interconnect bus in memory-mapped mode or in\nXSPI_AR register in indirect mode is in the range\n[XSPI_base_address:XSPI_base_address + 2DEVSIZE - 1], NCS1 is generated.\n• When the address presented on the interconnect bus in memory-mapped mode or in\nXSPI_AR register in indirect mode is in the range\n[XSPI_base_address+2DEVSIZE:XSPI_base_address + 2 * 2DEVSIZE-1],\nNCS2isgenerated.\nNote: If the access crosses the middle boundary of the external memory, CS changes\nautomatically (no write into XSPI_AR in indirect mode, or new memory access in\nmemory-mapped mode is needed).\nThe EXTENDMEM feature (set in bit 21 of XSPI_DCR1) and the Dual-memory mode (set in\nbit 6 of XSPI_CR) are exclusive. It is not possible to set both EXTENDMEM to 1 and DMM\nto 1 as this configuration is not supported.\n[Figure 216. Example of hardware-controlled extended memory support]\nNote: It is recommended to set EXTENDMEM = 0 for write transfers targeting flash memories\n(HyperFlash, NOR Flash, etc.).\nThese memories require preliminary commands that do not include an address phase used\nby the controller to select the targeted memory.\nThis recommendation does not apply to RAM memories, as those extra commands are not\nneeded for RAM access.",
+      "semantic": {}
+    }
+  ]
+}

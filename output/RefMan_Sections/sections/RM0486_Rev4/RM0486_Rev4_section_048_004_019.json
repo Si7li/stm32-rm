@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S48.4.19",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "48",
+      "chapter_title": "Secure AES coprocessor (SAES)",
+      "section": "48.4.19",
+      "section_title": "SAES error management",
+      "level": 3,
+      "parent_section": "48.4",
+      "page": 2338,
+      "page_end": 2339,
+      "semantic_type": "generic",
+      "features": [
+        "saes"
+      ],
+      "chars": 4048,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2338",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.4.19 \"SAES error management\" in chapter 48 (Secure AES coprocessor (SAES)), RM0486 Rev 4, page 2338.",
+      "section_content": "The SAES peripheral manages the errors described in this section.\nRead error flag (RDERRF)\nUnexpected read attempt of the SAES_DOUTR register returns zero, setting the RDERRF\nflag and the RWEIF flag. RDERRF is triggered during the computation phase or during the\ninput phase.\nNote: Unless otherwise indicated, SAES is not disabled when RDERRF rises and it continues\nprocessing.\nAn interrupt is generated if the RWEIE bit is set. For more details, refer to Section48.5:\nSAES interrupts.\nThe RDERRF and RWEIF flags are cleared by setting the RWEIF bit of the SAES_ICR\nregister.\nWrite error flag (WRERRF)\nUnexpected write attempt of the SAES_DINR register is ignored, setting the WRERRF and\nthe RWEIF flags. WRERRF is triggered during the computation phase or during the output\nphase.\nNote: Unless otherwise indicated, SAES is not disabled when WRERRF rises and it continues\nprocessing.\nAn interrupt is generated if the RWEIE bit is set. For more details, refer to Section48.5:\nSAES interrupts.\nThe WRERRF and RWEIF flags are cleared by setting the RWEIF bit of the SAES_ICR\nregister.\nKey error interrupt flag (KEIF)\nThere are multiple sources of errors that set the KEIF flag of the SAES_ISR register and\nclear the KEYVALID bit of the SAES_SR register:\n• Key protection error: while KEYVALID is set, then if KEYPROT is set or KEYSEL[2:0]\nis different from zero, this error is triggered when an application executing in a security\ncontext different from the one used to load the key (that is, different security attribute)\naccesses SAES.\n• Key writing sequence error: triggered upon detecting an incorrect sequence of\nwriting key registers. See Section48.4.17: SAES key registers for details.\n• Key sharing size mismatch error: triggered when KMOD[1:0] is at 0x2 and KEYSIZE\nin CRYP peripheral does not match KEYSIZE in SAES peripheral.\n• Key sharing error: triggered upon failing transfer of SAES shared key to CRYP\nperipheral. See Section48.4.15: SAES operation with shared keys for details.\n• Hardware secret key loading error: triggered upon failing load of DHUK or BHK into\nSAES. KEYSEL[2:0] at 0x1 (DHUK), 0x2 (BHK) or 0x4 (DHUK XOR BHK) is not\nfunctional.\nThe KEIF flag is cleared with corresponding bit of the SAES_ICR register. An interrupt is\ngenerated if the KEIE bit of the SAES_IER register is set. For more details, refer to\nSection48.5: SAES interrupts.\nUpon a key selection error, clearing the KEIF flag automatically restarts the key selection\nprocess. Persisting problems (for example, RHUK load failing) may require a power-on\nreset.\nUpon a key sharing error, reset both CRYP and SAES peripherals through the IPRST bit of\ntheir corresponding control register, then restart the key sharing sequence.\nNote: For any key error, clear KEIF flag prior to disabling and re-configuring SAES.\nRNG error interrupt flag (RNGEIF)\nSAES fetches random numbers from the RNG peripheral automatically after an IP reset\ntriggered in the RCC. SAES cannot be used when RNGEIF is set.\nAn error detected while fetching a random number from RNG peripheral (due to, for\nexample, bad entropy) sets the RNGEIF flag of the SAES_ISR register. The flag is cleared\nby setting the corresponding bit of the SAES_ICR register. An interrupt is generated if the\nRNGEIE bit of the SAES_IER register is set. For more details, refer to Section48.5: SAES\ninterrupts.\nUpon an RNG error:\n• Make sure that the RNG peripheral is properly configured.\n• Verify that the RNG peripheral AHB clock is enabled and no noise source (or seed)\nerror is pending in this peripheral.\n• Clear RNGEIF or reset the peripheral by setting IPRST. The clearance of the BUSY\nflag then indicates the completion of the random number fetch from RNG.\nNote: To avoid RNGEIF errors, it is recommended to activate the RNG AHB clock each time\nSAES AHB clock is activated.\nManaging tamper errors\nAn unexpected error triggers an SAES internal tamper event in the TAMP peripheral, and\nstops any SAES co-processor processing.\nTo resume normal operation, reset the SAES peripheral through RCC or global reset.",
+      "semantic": {}
+    }
+  ]
+}

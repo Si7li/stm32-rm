@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S76.8.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "76",
+      "chapter_title": "Ethernet (ETH): gigabit media access control (GMAC) with DMA controller",
+      "section": "76.8.1",
+      "section_title": "DMA interrupts",
+      "level": 3,
+      "parent_section": "76.8",
+      "page": 4120,
+      "page_end": 4121,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "interrupt"
+      ],
+      "chars": 4102,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4120",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 76.8.1 \"DMA interrupts\" in chapter 76 (Ethernet (ETH): gigabit media access control (GMAC) with DMA controller), RM0486 Rev 4, page 4120.",
+      "section_content": "Interrupt registers description\nThe ETH_DMAC0SR: Channel 0 status register (see Channel x status register\n(ETH_DMACxSR)) captures all the interrupt events of that TxDMA and RxDMA channel.\nThe ETH_DMAC0IER: Channel 0 interrupt enable register (see Channel x interrupt enable\nregister (ETH_DMACxIER)) contains the corresponding enable bits for each of the interrupt\nevent.\nThere are two groups of interrupts in the DMA channel namely Normal and Abnormal\ninterrupts.They are indicated by Bits[15:14] of ETH_DMAC0SR register respectively. The\nnormal group is for events that happen during the normal transfer of packets (TI: transmit\ninterrupt, RI: receive interrupt, TBU: Transmit buffer unavailable) while the abnormal\ninterrupt events are for error events.\nInterrupts are not queued. If the same interrupt event occurs again before the driver\nresponds to the previous one, no additional interrupts are generated. An interrupt is\ngenerated only once for multiple events. The driver must scan the Interrupt status register\n(ETH_DMAISR) for the cause of the interrupt and clear the source in the respective Status\nregister. The interrupt is cleared only when all the bits of Interrupt status register\n(ETH_DMAISR) are cleared.\nPeriodic scheduling of transmit and receive interrupt\nIt is not preferable to generate interrupts for every packet transferred by DMA (RI and TI) for\nsystem throughput performance reasons. The Ethernet peripheral gives the flexibility to\nschedule the interrupt at regular intervals using two methods:\n1. Set Interrupt on Completion bit in Transmit descriptor (TDES2[31] in Table823: TDES2\nnormal descriptor (read format)) once for every “required” number of packets to be\ntransmitted.\n2. Similarly, set the IOC (RDES3[30] inTable836: RDES3 normal descriptor (read\nformat)) bit only at some specific intervals of Receive descriptors. This way, whenever\na received packet transfer to system memory is complete and any of the descriptors\nused for that packet transfer has the IOC bit set, only then the RI event is generated.\nIn addition to above, an interrupt timer called Channel x Rx interrupt watchdog timer register\n(ETH_DMACxRXIWTR) is given for flexible control and periodic scheduling of the receive\ninterrupt. When this interrupt timer is programmed with a nonzero value, it gets activated as\nsoon as the Rx DMA completes a transfer of a received packet to system memory without\nasserting the Receive interrupt because the corresponding interrupt of completion IOC bit\n(RDES3[30] inTable836: RDES3 normal descriptor (read format)) is not set. When this\ntimer runs out as per the programmed value, RI bit is set and the interrupt is asserted if the\ncorresponding RIE is enabled in ETH_DMAC0IER register (see Channel x interrupt enable\nregister (ETH_DMACxIER)). The timer is stopped and cleared before it expires, if the RI is\nset for a packet transfer whose descriptor’s IOC was set. The timer is reactivated\nautomatically after the next packet transfer is complete without the RI event being\ngenerated.\nPer channel transfer complete interrupt\nThe transmit transfer complete interrupt (TI) and receive transfer complete interrupt (RI) is\nreflected in the channel status register (Channel x status register (ETH_DMACxSR)). The TI\nbit is set whenever the Tx DMA channel closes the descriptor in which the IOC bit is set\n(Interrupt On Completion - TDES2[31]). Similarly, the RI bit is set whenever the Rx DMA\nchannel closes the descriptor with the LD bit set and, in any of the descriptors used for\ntransferring that packet, IOC bit is set (Interrupt Enable on completion - RDES3[30])).\nThe interrupt signal is asserted for the Transfer complete interrupts only when the\ncorresponding interrupts are enabled in the channel interrupt enable register (Channel x\ninterrupt enable register (ETH_DMACxIER)).\nThe behavior of the RI/TI interrupts changes depending on the settings of INTM field\n(bits[17:16]) in the ETH_DMAMR register (DMA mode register (ETH_DMAMR)). Table820\nexplains the behavior of the Transfer Complete interrupt.\n[Table 820. Transfer complete interrupt behavior]",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S21.6.6",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "21",
+      "chapter_title": "Flexible static memory controller (FSMC)",
+      "section": "21.6.6",
+      "section_title": "Computation of the error correction code (ECC)",
+      "level": 3,
+      "parent_section": "21.6",
+      "page": 554,
+      "page_end": 555,
+      "semantic_type": "generic",
+      "features": [
+        "ecc",
+        "memory"
+      ],
+      "chars": 2361,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=554",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 21.6.6 \"Computation of the error correction code (ECC)\" in chapter 21 (Flexible static memory controller (FSMC)), RM0008 Rev 21, page 554.",
+      "section_content": "in NAND Flash memory\nThe FSMC PC-Card controller includes two error correction code computation hardware\nblocks, one per memory bank. They are used to reduce the host CPU workload when\nprocessing the error correction code by software in the system.\nThese two registers are identical and associated with bank 2 and bank 3, respectively. As a\nconsequence, no hardware ECC computation is available for memories connected to bank\n4.\nThe error correction code (ECC) algorithm implemented in the FSMC can perform 1-bit error\ncorrection and 2-bit error detection per 256, 512, 1024, 2048, 4096 or 8192 bytes read\nfrom or written to NAND Flash memory. It is based on the Hamming coding algorithm and\nconsists in calculating the row and column parity.\nThe ECC modules monitor the NAND Flash databus and read/write signals (NCE and NWE)\neach time the NAND Flash memory bank is active.\nThe functional operations are:\n• When access to NAND Flash is made to bank 2 or bank 3, the data present on the\nD[15:0] bus is latched and used for ECC computation.\n• When access to NAND Flash occurs at any other address, the ECC logic is idle, and\ndoes not perform any operation. Thus, write operations for defining commands or\naddresses to NAND Flash are not taken into account for ECC computation.\nOnce the desired number of bytes has been read from/written to the NAND Flash by the\nhost CPU, the FSMC_ECCR2/3 registers must be read in order to retrieve the computed\nvalue. Once read, they should be cleared by resetting the ECCEN bit to zero. To compute a\nnew data block, the ECCEN bit must be set to one in the FSMC_PCR2/3 registers.\nTo perform an ECC computation:\n1. Enable the ECCEN bit in the FSMC_PCR2/3 register.\n2. Write data to the NAND Flash memory page. While the NAND page is written, the ECC\nblock computes the ECC value.\n3. Read the ECC value available in the FSMC_ECCR2/3 register and store it in a\nvariable.\n4. Clear the ECCEN bit and then enable it in the FSMC_PCR2/3 register before reading\nback the written data from the NAND page. While the NAND page is read, the ECC\nblock computes the ECC value.\n5. Read the new ECC value available in the FSMC_ECCR2/3 register.\n6. If the two ECC values are the same, no correction is required, otherwise there is an\nECC error and the software correction routine returns information on whether the error\ncan be corrected or not.",
+      "semantic": {}
+    }
+  ]
+}

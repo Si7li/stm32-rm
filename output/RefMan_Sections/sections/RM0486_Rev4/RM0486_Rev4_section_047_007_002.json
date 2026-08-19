@@ -1,0 +1,136 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S47.7.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "47",
+      "chapter_title": "True random number generator (RNG)",
+      "section": "47.7.2",
+      "section_title": "RNG status register (RNG_SR)",
+      "level": 3,
+      "parent_section": "47.7",
+      "page": 2299,
+      "page_end": 2300,
+      "semantic_type": "register_description",
+      "features": [
+        "cecs",
+        "ceis",
+        "drdy",
+        "rng",
+        "rng-sr",
+        "secs",
+        "seis"
+      ],
+      "chars": 2162,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2299",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 47.7.2 \"RNG status register (RNG_SR)\" in chapter 47 (True random number generator (RNG)), RM0486 Rev 4, page 2299.",
+      "section_content": "Address offset: 0x004\nReset value: 0x00000000\nBits 31:7 Reserved, must be kept at reset value.\nBit 6 SEIS: Seed error interrupt status\nThis bit is set at the same time as SECS. It is cleared by writing 0 (unless CONDRST is\nused). Writing 1 has no effect.\n0: No faulty sequence detected\n1: At least one faulty sequence is detected. See SECS bit description for details.\nAn interrupt is pending if IE = 1 in the RNG_CR register.\nBit 5 CEIS: Clock error interrupt status\nThis bit is set at the same time as CECS. It is cleared by writing 0. Writing 1 has no effect.\n0: The RNG clock is correct (fRNGCLK> fHCLK/32)\n1: The RNG clock before the internal divider is detected too slow (fRNGCLK< fHCLK/32)\nAn interrupt is pending if IE = 1 in the RNG_CR register.\nBits 4:3 Reserved, must be kept at reset value.\nBit 2 SECS: Seed error current status\n0: No faulty sequence has currently been detected. If the SEIS bit is set, this means that a\nfaulty sequence was detected and the situation has been recovered.\n1: At least one of the following faulty sequences has been detected:\n– Runtime repetition count test failed (noise source has provided more than 24\nconsecutive bits at a constant value 0 or 1, or more than 32 consecutive occurrence\nof two bits patterns 01 or 10)\n– Startup or continuous adaptive proportion test on noise source failed.\n– Startup post-processing/conditioning sanity check failed.\nBit 1 CECS: Clock error current status\n0: The RNG clock is correct (fRNGCLK> fHCLK/32). If the CEIS bit is set, this means that a\nslow clock was detected and the situation has been recovered.\n1: The RNG clock is too slow (fRNGCLK< fHCLK/32).\nNote: CECS bit is valid only if the CED bit in the RNG_CR register is set to 0.\nBit 0 DRDY: Data ready\n0: The RNG_DR register is not yet valid, no random data is available.\n1: The RNG_DR register contains valid random data.\nOnce the output buffer becomes empty (after reading the RNG_DR register), this bit returns\nto 0 until a new random value is generated.\nNote: The DRDY bit can rise when the peripheral is disabled (RNGEN=0 in the RNG_CR\nregister).\nIf IE=1 in the RNG_CR register, an interrupt is generated when DRDY=1.",
+      "semantic": {
+        "register": "RNG_SR",
+        "address_offset": "0x004",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:7",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "6",
+            "name": "SEIS",
+            "description": "Seed error interrupt status This bit is set at the same time as SECS. It is cleared by writing 0 (unless CONDRST is used). Writing 1 has no effect. An interrupt is pending if IE = 1 in the RNG_CR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No faulty sequence detected"
+              },
+              {
+                "value": "1",
+                "meaning": "At least one faulty sequence is detected. See SECS bit description for details."
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "CEIS",
+            "description": "Clock error interrupt status This bit is set at the same time as CECS. It is cleared by writing 0. Writing 1 has no effect. An interrupt is pending if IE = 1 in the RNG_CR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The RNG clock is correct (fRNGCLK> fHCLK/32)"
+              },
+              {
+                "value": "1",
+                "meaning": "The RNG clock before the internal divider is detected too slow (fRNGCLK< fHCLK/32)"
+              }
+            ]
+          },
+          {
+            "bits": "4:3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "SECS",
+            "description": "Seed error current status faulty sequence was detected and the situation has been recovered. – Runtime repetition count test failed (noise source has provided more than 24 consecutive bits at a constant value 0 or 1, or more than 32 consecutive occurrence of two bits patterns 01 or 10) – Startup or continuous adaptive proportion test on noise source failed. – Startup post-processing/conditioning sanity check failed.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No faulty sequence has currently been detected. If the SEIS bit is set, this means that a"
+              },
+              {
+                "value": "1",
+                "meaning": "At least one of the following faulty sequences has been detected:"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CECS",
+            "description": "Clock error current status slow clock was detected and the situation has been recovered. Note: CECS bit is valid only if the CED bit in the RNG_CR register is set to 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The RNG clock is correct (fRNGCLK> fHCLK/32). If the CEIS bit is set, this means that a"
+              },
+              {
+                "value": "1",
+                "meaning": "The RNG clock is too slow (fRNGCLK< fHCLK/32)."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "DRDY",
+            "description": "Data ready Once the output buffer becomes empty (after reading the RNG_DR register), this bit returns to 0 until a new random value is generated. Note: The DRDY bit can rise when the peripheral is disabled (RNGEN=0 in the RNG_CR register). If IE=1 in the RNG_CR register, an interrupt is generated when DRDY=1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The RNG_DR register is not yet valid, no random data is available."
+              },
+              {
+                "value": "1",
+                "meaning": "The RNG_DR register contains valid random data."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

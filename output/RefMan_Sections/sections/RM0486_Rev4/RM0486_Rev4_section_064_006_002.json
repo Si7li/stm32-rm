@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.6.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.6.2",
+      "section_title": "I3C clocks and requirements",
+      "level": 3,
+      "parent_section": "64.6",
+      "page": 3174,
+      "page_end": 3175,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "i3c"
+      ],
+      "chars": 2977,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3174",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.6.2 \"I3C clocks and requirements\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3174.",
+      "section_content": "As indicated in Figure817, the I3C peripheral is implemented with several clock domains:\n• SCL bus clock: for the I3C bus interface\n– When controller: the user must set and can adjust SCL/SDA timings by\nprogramming I3C timing register 0 (I3C_TIMINGR0), I3C timing register 1\n(I3C_TIMINGR1) and I3C timing register 2 (I3C_TIMINGR2), as summarized in\nController initialization and Updating the configuration for a transfer, as controller.\n– When target: the user must set and comply with the bus available condition (tAVAL\nfor an in-band interrupt or controller-role request), and the bus idle condition (tIDLE\nfor a hot-join request), by programming I3C timing register 1 (I3C_TIMINGR1), as\nsummarized in Target initialization.\n• I3CCLK kernel clock: for the I3C protocol management, data and control\nserialization/deserialization, controller and target finite state machines, bus clock and\ntimings management\n• APB clock: for the APB interface, DMA interface, events, and interrupt generation\nAPB clock and kernel clocks are driven from independently programmed clock sources via\nthe RCC (refer to section Reset and clock control (RCC) for more details).\nI3C kernel clock requirement, as controller\nAccording to the intended value of the SCL clock on the bus, the application must guarantee\nthat the frequency of the I3CCLK kernel clock be at least 2x the frequency of the SCL clock\nNote: Sustaining FSCL max = 12.9 MHz means a frequency of the I3CCLK kernel clock > 25.8 MHz.\nI3C kernel clock requirements, as target\nAccording to the intended value of the SCL clock on the bus, the application must guarantee\na minimum operating frequency for the I3CCLK kernel clock, meeting the following\nconstraints:\n1. Period of the I3CCLK kernel clock < tHIGH (SCL clock high period)\n– tHIGH min = 24 ns. A frequency higher than 41.7 MHz guarantees this constraint,\nwhich can be relaxed, depending on the I3C bus/controller\n2. Period of the I3CCLK kernel clock < tCASr (clock after repeated start condition)\n– tCASr min = tCAS min / 2 = 19.2 ns. A frequency higher than 52 MHz guarantees this\nconstraint, which can be relaxed, depending on the I3C bus/controller\n3. Two periods of the I3CCLK kernel clock < tLOW_OD (SCL clock low period in open drain)\n– tLOW_OD min = 200 ns. A frequency higher than 10 MHz guarantees this constraint,\nwhich can be relaxed, depending on the I3C bus/controller\n4. Frequency of the I3CCLK kernel clock > 2.5x frequency of the SCL clock\n– FSCL max = 12.9 MHz. A frequency higher than 32.3 MHz guarantees this\nconstraint, which can be relaxed, depending on the I3C controller\nAPB clock requirement\nAccording to the intended value of the SCL clock on the bus, the application must guarantee\na minimum operating frequency for the APB clock:\nAPB clock period < 3x (SCL clock period) - I3CCLK kernel clock period\nThis means that FAPB > [FSCL x FI3CCLK / (3x FI3CCLK - FSCL)]\nNote: This equation can be simplified to a minimum value of 5 MHz for the APB frequency.",
+      "semantic": {}
+    }
+  ]
+}

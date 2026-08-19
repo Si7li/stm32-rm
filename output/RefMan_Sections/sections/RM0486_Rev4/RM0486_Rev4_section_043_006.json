@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.6",
+      "section_title": "LTDC programming procedure",
+      "level": 2,
+      "parent_section": null,
+      "page": 2117,
+      "page_end": 2118,
+      "semantic_type": "generic",
+      "features": [
+        "ltdc"
+      ],
+      "chars": 1633,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2117",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.6 \"LTDC programming procedure\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2117.",
+      "section_content": "The LTDC programming procedure consists to activate the clocks, to follow all the operator\nsequence (as listed in Section43.4) from the beginning (AXI master) to the end (output\ninterface polarity), and to configure the needed operators as described.\nThe minimum configuration that must be performed is the following:\n1. Enable the LTDC clock in the RCC register:\n– APB slave\n– AXI master\n– Pixel clock that fits display panel requirements (resolution, blanking, framerate)\n2. Define the buffer of at least one input layer (see Section43.4.2, with for example, layer\nbase-address, size, or buffer pitch).\n3. Define this layer pixel format (see Section43.4.3). ARGB8888 can simply be used,\ndepending on the stored buffer.\n4. Define where this layer is inserted in the final display (see Section43.4.10):\ntypicallythe top-left and bottom-right corners of the display.\n5. Define how this layer is blended in the final display (see Section43.4.11).\n6. Define timings of the display panel to drive (see Section43.4.16).\n7. Define polarity of the output signals (see Section43.4.17).\n8. Copy all above settings, once, using the immediate global reload\n(seeSection43.4.18).\n9. Start the display by activating the main enable (see Section43.4.18).\nNote: Most layer registers are shadowed. Once a register is written, it must not be modified again\nbefore the reload has been done. A new write to the same register overrides the previous\nconfiguration if not yet reloaded. It is also not possible to read the temporary value of\nashadowed register, which makes impossible to perform read-modify-write to set/reset\nasingle bit inside a register.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S40.8.1",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "40",
+      "chapter_title": "CSI-2 Host (CSI)",
+      "section": "40.8.1",
+      "section_title": "Error handling",
+      "level": 3,
+      "parent_section": "40.8",
+      "page": 2036,
+      "page_end": 2037,
+      "semantic_type": "generic",
+      "features": [
+        "error",
+        "handling"
+      ],
+      "chars": 3555,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2036",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 40.8.1 \"Error handling\" in chapter 40 (CSI-2 Host (CSI)), RM0486 Rev 4, page 2036.",
+      "section_content": "Details of the errors are given in CSI_ERR1 and CSI_ERR2.\nNote: Except for data ID information, all other errors can occur during the product life, and must be\nhandled by the software.\nCorrected ECC error\nWhen this error is detected, the CECCERR interrupt is triggered if CECCERRIE = 1\ninCSI_IER0. This is an information event rather than a real error, as the CSI-2 Host\ncontroller successfully recovered the ECC error, so the frame is processed properly.\nSomedetails of the error are located in CECCVCERR and CECCDTERR in CSI_ERR1:\nECC error\nWhen a multi-bit ECC error is detected, the ECCERR interrupt is triggered if ECCERRIE=1\nin CSI_IER0. As all virtual channels are potentially corrupted, the LPP immediately stops\nthe current frames.\nThe CSI-2 Host controller restarts each enabled virtual channel on the next SOF packet of\neach channel. The software must perform the necessary error management (such as\nresetting some peripherals after this error detection). No details are available for the error as\nthe relevant information is corrupted.\nCRC error\nWhen a CRC error is detected, the CRCERR interrupt is triggered if CRCERRIE = 1\ninCSI_IER0. As the frame envelope is not corrupted, the CSI-2 Host controller does not\nstop the frame processing. The software must perform the necessary error management\n(such as reseting some peripherals, possibly including the CSI-2 Host controller). Details\nare available for this error in CRCVCERR and CRCDTERR in CSI_ERR1.\nData ID information\nWhen a reserved data type is detected, the IDERR interrupt is triggered if IDERRIE = 1\ninCSI_IER0. This is an information event rather than a real error, as the hardware\nprocesses this packet as for any non-erroneous packet.Details for the error are available\ninIDVCERR and IDDTERR in CSI_ERR1.\nInvalid synchronization\nWhen an invalid synchronization is detected, the SYNCERR interrupt is triggered\nifSYNCERRIE = 1 in CSI_IER0. An invalid synchronization is either an SOF short packet\nduring a frame, or an EOF short packet during an inter-frame. It is an information event\nrather than a real error, as the hardware is able to handle such an error:\n• An SOF short packet during a frame is interpreted as back-to-back EOF and SOF.\nItbehaves accordingly (ISB-Byte header EOF, ISB-Byte header SOF, and so on).\nTheSOFx interrupt is generated in addition to the SYNCERR one if SOFxIE=1\ninCSI_IER0.\n• An EOF short packet during an inter-frame is ignored (no EOFx interrupt is generated\nwhatever the state of EOFx in CSI_IER0). Details for the error are available\ninSYNCVCERR in CSI_ERR2.\nShorter than expected packet\nWhen a shorter-than-expected packet is received, the SPKTERR interrupt is triggered\nifSPKTERRIE = 1 in CSI_IER0. The packet is padded up to its theoretical size, and the\nframe is processed as if no error occurred. The software must perform the necessary error\nmanagement (such as reseting some peripherals, possibly including the CSI decoder).\nDetails for the error are available in SPKTVCERR and SPKTDTERR in CSI_ERR2.\nWatchdog\nWhen the time between two packets of a given virtual channel is longer than\ntheprogrammed watchdog (CNT[31:0] in CSI_WDR), the WDERR interrupt is triggered\nifWDERRIE = 1 in CSI_WDR. As the corresponding virtual channel stream is corrupted,\ntheCSI2 Host controller immediately stops processing this virtual channel. The software\nmust perform the necessary error management (such as reseting some peripherals after\nthis error detection), before restarting the CSI-2 Host. Details for the error are available\ninWDVCERR in CSI_ERR2.",
+      "semantic": {}
+    }
+  ]
+}

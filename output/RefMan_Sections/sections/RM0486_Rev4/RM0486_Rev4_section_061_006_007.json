@@ -1,0 +1,507 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S61.6.7",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "61",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "61.6.7",
+      "section_title": "RTC control register (RTC_CR)",
+      "level": 3,
+      "parent_section": "61.6",
+      "page": 3032,
+      "page_end": 3036,
+      "semantic_type": "register_description",
+      "features": [
+        "add1h",
+        "alrae",
+        "alrafclr",
+        "alraie",
+        "alrbe",
+        "alrbfclr",
+        "alrbie",
+        "bkp",
+        "bypshad",
+        "clock",
+        "coe",
+        "cosel",
+        "fmt",
+        "itse",
+        "osel",
+        "out2en",
+        "pol",
+        "refckon",
+        "rtc",
+        "rtc-cr",
+        "ssruie",
+        "sub1h",
+        "tampalrm-pu",
+        "tampalrm-type",
+        "tampoe",
+        "tampts",
+        "tse",
+        "tsedge",
+        "tsie",
+        "wucksel",
+        "wute",
+        "wutie"
+      ],
+      "chars": 7172,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3032",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 61.6.7 \"RTC control register (RTC_CR)\" in chapter 61 (Real-time clock (RTC)), RM0486 Rev 4, page 3032.",
+      "section_content": "This register is write protected. The write access procedure is described in RTC register\nwrite protection on page3015.\nThis register can be globally protected, or each bit of this register can be individually\nprotected against nonsecure access. Refer to Section61.3.4: RTC secure protection\nmodes.\nThis register can be globally protected, or each bit of this register can be individually\nprotected against unprivileged access. Refer to Section61.3.5: RTC privilege protection\nmodes.\nAddress offset: 0x18\nBackup domain reset value: 0x0000 0000\nSystem reset: not affected\nBit 31 OUT2EN: RTC_OUT2 output enable\nWith this bit set, the RTC outputs can be remapped on RTC_OUT2 as follows:\nOUT2EN=0: RTC output 2 disable\nIf OSEL≠00 or TAMPOE=1: TAMPALRM is output on RTC_OUT1\nIf OSEL=00 and TAMPOE=0 and COE=1: CALIB is output on RTC_OUT1\nOUT2EN = 1: RTC output 2 enable\nIf (OSEL≠00 or TAMPOE=1) and COE=0: TAMPALRM is output on RTC_OUT2\nIf OSEL=00 and TAMPOE=0 and COE=1: CALIB is output on RTC_OUT2\nIf (OSEL≠00 or TAMPOE=1) and COE=1: CALIB is output on RTC_OUT2 and\nTAMPALRM is output on RTC_OUT1.\nBit 30 TAMPALRM_TYPE: TAMPALRM output type\n0: TAMPALRM is push-pull output\n1: TAMPALRM is open-drain output\nBit 29 TAMPALRM_PU: TAMPALRM pull-up enable\n0: No pull-up is applied on TAMPALRM output\n1: A pull-up is applied on TAMPALRM output\nBit 28 ALRBFCLR: Alarm B flag automatic clear\n0: Alarm B event generates a trigger event and ALRBF must be cleared by software to allow\nnext alarm event.\n1: Alarm B event generates a trigger event. ALRBF is automatically cleared by hardware\nafter 1 ck_apre cycle.\nBit 27 ALRAFCLR: Alarm A flag automatic clear\n0: Alarm A event generates a trigger event and ALRAF must be cleared by software to allow\nnext alarm event.\n1: Alarm A event generates a trigger event. ALRAF is automatically cleared by hardware\nafter 1 ck_apre cycle.\nBit 26 TAMPOE: Tamper detection output enable on TAMPALRM\n0: The tamper flag is not routed on TAMPALRM\n1: The tamper flag is routed on TAMPALRM, combined with the signal provided by OSEL and\nwith the polarity provided by POL.\nBit 25 TAMPTS: Activate timestamp on tamper detection event\n0: Tamper detection event does not cause a RTC timestamp to be saved\n1: Save RTC timestamp on tamper detection event\nTAMPTS is valid even if TSE = 0 in the RTC_CR register. Timestamp flag is set up to 3\nck_apre cycles after the tamper flags.\nNote: TAMPTS must be cleared before entering RTC initialization mode.\nBit 24 ITSE: timestamp on internal event enable\n0: internal event timestamp disabled\n1: internal event timestamp enabled\nBit 23 COE: Calibration output enable\nThis bit enables the CALIB output\n0: Calibration output disabled\n1: Calibration output enabled\nBits 22:21 OSEL[1:0]: Output selection\nThese bits are used to select the flag to be routed to TAMPALRM output.\n00: Output disabled\n01: Alarm A output enabled\n10: Alarm B output enabled\n11: Wake-up output enabled\nBit 20 POL: Output polarity\nThis bit is used to configure the polarity of TAMPALRM output.\n0: The pin is high when ALRAF/ALRBF/WUTF is asserted (depending on OSEL[1:0]), or\nwhen a TAMPxF/ITAMPxF is asserted (if TAMPOE = 1).\n1: The pin is low when ALRAF/ALRBF/WUTF is asserted (depending on OSEL[1:0]), or\nwhen a TAMPxF/ITAMPxF is asserted (if TAMPOE = 1).\nBit 19 COSEL: Calibration output selection\nWhen COE = 1, this bit selects which signal is output on CALIB.\n0: Calibration output is 512Hz\n1: Calibration output is 1Hz\nThese frequencies are valid for RTCCLK at 32.768kHz and prescalers at their default values\n(PREDIV_A = 127 and PREDIV_S = 255). Refer to Section61.3.18: Calibration clock output.\nBit 18 BKP: Backup\nThis bit can be written by the user to memorize whether the daylight saving time change has\nbeen performed or not.\nBit 17 SUB1H: Subtract 1 hour (winter time change)\nWhen this bit is set outside initialization mode, 1 hour is subtracted to the calendar time if the\ncurrent hour is not 0. This bit is always read as 0.\nSetting this bit has no effect when current hour is 0.\n0: No effect\n1: Subtracts 1 hour to the current time. This can be used for winter time change.\nBit 16 ADD1H: Add 1 hour (summer time change)\nWhen this bit is set outside initialization mode, 1 hour is added to the calendar time. This bit\nis always read as 0.\n0: No effect\n1: Adds 1 hour to the current time. This can be used for summer time change\nNote: ADD1H is ignored when SUB1H is set.\nBit 15 TSIE: Timestamp interrupt enable\n0: Timestamp interrupt disable\n1: Timestamp interrupt enable\nBit 14 WUTIE: Wake-up timer interrupt enable\n0: Wake-up timer interrupt disabled\n1: Wake-up timer interrupt enabled\nBit 13 ALRBIE: Alarm B interrupt enable\n0: Alarm B interrupt disable\n1: Alarm B interrupt enable\nBit 12 ALRAIE: Alarm A interrupt enable\n0: Alarm A interrupt disabled\n1: Alarm A interrupt enabled\nBit 11 TSE: timestamp enable\n0: timestamp disable\n1: timestamp enable\nBit 10 WUTE: Wake-up timer enable\n0: Wake-up timer disabled\n1: Wake-up timer enabled\nNote: When the wake-up timer is disabled, wait for WUTWF = 1 before enabling it again.\nBit 9 ALRBE: Alarm B enable\n0: Alarm B disabled\n1: Alarm B enabled\nBit 8 ALRAE: Alarm A enable\n0: Alarm A disabled\n1: Alarm A enabled\nBit 7 SSRUIE: SSR underflow interrupt enable\n0: SSR underflow interrupt disabled\n1: SSR underflow interrupt enabled\nBit 6 FMT: Hour format\n0: 24 hour/day format\n1: AM/PM hour format\nBit 5 BYPSHAD: Bypass the shadow registers\n0: Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken from\nthe shadow registers, which are updated once every two RTCCLK cycles.\n1: Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken\ndirectly from the calendar counters.\nNote: If the frequency of the APB clock is less than seven times the frequency of RTCCLK,\nBYPSHAD must be set to 1.\nBit 4 REFCKON: RTC_REFIN reference clock detection enable (50 or 60Hz)\n0: RTC_REFIN detection disabled\n1: RTC_REFIN detection enabled\nNote: BIN must be 0x00 and PREDIV_S must be 0x00FF.\nBit 3 TSEDGE: Timestamp event active edge\n0: RTC_TS input rising edge generates a timestamp event\n1: RTC_TS input falling edge generates a timestamp event\nTSE must be reset when TSEDGE is changed to avoid unwanted TSF setting.\nBits 2:0 WUCKSEL[2:0]: ck_wut wake-up clock selection\n000: RTC/16 clock is selected\n001: RTC/8 clock is selected\n010: RTC/4 clock is selected\n011: RTC/2 clock is selected\n10x: ck_spre (usually 1Hz) clock is selected in BCD mode. In binary or mixed mode, this is\nthe clock selected by BCDU.\n11x: ck_spre (usually 1 Hz) clock is selected in BCD mode. In binary or mixed mode, this is\nthe clock selected by BCDU. Furthermore, 216 is added to the WUT counter value.\nNote: Bits 6 and 4 of this register can be written in initialization mode only (RTC_ICSR/INITF = 1).\nWUT = wake-up unit counter value. WUT = (0x0000 to 0xFFFF) + 0x10000 added when\nWUCKSEL[2:1 = 11].\nBits 2 to 0 of this register can be written only when RTC_CR WUTE bit = 0 and RTC_ICSR\nWUTWF bit = 1.\nIt is recommended not to change the hour during the calendar hour increment as it may\nmask the incrementation of the calendar hour.\nADD1H and SUB1H changes are effective in the next second.",
+      "semantic": {
+        "register": "RTC_CR",
+        "address_offset": "0x18",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "OUT2EN",
+            "description": "RTC_OUT2 output enable With this bit set, the RTC outputs can be remapped on RTC_OUT2 as follows: OUT2EN=0: RTC output 2 disable If OSEL≠00 or TAMPOE=1: TAMPALRM is output on RTC_OUT1 If OSEL=00 and TAMPOE=0 and COE=1: CALIB is output on RTC_OUT1 OUT2EN = 1: RTC output 2 enable If (OSEL≠00 or TAMPOE=1) and COE=0: TAMPALRM is output on RTC_OUT2 If OSEL=00 and TAMPOE=0 and COE=1: CALIB is output on RTC_OUT2 If (OSEL≠00 or TAMPOE=1) and COE=1: CALIB is output on RTC_OUT2 and TAMPALRM is output on RTC_OUT1.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "TAMPALRM_TYPE",
+            "description": "TAMPALRM output type",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "TAMPALRM is push-pull output"
+              },
+              {
+                "value": "1",
+                "meaning": "TAMPALRM is open-drain output"
+              }
+            ]
+          },
+          {
+            "bits": "29",
+            "name": "TAMPALRM_PU",
+            "description": "TAMPALRM pull-up enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No pull-up is applied on TAMPALRM output"
+              },
+              {
+                "value": "1",
+                "meaning": "A pull-up is applied on TAMPALRM output"
+              }
+            ]
+          },
+          {
+            "bits": "28",
+            "name": "ALRBFCLR",
+            "description": "Alarm B flag automatic clear next alarm event. after 1 ck_apre cycle.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Alarm B event generates a trigger event and ALRBF must be cleared by software to allow"
+              },
+              {
+                "value": "1",
+                "meaning": "Alarm B event generates a trigger event. ALRBF is automatically cleared by hardware"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "ALRAFCLR",
+            "description": "Alarm A flag automatic clear next alarm event. after 1 ck_apre cycle.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Alarm A event generates a trigger event and ALRAF must be cleared by software to allow"
+              },
+              {
+                "value": "1",
+                "meaning": "Alarm A event generates a trigger event. ALRAF is automatically cleared by hardware"
+              }
+            ]
+          },
+          {
+            "bits": "26",
+            "name": "TAMPOE",
+            "description": "Tamper detection output enable on TAMPALRM with the polarity provided by POL.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The tamper flag is not routed on TAMPALRM"
+              },
+              {
+                "value": "1",
+                "meaning": "The tamper flag is routed on TAMPALRM, combined with the signal provided by OSEL and"
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "TAMPTS",
+            "description": "Activate timestamp on tamper detection event TAMPTS is valid even if TSE = 0 in the RTC_CR register. Timestamp flag is set up to 3 ck_apre cycles after the tamper flags. Note: TAMPTS must be cleared before entering RTC initialization mode.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tamper detection event does not cause a RTC timestamp to be saved"
+              },
+              {
+                "value": "1",
+                "meaning": "Save RTC timestamp on tamper detection event"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "ITSE",
+            "description": "timestamp on internal event enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "internal event timestamp disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "internal event timestamp enabled"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "COE",
+            "description": "Calibration output enable This bit enables the CALIB output",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calibration output disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Calibration output enabled"
+              }
+            ]
+          },
+          {
+            "bits": "22:21",
+            "name": "OSEL[1:0]",
+            "description": "Output selection These bits are used to select the flag to be routed to TAMPALRM output.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Output disabled"
+              },
+              {
+                "value": "01",
+                "meaning": "Alarm A output enabled"
+              },
+              {
+                "value": "10",
+                "meaning": "Alarm B output enabled"
+              },
+              {
+                "value": "11",
+                "meaning": "Wake-up output enabled"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "POL",
+            "description": "Output polarity This bit is used to configure the polarity of TAMPALRM output. when a TAMPxF/ITAMPxF is asserted (if TAMPOE = 1). when a TAMPxF/ITAMPxF is asserted (if TAMPOE = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The pin is high when ALRAF/ALRBF/WUTF is asserted (depending on OSEL[1:0]), or"
+              },
+              {
+                "value": "1",
+                "meaning": "The pin is low when ALRAF/ALRBF/WUTF is asserted (depending on OSEL[1:0]), or"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "COSEL",
+            "description": "Calibration output selection When COE = 1, this bit selects which signal is output on CALIB. These frequencies are valid for RTCCLK at 32.768kHz and prescalers at their default values (PREDIV_A = 127 and PREDIV_S = 255). Refer to Section61.3.18: Calibration clock output.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calibration output is 512Hz"
+              },
+              {
+                "value": "1",
+                "meaning": "Calibration output is 1Hz"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "BKP",
+            "description": "Backup This bit can be written by the user to memorize whether the daylight saving time change has been performed or not.",
+            "values": []
+          },
+          {
+            "bits": "17",
+            "name": "SUB1H",
+            "description": "Subtract 1 hour (winter time change) When this bit is set outside initialization mode, 1 hour is subtracted to the calendar time if the current hour is not 0. This bit is always read as 0. Setting this bit has no effect when current hour is 0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Subtracts 1 hour to the current time. This can be used for winter time change."
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "ADD1H",
+            "description": "Add 1 hour (summer time change) When this bit is set outside initialization mode, 1 hour is added to the calendar time. This bit is always read as 0. Note: ADD1H is ignored when SUB1H is set.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No effect"
+              },
+              {
+                "value": "1",
+                "meaning": "Adds 1 hour to the current time. This can be used for summer time change"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "TSIE",
+            "description": "Timestamp interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Timestamp interrupt disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Timestamp interrupt enable"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "WUTIE",
+            "description": "Wake-up timer interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Wake-up timer interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Wake-up timer interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "ALRBIE",
+            "description": "Alarm B interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Alarm B interrupt disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Alarm B interrupt enable"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "ALRAIE",
+            "description": "Alarm A interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Alarm A interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Alarm A interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "TSE",
+            "description": "timestamp enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "timestamp disable"
+              },
+              {
+                "value": "1",
+                "meaning": "timestamp enable"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "WUTE",
+            "description": "Wake-up timer enable Note: When the wake-up timer is disabled, wait for WUTWF = 1 before enabling it again.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Wake-up timer disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Wake-up timer enabled"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "ALRBE",
+            "description": "Alarm B enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Alarm B disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Alarm B enabled"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "ALRAE",
+            "description": "Alarm A enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Alarm A disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Alarm A enabled"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "SSRUIE",
+            "description": "SSR underflow interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SSR underflow interrupt disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "SSR underflow interrupt enabled"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "FMT",
+            "description": "Hour format",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "24 hour/day format"
+              },
+              {
+                "value": "1",
+                "meaning": "AM/PM hour format"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "BYPSHAD",
+            "description": "Bypass the shadow registers the shadow registers, which are updated once every two RTCCLK cycles. directly from the calendar counters. Note: If the frequency of the APB clock is less than seven times the frequency of RTCCLK, BYPSHAD must be set to 1.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken from"
+              },
+              {
+                "value": "1",
+                "meaning": "Calendar values (when reading from RTC_SSR, RTC_TR, and RTC_DR) are taken"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "REFCKON",
+            "description": "RTC_REFIN reference clock detection enable (50 or 60Hz) Note: BIN must be 0x00 and PREDIV_S must be 0x00FF.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RTC_REFIN detection disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "RTC_REFIN detection enabled"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "TSEDGE",
+            "description": "Timestamp event active edge TSE must be reset when TSEDGE is changed to avoid unwanted TSF setting.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RTC_TS input rising edge generates a timestamp event"
+              },
+              {
+                "value": "1",
+                "meaning": "RTC_TS input falling edge generates a timestamp event"
+              }
+            ]
+          },
+          {
+            "bits": "2:0",
+            "name": "WUCKSEL[2:0]",
+            "description": "ck_wut wake-up clock selection 10x: ck_spre (usually 1Hz) clock is selected in BCD mode. In binary or mixed mode, this is the clock selected by BCDU. 11x: ck_spre (usually 1 Hz) clock is selected in BCD mode. In binary or mixed mode, this is the clock selected by BCDU. Furthermore, 216 is added to the WUT counter value. Note: Bits 6 and 4 of this register can be written in initialization mode only (RTC_ICSR/INITF = 1). WUT = wake-up unit counter value. WUT = (0x0000 to 0xFFFF) + 0x10000 added when WUCKSEL[2:1 = 11]. Bits 2 to 0 of this register can be written only when RTC_CR WUTE bit = 0 and RTC_ICSR WUTWF bit = 1. It is recommended not to change the hour during the calendar hour increment as it may mask the incrementation of the calendar hour. ADD1H and SUB1H changes are effective in the next second.",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "RTC/16 clock is selected"
+              },
+              {
+                "value": "001",
+                "meaning": "RTC/8 clock is selected"
+              },
+              {
+                "value": "010",
+                "meaning": "RTC/4 clock is selected"
+              },
+              {
+                "value": "011",
+                "meaning": "RTC/2 clock is selected"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

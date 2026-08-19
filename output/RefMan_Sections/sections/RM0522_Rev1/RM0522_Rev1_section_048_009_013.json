@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S48.9.13",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "48",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "48.9.13",
+      "section_title": "Programming guidelines for IEEE 1588 auxiliary snapshot",
+      "level": 3,
+      "parent_section": "48.9",
+      "page": 2248,
+      "page_end": 2248,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "ieee"
+      ],
+      "chars": 1874,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2248",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.9.13 \"Programming guidelines for IEEE 1588 auxiliary snapshot\" in chapter 48 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0522 Rev 1, page 2248.",
+      "section_content": "The IEEE 1588 auxiliary snapshot function is used to capture the auxiliary snapshot for a\ntrigger event received on the eth_ptp_aux_ts_trig_i input.\nTo program the IEEE 1588 auxiliary snapshot function, complete the following steps:\n1. Program the TSIE bit in the Interrupt enable register (ETH_MACIER) to enable\ninterrupt generation when the auxiliary snapshot is captured in the FIFO.\n2. Program the ATSENx bit of the Auxiliary control register (ETH_MACACR) to enable the\ncapture of the auxiliary snapshot based on the respective trigger input.\n3. If the software does not want the captured auxiliary snapshot to be read, program the\nATSFC bit of Auxiliary control register (ETH_MACACR) anytime to clear the auxiliary\nsnapshot FIFO.\n4. When TSIS is set or an interrupt is generated (due to TSIE programmed to 1), read the\nTimestamp status register (ETH_MACTSSR), Tx timestamp status seconds register\n(ETH_MACTXTSSSR), and Auxiliary timestamp nanoseconds register\n(ETH_MACATSNR) to access the captured auxiliary snapshot.\nNote: When the auxiliary snapshot is captured in the FIFO for a trigger event, the following\nbitfields are updated:\n• AUXTSTRIG (status bit indicating that an auxiliary snapshot has been captured),\nATSSTN (trigger event input source identifying the first available entry in the FIFO),\nand ATSNS (indicating the number of auxiliary snapshots available in the FIFO)\nbitfields of the Timestamp status register (ETH_MACTSSR).\n• TSIS (indicating that an interesting event occurred in the IEEE 1588 timestamp\nfunction) bitfield in the Interrupt status register (ETH_DMAISR).\nThe AUXTSTRIG bit is cleared on read (or set when the RCWE bit of the CSR software\ncontrol register (ETH_MACCSRSWCR) is set).\nNote: When the captured auxiliary snapshot is ignored because that the FIFO is full, the ATSSTM\nbit, which indicates that a trigger has been missed, is set.",
+      "semantic": {}
+    }
+  ]
+}

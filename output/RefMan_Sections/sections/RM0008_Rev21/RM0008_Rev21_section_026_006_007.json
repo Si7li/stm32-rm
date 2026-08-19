@@ -1,0 +1,162 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S26.6.7",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "26",
+      "chapter_title": "Inter-integrated circuit (I2C) interface",
+      "section": "26.6.7",
+      "section_title": "I2C Status register 2 (I2C_SR2)",
+      "level": 3,
+      "parent_section": "26.6",
+      "page": 780,
+      "page_end": 781,
+      "semantic_type": "register_description",
+      "features": [
+        "busy",
+        "dualf",
+        "gencall",
+        "i2c",
+        "i2c-sr2",
+        "msl",
+        "smbdefault",
+        "smbhost",
+        "tra"
+      ],
+      "chars": 2394,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=780",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 26.6.7 \"I2C Status register 2 (I2C_SR2)\" in chapter 26 (Inter-integrated circuit (I2C) interface), RM0008 Rev 21, page 780.",
+      "section_content": "Address offset: 0x18\nReset value: 0x0000\nNote: Reading I2C_SR2 after reading I2C_SR1 clears the ADDR flag, even if the ADDR flag was\nset after reading I2C_SR1. Consequently, I2C_SR2 must be read only when ADDR is found\nset in I2C_SR1 or when the STOPF bit is cleared.\nBits 15:8 PEC[7:0] Packet error checking register\nThis register contains the internal PEC when ENPEC=1.\nBit 7 DUALF: Dual flag (Slave mode)\n0: Received address matched with OAR1\n1: Received address matched with OAR2\n– Cleared by hardware after a Stop condition or repeated Start condition, or when PE=0.\nBit 6 SMBHOST: SMBus host header (Slave mode)\n0: No SMBus Host address\n1: SMBus Host address received when SMBTYPE=1 and ENARP=1.\n– Cleared by hardware after a Stop condition or repeated Start condition, or when PE=0.\nBit 5 SMBDEFAULT: SMBus device default address (Slave mode)\n0: No SMBus Device Default address\n1: SMBus Device Default address received when ENARP=1\n– Cleared by hardware after a Stop condition or repeated Start condition, or when PE=0.\nBit 4 GENCALL: General call address (Slave mode)\n0: No General Call\n1: General Call Address received when ENGC=1\n– Cleared by hardware after a Stop condition or repeated Start condition, or when PE=0.\nBit 3 Reserved, must be kept at reset value\nBit 2 TRA: Transmitter/receiver\n0: Data bytes received\n1: Data bytes transmitted\nThis bit is set depending on the R/W bit of the address byte, at the end of total address\nphase.\nIt is also cleared by hardware after detection of Stop condition (STOPF=1), repeated Start\ncondition, loss of bus arbitration (ARLO=1), or when PE=0.\nBit 1 BUSY: Bus busy\n0: No communication on the bus\n1: Communication ongoing on the bus\n– Set by hardware on detection of SDA or SCL low\n– cleared by hardware on detection of a Stop condition.\nIt indicates a communication in progress on the bus. This information is still updated when\nthe interface is disabled (PE=0).\nBit 0 MSL: Master/slave\n0: Slave Mode\n1: Master Mode\n– Set by hardware as soon as the interface is in Master mode (SB=1).\n– Cleared by hardware after detecting a Stop condition on the bus or a loss of arbitration\n(ARLO=1), or by hardware when PE=0.\nNote: Reading I2C_SR2 after reading I2C_SR1 clears the ADDR flag, even if the ADDR flag was\nset after reading I2C_SR1. Consequently, I2C_SR2 must be read only when ADDR is found\nset in I2C_SR1 or when the STOPF bit is cleared.",
+      "semantic": {
+        "register": "I2C_SR2",
+        "address_offset": "0x18",
+        "reset_value": "0x0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "7",
+            "name": "DUALF",
+            "description": "Dual flag (Slave mode) – Cleared by hardware after a Stop condition or repeated Start condition, or when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Received address matched with OAR1"
+              },
+              {
+                "value": "1",
+                "meaning": "Received address matched with OAR2"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "SMBHOST",
+            "description": "SMBus host header (Slave mode) – Cleared by hardware after a Stop condition or repeated Start condition, or when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No SMBus Host address"
+              },
+              {
+                "value": "1",
+                "meaning": "SMBus Host address received when SMBTYPE=1 and ENARP=1."
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "SMBDEFAULT",
+            "description": "SMBus device default address (Slave mode) – Cleared by hardware after a Stop condition or repeated Start condition, or when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No SMBus Device Default address"
+              },
+              {
+                "value": "1",
+                "meaning": "SMBus Device Default address received when ENARP=1"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "GENCALL",
+            "description": "General call address (Slave mode) – Cleared by hardware after a Stop condition or repeated Start condition, or when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No General Call"
+              },
+              {
+                "value": "1",
+                "meaning": "General Call Address received when ENGC=1"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value",
+            "values": []
+          },
+          {
+            "bits": "2",
+            "name": "TRA",
+            "description": "Transmitter/receiver This bit is set depending on the R/W bit of the address byte, at the end of total address phase. It is also cleared by hardware after detection of Stop condition (STOPF=1), repeated Start condition, loss of bus arbitration (ARLO=1), or when PE=0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Data bytes received"
+              },
+              {
+                "value": "1",
+                "meaning": "Data bytes transmitted"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "BUSY",
+            "description": "Bus busy – Set by hardware on detection of SDA or SCL low – cleared by hardware on detection of a Stop condition. It indicates a communication in progress on the bus. This information is still updated when the interface is disabled (PE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No communication on the bus"
+              },
+              {
+                "value": "1",
+                "meaning": "Communication ongoing on the bus"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "MSL",
+            "description": "Master/slave – Set by hardware as soon as the interface is in Master mode (SB=1). – Cleared by hardware after detecting a Stop condition on the bus or a loss of arbitration (ARLO=1), or by hardware when PE=0. Note: Reading I2C_SR2 after reading I2C_SR1 clears the ADDR flag, even if the ADDR flag was set after reading I2C_SR1. Consequently, I2C_SR2 must be read only when ADDR is found set in I2C_SR1 or when the STOPF bit is cleared.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Slave Mode"
+              },
+              {
+                "value": "1",
+                "meaning": "Master Mode"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

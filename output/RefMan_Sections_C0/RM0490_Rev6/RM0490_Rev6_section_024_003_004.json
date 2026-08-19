@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S24.3.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "24",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "24.3.4",
+      "section_title": "Clock and prescalers",
+      "level": 3,
+      "parent_section": "24.3",
+      "page": 651,
+      "page_end": 652,
+      "semantic_type": "generic",
+      "features": [
+        "clock"
+      ],
+      "chars": 1639,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=651",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.3.4 \"Clock and prescalers\" in chapter 24 (Real-time clock (RTC)), RM0490 Rev 6, page 651.",
+      "section_content": "The RTC clocks must respect this ratio: frequency(PCLK) ≥ 2 × frequency(RTCCLK).\nThe RTC clock source (RTCCLK) is selected through the clock controller among the LSE\nclock, the LSI oscillator clock, and the HSE clock. For more information on the RTC clock\nsource configuration, refer to Section6: Reset and clock control (RCC).\nA programmable prescaler stage generates a 1Hz clock which is used to update the\ncalendar. To minimize power consumption, the prescaler is split into 2 programmable\nprescalers (see Figure221: RTC block diagram):\n• A 7-bit asynchronous prescaler configured through the PREDIV_A bits of the\nRTC_PRER register.\n• A 15-bit synchronous prescaler configured through the PREDIV_S bits of the\nRTC_PRER register.\nNote: When both prescalers are used, it is recommended to configure the asynchronous prescaler\nto a high value to minimize consumption.\nThe asynchronous prescaler division factor is set to 128, and the synchronous division\nfactor to 256, to obtain an internal clock frequency of 1Hz (ck_spre) with an LSE frequency\nof 32.768kHz.\nThe minimum division factor is 1 and the maximum division factor is 222.\nThis corresponds to a maximum input frequency of around 4MHz.\nfck_apre is given by the following formula:\nf --R--\n--T--\n-C-\n---C-\n--L-\n--K----\nfCK_APRE =\n----\n-----\n-----\n1\nThe ck_apre clock is used to clock the binary RTC_SSR subseconds downcounter. When it\nreaches 0, RTC_SSR is reloaded with the content of PREDIV_S.\nfck_spre is given by the following formula:\n--- f --\nR----) T---C ×----C--(--L\n--K--\nfCK_SPRE = (---\n----\n----\n----\n-----\n----\n----\n-----\n-----\n----\n----\n----\n---\n------\n-----\n---)-\n1\n1",
+      "semantic": {}
+    }
+  ]
+}

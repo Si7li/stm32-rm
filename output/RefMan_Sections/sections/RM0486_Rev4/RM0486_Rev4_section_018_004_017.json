@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.4.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.4.17",
+      "section_title": "HPDMA error management",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 889,
+      "page_end": 891,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 4614,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=889",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.17 \"HPDMA error management\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 889.",
+      "section_content": "The HPDMA can manage and report to the user a transfer error, as follows, depending on\nthe root cause.\nData transfer error\nOn a bus access (as an AHB/AXI single or a burst) to the source or the destination\n• The source or destination target reports an AHB/AXI error.\n• The programmed channel transfer is stopped (HPDMA_CxCR.EN cleared by the\nHPDMA hardware). The channel status register reports an idle state\n(HPDMA_CxSR.IDLEF=1) and the data error (HPDMA_CxSR.DTEF=1).\n• After an HPDMA data transfer error, the user must perform a debug session, taking\ncare of the product-defined memory mapping of the source and destination, including\nthe protection attributes.\n• After an HPDMA data transfer error, the user must issue a channel reset\n(setHPDMA_CxCR.RESET) to reset the hardware HPDMA channel data path and the\nFIFO content, before the user enables again the same channel for a next transfer.\nLink transfer error\nOn a tentative update of a HPDMA channel register from the programmed LLI in the\nmemory:\n• The linked-list memory reports an AHB/AXI error.\n• The programmed channel transfer is stopped (HPDMA_CxCR.EN cleared by the\nHPDMA hardware), the channel status register reports an idle state\nHPDMA_CxSR.IDLEF=1), and the link error (HPDMA_CxSR.ULEF=1).\n• After an HPDMA link error, the user must perform a debug session, taking care of the\nproduct-defined memory mapping of the linked-list data structure (HPDMA_CxLBAR\nand HPDMA_CxLLR), including the protection attributes.\n• After an HPDMA link error, the user must explicitly write the linked-list register file\n(HPDMA_CxTR1, HPDMA_CxTR2, HPDMA_CxBR1, HPDMA_CxSAR,\nHPDMA_CxDAR, and HPDMA_CxLLR, plus HPDMA_CxTR3 and HPDMA_CxBR2\nwhen present), before the user enables again the same channel for a next transfer.\nUser setting error\nOn a tentative execution of an HPDMA transfer with an unauthorized user setting:\n• The programmed channel transfer is disabled (HPDMA_CxCR.EN forced and cleared\nby the HPDMA hardware), preventing the next unauthorized programmed data transfer\nfrom being executed. The channel status register reports an idle state\n(HPDMA_CxSR.IDLEF=1), and a user setting error (HPDMA_CxSR.USEF=1).\n• After an HPDMA user setting error, the user must perform a debug session, taking care\nof the HPDMA channel programming. A user setting error can be caused by one of the\nfollowing:\n– A programmed null source block size without a programmed update of this value\nfrom the next LLI1 (HPDMA_CxBR1.BNDT[15:0]=0 and\nHPDMA_CxLLR.UB1=0)\n– A programmed non-null source block size being not a multiple of the programmed\ndata width of a source burst transfer (HPDMA_CxBR1.BNDT versus\nHPDMA_CxTR1.SDW_LOG2)\n– When in packing/unpacking mode (if PAM[1]=1), a programmed non-null source\nblock size being not a multiple of the programmed data width of a destination burst\ntransfer (HPDMA_CxBR1.BNDT versus HPDMA_CxTR1.DDW_LOG2)\n– A programmed unaligned source start address being not a multiple of\ntheprogrammed data width of a source burst transfer (HPDMA_CxSAR versus\nHPDMA_CxTR1.SDW_LOG2)\n– For a channel with 2D addressing, a programmed unaligned source address offset\nbeing not a multiple of the programmed data width of a source burst transfer\n(HPDMA_CxTR3.SAO versus HPDMA_CxTR1.SDW_LOG2)\n– For a channel with 2D addressing, a programmed unaligned block repeated\nsource address offset being not a multiple of the programmed data width of a\nsource burst transfer (HPDMA_CxBR2.BRSAO versus\nHPDMA_CxTR1.SDW_LOG2)\n– A programmed unaligned destination start address, being not a multiple of the\nprogrammed data width of a destination burst transfer (HPDMA_CxDAR versus\nHPDMA_CxTR1.DDW_LOG2)\n– For a channel with 2D addressing, a programmed unaligned destination address\noffset being not a multiple of the programmed data width of a destination burst\ntransfer (HPDMA_CxTR3.DAO versus HPDMA_CxTR1.DDW_LOG2)\n– For a channel with 2D addressing, a programmed unaligned block repeated\ndestination address offset being not a multiple of the programmed data width of a\ndestination burst transfer (HPDMA_CxBR2.BRDAO versus\nHPDMA_CxTR1.DDW_LOG2)\n– A programmed source burst data width being superior than the data width of the\nallocated AXI/AHB source port (HPDMA_CxTR1.SDW_LOG2 and\nHPDMA_CxTR1.SAP vs the implemented AXI/AHB port data width).\n– A programmed destination burst data width being superior than the data width of\nthe allocated AXI/AHB destination port (HPDMA_CxTR1.DDW_LOG2 and\nHPDMA_CxTR1.DAP vs the implemented AXI/AHB port data width).\n– A programmed linked-list item LLIn+1 with a null data transfer\n(HPDMA_CxLLR.UB1=1 and HPDMA_CxBR1. BNDT[15:0]=0)",
+      "semantic": {}
+    }
+  ]
+}

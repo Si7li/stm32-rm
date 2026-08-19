@@ -1,0 +1,38 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.4.4",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.4.4",
+      "section_title": "Card identification process",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 582,
+      "page_end": 583,
+      "semantic_type": "generic",
+      "features": [
+        "card",
+        "identification",
+        "process"
+      ],
+      "chars": 3061,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=582",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.4 \"Card identification process\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 582.",
+      "section_content": "The card identification process differs for MultiMediaCards and SD cards. For\nMultiMediaCard cards, the identification process starts at clock rate Fod. The SDIO_CMD\nline output drivers are open-drain and allow parallel card operation during this process. The\nregistration process is accomplished as follows:\n1. The bus is activated.\n2. The SDIO card host broadcasts SEND_OP_COND (CMD1) to receive operation\nconditions.\n3. The response is the wired AND operation of the operation condition registers from all\ncards.\n4. Incompatible cards are placed in the inactive state.\n5. The SDIO card host broadcasts ALL_SEND_CID (CMD2) to all active cards.\n6. The active cards simultaneously send their CID numbers serially. Cards with outgoing\nCID bits that do not match the bits on the command line stop transmitting and must wait\nfor the next identification cycle. One card successfully transmits a full CID to the SDIO\ncard host and enters the Identification state.\n7. The SDIO card host issues SET_RELATIVE_ADDR (CMD3) to that card. This new\naddress is called the relative card address (RCA); it is shorter than the CID and\naddresses the card. The assigned card changes to the Standby state, it does not react\nto further identification cycles, and its output switches from open-drain to push-pull.\n8. The SDIO card host repeats steps 5 through 7 until it receives a timeout condition.\nFor the SD card, the identification process starts at clock rate Fod, and the SDIO_CMD line\noutput drives are push-pull drivers instead of open-drain. The registration process is\naccomplished as follows:\n1. The bus is activated.\n2. The SDIO card host broadcasts SD_APP_OP_COND (ACMD41).\n3. The cards respond with the contents of their operation condition registers.\n4. The incompatible cards are placed in the inactive state.\n5. The SDIO card host broadcasts ALL_SEND_CID (CMD2) to all active cards.\n6. The cards send back their unique card identification numbers (CIDs) and enter the\nIdentification state.\n7. The SDIO card host issues SET_RELATIVE_ADDR (CMD3) to an active card with an\naddress. This new address is called the relative card address (RCA); it is shorter than\nthe CID and addresses the card. The assigned card changes to the Standby state. The\nSDIO card host can reissue this command to change the RCA. The RCA of the card is\nthe last assigned value.\n8. The SDIO card host repeats steps 5 through 7 with all active cards.\nFor the SD I/O card, the registration process is accomplished as follows:\n1. The bus is activated.\n2. The SDIO card host sends IO_SEND_OP_COND (CMD5).\n3. The cards respond with the contents of their operation condition registers.\n4. The incompatible cards are set to the inactive state.\n5. The SDIO card host issues SET_RELATIVE_ADDR (CMD3) to an active card with an\naddress. This new address is called the relative card address (RCA); it is shorter than\nthe CID and addresses the card. The assigned card changes to the Standby state. The\nSDIO card host can reissue this command to change the RCA. The RCA of the card is\nthe last assigned value.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S28.3.7",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "28",
+      "chapter_title": "FD controller area network (FDCAN)",
+      "section": "28.3.7",
+      "section_title": "FIFO acknowledge handling",
+      "level": 3,
+      "parent_section": "28.3",
+      "page": 913,
+      "page_end": 913,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 1340,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=913",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.3.7 \"FIFO acknowledge handling\" in chapter 28 (FD controller area network (FDCAN)), RM0490 Rev 6, page 913.",
+      "section_content": "The get indices of Rx FIFO 0, Rx FIFO 1, and the Tx event FIFO are controlled by writing to\nthe corresponding FIFO acknowledge index (see Section 28.4.23 and Section 28.4.25).\nWriting to the FIFO acknowledge index sets the FIFO get index to the FIFO acknowledge\nindex plus one and thereby updates the FIFO fill level. There are two use cases:\n• When only a single element has been read from the FIFO (the one being pointed to by\nthe get index), this get index value is written to the FIFO acknowledge index.\n• When a sequence of elements has been read from the FIFO, it is sufficient to write the\nFIFO acknowledge index only once at the end of that read sequence (value = index of\nthe last element read), to update the FIFO get index.\nBecause the CPU has free access to the FDCAN message RAM, special care has to be\ntaken when reading FIFO elements in an arbitrary order (get index not considered). This\nmight be useful when reading a high priority message from one of the two Rx FIFOs. In this\ncase, the FIFO acknowledge index must not be written because this would set the get index\nto a wrong position and alter the FIFO fill level. In this case, some of the older FIFO\nelements would be lost.\nNote: The application has to ensure that a valid value is written to the FIFO acknowledge index.\nThe FDCAN does not check for erroneous values.",
+      "semantic": {}
+    }
+  ]
+}

@@ -1,0 +1,280 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S28.4.6",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "28",
+      "chapter_title": "FD controller area network (FDCAN)",
+      "section": "28.4.6",
+      "section_title": "FDCAN CC control register (FDCAN_CCCR)",
+      "level": 3,
+      "parent_section": "28.4",
+      "page": 924,
+      "page_end": 925,
+      "semantic_type": "register_description",
+      "features": [
+        "asm",
+        "brse",
+        "cce",
+        "csa",
+        "csr",
+        "dar",
+        "efbi",
+        "fdcan",
+        "fdcan-cccr",
+        "fdoe",
+        "init",
+        "mon",
+        "niso",
+        "pxhd",
+        "test",
+        "txp"
+      ],
+      "chars": 3519,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=924",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 28.4.6 \"FDCAN CC control register (FDCAN_CCCR)\" in chapter 28 (FD controller area network (FDCAN)), RM0490 Rev 6, page 924.",
+      "section_content": "Address offset: 0x0018\nReset value: 0x0000 0001\nFor details about setting and clearing single bits, see Software initialization.\nBits 31:16 Reserved, must be kept at reset value.\nBit 15 NISO: Non-ISO operation\nIf this bit is set, the FDCAN uses the CAN FD frame format as specified by the Bosch CAN\nFD Specification V1.0.\n0: CAN FD frame format according to ISO11898-1\n1: CAN FD frame format according to Bosch CAN FD Specification V1.0\nBit 14 TXP: Transmit pause enable\nIf this bit is set, the FDCAN pauses for two CAN bit times before starting the next\ntransmission after successfully transmitting a frame.\n0: Disabled\n1: Enabled\nBit 13 EFBI: Edge filtering during bus integration\n0: Edge filtering disabled\n1: Two consecutive dominant tq required to detect an edge for hard synchronization\nBit 12 PXHD: Protocol exception handling disable\n0: Protocol exception handling enabled\n1: Protocol exception handling disabled\nBits 11:10 Reserved, must be kept at reset value.\nBit 9 BRSE: FDCAN bit rate switching\n0: Bit rate switching for transmissions disabled\n1: Bit rate switching for transmissions enabled\nBit 8 FDOE: FD operation enable\n0: FD operation disabled\n1: FD operation enabled\nBit 7 TEST: Test mode enable\n0: Normal operation, FDCAN_TEST holds reset values\n1: Test mode, write access to FDCAN_TEST enabled\nBit 6 DAR: Disable automatic retransmission\n0: Automatic retransmission of messages not transmitted successfully enabled\n1: Automatic retransmission disabled\nBit 5 MON: Bus monitoring mode\nThis bit can only be set by software when both CCE and INIT are set. The bit can be cleared\nby the host at any time.\n0: Bus monitoring mode disabled\n1: Bus monitoring mode enabled\nBit 4 CSR: Clock stop request\n0: No clock stop requested\n1: Clock stop requested. When clock stop is requested, first INIT and then CSA is set after all\npending transfer requests have been completed and the CAN bus is idle.\nBit 3 CSA: Clock stop acknowledge\n0: No clock stop acknowledged\n1: FDCAN can be set in power-down by stopping APB clock and kernel clock.\nBit 2 ASM: ASM restricted operation mode\nThe restricted operation mode is intended for applications that adapt themselves to different\nCAN bit rates. The application tests different bit rates and leaves the restricted operation\nmode after it has received a valid frame. In the optional restricted operation mode the node is\nable to transmit and receive data and remote frames and it gives acknowledge to valid\nframes, but it does not send active error frames or over.load frames. In case of an error\ncondition or overload condition, it does not send dominant bits, instead it waits for the\noccurrence of bus-idle condition to resynchronize itself to the CAN communication. The error\ncounters are not incremented. Bit ASM can only be set by software when both CCE and INIT\nare set. The bit can be cleared by the software at any time.\n0: Normal CAN operation\n1: Restricted operation mode active\nBit 1 CCE: Configuration change enable\n0: The CPU has no write access to the protected configuration registers.\n1: The CPU has write access to the protected configuration registers (while INIT set in\nFDCAN_CCCR).\nBit 0 INIT: Initialization\n0: Normal operation\n1: Initialization started\nNote: Due to the synchronization mechanism between the two clock domains, there can be a\ndelay until the value written to INIT can be read back. Therefore, the programmer has to\nassure that the previous value written to INIT has been accepted by reading INIT before\nsetting INIT to a new value.",
+      "semantic": {
+        "register": "FDCAN_CCCR",
+        "address_offset": "0x0018",
+        "reset_value": "0x0000 0001",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "NISO",
+            "description": "Non-ISO operation If this bit is set, the FDCAN uses the CAN FD frame format as specified by the Bosch CAN FD Specification V1.0.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CAN FD frame format according to ISO11898-1"
+              },
+              {
+                "value": "1",
+                "meaning": "CAN FD frame format according to Bosch CAN FD Specification V1.0"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "TXP",
+            "description": "Transmit pause enable If this bit is set, the FDCAN pauses for two CAN bit times before starting the next transmission after successfully transmitting a frame.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "EFBI",
+            "description": "Edge filtering during bus integration",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Edge filtering disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Two consecutive dominant tq required to detect an edge for hard synchronization"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "PXHD",
+            "description": "Protocol exception handling disable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Protocol exception handling enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Protocol exception handling disabled"
+              }
+            ]
+          },
+          {
+            "bits": "11:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "BRSE",
+            "description": "FDCAN bit rate switching",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Bit rate switching for transmissions disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Bit rate switching for transmissions enabled"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "FDOE",
+            "description": "FD operation enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "FD operation disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "FD operation enabled"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "TEST",
+            "description": "Test mode enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal operation, FDCAN_TEST holds reset values"
+              },
+              {
+                "value": "1",
+                "meaning": "Test mode, write access to FDCAN_TEST enabled"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "DAR",
+            "description": "Disable automatic retransmission",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Automatic retransmission of messages not transmitted successfully enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Automatic retransmission disabled"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "MON",
+            "description": "Bus monitoring mode This bit can only be set by software when both CCE and INIT are set. The bit can be cleared by the host at any time.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Bus monitoring mode disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Bus monitoring mode enabled"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "CSR",
+            "description": "Clock stop request pending transfer requests have been completed and the CAN bus is idle.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No clock stop requested"
+              },
+              {
+                "value": "1",
+                "meaning": "Clock stop requested. When clock stop is requested, first INIT and then CSA is set after all"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "CSA",
+            "description": "Clock stop acknowledge",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No clock stop acknowledged"
+              },
+              {
+                "value": "1",
+                "meaning": "FDCAN can be set in power-down by stopping APB clock and kernel clock."
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "ASM",
+            "description": "ASM restricted operation mode The restricted operation mode is intended for applications that adapt themselves to different CAN bit rates. The application tests different bit rates and leaves the restricted operation mode after it has received a valid frame. In the optional restricted operation mode the node is able to transmit and receive data and remote frames and it gives acknowledge to valid frames, but it does not send active error frames or over.load frames. In case of an error condition or overload condition, it does not send dominant bits, instead it waits for the occurrence of bus-idle condition to resynchronize itself to the CAN communication. The error counters are not incremented. Bit ASM can only be set by software when both CCE and INIT are set. The bit can be cleared by the software at any time.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal CAN operation"
+              },
+              {
+                "value": "1",
+                "meaning": "Restricted operation mode active"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "CCE",
+            "description": "Configuration change enable FDCAN_CCCR).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The CPU has no write access to the protected configuration registers."
+              },
+              {
+                "value": "1",
+                "meaning": "The CPU has write access to the protected configuration registers (while INIT set in"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "INIT",
+            "description": "Initialization Note: Due to the synchronization mechanism between the two clock domains, there can be a delay until the value written to INIT can be read back. Therefore, the programmer has to assure that the previous value written to INIT has been accepted by reading INIT before setting INIT to a new value.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal operation"
+              },
+              {
+                "value": "1",
+                "meaning": "Initialization started"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

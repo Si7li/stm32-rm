@@ -1,0 +1,238 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S39.14.26",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "39",
+      "chapter_title": "Digital camera interface pixel pipeline (DCMIPP)",
+      "section": "39.14.26",
+      "section_title": "DCMIPP Pipe0 pixel packer configuration register (DCMIPP_P0PPCR)",
+      "level": 3,
+      "parent_section": "39.14",
+      "page": 1921,
+      "page_end": 1923,
+      "semantic_type": "register_description",
+      "features": [
+        "bsm",
+        "dbm",
+        "dcmipp",
+        "dcmipp-p0ppcr",
+        "headeren",
+        "linemult",
+        "lsm",
+        "oebs",
+        "oels",
+        "pad",
+        "swapyuv"
+      ],
+      "chars": 2693,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1921",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 39.14.26 \"DCMIPP Pipe0 pixel packer configuration register (DCMIPP_P0PPCR)\" in chapter 39 (Digital camera interface pixel pipeline (DCMIPP)), RM0486 Rev 4, page 1921.",
+      "section_content": "Address offset: 0x5C0\nReset value: 0x0000 0000\nBits 31:17 Reserved, must be kept at reset value.\nBit 16 DBM: Double buffer mode\nThis bit is set and cleared by software.\n0: No double buffer mode activated. Pipe0 always dumps to memory address set by\nDCMIPP_P0PPM0AR1.\n1: Double buffer mode activated. Dump address location switches from\nDCMIPP_P0PPM0AR1 to DCMIPP_P0PPM0AR2 alternatively on each frame.\nBits 15:13 LINEMULT[2:0]: Amount of capture completed lines for LINE event and interrupt\n0x0: Event after one line\n0x1: Event after two lines\n0x2: Event after four lines\n0x3: Event after eight lines\n0x4: Event after sixteen lines\n0x5: Event after 32 lines\n0x6: Event after 64 lines\n0x7: Event after 128 lines\nBit 12 Reserved, must be kept at reset value.\nBit 11 OELS: Odd/even line select (line select start)\nThis bit works in conjunction with LSM field (LSM = 1).\n0: Interface captures first line after the frame start, second one is dropped\n1: Interface captures second line from the frame start, first one is dropped\nBit 10 LSM: Line select mode\n0: Interface captures all received lines\n1: Interface captures one line out of two\nBit 9 OEBS: Odd/even byte select (byte select start)\nThis bit works in conjunction with BSM field (BSM ≠ 00)\n0: Interface captures the first data (byte or double byte) from the frame/line start, the second\none is dropped\n1: Interface captures the second data (byte or double byte) from the frame/line start, the first\none is dropped\nThis bit has a meaning only if INSEL = 0 into the DCMIPP_CMCR register.\nBits 8:7 BSM[1:0]: Byte select mode\n00: Interface captures all received data\n01: Interface captures 1 data out of 2\n10: Interface captures one byte out of four\n11: Interface captures two bytes out of four\nModes 10 and 11 work only with EDM [2:0] = 000 into the DCMIPP_PRCR register.\nThis bit has a meaning only if INSEL = 0 into the DCMIPP_CMCR register\nBit 6 HEADEREN: CSI header dump enable\n0: CSI-2 headers are not dumped\n1: CSI-2 headers are dumped as a 32-bit word.\nThis setting is ignored for parallel interface mode, as there are no headers.\nBit 5 PAD: Pad mode for monochrome and raw Bayer 10/12/14 bpp (MSB vs. LSB alignment)\n0: Aligns on LSB (and pads null bits on MSB), for backward compatibility with former DCMI.\n1: Aligns on MSB (and pads null bits on LSB), for better ease of software or GPU.\nBits 4:1 Reserved, must be kept at reset value.\nBit 0 SWAPYUV: Swaps, within a 32-bit word, byte 0-vs-1 and byte 2-vs-3. It corresponds, for\nYUV422 pixels formats, to swap between UYVY and YUYV.\n0: Outputs the provided words, as described in Section39.10: Pixel format description.\n1: Swaps the bytes from provided words, byte 0-vs.-1 and 2-vs.-3",
+      "semantic": {
+        "register": "DCMIPP_P0PPCR",
+        "address_offset": "0x5C0",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:17",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "DBM",
+            "description": "Double buffer mode This bit is set and cleared by software. DCMIPP_P0PPM0AR1. DCMIPP_P0PPM0AR1 to DCMIPP_P0PPM0AR2 alternatively on each frame.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No double buffer mode activated. Pipe0 always dumps to memory address set by"
+              },
+              {
+                "value": "1",
+                "meaning": "Double buffer mode activated. Dump address location switches from"
+              }
+            ]
+          },
+          {
+            "bits": "15:13",
+            "name": "LINEMULT[2:0]",
+            "description": "Amount of capture completed lines for LINE event and interrupt",
+            "values": [
+              {
+                "value": "0x0",
+                "meaning": "Event after one line"
+              },
+              {
+                "value": "0x1",
+                "meaning": "Event after two lines"
+              },
+              {
+                "value": "0x2",
+                "meaning": "Event after four lines"
+              },
+              {
+                "value": "0x3",
+                "meaning": "Event after eight lines"
+              },
+              {
+                "value": "0x4",
+                "meaning": "Event after sixteen lines"
+              },
+              {
+                "value": "0x5",
+                "meaning": "Event after 32 lines"
+              },
+              {
+                "value": "0x6",
+                "meaning": "Event after 64 lines"
+              },
+              {
+                "value": "0x7",
+                "meaning": "Event after 128 lines"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "OELS",
+            "description": "Odd/even line select (line select start) This bit works in conjunction with LSM field (LSM = 1).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interface captures first line after the frame start, second one is dropped"
+              },
+              {
+                "value": "1",
+                "meaning": "Interface captures second line from the frame start, first one is dropped"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "LSM",
+            "description": "Line select mode",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interface captures all received lines"
+              },
+              {
+                "value": "1",
+                "meaning": "Interface captures one line out of two"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "OEBS",
+            "description": "Odd/even byte select (byte select start) This bit works in conjunction with BSM field (BSM ≠ 00) one is dropped one is dropped This bit has a meaning only if INSEL = 0 into the DCMIPP_CMCR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interface captures the first data (byte or double byte) from the frame/line start, the second"
+              },
+              {
+                "value": "1",
+                "meaning": "Interface captures the second data (byte or double byte) from the frame/line start, the first"
+              }
+            ]
+          },
+          {
+            "bits": "8:7",
+            "name": "BSM[1:0]",
+            "description": "Byte select mode Modes 10 and 11 work only with EDM [2:0] = 000 into the DCMIPP_PRCR register. This bit has a meaning only if INSEL = 0 into the DCMIPP_CMCR register",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Interface captures all received data"
+              },
+              {
+                "value": "01",
+                "meaning": "Interface captures 1 data out of 2"
+              },
+              {
+                "value": "10",
+                "meaning": "Interface captures one byte out of four"
+              },
+              {
+                "value": "11",
+                "meaning": "Interface captures two bytes out of four"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "HEADEREN",
+            "description": "CSI header dump enable This setting is ignored for parallel interface mode, as there are no headers.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CSI-2 headers are not dumped"
+              },
+              {
+                "value": "1",
+                "meaning": "CSI-2 headers are dumped as a 32-bit word."
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "PAD",
+            "description": "Pad mode for monochrome and raw Bayer 10/12/14 bpp (MSB vs. LSB alignment)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Aligns on LSB (and pads null bits on MSB), for backward compatibility with former DCMI."
+              },
+              {
+                "value": "1",
+                "meaning": "Aligns on MSB (and pads null bits on LSB), for better ease of software or GPU."
+              }
+            ]
+          },
+          {
+            "bits": "4:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "SWAPYUV",
+            "description": "Swaps, within a 32-bit word, byte 0-vs-1 and byte 2-vs-3. It corresponds, for YUV422 pixels formats, to swap between UYVY and YUYV.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Outputs the provided words, as described in Section39.10: Pixel format description."
+              },
+              {
+                "value": "1",
+                "meaning": "Swaps the bytes from provided words, byte 0-vs.-1 and 2-vs.-3"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

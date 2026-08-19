@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S35.4.11",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "35",
+      "chapter_title": "Multi-function digital filter (MDF)",
+      "section": "35.4.11",
+      "section_title": "Start-up sequence examples",
+      "level": 3,
+      "parent_section": "35.4",
+      "page": 1664,
+      "page_end": 1665,
+      "semantic_type": "generic",
+      "features": [
+        "examples",
+        "sequence",
+        "start"
+      ],
+      "chars": 2362,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1664",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 35.4.11 \"Start-up sequence examples\" in chapter 35 (Multi-function digital filter (MDF)), RM0486 Rev 4, page 1664.",
+      "section_content": "Figure343 details an acquisition sequence start of a digital filter triggered by DFLTEN\n(ACQMOD[2:0] = 0), with NBDIS[7:0] = 3 (three samples to discard before acquisition).\nThe DFLTx is configured for audio application: MCIC, RSFLT and HPF activated.The data\ninterface (SITFx or ADCITF) is assumed to be already activated.\nNote: NBDIS[7:0] is set on purpose to a low value to simplify the drawing.\n[Figure 343. Start sequence with DFLTEN, in continuous mode, audio configuration]\nThe DFLTEN bit is re-sampled into the MDF processing clock domain. When DFLTEN is\ndetected high, the filter chain is enabled and the decimation counter of the MCIC filter is\nincremented at the rate of the bitstream clock.\nWhen the MCIC decimation counter reaches its programmed value N, a sample is available\nfor the RSFLT.\nThe RSFLT processes all the samples provided by the MCIC and delivers a sample to the\nHPF every time it processes four samples (decimation by 4) The RSFLT needs up to 24\ncycles of mdf_proc_ck clock before delivering a sample (P1).\nThe HPF processes all the samples provided by the RSFLT, but the NBDIS function\nprevents the data writing in the RXFIFO as long as NBDIS_CNTR does not reach 0. This\ncounter is decremented every time the HPF delivers a sample.\nWhen NBDIS_CNTR reaches 0, the samples provided by the HPF are stored into the\nRXFIFO.\nThe example shown in Figure344 is based in a motor-control filter configuration:\n• MCIC and INT are enabled.\n• SFLT and HPF are disabled.\n• ACQMOD[2:0] is set to 1 and uses a mdf_trgiy input as trigger.\n• NBDIS[7:0] is set to 3.\n• INTVAL[6:0] is set to 2.\nThe mdf_trgiy input signal is re-sampled into the MDF processing clock domain to avoid any\nmetastability issues. When the trigger condition is met (rising edge), the decimation counter\nof the MCIC filter is incremented at the rate of the bitstream clock.\nWhen the MCIC decimation counter reaches its programmed value N, a sample is available.\nThe NBDIS function prevents the samples writing in the INT as long as NBDIS_CNTR does\nnot reach 0. This counter is decremented every time the MCIC delivers a sample.\nWhen NBDIS_CNTR reaches 0, the new samples are provided to the INT, that performs the\nintegration of three consecutive samples and stores them into the RXFIFO.\n[Figure 344. Start sequence with trigger input, in continuous mode, motor configuration]",
+      "semantic": {}
+    }
+  ]
+}

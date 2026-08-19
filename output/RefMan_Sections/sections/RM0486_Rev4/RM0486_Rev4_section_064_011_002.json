@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S64.11.2",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "64",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "64.11.2",
+      "section_title": "TX-FIFO management, as target",
+      "level": 3,
+      "parent_section": "64.11",
+      "page": 3221,
+      "page_end": 3224,
+      "semantic_type": "generic",
+      "features": [
+        "fifo"
+      ],
+      "chars": 4415,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3221",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 64.11.2 \"TX-FIFO management, as target\" in chapter 64 (Improved inter-integrated circuit (I3C)), RM0486 Rev 4, page 3221.",
+      "section_content": "Main scheme\nWhen target, as shown in figures of Section64.9, the TX-FIFO is used only during a private\nread (Figure828).\nFigure838 illustrates the management of the TX-FIFO for queuing and pushing-on data\nbytes or word(s) to be transmitted on the I3C bus, when the I3C peripheral acts as target.\n[Figure 838. TX-FIFO management with I3C_TGTTDR, as target on the I3C bus]\nFirst, the software must initialize the TX-FIFO management and write I3C_CFGR with\n• TXDMAEN: enable/disable DMA mode for TX-FIFO\n• TXTHRES: push-on data byte(s) or word(s) to TX-FIFO\nThen, before receiving a private read on the I3C bus , the software must configure the I3C\ntarget transmit configuration register (I3C_TGTTDR) to preload the TX-FIFO with a number\nof data bytes (write TGTTDCNT[15:0] and PRELOAD = 1 in a single access), so that data\nbytes from the target are ready to be transmitted on the serial bus:\n• If PRELOAD = 1 and TGTTDCNT[15:0] > TX-FIFO size, TX-FIFO is first preloaded up\nto the FIFO size.\n• If PRELOAD = 1 and TGTTDCNT[15:0] ≤ TX-FIFO size, TX-FIFO is preloaded up to\nTGTTDCNT[15:0].\nNote: TX-FIFO size is 8 bytes (refer to Table622).\nDepending upon TXDMAEN, the TX-FIFO is preloaded either:\n• directly by the software (TXDMAEN = 0) at the byte/word level:\n– via polling mode (TXFNFIE = 0 in the I3C_IER register): waiting for a next data\nbyte/word is requested by the hardware (TXFNFF = 1 in the I3C_IER register)\nbefore an explicit write to the I3C_TDR or I3C_TDWR register, depending upon\nTXTHRES in the I3C_CGFR register\n– via enabled interrupt notification if TXFNFIE = 1\n• by the allocated DMA channel (TXDMAEN = 1) to the corresponding DMA request from\nthe I3C peripheral (i3c_tx_dma):\n– as configured at DMA block level, the DMA is automatically pushing-on/writing\ndata bytes/words to the I3C_TDR or I3C_TDWR register (depending upon\nTXTHRES) from its memory source buffer, until the transfer completion (FCF = 1\nin the IEC_EVR register), unless a transfer error occurs.\nThen, in the same way, either directly by the software or by the allocated DMA channel, if\nthere are remaining TGTTDCNT[15:0] in the I3C_TGTTDR register to be loaded into\nTX-FIFO for continuing the private read (set PRELOAD = 1 and TGTTDCNT[15:0] > TX-\nFIFO size), and provided that the private read is not yet completed by the controller:\n– If TXTHRES = 0: when a byte is transmitted on the serial bus, a next byte is\npreloaded into TX-FIFO\n– If TXTHRES = 1: when four bytes are transmitted on the serial bus, the next word\nis preloaded into TX-FIFO.\nThe private read transfer is completed (FCF = 1 in the I3C_EVR register) when either the\ntarget or the controller first terminates the data byte transfer.\nOn transfer completion, the software can:\n• read XDCNT[15:0] in the I3C_SR register: the effective number of transmitted data\nbytes\n• read TGTTDCNT[15:0] in the I3C_TGTTDR register: the remaining number of bytes to\nbe loaded and transmitted on the serial bus\n• flush TX-FIFO: write and set (or not) TXFLUSH = 1 in the I3C_CFGR register, continue\n(or not) for another read, depending upon the user application\nIf TX-FIFO is empty and a data byte must be transmitted on the serial bus, a TX-FIFO\nunderrun is reported (ERRF = 1 in the I3C_EVR register and DOVR = 1 in the I3C_SER\nregister). If enabled by ERRIE = 1 in the I3C_EVR register, an interrupt is generated.\nThe configuration for the TX-FIFO management can be modified when the I3C peripheral is\nnot in active state.\nAlternative without I3C_TGTTDR, if less bytes than the TX-FIFO size\nAlternatively to the use of the I3C_TGTTDR register, as shown in the Figure839, when the\nDMA is not used (TDMAEN = 0), provided that the number of data bytes to be read on the\nserial bus is less that the TX-FIFO size, the software can directly prepare and fill the TX-\nFIFO with the number of bytes to be read directly by the software, by successive writes to\nthe I3C_TDR or I3C_I3C_TDWR, depending upon TXTHRES.\n[Figure 839. TX-FIFO management by software without I3C_TGTTDR]\nif reading less bytes than TX-FIFO size, as target\nI3C state = DISABLED\nEnable I3C: write and set I3C_CFGR.EN=1\nI3C state = IDLE\nFill TX-FIFO: successive writes to I3C_TD(W)R\nI3C state = ACTIVE\nReceiving and acknowledging on the bus a\nread of data bytes less than TX-FIFO size\nUpdate (or not) configuration of\nTX-FIFO via I3C_CFGR: Setting ERRF = 1\nTXTHRES Transfer error\nSetting FCF = 1\nTransfer completed\nEnd",
+      "semantic": {}
+    }
+  ]
+}

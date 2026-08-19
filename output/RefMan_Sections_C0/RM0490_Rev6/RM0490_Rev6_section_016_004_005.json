@@ -1,0 +1,39 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S16.4.5",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "16",
+      "chapter_title": "Analog-to-digital converter (ADC)",
+      "section": "16.4.5",
+      "section_title": "ADC clock (CKMODE, PRESC[3:0])",
+      "level": 3,
+      "parent_section": "16.4",
+      "page": 296,
+      "page_end": 297,
+      "semantic_type": "generic",
+      "features": [
+        "adc",
+        "ckmode",
+        "clock",
+        "presc"
+      ],
+      "chars": 2377,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=296",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 16.4.5 \"ADC clock (CKMODE, PRESC[3:0])\" in chapter 16 (Analog-to-digital converter (ADC)), RM0490 Rev 6, page 296.",
+      "section_content": "The ADC has a dual clock-domain architecture, so that the ADC can be fed with a clock\n(ADC asynchronous clock) independent from the APB clock (PCLK).\n[Figure 34. ADC clock scheme]\n1. Refer to Section Reset and clock control (RCC) for how the PCLK clock and ADC asynchronous clock are\nThe input clock of the analog ADC can be selected between two different clock sources (see\nFigure 34: ADC clock scheme to see how the PCLK clock and the ADC asynchronous clock\nare enabled):\na) The ADC clock can be a specific clock source, named “ADC asynchronous clock“\nwhich is independent and asynchronous with the APB clock.\nRefer to RCC Section for more information on generating this clock source.\nTo select this scheme, bits CKMODE[1:0] of the ADC_CFGR2 register must be\nreset.\nb) The ADC clock can be derived from the APB clock of the ADC bus interface,\ndivided by a programmable factor (1, 2 or 4) according to bits CKMODE[1:0].\nTo select this scheme, bits CKMODE[1:0] of the ADC_CFGR2 register must be\ndifferent from “00”.\nIn option a), the generated ADC clock can eventually be divided by a prescaler (1, 2, 4, 6, 8,\n10, 12, 16, 32, 64, 128, 256) when programming the bits PRESC[3:0] in the ADC_CCR\nregister).\nOption a) has the advantage of reaching the maximum ADC clock frequency whatever the\nAPB clock scheme selected.\nOption b) has the advantage of bypassing the clock domain resynchronizations. This can be\nuseful when the ADC is triggered by a timer and if the application requires that the ADC is\nprecisely triggered without any uncertainty (otherwise, an uncertainty of the trigger instant is\nadded by the resynchronizations between the two clock domains).\n[Table 70. Latency between trigger and start of conversion(1)]\nCaution: For correct operation of the ADC analog block, the analog ADC clock (fADC) must have a\nduty cycle ranging from 45% to 55%. This is granted when the incoming clock (PCLK or\nADC asynchronous clock) is divided by a factor of two or higher, using one of the scaler\nblocks inside the ADC. If it is not the case, some additional rules must be followed:\n• When CKMODE[1:0] = 11 (PCLK divided by one), the AHB and APB prescalers in the\nRCC must be configured in bypass mode.\n• When the analog ADC clock is derived from the HSE or LSE bypass clock, this bypass\nclock must have a 45-to-55% duty cycle unless this clock is routed to the ADC through\nthe PLL.",
+      "semantic": {}
+    }
+  ]
+}

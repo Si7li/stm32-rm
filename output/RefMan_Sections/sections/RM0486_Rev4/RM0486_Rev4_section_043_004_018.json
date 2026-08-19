@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S43.4.18",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "43",
+      "chapter_title": "LCD-TFT display controller (LTDC)",
+      "section": "43.4.18",
+      "section_title": "Shadow registers",
+      "level": 3,
+      "parent_section": "43.4",
+      "page": 2113,
+      "page_end": 2114,
+      "semantic_type": "generic",
+      "features": [
+        "shadow"
+      ],
+      "chars": 3205,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=2113",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 43.4.18 \"Shadow registers\" in chapter 43 (LCD-TFT display controller (LTDC)), RM0486 Rev 4, page 2113.",
+      "section_content": "When activated, the LTDC is expected to display continuously data, frame after frame.\nThe user may want to modify some settings: for example, add a new layer, modify the layer\nwindow location, or update the displayed content by updating the pointer to the buffer that is\ndisplayed.\nThe LTDC provides shadow registers for most of its configuration registers to allow\ntransitions to occur cleanly synchronized during the short vertical synchronization, when\nnothing is displayed: while the LTDC is busy working with a copy of its configuration\nregisters to control the ongoing display (the active set), a new version of the registers can be\nprogressively updated by software (the shadow set). When ready, and at the exact VSync\nevent, the shadow set is copied into the active set, ready for the next frame.\nOnce the shadow set is fully updated, there are two ways to transfer it in the active set:\n• Immediate copy: the copy occurs immediately.\n• Delayed to next VSync: the copy occurs at the next VSync.\nNote: In case of delayed copy, shadow registers must not be modified again before the reload has\nbeen done.\nReading from shadow registers returns the current active value. The new written value can\nonly be read after the reload has taken place.\nThe impossibility to read a temporary value in a shadow register makes impossible\ntoperform a read-modify-write to set/reset a single bit inside a shadow register.\nA register reload interrupt can be generated if enabled in LTDC_IER or LTDC_IER2.\nShadowed registers\nNon-layer registers\nThe non-layer registers (not prefixed with LTDC_Lx) are all non-shadowed. They contain\nstatic configurations dependent mostly on theattached display panel. They do not require\nupdate during an ongoing display.\nLayer registers\nThe layer registers are prefixed with LTDC_Lx. Most are shadowed to support a clean\nframe-to-frame update. The following are not shadowed, either because their shadowing\nmust be too costly or because they are not expected to require frequent or synchronized\nupdates:\n• LTDC_LxRCR reload control\n• LTDC_LxCKCR color key (assumed static)\n• LTDC_LxCLUTWR CLUT (indirect access, too costly to shadow)\n• LTDC_LxCYR0R/R1R YUV-to-RGB color conversion (assumed static)\n• LTDC_LxFPF0R/LTDC_LxFPF1R flexible pixel format (assumed static)\nParameters\nThe centralized reload of the shadow register is controlled with bitfields in LTDC_SRCR:\n• IMR: writing 1 triggers an immediate copy.\n• VBR: writing 1 triggers a copy delayed at the next blanking.\nA per-layer reload control is available with bitfields in LTDC_LxRCR:\n• GRMSK delegates the per-layer reload to the central reload (above).\n• IMR: writing 1 triggers an immediate copy for this layer.\n• VBR: writing 1 triggers a copy delayed at the next blanking.\nDefault configuration\nFor the initial LTDC configuration, when the display is inactive, the IMR mode must be used\nto copy the initial configuration to the active set.\nWhen the display is active, it is recommended to use VBR to update any parameters:\ntheparameter transition occurs then from frame-to-frame, and not inside an ongoing frame.\nApplying an immediate change of the LTDC configuration within a frame results in an\nunpredictable behavior.",
+      "semantic": {}
+    }
+  ]
+}

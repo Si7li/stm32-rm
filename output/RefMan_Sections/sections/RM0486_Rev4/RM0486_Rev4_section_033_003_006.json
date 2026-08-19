@@ -1,0 +1,36 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S33.3.6",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "33",
+      "chapter_title": "Digital temperature sensor (DTS)",
+      "section": "33.3.6",
+      "section_title": "Main APB programming routines",
+      "level": 3,
+      "parent_section": "33.3",
+      "page": 1587,
+      "page_end": 1590,
+      "semantic_type": "generic",
+      "features": [
+        "apb"
+      ],
+      "chars": 5534,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1587",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 33.3.6 \"Main APB programming routines\" in chapter 33 (Digital temperature sensor (DTS)), RM0486 Rev 4, page 1587.",
+      "section_content": "This section gives several examples of routines to configure the PVT controller, program the\nSDA registers, and perform single or continuous temperature conversions.\nConfigure the PVT controller\n1. STEP 1: Configure the PVT controller Interrupts:\na) Write DTS_PVT_IER register:\nThe timer is only intended to be used when using the TS block in bypass mode, so\nthis interrupt must remain disabled .\nb) Write DTS_TSn_IER register:\nIn the unlikely event of the TS block signaling a fault, the recovered data values\nare considered invalid and any active alarm is disarmed until the fault is removed.\nThe fault IRQ is generated the first time a TS that an TS block signals a fault. If the\nfault is not cleared by the user, then no further interrupts are raised. It is\nrecommended to enable always this interrupt.\n2. STEP 2: Configure the PVT controller alarms:\na) Write DTS_TSnALARMA_CFGR register:\nAlarms are enabled when the ALARM_THRESH is not equal to the\nHYST_THRESH.\nWhen enabling alarms, make sure that the corresponding IRQ is also enabled.\nb) Write DTS_TSnALARMB_CFGR register:\nAlarms are enabled when the ALARM_THRESH is not equal to the\nHYST_THRESH.\nWhen enabling alarms, make sure the corresponding IRQ is also enabled.\n3. STEP 3: PVT sample control:\na) Write DTS_TSCSMPL_CR register:\nWhen SMPL_DISCARD is set, TS data samples are temporarily discarded, but\nthe sample counter continues to increment.\nWhen SMPL_CTR_HOLD is asserted, the sample counter is prevented from\nrolling over when the maximum sample count is reached.\nWhen SMPL_CTR_DISABLE is asserted, the sample counter is disabled.\n4. STEP 4: PVT sample control:\na) Write DTS_TSnHILORESETR for each TS instance.\nConfigure the SDA registers\n1. STEP 1: Program the SDA registers:\na) Read DTS_TSCSDIF_SR register:\nThe SDIF_LOCK flag must be low, indicating that SDIF automatic mode has not\nbeen enabled.\nBefore proceeding further, make sure that the serial data interface is inactive by\nchecking that the SDIF_BUSY flag is low.\nb) Write DTS_TSCSDIF_CR register to fetch the remote slave SDA register value:\nSDIF_PROG=0x1\nSDIF_WRN=0x1\nSDIF_ADDR[2:0]: this bitfield selects the desired SDA register.\nSDIF_WDATA[23:0]: this bitfield provides the SDA write data value.\nProgram the SDA register bits in the following order:\nSDATS_TIMERR register\nSDATS_CFGR register\nSDATS_CR register (see notes below).\nNote: Setting the TS_AUTO bit and either TS_RUN_ONCE or TS_RUN_CONT bit in the\nSDATS_CR register initiates a conversion and sets the SDIF_LOCK flag. Once the\nSDIF_LOCK flag is set, the SDA registers become write-only.\nThe SDIF_WDATA[23:0] value is also reflected in the DTS_TSnSDIFRDATAR registers.\n2. STEP 2: Read the SDA register values:\na) Read DTS_TSCSDIF_SR register:\nThe SDIF_LOCK flag must be low, indicating SDIF automatic mode has not been\nenabled.\nBefore proceeding further, make sure the serial data interface is inactive by\nchecking that the SDIF_BUSY flag is low.\nb) Write DTS_TSCSDIF_CR register to fetch the remote slave SDA register value:\nSDIF_PROG=0x1\nSDIF_WRN=0x0\nSDIF_ADDR[2:0]: this bitfield selects the desired SDA register.\nSDIF_WDATA[23:0]: this bitfield is not used and can be set to any value.\nNote: Once the SDIF_LOCK flag is set, the SDA registers become write-only and any read\nrequests is ignored.\nThe read data value (SDIF_RDATA[23:0]) is also reflected in the DTS_TSnSDIFRDATAR\nregister.\nc) Read the SDA register value from the DTS_TSnSDIFRDATAR registers.\nRun once\n1. STEP 1:\na) Read DTS_TSCSDIF_SR register:\nThe SDIF_LOCK flag is low indicating that the SDIF automatic sample mode is not\nenabled.\nVerify that the serial data interface is not in use by checking that the SDIF_BUSY\nflag is low.\nb) Write DTS_TSCSDIF_CR register:\nSDIF_PROG=0x1\nSDIF_WRN=0x1\nSDIF_ADDR[2:0]=0x0 to select the SDATS_CR register\nSDIF_WDATA[23:0]=0x000104 to assert TS_AUTO and the self-clearing\nTS_RUN_ONCE bits\n2. STEP 2: Wait for a sample done IRQ\na) Read the DTS_TSnSDIFDONER register:\nVerify that one or more SDATS_DR registers have been updated by checking that\nthe SDIF_SMPL_DONE flags are set to 0x1.\nb) Read the DTS_TSCSMPLCNTR register:\nThe sample counter value contained in DTS_TSCSMPLCNTR increments\nwhenever TS data (TS_DATA[23:0]) are updated.\nc) Read the DTS_TSnSDIFRDATAR register:\nRead the TS sample data, type and fault values.\nIf the fault bit is set, the sample data value is unreliable, and must be discarded.\nThe SDIF_SMPL_DONE flag in the DTS_TSnSDIFDONER register is\nautomatically cleared when the SDATS_DR register is read.\nContinuous run\n1. STEP 1\na) Read DTS_TSCSDIF_SR register:\nThe SDIF_LOCK flag is low to indicate that the SDIF automatic sample mode is\nnot enabled.\nVerify that the serial data interface is not in use by checking that the SDIF_BUSY\nflag is low.\nb) Write DTS_TSCSDIF_CR register:\nSDIF_PROG=0x1\nSDIF_WRN=0x1\nSDIF_ADDR[2:0]=0x0\nSDIF_WDATA[23:0]=0x000108 (value to assert TS_AUTO and the run\ncontinuous TS_RUN_CONT bits)\n2. STEP 2: Wait for a sample done IRQ\na) Read the DTS_TSnSDIFDONER register:\nVerify that the SDATS_DR registers have been updated by checking that the\nsample done SDIF_SMPL_DONE flags are set to 0x1.\nb) Read DTS_TSCSMPLCNTR register:\nThe sample counter increments whenever the DTS_TSnSDIFRDATAR value is\nupdated.\nc) Read DTS_TSnSDIFRDATAR register:\nRead the TS sample data, type and fault values.\nIf the fault bit is set, the sample data value is unreliable, and must be discarded.\nThe SDIF_SMPL_DONE flag in the DTS_TSnSDIFDONER register is\nautomatically cleared when the SDATS_DR register is read.",
+      "semantic": {}
+    }
+  ]
+}

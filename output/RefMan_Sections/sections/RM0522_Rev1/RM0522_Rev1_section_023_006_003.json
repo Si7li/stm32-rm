@@ -1,0 +1,39 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S23.6.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "23",
+      "chapter_title": "Comparator (COMP)",
+      "section": "23.6.3",
+      "section_title": "COMP interrupt through NVIC of the CPU",
+      "level": 3,
+      "parent_section": "23.6",
+      "page": 719,
+      "page_end": 719,
+      "semantic_type": "generic",
+      "features": [
+        "comp",
+        "cpu",
+        "interrupt",
+        "nvic"
+      ],
+      "chars": 974,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=719",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 23.6.3 \"COMP interrupt through NVIC of the CPU\" in chapter 23 (Comparator (COMP)), RM0522 Rev 1, page 719.",
+      "section_content": "Refer to the Section15: Nested vectored interrupt controller (NVIC) for more details.\nSequence to enable the COMP interrupt through NVIC of the CPU:\n1. Enable the COMP and wait for stabilization.\n2. Configure and enable the NVIC IRQ channel mapped to the comp_it line.\n3. Configure and enable the ITEN in COMP_CFGRx.\n[Table 177. COMP interrupt through NVIC of the CPU control bits]\nNote: It is mandatory to enable APB clock to use this interrupt. If clock is not enabled, interrupt is\nnot generated.\nThe interrupt is active on level and not automatically clear by hardware. It must be cleared in\nthe comparator interrupt handler by firmware with ITEN = 0 (COMP_CFGR1 register).\nThe interrupt signal comp_it is generated on comparator level, for this reason: upon\ninterruption occurrence, the comp_it signal must be set to low as soon as possible to avoid\ncomparator interrupt handler re-entrance. This can be done by setting ITEN = 0 or changing\nthe comparator POLARITY bit.",
+      "semantic": {}
+    }
+  ]
+}

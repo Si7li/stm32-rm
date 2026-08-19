@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S9.4",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "9",
+      "chapter_title": "Reset and clock control (RCC)",
+      "section": "9.4",
+      "section_title": "RCC clocks functional description",
+      "level": 2,
+      "parent_section": null,
+      "page": 254,
+      "page_end": 255,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "rcc"
+      ],
+      "chars": 2178,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=254",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.4 \"RCC clocks functional description\" in chapter 9 (Reset and clock control (RCC)), RM0522 Rev 1, page 254.",
+      "section_content": "Four different clock sources can be used to drive the system clock (SYSCLK):\n• HSIS: high-speed internal clock at 144MHz\n– and HSIDIV3: high-speed internal clock is divided by 3; at 48MHz\n• PSIS: programmable speed internal clock up to 160MHz (max SYSCLK is 144MHz)\n• HSE: high-speed external crystal or clock, from 4 to 50MHz\nThe HSIDIV3 is used as a the system clock source after startup from reset, at 48MHz.\nNote: If HSE or PSIS with HSE as reference are used as SYSCLK and the HSE CSS detect a\nfailure, HSIDIV3 is automatically set as SYSCLK. Adequate wait state supporting both\nfrequencies must be configured in this case.\nThe device has the following additional clock sources:\n• HSIK: high-speed internal clock divided by 1;1.5; 2;...; 7.5; 8\n• PSIDIV3: programmable speed internal clock divided by 3\n• PSIK: programmable speed internal clock divided by 1;1.5; 2;...; 7.5; 8\n• LSI: 32kHz low-speed internal RC that drives the independent watchdog and\noptionally the RTC used for auto-wake-up from Stop and Standby modes\n• LSE: 32.768kHz low-speed external crystal or clock that optionally drives the real-time\nclock (rtc_ck)\nEach clock source can be switched on or off independently when it is not used, to optimize\npower consumption.\nSeveral prescalers can be used to configure the AHB and APB frequencies. The maximum\nfrequency of the AHB and APB domains is 144MHz.\nThe peripheral clocks are derived from their bus clock (HCLK, PCLK1, PCLK2 or PCLK3),\nexcept those that receive an independent kernel clock. This kernel clock can be selected by\nsoftware between several sources thanks to RCC_CCIPRx registers (x = 1 to 3).\nNote: All timers (except LPTIM) are clocked by HCLK, independently of their respective PCLK.\nIn addition, the RTC kernel clock is selected by software in RCC_RTCCR. The IWDG clock\nis always the LSI 32kHz clock.\nThe RCC feeds the Cortex system timer (SysTick) external clock with the AHB clock (HCLK)\ndivided by eight, or LSE or LSI. The SysTick can work either with this clock or directly with\nthe Cortex clock (HCLK), configurable in the SysTick control and status register.\nFCLK acts as a a Cortex-M33 free-running clock.\n[Figure 25. Clock tree]",
+      "semantic": {}
+    }
+  ]
+}

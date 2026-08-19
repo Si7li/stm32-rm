@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S7.4.6",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "7",
+      "chapter_title": "Instruction cache (ICACHE)",
+      "section": "7.4.6",
+      "section_title": "Cacheable and noncacheable traffic",
+      "level": 3,
+      "parent_section": "7.4",
+      "page": 212,
+      "page_end": 213,
+      "semantic_type": "generic",
+      "features": [
+        "cacheable",
+        "noncacheable",
+        "traffic"
+      ],
+      "chars": 2301,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=212",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 7.4.6 \"Cacheable and noncacheable traffic\" in chapter 7 (Instruction cache (ICACHE)), RM0522 Rev 1, page 212.",
+      "section_content": "The ICACHE is developed for the Cortex®-M33 core. It is placed on the C-AHB bus, and\nthus caches the code memory region, ranging from address 0x00000000 to 0x1FFFFFFF\nofthememory map.\nTo make other memory regions cacheable, the ICACHE supports a memory region\nremapping feature, used (only for STM32C59x/5A3 devices) to define up to four external\nmemory regions, whose addresses have an alias in the code region. Addressing these\nmemory regions through their code alias address allows the memory request to be routed\ntothe C-AHB bus, and to be managed by the ICACHE.\nAny external memory space physically mapped at an address in the range\n[0x60000000:0xAFFFFFFF] can be aliased with an address in the range\n[0x00000000:0x07FFFFFF] or [0x1000 0000:0x1FFF FFFF].\nFor a given memory request in the code region, the ICACHE implements the address\nremapping functionality first. If aliased, it is the remapped address, which is then cached,\nand, if needed, provided to the master port to address the main AHB bus matrix.\nThedestination physical address does not need further manipulation on the AHB bus.\nThe remapping functionality is available also for noncacheable traffic, and when the cache\nis disabled.\nAdditional details on address remapping are provided in Section7.4.7.\nAn incoming memory request to the ICACHE is defined as cacheable according to its AHB\ntransaction memory lookup attribute, as shown in Table47. This AHB attribute depends on\nthe MPU (memory protection unit) programming for the addressed region.\n[Table 47. ICACHE cacheability for AHB transaction]\nIn the case of a noncacheable access (read or write), the ICACHE is bypassed. The AHB\ntransaction is propagated unchanged to the master output port, except the transaction\naddress, which may be modified due to the address remapping feature (see Section7.4.7).\nThe bypass, and eventual remap logic, does not increase the latency of the access to the\ntargeted memory.\nIn the case of a cacheable access, the ICACHE behaves as explained in Section7.4.8.\nCacheable memory regions are defined and programmed by the user in the MPU\nresponsible for the generation of the AHB attribute signals for any transaction addressing a\ngiven region.\nTable48 summarizes programmable configurations of various memories.\n[Table 48. Memory configurations]",
+      "semantic": {}
+    }
+  ]
+}

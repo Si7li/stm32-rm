@@ -1,0 +1,38 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S6.6.2",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "6",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "6.6.2",
+      "section_title": "Bootloader user functions",
+      "level": 3,
+      "parent_section": "6.6",
+      "page": 163,
+      "page_end": 165,
+      "semantic_type": "generic",
+      "features": [
+        "boot",
+        "flash",
+        "memory"
+      ],
+      "chars": 3417,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=163",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 6.6.2 \"Bootloader user functions\" in chapter 6 (Embedded flash memory (FLASH)), RM0522 Rev 1, page 163.",
+      "section_content": "As other microcontroller peripherals features and mapping, the bootloader library functions\nare exposed to user within the CMSIS device header file provided by the STM32CubeC5\nfirmware package. Refer to the online HAL/LL drivers documentation to get more details\nregarding STM32CubeC5 firmware package. Bootloader library provides runtime services\nthrough prefixed EXITHDP functions.\n[Table 38. C defined macro for HDP services]\nEXITHDPLIB\nThe user firmware calls EXITHDPLIB functions using EXITHDPLIB_PFUNC C defined\nmacro, that points to a location within system memory.\n[Table 39. EXITHDPlib interface function list]\nThe EXITHDPLIB functions are described within section hereafter.\na) JumpHDPLvl2\nPrototype:\nuint32_t JumpHDPLvl2(uint32_t VectorTableAddr, uint32_t MPUIndex)\nUser code function call example:\nEXITHDPLIB_PFUNC->JumpHDPLvl2((uint32_t)NextVectorTableAddr, 1U );\nArguments:\n• VectorTableAddr:\nInput parameter, address of the next vector table to apply.\nThe vector table format is the one used by the Cortex-M33 core.\n• MPUIndex:\nInput parameter, MPU region index. Caller function shall define but keep disable the\ncorresponding MPU region before calling JumpHDPLvl2. The function enables the MPU\nregion before jumping to the Reset Handler of the vector table. The vector table Reset\nHandler function shall belong to the MPU region.\nDescriptions:\nUser calls JumpHDPLvl2 to:\n• Close user Flash HDPL1 area by incrementing HDPL to 2\n• Jump to the reset handler embedded within the Vector Table which address is passed\nas input parameter\nAfter closing HDPL1, JumpHDPLvl2 enables the MPU region provided as input parameter.\nOnce the MPU is enabled, the function sets the SP to the address provided by the passed\nVector Table and jumps to the Reset Handler function supported by the Vector Table too.\nJumpHDPLvl2 does not set the new vector table.\nOn successful execution, the function does not return and does not push LR onto the stack.\nErrors:\nIn case of failure (bad input parameter value), EXITHDPLIB_Sec_JumpHDPLvl2 returns\n0xF5F5F5F5.\nb) JumpHDPLvl3\nPrototype\nuint32_t JumpHDPLvl3(uint32_t VectorTableAddr, uint32_t MPUIndex)\nUser code function call example:\nEXITHDPLIB_PFUNC->JumpHDPLvl3((uint32_t)NextVectorTableAddr, 1U );\nArguments:\n• VectorTableAddr:\nInput parameter, address of the next vector table to apply.\nThe vector table format is the one used by the Cortex-M33 core.\n• MPUIndex:\nInput parameter, MPU region index. Caller function shall define but keep disable the\ncorresponding MPU region before calling JumpHDPLvl3. The function enables the\nMPU region before jumping to the Reset Handler of the vector table. The vector table\nReset Handler function shall belong to the MPU region.\nDescriptions:\nUser calls JumpHDPLvl3 to:\n• Close user Flash HDPL1 and HDPL2 areas by incrementing HDPL up to 3\n• Then jump to the reset handler embedded within the Vector Table which address is\npassed as input parameter\nAfter closing HDPL1/2, JumpHDPLvl3 enables the MPU region provided as input parameter.\nOnce the MPU is enabled, the function sets the SP to the address provided by the passed\nVector Table and jumps to the Reset Handler function supported by the Vector Table too.\nJumpHDPLvl3 does not set the new vector table.\nOn successful execution, the function does not return and does not push LR onto the stack.\nErrors:\nIn case of failure (bad input parameter value), JumpHDPLvl3 returns 0xF5F5F5F5.",
+      "semantic": {}
+    }
+  ]
+}

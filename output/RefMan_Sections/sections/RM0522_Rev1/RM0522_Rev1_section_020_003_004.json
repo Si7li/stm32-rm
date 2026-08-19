@@ -1,0 +1,40 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S20.3.4",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "20",
+      "chapter_title": "Delay block (DLYB)",
+      "section": "20.3.4",
+      "section_title": "Delay line length configuration procedure",
+      "level": 3,
+      "parent_section": "20.3",
+      "page": 557,
+      "page_end": 557,
+      "semantic_type": "generic",
+      "features": [
+        "configuration",
+        "delay",
+        "length",
+        "line",
+        "procedure"
+      ],
+      "chars": 1669,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=557",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 20.3.4 \"Delay line length configuration procedure\" in chapter 20 (Delay block (DLYB)), RM0522 Rev 1, page 557.",
+      "section_content": "LNG[11:0] is used to determine the delay line length with respect to the input clock period.\nThe length must be configured so that one full input clock period is covered by the delay line\nlength.\nNote that despite the delay line has 12 unit delay elements, the following procedure\ndescription returns a length between 0 and 10, as the upper delay output value is used to\nensure that the delay is calibrated over one full input clock cycle. Depending on the clock\nfrequency and UNIT value, unit delay element 10 may also be truncated from the clock\ncycle length.\nA clock input (free running clock) must be present during the whole tuning procedure.\nTo configure the delay line length to one period of the Input clock, follow the sequence\nbelow:\n1. Enable the delay block by setting DEN bit to 1.\n2. Enable the length sampling by setting SEN bit to 1.\n3. Enable all delay cells by setting SEL[3:0] to 12.\n4. For UNIT[6:0] = 0 to 127 (this step must be repeated until the delay line length is\nconfigured):\na) Update the UNIT[6:0] value and wait till the length flag LNGF is set to 1.\nb) Read LNG[11:0].\nIf (LNG[10:0] > 0) and (LNG[11] or LNG[10] = 0), the delay line length is configured to\none input clock period.\n5. Determine how many unit delays (N) span one input clock period: for N = 0 to 10, if\nLNG[N] = 1, the number of unit delays spanning the input clock period = N.\n6. Disable the length sampling by clearing SEN to 0.\nIf an output clock delay smaller than one input clock period is needed the delay line length\ncan be reduced smaller than one input clock period. This allows a smaller unit delay,\nproviding a higher resolution spanning a shorter time interval.",
+      "semantic": {}
+    }
+  ]
+}

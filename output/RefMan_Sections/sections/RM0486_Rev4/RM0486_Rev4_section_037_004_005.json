@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S37.4.5",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "37",
+      "chapter_title": "Camera subsystem",
+      "section": "37.4.5",
+      "section_title": "Camera subsystem security",
+      "level": 3,
+      "parent_section": "37.4",
+      "page": 1787,
+      "page_end": 1788,
+      "semantic_type": "generic",
+      "features": [
+        "camera",
+        "security",
+        "subsystem"
+      ],
+      "chars": 2459,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1787",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 37.4.5 \"Camera subsystem security\" in chapter 37 (Camera subsystem), RM0486 Rev 4, page 1787.",
+      "section_content": "The security of the camera subsystem is based on the protection of its register map, and\nofits master access to the system interconnect, based on default RISUP and RIMU\nrespectively.\nMore information can be found in Section3.5.3: RIF infrastructure.\nThe RISUP differentiates the access right of accesses performed toward the following RIF\nprotected peripheral ID (indexes refer to Table20: RISUP indexes):\n• DCMIPP: tag = DCMIPP for the configuration of pixel pipelines (index 93)\n• CSI2-Host: tag = CSI2H for Host and PHY configurations (index 926)\n• DCMI and PSSI: tag = DCMI for its configuration, and to retrieve pixels by DMA\n(index94 and 95 respectively)\nThe RIMU (RIMU_AXI_DCMIPP) gives the access right to the DCMIPP AXI master:\nCID,Sand P are set using the RIF RIMC_ATTR9 register (no inheritance from RISPU\ntoRIMU).\n• CID is set either by the RISA (RISUP86 register) of directly by software.\nBy default, the camera subsystem is expected to work in a nonsecure mode:\n• DCMIPP, CSI2, DCMI, and PSSI are left unprotected, so that any OS software can\nconfigure and handle the camera subsystem.\n• The AXI master can be configured with a DCMIPP CID = DISP or CID = VID to mention\nthat the AXI write access of the camera subsystem contains pixels (like the display\nsystem).\nFor secure applications, the user can put the camera subsystem in S, P, or S-and-P mode,\nwith the following impacts:\n• As a benefit, the user is sure that the content of the dumped buffer does truly come\nfrom the camera sensor:\nThe output of the DCMIPP is differentiated from other masters: only the DCMIPP can\nwrite into its buffer. This buffer content is known to come from the camera sensor,\nwhich makes impossible to fill-in (by software) a fake face to be recognized.\n• The camera subsystem needs to be transfered to the secure software world (with the\nverification implications), or the system must make sure that the access rights of the\nDCMIPP cannot harm the system.\nThe above recommended non-protected settings are shown in Table315: Camera\nsubsystem RIF peripheral ID.\nThe table below lists vertically all camera subsystem blocks, and horizontally the associated\nRIF peripheral ID.\nTable color legend for the recommended settings: gray for a permanently non-protected\nsetting, blue for a temporarily protected versus non-protected, and pink for a permanently\nprotected state: by default, all the settings are non-protected.\n[Table 315. Camera subsystem RIF peripheral ID]",
+      "semantic": {}
+    }
+  ]
+}

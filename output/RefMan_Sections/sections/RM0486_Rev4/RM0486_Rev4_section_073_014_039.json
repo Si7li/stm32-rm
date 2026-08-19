@@ -1,0 +1,189 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S73.14.39",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "73",
+      "chapter_title": "USB on-the-go high-speed (OTG)",
+      "section": "73.14.39",
+      "section_title": "OTG device control register (OTG_DCTL)",
+      "level": 3,
+      "parent_section": "73.14",
+      "page": 3835,
+      "page_end": 3836,
+      "semantic_type": "register_description",
+      "features": [
+        "cginak",
+        "cgonak",
+        "dsbeslrjct",
+        "ginsts",
+        "gonsts",
+        "otg",
+        "otg-dctl",
+        "poprgdne",
+        "rwusig",
+        "sdis",
+        "sginak",
+        "sgonak",
+        "tctl"
+      ],
+      "chars": 3922,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3835",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 73.14.39 \"OTG device control register (OTG_DCTL)\" in chapter 73 (USB on-the-go high-speed (OTG)), RM0486 Rev 4, page 3835.",
+      "section_content": "Address offset: 0x804\nReset value: 0x00000002\nBits 31:19 Reserved, must be kept at reset value.\nBit 18 DSBESLRJCT: Deep sleep BESL reject\nCore rejects LPM request with BESL value greater than BESL threshold programmed. NYET\nresponse is sent for LPM tokens with BESL value greater than BESL threshold. By default,\nthe deep sleep BESL reject feature is disabled.\nBits 17:12 Reserved, must be kept at reset value.\nBit 11 POPRGDNE: Power-on programming done\nThe application uses this bit to indicate that register programming is completed after a wake-\nup from power down mode.\nBit 10 CGONAK: Clear global OUT NAK\nWriting 1 to this field clears the Global OUT NAK.\nBit 9 SGONAK: Set global OUT NAK\nWriting 1 to this field sets the Global OUT NAK.\nThe application uses this bit to send a NAK handshake on all OUT endpoints.\nThe application must set the this bit only after making sure that the Global OUT NAK effective\nbit in the core interrupt register (GONAKEFF bit in OTG_GINTSTS) is cleared.\nBit 8 CGINAK: Clear global IN NAK\nWriting 1 to this field clears the Global IN NAK.\nBit 7 SGINAK: Set global IN NAK\nWriting 1 to this field sets the Global non-periodic IN NAK.The application uses this bit to\nsend a NAK handshake on all non-periodic IN endpoints.\nThe application must set this bit only after making sure that the Global IN NAK effective bit in\nthe core interrupt register (GINAKEFF bit in OTG_GINTSTS) is cleared.\nBits 6:4 TCTL[2:0]: Test control\n000: Test mode disabled\n001: Test_J mode\n010: Test_K mode\n011: Test_SE0_NAK mode\n100: Test_Packet mode\n101: Test_Force_Enable\nOthers: Reserved\nBit 3 GONSTS: Global OUT NAK status\n0:A handshake is sent based on the FIFO status and the NAK and STALL bit settings.\n1:No data is written to the Rx FIFO, irrespective of space availability. Sends a NAK\nhandshake on all packets, except on SETUP transactions. All isochronous OUT packets\nare dropped.\nBit 2 GINSTS: Global IN NAK status\n0:A handshake is sent out based on the data availability in the transmit FIFO.\n1:A NAK handshake is sent out on all non-periodic IN endpoints, irrespective of the data\navailability in the transmit FIFO.\nBit 1 SDIS: Soft disconnect\nThe application uses this bit to signal the USB OTG core to perform a soft disconnect. As\nlong as this bit is set, the host does not see that the device is connected, and the device does\nnot receive signals on the USB. The core stays in the disconnected state until the application\nclears this bit.\n0:Normal operation. When this bit is cleared after a soft disconnect, the core generates a\ndevice connect event to the USB host. When the device is reconnected, the USB host\nrestarts device enumeration.\n1:The core generates a device disconnect event to the USB host.\nBit 0 RWUSIG: Remote wake-up signaling\nWhen the application sets this bit, the core initiates remote signaling to wake up the USB\nhost. The application must set this bit to instruct the core to exit the suspend state. As\nspecified in the USB 2.0 specification, the application must clear this bit 1 ms to 15 ms after\nsetting it.\nIf LPM is enabled and the core is in the L1 (sleep) state, when the application sets this bit, the\ncore initiates L1 remote signaling to wake up the USB host. The application must set this bit\nto instruct the core to exit the sleep state. As specified in the LPM specification, the hardware\nautomatically clears this bit 50µs (TL1DevDrvResume) after being set by the application. The\napplication must not set this bit when bRemoteWake from the previous LPM transaction is\nzero (refer to REMWAKE bit in GLPMCFG register).\nTable746 contains the minimum duration (according to device state) for which the Soft\ndisconnect (SDIS) bit must be set for the USB host to detect a device disconnect. To\naccommodate clock jitter, it is recommended that the application add some extra delay to\nthe specified minimum duration.\n[Table 746. Minimum duration for soft disconnect]",
+      "semantic": {
+        "register": "OTG_DCTL",
+        "address_offset": "0x804",
+        "reset_value": "0x00000002",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "DSBESLRJCT",
+            "description": "Deep sleep BESL reject Core rejects LPM request with BESL value greater than BESL threshold programmed. NYET response is sent for LPM tokens with BESL value greater than BESL threshold. By default, the deep sleep BESL reject feature is disabled.",
+            "values": []
+          },
+          {
+            "bits": "17:12",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "11",
+            "name": "POPRGDNE",
+            "description": "Power-on programming done The application uses this bit to indicate that register programming is completed after a wake- up from power down mode.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "CGONAK",
+            "description": "Clear global OUT NAK Writing 1 to this field clears the Global OUT NAK.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "SGONAK",
+            "description": "Set global OUT NAK Writing 1 to this field sets the Global OUT NAK. The application uses this bit to send a NAK handshake on all OUT endpoints. The application must set the this bit only after making sure that the Global OUT NAK effective bit in the core interrupt register (GONAKEFF bit in OTG_GINTSTS) is cleared.",
+            "values": []
+          },
+          {
+            "bits": "8",
+            "name": "CGINAK",
+            "description": "Clear global IN NAK Writing 1 to this field clears the Global IN NAK.",
+            "values": []
+          },
+          {
+            "bits": "7",
+            "name": "SGINAK",
+            "description": "Set global IN NAK Writing 1 to this field sets the Global non-periodic IN NAK.The application uses this bit to send a NAK handshake on all non-periodic IN endpoints. The application must set this bit only after making sure that the Global IN NAK effective bit in the core interrupt register (GINAKEFF bit in OTG_GINTSTS) is cleared.",
+            "values": []
+          },
+          {
+            "bits": "6:4",
+            "name": "TCTL[2:0]",
+            "description": "Test control",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "Test mode disabled"
+              },
+              {
+                "value": "001",
+                "meaning": "Test_J mode"
+              },
+              {
+                "value": "010",
+                "meaning": "Test_K mode"
+              },
+              {
+                "value": "011",
+                "meaning": "Test_SE0_NAK mode"
+              },
+              {
+                "value": "100",
+                "meaning": "Test_Packet mode"
+              },
+              {
+                "value": "101",
+                "meaning": "Test_Force_Enable"
+              },
+              {
+                "value": "Others",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "GONSTS",
+            "description": "Global OUT NAK status handshake on all packets, except on SETUP transactions. All isochronous OUT packets are dropped.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "A handshake is sent based on the FIFO status and the NAK and STALL bit settings."
+              },
+              {
+                "value": "1",
+                "meaning": "No data is written to the Rx FIFO, irrespective of space availability. Sends a NAK"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "GINSTS",
+            "description": "Global IN NAK status availability in the transmit FIFO.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "A handshake is sent out based on the data availability in the transmit FIFO."
+              },
+              {
+                "value": "1",
+                "meaning": "A NAK handshake is sent out on all non-periodic IN endpoints, irrespective of the data"
+              }
+            ]
+          },
+          {
+            "bits": "1",
+            "name": "SDIS",
+            "description": "Soft disconnect The application uses this bit to signal the USB OTG core to perform a soft disconnect. As long as this bit is set, the host does not see that the device is connected, and the device does not receive signals on the USB. The core stays in the disconnected state until the application clears this bit. device connect event to the USB host. When the device is reconnected, the USB host restarts device enumeration.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Normal operation. When this bit is cleared after a soft disconnect, the core generates a"
+              },
+              {
+                "value": "1",
+                "meaning": "The core generates a device disconnect event to the USB host."
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "RWUSIG",
+            "description": "Remote wake-up signaling When the application sets this bit, the core initiates remote signaling to wake up the USB host. The application must set this bit to instruct the core to exit the suspend state. As specified in the USB 2.0 specification, the application must clear this bit 1 ms to 15 ms after setting it. If LPM is enabled and the core is in the L1 (sleep) state, when the application sets this bit, the core initiates L1 remote signaling to wake up the USB host. The application must set this bit to instruct the core to exit the sleep state. As specified in the LPM specification, the hardware automatically clears this bit 50µs (TL1DevDrvResume) after being set by the application. The application must not set this bit when bRemoteWake from the previous LPM transaction is zero (refer to REMWAKE bit in GLPMCFG register). Table746 contains the minimum duration (according to device state) for which the Soft disconnect (SDIS) bit must be set for the USB host to detect a device disconnect. To accommodate clock jitter, it is recommended that the application add some extra delay to the specified minimum duration.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

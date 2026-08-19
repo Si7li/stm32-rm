@@ -1,0 +1,38 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S18.4.16",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "18",
+      "chapter_title": "High-performance direct memory access controller (HPDMA)",
+      "section": "18.4.16",
+      "section_title": "HPDMA privileged/unprivileged channel",
+      "level": 3,
+      "parent_section": "18.4",
+      "page": 889,
+      "page_end": 889,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "hpdma",
+        "memory"
+      ],
+      "chars": 2370,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=889",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 18.4.16 \"HPDMA privileged/unprivileged channel\" in chapter 18 (High-performance direct memory access controller (HPDMA)), RM0486 Rev 4, page 889.",
+      "section_content": "Any channel x is a privileged or unprivileged hardware resource, as configured by a\nprivileged agent via HPDMA_PRIVCFGR.PRIVx.\nWhen a channel x is configured in a privileged state by a privileged agent, the following\naccess control rules are applied:\n• An unprivileged read access to a bitfield of this channel is forced to return 0, except for\nHPDMA_PRIVCFGR, HPDMA_SECCFGR, HPDMA_CxCIDCFGR and\nHPDMA_CxSEMCR that are readable by an unprivileged agent.\n• An unprivileged write access to a bitfield of this channel has no impact.\nWhen a channel is configured in a privileged (or unprivileged) state, the source and\ndestination data transfers are privileged (respectively unprivileged) transfers over\ntheAHB/AXI master port.\nWhen a channel is configured in a privileged (or unprivileged) state and in linked-list mode,\nthe loading of the next linked-list data structure from the HPDMA memory into its register\nfile, is automatically performed with privileged (respectively unprivileged) transfers,\nviatheHPDMA_CxCR.LAP allocated master port.\nThe HPDMA generates a privileged bus that reflects HPDMA_PRIVCFGR, to keep the other\nperipherals informed of the privileged/unprivileged state of each HPDMA channel x.\nAdditionally, the HPDMA generates a privileged illegal access pulse signal on an illegal\nunprivileged access to a privileged HPDMA register. This signal can be used or not,\ndepending on the product (see the system security section for more details).\nWhen the privileged software must switch a channel from a privileged state to\nanunprivileged state, the privileged software must abort the channel, or wait until the\nprivileged channel is completed before switching. This is needed to dynamically re-allocate\na channel to a next unprivileged transfer, as an unprivileged software is not allowed to do\nso, and must have HPDMA_CxCR.EN=0 before the unprivileged software can reprogram\nthe HPDMA_CxCR for a next transfer. The privileged software can reset not only the\nchannel x (HPDMA_CxCR.RESET=1), but also the full channel x register file to its reset\nvalue.\nHPDMA compartmented channel\nThe HPDMA controller performs bus transfers over its master port, under the control of\naresource isolation domain identification named compartment identification (CID),\natachannel level. For more details about resource isolation and CID, refer to the system\nsecurity section.",
+      "semantic": {}
+    }
+  ]
+}

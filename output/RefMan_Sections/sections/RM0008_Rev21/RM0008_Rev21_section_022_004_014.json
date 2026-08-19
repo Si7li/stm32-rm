@@ -1,0 +1,37 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.4.14",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.4.14",
+      "section_title": "Commands and responses",
+      "level": 3,
+      "parent_section": "22.4",
+      "page": 597,
+      "page_end": 600,
+      "semantic_type": "generic",
+      "features": [
+        "commands",
+        "responses"
+      ],
+      "chars": 3209,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=597",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.4.14 \"Commands and responses\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 597.",
+      "section_content": "Application-specific and general commands\nThe SD card host module system is designed to provide a standard interface for a variety of\napplications types. In this environment, there is a need for specific customer/application\nfeatures. To implement these features, two types of generic commands are defined in the\nstandard: application-specific commands (ACMD) and general commands (GEN_CMD).\nWhen the card receives the APP_CMD (CMD55) command, the card expects the next\ncommand to be an application-specific command. ACMDs have the same structure as\nregular MultiMediaCard commands and can have the same CMD number. The card\nrecognizes it as ACMD because it appears after APP_CMD (CMD55). When the command\nimmediately following the APP_CMD (CMD55) is not a defined application-specific\ncommand, the standard command is used. For example, when the card has a definition for\nSD_STATUS (ACMD13), and receives CMD13 immediately following APP_CMD (CMD55),\nthis is interpreted as SD_STATUS (ACMD13). However, when the card receives CMD7\nimmediately following APP_CMD (CMD55) and the card does not have a definition for\nACMD7, this is interpreted as the standard (SELECT/DESELECT_CARD) CMD7.\nTo use one of the manufacturer-specific ACMDs the SD card Host must perform the\nfollowing steps:\n1. Send APP_CMD (CMD55)\nThe card responds to the MultiMediaCard/SD module, indicating that the APP_CMD bit\nis set and an ACMD is now expected.\n2. Send the required ACMD\nThe card responds to the MultiMediaCard/SD module, indicating that the APP_CMD bit\nis set and that the accepted command is interpreted as an ACMD. When a nonACMD\nis sent, it is handled by the card as a normal MultiMediaCard command and the\nAPP_CMD bit in the card status register stays clear.\nWhen an invalid command is sent (neither ACMD nor CMD) it is handled as a standard\nMultiMediaCard illegal command error.\nThe bus transaction for a GEN_CMD is the same as the single-block read or write\ncommands (WRITE_BLOCK, CMD24 or READ_SINGLE_BLOCK,CMD17). In this case, the\nargument denotes the direction of the data transfer rather than the address, and the data\nblock has vendor-specific format and meaning.\nThe card must be selected (in transfer state) before sending GEN_CMD (CMD56). The data\nblock size is defined by SET_BLOCKLEN (CMD16). The response to GEN_CMD (CMD56)\nis in R1b format.\nCommand types\nBoth application-specific and general commands are divided into the four following types:\n• broadcast command (BC): sent to all cards; no responses returned\n• broadcast command with response (BCR): sent to all cards; responses received\nfrom all cards simultaneously\n• addressed (point-to-point) command (AC): sent to the card that is selected; does\nnot include a data transfer on the SDIO_D line(s)\n• addressed (point-to-point) data transfer command (ADTC): sent to the card that is\nselected; includes a data transfer on the SDIO_D line(s).\nCommand formats\nSee Table138 for command formats.\nCommands for the MultiMediaCard/SD module\n[Table 154. Block-oriented write commands]\n[Table 155. Block-oriented write protection commands]\n[Table 156. Erase commands]\n[Table 157. I/O mode commands]\n[Table 158. Lock card]\n[Table 159. Application-specific commands]",
+      "semantic": {}
+    }
+  ]
+}

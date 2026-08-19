@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S33.3.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "33",
+      "chapter_title": "Digital temperature sensor (DTS)",
+      "section": "33.3.3",
+      "section_title": "DTS reset and clocks",
+      "level": 3,
+      "parent_section": "33.3",
+      "page": 1578,
+      "page_end": 1579,
+      "semantic_type": "generic",
+      "features": [
+        "clock",
+        "dts"
+      ],
+      "chars": 2357,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1578",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 33.3.3 \"DTS reset and clocks\" in chapter 33 (Digital temperature sensor (DTS)), RM0486 Rev 4, page 1578.",
+      "section_content": "DTS clocks\nThe DTS is clocked by ck_ker_dts.\nThe PVT controller incorporates a clock synthesizer in the TS block. The synthesizers\ngenerate the clock and timing strobes for the slave serial data adapters (SDA) and the clock\nfor the embedded TS blocks (clk_ts).\nThe synthesizer CLK_SYNTH_HI[7:0]/CLK_SYNTH_LO[7:0] counters allow the integer\ndivision of the ck_ker_dts clock to generate the TS clock (clk_ts) at frequency ratios from 1/2\nto 1/512 (see DTS TSC clock synthesizer register (DTS_TSCCLKSYNTHR)). Separate\ncounters are used to generate timing control strobes that are aligned with the clk_ts clock.\nThese timing strobes are used by the master serial adapters to control the sample point of\nthe serial data inputs and the hold time of the serial data outputs.\nThe system clock ck_ker_dts frequency is determined by the RCC. CLK_SYNTH_HI[7:0]\nand CLK_SYNTH_LO[7:0] must be programmed so that the ratio\nCLK_SYNTH_HI[7:0]/CLK_SYNTH_LO[7:0] enables to obtain a clk_ts serial clock that falls\nwithin the TS operating frequency range (from 4 to 8MHz).\nThe TS frequency is defined by:\nclk_ts frequency = 1⁄ ((CLK_SYNTH_HI[7:0]+1)+(CLK_SYNTH_HI[7:0]+1))× ck_ker_dts frequency\nFor example:\nFor ck_ker_dts= 64.0MHz and a TS operating frequency ranging between 4 and\n8MHz, setting the ck_ker_dts to clk_ts divider factor to 8:1 (CLK_SYNTH_HI[7:0] and\nCLK_SYNTH_LO[7:0] both programmed to 0x03), returns an TS operating frequency\nof 64.0MHz/8=8MHz, which falls within the acceptable operating frequency range\nof 4 to 8MHz. This enables to obtain an overall divider factor of 8 and a ck_ker_dts\nserial clock duty cycle of 50/50.\nFor ck_ker_dts=8MHz, the configuration must be:\nCLK_SYNTH_LO[7:0]=0x0\nCLK_SYNTH_HI[7:0]=0x0\nCLK_SYNTH_HOLD[3:0]= 0x1\nclk_ts=4MHz\nclk_ts duty cycle=50%\nThe CLK_SYNTH_HOLD[3:0] value must be programmed to accommodate the worst-case\nserial data path propagation delays without exceeding the synthesized clock period, this\nmeans that:\nCLK_SYNTH_HOLD[3:0]≤ CLK_SYNTH_HI[7:0]+CLK_SYNTH_LO[7:0]+1\nDTS reset\nThe DTS is reset using the asynchronous active-low dts_rstn_mst input.\nWhen the master dts_rstn_mst is asserted, the entire DTS is reset, all APB internal registers\nand the PVT controller. It also powers down and resets the embedded TS blocks.\nWhen de-asserted, the APB interface responds to requests after a three clock-cycle delay.",
+      "semantic": {}
+    }
+  ]
+}

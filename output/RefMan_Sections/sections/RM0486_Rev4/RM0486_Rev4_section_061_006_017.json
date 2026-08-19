@@ -1,0 +1,103 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S61.6.17",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "61",
+      "chapter_title": "Real-time clock (RTC)",
+      "section": "61.6.17",
+      "section_title": "RTC alarm A subsecond register (RTC_ALRMASSR)",
+      "level": 3,
+      "parent_section": "61.6",
+      "page": 3046,
+      "page_end": 3046,
+      "semantic_type": "register_description",
+      "features": [
+        "clock",
+        "maskss",
+        "rtc",
+        "rtc-alrmassr",
+        "ssclr"
+      ],
+      "chars": 1932,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3046",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 61.6.17 \"RTC alarm A subsecond register (RTC_ALRMASSR)\" in chapter 61 (Real-time clock (RTC)), RM0486 Rev 4, page 3046.",
+      "section_content": "This register can be written only when ALRAE is reset in RTC_CR register.\nThis register can be protected against nonsecure access. Refer to Section61.3.4: RTC\nsecure protection modes.\nThis register can be protected against unprivileged access. Refer to Section61.3.5: RTC\nprivilege protection modes.\nAddress offset: 0x44\nBackup domain reset value: 0x0000 0000\nSystem reset: not affected\nBit 31 SSCLR: Clear synchronous counter on alarm (Binary mode only)\n0: The synchronous binary counter (SS[31:0] in RTC_SSR) is free-running.\n1: The synchronous binary counter (SS[31:0] in RTC_SSR) is running from 0xFFFFFFFF to\nRTC_ALRABINR.SS[31:0] value and is automatically reloaded with 0xFFFFFFFF one\nck_apre cycle after reaching RTC_ALRABINR.SS[31:0].\nNote: SSCLR must be kept to 0 when BCD or mixed mode is used (BIN = 00, 10 or 11).\nBit 30 Reserved, must be kept at reset value.\nBits 29:24 MASKSS[5:0]: Mask the most-significant bits starting at this bit\n0: No comparison on subseconds for Alarm A. The alarm is set when the seconds unit is\nincremented (assuming that the rest of the fields match).\n1: SS[31:1] are don’t care in Alarm A comparison. Only SS[0] is compared.\n2: SS[31:2] are don’t care in Alarm A comparison. Only SS[1:0] are compared.\n...\n31: SS[31] is don’t care in Alarm A comparison. Only SS[30:0] are compared.\nFrom 32 to 63: All 32 SS bits are compared and must match to activate alarm.\nNote: In BCD mode (BIN=00) the overflow bits of the synchronous counter (bits 31:15) are\nnever compared. These bits can be different from 0 only after a shift operation.\nBits 23:15 Reserved, must be kept at reset value.\nBits 14:0 SS[14:0]: Subseconds value\nThis value is compared with the contents of the synchronous prescaler counter to determine\nif alarm A is to be activated. Only bits 0 up MASKSS-1 are compared.\nThis field is the mirror of SS[14:0] in the RTC_ALRABINR, and so can also be read or written\nthrough RTC_ALRABINR.",
+      "semantic": {
+        "register": "RTC_ALRMASSR",
+        "address_offset": "0x44",
+        "reset_value": "",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "SSCLR",
+            "description": "Clear synchronous counter on alarm (Binary mode only) RTC_ALRABINR.SS[31:0] value and is automatically reloaded with 0xFFFFFFFF one ck_apre cycle after reaching RTC_ALRABINR.SS[31:0]. Note: SSCLR must be kept to 0 when BCD or mixed mode is used (BIN = 00, 10 or 11).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "The synchronous binary counter (SS[31:0] in RTC_SSR) is free-running."
+              },
+              {
+                "value": "1",
+                "meaning": "The synchronous binary counter (SS[31:0] in RTC_SSR) is running from 0xFFFFFFFF to"
+              }
+            ]
+          },
+          {
+            "bits": "30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29:24",
+            "name": "MASKSS[5:0]",
+            "description": "Mask the most-significant bits starting at this bit incremented (assuming that the rest of the fields match). ... From 32 to 63: All 32 SS bits are compared and must match to activate alarm. Note: In BCD mode (BIN=00) the overflow bits of the synchronous counter (bits 31:15) are never compared. These bits can be different from 0 only after a shift operation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No comparison on subseconds for Alarm A. The alarm is set when the seconds unit is"
+              },
+              {
+                "value": "1",
+                "meaning": "SS[31:1] are don’t care in Alarm A comparison. Only SS[0] is compared."
+              },
+              {
+                "value": "2",
+                "meaning": "SS[31:2] are don’t care in Alarm A comparison. Only SS[1:0] are compared."
+              },
+              {
+                "value": "31",
+                "meaning": "SS[31] is don’t care in Alarm A comparison. Only SS[30:0] are compared."
+              }
+            ]
+          },
+          {
+            "bits": "23:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14:0",
+            "name": "SS[14:0]",
+            "description": "Subseconds value This value is compared with the contents of the synchronous prescaler counter to determine if alarm A is to be activated. Only bits 0 up MASKSS-1 are compared. This field is the mirror of SS[14:0] in the RTC_ALRABINR, and so can also be read or written through RTC_ALRABINR.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

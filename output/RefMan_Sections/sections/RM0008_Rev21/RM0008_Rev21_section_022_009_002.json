@@ -1,0 +1,140 @@
+{
+  "document": "RM0008",
+  "rev": "Rev 21",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32F101xx, STM32F102xx, STM32F103xx, STM32F105xx, STM32F107xx",
+  "package": "",
+  "family": "F1",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "up to 72 MHz",
+  "section_count": 846,
+  "sections": [
+    {
+      "section_id": "RM0008-S22.9.2",
+      "document": "RM0008",
+      "rev": "Rev 21",
+      "chapter": "22",
+      "chapter_title": "Secure digital input/output interface (SDIO)",
+      "section": "22.9.2",
+      "section_title": "SDI clock control register (SDIO_CLKCR)",
+      "level": 3,
+      "parent_section": "22.9",
+      "page": 607,
+      "page_end": 608,
+      "semantic_type": "register_description",
+      "features": [
+        "bypass",
+        "clkdiv",
+        "clken",
+        "clock",
+        "hwfc-en",
+        "negedge",
+        "pwrsav",
+        "sdi",
+        "sdio-clkcr",
+        "widbus"
+      ],
+      "chars": 1934,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=607",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 22.9.2 \"SDI clock control register (SDIO_CLKCR)\" in chapter 22 (Secure digital input/output interface (SDIO)), RM0008 Rev 21, page 607.",
+      "section_content": "Address offset: 0x04\nReset value: 0x0000 0000\nThe SDIO_CLKCR register controls the SDIO_CK output clock.\nBits 31:15 Reserved, must be kept at reset value.\nBit 14 HWFC_EN: HW Flow Control enable\n0b: HW Flow Control is disabled\n1b: HW Flow Control is enabled\nWhen HW Flow Control is enabled, the meaning of the TXFIFOE and RXFIFOF interrupt\nsignals, see SDIO Status register definition in Section22.9.11.\nBit 13 NEGEDGE:SDIO_CK dephasing selection bit\n0b: SDIO_CK generated on the rising edge of the master clock SDIOCLK\n1b: SDIO_CK generated on the falling edge of the master clock SDIOCLK\nBits 12:11 WIDBUS: Wide bus mode enable bit\n00: Default bus mode: SDIO_D0 used\n01: 4-wide bus mode: SDIO_D[3:0] used\n10: 8-wide bus mode: SDIO_D[7:0] used\nBit 10 BYPASS: Clock divider bypass enable bit\n0: Disable bypass: SDIOCLK is divided according to the CLKDIV value before driving the\nSDIO_CK output signal.\n1: Enable bypass: SDIOCLK directly drives the SDIO_CK output signal.\nBit 9 PWRSAV: Power saving configuration bit\nFor power saving, the SDIO_CK clock output can be disabled when the bus is idle by setting\nPWRSAV:\n0: SDIO_CK clock is always enabled\n1: SDIO_CK is only enabled when the bus is active\nBit 8 CLKEN: Clock enable bit\n0: SDIO_CK is disabled\n1: SDIO_CK is enabled\nBits 7:0 CLKDIV: Clock divide factor\nThis field defines the divide factor between the input clock (SDIOCLK) and the output clock\n(SDIO_CK): SDIO_CK frequency = SDIOCLK / [CLKDIV + 2].\nNote: While the SD/SDIO card or MultiMediaCard is in identification mode, the SDIO_CK\nfrequency must be less than 400 kHz.\nThe clock frequency can be changed to the maximum card bus frequency when relative\ncard addresses are assigned to all cards.\nAt least seven HCLK clock periods are needed between two write accesses to this register.\nSDIO_CK can also be stopped during the read wait interval for SD I/O cards: in this case the\nSDIO_CLKCR register does not control SDIO_CK.",
+      "semantic": {
+        "register": "SDIO_CLKCR",
+        "address_offset": "0x04",
+        "reset_value": "0x0000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:15",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "14",
+            "name": "HWFC_EN",
+            "description": "HW Flow Control enable 0b: HW Flow Control is disabled 1b: HW Flow Control is enabled When HW Flow Control is enabled, the meaning of the TXFIFOE and RXFIFOF interrupt signals, see SDIO Status register definition in Section22.9.11.",
+            "values": []
+          },
+          {
+            "bits": "13",
+            "name": "NEGEDGE",
+            "description": "SDIO_CK dephasing selection bit 0b: SDIO_CK generated on the rising edge of the master clock SDIOCLK 1b: SDIO_CK generated on the falling edge of the master clock SDIOCLK",
+            "values": []
+          },
+          {
+            "bits": "12:11",
+            "name": "WIDBUS",
+            "description": "Wide bus mode enable bit",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "Default bus mode: SDIO_D0 used"
+              },
+              {
+                "value": "01",
+                "meaning": "4-wide bus mode: SDIO_D[3:0] used"
+              },
+              {
+                "value": "10",
+                "meaning": "8-wide bus mode: SDIO_D[7:0] used"
+              }
+            ]
+          },
+          {
+            "bits": "10",
+            "name": "BYPASS",
+            "description": "Clock divider bypass enable bit SDIO_CK output signal.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable bypass: SDIOCLK is divided according to the CLKDIV value before driving the"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable bypass: SDIOCLK directly drives the SDIO_CK output signal."
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "PWRSAV",
+            "description": "Power saving configuration bit For power saving, the SDIO_CK clock output can be disabled when the bus is idle by setting PWRSAV:",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SDIO_CK clock is always enabled"
+              },
+              {
+                "value": "1",
+                "meaning": "SDIO_CK is only enabled when the bus is active"
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "CLKEN",
+            "description": "Clock enable bit",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "SDIO_CK is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "SDIO_CK is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "7:0",
+            "name": "CLKDIV",
+            "description": "Clock divide factor This field defines the divide factor between the input clock (SDIOCLK) and the output clock (SDIO_CK): SDIO_CK frequency = SDIOCLK / [CLKDIV + 2]. Note: While the SD/SDIO card or MultiMediaCard is in identification mode, the SDIO_CK frequency must be less than 400 kHz. The clock frequency can be changed to the maximum card bus frequency when relative card addresses are assigned to all cards. At least seven HCLK clock periods are needed between two write accesses to this register. SDIO_CK can also be stopped during the read wait interval for SD I/O cards: in this case the SDIO_CLKCR register does not control SDIO_CK.",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

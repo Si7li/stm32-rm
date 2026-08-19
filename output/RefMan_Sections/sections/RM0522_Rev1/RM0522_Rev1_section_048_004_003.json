@@ -1,0 +1,37 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S48.4.3",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "48",
+      "chapter_title": "Ethernet (ETH): media access control (MAC) with DMA controller",
+      "section": "48.4.3",
+      "section_title": "MAC",
+      "level": 3,
+      "parent_section": "48.4",
+      "page": 2148,
+      "page_end": 2152,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "mac"
+      ],
+      "chars": 5096,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2148",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 48.4.3 \"MAC\" in chapter 48 (Ethernet (ETH): media access control (MAC) with DMA controller), RM0522 Rev 1, page 2148.",
+      "section_content": "The MAC is responsible of the Ethernet protocol processing.In Transmission mode, it\nreceives data from MTL before transferring it to the PHY interface. In Reception mode, the\nMAC receives data from the PHY interface before transferring them to the Rx FIFO of the\nMTL module.\nThis section briefly describes transmission and reception sequences.\nMAC transmission\nThe transmission sequence is as follows:\n1. Transmission is initiated when the MTL application pushes in data with the SOP (Start\nof packet) signal asserted.\n2. When the SOP signal is detected, the MAC accepts the data and begins the\ntransmission to the MII.\n3. When the EOP (End of packet) is transferred to the MAC, the MAC does one of the\nfollowing:\n– The MAC completes the normal transmission and provides the transmission\nstatus to the MTL.\n– If a normal collision (in Half-duplex mode) occurs during transmission, the MAC\nprovides the Transmit status to the MTL, with the Retry bit set. The MAC provides\nthe Retry request till one of the following is true:\nthe packet was successfully transmitted;\nthe maximum number of Retry requests expires. In this case, the MAC aborts\nthe packet transmission with Excessive Collision Transmit status. The MAC\naccepts and drops all further data until the next SOP is received. The MTL\nblock should retransmit the same packet from SOP when a Retry request (in\nthe Status) is observed from the MAC.\n– If any one of the following event happens, the MAC aborts the packet\ntransmission:\nno carrier (Half-duplex mode)\nloss of carrier (Half-duplex mode)\nexcessive deferral (Half-duplex mode)\nlate collisions (Half-duplex mode)\njabber\nthe MAC accepts and drops all further data until the next SOP is received.\n4. The MAC issues an underflow status if the MTL is not able to provide the data\ncontinuously during the transmission. The MAC accepts and drops all further data until\nthe next SOP is received.\n5. During the normal transfer of a packet from MTL, if the MAC receives a SOP without\ngetting an EOP for the previous packet, it ignores the SOP and considers the new\npacket as continuation of the previous packet.\nFigure709: Overview of MAC transmission flow illustrates the MAC transmission process\nflow.\n[Figure 709. Overview of MAC transmission flow]\nMAC reception\nA receive operation is initiated when the MAC detects an SFD on MII. The MAC strips the\npreamble and SFD before proceeding to process the packet. The header fields are checked\nfor filtering and the FCS field used to verify the CRC for the packet. The received packet is\nstored in a shallow buffer until the address filtering is performed. The packet is dropped in\nthe MAC if it fails the address filter.\nThe reception sequence is as follows:\n1. When the receive data valid signal (RxDV) of MII becomes active, the receive State\nMachine (RSM) starts looking for the SFD field (0xD nibble).\nThe state machine drops received packets until it detects SFD.\n2. When SFD is detected, the state machine starts sending the data of Ethernet packet to\nthe RPC module, beginning with the first byte following the SFD (destination address).\n3. If IEEE 1588 timestamp feature is enabled, the MAC takes a snapshot of the system\ntime at which SFD of any packet is detected on MII. If this packet is not dropped during\nMAC filtering, the timestamp is passed to the application. The MAC converts the\nreceived nibble data into bytes and forwards the valid packet data to the RFC module.\n4. The receive state machine decodes the Length/Type field of the Ethernet packet being\nreceived.\nIf the Length/Type field is less than 1,536 and if the MAC is programmed for the Auto\nCRC/Pad Stripping (bit 20 of the Operating mode configuration register\n(ETH_MACCR)), the state machine sends the packet data up to the count specified in\nthe Length/Type field and starts dropping bytes (including the FCS field). The state\nmachine decodes the Length/Type field and checks for the Length interpretation.\n5. If the Length/Type field is greater than or equal to 1,536, the RPE module sends all\nreceived Ethernet packet data to the RFC module if you have not enabled the CRC\nstripping for Type packet in Bit 21 of the Operating mode configuration register\n(ETH_MACCR). However, if the CRC stripping has been enabled for Type packets and\nnot enabled the receive checksum offload engine, the MAC strips and drops the last 4\nbytes of all packets of ether type before forwarding the packets to the application.\n6. By default, the MAC is programmed for watchdog timer to be enabled, that is, packets\nabove 2,048 (10,240 if Jumbo Packet is enabled) bytes (DA + SA + LT + DATA + PAD\n+ FCS) are cut off at the RPE module. In addition, you can use a programmable\nwatchdog timer (bit 16 of Watchdog and jabber timeout register (ETH_MACWJBTR)) to\noverride the fixed timeout of 2,048 or 10,240 bytes. You can disable the watchdog timer\nby programming bit 19 of Operating mode configuration register (ETH_MACCR).\nHowever, even if the watchdog timer is disabled, a packet greater than 32 Kbytes is cut\noff and a watchdog timeout status is given.\n[Figure 710. MAC reception flow]",
+      "semantic": {}
+    }
+  ]
+}

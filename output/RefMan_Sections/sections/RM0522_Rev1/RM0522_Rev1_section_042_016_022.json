@@ -1,0 +1,90 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S42.16.22",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "42",
+      "chapter_title": "Improved inter-integrated circuit (I3C)",
+      "section": "42.16.22",
+      "section_title": "I3C timing register 1 (I3C_TIMINGR1)",
+      "level": 3,
+      "parent_section": "42.16",
+      "page": 1785,
+      "page_end": 1786,
+      "semantic_type": "register_description",
+      "features": [
+        "asncr",
+        "aval",
+        "free",
+        "i3c",
+        "i3c-timingr1",
+        "sda-hd"
+      ],
+      "chars": 4805,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1785",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 42.16.22 \"I3C timing register 1 (I3C_TIMINGR1)\" in chapter 42 (Improved inter-integrated circuit (I3C)), RM0522 Rev 1, page 1785.",
+      "section_content": "Address offset: 0x0A4\nReset value: 0x00000000\nWhen the I3C acts as controller, this register is used to configure some I3C timing settings.\nWhen the I3C acts as target and is controller-capable, this register is used to configure a\ntiming for the controller-role hand-off procedure.\nThis register can be written by the software when EN = 0 in the I3C_CFGR register.\nBits 31:30 Reserved, must be kept at reset value.\nBits 29:28 SDA_HD[1:0]: SDA hold time (when the I3C acts as controller), in number of kernel clocks\ncycles (refer to MIPI timing SDA hold time in push-pull tHD_PP):\nSDA hold time = (SDA_HD[1:0] + 0.5) xtI3CCLK\nNote: when controller: tHD_PPmiN = min (tCR , tCF) + 3 ns.\nBits 27:23 Reserved, must be kept at reset value.\nBits 22:16 FREE[6:0]: Number of kernel clocks cycles that is used to set some MIPI timings like bus free\ncondition time (when the I3C acts as controller)\nWhen the I3C acts as controller:\n1. for I3C start timing: it must wait for (bus free condition) time to be elapsed after a stop and\nbefore a start, refer to MIPI timings (I3C) tCAS and (I2C) tBUF. These timings are defined\nby: tBUF=tCAS=[(FREE[6:0]+1)x2 - (0.5 + SDA_HD[1:0])] x tI3CCLK\nNote: For pure I3C bus: tCASmin =38.4 ns, and tCASmax=1 µs, 100 µs, 2 ms, 50 ms for,\nrespectively, ENTAS0, 1, 2, and 3.\nNote: For mixed bus with I2C Fm+ device tBUFmin = 0.5 µs, for mixed bus with I2C Fm device\ntBUFmin = 1.3 µs.\n2. for I3C repeated start timing: must wait for time to be elapsed after a repeated start (SDA\nis de-asserted) and before driving SCL low, refer to. MIPI timing tCASr. This timing is\ndefined by: tCASr=[(FREE[6:0]+1)x2 - (0.5 + SDA_HD[1:0])] x tI3CCLK.\nNote: tCASr, miN=19.2 ns.\n3. for I3C stop timing: must wait for time to be elapsed after that the SCL clock is driven high,\nand before the stop condition (SDA is asserted). This timing is defined by:\ntCBP=(FREE[6:0]+1) x tI3CCLK.\nNote: tCBPmiN=19.2 ns.\n4. for I3C repeated start timing (T-bit when controller ends read with repeated start followed\nby stop): must wait for time to be elapsed after that the SCL clock is driven high, and\nbefore the repeated start condition (SDA is de-asserted). This timing is defined by:\ntCBSr=(FREE[6:0]+1) x tI3CCLK.\nNote: tCBSr, miN=19.2 ns.\nBits 15:10 Reserved, must be kept at reset value.\nBits 9:8 ASNCR[1:0]: Activity state of the new controller (when I3C acts as active controller)\nThis field indicates the time to wait before being accessed as new target, refer AVAL[7:0].\nThis field can be modified only when the I3C acts as controller.\nBits 7:0 AVAL[7:0]: Number of kernel clock cycles to set a time unit of 1 µs, whatever I3C acts as\ncontroller or target.\nThis time unit is then used by the hardware to build some internal timers, corresponding to\nthe following MIPI I3C timings:\nWhen the I3C acts as target:\n1. for bus available condition time: it must wait for (bus available condition) time to be\nelapsed after a stop and before issuing a start request for an IBI or a controller-role\nrequest (bus free condition is sustained for at least tAVAL). Refer to MIPI timing\ntAVAL=1µs. This timing is defined by: tAVAL=(AVAL[7:0]+2)xtI3CCLK\n2. for bus idle condition time: it must wait for (bus idle condition) time to be elapsed after that\nboth SDA and SCL are continuously high and stable before issuing a hot-join event. Refer\nto MIPI v1.1 timing tIDLE= 200 µs . This timing is defined by: tIDLE=(AVAL[7:0]+2)x200\nx tI3CCLK\nWhen the I3C acts as controller, it cannot stall the clock beyond a maximum stall time (stall\nthe SCL clock low), as follows:\n1. on first bit of assigned address during dynamic address assignment: it cannot stall the\nclock beyond the MIPI timing tSTALLDAA = 15 ms. This timing is defined by:\ntSTALLDAAmax=(AVAL[7:0]+1)x15000 x tI3CCLK\n2. on ACK/NACK phase of I3C/I2C transfer, on parity bit of write data transfer, on transition\nbit of I3C read transfer: it cannot stall the clock beyond the MIPI timing tSTALL= 100 µs.\nThis timing is defined by: tSTALLmax=(AVAL[7:0]+1)x100 x tI3CCLK\nWhatever the I3C acts as controller or as (controller-capable) target, during a controller-role\nhand-off procedure:\n1. The new controller must wait for tNEWCRLock before pulling SDA low (issuing a start) after\na completed GETACCR CCC. Then the new controller, within tCAS, can pull SCL low to\nactivate SCL clock. The active controller must wait for the same tNEWCRLock time, or at\nleast 100 µs, before testing if the new controller has gained control of the bus by pulling\nSDA low. The time to wait depends upon the value of ANSCR[1:0] in the I3C_TIMINGR1\nregister:\n– ASNCR[1:0] = 00: tNEWCRLock=(AVAL[7:0]+1)x tI3CCLK\n– ASNCR[1:0] = 01: tNEWCRLock=(AVAL[7:0]+1)x100 x tI3CCLK\n– ASNCR[1:0] = 10: tNEWCRLock=(AVAL[7:0]+1)x2000 x tI3CCLK\n– ASNCR[1:0] = 11: tNEWCRLock=(AVAL[7:0]+1)x50000 x tI3CCLK",
+      "semantic": {
+        "register": "I3C_TIMINGR1",
+        "address_offset": "0x0A4",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:30",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "29:28",
+            "name": "SDA_HD[1:0]",
+            "description": "SDA hold time (when the I3C acts as controller), in number of kernel clocks cycles (refer to MIPI timing SDA hold time in push-pull tHD_PP): SDA hold time = (SDA_HD[1:0] + 0.5) xtI3CCLK Note: when controller: tHD_PPmiN = min (tCR , tCF) + 3 ns.",
+            "values": []
+          },
+          {
+            "bits": "27:23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22:16",
+            "name": "FREE[6:0]",
+            "description": "Number of kernel clocks cycles that is used to set some MIPI timings like bus free condition time (when the I3C acts as controller) When the I3C acts as controller: 1. for I3C start timing: it must wait for (bus free condition) time to be elapsed after a stop and before a start, refer to MIPI timings (I3C) tCAS and (I2C) tBUF. These timings are defined by: tBUF=tCAS=[(FREE[6:0]+1)x2 - (0.5 + SDA_HD[1:0])] x tI3CCLK Note: For pure I3C bus: tCASmin =38.4 ns, and tCASmax=1 µs, 100 µs, 2 ms, 50 ms for, respectively, ENTAS0, 1, 2, and 3. Note: For mixed bus with I2C Fm+ device tBUFmin = 0.5 µs, for mixed bus with I2C Fm device tBUFmin = 1.3 µs. 2. for I3C repeated start timing: must wait for time to be elapsed after a repeated start (SDA is de-asserted) and before driving SCL low, refer to. MIPI timing tCASr. This timing is defined by: tCASr=[(FREE[6:0]+1)x2 - (0.5 + SDA_HD[1:0])] x tI3CCLK. Note: tCASr, miN=19.2 ns. 3. for I3C stop timing: must wait for time to be elapsed after that the SCL clock is driven high, and before the stop condition (SDA is asserted). This timing is defined by: tCBP=(FREE[6:0]+1) x tI3CCLK. Note: tCBPmiN=19.2 ns. 4. for I3C repeated start timing (T-bit when controller ends read with repeated start followed by stop): must wait for time to be elapsed after that the SCL clock is driven high, and before the repeated start condition (SDA is de-asserted). This timing is defined by: tCBSr=(FREE[6:0]+1) x tI3CCLK. Note: tCBSr, miN=19.2 ns.",
+            "values": []
+          },
+          {
+            "bits": "15:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9:8",
+            "name": "ASNCR[1:0]",
+            "description": "Activity state of the new controller (when I3C acts as active controller) This field indicates the time to wait before being accessed as new target, refer AVAL[7:0]. This field can be modified only when the I3C acts as controller.",
+            "values": []
+          },
+          {
+            "bits": "7:0",
+            "name": "AVAL[7:0]",
+            "description": "Number of kernel clock cycles to set a time unit of 1 µs, whatever I3C acts as controller or target. This time unit is then used by the hardware to build some internal timers, corresponding to the following MIPI I3C timings: When the I3C acts as target: 1. for bus available condition time: it must wait for (bus available condition) time to be elapsed after a stop and before issuing a start request for an IBI or a controller-role request (bus free condition is sustained for at least tAVAL). Refer to MIPI timing tAVAL=1µs. This timing is defined by: tAVAL=(AVAL[7:0]+2)xtI3CCLK 2. for bus idle condition time: it must wait for (bus idle condition) time to be elapsed after that both SDA and SCL are continuously high and stable before issuing a hot-join event. Refer to MIPI v1.1 timing tIDLE= 200 µs . This timing is defined by: tIDLE=(AVAL[7:0]+2)x200 x tI3CCLK When the I3C acts as controller, it cannot stall the clock beyond a maximum stall time (stall the SCL clock low), as follows: 1. on first bit of assigned address during dynamic address assignment: it cannot stall the clock beyond the MIPI timing tSTALLDAA = 15 ms. This timing is defined by: tSTALLDAAmax=(AVAL[7:0]+1)x15000 x tI3CCLK 2. on ACK/NACK phase of I3C/I2C transfer, on parity bit of write data transfer, on transition bit of I3C read transfer: it cannot stall the clock beyond the MIPI timing tSTALL= 100 µs. This timing is defined by: tSTALLmax=(AVAL[7:0]+1)x100 x tI3CCLK Whatever the I3C acts as controller or as (controller-capable) target, during a controller-role hand-off procedure: 1. The new controller must wait for tNEWCRLock before pulling SDA low (issuing a start) after a completed GETACCR CCC. Then the new controller, within tCAS, can pull SCL low to activate SCL clock. The active controller must wait for the same tNEWCRLock time, or at least 100 µs, before testing if the new controller has gained control of the bus by pulling SDA low. The time to wait depends upon the value of ANSCR[1:0] in the I3C_TIMINGR1 register: – ASNCR[1:0] = 00: tNEWCRLock=(AVAL[7:0]+1)x tI3CCLK – ASNCR[1:0] = 01: tNEWCRLock=(AVAL[7:0]+1)x100 x tI3CCLK – ASNCR[1:0] = 10: tNEWCRLock=(AVAL[7:0]+1)x2000 x tI3CCLK – ASNCR[1:0] = 11: tNEWCRLock=(AVAL[7:0]+1)x50000 x tI3CCLK",
+            "values": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,295 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S9.1.1",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "9",
+      "chapter_title": "System configuration controller (SYSCFG)",
+      "section": "9.1.1",
+      "section_title": "SYSCFG configuration register 1 (SYSCFG_CFGR1)",
+      "level": 3,
+      "parent_section": "9.1",
+      "page": 196,
+      "page_end": 198,
+      "semantic_type": "register_description",
+      "features": [
+        "i2c",
+        "i2c-pa10-fmp",
+        "i2c-pa9-fmp",
+        "i2c-pb6-fmp",
+        "i2c-pb7-fmp",
+        "i2c-pb8-fmp",
+        "i2c-pb9-fmp",
+        "i2c-pc14-fmp",
+        "i2c1-fmp",
+        "i2c2-fmp",
+        "ir-mod",
+        "ir-pol",
+        "mem-mode",
+        "pa11-rmp",
+        "pa12-rmp",
+        "syscfg",
+        "syscfg-cfgr1"
+      ],
+      "chars": 5020,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=196",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 9.1.1 \"SYSCFG configuration register 1 (SYSCFG_CFGR1)\" in chapter 9 (System configuration controller (SYSCFG)), RM0490 Rev 6, page 196.",
+      "section_content": "This register is used for specific configurations of memory remap and to control special I/O\nfeatures.\nTwo bits are used to configure the type of memory accessible at address 0x0000 0000.\nThese bits are used to select the physical remap by software and so, bypass the hardware\nBOOT selection. After reset these bits take the value selected by the actual boot mode\nconfiguration.\nIf the Fm+ mode is desired on the I2C pins, first assign GPIOs to I2Cx through the\nGPIOx_AFRH or GPIOx_AFRL alternate function registers and then only activate the Fm+\nmode.\nThe Fm+ mode on a GPIO y used as I2Cx can individually be activated by setting its\ncorresponding I2C_y_FMP bit. It can also collectively be activated for GPIOs used as I2Cx,\nby setting the I2Cx_FMP bit. If the Fm+ mode is not desired on a GPIO y used as I2Cx, both\nI2C_y_FMP and I2Cx_FMP bits must be cleared.\nWhen the Fm+ mode is activated, the speed configuration of the I/O (GPIOx OSPEEDR) is\nignored.\nAddress offset: 0x00\nReset value: 0x0000 000X (X is the memory mode selected by the actual boot mode\nconfiguration)\nBits 31:25 Reserved, must be kept at reset value.\nBit 24 I2C_PC14_FMP: Fast-mode Plus (Fm+) enable for PC14\nThis bit is set and cleared by software. It enables I2C Fm+ driving capability on PC14 I/O\nport.\n0: Disable if not enabled through I2Cx_FMP\n1: Enable\nNote: Not available on STM32C011xx.\nBit 23 I2C_PA10_FMP: Fast-mode Plus (Fm+) enable for PA10\nThis bit is set and cleared by software. It enables I2C Fm+ driving capability on PA10 I/O\nport.\n0: Disable disabled if not enabled through I2Cx_FMP\n1: Enable\nBit 22 I2C_PA9_FMP: Fast-mode Plus (Fm+) enable for PA9\nThis bit is set and cleared by software. It enables I2C Fm+ driving capability on PA9 I/O port.\n0: Disable disabled if not enabled through I2Cx_FMP\n1: Enable\nBit 21 I2C2_FMP: Fast-mode Plus (Fm+) enable for I2C2\nThis bit is set and cleared by software. It enables I2C Fm+ driving capability on I/O ports\nconfigured as I2C2 through GPIOx_AFR registers.\n0: Disable disabled if not enabled through I2C_y_FMP\n1: Enable\nNote: Only applicable to STM32C051xx, STM32C071xx, and STM32C091xx/92xx. Reserved\non the other products.\nBit 20 I2C1_FMP: Fast-mode Plus (Fm+) enable for I2C1\nThis bit is set and cleared by software. It enables I2C Fm+ driving capability on I/O ports\nconfigured as I2C1 through GPIOx_AFR registers.\n0: Disable disabled if not enabled through I2C_y_FMP\n1: Enable\nBit 19 I2C_PB9_FMP: Fast-mode Plus (Fm+) enable for PB9\nThis bit is set and cleared by software. It enables I2C Fm+ driving capability on PB9 I/O port.\n0: Disable disabled if not enabled through I2Cx_FMP\n1: Enable\nNote: Not available on STM32C011xx.\nBit 18 I2C_PB8_FMP: Fast-mode Plus (Fm+) enable for PB8\nThis bit is set and cleared by software. It enables I2C Fm+ driving capability on PB8 I/O port.\n0: Disable disabled if not enabled through I2Cx_FMP\n1: Enable\nNote: Not available on STM32C011xx.\nBit 17 I2C_PB7_FMP: Fast-mode Plus (Fm+) enable for PB7\nThis bit is set and cleared by software. It enables I2C Fm+ driving capability on PB7 I/O port.\n0: Disable disabled if not enabled through I2Cx_FMP\n1: Enable\nBit 16 I2C_PB6_FMP: Fast-mode Plus (Fm+) enable for PB6\nThis bit is set and cleared by software. It enables I2C Fm+ driving capability on PB6 I/O port.\n0: Disable disabled if not enabled through I2Cx_FMP\n1: Enable\nBits 15:8 Reserved, must be kept at reset value.\nBits 7:6 IR_MOD[1:0]: IR Modulation Envelope signal selection\nThis bitfield selects the signal for IR modulation envelope:\n00: TIM16\n01: USART1\n10: USART2\n11: Reserved\nBit 5 IR_POL: IR output polarity selection\n0: Output of IRTIM (IR_OUT) is not inverted\n1: Output of IRTIM (IR_OUT) is inverted\nBit 4 PA12_RMP: PA12 pin remapping\nThis bit is set and cleared by software. When set, it remaps the PA12 pin to operate as PA10\nGPIO port, instead as PA12 GPIO port. In this case, the original PA10 pin (if available) is\nforced to analog mode.\n0: No remap (PA12)\n1: Remap (PA10)\nNote: If the PINMUX4[1:0] bitfield of the SYSCFG_CFGR3 register is at 00, PA12_RMP must\nbe kept at 0 to prevent conflict due to two GPIO outputs with different output levels\nconnected to the same pin.\nBit 3 PA11_RMP: PA11 pin remapping\nThis bit is set and cleared by software. When set, it remaps the PA11 pin to operate as PA9\nGPIO port, instead as PA11 GPIO port. In this case, the original PA9 pin (if available) is\nforced to analog mode.\n0: No remap (PA11)\n1: Remap (PA9)\nNote: If the PINMUX2[1:0] bitfield of the SYSCFG_CFGR3 register is at 00, PA11_RMP must\nbe kept at 0 to prevent conflict due to two GPIO outputs with different output levels\nconnected to the same pin.\nBit 2 Reserved, must be kept at reset value.\nBits 1:0 MEM_MODE[1:0]: Memory mapping selection bits\nThis bitfield controlled by software selects the memory internally mapped at the address\n0x0000 0000. Its reset value is determined by the boot mode configuration. Refer to\nSection 3: Boot modes for more details.\nx0: Main flash memory\n01: System flash memory\n11: Embedded SRAM",
+      "semantic": {
+        "register": "SYSCFG_CFGR1",
+        "address_offset": "0x00",
+        "reset_value": "0x0000 000X",
+        "reset_note": "X is the memory mode selected by the actual boot mode configuration",
+        "fields": [
+          {
+            "bits": "31:25",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "24",
+            "name": "I2C_PC14_FMP",
+            "description": "Fast-mode Plus (Fm+) enable for PC14 This bit is set and cleared by software. It enables I2C Fm+ driving capability on PC14 I/O port. Note: Not available on STM32C011xx.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable if not enabled through I2Cx_FMP"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "23",
+            "name": "I2C_PA10_FMP",
+            "description": "Fast-mode Plus (Fm+) enable for PA10 This bit is set and cleared by software. It enables I2C Fm+ driving capability on PA10 I/O port.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable disabled if not enabled through I2Cx_FMP"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "22",
+            "name": "I2C_PA9_FMP",
+            "description": "Fast-mode Plus (Fm+) enable for PA9 This bit is set and cleared by software. It enables I2C Fm+ driving capability on PA9 I/O port.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable disabled if not enabled through I2Cx_FMP"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "I2C2_FMP",
+            "description": "Fast-mode Plus (Fm+) enable for I2C2 This bit is set and cleared by software. It enables I2C Fm+ driving capability on I/O ports configured as I2C2 through GPIOx_AFR registers. Note: Only applicable to STM32C051xx, STM32C071xx, and STM32C091xx/92xx. Reserved on the other products.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable disabled if not enabled through I2C_y_FMP"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "20",
+            "name": "I2C1_FMP",
+            "description": "Fast-mode Plus (Fm+) enable for I2C1 This bit is set and cleared by software. It enables I2C Fm+ driving capability on I/O ports configured as I2C1 through GPIOx_AFR registers.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable disabled if not enabled through I2C_y_FMP"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "19",
+            "name": "I2C_PB9_FMP",
+            "description": "Fast-mode Plus (Fm+) enable for PB9 This bit is set and cleared by software. It enables I2C Fm+ driving capability on PB9 I/O port. Note: Not available on STM32C011xx.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable disabled if not enabled through I2Cx_FMP"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "18",
+            "name": "I2C_PB8_FMP",
+            "description": "Fast-mode Plus (Fm+) enable for PB8 This bit is set and cleared by software. It enables I2C Fm+ driving capability on PB8 I/O port. Note: Not available on STM32C011xx.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable disabled if not enabled through I2Cx_FMP"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "I2C_PB7_FMP",
+            "description": "Fast-mode Plus (Fm+) enable for PB7 This bit is set and cleared by software. It enables I2C Fm+ driving capability on PB7 I/O port.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable disabled if not enabled through I2Cx_FMP"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "16",
+            "name": "I2C_PB6_FMP",
+            "description": "Fast-mode Plus (Fm+) enable for PB6 This bit is set and cleared by software. It enables I2C Fm+ driving capability on PB6 I/O port.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable disabled if not enabled through I2Cx_FMP"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "15:8",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "7:6",
+            "name": "IR_MOD[1:0]",
+            "description": "IR Modulation Envelope signal selection This bitfield selects the signal for IR modulation envelope:",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "TIM16"
+              },
+              {
+                "value": "01",
+                "meaning": "USART1"
+              },
+              {
+                "value": "10",
+                "meaning": "USART2"
+              },
+              {
+                "value": "11",
+                "meaning": "Reserved"
+              }
+            ]
+          },
+          {
+            "bits": "5",
+            "name": "IR_POL",
+            "description": "IR output polarity selection",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Output of IRTIM (IR_OUT) is not inverted"
+              },
+              {
+                "value": "1",
+                "meaning": "Output of IRTIM (IR_OUT) is inverted"
+              }
+            ]
+          },
+          {
+            "bits": "4",
+            "name": "PA12_RMP",
+            "description": "PA12 pin remapping This bit is set and cleared by software. When set, it remaps the PA12 pin to operate as PA10 GPIO port, instead as PA12 GPIO port. In this case, the original PA10 pin (if available) is forced to analog mode. Note: If the PINMUX4[1:0] bitfield of the SYSCFG_CFGR3 register is at 00, PA12_RMP must be kept at 0 to prevent conflict due to two GPIO outputs with different output levels connected to the same pin.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (PA12)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (PA10)"
+              }
+            ]
+          },
+          {
+            "bits": "3",
+            "name": "PA11_RMP",
+            "description": "PA11 pin remapping This bit is set and cleared by software. When set, it remaps the PA11 pin to operate as PA9 GPIO port, instead as PA11 GPIO port. In this case, the original PA9 pin (if available) is forced to analog mode. Note: If the PINMUX2[1:0] bitfield of the SYSCFG_CFGR3 register is at 00, PA11_RMP must be kept at 0 to prevent conflict due to two GPIO outputs with different output levels connected to the same pin.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "No remap (PA11)"
+              },
+              {
+                "value": "1",
+                "meaning": "Remap (PA9)"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "1:0",
+            "name": "MEM_MODE[1:0]",
+            "description": "Memory mapping selection bits This bitfield controlled by software selects the memory internally mapped at the address 0x0000 0000. Its reset value is determined by the boot mode configuration. Refer to Section 3: Boot modes for more details. x0: Main flash memory",
+            "values": [
+              {
+                "value": "01",
+                "meaning": "System flash memory"
+              },
+              {
+                "value": "11",
+                "meaning": "Embedded SRAM"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

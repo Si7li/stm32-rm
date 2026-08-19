@@ -1,0 +1,293 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S44.7.5",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "44",
+      "chapter_title": "Low-power universal asynchronous receiver transmitter (LPUART)",
+      "section": "44.7.5",
+      "section_title": "LPUART control register 3 [alternate] (LPUART_CR3)",
+      "level": 3,
+      "parent_section": "44.7",
+      "page": 1929,
+      "page_end": 1931,
+      "semantic_type": "register_description",
+      "features": [
+        "ctse",
+        "ctsie",
+        "ddre",
+        "dem",
+        "dep",
+        "dma",
+        "dmar",
+        "dmat",
+        "eie",
+        "hdsel",
+        "lpuart",
+        "lpuart-cr3",
+        "ovrdis",
+        "power",
+        "rtse",
+        "uart",
+        "wufie",
+        "wus"
+      ],
+      "chars": 4815,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1929",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 44.7.5 \"LPUART control register 3 [alternate] (LPUART_CR3)\" in chapter 44 (Low-power universal asynchronous receiver transmitter (LPUART)), RM0522 Rev 1, page 1929.",
+      "section_content": "Address offset: 0x08\nReset value: 0x00000000\nFIFO mode disabled, FIFOEN=0\nBits 31:23 Reserved, must be kept at reset value.\nBit 22 WUFIE: Wake-up from low-power mode interrupt enable\nThis bit is set and cleared by software.\n0: Interrupt inhibited\n1: LPUART interrupt generated whenever WUF=1 in the LPUART_ISR register\nNote: WUFIE must be set before entering in low-power mode.\nIf the LPUART does not support the wake-up from Stop feature, this bit is reserved and\nmust be kept at reset value. Refer to Section44.3: LPUART implementation.\nBits 21:20 WUS[1:0]: Wake-up from low-power mode interrupt flag selection\nThis bitfield specifies the event which activates the WUF (wake-up from low-power mode\nflag).\n00: WUF active on address match (as defined by ADD[7:0] and ADDM7)\n01: Reserved.\n10: WUF active on start bit detection\n11: WUF active on RXNE/RXFNE.\nThis bitfield can only be written when the LPUART is disabled (UE=0).\nNote: If the LPUART does not support the wake-up from Stop feature, this bit is reserved and\nmust be kept at reset value. Refer to Section44.3: LPUART implementation.\nBits 19:16 Reserved, must be kept at reset value.\nBit 15 DEP: Driver enable polarity selection\n0: DE signal is active high.\n1: DE signal is active low.\nThis bit can only be written when the LPUART is disabled (UE=0).\nBit 14 DEM: Driver enable mode\nThis bit enables the user to activate the external transceiver control, through the DE signal.\n0: DE function is disabled.\n1: DE function is enabled. The DE signal is output on the RTS pin.\nThis bit can only be written when the LPUART is disabled (UE=0).\nBit 13 DDRE: DMA Disable on reception Error\n0: DMA is not disabled in case of reception error. The corresponding error flag is set but\nRXNE is kept 0 preventing from overrun. As a consequence, the DMA request is not\nasserted, so the erroneous data is not transferred (no DMA request), but next correct\nreceived data is transferred.\n1: DMA is disabled following a reception error. The corresponding error flag is set, as well as\nRXNE. The DMA request is masked until the error flag is cleared. This means that the\nsoftware must first disable the DMA request (DMAR = 0) or clear RXNE before clearing the\nerror flag.\nThis bit can only be written when the LPUART is disabled (UE=0).\nNote: The reception errors are: parity error, framing error or noise error.\nBit 12 OVRDIS: Overrun Disable\nThis bit is used to disable the receive overrun detection.\n0: Overrun Error Flag, ORE is set when received data is not read before receiving new data.\n1: Overrun functionality is disabled. If new data is received while the RXNE flag is still set\nthe ORE flag is not set and the new received data overwrites the previous content of the\nLPUART_RDR register.\nThis bit can only be written when the LPUART is disabled (UE=0).\nNote: This control bit enables checking the communication flow w/o reading the data.\nBit 11 Reserved, must be kept at reset value.\nBit 10 CTSIE: CTS interrupt enable\n0: Interrupt is inhibited\n1: An interrupt is generated whenever CTSIF=1 in the LPUART_ISR register\nBit 9 CTSE: CTS enable\n0: CTS hardware flow control disabled\n1: CTS mode enabled, data is only transmitted when the CTS input is deasserted (tied to 0).\nIf the CTS input is asserted while data is being transmitted, then the transmission completes\nbefore stopping. If data is written into the data register while CTS is asserted, the\ntransmission is postponed until CTS is deasserted.\nThis bit can only be written when the LPUART is disabled (UE=0)\nBit 8 RTSE: RTS enable\n0: RTS hardware flow control disabled\n1: RTS output enabled, data is only requested when there is space in the receive buffer. The\ntransmission of data is expected to cease after the current character has been transmitted.\nThe RTS output is deasserted (pulled to 0) when data can be received.\nThis bit can only be written when the LPUART is disabled (UE=0).\nBit 7 DMAT: DMA enable transmitter\nThis bit is set/reset by software\n1: DMA mode is enabled for transmission\n0: DMA mode is disabled for transmission\nBit 6 DMAR: DMA enable receiver\nThis bit is set/reset by software\n1: DMA mode is enabled for reception\n0: DMA mode is disabled for reception\nBits 5:4 Reserved, must be kept at reset value.\nBit 3 HDSEL: Half-duplex selection\nSelection of single-wire half-duplex mode\n0: Half-duplex mode is not selected\n1: Half-duplex mode is selected\nThis bit can only be written when the LPUART is disabled (UE=0).\nBits 2:1 Reserved, must be kept at reset value.\nBit 0 EIE: Error interrupt enable\nError Interrupt Enable Bit is required to enable interrupt generation in case of a framing\nerror, overrun error or noise flag (FE=1 or ORE=1 or NE=1 in the LPUART_ISR register).\n0: Interrupt is inhibited\n1: An interrupt is generated when FE=1 or ORE=1 or NE=1 in the LPUART_ISR register.",
+      "semantic": {
+        "register": "LPUART_CR3",
+        "address_offset": "0x08",
+        "reset_value": "0x00000000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31:23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "WUFIE",
+            "description": "Wake-up from low-power mode interrupt enable This bit is set and cleared by software. Note: WUFIE must be set before entering in low-power mode. If the LPUART does not support the wake-up from Stop feature, this bit is reserved and must be kept at reset value. Refer to Section44.3: LPUART implementation.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "LPUART interrupt generated whenever WUF=1 in the LPUART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "21:20",
+            "name": "WUS[1:0]",
+            "description": "Wake-up from low-power mode interrupt flag selection This bitfield specifies the event which activates the WUF (wake-up from low-power mode flag). This bitfield can only be written when the LPUART is disabled (UE=0). Note: If the LPUART does not support the wake-up from Stop feature, this bit is reserved and must be kept at reset value. Refer to Section44.3: LPUART implementation.",
+            "values": [
+              {
+                "value": "00",
+                "meaning": "WUF active on address match (as defined by ADD[7:0] and ADDM7)"
+              },
+              {
+                "value": "01",
+                "meaning": "Reserved."
+              },
+              {
+                "value": "10",
+                "meaning": "WUF active on start bit detection"
+              },
+              {
+                "value": "11",
+                "meaning": "WUF active on RXNE/RXFNE."
+              }
+            ]
+          },
+          {
+            "bits": "19:16",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "15",
+            "name": "DEP",
+            "description": "Driver enable polarity selection This bit can only be written when the LPUART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DE signal is active high."
+              },
+              {
+                "value": "1",
+                "meaning": "DE signal is active low."
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "DEM",
+            "description": "Driver enable mode This bit enables the user to activate the external transceiver control, through the DE signal. This bit can only be written when the LPUART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DE function is disabled."
+              },
+              {
+                "value": "1",
+                "meaning": "DE function is enabled. The DE signal is output on the RTS pin."
+              }
+            ]
+          },
+          {
+            "bits": "13",
+            "name": "DDRE",
+            "description": "DMA Disable on reception Error RXNE is kept 0 preventing from overrun. As a consequence, the DMA request is not asserted, so the erroneous data is not transferred (no DMA request), but next correct received data is transferred. RXNE. The DMA request is masked until the error flag is cleared. This means that the software must first disable the DMA request (DMAR = 0) or clear RXNE before clearing the error flag. This bit can only be written when the LPUART is disabled (UE=0). Note: The reception errors are: parity error, framing error or noise error.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "DMA is not disabled in case of reception error. The corresponding error flag is set but"
+              },
+              {
+                "value": "1",
+                "meaning": "DMA is disabled following a reception error. The corresponding error flag is set, as well as"
+              }
+            ]
+          },
+          {
+            "bits": "12",
+            "name": "OVRDIS",
+            "description": "Overrun Disable This bit is used to disable the receive overrun detection. the ORE flag is not set and the new received data overwrites the previous content of the LPUART_RDR register. This bit can only be written when the LPUART is disabled (UE=0). Note: This control bit enables checking the communication flow w/o reading the data.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Overrun Error Flag, ORE is set when received data is not read before receiving new data."
+              },
+              {
+                "value": "1",
+                "meaning": "Overrun functionality is disabled. If new data is received while the RXNE flag is still set"
+              }
+            ]
+          },
+          {
+            "bits": "11",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "10",
+            "name": "CTSIE",
+            "description": "CTS interrupt enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt is inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt is generated whenever CTSIF=1 in the LPUART_ISR register"
+              }
+            ]
+          },
+          {
+            "bits": "9",
+            "name": "CTSE",
+            "description": "CTS enable If the CTS input is asserted while data is being transmitted, then the transmission completes before stopping. If data is written into the data register while CTS is asserted, the transmission is postponed until CTS is deasserted. This bit can only be written when the LPUART is disabled (UE=0)",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CTS hardware flow control disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "CTS mode enabled, data is only transmitted when the CTS input is deasserted (tied to 0)."
+              }
+            ]
+          },
+          {
+            "bits": "8",
+            "name": "RTSE",
+            "description": "RTS enable transmission of data is expected to cease after the current character has been transmitted. The RTS output is deasserted (pulled to 0) when data can be received. This bit can only be written when the LPUART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "RTS hardware flow control disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "RTS output enabled, data is only requested when there is space in the receive buffer. The"
+              }
+            ]
+          },
+          {
+            "bits": "7",
+            "name": "DMAT",
+            "description": "DMA enable transmitter This bit is set/reset by software",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for transmission"
+              },
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for transmission"
+              }
+            ]
+          },
+          {
+            "bits": "6",
+            "name": "DMAR",
+            "description": "DMA enable receiver This bit is set/reset by software",
+            "values": [
+              {
+                "value": "1",
+                "meaning": "DMA mode is enabled for reception"
+              },
+              {
+                "value": "0",
+                "meaning": "DMA mode is disabled for reception"
+              }
+            ]
+          },
+          {
+            "bits": "5:4",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "3",
+            "name": "HDSEL",
+            "description": "Half-duplex selection Selection of single-wire half-duplex mode This bit can only be written when the LPUART is disabled (UE=0).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Half-duplex mode is not selected"
+              },
+              {
+                "value": "1",
+                "meaning": "Half-duplex mode is selected"
+              }
+            ]
+          },
+          {
+            "bits": "2:1",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "0",
+            "name": "EIE",
+            "description": "Error interrupt enable Error Interrupt Enable Bit is required to enable interrupt generation in case of a framing error, overrun error or noise flag (FE=1 or ORE=1 or NE=1 in the LPUART_ISR register).",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Interrupt is inhibited"
+              },
+              {
+                "value": "1",
+                "meaning": "An interrupt is generated when FE=1 or ORE=1 or NE=1 in the LPUART_ISR register."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

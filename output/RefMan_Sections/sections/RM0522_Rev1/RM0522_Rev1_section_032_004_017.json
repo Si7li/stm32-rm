@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S32.4.17",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "32",
+      "chapter_title": "General-purpose timers(TIM2/TIM3/TIM4/TIM5)",
+      "section": "32.4.17",
+      "section_title": "One-pulse mode",
+      "level": 3,
+      "parent_section": "32.4",
+      "page": 1179,
+      "page_end": 1181,
+      "semantic_type": "generic",
+      "features": [
+        "timer"
+      ],
+      "chars": 3537,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1179",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 32.4.17 \"One-pulse mode\" in chapter 32 (General-purpose timers(TIM2/TIM3/TIM4/TIM5)), RM0522 Rev 1, page 1179.",
+      "section_content": "One-pulse mode (OPM) is a particular case of the previous modes. It allows the counter to\nbe started in response to a stimulus and to generate a pulse with a programmable length\nafter a programmable delay.\nStarting the counter can be controlled through the slave mode controller. Generating the\nwaveform can be done in output compare mode or PWM mode. One-pulse mode is selected\nby setting the OPM bit in the TIM_CR1 register. This makes the counter stop automatically\nat the next update event UEV.\nA pulse can be correctly generated only if the compare value is different from the counter\ninitial value. Before starting (when the timer is waiting for the trigger), the configuration must\nbe:\nCNT<CCRx ≤ ARR (in particular, 0<CCRx).\n[Figure 372. Example of one-pulse mode]\nFor example if the user wants to generate a positive pulse on tim_oc1 with a length of\ntPULSE and after a delay of tDELAY as soon as a positive edge is detected on the tim_ti2 input\npin.\nUse tim_ti2fp2 as trigger 1:\n1. Select the proper tim_ti2_in[15:0] source (internal or external) with the TI2SEL[3:0] bits\nin the TIM_TISEL register.\n2. Map tim_ti2fp2 on tim_ti2 by writing CC2S = 01 in the TIM_CCMR1 register.\n3. tim_ti2fp2 must detect a rising edge, write CC2P = 0 and CC2NP = 0 in the TIM_CCER\nregister.\n4. Configure tim_ti2fp2 as trigger for the slave mode controller (tim_trgi) by writing TS =\n00110 in the TIM_SMCR register.\n5. tim_ti2fp2 is used to start the counter by writing SMS to 110 in the TIM_SMCR register\n(trigger mode).\nThe OPM waveform is defined by writing the compare registers (taking into account the\nclock frequency and the counter prescaler).\n• The tDELAY is defined by the value written in the TIM_CCR1 register.\n• The tPULSE is defined by the difference between the autoreload value and the compare\nvalue (TIM_ARR - TIM_CCR1).\n• Suppose the user wants to build a waveform with a transition from 0 to 1 when a\ncompare match occurs and a transition from 1 to 0 when the counter reaches the\nautoreload value. To do this PWM mode 2 must be enabled by writing OC1M = 00111 in\nthe TIM_CCMR1 register. Optionally the preload registers can be enabled by writing\nOC1PE = 1 in the TIM_CCMR1 register and ARPE in the TIM_CR1 register. In this\ncase one has to write the compare value in the TIM_CCR1 register, the autoreload\nvalue in the TIM_ARR register, generate an update by setting the UG bit and wait for\nexternal trigger event on tim_ti2. CC1P is written to 0 in this example.\nIn this example, the DIR and CMS bits in the TIM_CR1 register must be low.\nSince only one pulse (single mode) is needed, a one must be written in the OPM bit in the\nTIM_CR1 register to stop the counter at the next update event (when the counter rolls over\nfrom the autoreload value back to 0). When OPM bit in the TIM_CR1 register is set to 0, so\nthe repetitive mode is selected.\nParticular case: tim_ocx fast enable:\nIn one-pulse mode, the edge detection on tim_tix input set the CEN bit which enables the\ncounter. Then the comparison between the counter and the compare value makes the\noutput toggle. But several clock cycles are needed for these operations and it limits the\nminimum delay tDELAY min we can get.\nIf one wants to output a waveform with the minimum delay, the OCxFE bit can be set in the\nTIM_CCMRx register. Then tim_ocxref (and tim_ocx) is forced in response to the stimulus,\nwithout taking in account the comparison. Its new level is the same as if a compare match\nhad occurred. OCxFE acts only if the channel is configured in PWM1 or PWM2 mode.",
+      "semantic": {}
+    }
+  ]
+}

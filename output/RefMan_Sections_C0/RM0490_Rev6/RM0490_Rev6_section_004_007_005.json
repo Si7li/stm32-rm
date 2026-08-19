@@ -1,0 +1,236 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S4.7.5",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "4",
+      "chapter_title": "Embedded flash memory (FLASH)",
+      "section": "4.7.5",
+      "section_title": "FLASH control register (FLASH_CR)",
+      "level": 3,
+      "parent_section": "4.7",
+      "page": 81,
+      "page_end": 82,
+      "semantic_type": "register_description",
+      "features": [
+        "eopie",
+        "errie",
+        "flash",
+        "flash-cr",
+        "fstpg",
+        "lock",
+        "memory",
+        "mer1",
+        "obl-launch",
+        "optlock",
+        "optstrt",
+        "per",
+        "pnb",
+        "rderrie",
+        "sec-prot",
+        "strt"
+      ],
+      "chars": 3191,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=81",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 4.7.5 \"FLASH control register (FLASH_CR)\" in chapter 4 (Embedded flash memory (FLASH)), RM0490 Rev 6, page 81.",
+      "section_content": "Address offset: 0x014\nReset value: 0xC000 0000\nAccess: no wait state when no flash memory operation is on going, word, half-word and byte\naccess\nThis register must not be modified when CFGBSY in FLASH status register (FLASH_SR) is\nset. This would result in a HardFault exception.\nBit 31 LOCK: FLASH_CR Lock\nThis bit is set only. When set, the FLASH_CR register is locked. It is cleared by hardware\nafter detecting the unlock sequence.\nIn case of an unsuccessful unlock operation, this bit remains set until the next system reset.\nBit 30 OPTLOCK: Options Lock\nThis bit is set only. When set, all bits concerning user option in FLASH_CR register and so\noption page are locked. This bit is cleared by hardware after detecting the unlock sequence.\nThe LOCK bit must be cleared before doing the unlock sequence for OPTLOCK bit.\nIn case of an unsuccessful unlock operation, this bit remains set until the next reset.\nBit 29 Reserved, must be kept at reset value.\nBit 28 SEC_PROT: Securable memory area protection enable\nThis bit enables the protection on securable area, provided that a non-null securable\nmemory area size (SEC_SIZE[4:0]) is defined in option bytes.\n0: Disable (securable area accessible)\n1: Enable (securable area not accessible)\nThis bit is possible to set only by software and to clear only through a system reset.\nBit 27 OBL_LAUNCH: Option byte load launch\nWhen set, this bit triggers the load of option bytes into option registers. It is automatically\ncleared upon the completion of the load. The high state of the bit indicates pending option\nbyte load.\nThe bit cannot be cleared by software. It cannot be written as long as OPTLOCK is set.\nBit 26 RDERRIE: PCROP read error interrupt enable\nThis bit enables the interrupt generation upon setting the RDERR flag in the FLASH_SR\nregister.\n0: Disable\n1: Enable\nBit 25 ERRIE: Error interrupt enable\nThis bit enables the interrupt generation upon setting the OPERR flag in the FLASH_SR\nregister.\n0: Disable\n1: Enable\nBit 24 EOPIE: End-of-operation interrupt enable\nThis bit enables the interrupt generation upon setting the EOP flag in the FLASH_SR register.\n0: Disable\n1: Enable\nBits 23:19 Reserved, must be kept at reset value.\nBit 18 FSTPG: Fast programming enable\n0: Disable\n1: Enable\nBit 17 OPTSTRT: Start of modification of option bytes\nThis bit triggers an options operation when set.\nThis bit is set only by software, and is cleared when the BSY1 bit is cleared in FLASH_SR.\nBit 16 STRT: Start erase operation\nThis bit triggers an erase operation when set.\nThis bit is possible to set only by software and to clear only by hardware. The hardware\nclears it when one of BSY1 and BSY2 flags in the FLASH_SR register transits to zero.\nBits 15:10 Reserved, must be kept at reset value.\nBits 9:3 PNB[6:0]: Page number selection\nThese bits select the page to erase:\n0x00: page 0\n0x01: page 1\n...\n0x7F: page 127\nNote: Values corresponding to addresses outside the main flash memory are not allowed.\nSee Table 9 and Table 10.\nBit 2 MER1: Mass erase\nWhen set, this bit triggers the mass erase, that is, all user pages.\nBit 1 PER: Page erase enable\n0: Disable\n1: Enable\nBit 0 PG: Flash memory programming enable\n0: Disable\n1: Enable",
+      "semantic": {
+        "register": "FLASH_CR",
+        "address_offset": "0x014",
+        "reset_value": "0xC000 0000",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "LOCK",
+            "description": "FLASH_CR Lock This bit is set only. When set, the FLASH_CR register is locked. It is cleared by hardware after detecting the unlock sequence. In case of an unsuccessful unlock operation, this bit remains set until the next system reset.",
+            "values": []
+          },
+          {
+            "bits": "30",
+            "name": "OPTLOCK",
+            "description": "Options Lock This bit is set only. When set, all bits concerning user option in FLASH_CR register and so option page are locked. This bit is cleared by hardware after detecting the unlock sequence. The LOCK bit must be cleared before doing the unlock sequence for OPTLOCK bit. In case of an unsuccessful unlock operation, this bit remains set until the next reset.",
+            "values": []
+          },
+          {
+            "bits": "29",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "28",
+            "name": "SEC_PROT",
+            "description": "Securable memory area protection enable This bit enables the protection on securable area, provided that a non-null securable memory area size (SEC_SIZE[4:0]) is defined in option bytes. This bit is possible to set only by software and to clear only through a system reset.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable (securable area accessible)"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable (securable area not accessible)"
+              }
+            ]
+          },
+          {
+            "bits": "27",
+            "name": "OBL_LAUNCH",
+            "description": "Option byte load launch When set, this bit triggers the load of option bytes into option registers. It is automatically cleared upon the completion of the load. The high state of the bit indicates pending option byte load. The bit cannot be cleared by software. It cannot be written as long as OPTLOCK is set.",
+            "values": []
+          },
+          {
+            "bits": "26",
+            "name": "RDERRIE",
+            "description": "PCROP read error interrupt enable This bit enables the interrupt generation upon setting the RDERR flag in the FLASH_SR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "25",
+            "name": "ERRIE",
+            "description": "Error interrupt enable This bit enables the interrupt generation upon setting the OPERR flag in the FLASH_SR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "24",
+            "name": "EOPIE",
+            "description": "End-of-operation interrupt enable This bit enables the interrupt generation upon setting the EOP flag in the FLASH_SR register.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "23:19",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "18",
+            "name": "FSTPG",
+            "description": "Fast programming enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "17",
+            "name": "OPTSTRT",
+            "description": "Start of modification of option bytes This bit triggers an options operation when set. This bit is set only by software, and is cleared when the BSY1 bit is cleared in FLASH_SR.",
+            "values": []
+          },
+          {
+            "bits": "16",
+            "name": "STRT",
+            "description": "Start erase operation This bit triggers an erase operation when set. This bit is possible to set only by software and to clear only by hardware. The hardware clears it when one of BSY1 and BSY2 flags in the FLASH_SR register transits to zero.",
+            "values": []
+          },
+          {
+            "bits": "15:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9:3",
+            "name": "PNB[6:0]",
+            "description": "Page number selection These bits select the page to erase: ... Note: Values corresponding to addresses outside the main flash memory are not allowed. See Table 9 and Table 10.",
+            "values": [
+              {
+                "value": "0x00",
+                "meaning": "page 0"
+              },
+              {
+                "value": "0x01",
+                "meaning": "page 1"
+              },
+              {
+                "value": "0x7F",
+                "meaning": "page 127"
+              }
+            ]
+          },
+          {
+            "bits": "2",
+            "name": "MER1",
+            "description": "Mass erase When set, this bit triggers the mass erase, that is, all user pages.",
+            "values": []
+          },
+          {
+            "bits": "1",
+            "name": "PER",
+            "description": "Page erase enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          },
+          {
+            "bits": "0",
+            "name": "PG",
+            "description": "Flash memory programming enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Disable"
+              },
+              {
+                "value": "1",
+                "meaning": "Enable"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M33 CPU",
+  "frequency": "",
+  "section_count": 1878,
+  "sections": [
+    {
+      "section_id": "RM0522-S24.4.11",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "chapter": "24",
+      "chapter_title": "Operational amplifier (OPAMP)",
+      "section": "24.4.11",
+      "section_title": "OPAMP calibration",
+      "level": 3,
+      "parent_section": "24.4",
+      "page": 737,
+      "page_end": 738,
+      "semantic_type": "generic",
+      "features": [
+        "opamp"
+      ],
+      "chars": 3828,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=737",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 24.4.11 \"OPAMP calibration\" in chapter 24 (Operational amplifier (OPAMP)), RM0522 Rev 1, page 737.",
+      "section_content": "The calibration allows finding the trimming values that minimize the operational amplifier\noffset.\nSetting the CALON bit isolates the operational amplifier INP and INM inputs and connects\nthem to the internal reference voltage level selected through the CALSEL[1:0] bitfield. The\noperational amplifier is in a comparator (high gain, open loop) mode in which its output\ntransits from one rail to another when the voltage level on one input crosses the voltage\nlevel on the other input.\nThe CALOUT flag reflects this digital value (lower rail or upper rail) of the OPAMP_VOUT\npin.\nThe CALSEL[1:0] bitfield values 01 (low reference voltage) and 11 (high reference voltage)\nare intended for use in the calibration procedure. The value 01 is for trimming the PMOS\nthrough the TRIMOFFSETP[4:0] bitfield, the value 11 for trimming the NMOS through the\nTRIMOFFSETN[4:0] bitfield.\nThe calibration is carried out by software. Starting from the trimming bitfield at 0 and the\nCALOUT flag at one, the procedure consists in incrementing the trimming value until the\nCALOUT flag toggles to 0. The last trimming value is the one that compensates for the\noperational amplifier offset of the given OPAMP instance, and for the given supply voltage,\ndie temperature, and differential pair stage (PMOS or NMOS). Upon each trimming value\nincrementation, the software must wait for at least the tOFFTRIMmax period defined in the\nproduct datasheet, before reading the CALOUT flag and potentially proceeding to the next\nincrementation step.\nNote: The closer is the trimming value to the offset compensation point, the longer the output\nvoltage takes to respond (without ever exceeding tOFFTRIMmax).\nThe full calibration consists of four calibration loops, as listed in Table182. They can be\nexecuted in any order. The CALON bit must be set for executing any calibration loop. The\ncalibration loops for the operational amplifier speed (slew rate) not required in the\napplication can be omitted.\n[Table 182. Calibrationloops]\nDifferent OPAMP instances can be calibrated at any time, even at the same time.\nCalibration initialization\nTo initialize the offset trimming value calibration:\n• Enable OPAMP, by setting OPAEN.\n• Make the trimming bitfields writable, by setting USERTRIM.\n• Write TRIMOFFSETN[4:0] and TRIMOFFSETP[4:0] bitfields with 0b00000.\nCalibration loop sequence\nTo execute a calibration loop, go through the following steps:\n1. Select the calibration loop, with the CALSEL[1:0] bitfield. That is, the speed (slew rate)\nand the differential pair end (NMOS or PMOS) to calibrate.\n2. Increment the appropriate trimming bitfield (TRIMOFFSETN[4:0] for NMOS,\nTRIMOFFSETP[4:0] for PMOS), keeping the other trimming bitfield as is.\n3. Wait for at least the tOFFTRIMmax period.\n4. Check the CALOUT flag (OPAINTOEN=0). If high, go to step 2 (loop back).\n5. The trimming bitfield is calibrated. Store the calibrated trimming value if required.\nFor a given speed (slew rate), execute both the NMOS and the PMOS calibration loops.\nNote: During the calibration loop execution, the external connection of the operational amplifier\noutput must not pull up or down currents exceeding 500µA.\nCalibrating when operational amplifier output goes to a COMP input\nWith the operational amplifier output redirected to an internal COMP input channel\n(OPAINTOEN bit set), the CALOUT flag does not reflect the operational amplifier output. To\naddress this, it is advised to clear the OPAINTOEN bit for the time of calibration to make the\nCALOUT flag operate. When the calibration is completed, set OPAINTOEN to redirect the\noperational amplifier output back to a COMP input channel. As during the calibration the\ninternal signal sent to the OPAMP_VOUT pin toggles, take care to prevent any conflict on\nthe pin. For example, use the pin in the application as an input.",
+      "semantic": {}
+    }
+  ]
+}

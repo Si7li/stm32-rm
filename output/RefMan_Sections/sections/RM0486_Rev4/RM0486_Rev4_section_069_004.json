@@ -1,0 +1,37 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S69.4",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "69",
+      "chapter_title": "SPDIF receiver interface (SPDIFRX)",
+      "section": "69.4",
+      "section_title": "Programming procedures",
+      "level": 2,
+      "parent_section": null,
+      "page": 3590,
+      "page_end": 3591,
+      "semantic_type": "generic",
+      "features": [
+        "procedures",
+        "programming"
+      ],
+      "chars": 1166,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3590",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 69.4 \"Programming procedures\" in chapter 69 (SPDIF receiver interface (SPDIFRX)), RM0486 Rev 4, page 3590.",
+      "section_content": "The following example illustrates a complete activation sequence of the SPDIFRX block.\nThe data path and channel status and user information both use a dedicated DMA channel.\nThe activation sequence is then split into the following steps:\n• Wait for valid data on the selected SPDIFRX_IN input\n• Synchronize to the S/PDIF stream\n• Read the channel status and user information in order to setup the complete audio path\n• Start data acquisition\nA simple way to check if valid data are available into the SPDIFRX_IN line is to switch the\nSPDIFRX into the STATE_SYNC, with bit WFA set to 1. The description hereafter focuses\non detection. It is also possible to implement this function as follows:\n• The software has to check from time to time (i.e. every 100 ms for example) if the\nSPDIFRX can find synchronization. This can be done by checking if the bit TERR is\nset. When it is set it indicates that no activity as been found.\n• Connect the SPDIFRX_IN input to an external interrupt event block in order to detect\ntransitions of SPDIFRX_IN line. When activity is detected, then SPDIFRXEN can be\nset to 01 or 11.\nFor those two implementations, the bit WFA is set to 0.",
+      "semantic": {}
+    }
+  ]
+}

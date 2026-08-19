@@ -1,0 +1,360 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M55 CPU",
+  "frequency": "",
+  "section_count": 3666,
+  "sections": [
+    {
+      "section_id": "RM0486-S67.11.3",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "chapter": "67",
+      "chapter_title": "Serial peripheral interface (SPI)",
+      "section": "67.11.3",
+      "section_title": "SPI/I2S configuration register 1 (SPI_CFG1)",
+      "level": 3,
+      "parent_section": "67.11",
+      "page": 3484,
+      "page_end": 3486,
+      "semantic_type": "register_description",
+      "features": [
+        "bpass",
+        "crcen",
+        "crcsize",
+        "dma",
+        "dsize",
+        "fthlv",
+        "i2s",
+        "mbr",
+        "rxdmaen",
+        "spi",
+        "spi-cfg1",
+        "txdmaen",
+        "udrcfg"
+      ],
+      "chars": 3468,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3484",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 67.11.3 \"SPI/I2S configuration register 1 (SPI_CFG1)\" in chapter 67 (Serial peripheral interface (SPI)), RM0486 Rev 4, page 3484.",
+      "section_content": "Address offset: 0x008\nReset value: 0x0007 0007\nThe content of this register is write protected when SPI is enabled.\nBit 31 BPASS: bypass of the prescaler at master baud rate clock generator\n0: bypass is disabled\n1: bypass is enabled\nBits 30:28 MBR[2:0]: master baud rate prescaler setting\n000: SPI master clock/2\n001: SPI master clock/4\n010: SPI master clock/8\n011: SPI master clock/16\n100: SPI master clock/32\n101: SPI master clock/64\n110: SPI master clock/128\n111: SPI master clock/256\nNote: MBR setting is considered at slave working at TI mode, too (see Section67.5.1: TI\nmode).\nBits 27:23 Reserved, must be kept at reset value.\nBit 22 CRCEN: hardware CRC computation enable\n0: CRC calculation disabled\n1: CRC calculation enabled\nBit 21 Reserved, must be kept at reset value.\nBits 20:16 CRCSIZE[4:0]: length of CRC frame to be transferred and compared\nMost significant bits are taken into account from polynomial calculation when CRC result is\ntransferred or compared. The length of the polynomial is not affected by this setting.\nThe value must be equal or a multiple of the data size configured through the DSIZE bitfield.\nIts maximum size corresponds to the instance maximum data size.\n00000: not used\n00001: not used\n00010: not used\n00011: 4 bits\n00100: 5 bits\n00101: 6 bits\n00110: 7 bits\n00111: 8 bits\n.....\n11101: 30 bits\n11110: 31 bits\n11111: 32 bits\nNote: The most significant bit at CRCSIZE bit field is reserved for the peripheral instances\nwhere data size is limited to 16 bits.\nThe CRCSIZE[2:0] bits are fixed to 1 for the peripheral instances with a limited set of\nfeatures.\nBit 15 TXDMAEN: Tx DMA stream enable\n0: Tx DMA disabled\n1: Tx DMA enabled\nBit 14 RXDMAEN: Rx DMA stream enable\n0: Rx-DMA disabled\n1: Rx-DMA enabled\nBits 13:10 Reserved, must be kept at reset value.\nBit 9 UDRCFG: behavior of slave transmitter at underrun condition\nFor more details see Figure894: Optional configurations of the slave behavior when an\nunderrun condition is detected.\n0: slave sends a constant pattern defined by the user in the SPI_UDRDR register\n1: Slave repeats the last received data from master. When slave is configured at transmit only\nmode (COMM[1:0] = 01), all zeros pattern is repeated.\nBits 8:5 FTHLV[3:0]: FIFO threshold level\nDefines number of data frames in a single data packet. It is recommended that the size of the\npacket does not exceed 1/2 of FIFO space.\nSPI interface is more efficient if configured packet sizes are aligned with data register access\nparallelism:\n–If SPI data register is accessed as a 16-bit register and DSIZE≤8 bits, better to select\nFTHLV=2, 4, 6.\n–If SPI data register is accessed as a 32-bit register and DSIZE>8 bits, better to select\nFTHLV=2, 4, 6, while if DSIZE ≤ 8 bits, better to select FTHLV=4, 8, 12.\n0000: 1-data\n0001: 2-data\n0010: 3-data\n0011: 4-data\n0100: 5-data\n0101: 6-data\n0110: 7-data\n0111: 8-data\n1000: 9-data\n1001: 10-data\n1010: 11-data\n1011: 12-data\n1100: 13-data\n1101: 14-data\n1110: 15-data\n1111: 16-data\nNote: FTHLV[3:2] bits are reserved for instances with a limited set of features.\nBits 4:0 DSIZE[4:0]: number of bits in a single SPI data frame\n00000: not used\n00001: not used\n00010: not used\n00011: 4 bits\n00100: 5 bits\n00101: 6 bits\n00110: 7 bits\n00111: 8 bits\n.....\n11101: 30 bits\n11110: 31 bits\n11111: 32 bits\nNote: The most significant bit DSIZE[4] is reserved for instances which data size is limited to\n16 bits.\nDSIZE[2:0] bits are fixed to 1 for instances with a limited set of features.",
+      "semantic": {
+        "register": "SPI_CFG1",
+        "address_offset": "0x008",
+        "reset_value": "0x0007 0007",
+        "reset_note": "",
+        "fields": [
+          {
+            "bits": "31",
+            "name": "BPASS",
+            "description": "bypass of the prescaler at master baud rate clock generator",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "bypass is disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "bypass is enabled"
+              }
+            ]
+          },
+          {
+            "bits": "30:28",
+            "name": "MBR[2:0]",
+            "description": "master baud rate prescaler setting Note: MBR setting is considered at slave working at TI mode, too (see Section67.5.1: TI mode).",
+            "values": [
+              {
+                "value": "000",
+                "meaning": "SPI master clock/2"
+              },
+              {
+                "value": "001",
+                "meaning": "SPI master clock/4"
+              },
+              {
+                "value": "010",
+                "meaning": "SPI master clock/8"
+              },
+              {
+                "value": "011",
+                "meaning": "SPI master clock/16"
+              },
+              {
+                "value": "100",
+                "meaning": "SPI master clock/32"
+              },
+              {
+                "value": "101",
+                "meaning": "SPI master clock/64"
+              },
+              {
+                "value": "110",
+                "meaning": "SPI master clock/128"
+              },
+              {
+                "value": "111",
+                "meaning": "SPI master clock/256"
+              }
+            ]
+          },
+          {
+            "bits": "27:23",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "22",
+            "name": "CRCEN",
+            "description": "hardware CRC computation enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "CRC calculation disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "CRC calculation enabled"
+              }
+            ]
+          },
+          {
+            "bits": "21",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "20:16",
+            "name": "CRCSIZE[4:0]",
+            "description": "length of CRC frame to be transferred and compared Most significant bits are taken into account from polynomial calculation when CRC result is transferred or compared. The length of the polynomial is not affected by this setting. The value must be equal or a multiple of the data size configured through the DSIZE bitfield. Its maximum size corresponds to the instance maximum data size. ..... Note: The most significant bit at CRCSIZE bit field is reserved for the peripheral instances where data size is limited to 16 bits. The CRCSIZE[2:0] bits are fixed to 1 for the peripheral instances with a limited set of features.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "not used"
+              },
+              {
+                "value": "00001",
+                "meaning": "not used"
+              },
+              {
+                "value": "00010",
+                "meaning": "not used"
+              },
+              {
+                "value": "00011",
+                "meaning": "4 bits"
+              },
+              {
+                "value": "00100",
+                "meaning": "5 bits"
+              },
+              {
+                "value": "00101",
+                "meaning": "6 bits"
+              },
+              {
+                "value": "00110",
+                "meaning": "7 bits"
+              },
+              {
+                "value": "00111",
+                "meaning": "8 bits"
+              },
+              {
+                "value": "11101",
+                "meaning": "30 bits"
+              },
+              {
+                "value": "11110",
+                "meaning": "31 bits"
+              },
+              {
+                "value": "11111",
+                "meaning": "32 bits"
+              }
+            ]
+          },
+          {
+            "bits": "15",
+            "name": "TXDMAEN",
+            "description": "Tx DMA stream enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Tx DMA disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Tx DMA enabled"
+              }
+            ]
+          },
+          {
+            "bits": "14",
+            "name": "RXDMAEN",
+            "description": "Rx DMA stream enable",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "Rx-DMA disabled"
+              },
+              {
+                "value": "1",
+                "meaning": "Rx-DMA enabled"
+              }
+            ]
+          },
+          {
+            "bits": "13:10",
+            "name": "Res.",
+            "description": "Reserved, must be kept at reset value.",
+            "values": []
+          },
+          {
+            "bits": "9",
+            "name": "UDRCFG",
+            "description": "behavior of slave transmitter at underrun condition For more details see Figure894: Optional configurations of the slave behavior when an underrun condition is detected. mode (COMM[1:0] = 01), all zeros pattern is repeated.",
+            "values": [
+              {
+                "value": "0",
+                "meaning": "slave sends a constant pattern defined by the user in the SPI_UDRDR register"
+              },
+              {
+                "value": "1",
+                "meaning": "Slave repeats the last received data from master. When slave is configured at transmit only"
+              }
+            ]
+          },
+          {
+            "bits": "8:5",
+            "name": "FTHLV[3:0]",
+            "description": "FIFO threshold level Defines number of data frames in a single data packet. It is recommended that the size of the packet does not exceed 1/2 of FIFO space. SPI interface is more efficient if configured packet sizes are aligned with data register access parallelism: –If SPI data register is accessed as a 16-bit register and DSIZE≤8 bits, better to select FTHLV=2, 4, 6. –If SPI data register is accessed as a 32-bit register and DSIZE>8 bits, better to select FTHLV=2, 4, 6, while if DSIZE ≤ 8 bits, better to select FTHLV=4, 8, 12. Note: FTHLV[3:2] bits are reserved for instances with a limited set of features.",
+            "values": [
+              {
+                "value": "0000",
+                "meaning": "1-data"
+              },
+              {
+                "value": "0001",
+                "meaning": "2-data"
+              },
+              {
+                "value": "0010",
+                "meaning": "3-data"
+              },
+              {
+                "value": "0011",
+                "meaning": "4-data"
+              },
+              {
+                "value": "0100",
+                "meaning": "5-data"
+              },
+              {
+                "value": "0101",
+                "meaning": "6-data"
+              },
+              {
+                "value": "0110",
+                "meaning": "7-data"
+              },
+              {
+                "value": "0111",
+                "meaning": "8-data"
+              },
+              {
+                "value": "1000",
+                "meaning": "9-data"
+              },
+              {
+                "value": "1001",
+                "meaning": "10-data"
+              },
+              {
+                "value": "1010",
+                "meaning": "11-data"
+              },
+              {
+                "value": "1011",
+                "meaning": "12-data"
+              },
+              {
+                "value": "1100",
+                "meaning": "13-data"
+              },
+              {
+                "value": "1101",
+                "meaning": "14-data"
+              },
+              {
+                "value": "1110",
+                "meaning": "15-data"
+              },
+              {
+                "value": "1111",
+                "meaning": "16-data"
+              }
+            ]
+          },
+          {
+            "bits": "4:0",
+            "name": "DSIZE[4:0]",
+            "description": "number of bits in a single SPI data frame ..... Note: The most significant bit DSIZE[4] is reserved for instances which data size is limited to 16 bits. DSIZE[2:0] bits are fixed to 1 for instances with a limited set of features.",
+            "values": [
+              {
+                "value": "00000",
+                "meaning": "not used"
+              },
+              {
+                "value": "00001",
+                "meaning": "not used"
+              },
+              {
+                "value": "00010",
+                "meaning": "not used"
+              },
+              {
+                "value": "00011",
+                "meaning": "4 bits"
+              },
+              {
+                "value": "00100",
+                "meaning": "5 bits"
+              },
+              {
+                "value": "00101",
+                "meaning": "6 bits"
+              },
+              {
+                "value": "00110",
+                "meaning": "7 bits"
+              },
+              {
+                "value": "00111",
+                "meaning": "8 bits"
+              },
+              {
+                "value": "11101",
+                "meaning": "30 bits"
+              },
+              {
+                "value": "11110",
+                "meaning": "31 bits"
+              },
+              {
+                "value": "11111",
+                "meaning": "32 bits"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

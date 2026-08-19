@@ -1,0 +1,36 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S3.1.4",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "3",
+      "chapter_title": "Boot modes",
+      "section": "3.1.4",
+      "section_title": "Empty check",
+      "level": 3,
+      "parent_section": "3.1",
+      "page": 54,
+      "page_end": 55,
+      "semantic_type": "generic",
+      "features": [
+        "boot"
+      ],
+      "chars": 1327,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=54",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 3.1.4 \"Empty check\" in chapter 3 (Boot modes), RM0490 Rev 6, page 54.",
+      "section_content": "Internal empty check flag (the EMPTY bit of the FLASH access control register\nFLASH_ACR) is implemented to allow easy programming of virgin devices by the boot\nloader. This flag is checked when the boot configuration defines the main flash memory as\nthe target boot area and the BOOT_LOCK bit is not set. When the EMPTY flag is set, the\ndevice is considered empty and the system memory (bootloader) is selected instead of the\nmain flash memory as a boot area, to allow the user to program the device. Refer to\nAN2606 for more details concerning the bootloader and GPIO configuration in the system\nmemory boot mode (some of the GPIOs are reconfigured from the High-Z state).\nThe EMPTY flag is updated by hardware only during the loading of option bytes: it is set\nwhen the 64-bit content of the address 0x0800 0000 is read as 0xFFFF FFFF FFFF FFFF,\notherwise it is cleared. It means that, after programming of a virgin device, a power-on reset\nor setting of the OBL_LAUNCH bit of the FLASH_CR register is required to clear the\nEMPTY flag (the system reset has no impact on this flag). The software can also modify the\nEMPTY flag directly in the FLASH_ACR register.\nNote: If the device is programmed for the first time but the EMPTY flag is not updated, the device\nstill selects system memory as a boot area after a system reset.",
+      "semantic": {}
+    }
+  ]
+}

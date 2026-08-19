@@ -1,0 +1,37 @@
+{
+  "document": "RM0490",
+  "rev": "Rev 6",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C0",
+  "package": "",
+  "family": "C0",
+  "core": "Arm 32-bit Cortex-M0+ CPU",
+  "frequency": "",
+  "section_count": 930,
+  "sections": [
+    {
+      "section_id": "RM0490-S11.4.6",
+      "document": "RM0490",
+      "rev": "Rev 6",
+      "chapter": "11",
+      "chapter_title": "Direct memory access controller (DMA)",
+      "section": "11.4.6",
+      "section_title": "DMA data width, alignment, and endianness",
+      "level": 3,
+      "parent_section": "11.4",
+      "page": 230,
+      "page_end": 231,
+      "semantic_type": "generic",
+      "features": [
+        "dma",
+        "memory"
+      ],
+      "chars": 1442,
+      "url": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf#page=230",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0490-stm32c0-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "text_helper": "Section 11.4.6 \"DMA data width, alignment, and endianness\" in chapter 11 (Direct memory access controller (DMA)), RM0490 Rev 6, page 230.",
+      "section_content": "When PSIZE[1:0] and MSIZE[1:0] are not equal, the DMA controller performs some data\nalignments as described in the table below.\n[Table 45. Programmable data width and endian behavior (when PINC=MINC=1)]\nAddressing AHB peripherals not supporting byte/half-word write transfers\nWhen the DMA controller initiates an AHB byte or half-word write transfer, the data are\nduplicated on the unused lanes of the AHB master 32-bit data bus (HWDATA[31:0]).\nWhen the AHB slave peripheral does not support byte or half-word write transfers and does\nnot generate any error, the DMA controller writes the 32 HWDATA bits as shown in the two\nexamples below:\n• To write the half-word 0xABCD, the DMA controller sets the HWDATA bus to\n0xABCDABCD with a half-word data size (HSIZE=HalfWord in the AHB master bus).\n• To write the byte 0xAB, the DMA controller sets the HWDATA bus to 0xABABABAB\nwith a byte data size (HSIZE=Byte in the AHB master bus).\nAssuming the AHB/APB bridge is an AHB 32-bit slave peripheral that does not take into\naccount the HSIZE data, any AHB byte or half-word transfer is changed into a 32-bit APB\ntransfer as described below:\n• An AHB byte write transfer of 0xB0 to one of the 0x0, 0x1, 0x2, or 0x3 addresses, is\nconverted to an APB word write transfer of 0xB0B0B0B0 to the 0x0 address.\n• An AHB half-word write transfer of 0xB1B0 to the 0x0 or 0x2 addresses is converted to\nan APB word write transfer of 0xB1B0B1B0 to the 0x0 address.",
+      "semantic": {}
+    }
+  ]
+}
