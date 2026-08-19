@@ -13,6 +13,7 @@ import argparse
 import hashlib
 import json
 import logging
+import re
 import sys
 from dataclasses import asdict
 from pathlib import Path
@@ -49,6 +50,22 @@ def input_files(directory: Path, only: str | None) -> list[Path]:
         needle = only.casefold()
         files = [p for p in files if needle in p.stem.casefold()]
     return files
+
+
+#: Characters that would make a selector title unusable as a filename on Linux,
+#: macOS or Windows. Discovered stems are ST's raw titles, e.g. "STM32F405/415".
+_UNSAFE_FILENAME = re.compile(r'[/\\:*?"<>|\x00-\x1f]')
+
+
+def file_stem(stem: str) -> str:
+    """Map a selector stem to a filename-safe stem.
+
+    A local stem is already a filename from ``product_selector/`` and passes
+    through untouched. A discovered stem is ST's own title and can carry a
+    ``/`` (``STM32F405/415``), which would otherwise be read as a directory
+    when the workbook is written. Every unsafe character becomes ``-``.
+    """
+    return _UNSAFE_FILENAME.sub("-", stem.strip())
 
 
 def _resolutions_from_map(payload: dict) -> dict[str, Resolution]:
@@ -260,7 +277,7 @@ def do_build(args) -> int:
                     if url:
                         datasheet_urls[row["part_number"]] = url
 
-        corrected = out_dir / f"{stem}.xlsx"
+        corrected = out_dir / f"{file_stem(stem)}.xlsx"
         write_corrected(
             corrected,
             sheet,
@@ -288,7 +305,7 @@ def do_build(args) -> int:
             entry["note"] = "discovered selector: no original workbook to diff against"
         else:
             result = compare(sheet, grid, composed, with_source_classes=datasheet_first)
-            diff_path = out_dir / f"{stem} - diff.xlsx"
+            diff_path = out_dir / f"{file_stem(stem)} - diff.xlsx"
             write_diff(
                 diff_path, result, level_id=grid.level_id, level_title=grid.level_title
             )

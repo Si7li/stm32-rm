@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from stproducts.cli import file_stem
 from stproducts.resolve import ids_from_page, slugify
 
 # The real markup: a sub-family page whose hierarchy leads with its own id
@@ -54,3 +55,16 @@ def test_scrape_fallback_orders_by_frequency():
     """With no hierarchy, the page's own grid is the most-mentioned id."""
     page = "SC9999 SS1111 SS1111 SS1111 SC9999x"
     assert [i for i, _ in ids_from_page(page)][0] == "SS1111"
+
+
+def test_file_stem_leaves_local_stems_untouched():
+    assert file_stem("STM32F2 series") == "STM32F2 series"
+    assert file_stem("STM32F4 series") == "STM32F4 series"
+
+
+def test_file_stem_safes_selector_titles_with_slashes():
+    """Discovered titles carry ST's own '/': STM32F405/415. That must not
+    become a directory when the workbook is written."""
+    assert file_stem("STM32F405/415") == "STM32F405-415"
+    assert file_stem("STM32L151/152") == "STM32L151-152"
+    assert file_stem("STM32L4+ series") == "STM32L4+ series"
