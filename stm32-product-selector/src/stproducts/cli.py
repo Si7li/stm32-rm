@@ -19,14 +19,27 @@ from dataclasses import asdict
 from pathlib import Path
 
 from .api import fetch_datasheet_url, fetch_grid
-from .compose import api_only_sheet, compose_sheet
+from .compose import ComposedSheet, api_only_sheet, compose_sheet
 from .datasheets import LocalIndex, acquire, st_datasheet_url
-from .diffing import REPORTED_CLASSES, SOURCE_CLASSES, UNCHANGED, compare, plan_columns
+from .diffing import (
+    ADDED_COLUMN,
+    BLANK_FILLED,
+    CHANGED,
+    MISSING_FROM_ST,
+    REPORTED_CLASSES,
+    SOURCE_CLASSES,
+    UNCHANGED,
+    DiffResult,
+    compare,
+    plan_columns,
+)
 from .extract import set_parse_cache_dir
+from .exporter import export_sheet_json
 from .net import FetchError, Fetcher
 from .discover import SEED_CATALOGUES, discover
 from .resolve import Resolution, resolve_sheet, save_map
 from .sheetio import read_original, synthesize, unreproducible_headers
+from .values import is_blank
 from .writer import write_corrected, write_diff
 
 logger = logging.getLogger("stproducts")
@@ -66,6 +79,103 @@ def file_stem(stem: str) -> str:
     when the workbook is written. Every unsafe character becomes ``-``.
     """
     return _UNSAFE_FILENAME.sub("-", stem.strip())
+
+
+def corrections_digest(
+    result: DiffResult | None,
+    appended_col_keys: list[str],
+    composed: ComposedSheet,
+    grid,
+) -> dict:
+    """The corrected and added parameters of one workbook, as JSON.
+
+    ``corrected`` groups the CHANGED / BLANK_FILLED / MISSING_FROM_ST diff
+    records by parameter, keeping each distinct old->new transition separate
+    with the parts it applies to and the provenance of the written value.
+    ``added_parameters`` lists the columns the original workbook lacked, with
+    how many parts now carry a value in each. ``appended_columns`` names every
+    appended column, including the empty ones ST never populated. A
+    parameter-level mirror of the diff workbook: same facts, machine-readable.
+
+    With ``result is None`` the sheet is a discovered selector with no
+    original workbook to diff against: nothing was corrected, the whole sheet
+    is new, and ``added_parameters`` counts the populated cells per column.
+    """
+    if result is None:
+        added_groups: dict[str, dict] = {}
+        for composed_part in composed.parts.values():
+            for key, cell in composed_part.cells.items():
+                if is_blank(cell.value):
+                    continue
+                group = added_groups.setdefault(key, {
+                    "parameter": key, "count": 0, "provenance": [],
+                })
+                group["count"] += 1
+                if cell.token not in group["provenance"]:
+                    group["provenance"].append(cell.token)
+        return {
+            "level_id": grid.level_id,
+            "level_title": grid.level_title,
+            "corrected": [],
+            "added_parameters": sorted(
+                added_groups.values(), key=lambda g: g["parameter"]
+            ),
+            "appended_columns": [c.key for c in grid.columns],
+            "new_parts": [],
+            "parts_not_in_st": [],
+            "note": "discovered selector: no original workbook to diff against",
+        }
+
+    def _token(part: str, column: str) -> str | None:
+        cell = composed.parts.get(part)
+        if cell is None:
+            return None
+        return cell.cells.get(column).token if column in cell.cells else None
+
+    corrected_groups: dict[tuple, dict] = {}
+    added_groups: dict[str, dict] = {}
+    for record in result.records:
+        if record.kind == ADDED_COLUMN:
+            group = added_groups.setdefault(record.column, {
+                "parameter": record.column, "count": 0, "provenance": [],
+            })
+            group["count"] += 1
+            token = _token(record.part, record.column)
+            if token and token not in group["provenance"]:
+                group["provenance"].append(token)
+
+        elif record.column != "*" and record.kind in (CHANGED, BLANK_FILLED, MISSING_FROM_ST):
+            key = (record.column, record.kind, record.old, record.new)
+            group = corrected_groups.setdefault(key, {
+                "parameter": record.column,
+                "kind": record.kind,
+                "from": record.old,
+                "to": record.new,
+                "count": 0,
+                "parts": [],
+                "provenance": [],
+            })
+            group["count"] += 1
+            group["parts"].append(record.part)
+            token = _token(record.part, record.column)
+            if token and token not in group["provenance"]:
+                group["provenance"].append(token)
+
+    def _finalized(groups) -> list[dict]:
+        return sorted(
+            groups.values(),
+            key=lambda g: (g["parameter"], g.get("kind", ""), g.get("from", "")),
+        )
+
+    return {
+        "level_id": grid.level_id,
+        "level_title": grid.level_title,
+        "corrected": _finalized(corrected_groups),
+        "added_parameters": _finalized(added_groups),
+        "appended_columns": appended_col_keys,
+        "new_parts": result.new_parts,
+        "parts_not_in_st": result.missing_parts,
+    }
 
 
 def _resolutions_from_map(payload: dict) -> dict[str, Resolution]:
@@ -198,6 +308,7 @@ def do_build(args) -> int:
         "totals": {k: 0 for k in classes},
     }
     totals = report["totals"]
+    corrections_by_file: dict[str, dict] = {}
 
     for stem, sheet in sheets.items():
         if stem in targets:
@@ -287,12 +398,25 @@ def do_build(args) -> int:
             provenance=datasheet_first,
         )
 
+        # Per-file JSON export (values / descriptions / notes), for every
+        # target -- discovered selectors included, since it needs no diff.
+        json_path = out_dir / f"{file_stem(stem)}.json"
+        json_path.write_text(
+            json.dumps(
+                export_sheet_json(stem, grid, layout_keys, composed),
+                indent=2,
+                ensure_ascii=False,
+            )
+            + "\n"
+        )
+
         entry = {
             "level_id": grid.level_id,
             "level_title": grid.level_title,
             "api_rows": len(grid.rows),
             "api_columns": len(grid.columns),
             "corrected": corrected.name,
+            "json": json_path.name,
         }
 
         result = None
@@ -323,6 +447,9 @@ def do_build(args) -> int:
             # datasheet mode, and that is what the aggregate loop below adds up.
 
         report["files"][stem] = entry
+        corrections_by_file[stem] = corrections_digest(
+            result, [k for k, _ in appended_cols], composed, grid
+        )
         if result is None:
             logger.info(
                 "%-30s %-8s %3d parts, %2d columns, discovered (no diff)",
@@ -363,6 +490,25 @@ def do_build(args) -> int:
     report["inputs_unchanged"] = not changed
     (out_dir / "run_report.json").write_text(
         json.dumps(report, indent=2, ensure_ascii=False) + "\n"
+    )
+
+    corrections_report = {
+        "files": corrections_by_file,
+        "totals": {
+            "corrected_cells": sum(
+                sum(g["count"] for g in entry["corrected"])
+                for entry in corrections_by_file.values()
+            ),
+            "added_cells": sum(
+                sum(g["count"] for g in entry["added_parameters"])
+                for entry in corrections_by_file.values()
+            ),
+        },
+    }
+    # The corrected/added parameter log: same facts as the diff workbooks,
+    # grouped by parameter so a report can be read without opening Excel.
+    (out_dir / "corrections.json").write_text(
+        json.dumps(corrections_report, indent=2, ensure_ascii=False) + "\n"
     )
 
     logger.info("")

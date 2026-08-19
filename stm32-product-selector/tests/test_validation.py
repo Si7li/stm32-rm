@@ -18,10 +18,13 @@ import pytest
 from openpyxl import load_workbook
 
 from stproducts.api import fetch_grid
-from stproducts.cli import digest_inputs, input_files, main
+from stproducts.cli import corrections_digest, digest_inputs, input_files, main
+from stproducts.compose import api_only_sheet
+from stproducts.exporter import export_sheet_json
 from stproducts.net import Fetcher
 from stproducts.provenance import FROM_PDF, TOKENS
 from stproducts.sheetio import read_original
+from stproducts.values import is_blank
 
 ROOT = Path(__file__).resolve().parents[2]
 INPUTS = ROOT / "product_selector"
@@ -64,6 +67,17 @@ def _sheets(stem):
     return workbook, sheet
 
 
+def _sheets_path(path):
+    workbook = load_workbook(path)
+    sheet = read_original(path)
+    return workbook, sheet
+
+
+def _local_stems(report):
+    """Report keys of workbooks built from a real original (not discovered)."""
+    return [stem for stem, e in report["files"].items() if e.get("source_workbook")]
+
+
 # --------------------------------------------------------------------------
 # Carried over: the selector-API build spec
 # --------------------------------------------------------------------------
@@ -88,16 +102,15 @@ def test_known_ids_match_their_workbooks(fetcher, level_id, title, rows, workboo
 
 
 def test_every_workbook_resolves_or_is_reported(report):
-    resolved = set(report["files"])
-    unresolved = {u["file"] for u in report["unresolved"]}
-    assert len(resolved | unresolved) == 9
+    expected = {p.stem[: -len(" - Products")] for p in input_files(INPUTS, None)}
+    assert expected <= set(report["files"]) | {u["file"] for u in report["unresolved"]}
     for entry in report["unresolved"]:
         assert entry["candidates"] or entry["pages_tried"]
         assert entry["reason"]
 
 
 def test_column_order_is_preserved_and_extras_follow(report):
-    for stem, entry in report["files"].items():
+    for stem in _local_stems(report):
         original = read_original(INPUTS / f"{stem} - Products.xlsx")
         corrected = read_original(OUT / f"{stem}.xlsx")
         assert corrected.column_keys[: len(original.column_keys)] == original.column_keys
@@ -106,7 +119,7 @@ def test_column_order_is_preserved_and_extras_follow(report):
 
 
 def test_no_part_is_silently_dropped(report):
-    for stem in report["files"]:
+    for stem in _local_stems(report):
         original = read_original(INPUTS / f"{stem} - Products.xlsx")
         corrected = read_original(OUT / f"{stem}.xlsx")
         assert set(original.parts) <= set(corrected.parts)
@@ -169,8 +182,8 @@ def test_2_f207ie_i2c_is_three_and_the_override_is_recorded(datasheet_report):
 
 
 def test_3_provenance_mirrors_the_data_sheet(datasheet_report):
-    for stem in datasheet_report["files"]:
-        workbook, sheet = _sheets(stem)
+    for stem, entry in datasheet_report["files"].items():
+        workbook, sheet = _sheets_path(OUT / entry["corrected"])
         assert "Provenance" in workbook.sheetnames, stem
         data, provenance = workbook[sheet.sheet_title], workbook["Provenance"]
         assert (provenance.max_row, provenance.max_column) == (
@@ -302,15 +315,105 @@ def test_8_warm_run_makes_no_network_calls(tmp_path):
     assert fresh["inputs_unchanged"] is True
 
 
+def test_10_corrections_json_reconciles_with_the_run_report(tmp_path):
+    """The corrected+added parameter log exists and adds up to the diff."""
+    code = main([
+        "build", "--source", "datasheet", "--input", str(INPUTS), "--out", str(tmp_path),
+        "--cache", str(CACHE), "--datasheets", str(DATASHEETS),
+        "--datasheet-cache", str(DATASHEET_CACHE), "--offline", "--only", "STM32F2 series",
+    ])
+    assert code == 0
+    corrections = json.loads((tmp_path / "corrections.json").read_text())
+
+    stem = "STM32F2 series"
+    entry = corrections["files"][stem]
+    assert entry["level_id"] == "SS1575"
+
+    # corrected_cells == CHANGED + BLANK_FILLED + MISSING_FROM_ST for the file.
+    classes = json.loads((tmp_path / "run_report.json").read_text())["files"][stem]["classes"]
+    expected = classes["CHANGED"] + classes["BLANK_FILLED"] + classes["MISSING_FROM_ST"]
+    assert sum(g["count"] for g in entry["corrected"]) == expected
+    assert corrections["totals"]["corrected_cells"] == expected
+
+    # Every corrected record names its column, carries before/after and parts.
+    for group in entry["corrected"]:
+        assert group["parameter"] and group["kind"] in ("CHANGED", "BLANK_FILLED", "MISSING_FROM_ST")
+        assert group["parts"] and group["count"] == len(group["parts"])
+        if group["kind"] == "CHANGED":
+            assert group["from"] != group["to"]
+
+    # Appended columns are named; added_parameters cells sum to ADDED_COLUMN.
+    assert entry["appended_columns"]
+    assert sum(g["count"] for g in entry["added_parameters"]) == classes["ADDED_COLUMN"]
+    assert {g["parameter"] for g in entry["added_parameters"]} <= set(entry["appended_columns"])
+
+
+def test_11_per_file_json_reconciles_with_the_workbook(tmp_path):
+    """Each output workbook gets a same-named JSON whose values are exactly
+    the cells written to the xlsx, and whose keys are its columns."""
+    code = main([
+        "build", "--source", "datasheet", "--input", str(INPUTS), "--out", str(tmp_path),
+        "--cache", str(CACHE), "--datasheets", str(DATASHEETS),
+        "--datasheet-cache", str(DATASHEET_CACHE), "--offline", "--only", "STM32F2 series",
+    ])
+    assert code == 0
+    doc = json.loads((tmp_path / "STM32F2 series.json").read_text())
+    assert doc["document"] == "STM32F2 series"
+    assert doc["level_id"] == "SS1575"
+
+    sheet = read_original(tmp_path / "STM32F2 series.xlsx")
+    assert set(doc["values"]) == set(sheet.column_keys) - {"Datasheet URL"}
+    for key, per_part in doc["values"].items():
+        for part, value in per_part.items():
+            assert str(sheet.data[part].get(key)) == value, (part, key)
+
+    assert set(doc["descriptions"]) == set(doc["values"])
+    assert set(doc["notes"]) == set(doc["values"])
+    assert "I2C typ" in doc["descriptions"]
+    assert doc["notes"]["I2C typ"]
+
+
+def test_12_discovered_selector_has_json_and_corrections_entry(fetcher):
+    """A discovered selector has no original to diff against: corrections
+    report the whole sheet as added, and the JSON still carries values,
+    descriptions and notes for every column."""
+    grid = fetch_grid(fetcher, "LN1035")  # STM32F405/415
+    keys = [c.key for c in grid.columns]
+    composed = api_only_sheet(grid, keys)
+
+    digest = corrections_digest(None, [], composed, grid)
+    assert digest["corrected"] == []
+    assert digest["appended_columns"] == keys
+    assert digest["note"] == "discovered selector: no original workbook to diff against"
+    assert sum(g["count"] for g in digest["added_parameters"]) == sum(
+        1 for cp in composed.parts.values() for cell in cp.cells.values() if not is_blank(cell.value)
+    )
+
+    doc = export_sheet_json("STM32F405/415", grid, keys, composed)
+    assert doc["document"] == "STM32F405/415"
+    assert doc["level_id"] == "LN1035"
+    assert set(doc["values"]) == set(doc["descriptions"]) == set(doc["notes"]) == set(keys)
+    for key in keys:
+        assert doc["descriptions"][key]
+        assert doc["notes"][key]
+
+
 def test_9_report_carries_provenance_and_both_new_counts(datasheet_report):
     for stem, entry in datasheet_report["files"].items():
-        assert set(entry["provenance"]) == set(TOKENS), stem
-        assert "DATASHEET_OVERRIDES_API" in entry["classes"], stem
-        assert "ORIGINAL_MATCHED_API_NOT_DATASHEET" in entry["classes"], stem
+        assert set(entry["provenance"]) <= set(TOKENS), stem
+        if entry.get("source_workbook"):
+            # The nine real files are large enough to exercise every token.
+            assert set(entry["provenance"]) == set(TOKENS), stem
+            assert "DATASHEET_OVERRIDES_API" in entry["classes"], stem
+            assert "ORIGINAL_MATCHED_API_NOT_DATASHEET" in entry["classes"], stem
         assert entry["parts_without_datasheet"] >= 0
     assert "provenance_totals" in datasheet_report
     for name, total in datasheet_report["totals"].items():
-        assert total == sum(e["classes"][name] for e in datasheet_report["files"].values())
+        assert total == sum(
+            e["classes"][name]
+            for e in datasheet_report["files"].values()
+            if "classes" in e
+        )
 
 
 def test_inputs_are_read_only_in_practice():
