@@ -368,15 +368,15 @@ def test_11_per_file_json_reconciles_with_the_workbook(tmp_path):
             assert str(sheet.data[part].get(key)) == value, (part, key)
 
     assert set(doc["descriptions"]) == set(doc["values"])
-    assert set(doc["notes"]) == set(doc["values"])
     assert "I2C typ" in doc["descriptions"]
-    assert doc["notes"]["I2C typ"]
+    assert "notes" not in doc
+    assert "Inter-Integrated Circuit" in doc["descriptions"]["I2C typ"]
 
 
 def test_12_discovered_selector_has_json_and_corrections_entry(fetcher):
     """A discovered selector has no original to diff against: corrections
-    report the whole sheet as added, and the JSON still carries values,
-    descriptions and notes for every column."""
+    report the whole sheet as added, and the JSON still carries values and a
+    multi-line description of every column."""
     grid = fetch_grid(fetcher, "LN1035")  # STM32F405/415
     keys = [c.key for c in grid.columns]
     composed = api_only_sheet(grid, keys)
@@ -392,10 +392,11 @@ def test_12_discovered_selector_has_json_and_corrections_entry(fetcher):
     doc = export_sheet_json("STM32F405/415", grid, keys, composed)
     assert doc["document"] == "STM32F405/415"
     assert doc["level_id"] == "LN1035"
-    assert set(doc["values"]) == set(doc["descriptions"]) == set(doc["notes"]) == set(keys)
+    assert set(doc["values"]) == set(doc["descriptions"]) == set(keys)
+    assert "notes" not in doc
     for key in keys:
         assert doc["descriptions"][key]
-        assert doc["notes"][key]
+        assert "\n" in doc["descriptions"][key]
 
 
 def test_9_report_carries_provenance_and_both_new_counts(datasheet_report):

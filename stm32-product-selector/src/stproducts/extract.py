@@ -683,9 +683,6 @@ def read_frequency(doc: Document) -> Reading | None:
     return Reading(DATASHEET, str(max(int(m) for m in matches)), COVER)
 
 
-FOOTNOTE_MARKER = re.compile(r"\(\d+\)")
-
-
 @reader("operating_conditions_voltage")
 def read_voltage(doc: Document, bound: str) -> Reading | None:
     """The ``V DD`` row of ``Table N. General operating conditions``.
@@ -697,12 +694,24 @@ def read_voltage(doc: Document, bound: str) -> Reading | None:
     would report 157 parts as ST being wrong when the datasheet in fact
     agrees with it, in the small print. So a footnoted figure is recorded as
     AMBIGUOUS with the raw cell, and the API's value stands.
+
+    The footnote can also be *layered inside* the number itself: the L4/L4+/L5
+    row reads ``1(.71)1`` because the lattice parse dropped the footnote glyph
+    between the digits, and a footnote marker like ``(1)`` is wrapped in the
+    decimal. ``_strip_footnotes`` cannot see that, so it is caught here: any
+    parentheses in the cell disqualify the figure, no matter the shape.
+
+    Some rows split the condition into several labelled sub-rows (the L1
+    ``V DD`` row reads ``1.65`` for BOR disabled and ``1.8`` at power-on).
+    Which one ST publishes is not visible from the grid, so distinct values
+    across the condition rows are also recorded as AMBIGUOUS.
     """
     for caption, rows in doc.all_named_tables(OPERATING_CONDITIONS):
         header = [_text_of(c).casefold() for c in rows[0]]
         if "min" not in header or "max" not in header:
             continue
         index = header.index(bound)
+        readings = []
         for row in rows[1:]:
             symbol = _text_of(row[0]).replace(" ", "").casefold()
             label = _text_of(row[1]).casefold() if len(row) > 1 else ""
@@ -711,16 +720,26 @@ def read_voltage(doc: Document, bound: str) -> Reading | None:
             if index >= len(row):
                 continue
             raw = _text_of(row[index])
-            value = _first_number(_strip_footnotes(raw))
-            if not value:
-                continue
-            if FOOTNOTE_MARKER.search(raw):
+            if re.search(r"\(", raw):
                 return Reading(
                     AMBIGUOUS,
                     conditions=f"{caption}: V_DD {bound} reads {raw!r} — the "
-                    f"footnote qualifies the figure",
+                    f"figure is qualified or corrupted by a footnote",
                 )
-            return Reading(DATASHEET, value, caption)
+            value = _first_number(_strip_footnotes(raw))
+            if value:
+                readings.append((value, raw))
+        if not readings:
+            continue
+        values = {value for value, _ in readings}
+        if len(values) == 1:
+            return Reading(DATASHEET, readings[0][0], caption)
+        detail = "; ".join(f"{value} ({raw})" for value, raw in readings)
+        return Reading(
+            AMBIGUOUS,
+            conditions=f"{caption}: V_DD {bound} varies by condition "
+            f"({detail}) — the API's value stands",
+        )
     return None
 
 
