@@ -349,8 +349,8 @@ def test_10_corrections_json_reconciles_with_the_run_report(tmp_path):
 
 
 def test_11_per_file_json_reconciles_with_the_workbook(tmp_path):
-    """Each output workbook gets a same-named JSON whose values are exactly
-    the cells written to the xlsx, and whose keys are its columns."""
+    """Each output workbook gets a same-named JSON in the Sidekick shape whose
+    records are exactly the cells written to the xlsx."""
     code = main([
         "build", "--source", "datasheet", "--input", str(INPUTS), "--out", str(tmp_path),
         "--cache", str(CACHE), "--datasheets", str(DATASHEETS),
@@ -360,17 +360,25 @@ def test_11_per_file_json_reconciles_with_the_workbook(tmp_path):
     doc = json.loads((tmp_path / "STM32F2 series.json").read_text())
     assert doc["document"] == "STM32F2 series"
     assert doc["level_id"] == "SS1575"
+    assert "notes" not in doc
 
     sheet = read_original(tmp_path / "STM32F2 series.xlsx")
-    assert set(doc["values"]) == set(sheet.column_keys) - {"Datasheet URL"}
-    for key, per_part in doc["values"].items():
-        for part, value in per_part.items():
+    expected_keys = set(sheet.column_keys) - {"Datasheet URL"}
+    assert {p["part_number"] for p in doc["products"]} == set(sheet.data)
+    assert doc["product_count"] == len(doc["products"])
+    for product in doc["products"]:
+        part = product["part_number"]
+        assert part in sheet.data
+        assert set(product["values"]) == expected_keys
+        for key, value in product["values"].items():
             assert str(sheet.data[part].get(key)) == value, (part, key)
-
-    assert set(doc["descriptions"]) == set(doc["values"])
-    assert "I2C typ" in doc["descriptions"]
-    assert "notes" not in doc
-    assert "Inter-Integrated Circuit" in doc["descriptions"]["I2C typ"]
+        assert set(product["descriptions"]) == set(product["values"])
+        assert "Inter-Integrated Circuit" in product["descriptions"]["I2C typ"]
+        assert product["url"] == (
+            "https://www.st.com/en/microcontrollers-microprocessors/"
+            f"{part.lower()}.html"
+        )
+        assert product["semantic_type"] == "product_selector"
 
 
 def test_12_discovered_selector_has_json_and_corrections_entry(fetcher):
@@ -392,11 +400,13 @@ def test_12_discovered_selector_has_json_and_corrections_entry(fetcher):
     doc = export_sheet_json("STM32F405/415", grid, keys, composed)
     assert doc["document"] == "STM32F405/415"
     assert doc["level_id"] == "LN1035"
-    assert set(doc["values"]) == set(doc["descriptions"]) == set(keys)
     assert "notes" not in doc
-    for key in keys:
-        assert doc["descriptions"][key]
-        assert "\n" in doc["descriptions"][key]
+    assert doc["product_count"] == len(doc["products"])
+    for product in doc["products"]:
+        assert set(product["values"]) == set(product["descriptions"]) == set(keys)
+        for key in keys:
+            assert product["descriptions"][key]
+            assert "\n" in product["descriptions"][key]
 
 
 def test_9_report_carries_provenance_and_both_new_counts(datasheet_report):

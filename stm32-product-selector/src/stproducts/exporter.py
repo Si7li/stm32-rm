@@ -1,9 +1,11 @@
-"""Per-workbook JSON export: ``values`` and ``descriptions``.
+"""Per-workbook JSON export in the ST Sidekick format: ``products`` records.
 
 One JSON file per output workbook (all 156, local and discovered alike),
-matching the workbook's name. ``values`` is always keyed per part so no
-per-part fact is lost; ``descriptions`` holds a detailed, multi-line plain-
-English explanation of every parameter, keyed by
+matching the workbook's name. The envelope carries the selector's identity
+and ``products`` is the flat record array Sidekick's ``rootTagPath`` points
+at -- one record per part, self-sufficient (document/level/title repeated),
+with ``values`` per parameter (nothing keyed-per-part lost) and a detailed,
+multi-line plain-English ``descriptions`` map per parameter, keyed by
 :attr:`stproducts.api.Column.key` (the same string used in the workbook
 columns), with ST's own rendered label as the fallback.
 """
@@ -544,32 +546,59 @@ PARAMETER_DESCRIPTIONS: dict[str, str] = {
 def export_sheet_json(
     document: str, grid: Grid, layout_keys: list[str], composed: ComposedSheet
 ) -> dict:
-    """The ``document``/``values``/``descriptions`` exports for one workbook.
+    """The Sidekick-shaped ``document``/``products`` export for one workbook.
 
-    ``values`` is always keyed per part (``{part: written value}``), so a
-    parameter that differs across parts keeps every per-part fact. Values are
-    the cells exactly as written to the xlsx (``ComposedCell.value``).
-    ``descriptions`` carries the detailed multi-line explanation of every
-    parameter from :data:`PARAMETER_DESCRIPTIONS`, falling back to ST's own
-    rendered column label for anything not curated.
+    The envelope carries the selector's identity and ``products`` is the
+    record array Sidekick's ``rootTagPath`` points at. Every product is one
+    flat, self-sufficient record -- ``document``/``level_id``/``level_title``
+    are repeated on it because Sidekick never sees anything outside the
+    array.
+
+    ``values`` holds the part's cells exactly as written to the xlsx
+    (``ComposedCell.value``); blank cells are ``""``. ``descriptions``
+    carries the detailed multi-line explanation of every parameter from
+    :data:`PARAMETER_DESCRIPTIONS`, falling back to ST's own rendered column
+    label for anything not curated. ``features`` lists the parameter keys so
+    each record carries its own tags. ``url`` is the part's ST product page
+    (``.../en/microcontrollers-microprocessors/<part_number>.html``), which
+    is the one deep link a selector record can truthfully carry, and
+    ``text_helper`` is a retrieve-ready summary sentence.
     """
     descriptions = {
         key: PARAMETER_DESCRIPTIONS.get(key, grid.by_key().get(key).label)
         for key in layout_keys
         if grid.by_key().get(key) is not None
     }
-    values: dict[str, dict[str, str]] = {}
     part_order = [p for p in grid.part_numbers if p in composed.parts]
-    for key in layout_keys:
-        values[key] = {
-            part: composed.parts[part].cells[key].value
-            for part in part_order
-            if key in composed.parts[part].cells
-        }
+    products: list[dict] = []
+    for part in part_order:
+        cell = composed.parts[part].cells
+        values = {key: cell[key].value for key in layout_keys if key in cell}
+        products.append(
+            {
+                "product_id": part,
+                "document": document,
+                "level_id": grid.level_id,
+                "level_title": grid.level_title,
+                "part_number": part,
+                "semantic_type": "product_selector",
+                "features": layout_keys,
+                "url": (
+                    "https://www.st.com/en/microcontrollers-microprocessors/"
+                    f"{part.lower()}.html"
+                ),
+                "text_helper": (
+                    f"{part}, part of the {document} product selector "
+                    f"({len(part_order)} parts, {len(layout_keys)} parameters)."
+                ),
+                "values": values,
+                "descriptions": descriptions,
+            }
+        )
     return {
         "document": document,
         "level_id": grid.level_id,
         "level_title": grid.level_title,
-        "values": values,
-        "descriptions": descriptions,
+        "product_count": len(products),
+        "products": products,
     }

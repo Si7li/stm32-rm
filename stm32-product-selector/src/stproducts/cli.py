@@ -426,7 +426,7 @@ def do_build(args) -> int:
             provenance=datasheet_first,
         )
 
-        # Per-file JSON export (values / descriptions), for every
+        # Per-file Sidekick JSON export (products records), for every
         # target -- discovered selectors included, since it needs no diff.
         json_path = out_dir / f"{file_stem(stem)}.json"
         json_path.write_text(
