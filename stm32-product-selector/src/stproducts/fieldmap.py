@@ -85,13 +85,15 @@ _DATASHEET_FIELDS = {
     "Flash Size (kB) (Prog)": ("summary_number", ("flash memory in kbytes",)),
     "RAM Size (kB)": ("summary_number", ("sram in kbytes | system",)),
     "I2C typ": ("summary_number", ("comm. interfaces | i2c",)),
-    "SPI typ": ("summary_number", ("comm. interfaces | spi",)),
+    # Packed SPI/I2S cells ("5/4") are positional; see read_spi.
+    "SPI typ": ("summary_spi", ()),
     # The two CAN columns read the same row and are told apart by its label.
     # See _ROW_TOKENS: a plain "CAN" row is bxCAN 2.0B and says nothing about
     # CAN FD; an "FDCAN" row is the reverse.
     "CAN (2.0)": ("summary_number", ("comm. interfaces | can",)),
     "CAN (FD)": ("summary_number", ("comm. interfaces | can",)),
-    "I/Os (High Current)": ("summary_number", ("gpios",)),
+    # GPIO sub-rows aggregate: type rows sum, supply alternatives union.
+    "I/Os (High Current)": ("summary_gpio_total", ()),
     "USART typ": ("summary_usart", ()),
     "UART typ": ("summary_uart", ()),
     "Package": ("summary_package", ()),
@@ -103,6 +105,28 @@ _DATASHEET_FIELDS = {
     "Supply Voltage (V) max": ("operating_conditions_voltage", ("max",)),
     "Operating Temperature (°C) min": ("summary_temperature", ("min",)),
     "Operating Temperature (°C) max": ("summary_temperature", ("max",)),
+    # Converters / channels packed into one cell ("2/16"), mapped
+    # positionally -- one reader, two columns, told apart by ``which``.
+    "A/D Converters 12-bit | Number of A/D Converters typ": (
+        "summary_adc_pair", ("12-bit", "converters"),
+    ),
+    "A/D Converters 12-bit | Number of Channels typ": (
+        "summary_adc_pair", ("12-bit", "channels"),
+    ),
+    "A/D Converters 14-bit | Number of A/D Converters typ": (
+        "summary_adc_pair", ("14-bit", "converters"),
+    ),
+    "A/D Converters 14-bit | Number of Channels typ": (
+        "summary_adc_pair", ("14-bit", "channels"),
+    ),
+    "A/D Converters 16-bit | Number of A/D Converters typ": (
+        "summary_adc_pair", ("16-bit", "converters"),
+    ),
+    "A/D Converters 16-bit | Number of Channels typ": (
+        "summary_adc_pair", ("16-bit", "channels"),
+    ),
+    # ST's column carries the channel count (F105 "Yes\n2" -> 2).
+    "D/A Converters (12-bit) typ": ("summary_dac", ()),
 }
 
 #: Row-label conditions, as ``column key -> (required tokens, forbidden)``.
@@ -121,16 +145,27 @@ _ROW_TOKENS: dict[str, tuple[tuple[str, ...], tuple[str, ...]]] = {
 
 #: Columns computed from datasheet values by a stated rule.
 _DERIVED_FIELDS = {
-    "Timers (16-bit) typ": (
-        "derived_timer_split",
-        (16,),
-        "counts the timers of that width in 'Table N. Timer feature "
-        "comparison', after checking its per-class timer counts match the "
-        "summary table's general-purpose / advanced-control / basic counts; "
-        "if they disagree the variant omits timers the table cannot identify, "
-        "so the field falls back to AMBIGUOUS",
+    "Timers (8-bit) typ": (
+        "derived_timer_width",
+        (8,),
+        "sums the timer counts the summary table annotates (8-bit) across "
+        "all its timer rows -- type sub-rows aggregate, the first row alone "
+        "undercounts; falls back to the comparison-table join when the "
+        "summary carries no width annotations",
     ),
-    "Timers (32-bit) typ": ("derived_timer_split", (32,), "as Timers (16-bit) typ"),
+    "Timers (16-bit) typ": (
+        "derived_timer_width",
+        (16,),
+        "sums the timer counts the summary table annotates (16-bit) across "
+        "all its timer rows -- advanced-control, general-purpose, basic AND "
+        "low-power; the old first-row/inventory read missed the low-power "
+        "timers (G431 wrote 9 where ST sums to 10). Falls back to the "
+        "comparison-table join when the summary carries no annotations. ST's "
+        "selector does not always agree with its own annotated sums (H543: "
+        "datasheet 10, selector 5); the document's statement is written and "
+        "the diff reports the disagreement",
+    ),
+    "Timers (32-bit) typ": ("derived_timer_width", (32,), "as Timers (16-bit) typ"),
 }
 
 #: Set-valued columns; the datasheet answers only when it knows every token.
@@ -152,17 +187,6 @@ _AMBIGUOUS_FIELDS = {
         "supply_current",
         ("run mode",),
         "as above",
-    ),
-    "A/D Converters 12-bit | Number of A/D Converters typ": (
-        None, (), "the summary table's ADC rows do not separate ST's bit-width groupings",
-    ),
-    "A/D Converters 12-bit | Number of Channels typ": (None, (), "as above"),
-    "A/D Converters 14-bit | Number of A/D Converters typ": (None, (), "as above"),
-    "A/D Converters 14-bit | Number of Channels typ": (None, (), "as above"),
-    "A/D Converters 16-bit | Number of A/D Converters typ": (None, (), "as above"),
-    "A/D Converters 16-bit | Number of Channels typ": (None, (), "as above"),
-    "D/A Converters (12-bit) typ": (
-        None, (), "the summary table reports DAC presence and channels together (Yes/2)",
     ),
 }
 

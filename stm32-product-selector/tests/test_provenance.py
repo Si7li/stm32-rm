@@ -77,16 +77,24 @@ class TestFieldMap:
             assert spec.tier == DERIVED
             assert spec.reason, "a DERIVED field must state its rule"
 
-    def test_electrical_and_converter_fields_are_ambiguous(self):
+    def test_electrical_fields_are_ambiguous_and_converters_are_read(self):
         for key in [
             "Supply Current (µA) (@ Lowest Power) typ",
             "Supply Current (µA) (Run Mode (per MHz)) typ",
-            "A/D Converters 12-bit | Number of A/D Converters typ",
-            "A/D Converters 12-bit | Number of Channels typ",
-            "D/A Converters (12-bit) typ",
         ]:
             assert spec_for(key).tier == AMBIGUOUS, key
             assert spec_for(key).reason
+
+        # The converters/channels cells pack both facts ("2/16") and are
+        # mapped positionally; the DAC column carries the channel count.
+        for key in [
+            "A/D Converters 12-bit | Number of A/D Converters typ",
+            "A/D Converters 12-bit | Number of Channels typ",
+            "A/D Converters 16-bit | Number of Channels typ",
+            "D/A Converters (12-bit) typ",
+        ]:
+            assert spec_for(key).tier == DATASHEET, key
+            assert spec_for(key).reader
 
     def test_api_fields_and_absence_fields(self):
         for key in ("Part Number", "General Description", "Marketing Status"):
