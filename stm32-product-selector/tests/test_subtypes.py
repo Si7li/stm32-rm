@@ -323,6 +323,24 @@ class TestUsartUart:
         assert (usart, uart) == ("4", "2")
         assert note is None
 
+    def test_numbers_map_onto_the_labelled_interfaces(self):
+        """STM32L431 reads ``USART/LPUART = 3 1`` -- the second number is an
+        LPUART, and ST's own export puts '-' in ``UART typ``. Mapping
+        positions blindly used to write UART = 1."""
+        from stproducts.extract import _usart_uart
+        doc = _doc([["Comm. interfaces", "USART/LPUART", "3\n1"]])
+        usart, uart, note = _usart_uart(doc)
+        assert (usart, uart, note) == ("3", None, None)
+
+    def test_a_triple_row_names_each_interface(self):
+        """``USART/UART/LPUART = 5/5/1``: the middle number IS the UART
+        count as the document states it (whether ST's selector folds the
+        LPUART into it is that family's business, reported by the diff)."""
+        from stproducts.extract import _usart_uart
+        doc = _doc([["Communication interfaces", "USART/UART/LPUART", "5/5/1"]])
+        usart, uart, note = _usart_uart(doc)
+        assert (usart, uart, note) == ("5", "5", None)
+
     def test_a_lumped_number_asserts_nothing(self):
         """F105 reads USART = 5 where ST publishes 3 + 2."""
         from stproducts.extract import _usart_uart
@@ -331,22 +349,24 @@ class TestUsartUart:
         assert usart is None and uart is None
         assert "combined count" in note
 
-    def test_a_lumped_number_with_a_separate_uart_row_is_usarts_alone(self):
+    def test_a_dedicated_uart_row_answers_uart_typ(self):
+        """U575-style separate rows: USART = 3 on its row, UART = 2 on its
+        own -- each column takes the row that names it."""
         from stproducts.extract import _usart_uart
         doc = _doc([
             ["Comm. interfaces", "USART", "3"],
             ["Comm. interfaces", "UART", "2"],
+            ["Comm. interfaces", "LPUART", "1"],
         ])
         usart, uart, note = _usart_uart(doc)
-        assert (usart, uart, note) == ("3", None, None)
+        assert (usart, uart, note) == ("3", "2", None)
 
-    def test_triple_cells_assert_usart_only(self):
-        """Whether ST counts the LPUART into UART typ varies by family."""
+    def test_an_lpuart_only_row_never_fills_uart_typ(self):
+        """A lone ``LPUART`` row must not be read as UART either way round."""
         from stproducts.extract import _usart_uart
-        doc = _doc([["Communication interfaces", "USART/UART/LPUART", "5/5/1"]])
+        doc = _doc([["Comm. interfaces", "LPUART", "1"]])
         usart, uart, note = _usart_uart(doc)
-        assert usart == "5"
-        assert uart is None
+        assert (usart, uart) == (None, None)
 
 
 # --------------------------------------------------------------------------

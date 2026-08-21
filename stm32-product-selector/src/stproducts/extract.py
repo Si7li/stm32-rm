@@ -592,16 +592,33 @@ def read_uart(doc: Document) -> Reading | None:
     return Reading(DATASHEET, uart, doc.summary_caption) if uart else None
 
 
+#: Interface tokens inside a comm row label, longest first so ``LPUART``
+#: is never read as ``UART``. The numbers in the cell map positionally onto
+#: THIS sequence -- the row label says which interfaces it is splitting.
+_UART_TOKENS = re.compile(r"lpuart|usart|uart")
+
+
+def _token_seq(label: str) -> list[str]:
+    """The distinct interface tokens of a row label, in order."""
+    seq: list[str] = []
+    for token in _UART_TOKENS.findall(label):
+        if not seq or seq[-1] != token:
+            seq.append(token)
+    return seq
+
+
 def _usart_uart(doc: Document) -> tuple[str | None, str | None, str | None]:
     """USART and UART counts, plus a note when the row lumps what ST splits.
 
-    Three row shapes exist, and they do not mean the same thing:
+    The cell's numbers map onto the interfaces the ROW LABEL names, never
+    onto fixed positions. This is what keeps an LPUART out of ``UART typ``:
+    STM32L431's row reads ``USART/LPUART = 3 1``, and taking "second number
+    = UART" wrote UART = 1 for a part whose only async peripherals are two
+    USARTs and one LPUART -- ST's own export puts ``-`` there.
 
-    * the row separates the interfaces -- ``USART \\n UART`` carrying
-      ``4\\n2``, or a ``USART/UART/LPUART`` triple. Two numbers map
-      positionally; a triple asserts USART only, because whether ST counts
-      the LPUART into ``UART typ`` varies across families (U575 excludes it,
-      H733 includes it) and the cell does not say.
+    * label splits them (``USART \\n UART``, ``USART/UART/LPUART``): each
+      number answers the interface at its position; a label without ``uart``
+      yields no UART even when a second number is present.
     * separate per-interface rows (``USART = 3``, then ``UART = 2``): each
       reader takes its own row.
     * one lumped number on the USART row and no UART row anywhere -- the F105
@@ -612,34 +629,50 @@ def _usart_uart(doc: Document) -> tuple[str | None, str | None, str | None]:
     """
 
     def read(rows, column):
-        uart_row = any(
+        usart = uart = None
+        note = None
+        uart_alone: str | None = None
+        uart_row_exists = any(
             "uart" in _row_key(row).casefold()
             and "usart" not in _row_key(row).casefold()
             for row in rows[1:]
         )
         for row in rows[1:]:
-            if "usart" not in _row_key(row).casefold() or column >= len(row):
+            low = re.sub(r"\s+", " ", _row_key(row)).casefold()
+            if column >= len(row):
                 continue
-            numbers = re.findall(r"\d+", _strip_footnotes(row[column] or ""))
-            if len(numbers) >= 3:
-                return numbers[0], None, None
-            if len(numbers) == 2:
-                return numbers[0], numbers[1], None
-            if numbers:
-                if uart_row:
-                    # The table splits interfaces elsewhere; this number is
-                    # this row's alone.
-                    return numbers[0], None, None
-                return None, None, (
-                    f"summary row reads USART = {numbers[0]} with no UART "
-                    f"split; ST publishes USART and UART separately, so the "
-                    f"cell's combined count answers neither column"
-                )
-        return None, None, None
+            seq = _token_seq(low)
+            if not seq:
+                continue
+            numbers = _numbers(_strip_footnotes(row[column] or ""))
+            mapped = dict(zip(seq, numbers))
+            if "usart" in mapped and usart is None:
+                if len(seq) == 1 and len(numbers) == 1 and not uart_row_exists:
+                    # A lone USART number in a table with no UART row at all
+                    # is the combined asynchronous count (F105: 5 = 3 + 2).
+                    # The document counts a different thing than either
+                    # column asks.
+                    note = (
+                        f"summary row reads USART = {numbers[0]} with no "
+                        f"UART split; ST publishes USART and UART "
+                        f"separately, so the cell's combined count answers "
+                        f"neither column"
+                    )
+                    continue
+                usart = mapped["usart"]
+                if "uart" in seq:
+                    uart = mapped.get("uart")
+            elif seq == ["uart"] and uart_alone is None:
+                # A dedicated UART row ("UART = 2"): answers ``UART typ``
+                # when no USART row named a UART itself.
+                sole = _sole_number(_strip_footnotes(row[column] or ""))
+                if sole is not None:
+                    uart_alone = sole
+        return usart, (uart if uart is not None else uart_alone), note
 
     for fragment in doc.pinned:
         found = read(fragment.rows, fragment.column)
-        if found[0] is not None or found[2] is not None:
+        if found[0] is not None or found[1] is not None or found[2] is not None:
             return found
     for fragment in doc.fragments:
         if fragment.column is not None:
@@ -647,7 +680,7 @@ def _usart_uart(doc: Document) -> tuple[str | None, str | None, str | None]:
         aligned = doc.column_in(fragment)
         if aligned is not None:
             found = read(fragment.rows, aligned)
-            if found[0] is not None or found[2] is not None:
+            if found[0] is not None or found[1] is not None or found[2] is not None:
                 return found
         seen = {read(fragment.rows, c)[:2] for c in fragment.family_columns}
         seen.discard((None, None))

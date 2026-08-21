@@ -45,8 +45,17 @@ def st_datasheet_url(path: Path) -> str:
 
 logger = logging.getLogger("stproducts.datasheets")
 
-#: STM32F205RB -> STM32F205 ; STM8AF5268 -> STM8AF52
-FAMILY_STEM = re.compile(r"^(STM32[A-Z]\d{2,3}|STM8[A-Z]{1,3}\d{2})", re.I)
+#: ``STM32F205RB -> STM32F205 ; STM8AF5268 -> STM8AF52``
+#:
+#: Single-digit families need the trailing package letter in the stem:
+#: ``STM32U3B5JI -> STM32U3B``, so that ``stm32u3b5cg.pdf`` buckets with its
+#: own family instead of ``STM32U3`` -- where ``candidates[0]`` could hand
+#: back a U375 datasheet. Two-digit-and-up families keep the bare number
+#: (``F205RB`` and ``F207IG`` must land in different buckets).
+FAMILY_STEM = re.compile(
+    r"^(STM32[A-Z]\d{1,3}[A-Z]|STM32[A-Z]\d{2,3}|STM8[A-Z]{1,3}\d{2})",
+    re.I,
+)
 
 #: Concrete part numbers only -- "STM32F205xx" is a family, not a part, and
 #: indexing it would make one datasheet claim every part in the series.
