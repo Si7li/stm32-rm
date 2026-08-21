@@ -1,0 +1,160 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "id": "RM0522-T546",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "546",
+      "title": "TDES3 normal descriptor (write-back format)(1)",
+      "page": 2261,
+      "section": "48.10.3",
+      "section_title": "Transmit descriptor",
+      "semantic_type": "generic",
+      "tags": [
+        "tdes3"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2261",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Bit",
+        "Name",
+        "Description"
+      ],
+      "text": "Table 546, \"TDES3 normal descriptor (write-back format)(1)\", in section 48.10.3 (Transmit descriptor) on page 2261. Columns: Bit, Name, Description. 22 data row(s). Notes: 1. This format is only applicable to the last descriptor of a packet.",
+      "table_content": {
+        "headers": [
+          "Bit",
+          "Name",
+          "Description"
+        ],
+        "rows": [
+          [
+            "31",
+            "OWN",
+            "Own bit\nWhen this bit is set, it indicates that the DMA owns the descriptor. The \nDMA clears this bit when it completes the packet transmission. After \nthe write-back is complete, this bit is set to 0."
+          ],
+          [
+            "30",
+            "CTXT",
+            "Context Type\nThis bit should be set to 0 for normal descriptors."
+          ],
+          [
+            "29",
+            "FD",
+            "First Descriptor\nThis bit indicates that the buffer contains the first segment of a packet."
+          ],
+          [
+            "28",
+            "LD",
+            "Last Descriptor\nThis bit is set 1 for last descriptor of a packet. The DMA writes the \nstatus fields only in the last descriptor of the packet."
+          ],
+          [
+            "27:24",
+            "Reserved",
+            "Reserved"
+          ],
+          [
+            "23",
+            "DE",
+            "Descriptor Error\nWhen this bit is set, it indicates that the descriptor content is incorrect. \nThe DMA sets this bit during write-back while closing the descriptor.\nDescriptor errors can be:\n–Incorrect sequence from the context descriptor, such as a location \nafter the first descriptor for a packet.\n–All 1s.\n–CTXT is set to 1 along with LD or FD bits set to 1.\nNote:When a Descriptor error occurs due to All 1s or CTXT, LD, and \nFD bits set to 1, the Transmit DMA closes the transmit \ndescriptor with DE and LD bits set to 1. When IOC bit in TDES2 \nof corresponding first descriptor is set to 1, Transmit DMA sets \nthe TI bit in the Channel 0 status register (ETH_DMAC0SR).\nBased on CTXT, LD, and FD bits of the transmit descriptor, the \nsubsequent descriptor might be considered as the First \nDescriptor (even if FD bit is not set) and partial packet is sent. "
+          ],
+          [
+            "22:18",
+            "Reserved",
+            "Reserved"
+          ],
+          [
+            "17",
+            "TTSS",
+            "Tx Timestamp Status\nThis status bit indicates that a timestamp has been captured for the \ncorresponding transmit packet. When this bit is set, TDES0 and \nTDES1 have timestamp values that were captured for the Transmit \npacket. This field is valid only when the Last Segment control bit \n(TDES3 [28]) in a descriptor is set. "
+          ],
+          [
+            "16",
+            "Reserved",
+            "Reserved"
+          ],
+          [
+            "15",
+            "ES",
+            "Error Summary\nThis bit indicates the logical OR of the following bits:\nTDES3[0]: IP Header Error\nTDES3[14]: Jabber timeout\nTDES3[13]: Packet Flush\nTDES3[12]: Payload Checksum Error\nTDES3[11]: Loss of Carrier\nTDES3[10]: No Carrier\nTDES3[9]: Late Collision\nTDES3[8]: Excessive Collision\nTDES3[3]: Excessive Deferral\nTDES3[2]: Underflow Error"
+          ],
+          [
+            "14",
+            "JT",
+            "Jabber timeout\nThis bit indicates that the MAC transmitter has experienced a jabber \ntimeout. This bit is set only when the JD bit of the Operating mode \nconfiguration register (ETH_MACCR) is not set."
+          ],
+          [
+            "13",
+            "FF",
+            "Packet Flushed\nThis bit indicates that the DMA or MTL flushed the packet because of a \nsoftware flush command given by the CPU."
+          ],
+          [
+            "12",
+            "PCE",
+            "Payload Checksum Error\nThis bit indicates that the Checksum Offload engine had a failure and \ndid not insert any checksum into the encapsulated TCP, UDP, or ICMP \npayload. This failure can be either caused by insufficient bytes, as \nindicated by the Payload Length field of the IP Header, or by the MTL \nstarting to forward the packet to the MAC transmitter in Store-and-\nForward mode without the checksum having been calculated yet. This \nsecond error condition only occurs when the Transmit FIFO depth is \nless than the length of the Ethernet packet being transmitted to avoid \ndeadlock, the MTL starts forwarding the packet when the FIFO is full, \neven in the store-and-forward mode. This error can also occur when a \nBus error is detected during packet transfer. "
+          ],
+          [
+            "11",
+            "LoC",
+            "Loss of Carrier\nThis bit indicates that Loss of Carrier occurred during packet \ntransmission (that is, the ETH_CRS signal was inactive for one or \nmore transmit clock periods during packet transmission). This is valid \nonly for the packets transmitted without collision and when the MAC \noperates in the Half-duplex mode."
+          ],
+          [
+            "10",
+            "NC",
+            "No Carrier\nThis bit indicates that the carrier sense signal form the PHY was not \nasserted during transmission."
+          ],
+          [
+            "9",
+            "LC",
+            "Late Collision\nThis bit indicates that packet transmission was aborted because a \ncollision occurred after the collision window (64 byte times including \nPreamble in MII mode ). This bit is not valid if Underflow Error is set."
+          ],
+          [
+            "8",
+            "EC",
+            "Excessive Collision\nThis bit indicates that the transmission was aborted after 16 \nsuccessive collisions while attempting to transmit the current packet. If \nthe DR bit is set in the Operating mode configuration register \n(ETH_MACCR), this bit is set after first collision and the transmission \nof the packet is aborted."
+          ],
+          [
+            "7:4",
+            "CC",
+            "Collision Count\nThis 4-bit counter value indicates the number of collisions occurred \nbefore the packet was transmitted. The count is not valid when the EC \nbit is set."
+          ],
+          [
+            "3",
+            "ED",
+            "Excessive Deferral\nThis bit indicates that the transmission ended because of excessive \ndeferral of over 24,288 bit times if DC bit is set in the Operating mode \nconfiguration register (ETH_MACCR)."
+          ],
+          [
+            "2",
+            "UF",
+            "Underflow Error\nThis bit indicates that the MAC aborted the packet because the data \narrived late from the system memory. The underflow error can occur \nbecause of either of the following conditions:\nThe DMA encountered an empty Transmit Buffer while transmitting the \npacket\nThe application filled the MTL Tx FIFO slower than the MAC transmit \nrate\nThe transmission process enters the Suspend state and sets the \nunderflow bit corresponding to a queue in the ETH_MTLISR register."
+          ],
+          [
+            "1",
+            "DB",
+            "Deferred Bit\nThis bit indicates that the MAC deferred before transmitting because of \npresence of carrier. This bit is valid only in the Half-duplex mode."
+          ],
+          [
+            "0",
+            "IHE",
+            "IP Header Error\nWhen IP Header Error is set, this bit indicates that the Checksum \nOffload engine detected an IP header error. If COE detects an IP \nheader error, it still inserts an IPv4 header checksum if the Ethernet \nType field indicates an IPv4 payload."
+          ]
+        ],
+        "notes": [
+          "1. This format is only applicable to the last descriptor of a packet."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

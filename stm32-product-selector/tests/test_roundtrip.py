@@ -20,10 +20,10 @@ from stproducts.writer import write_corrected, write_diff
 
 
 def _composed(sheet, grid):
-    keys = sheet.column_keys + [
-        c.key for c in grid.columns if c.key not in sheet.column_keys
-    ]
-    return api_only_sheet(grid, keys)
+    # The same layout the writer and the diff use: original columns, the
+    # API's extras, then the tool's own extra columns.
+    original, appended = plan_columns(sheet, grid)
+    return api_only_sheet(grid, [k for k, _ in [*original, *appended]])
 
 
 def test_reads_the_export_skeleton(workbook_path):
@@ -87,7 +87,7 @@ def test_column_plan_keeps_order_then_appends(workbook_path, grid):
     sheet = read_original(workbook_path)
     original, appended = plan_columns(sheet, grid)
     assert [k for k, _ in original] == sheet.column_keys
-    assert [k for k, _ in appended] == ["FPU", "Dual-bank Flash"]
+    assert [k for k, _ in appended] == ["FPU", "Dual-bank Flash", "LPUART typ"]
 
 
 def test_corrected_workbook_layout(tmp_path, workbook_path, grid):
@@ -99,7 +99,7 @@ def test_corrected_workbook_layout(tmp_path, workbook_path, grid):
     # Original columns first, in order; then the API's extras; then the link.
     assert rebuilt.column_keys[: len(sheet.column_keys)] == sheet.column_keys
     assert rebuilt.column_keys[len(sheet.column_keys):] == [
-        "FPU", "Dual-bank Flash", "Datasheet URL",
+        "FPU", "Dual-bank Flash", "LPUART typ", "Datasheet URL",
     ]
     # Every original part survives, and ST's new one is there too.
     assert set(sheet.parts) <= set(rebuilt.parts)

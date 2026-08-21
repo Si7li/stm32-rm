@@ -96,6 +96,9 @@ _DATASHEET_FIELDS = {
     "I/Os (High Current)": ("summary_gpio_total", ()),
     "USART typ": ("summary_usart", ()),
     "UART typ": ("summary_uart", ()),
+    # ST's selector carries no LPUART column at all; this one is appended by
+    # the tool (see EXTRA_COLUMNS) and filled purely from the datasheet.
+    "LPUART typ": ("summary_lpuart", ()),
     "Package": ("summary_package", ()),
     # 3/(2) in the SPI/(I2S) row means three SPIs, two of them I2S-capable.
     "I2S typ": ("summary_i2s", ()),
@@ -213,6 +216,13 @@ ABSENCE_REASON = (
 DEFAULT_SPEC = FieldSpec(
     tier=API, reason="no datasheet rule defined for this column"
 )
+
+
+#: Columns the tool appends that ST's selector API does not carry. They have
+#: no Column metadata, hold '-' where the datasheet is silent, and are
+#: appended after the API's own extras -- plan_columns, the writer and the
+#: diff all treat them through the same (key, None) path.
+EXTRA_COLUMNS = ("LPUART typ",)
 
 
 #: Columns whose two sources use different notation for the same fact.

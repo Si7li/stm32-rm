@@ -1,0 +1,153 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M5 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "id": "RM0486-T091",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "91",
+      "title": "Programmed HPDMA source/destination burst",
+      "page": 864,
+      "section": "18.4.10",
+      "section_title": "HPDMA FIFO-based transfers",
+      "semantic_type": "generic",
+      "tags": [
+        "dma",
+        "hpdma"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=864",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "SAP/DAP (allocated port)",
+        "SDW_LOG2[1:0] DDW_LOG2[1:0]",
+        "Data width (bytes)",
+        "SINC/DINC",
+        "SBL_1[5:0] DBL_1[5:0]",
+        "Burst length (data/ beats)",
+        "Next data/ beat address",
+        "Next burst address",
+        "Burst address alignment"
+      ],
+      "text": "Table 91, \"Programmed HPDMA source/destination burst\", in section 18.4.10 (HPDMA FIFO-based transfers) on page 864. Columns: SAP/DAP (allocated port), SDW_LOG2[1:0] DDW_LOG2[1:0], Data width (bytes), SINC/DINC, SBL_1[5:0] DBL_1[5:0], Burst length (data/ beats), Next data/ beat address, Next burst address, Burst address alignment. 8 data row(s). Notes: 1. When S/DBL_1[5:0]=0, burst is of length 1. Then burst can be also named as single.; 2. As highlighted in Section18.3.2, the maximum allowed AXI burst length is 16. The user must set SBL_1[5:0] lowe.",
+      "table_content": {
+        "headers": [
+          "SAP/DAP (allocated port)",
+          "SDW_LOG2[1:0] DDW_LOG2[1:0]",
+          "Data width (bytes)",
+          "SINC/DINC",
+          "SBL_1[5:0] DBL_1[5:0]",
+          "Burst length (data/ beats)",
+          "Next data/ beat address",
+          "Next burst address",
+          "Burst address alignment"
+        ],
+        "rows": [
+          [
+            "0: AXI\n1: AHB",
+            "00",
+            "1",
+            "0 (fixed)",
+            "n=0 to \n(1)(2)63",
+            "n+1",
+            "+0",
+            "+0",
+            "1"
+          ],
+          [
+            "0: AXI\n1: AHB",
+            "01",
+            "2",
+            "0 (fixed)",
+            "n=0 to \n(1)(2)63",
+            "n+1",
+            "+0",
+            "+0",
+            "2"
+          ],
+          [
+            "0: AXI\n1: AHB",
+            "10",
+            "4",
+            "0 (fixed)",
+            "n=0 to \n(1)(2)63",
+            "n+1",
+            "+0",
+            "+0",
+            "4"
+          ],
+          [
+            "0: AXI\n1: AHB",
+            "(3)11",
+            "(3)8",
+            "0 (fixed)",
+            "n=0 to \n(1)(2)63",
+            "n+1",
+            "+0",
+            "+0",
+            "(3)8"
+          ],
+          [
+            "0: AXI\n1: AHB",
+            "00",
+            "1",
+            "1 \n(contiguously \nincremented)",
+            "n=0 to \n(1)(2)63",
+            "n+1",
+            "+1",
+            "+(n + 1)",
+            "1"
+          ],
+          [
+            "0: AXI\n1: AHB",
+            "01",
+            "2",
+            "1 \n(contiguously \nincremented)",
+            "n=0 to \n(1)(2)63",
+            "n+1",
+            "+2",
+            "+2*\n(n + 1)",
+            "2"
+          ],
+          [
+            "0: AXI\n1: AHB",
+            "10",
+            "4",
+            "1 \n(contiguously \nincremented)",
+            "n=0 to \n(1)(2)63",
+            "n+1",
+            "+4",
+            "+4*\n(n + 1)",
+            "4"
+          ],
+          [
+            "0: AXI\n1: AHB",
+            "(3)11",
+            "(3)8",
+            "1 \n(contiguously \nincremented)",
+            "n=0 to \n(1)(2)63",
+            "n+1",
+            "(3)+8",
+            "+8*\n(3)(n + 1)",
+            "(3)8"
+          ]
+        ],
+        "notes": [
+          "1. When S/DBL_1[5:0]=0, burst is of length 1. Then burst can be also named as single.",
+          "2. As highlighted in Section18.3.2, the maximum allowed AXI burst length is 16. The user must set SBL_1[5:0] lower or equal to 15 if the source allocated port is AXI (if SAP = 0). The user must set DBL_1[5:0] lower or equal to 15 if the destination allocated port is AXI (if DAP = 0).",
+          "3. Programming a source/destination data width of 8 bytes is allowed only if the allocated port (by SAP/DAP) is 64 bits. Otherwise, a user setting error is reported and no transfer is issued."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

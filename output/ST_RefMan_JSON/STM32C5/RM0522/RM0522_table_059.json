@@ -1,0 +1,67 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "id": "RM0522-T059",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "59",
+      "title": "Stop 1 mode",
+      "page": 239,
+      "section": "8.7.6",
+      "section_title": "Stop 1 mode",
+      "semantic_type": "generic",
+      "tags": [
+        "mode",
+        "stop"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=239",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Stop mode",
+        "Description"
+      ],
+      "text": "Table 59, \"Stop 1 mode\", in section 8.7.6 (Stop 1 mode) on page 239. Columns: Stop mode, Description. 5 data row(s).",
+      "table_content": {
+        "headers": [
+          "Stop mode",
+          "Description"
+        ],
+        "rows": [
+          [
+            "Mode entry",
+            "WFI (wait for interrupt) or WFE (wait for event) while:\n–SLEEPDEEP bit is set in Cortex-M33 system control register\n–No interrupt (for WFI) or event (for WFE) pending\n–LPMS=01 in PWR_CR1"
+          ],
+          [
+            "Mode entry",
+            "On Return from ISR while:\n–SLEEPDEEP bit is set in Cortex-M33 system control register\n–SLEEPONEXIT=1\n–No interrupt pending\n–LPMS=01 in PWR_PMCR"
+          ],
+          [
+            "Mode entry",
+            "Note:To enter Stop mode, all EXTI line pending bits (in Section16.6.4: EXTI rising edge pending \nregister (EXTI_RPR1) and Section16.6.10: EXTI rising edge pending register 2 \n(EXTI_RPR2)), and the peripheral flags generating wake-up interrupts must be cleared. \nOtherwise, the Stop mode entry procedure is ignored and the program execution continues."
+          ],
+          [
+            "Mode exit",
+            "If WFI or Return from ISR was used for entry:\n–any GPIO EXTI line configured in interrupt mode (the corresponding EXTI interrupt vector must \nbe enabled in the NVIC). The interrupt source must be external interrupts with wake-up capability \n(see Table100: STM32C5 vector table).\nIf WFE was used for entry and SEVONPEND=0:\n–any GPIO EXTI line configured in event mode (see Section16.3: EXTI functional description).\nIf WFE was used for entry and SEVONPEND=1:\n–any GPIO EXTI line configured in interrupt mode (even if the corresponding EXTI interrupt vector \nis disabled in the NVIC). The interrupt source must be external interrupts with wake-up capability \n(see Table100: STM32C5 vector table).\n–any GPIO EXTI line is configured in event mode (see Section16.3: EXTI functional description)"
+          ],
+          [
+            "Wake-up \nlatency",
+            "Longest wake-up time between: HSI wake-up time, regulator stabilization from 0.9V to 1.2V and \nflash memory wake-up time from Stop mode."
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

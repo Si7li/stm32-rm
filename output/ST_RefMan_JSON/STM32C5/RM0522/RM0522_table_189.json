@@ -1,0 +1,148 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "id": "RM0522-T189",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "189",
+      "title": "Blob creation steps for ECDSA signature (CCOP = 0b110000<i>0)",
+      "page": 756,
+      "section": "25.5.2",
+      "section_title": "ECDSA signature",
+      "semantic_type": "generic",
+      "tags": [
+        "ccop",
+        "ecdsa",
+        "stoepp"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=756",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "STOEP P",
+        "inM OPDKEA",
+        "iGn CSMAPEHS",
+        "Coupling or chaining",
+        "End-step (1)event",
+        "CPU action in the step"
+      ],
+      "text": "Table 189, \"Blob creation steps for ECDSA signature (CCOP = 0b110000<i>0)\", in section 25.5.2 (ECDSA signature) on page 756. Columns: STOEP P, inM OPDKEA, iGn CSMAPEHS, Coupling or chaining, End-step (1)event, CPU action in the step. 11 data row(s). Notes: 1. The application must clear and/or perform the described event for the CCB to automatically go to the next step.; 2. Once START bit is set SAES is reset, and OPERR linked to SAES are deactivated. Al.",
+      "table_content": {
+        "headers": [
+          "STOEP P",
+          "inM OPDKEA",
+          "iGn CSMAPEHS",
+          "Coupling or chaining",
+          "End-step (1)event",
+          "CPU action in the step"
+        ],
+        "rows": [
+          [
+            "0x1",
+            "N/A",
+            "N/A",
+            "N/A",
+            "AES GCM \nselected, \nGCMPH=0x0",
+            "–Enable the PKA in the correct mode, writing in PKA_CR \nMODE= 0x24 and EN=1 (repeat if EN bit stays clear). Wait \nfor INITOK=1 in PKA_SR.\n–Optionally decrypt the blob encryption key inthe SAES, \nusing DHUK in 256-bit wrapped key mode.\n–Set AES-GCM up in 256-bit encryption mode, with the \nDHUK or the decrypted key in register (ifapplicable).\n–Write hash z in the PKA RAM."
+          ],
+          [
+            "0x2",
+            "N/A",
+            "0x0",
+            "RNG -> \nSAES",
+            "GCMPH = 0x1 \n(following GCM \ninitialization)",
+            "–Complete GCM initialization in encryption mode. \nSAES_IVR1 to SAES_IVR3 are loaded with randoms.\n–Read back blob IV in SAES_IVR registers. "
+          ],
+          [
+            "0x3",
+            "0x24",
+            "0x1",
+            "CPU ->\nPKA + \nSAES",
+            "GCMPH = 0x2",
+            "Write ECC signature parameters in the PKA RAM, clearing \nCCF flags in the SAES triggered after each2x32-bit write."
+          ],
+          [
+            "0x6\n(<i>=1)",
+            "0x24",
+            "0x2",
+            "RNG -> \nPKA",
+            "RNGOKF set",
+            "Write incrementally d in the PKA, using 0xCCB magic \nnumber. Values are drawn from the RNG. The PKA runs a \nspecial sanity check to verify random compliance with NIST \nstandard (RNGERRF is set if sanity check fails)."
+          ],
+          [
+            "0x4\n(<i>=0)",
+            "0x24",
+            "0x2",
+            "n/a",
+            "DATAOKF set",
+            "Write incrementally d in the PKA."
+          ],
+          [
+            "0x8",
+            "0x24",
+            "0x2",
+            "PKA -> \nSAES",
+            "DATAOKF set",
+            "–Read incrementally d from the PKA (writing 0xCCB magic \nnumbers), and run AES encryption rounds. Special rule \nmust be used for the last 64-bit word (see step 7 after the \ntable).\n–Read encrypted d in SAES_DOUTR. \n–Repeat for each 16 bytes block of data."
+          ],
+          [
+            "0x9",
+            "0x24",
+            "0x2",
+            "RNG -> \nPKA",
+            "RNGOKF set, \nGCMPH=0x3",
+            "–Write incrementally k in the PKA, using 0xCCB magic \nnumber. Values are drawn from the RNG. The PKA runs a \nspecial sanity check to verify random compliance with \nNIST standard (RNGERRF is set if the sanity check fails)."
+          ],
+          [
+            "(2)0xA",
+            "0x24",
+            "0x3",
+            "N/A",
+            "START= 0x1",
+            "–Complete GCM final.\n–Read reference tag in the SAES.\n–Start the operation in PKA setting START bit in PKA_CR\nFor the first two steps keep the SAES enabled (EN bit set)."
+          ],
+          [
+            "(3)0x19",
+            "0x24",
+            "N/A",
+            "N/A",
+            "PROCENDF set",
+            "The PKA computes the operation, PKA RAM reads as 0"
+          ],
+          [
+            "0x1A",
+            "0x24",
+            "N/A",
+            "N/A",
+            "IPRST set inthe \nCCB",
+            "–Read signature (r,s) in PKA RAM, and save it in SRAM. It \nis used (at least once) for blob creation verification.\n–Set IPRST in CCB"
+          ],
+          [
+            "0x0",
+            "N/A",
+            "N/A",
+            "N/A",
+            "N/A",
+            "–Clear the IPRST bit in CCB when CCB_BUSY and \nOPSTEP are cleared in CCB_SR.\n–Verify the newly created blob, running the ECDSA \nsignature blob use for public-key computation with it."
+          ]
+        ],
+        "notes": [
+          "1. The application must clear and/or perform the described event for the CCB to automatically go to the next step.",
+          "2. Once START bit is set SAES is reset, and OPERR linked to SAES are deactivated. Also when START bit is set, CCB sets OPSTEP to 0x19 after a few cycles.",
+          "3. SAES cannot be used for any operations, for security reasons."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

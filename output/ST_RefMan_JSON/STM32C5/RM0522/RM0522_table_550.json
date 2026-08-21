@@ -1,0 +1,108 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "id": "RM0522-T550",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "550",
+      "title": "TDES3 context descriptor",
+      "page": 2266,
+      "section": "48.10.3",
+      "section_title": "Transmit descriptor",
+      "semantic_type": "generic",
+      "tags": [
+        "tdes3"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=2266",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Bit",
+        "Name",
+        "Description"
+      ],
+      "text": "Table 550, \"TDES3 context descriptor\", in section 48.10.3 (Transmit descriptor) on page 2266. Columns: Bit, Name, Description. 12 data row(s).",
+      "table_content": {
+        "headers": [
+          "Bit",
+          "Name",
+          "Description"
+        ],
+        "rows": [
+          [
+            "31",
+            "OWN",
+            "Own bit\n1: the DMA owns the descriptor. \n0: the application owns the descriptor.\nThe DMA clears this bit immediately after a read operation."
+          ],
+          [
+            "30",
+            "CTXT",
+            "Context Type\nThis bit should be set to 1 for context descriptor."
+          ],
+          [
+            "29:28",
+            "Reserved",
+            "Reserved"
+          ],
+          [
+            "27",
+            "OSTC",
+            "One-Step Timestamp Correction Enable\nWhen this bit is set, the DMA performs a one-step timestamp correction \nwith reference to the timestamp values provided in TDES0 and TDES1."
+          ],
+          [
+            "26",
+            "TCMSSV",
+            "One-Step Timestamp Correction Input or MSS Valid\nWhen this bit and the OSTC bit are set, it indicates that the Timestamp \nCorrection input provided in TDES0 and TDES1 is valid.\nWhen the OSTC bit is reset and this bit and the TSE bit of TDES3 are \nset in subsequent normal descriptor, it indicates that the MSS input in \nTDES2 is valid."
+          ],
+          [
+            "25:24",
+            "Reserved",
+            "Reserved"
+          ],
+          [
+            "23",
+            "CDE",
+            "Context Descriptor Error\nWhen this bit is set, it indicates that the context descriptor is incorrect. \nThe DMA sets this bit during write-back while closing the context \ndescriptor.\nThe Context Descriptor errors can be:\n–Incorrect sequence from the context descriptor. For example, a \nlocation before the first descriptor for a packet.\n–All 1s.\n–CD, LD, and FD bits set to 1.\nNote:When a Context Descriptor error occurs due to All 1s or CTXT, \nLD, and FD bits set to 1, the Transmit DMA closes the transmit \ndescriptor with DE and LD bits set to 1. When IOC bit in TDES2 \nof corresponding first descriptor is set to 1, Transmit DMA sets \nthe TI bit in the Channel 0 status register (ETH_DMAC0SR).\nBased on CTXT, LD, and FD bits of the transmit descriptor, the \nsubsequent descriptor might be considered as the First \nDescriptor (even if FD bit is not set) and partial packet is sent.\nThis error is categorized as an abnormal event; recovery is only \nby issuing a software reset (DMA stopping-reconfiguring-\nrestarting recovery mechanism is not supported) "
+          ],
+          [
+            "22:20",
+            "Reserved",
+            "Reserved"
+          ],
+          [
+            "19:18",
+            "IVTIR",
+            "Inner VLAN Tag Insert or Replace\nWhen these bits are set, they request the MAC to perform Inner VLAN \ntagging or untagging before transmitting the packets. If the packet is \nmodified for VLAN tags, the MAC automatically recalculates and \nreplaces the CRC bytes. \nThis bitfield has the following values:\n00: Do not add the inner VLAN tag. \n01: Remove the inner VLAN tag from the packets before transmission. \nThis option should be used only with the VLAN frames.\n10: Insert an inner VLAN tag with the tag value programmed in the Inner \nVLAN inclusion register (ETH_MACIVIR) or context descriptor. \n11: Replace the inner VLAN tag in packets with the tag value \nprogrammed in the Inner VLAN inclusion register (ETH_MACIVIR) or \ncontext descriptor. This option should be used only with the VLAN \nframes."
+          ],
+          [
+            "17",
+            "IVLTV",
+            "Inner VLAN Tag Valid\nWhen this bit is set, it indicates that the IVT field of TDES2 is valid."
+          ],
+          [
+            "16",
+            "VLTV",
+            "VLAN Tag Valid\nWhen this bit is set, it indicates that the VT field of TDES3 is valid."
+          ],
+          [
+            "15:0",
+            "VT",
+            "VLAN Tag\nThis field contains the VLAN Tag to be inserted or replaced in the \npacket. This field is used as VLAN Tag only when the VLTI bit of the \nVLAN inclusion register (ETH_MACVIR) is reset."
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "id": "RM0522-T193",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "193",
+      "title": "Blob use steps for scalar multiplication (CCOP = 0b10000001)",
+      "page": 764,
+      "section": "25.5.3",
+      "section_title": "ECC scalar multiplication",
+      "semantic_type": "generic",
+      "tags": [
+        "ccop",
+        "opstep"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=764",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "OPSTEP",
+        "inM OPDKEA",
+        "iGn CSMAPEHS",
+        "Coupling or chaining operations",
+        "End-step (1)event",
+        "CPU action"
+      ],
+      "text": "Table 193, \"Blob use steps for scalar multiplication (CCOP = 0b10000001)\", in section 25.5.3 (ECC scalar multiplication) on page 764. Columns: OPSTEP, inM OPDKEA, iGn CSMAPEHS, Coupling or chaining operations, End-step (1)event, CPU action. 8 data row(s). Notes: 1. The application must clear and/or perform described event for CCB to automatically go to the next step.; 2. SAES cannot be used for any operations, for security reasons.",
+      "table_content": {
+        "headers": [
+          "OPSTEP",
+          "inM OPDKEA",
+          "iGn CSMAPEHS",
+          "Coupling or chaining operations",
+          "End-step (1)event",
+          "CPU action"
+        ],
+        "rows": [
+          [
+            "0x1",
+            "N/A",
+            "N/A",
+            "N/A",
+            "AES GCM \nselected, \nGCMPH=0x0",
+            "–Enable the PKA in the correct mode, writing in PKA_CR \nMODE= 0x20 and EN=1 (repeat if EN bit stays clear). \nWait for INITOK=1 in PKA_SR.\n–Optionally, decrypt blob encryption key in the SAES, \nusing DHUK in 256-bit wrapped key mode.\n–Set up AES-GCM in decryption mode with DHUK or the \ndecrypted key in register (if applicable).\n–Write input point P coordinates in the PKA RAM. When \ncomputing a public key, write basepoint G coordinates."
+          ],
+          [
+            "0x12",
+            "0x20",
+            "0x0",
+            "N/A",
+            "GCMPH=0x1 \n(following GCM \ninitialization)",
+            "–Complete GCM initialization in decryption mode, using \nsaved random IV.\n–Write reference tag in CBB_REFTAGR."
+          ],
+          [
+            "0x13",
+            "0x20",
+            "0x1",
+            "CPU -> PKA \n+ SAES",
+            "GCMPH=0x2",
+            "Write ECC scalar multiplication parameters in the PKA \nRAM, clearing CCF flags in the SAES, triggered after \neach 64-bitwrite."
+          ],
+          [
+            "0x14",
+            "0x20",
+            "0x2",
+            "SAES -> PKA",
+            "DATAOKF set, \nGCMPH=0x3",
+            "–Write encrypted k in SAES_DINR, and runs AES \ndecryption round.\n–Write incrementally scalar multiplier k in the PKA, using \n0xCCB magic number. \n–Repeat for each 16 bytes block of data."
+          ],
+          [
+            "0x17",
+            "0x20",
+            "0x3",
+            "N/A",
+            "Tag matches \nREFTAGR?",
+            "–Complete GCM final.\n–Read computed tag in the SAES (returns 0)."
+          ],
+          [
+            "0x18",
+            "0x20",
+            "N/A",
+            "N/A",
+            "START=0x1",
+            "Start the operation in PKA setting START bit in PKA_CR.\nDo not use SAES during this step (under reset)."
+          ],
+          [
+            "(2)0x19",
+            "0x20",
+            "N/A",
+            "N/A",
+            "PROCENDF \nset",
+            "The PKA computes the operation. The PKA RAM is read \nas 0."
+          ],
+          [
+            "0x1A",
+            "0x20",
+            "N/A",
+            "N/A",
+            "N/A",
+            "Read kP point coordinates in the PKA RAM. If this point \nis the public key verify it matches the reference public key \ncomputed in Table192 before saving the created blob in \nnon-volatile memory."
+          ]
+        ],
+        "notes": [
+          "1. The application must clear and/or perform described event for CCB to automatically go to the next step.",
+          "2. SAES cannot be used for any operations, for security reasons."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

@@ -120,7 +120,7 @@ def corrections_digest(
             "added_parameters": sorted(
                 added_groups.values(), key=lambda g: g["parameter"]
             ),
-            "appended_columns": [c.key for c in grid.columns],
+            "appended_columns": list(appended_col_keys),
             "new_parts": [],
             "parts_not_in_st": [],
             "note": "discovered selector: no original workbook to diff against",
@@ -374,7 +374,7 @@ def do_build(args) -> int:
                 )
                 schema_failures[stem] = unreproducible
 
-        original_cols, appended_cols = plan_columns(sheet, grid)
+        original_cols, appended_cols = plan_columns(sheet, grid, extras=datasheet_first)
         layout_keys = [k for k, _ in original_cols] + [k for k, _ in appended_cols]
 
         datasheet_urls: dict[str, str] = {}
@@ -424,6 +424,7 @@ def do_build(args) -> int:
             composed,
             datasheet_urls=datasheet_urls,
             provenance=datasheet_first,
+            extras=datasheet_first,
         )
 
         # Per-file Sidekick JSON export (products records), for every
@@ -456,7 +457,13 @@ def do_build(args) -> int:
             entry["diff"] = None
             entry["note"] = "discovered selector: no original workbook to diff against"
         else:
-            result = compare(sheet, grid, composed, with_source_classes=datasheet_first)
+            result = compare(
+                sheet,
+                grid,
+                composed,
+                with_source_classes=datasheet_first,
+                extras=datasheet_first,
+            )
             diff_path = out_dir / f"{file_stem(stem)} - diff.xlsx"
             write_diff(
                 diff_path, result, level_id=grid.level_id, level_title=grid.level_title

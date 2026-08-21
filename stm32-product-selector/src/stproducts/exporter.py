@@ -517,6 +517,12 @@ PARAMETER_DESCRIPTIONS: dict[str, str] = {
         "the family.\n"
         "The count covers the USART peripherals specifically, not the UART-only instances."
     ),
+    "LPUART typ": (
+        "Number of LPUART (low-power UART) interfaces on the device.\n"
+        "An LPUART is a serial interface in the same TX/RX asynchronous family as a UART, clocked from the "
+        "low-power domain so it can wake the part or stay receive-active in Stop modes, at lower maximum "
+        "baud rates than the general-purpose USART/UART instances."
+    ),
     "USB 2.0 typ": (
         "Number of USB 2.0 interfaces on the device (typical).\n"
         "USB 2.0 covers full-speed (12 Mbit/s) and high-speed (480 Mbit/s) device, host and OTG controller "
@@ -564,11 +570,15 @@ def export_sheet_json(
     is the one deep link a selector record can truthfully carry, and
     ``text_helper`` is a retrieve-ready summary sentence.
     """
-    descriptions = {
-        key: PARAMETER_DESCRIPTIONS.get(key, grid.by_key().get(key).label)
-        for key in layout_keys
-        if grid.by_key().get(key) is not None
-    }
+    by_key = grid.by_key()
+    descriptions = {}
+    for key in layout_keys:
+        # Curated text first; ST's own rendered label next; the tool's own
+        # extra columns (no Column metadata) carry their key, which is the
+        # label they were given.
+        descriptions[key] = PARAMETER_DESCRIPTIONS.get(key) or (
+            by_key[key].label if key in by_key else key
+        )
     part_order = [p for p in grid.part_numbers if p in composed.parts]
     products: list[dict] = []
     for part in part_order:

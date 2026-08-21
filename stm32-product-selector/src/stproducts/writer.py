@@ -114,8 +114,9 @@ def write_corrected(
     *,
     datasheet_urls: dict[str, str] | None = None,
     provenance: bool = False,
+    extras: bool = True,
 ) -> None:
-    original_cols, appended_cols = plan_columns(sheet, grid)
+    original_cols, appended_cols = plan_columns(sheet, grid, extras=extras)
     layout: list[tuple[str, Column | None]] = [*original_cols, *appended_cols]
 
     workbook = Workbook()

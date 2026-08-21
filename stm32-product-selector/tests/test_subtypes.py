@@ -319,8 +319,8 @@ class TestUsartUart:
     def test_a_row_that_splits_the_interfaces_maps_both(self):
         from stproducts.extract import _usart_uart
         doc = _doc([["Comm. interfaces", "USART \nUART", "4\n2"]])
-        usart, uart, note = _usart_uart(doc)
-        assert (usart, uart) == ("4", "2")
+        usart, uart, lpuart, note = _usart_uart(doc)
+        assert (usart, uart, lpuart) == ("4", "2", None)
         assert note is None
 
     def test_numbers_map_onto_the_labelled_interfaces(self):
@@ -329,8 +329,8 @@ class TestUsartUart:
         positions blindly used to write UART = 1."""
         from stproducts.extract import _usart_uart
         doc = _doc([["Comm. interfaces", "USART/LPUART", "3\n1"]])
-        usart, uart, note = _usart_uart(doc)
-        assert (usart, uart, note) == ("3", None, None)
+        usart, uart, lpuart, note = _usart_uart(doc)
+        assert (usart, uart, lpuart, note) == ("3", None, "1", None)
 
     def test_a_triple_row_names_each_interface(self):
         """``USART/UART/LPUART = 5/5/1``: the middle number IS the UART
@@ -338,15 +338,15 @@ class TestUsartUart:
         LPUART into it is that family's business, reported by the diff)."""
         from stproducts.extract import _usart_uart
         doc = _doc([["Communication interfaces", "USART/UART/LPUART", "5/5/1"]])
-        usart, uart, note = _usart_uart(doc)
-        assert (usart, uart, note) == ("5", "5", None)
+        usart, uart, lpuart, note = _usart_uart(doc)
+        assert (usart, uart, lpuart, note) == ("5", "5", "1", None)
 
     def test_a_lumped_number_asserts_nothing(self):
         """F105 reads USART = 5 where ST publishes 3 + 2."""
         from stproducts.extract import _usart_uart
         doc = _doc([["Comm. interfaces", "USART", "5"]])
-        usart, uart, note = _usart_uart(doc)
-        assert usart is None and uart is None
+        usart, uart, lpuart, note = _usart_uart(doc)
+        assert usart is None and uart is None and lpuart is None
         assert "combined count" in note
 
     def test_a_dedicated_uart_row_answers_uart_typ(self):
@@ -358,15 +358,29 @@ class TestUsartUart:
             ["Comm. interfaces", "UART", "2"],
             ["Comm. interfaces", "LPUART", "1"],
         ])
-        usart, uart, note = _usart_uart(doc)
-        assert (usart, uart, note) == ("3", "2", None)
+        usart, uart, lpuart, note = _usart_uart(doc)
+        assert (usart, uart, lpuart, note) == ("3", "2", "1", None)
 
     def test_an_lpuart_only_row_never_fills_uart_typ(self):
         """A lone ``LPUART`` row must not be read as UART either way round."""
         from stproducts.extract import _usart_uart
         doc = _doc([["Comm. interfaces", "LPUART", "1"]])
-        usart, uart, note = _usart_uart(doc)
+        usart, uart, lpuart, note = _usart_uart(doc)
         assert (usart, uart) == (None, None)
+        assert lpuart == "1"
+
+    def test_the_lpuart_reader_surfaces_the_count(self):
+        doc = _doc([
+            ["Comm. interfaces", "USART", "3"],
+            ["Comm. interfaces", "LPUART", "2"],
+        ])
+        reading = READERS["summary_lpuart"](doc)
+        assert reading.token == DATASHEET
+        assert reading.value == "2"
+
+    def test_no_lpuart_row_yields_no_reading(self):
+        doc = _doc([["Comm. interfaces", "USART \nUART", "4\n2"]])
+        assert READERS["summary_lpuart"](doc) is None
 
 
 # --------------------------------------------------------------------------

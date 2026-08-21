@@ -1,0 +1,347 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M5 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "id": "RM0486-T199",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "199",
+      "title": "Address alignment cases",
+      "page": 1325,
+      "section": "28.5",
+      "section_title": "Address alignment and data number",
+      "semantic_type": "generic",
+      "tags": [
+        "memory"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=1325",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Memory type",
+        "Transaction type",
+        "Constraint on (1)address",
+        "Impact if constraint on address not respected",
+        "Constraint on number (1)of bytes",
+        "Impact if constraint on bytes not respected"
+      ],
+      "text": "Table 199, \"Address alignment cases\", in section 28.5 (Address alignment and data number) on page 1325. Columns: Memory type, Transaction type, Constraint on (1)address, Impact if constraint on address not respected, Constraint on number (1)of bytes, Impact if constraint on bytes not respected. 36 data row(s). Notes: 1. To be respected by the software.; 2. IND = indirect mode.; 3. MM = memory-mapped mode.; 4. Extra data at transfer start.",
+      "table_content": {
+        "headers": [
+          "Memory type",
+          "Transaction type",
+          "Constraint on (1)address",
+          "Impact if constraint on address not respected",
+          "Constraint on number (1)of bytes",
+          "Impact if constraint on bytes not respected"
+        ],
+        "rows": [
+          [
+            "Single, dual, quad flash \nor SRAM (DMM=0)",
+            "(2)IND read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Single, dual, quad flash \nor SRAM (DMM=0)",
+            "(3)MM read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Single, dual, quad flash \nor SRAM (DMM=0)",
+            "IND write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Single, dual, quad flash \nor SRAM (DMM=0)",
+            "MM write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Single, dual, quad flash \nor SRAM (DMM=1)",
+            "IND read",
+            "Even",
+            "(4)ADDR[0] is set to 0.",
+            "Even",
+            "(5)DLR[0] is set to 1."
+          ],
+          [
+            "Single, dual, quad flash \nor SRAM (DMM=1)",
+            "MM read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Single, dual, quad flash \nor SRAM (DMM=1)",
+            "IND write",
+            "Even",
+            "(4)ADDR[0] is set to 0.",
+            "Even",
+            "(5)DLR[0] is set to 1."
+          ],
+          [
+            "Single, dual, quad flash \nor SRAM (DMM=1)",
+            "MM write",
+            "Even",
+            "Slave error",
+            "Even",
+            "Last byte is lost."
+          ],
+          [
+            "Octal flash in SDR mode",
+            "IND read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Octal flash in SDR mode",
+            "MM read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Octal flash in SDR mode",
+            "IND write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Octal flash in SDR mode",
+            "MM write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Octal memory in DTR \n(6)mode without WDM, \nor 16-bit memory in SDR \nmode without WDM or \n8-bit HyperFLASH",
+            "IND read",
+            "Even",
+            "(4)ADDR[0] is set to 0.",
+            "Even",
+            "(5)DLR[0] is set to 1."
+          ],
+          [
+            "Octal memory in DTR \n(6)mode without WDM, \nor 16-bit memory in SDR \nmode without WDM or \n8-bit HyperFLASH",
+            "MM read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Octal memory in DTR \n(6)mode without WDM, \nor 16-bit memory in SDR \nmode without WDM or \n8-bit HyperFLASH",
+            "IND write",
+            "Even",
+            "(4)ADDR[0] is set to 0.",
+            "Even",
+            "(5)DLR[0] is set to 1."
+          ],
+          [
+            "Octal memory in DTR \n(6)mode without WDM, \nor 16-bit memory in SDR \nmode without WDM or \n8-bit HyperFLASH",
+            "MM write",
+            "Even",
+            "Slave error",
+            "Even",
+            "Last byte is lost."
+          ],
+          [
+            "16-bit or dual-octal \nmemory in DTR mode \nwithout WDM or 16-bit \nHyperFLASH",
+            "IND read\n32-bit",
+            "Aligned",
+            "ADDR[1:0] is assumed \n(4)to be 00.",
+            "N × 4",
+            "DLR[1:0] is assumed \n(5)to be 11."
+          ],
+          [
+            "16-bit or dual-octal \nmemory in DTR mode \nwithout WDM or 16-bit \nHyperFLASH",
+            "MM read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "16-bit or dual-octal \nmemory in DTR mode \nwithout WDM or 16-bit \nHyperFLASH",
+            "IND write",
+            "Aligned",
+            "ADDR[1:0] is assumed \n(4)to be 00.",
+            "N × 4",
+            "DLR[1:0] is assumed \n(5)to be 11."
+          ],
+          [
+            "16-bit or dual-octal \nmemory in DTR mode \nwithout WDM or 16-bit \nHyperFLASH",
+            "MM write",
+            "Aligned",
+            "Slave error",
+            "N × 4",
+            "Last byte is lost."
+          ],
+          [
+            "Octal flash or RAM in \nDTR mode with WDM",
+            "IND read",
+            "Even",
+            "(4)ADDR[0] is set to 0.",
+            "Even",
+            "(5)DLR[0] is set to 1."
+          ],
+          [
+            "Octal flash or RAM in \nDTR mode with WDM",
+            "MM read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Octal flash or RAM in \nDTR mode with WDM",
+            "(7)IND write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "Octal flash or RAM in \nDTR mode with WDM",
+            "MM write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "8-bit HyperRAM",
+            "IND read",
+            "Even",
+            "(4)ADDR[0] is set to 0.",
+            "Even",
+            "(5)DLR[0] is set to 1."
+          ],
+          [
+            "8-bit HyperRAM",
+            "MM read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "8-bit HyperRAM",
+            "(7)IND write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "8-bit HyperRAM",
+            "MM write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "16-bit data bus memory \nor dual-octal memory \nwith WDM",
+            "IND read \n32-bit",
+            "Aligned",
+            "ADDR[1:0] is assumed \n(4)to be 00.",
+            "N × 4",
+            "DLR[1:0] is assumed \n(5)to be 11."
+          ],
+          [
+            "16-bit data bus memory \nor dual-octal memory \nwith WDM",
+            "MM read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "16-bit data bus memory \nor dual-octal memory \nwith WDM",
+            "(8)IND write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "16-bit data bus memory \nor dual-octal memory \nwith WDM",
+            "MM write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "16-bit HyperRAM",
+            "IND read \n32-bit",
+            "Aligned",
+            "ADDR[1:0] is assumed \n(4)to be 00.",
+            "N × 4",
+            "DLR[1:0] is assumed \n(5)to be 11."
+          ],
+          [
+            "16-bit HyperRAM",
+            "MM read",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "16-bit HyperRAM",
+            "(9)IND write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ],
+          [
+            "16-bit HyperRAM",
+            "MM write",
+            "None",
+            "None",
+            "None",
+            "None"
+          ]
+        ],
+        "notes": [
+          "1. To be respected by the software.",
+          "2. IND = indirect mode.",
+          "3. MM = memory-mapped mode.",
+          "4. Extra data at transfer start."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

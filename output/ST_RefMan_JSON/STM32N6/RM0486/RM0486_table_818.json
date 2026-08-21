@@ -1,0 +1,64 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M5 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "id": "RM0486-T818",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "818",
+      "title": "Description of the remote wake-up filter fields",
+      "page": 4110,
+      "section": "76.7.1",
+      "section_title": "Low-power management",
+      "semantic_type": "generic",
+      "tags": [
+        "power"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4110",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Register",
+        "Description"
+      ],
+      "text": "Table 818, \"Description of the remote wake-up filter fields\", in section 76.7.1 (Low-power management) on page 4110. Columns: Register, Description. 4 data row(s). Notes: 1. The And_Previous bit setting is applicable within a set of four filters. Setting And_Previous bit of a filter that is not enabled has no effect, that is setting And_Previous bit of lowest number fi.",
+      "table_content": {
+        "headers": [
+          "Register",
+          "Description"
+        ],
+        "rows": [
+          [
+            "Filter i Byte mask",
+            "The filter i byte mask register defines the bytes of the packet that are examined by filter i \n(0, 1, 2 or 3) to determine whether or not a packet is a wake-up packet. \n–The MSB (31st bit) must be zero. \n–Bit j[30:0] is the byte mask. \n–If Bit j (byte number) of the byte mask is set, the CRC block processes the Filter i Offset \n+ j of the incoming packet; otherwise Filter i Offset + j is ignored."
+          ],
+          [
+            "Filter i Command",
+            "The 4-bit filter i command controls the filter i operation.\n–Bit 3 specifies the address type, defining the destination address type of the pattern.\nWhen the bit is set, the pattern applies to only multicast packets; when the bit is reset, \nthe pattern applies only to unicast packet.\n–Bit 2 (Inverse mode), when set, reverses the logic of the CRC16 Hash function signal, to \nreject a packet with matching CRC_16 value. \nBit 2, along with Bit 1, allows a MAC to reject a subset of remote wake-up packets by \ncreating filter logic such as \"Pattern 1 AND NOT Pattern 2\".\n(1)–Bit 1 (And_Previous) implements the Boolean logic. \nWhen set, the result of the current entry is logically ANDed with the result of the \nprevious filter. This AND logic allows a filter pattern longer than 32 bytes by splitting the \nmask among two, three, or four filters. This depends on the number of filters that have \nthe And_Previous bit set.\n–Bit 0 is the enable for filter i. If Bit 0 is not set, filter i is disabled."
+          ],
+          [
+            "Filter i Offset",
+            "This filter i offset register defines the offset (within the packet) from which the filter i \nexamines the packets. \n–This 8-bit pattern-offset is the offset for the filter i first byte to be examined. \n–The minimum allowed offset is 12, which refers to the 13th byte of the packet. \n–The offset value 0 refers to the first byte of the packet."
+          ],
+          [
+            "Filter i CRC-16",
+            "This filter i CRC-16 register contains the CRC_16 value calculated from the pattern and \nalso the byte mask programmed to the wake-up filter register block.\n–The 16-bit CRC calculation uses the following polynomial: \n16152G(x) = x + x + x + 1\nEach mask, used in the Hash function calculation, is compared with a 16-bit value \nassociated with that mask. Each filter has the following: \n–32-bit Mask: Each bit in this mask corresponds to one byte in the detected packet. If the \nbit is 1', the corresponding byte is taken into the CRC16 calculation. \n–8-bit Offset Pointer: Specifies the byte to start the CRC16 computation.\nThe pointer and the mask are used together to locate the bytes to be used in the CRC16 \ncalculations."
+          ]
+        ],
+        "notes": [
+          "1. The And_Previous bit setting is applicable within a set of four filters. Setting And_Previous bit of a filter that is not enabled has no effect, that is setting And_Previous bit of lowest number filter in the set of four filters has no effect. For example, setting And_Previous bit of Filter 0 has no effect. If And_Previous bit is set for a given filter to form an AND chained filter, the AND chain breaks when it finds a disabled filter. For example: If Filter 2 And_Previous bit is set (bit 1 in Filter 2 command is set) but Filter 1 is not enabled (bit 0 in Filter 1 command is reset), then only Filter 2 result is considered. If Filter 2 And_Previous bit is set (bit 1 in Filter 2 command is set), Filter 3 And_Previous bit is set (bit 1 in Filter 3 command is set), but Filter 1 is not enabled (bit 0 in Filter 1 command is reset), then only Filter 2 result ANDed with Filter 3 result is considered. If Filter 2 And_Previous bit is set (bit 1 in Filter 2 command is set), Filter 3 And_Previous bit is set (bit 1 in Filter 3 command is set), but Filter 2 is not enabled (bit 0 in Filter 2 command is reset), then since setting Filter 2 And_Previous bit has no effect, only Filter 1 result ORed with Filter 3 result is considered. If filters chained by And_Previous bit setting have complementary programming, then a frame may never pass the AND chained filter. For example, if Filter 2 And_Previous bit is set (bit 1 in Filter 2 command is set), Filter 1 Address_Type bit is set (bit 3 in Filter 1 command is set) indicating multicast detection and Filter 2 Address_Type bit is reset (bit 3 in Filter 2 command is reset) indicating unicast detection or vice versa, then a remote wake-up frame does not pass the AND chained filter as a remote wake-up frame cannot be of both unicast and multicast address types."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

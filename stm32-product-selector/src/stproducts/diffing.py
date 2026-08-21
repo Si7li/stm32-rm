@@ -40,7 +40,7 @@ from dataclasses import dataclass, field
 
 from .api import Column, Grid
 from .compose import ComposedSheet
-from .fieldmap import spec_for
+from .fieldmap import EXTRA_COLUMNS, spec_for
 from .sheetio import OriginalSheet
 from .values import EQUIVALENCE, canon, is_blank, render
 
@@ -108,13 +108,28 @@ class DiffResult:
 
 
 def plan_columns(
-    sheet: OriginalSheet, grid: Grid
-) -> tuple[list[tuple[str, Column | None]], list[tuple[str, Column]]]:
-    """Original columns in their original order, then the API's extras."""
+    sheet: OriginalSheet,
+    grid: Grid,
+    *,
+    extras: bool = True,
+) -> tuple[list[tuple[str, Column | None]], list[tuple[str, Column | None]]]:
+    """Original columns in their original order, then the API's extras.
+
+    The tool's own extra columns (:data:`EXTRA_COLUMNS` -- datasheet facts ST
+    has no selector column for, ``LPUART typ``) come last, with no Column:
+    every consumer of this function treats a ``None`` column as pure
+    datasource value with no API side. They apply only when the datasheet
+    is the source -- ``--source api`` reproduces ST's own output verbatim
+    and gains nothing from a permanently empty column.
+    """
     api_by_key = grid.by_key()
     original = [(c.key, api_by_key.get(c.key)) for c in sheet.columns]
     taken = {c.key for c in sheet.columns}
-    appended = [(c.key, c) for c in grid.columns if c.key not in taken]
+    appended: list[tuple[str, Column | None]] = [
+        (c.key, c) for c in grid.columns if c.key not in taken
+    ]
+    if extras:
+        appended.extend((key, None) for key in EXTRA_COLUMNS)
     return original, appended
 
 
@@ -124,6 +139,7 @@ def compare(
     composed: ComposedSheet,
     *,
     with_source_classes: bool = False,
+    extras: bool = True,
 ) -> DiffResult:
     result = DiffResult(
         stem=sheet.stem,
@@ -131,7 +147,7 @@ def compare(
         if with_source_classes
         else REPORTED_CLASSES,
     )
-    original_cols, appended_cols = plan_columns(sheet, grid)
+    original_cols, appended_cols = plan_columns(sheet, grid, extras=extras)
     result.original_columns = len(original_cols)
     result.appended_columns = len(appended_cols)
 
@@ -209,7 +225,9 @@ def compare(
                 )
 
         for key, column in appended_cols:
-            raw = row["cells"].get(column.id)
+            # Extra tool columns have no API side at all: their written value
+            # is purely what the datasheet yielded (or '-').
+            raw = row["cells"].get(column.id) if column is not None else None
             # A caller may compose only the original columns, in which case
             # the appended ones are still pure API and render from the row.
             cell = cells.get(key)

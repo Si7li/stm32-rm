@@ -607,8 +607,9 @@ def _token_seq(label: str) -> list[str]:
     return seq
 
 
-def _usart_uart(doc: Document) -> tuple[str | None, str | None, str | None]:
-    """USART and UART counts, plus a note when the row lumps what ST splits.
+def _usart_uart(doc: Document) -> tuple[str | None, str | None, str | None, str | None]:
+    """USART, UART and LPUART counts, plus a note when the row lumps what
+    ST splits.
 
     The cell's numbers map onto the interfaces the ROW LABEL names, never
     onto fixed positions. This is what keeps an LPUART out of ``UART typ``:
@@ -616,42 +617,50 @@ def _usart_uart(doc: Document) -> tuple[str | None, str | None, str | None]:
     = UART" wrote UART = 1 for a part whose only async peripherals are two
     USARTs and one LPUART -- ST's own export puts ``-`` there.
 
-    * label splits them (``USART \\n UART``, ``USART/UART/LPUART``): each
-      number answers the interface at its position; a label without ``uart``
-      yields no UART even when a second number is present.
-    * separate per-interface rows (``USART = 3``, then ``UART = 2``): each
-      reader takes its own row.
-    * one lumped number on the USART row and no UART row anywhere -- the F105
-      reads ``USART = 5`` where ST publishes 3 + 2. The document counts a
-      different thing than the column asks; asserting 5 for USART reported an
-      override that never existed. That case is returned as a note, and the
-      callers record it as AMBIGUOUS evidence instead of a value.
+    * label splits them (``USART \\n UART``, ``USART/UART/LPUART``,
+      ``USART/LPUART``): each number answers the interface at its position;
+      a label without ``uart`` yields no UART even when a second number is
+      present.
+    * separate per-interface rows (``USART = 3``, then ``UART = 2``,
+      ``LPUART = 1``): each interface takes its own row.
+    * one lumped number on the USART row and no other async row anywhere --
+      the F105 reads ``USART = 5`` where ST publishes 3 + 2. The document
+      counts a different thing than the columns ask; asserting 5 for USART
+      reported an override that never existed. That case is returned as a
+      note, and the callers record it as AMBIGUOUS evidence instead of a
+      value.
     """
 
     def read(rows, column):
-        usart = uart = None
+        usart = uart = lpuart = None
         note = None
         uart_alone: str | None = None
-        uart_row_exists = any(
-            "uart" in _row_key(row).casefold()
-            and "usart" not in _row_key(row).casefold()
-            for row in rows[1:]
-        )
-        for row in rows[1:]:
+        lpuart_alone: str | None = None
+
+        def token_seq_of(row):
             low = re.sub(r"\s+", " ", _row_key(row)).casefold()
-            if column >= len(row):
-                continue
-            seq = _token_seq(low)
+            return low, _token_seq(low)
+
+        scanned = [
+            (row, column, *token_seq_of(row))
+            for row in rows[1:]
+            if column < len(row)
+        ]
+        # A table that separates LPUART or UART anywhere is not lumping.
+        uart_row_exists = any(
+            "uart" in low and "usart" not in low for _, _, low, _ in scanned
+        )
+        for row, col, low, seq in scanned:
             if not seq:
                 continue
-            numbers = _numbers(_strip_footnotes(row[column] or ""))
+            numbers = _numbers(_strip_footnotes(row[col] or ""))
             mapped = dict(zip(seq, numbers))
             if "usart" in mapped and usart is None:
                 if len(seq) == 1 and len(numbers) == 1 and not uart_row_exists:
-                    # A lone USART number in a table with no UART row at all
-                    # is the combined asynchronous count (F105: 5 = 3 + 2).
-                    # The document counts a different thing than either
-                    # column asks.
+                    # A lone USART number in a table with no UART/LPUART row
+                    # at all is the combined asynchronous count (F105:
+                    # 5 = 3 + 2). The document counts a different thing than
+                    # any of the columns ask.
                     note = (
                         f"summary row reads USART = {numbers[0]} with no "
                         f"UART split; ST publishes USART and UART "
@@ -662,17 +671,31 @@ def _usart_uart(doc: Document) -> tuple[str | None, str | None, str | None]:
                 usart = mapped["usart"]
                 if "uart" in seq:
                     uart = mapped.get("uart")
+                if "lpuart" in seq:
+                    lpuart = mapped.get("lpuart")
             elif seq == ["uart"] and uart_alone is None:
                 # A dedicated UART row ("UART = 2"): answers ``UART typ``
                 # when no USART row named a UART itself.
-                sole = _sole_number(_strip_footnotes(row[column] or ""))
+                sole = _sole_number(_strip_footnotes(row[col] or ""))
                 if sole is not None:
                     uart_alone = sole
-        return usart, (uart if uart is not None else uart_alone), note
+            elif seq == ["lpuart"] and lpuart_alone is None:
+                sole = _sole_number(_strip_footnotes(row[col] or ""))
+                if sole is not None:
+                    lpuart_alone = sole
+        return (
+            usart,
+            uart if uart is not None else uart_alone,
+            lpuart if lpuart is not None else lpuart_alone,
+            note,
+        )
+
+    def answers(found):
+        return any(part is not None for part in found[:3]) or found[3] is not None
 
     for fragment in doc.pinned:
         found = read(fragment.rows, fragment.column)
-        if found[0] is not None or found[1] is not None or found[2] is not None:
+        if answers(found):
             return found
     for fragment in doc.fragments:
         if fragment.column is not None:
@@ -680,18 +703,18 @@ def _usart_uart(doc: Document) -> tuple[str | None, str | None, str | None]:
         aligned = doc.column_in(fragment)
         if aligned is not None:
             found = read(fragment.rows, aligned)
-            if found[0] is not None or found[1] is not None or found[2] is not None:
+            if answers(found):
                 return found
-        seen = {read(fragment.rows, c)[:2] for c in fragment.family_columns}
-        seen.discard((None, None))
+        seen = {read(fragment.rows, c)[:3] for c in fragment.family_columns}
+        seen.discard((None, None, None))
         if len(seen) == 1:
             return (*seen.pop(), None)
-    return None, None, None
+    return None, None, None, None
 
 
 @reader("summary_usart")
 def read_usart(doc: Document, ) -> Reading | None:
-    usart, _, lumped = _usart_uart(doc)
+    usart, _, _, lumped = _usart_uart(doc)
     if lumped:
         return Reading(AMBIGUOUS, conditions=lumped)
     return Reading(DATASHEET, usart, doc.summary_caption) if usart else None
@@ -699,8 +722,20 @@ def read_usart(doc: Document, ) -> Reading | None:
 
 @reader("summary_uart")
 def read_uart(doc: Document) -> Reading | None:
-    _, uart, _ = _usart_uart(doc)
+    _, uart, _, _ = _usart_uart(doc)
     return Reading(DATASHEET, uart, doc.summary_caption) if uart else None
+
+
+@reader("summary_lpuart")
+def read_lpuart(doc: Document) -> Reading | None:
+    """The LPUART count -- a peripheral ST's selector does not carry at all.
+
+    The datasheet states it either on its own ``LPUART`` row or as the last
+    number of a combined ``USART/UART/LPUART`` row; this column surfaces it
+    so the workbook answers with the document instead of losing the fact to
+    a missing column. ``-`` means the datasheet states none."""
+    _, _, lpuart, _ = _usart_uart(doc)
+    return Reading(DATASHEET, lpuart, doc.summary_caption) if lpuart else None
 
 
 @reader("summary_i2s")

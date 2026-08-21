@@ -1,0 +1,110 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M5 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "id": "RM0486-T838",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "838",
+      "title": "RDES1 normal descriptor (write-back format)(1)",
+      "page": 4168,
+      "section": "76.10.4",
+      "section_title": "Receive descriptor",
+      "semantic_type": "generic",
+      "tags": [
+        "rdes1"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=4168",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Bit",
+        "Name",
+        "Description"
+      ],
+      "text": "Table 838, \"RDES1 normal descriptor (write-back format)(1)\", in section 76.10.4 (Receive descriptor) on page 4168. Columns: Bit, Name, Description. 12 data row(s). Notes: 1. The Status fields in write-back format are valid only for the last descriptor (RDES3[28] is set).",
+      "table_content": {
+        "headers": [
+          "Bit",
+          "Name",
+          "Description"
+        ],
+        "rows": [
+          [
+            "31:16",
+            "OPC",
+            "OAM Subtype Code, or MAC Control Packet opcode\nOAM Subtype Code\nIf bits[18:16] of RDES3 are set to 111, this field contains the OAM subtype and code \nfields.\nMAC Control Packet opcode\nIf bits[18:16] of RDES3 are set to 110, this field contains the MAC Control packet opcode \nfield."
+          ],
+          [
+            "15",
+            "TD",
+            "Timestamp Dropped\nThis bit indicates that the timestamp was captured for this packet but got dropped in the \nMTL Rx FIFO because of overflow. "
+          ],
+          [
+            "14",
+            "TSA",
+            "Timestamp Available\nWhen Timestamp is present, this bit indicates that the timestamp value is available in a \ncontext descriptor word 2 (RDES2) and word 1(RDES1). This is valid only when the Last \nDescriptor bit (RDES3 [28]) is set. \nThe context descriptor is written in the next descriptor just after the last normal descriptor \nfor a packet."
+          ],
+          [
+            "13",
+            "PV",
+            "PTP Version\n1: Received PTP message in IEEE 1588 version 2 format\n0: Received PTP message in IEEE 1588 version 1 format"
+          ],
+          [
+            "12",
+            "PFT",
+            "PTP Packet Type \nThis bit indicates that the PTP message is sent directly over Ethernet. "
+          ],
+          [
+            "11:8",
+            "PMT",
+            "PTP Message Type\nThese bits are encoded to give the type of the message received:\n0000: No PTP message received\n0001: SYNC (all clock types)\n0010: Follow_Up (all clock types)\n0011: Delay_Req (all clock types)\n0100: Delay_Resp (all clock types)\n0101: Pdelay_Req (in peer-to-peer transparent clock)\n0110: Pdelay_Resp (in peer-to-peer transparent clock)\n0111: Pdelay_Resp_Follow_Up (in peer-to-peer transparent clock)\n1000: Announce\n1001: Management\n1010: Signaling\n1011–1110: Reserved\n1111: PTP packet with Reserved message type"
+          ],
+          [
+            "7",
+            "IPCE",
+            "IP Payload Error \nWhen this bit is set, it indicates either of the following:\n–The 16-bit IP payload checksum (that is, the TCP, UDP, or ICMP checksum) calculated \nby the MAC does not match the corresponding checksum field in the received segment.\n–The TCP, UDP, or ICMP segment length does not match the payload length value in the \nIP Header field.\n–The TCP, UDP, or ICMP segment length is less than minimum allowed segment length \nfor TCP, UDP, or ICMP.\nBit 15 (ES) of RDES3 is not set when this bit is set."
+          ],
+          [
+            "6",
+            "IPCB",
+            "IP Checksum Bypassed\nThis bit indicates that the checksum offload engine is bypassed. "
+          ],
+          [
+            "5",
+            "IPV6",
+            "IPv6 header Present\nThis bit indicates that an IPV6 header is detected."
+          ],
+          [
+            "4",
+            "IPV4",
+            "IPV4 Header Present\nThis bit indicates that an IPV4 header is detected. "
+          ],
+          [
+            "3",
+            "IPHE",
+            "IP Header Error\n–When this bit is set, it indicates either of the following:\n–The 16-bit IPv4 header checksum calculated by the MAC does not match the received \nchecksum bytes.\n–The IP datagram version is not consistent with the Ethernet Type value.\n–Ethernet packet does not have the expected number of IP header bytes.\nThis bit is valid when either bit 5 or bit 4 is set. "
+          ],
+          [
+            "2:0",
+            "PT",
+            "Payload Type\nThese bits indicate the type of payload encapsulated in the IP datagram processed by the \nreceive checksum offload engine (COE):\n000: Unknown type or IP/AV payload not processed\n001: UDP\n010: TCP \n011: ICMP\n100: IGMP if IPV4 Header Present bit is set\n110: AV Tagged Data Packet\n111: AV Tagged Control Packet\n101: AV Untagged Control Packet\nOthers: reserved. \nIf the COE does not process the payload of an IP datagram because there is an IP header \nerror or fragmented IP, it sets these bits to 3'b000."
+          ]
+        ],
+        "notes": [
+          "1. The Status fields in write-back format are valid only for the last descriptor (RDES3[28] is set)."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

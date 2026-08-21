@@ -1,0 +1,80 @@
+{
+  "document": "RM0486",
+  "rev": "Rev 4",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32N6x5, STM32N645xx, STM32N647xx, STM32N655xx, STM32N657xx, STM32N6x5x7xx",
+  "package": "",
+  "family": "N6",
+  "core": "Arm 32-bit Cortex-M5 CPU",
+  "frequency": "",
+  "table_count": 902,
+  "tables": [
+    {
+      "id": "RM0486-T719",
+      "document": "RM0486",
+      "rev": "Rev 4",
+      "table_number": "719",
+      "title": "Trigger memory element description",
+      "page": 3679,
+      "section": "71.4.24",
+      "section_title": "FDCAN trigger memory element",
+      "semantic_type": "generic",
+      "tags": [
+        "memory"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf#page=3679",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0486-stm32n6x5x7xx-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "Field",
+        "Description"
+      ],
+      "text": "Table 719, \"Trigger memory element description\", in section 71.4.24 (FDCAN trigger memory element) on page 3679. Columns: Field, Description. 8 data row(s). Notes: 1. The trigger memory elements must be written when the FDCAN is in INIT state. Write access to the trigger memory elements outside INIT state is not allowed. There is an exception for TMIN and TMEX w.",
+      "table_content": {
+        "headers": [
+          "Field",
+          "Description"
+        ],
+        "rows": [
+          [
+            "T0 bits 31:16\nTM[15:0]",
+            "Time mark\nCycle time for which the trigger becomes active."
+          ],
+          [
+            "T0 bit 14:8 \nCC[6:0]",
+            "Cycle code\nCycle count for which the trigger is valid. Ignored for trigger types Tx_Ref_Trigger,\nTx_Ref_Trigger_Gap, Watch_Trigger, Watch_Trigger_Gap, End_of_List.\n–0b000000x valid for all cycles\nnd–0b000001c valid every 2 cycle at cycle count mod2 = c\nth–0b00001cc valid every 4 cycle at cycle count mod4 = cc\nth–0b0001ccc valid every 8 cycle at cycle count mod8 = ccc\nth–0b001cccc valid every 16 cycle at cycle count mod16 = cccc\nnd–0b01ccccc valid every 32 cycle at cycle count mod32 = ccccc\nth–0b1cccccc valid every 64 cycle at cycle count mod64 = cccccc"
+          ],
+          [
+            "T0 bit 5 \nTMIN",
+            "Time mark event internal\n–0: No action\n–1: FDCAN_TTIR.TTMI is set when trigger memory element becomes active"
+          ],
+          [
+            "T0 bit 4 \nTMEX",
+            "Time mark event external\n–0: No action\n–1: Pulse at output fdcan1_tmp for more than one instance and fdcan_tmp if only \none instance with the length of one period is generated when the time arc of the \ntrigger memory element becomes active and FDCAN_TTOCN.TTMIE = 1"
+          ],
+          [
+            "T0 bit 3:0 \nTYPE[3:0]",
+            "Trigger type\n–0000 Tx_Ref_Trigger - valid when not in gap\n–0001 Tx_Ref_Trigger_Gap - valid when in gap\n–0010 Tx_Trigger_Single - starts a single transmission in an exclusive time window\n–0011 Tx_Trigger_Continuous - starts continuous transmission in an exclusive time \nwindow\n–0100 Tx_Trigger_Arbitration - starts a transmission in an arbitrating time window\n–0101 Tx_Trigger_Merged - starts a merged arbitration window\n–0110 Watch_Trigger - valid when not in gap\n–0111 Watch_Trigger_Gap - valid when in gap\n–1000 Rx_Trigger - check for reception\n–1001 Time_Base_Trigger - only control TMIN, TMEX\n–1010 … 1111=End_of_List - illegal type, causes configuration error"
+          ],
+          [
+            "T1 bit \n23FTYPE",
+            "Filter type\n–0: 11-bit standard message ID\n–1: 29-bit extended message ID"
+          ],
+          [
+            "T1 bit 22:16 \n(1)MNR[6:0]",
+            "Message number\n–Transmission: trigger is valid for configured Tx buffer number. Valid values are 0 to \n31.\n–Reception: trigger is valid for standard/extended message ID filter element number. \nValid values are, respectively 0 to 63 and 0 to 127."
+          ],
+          [
+            "T1 bits 2:0 \nMSC[2:0]",
+            "Message status count\nCounts scheduling errors for periodic messages in exclusive time windows. It has no \nfunction for arbitrating messages and in event-driven CAN communication \n(ISO11898-1).\n–0-7= Actual status"
+          ]
+        ],
+        "notes": [
+          "1. The trigger memory elements must be written when the FDCAN is in INIT state. Write access to the trigger memory elements outside INIT state is not allowed. There is an exception for TMIN and TMEX when they are defined as part of a trigger memory element of TYPE Tx_Ref_Trigger. In this case they become active at the time mark modified by the actual reference trigger offset (TTOST[RTO])."
+        ],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}

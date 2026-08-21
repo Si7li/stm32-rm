@@ -363,7 +363,7 @@ def test_11_per_file_json_reconciles_with_the_workbook(tmp_path):
     assert "notes" not in doc
 
     sheet = read_original(tmp_path / "STM32F2 series.xlsx")
-    expected_keys = set(sheet.column_keys) - {"Datasheet URL"}
+    expected_keys = set(sheet.column_keys) - {"Datasheet URL"} | {"LPUART typ"}
     assert {p["part_number"] for p in doc["products"]} == set(sheet.data)
     assert doc["product_count"] == len(doc["products"])
     for product in doc["products"]:
@@ -386,10 +386,10 @@ def test_12_discovered_selector_has_json_and_corrections_entry(fetcher):
     report the whole sheet as added, and the JSON still carries values and a
     multi-line description of every column."""
     grid = fetch_grid(fetcher, "LN1035")  # STM32F405/415
-    keys = [c.key for c in grid.columns]
+    keys = [c.key for c in grid.columns] + ["LPUART typ"]
     composed = api_only_sheet(grid, keys)
 
-    digest = corrections_digest(None, [], composed, grid)
+    digest = corrections_digest(None, keys, composed, grid)
     assert digest["corrected"] == []
     assert digest["appended_columns"] == keys
     assert digest["note"] == "discovered selector: no original workbook to diff against"

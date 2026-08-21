@@ -1,0 +1,438 @@
+{
+  "document": "RM0522",
+  "rev": "Rev 1",
+  "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+  "references": "STM32C5",
+  "package": "",
+  "family": "C5",
+  "core": "Arm 32-bit Cortex-M3 CPU",
+  "frequency": "",
+  "table_count": 598,
+  "tables": [
+    {
+      "id": "RM0522-T433",
+      "document": "RM0522",
+      "rev": "Rev 1",
+      "table_number": "433",
+      "title": "List of supported I3C CCCs, as controller/target",
+      "page": 1712,
+      "section": "42.9.1",
+      "section_title": "I3C command set (CCCs), as controller/target",
+      "semantic_type": "generic",
+      "tags": [
+        "i3c"
+      ],
+      "url": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf#page=1712",
+      "url_pdf": "https://www.st.com/resource/en/reference_manual/rm0522-stm32c5-series-armbased-32bit-mcus-stmicroelectronics.pdf",
+      "columns": [
+        "CCC name",
+        "CCC value",
+        "Read /write",
+        "With/without defining byte With/without sub-command byte",
+        "With/without optional data byte(s)",
+        "Use as controller",
+        "Use as target, raised I3C_EVR event",
+        "When target: specific action"
+      ],
+      "text": "Table 433, \"List of supported I3C CCCs, as controller/target\", in section 42.9.1 (I3C command set (CCCs), as controller/target) on page 1712. Columns: CCC name, CCC value, Read /write, With/without defining byte With/without sub-command byte, With/without optional data byte(s), Use as controller, Use as target, raised I3C_EVR event, When target: specific action. 38 data row(s).",
+      "table_content": {
+        "headers": [
+          "CCC name",
+          "CCC value",
+          "Read /write",
+          "With/without defining byte With/without sub-command byte",
+          "With/without optional data byte(s)",
+          "Use as controller",
+          "Use as target, raised I3C_EVR event",
+          "When target: specific action"
+        ],
+        "rows": [
+          [
+            "Broadcast CCCs",
+            "Broadcast CCCs",
+            "Broadcast CCCs",
+            "Broadcast CCCs",
+            "Broadcast CCCs",
+            "Broadcast CCCs",
+            "Broadcast CCCs",
+            "Broadcast CCCs"
+          ],
+          [
+            "ENEC",
+            "0x00",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With one data byte \n(enable target \nevents byte)",
+            "X",
+            "X, INTUPDF",
+            "Update and enable \nI3C_DEVR0: HJEN, \nCREN, IBIEN if any"
+          ],
+          [
+            "DISEC",
+            "0x01",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With one data byte \n(disable target \nevents byte)",
+            "X",
+            "X, INTUPDF",
+            "Update and disable \nI3C_DEVR0: HJEN, \nCREN, IBIEN if any"
+          ],
+          [
+            "ENTASx \nx = 0...3",
+            "0x02\n...\n0x05",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "No data byte",
+            "X",
+            "X, ASUPDF",
+            "Update \nI3C_DEVR0.AS[1:0]"
+          ],
+          [
+            "RSTDAA",
+            "0x06",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "-",
+            "X",
+            "X, DAUPDF",
+            "Clear \nI3C_DEVR0.DAVAL= 0"
+          ],
+          [
+            "ENTDAA",
+            "0x07",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "-",
+            "X",
+            "X, DAUPDF if \nDAVAL = 0",
+            "Update I3C_DEVR0: \nDA[6:0] and set \nDAVAL=1"
+          ],
+          [
+            "DEFTGTS",
+            "0x08",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With [1+ 4x (1+ \nnumber_of_targets\n)] x data bytes",
+            "X",
+            "X, DEFF",
+            "Update I3C_RDR/ \nI3C_RDWR.\nRefer to Figure604."
+          ],
+          [
+            "SETMWL",
+            "0x09",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With two data byte",
+            "X",
+            "X, \nMWLUPDF",
+            "Update I3C_MAXWLR"
+          ],
+          [
+            "SETMRL",
+            "0x0A",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With 2 or 3 data \nbytes",
+            "X",
+            "X, MRLUPDF",
+            "Update I3C_MAXRLR"
+          ],
+          [
+            "ENTTM",
+            "0x0B",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With one data byte",
+            "X",
+            "-",
+            "-"
+          ],
+          [
+            "SETXTIME",
+            "0x28",
+            "Write",
+            "With sub-\ncommand byte",
+            "Without or with\none or more\ndata bytes",
+            "X",
+            "-",
+            "-"
+          ],
+          [
+            "SETAASA",
+            "0x29",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "No data byte",
+            "X",
+            "-",
+            "-"
+          ],
+          [
+            "RSTACT",
+            "0x2A",
+            "Write",
+            "With defining \nbyte (0x00, 0x01 \nor 0x02)",
+            "No data byte",
+            "X",
+            "X, RSTF after \ndetected \nreset pattern",
+            "Update I3C_DEVR0: \nRSTACT[1:0] and set \nRSTVAL = 1"
+          ],
+          [
+            "DEFGRPA",
+            "0x2B",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With several data \nbytes",
+            "X",
+            "X, GRPF",
+            "Update I3C_RDR/ RDWR.\nRefer to Figure605."
+          ],
+          [
+            "RSTGRPA",
+            "0x2C",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "No data byte",
+            "X",
+            "-",
+            "-"
+          ],
+          [
+            "Direct CCCs",
+            "Direct CCCs",
+            "Direct CCCs",
+            "Direct CCCs",
+            "Direct CCCs",
+            "Direct CCCs",
+            "Direct CCCs",
+            "Action if ACK\n(if I3C target Address = \nI3C_DEVR0.DA[6:0] and \nI3C_DEVR0.DAVAL = 1) \n(else NACK)"
+          ],
+          [
+            "ENEC",
+            "0x80",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With one data byte \n(enable target \nevents byte)",
+            "X",
+            "X, INTUPDF",
+            "Update and enable \nI3C_DEVR0: HJEN, \nCREN, IBIEN if any"
+          ],
+          [
+            "DISEC",
+            "0x81",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With one data byte \n(disable target \nevents byte)",
+            "X",
+            "X, INTUPDF",
+            "Update and disable \nI3C_DEVR0: HJEN, \nCREN, IBIEN if any"
+          ],
+          [
+            "ENTASx \nx = 0...3",
+            "0x82.\n..0x8\n5",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "No data byte",
+            "X",
+            "X, ASUPDF",
+            "Update \nI3C_DEVR0.AS[1:0]"
+          ],
+          [
+            "SETDASA",
+            "0x87",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "No data byte",
+            "X",
+            "-",
+            "-"
+          ],
+          [
+            "SETNEWDA",
+            "0x88",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With one data byte",
+            "X",
+            "X, DAUPDF if \nDAVAL = 1",
+            "Update\nI3C_DEVR0: DA[6:0]\n(and keep DAVAL = 1)"
+          ],
+          [
+            "SETMWL",
+            "0x89",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With two data \nbytes",
+            "X",
+            "X, \nMWLUPDF",
+            "Update I3C_MAXWLR"
+          ],
+          [
+            "SETMRL",
+            "0x8A",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "With two or three \ndata bytes",
+            "X",
+            "X, MRLUPDF",
+            "Update I3C_MAXRLR"
+          ],
+          [
+            "GETMWL",
+            "0x8B",
+            "Read",
+            "No defining/sub-\ncommand byte",
+            "With two data \nbytes",
+            "X",
+            "X, GETF",
+            "Return data bytes from \nI3C_MAXWLR[15:0]. \nRefer to Section42.16.20."
+          ],
+          [
+            "GETMRL",
+            "0x8C",
+            "Read",
+            "No defining/sub-\ncommand byte",
+            "With two or three \ndata bytes",
+            "X",
+            "X, GETF",
+            "Return data bytes from \nI3C_MAXRLR[15:0] and if \nI3C_BCR.BCR2 = 1 return \nthird byte from \nI3C_MAXRLR.IBIP[2:0]. \nRefer to Section42.16.19."
+          ],
+          [
+            "GETPID",
+            "0x8D",
+            "Read",
+            "No defining/sub-\ncommand byte",
+            "With six data bytes",
+            "X",
+            "X, GETF",
+            "Return data bytes from \nI3C_EPIDR. Refer to \nSection42.16.29."
+          ],
+          [
+            "GETBCR",
+            "0x8E",
+            "Read",
+            "No defining/sub-\ncommand byte",
+            "With one data byte",
+            "X",
+            "X, GETF",
+            "Return data byte from \nI3C_BCR[7:0]. Refer to \nSection42.16.24."
+          ],
+          [
+            "GETDCR",
+            "0x8F",
+            "Read",
+            "No defining/sub-\ncommand byte",
+            "With one data byte",
+            "X",
+            "X, GETF",
+            "Return I3C_DCR[7:0]. \nRefer to Section42.16.25."
+          ],
+          [
+            "GETSTATUS",
+            "0x90",
+            "Read",
+            "With or without \ndefining byte \n(TGTSTAT, \nPRECR)",
+            "With two data \nbytes (format 1 or \nformat 2 with \nPRECR)",
+            "X",
+            "X, STAF if \nformat 1\nX, GETF if \nformat 2",
+            "Return 2 data bytes, as \ndetailed in Section42.9.9."
+          ],
+          [
+            "GETACCCR",
+            "0x91",
+            "Read",
+            "No defining/sub-\ncommand byte",
+            "With one data byte",
+            "X",
+            "X, CRUPDF",
+            "Return data byte from \nI3C_DEVR0.DA[6:0] with \nparity bit"
+          ],
+          [
+            "GETMXDS",
+            "0x94",
+            "Read",
+            "With or without \ndefining byte \n(WRRDTURN, \nCRHDLY)",
+            "With two data \nbytes (format 1) or \n5 data bytes \n(format 2 or\nformat 3 with \nWRRDTURN) or 1 \ndata byte (format 3 \nwith CRHDLY)",
+            "X",
+            "X, GETF",
+            "Return data byte(s) from \nI3C_GETMXDSR.\nRefer to Section42.16.28."
+          ],
+          [
+            "GETCAPS",
+            "0x95",
+            "Read",
+            "With or without \ndefining byte \n(TGTSTAT, \nCRCAPS)",
+            "With 3 data bytes \n(format 1 or format \n2 with TGTSTAT) \nor two data bytes \n(format 2 with \nCRCAPS)",
+            "X",
+            "X, GETF",
+            "Return 3 GETCAPx data \nbytes from \nI3C_GETCAPR (refer to \nSection42.16.26) or\nReturn 2 CRCAPx data \nbytes from I3C_CRCAPR \n(refer to Section42.16.27)"
+          ],
+          [
+            "D2DXFER",
+            "0x97",
+            "Write",
+            "With defining \nbyte",
+            "With defining byte",
+            "X",
+            "-",
+            "-"
+          ],
+          [
+            "SETXTIME",
+            "0x98",
+            "Write",
+            "With sub-\ncommand byte",
+            "With sub-\ncommand byte",
+            "X",
+            "-",
+            "-"
+          ],
+          [
+            "GETXTIME",
+            "0x99",
+            "Read",
+            "No defining/sub-\ncommand byte",
+            "No defining/sub-\ncommand byte",
+            "X",
+            "-",
+            "-"
+          ],
+          [
+            "RSTACT",
+            "0x9A",
+            "Read/\nWrite",
+            "With defining \nbyte (0x00, \n0x01, or 0x02)",
+            "With defining byte \n(0x00, 0x01, or \n0x02)",
+            "X",
+            "X, RSTF if \ndetected \nreset pattern ",
+            "Read: return data byte \nfrom RSTACT[1:0] in the \nI3C_DEVR0 register.\nWrite: update \nI3C_DEVR0: \nRSTACT[1:0] and set \nRSTVAL = 1"
+          ],
+          [
+            "SETGRPA",
+            "0x9B",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "No defining/sub-\ncommand byte",
+            "X",
+            "-",
+            "-"
+          ],
+          [
+            "RSTGRPA",
+            "0x9C",
+            "Write",
+            "No defining/sub-\ncommand byte",
+            "No defining/sub-\ncommand byte",
+            "X",
+            "-",
+            "-"
+          ]
+        ],
+        "notes": [],
+        "legend": [],
+        "semantic_type": "generic",
+        "semantic": {}
+      }
+    }
+  ]
+}
